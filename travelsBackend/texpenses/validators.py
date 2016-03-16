@@ -2,14 +2,10 @@ from django.core.exceptions import ValidationError
 
 
 def iban_validation(iban):
-    """TODO: Docstring for is_valid.
 
-    :iban: a string representation of iban
-    :returns: boolean
-
-    """
     ibanString = str(iban)
     ibanString = ibanString.strip()
+
     if ibanString is None or ibanString == "":
         raise ValidationError("IBAN is empty.Please import a 27 letters IBAN")
 
@@ -43,4 +39,19 @@ def iban_validation(iban):
     customer_code = bban[7:]
     print "Customer code:" + customer_code
 
-    return True
+
+def afm_validator(afm):
+    afmString = str(afm)
+    afmString = afmString.strip()
+
+    if afmString is None or afmString == "":
+        raise ValidationError("AFM is empty. Please import a 9 digits AFM")
+    afmStringLength = len(afmString)
+    if afmStringLength != 9:
+        raise ValidationError("AFM should be a 9 digits number")
+    try:
+        int(afmString)
+    except ValueError:
+        raise ValidationError("The AFM should contain only digits")
+    except Exception, e:
+        raise ValidationError(e)

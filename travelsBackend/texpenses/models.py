@@ -1,5 +1,6 @@
 from django.db import models
 from validators import iban_validation
+from validators import afm_validator
 
 
 class Account(models.Model):
@@ -60,7 +61,8 @@ class User(models.Model):
     # ('ACCOUNTING', 'Accounting'), ('MANAGER', 'Manager'))
     # userKind = models.CharField(
     # choices=KIND_CHOICES, max_length=15)
-    taxRegNum = models.IntegerField(primary_key=True)
+    taxRegNum = models.IntegerField(
+        primary_key=True, validators=[afm_validator])
     taxOffice = models.ForeignKey(TaxOffice)
 
     def __str__(self):
