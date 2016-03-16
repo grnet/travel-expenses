@@ -1,5 +1,5 @@
 from django.db import models
-from validators import validate_iban
+from validators import iban_validation
 
 
 class Account(models.Model):
@@ -51,7 +51,7 @@ class User(models.Model):
     """Docstring for User. """
     name = models.CharField(max_length=200)
     surname = models.CharField(max_length=200)
-    iban = models.CharField(max_length=200, validators=[validate_iban])
+    iban = models.CharField(max_length=200, validators=[iban_validation])
     accountID = models.ForeignKey(Account, on_delete=models.CASCADE)
     specialtyID = models.ForeignKey(Specialty)
     userKind = models.ForeignKey(UserKind)

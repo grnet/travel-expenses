@@ -1,8 +1,8 @@
 # from django.test import TestCase
-from validators import is_valid
+from validators import iban_validation
 
 # Create your tests here.
 
-iban = "GR12121213131"
+iban = "GR1601101250000000012300695"
 
-print is_valid(iban)
+print iban_validation(iban)
