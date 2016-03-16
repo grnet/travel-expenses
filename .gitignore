@@ -6,7 +6,7 @@
 local_settings.py
 
 #backend sqlite testing db
-travelsBackend/db.sqlite3
+#travelsBackend/db.sqlite3
 
 .gitignore~
 
