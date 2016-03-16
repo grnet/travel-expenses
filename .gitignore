@@ -4,7 +4,7 @@
 # Django stuff:
 *.log
 local_settings.py
-
+travelsBackend/texpenses/.admin.py.swp
 #backend sqlite testing db
 #travelsBackend/db.sqlite3
 
