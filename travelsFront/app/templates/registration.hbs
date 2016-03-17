@@ -1,0 +1,30 @@
+<form class="form-horizontal" {{action "register" on="submit"}}>
+	<div class="regForm">
+    	<label for="name">Όνομα</label>
+    	{{input value=name type="text" placeholder="πχ. Γιώργος"}}
+  	</div>
+
+  	<div class="regForm">
+    	<label for="surname">Eπώνυμο</label>
+    	{{input value=surname type="text" placeholder="πχ. Λεμονής"}}
+   	</div>
+
+  	<div class="regForm">
+    	<label for="taxRegNum">ΑΦΜ</label>
+    	{{input value=taxRegNum placeholder="πχ. 1234567893"}}
+    </div>
+
+  	<div class="regForm">
+    	<label for="iban">IBAN</label>
+    	{{input value=iban placeholder="πχ. GR1601101250000"}}
+   	</div>
+
+  	<div class="regForm">
+    	<label for="phone">Τηλέφωνο</label>
+    	{{input value=phone placeholder="πχ. 210-2222222"}}
+	</div>
+
+  	<button type="submit" class="btn">Register</button>
+</form>
+
+{{outlet}}
