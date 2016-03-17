@@ -1,0 +1,22 @@
+<form class="form-horizontal" {{action "login" on="submit"}}>
+
+  	<div class="signupForm">
+
+   	  	<label>Username</label><br>
+      	{{input value=username type="text"}}
+  	</div>
+
+  	<div class="signupForm">
+      	<label>Password</label><br>
+      	{{input value=password type="password"}}
+   	</div> 
+ 
+ 	<div class="signupForm">
+      	<label>Email</label><br>
+      	{{input value=email type="email"}}
+   	</div>
+
+  	<button type="submit" class="btn btn-primary">Sign Up</button>
+</form>
+
+{{outlet}}

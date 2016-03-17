@@ -1,0 +1,19 @@
+<form class="form-horizontal" {{action "login" on="submit"}}>
+
+  	<div class="loginForm">
+
+   	  	<label>Username</label><br>
+      	{{input value=username type="text"}}
+  	</div>
+
+  	<div class="loginForm">
+      	<label>Password</label><br>
+      	{{input value=password type="password"}}
+   	</div> 
+ 
+
+  	<button type="submit" class="btn btn-primary">Log in</button>
+</form>
+
+
+{{outlet}}
