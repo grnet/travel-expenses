@@ -1,9 +1,9 @@
 export default function() {
-	this.get('/users', function(db) {
+	/*this.get('/users', function(db) {
   	return {
     	users: db.users
   	};
-}); 
+}); */
 }
 
   // These comments are here to help you get started. Feel free to delete them.
