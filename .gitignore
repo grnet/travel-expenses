@@ -6,9 +6,11 @@
 local_settings.py
 travelsBackend/texpenses/.*.py.swp
 travelsBackend/travelsBackend/.*.py.swp
+travelsBackend/travelsBackend/*.py~
+travelsBackend/texpenses/.admin.py.swp
 #backend sqlite testing db
-#travelsBackend/db.sqlite3
 
+travelsBackend/db.sqlite3
 .gitignore~
-
 *.py~
+*$py.class
