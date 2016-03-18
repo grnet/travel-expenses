@@ -9,6 +9,19 @@ from serializers import SpecialtySerializer
 from serializers import UserKindSerializer
 from serializers import TaxOfficeSerializer
 from rest_framework import viewsets
+# from djoser.views import RootView
+
+
+# class CustomRootView(RootView):
+    # urls_mapping = {
+        # 'me': 'user',
+        # 'register': 'register',
+        # 'activate': 'activate',
+        # 'change-' + User.USERNAME_FIELD: 'set_username',
+        # 'change-password': 'set_password',
+        # 'password-reset': 'password_reset',
+        # 'password-reset-confirm': 'password_reset_confirm',
+    # }
 
 
 class UserViewSet(viewsets.ModelViewSet):

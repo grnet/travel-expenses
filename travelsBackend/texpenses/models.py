@@ -55,13 +55,12 @@ class UserProfile(models.Model):
     name = models.CharField(max_length=200)
     surname = models.CharField(max_length=200)
     iban = models.CharField(max_length=200)
-    # accountID = models.ForeignKey(Account, on_delete=models.CASCADE)
     specialtyID = models.ForeignKey(Specialty)
     userKind = models.ForeignKey(UserKind)
     taxRegNum = models.IntegerField(
         primary_key=True)
     taxOffice = models.ForeignKey(TaxOffice)
-    user = models.ForeignKey(User, unique=True)
+    user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return "%s's profile" % self.user

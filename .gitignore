@@ -8,6 +8,7 @@ travelsBackend/texpenses/.*.py.swp
 travelsBackend/travelsBackend/.*.py.swp
 travelsBackend/travelsBackend/*.py~
 travelsBackend/texpenses/.admin.py.swp
+travelsBackend/texpenses/migrations/
 #backend sqlite testing db
 
 travelsBackend/db.sqlite3

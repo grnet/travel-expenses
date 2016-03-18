@@ -38,11 +38,27 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'texpenses',
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
 )
+# REST_FRAMEWORK = {
+# 'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+# 'PAGINATE_BY': 10
+# }
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
-    'PAGINATE_BY': 10
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
 }
+# DJOSER = {
+    # 'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    # 'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    # 'SEND_ACTIVATION_EMAIL': True,
+    # 'PASSWORD_VALIDATORS': [],
+    # 'SERIALIZERS': {},
+    # 'SEND_ACTIVATION_EMAIL': True,
+    # 'SET_PASSWORD_RETYPE': True,
+# }
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

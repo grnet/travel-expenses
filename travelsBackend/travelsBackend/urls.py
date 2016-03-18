@@ -17,9 +17,10 @@ router.register(r'taxoffice', views.TaxOfficeViewSet)
 admin.autodiscover()
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/', include(router.urls)),
-    url(r'^api-auth/',
-        include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^auth/', include('djoser.urls.authtoken')),
+    # url(r'^api/', include(router.urls)),
+    # url(r'^api-auth/',
+    # include('rest_framework.urls', namespace='rest_framework'))
 ]
 
 
