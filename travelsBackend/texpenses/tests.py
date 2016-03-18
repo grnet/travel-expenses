@@ -24,13 +24,3 @@ class UserFormValidation(TestCase):
         afm = 1234566789
         afm_validator(afm)
         print "============================"
-
-    # def test_user_profile(self):
-        # """TODO: Docstring for test_user_profile.
-        # :returns: TODO
-
-        # """
-        # from django.contrib.auth.models import User
-        # u = User.objects.get(username='admin')
-        # surname = u.get_profile().surname
-        # print surname
