@@ -1,5 +1,5 @@
-from models import User
-from models import Account
+from models import UserProfile
+# from models import Account
 from models import Specialty
 from models import UserKind
 from models import TaxOffice
@@ -11,18 +11,18 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     """Serializer class for User model """
 
     class Meta:
-        model = User
+        model = UserProfile
         fields = ('name', 'surname', 'iban', 'accountID',
                   'specialtyID', 'userKind', 'taxRegNum', 'taxOffice')
 
 
-class AccountSerializer(serializers.HyperlinkedModelSerializer):
+# class AccountSerializer(serializers.HyperlinkedModelSerializer):
 
-    """Serializer class for Account model """
+    # """Serializer class for Account model """
 
-    class Meta:
-        model = Account
-        fields = ('username', 'password', 'email')
+    # class Meta:
+        # model = Account
+        # fields = ('username', 'password', 'email', 'id', 'tokken')
 
 
 class SpecialtySerializer(serializers.HyperlinkedModelSerializer):

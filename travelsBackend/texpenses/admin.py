@@ -2,10 +2,13 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import User
-from .models import Account
+from .models import UserProfile
+# from .models import Account
 from .models import Specialty
-
-admin.site.register(User)
-admin.site.register(Account)
+from models import TaxOffice
+from models import UserKind
+admin.site.register(UserProfile)
+# admin.site.register(Account)
 admin.site.register(Specialty)
+admin.site.register(TaxOffice)
+admin.site.register(UserKind)

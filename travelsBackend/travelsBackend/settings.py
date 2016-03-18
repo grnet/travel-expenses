@@ -56,7 +56,7 @@ ROOT_URLCONF = 'travelsBackend.urls'
 
 WSGI_APPLICATION = 'travelsBackend.wsgi.application'
 
-
+AUTH_PROFILE_MODULE = 'texpenses.UserProfile'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
