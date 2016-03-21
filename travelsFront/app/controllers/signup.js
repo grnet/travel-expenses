@@ -10,8 +10,8 @@ export default Ember.Controller.extend({
 			console.log('My email is: ', this.get('email'));
 			
 
-			this.store.createRecord('user',{
-					type: 'user',
+			this.store.createRecord('account',{
+					type: 'account',
 					username: this.get('username'),
 					password: this.get('password'),
 					email: this.get('email')
