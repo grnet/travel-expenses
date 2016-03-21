@@ -1,13 +1,12 @@
 from django.conf.urls import url, include
 from rest_framework import routers
 from texpenses import views
-# from django.conf.urls import patterns, include, url
-
 from django.contrib import admin
+# from djoser.views import RootView
+
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-# router.register(r'account', views.AccountViewSet)
+router.register(r'userprofiles', views.UserViewSet)
 router.register(r'specialty', views.SpecialtyViewSet)
 router.register(r'userkind', views.UserKindViewSet)
 router.register(r'taxoffice', views.TaxOfficeViewSet)
@@ -18,17 +17,22 @@ admin.autodiscover()
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^auth/', include('djoser.urls.authtoken')),
-    # url(r'^api/', include(router.urls)),
-    # url(r'^api-auth/',
-    # include('rest_framework.urls', namespace='rest_framework'))
+    # url(r'^register/$', RegistrationView.as_view(), name='register'),
+    url(r'^users/', include(router.urls)),
 ]
+# authpatterns = [
 
+    # url(r'^auth/', include(router.urls)),
+    # url(r'^auth/',
+    # include('rest_framework.urls', namespace='rest_framework')),
+    # url(
+        # r'^auth/login/$',
+        # LoginView.as_view(),
+        # name='login'),
+    # url(
+        # r'^auth/logout/$',
+        # LogoutView.as_view(),
+        # name='logout'),
 
-'''admin.autodiscover()
-urlpatterns = patterns('',
-    Examples:
-    url(r'^$', 'travelsBackend.views.home', name='home'),
-    url(r'^blog/', include('blog.urls')),
-
-    url(r'^admin/', include(admin.site.urls)),
-)'''
+# ]
+# urlpatterns += authpatterns

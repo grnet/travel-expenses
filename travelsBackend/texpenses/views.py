@@ -1,46 +1,33 @@
 from models import UserProfile
-# from models import Account
 from models import Specialty
 from models import UserKind
 from models import TaxOffice
-from serializers import UserSerializer
-# from serializers import AccountSerializer
+from serializers import UserProfileSerializer
 from serializers import SpecialtySerializer
 from serializers import UserKindSerializer
 from serializers import TaxOfficeSerializer
 from rest_framework import viewsets
-# from djoser.views import RootView
-
-
-# class CustomRootView(RootView):
-    # urls_mapping = {
-        # 'me': 'user',
-        # 'register': 'register',
-        # 'activate': 'activate',
-        # 'change-' + User.USERNAME_FIELD: 'set_username',
-        # 'change-password': 'set_password',
-        # 'password-reset': 'password_reset',
-        # 'password-reset-confirm': 'password_reset_confirm',
-    # }
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.authentication import SessionAuthentication,\
+    TokenAuthentication
 
 
 class UserViewSet(viewsets.ModelViewSet):
 
     """API endpoint that allows users model to be viewed or edited """
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticated,)
+
     queryset = UserProfile.objects.all()
-    serializer_class = UserSerializer
-
-
-# class AccountViewSet(viewsets.ModelViewSet):
-
-    # """API endpoint that allows account details to be viewed or edited """
-    # queryset = Account.objects.all()
-    # serializer_class = AccountSerializer
+    serializer_class = UserProfileSerializer
 
 
 class SpecialtyViewSet(viewsets.ModelViewSet):
 
     """API endpoint that allows specialty details to be viewed or edited """
+
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (IsAdminUser,)
     queryset = Specialty.objects.all()
     serializer_class = SpecialtySerializer
 
@@ -48,6 +35,8 @@ class SpecialtyViewSet(viewsets.ModelViewSet):
 class UserKindViewSet(viewsets.ModelViewSet):
 
     """API endpoint that allows specialty details to be viewed or edited """
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (IsAdminUser,)
     queryset = UserKind.objects.all()
     serializer_class = UserKindSerializer
 
@@ -55,5 +44,7 @@ class UserKindViewSet(viewsets.ModelViewSet):
 class TaxOfficeViewSet(viewsets.ModelViewSet):
 
     """API endpoint that allows specialty details to be viewed or edited """
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (IsAdminUser,)
     queryset = TaxOffice.objects.all()
     serializer_class = TaxOfficeSerializer

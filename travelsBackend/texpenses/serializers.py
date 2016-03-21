@@ -6,23 +6,14 @@ from models import TaxOffice
 from rest_framework import serializers
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
 
     """Serializer class for User model """
 
     class Meta:
         model = UserProfile
-        fields = ('name', 'surname', 'iban', 'accountID',
+        fields = ('name', 'surname', 'iban',
                   'specialtyID', 'userKind', 'taxRegNum', 'taxOffice')
-
-
-# class AccountSerializer(serializers.HyperlinkedModelSerializer):
-
-    # """Serializer class for Account model """
-
-    # class Meta:
-        # model = Account
-        # fields = ('username', 'password', 'email', 'id', 'tokken')
 
 
 class SpecialtySerializer(serializers.HyperlinkedModelSerializer):
