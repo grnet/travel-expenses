@@ -41,14 +41,12 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'djoser',
 )
-# REST_FRAMEWORK = {
-    # 'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
-    # 'PAGINATE_BY': 10
-# }
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
+    'PAGE_SIZE': 10,
+    'PAGINATE_BY': 10,
 }
 # DJOSER = {
     # 'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
