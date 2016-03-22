@@ -10,13 +10,14 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
+from custom_permissions import IsOwnerOrAdmin
 
 
 class UserViewSet(viewsets.ModelViewSet):
 
     """API endpoint that allows users model to be viewed or edited """
     authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsOwnerOrAdmin, )
 
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
