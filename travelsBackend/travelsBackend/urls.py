@@ -2,7 +2,6 @@ from django.conf.urls import url, include
 from rest_framework import routers
 from texpenses import views
 from django.contrib import admin
-# from djoser.views import RootView
 
 
 router = routers.DefaultRouter()
@@ -17,7 +16,6 @@ admin.autodiscover()
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^auth/', include('djoser.urls.authtoken')),
-    # url(r'^register/$', RegistrationView.as_view(), name='register'),
     url(r'^users/', include(router.urls)),
 ]
 # authpatterns = [

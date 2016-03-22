@@ -2,21 +2,31 @@ from django.test import TestCase
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from .models import UserProfile
+from rest_framework.test import APIClient
+from rest_framework.authtoken.models import Token
+from django.core.urlresolvers import reverse
+from rest_framework import status
+from rest_framework.test import APITestCase
 
 
-class UserExtensionTests(TestCase):
+class UserRESTApiTests(TestCase):
+    password = 'kostas'
+    username = 'kostas'
+    email = 'kostas@gmail.com'
 
-    def test_user_exists(TestCase):
-        password = 'kostas'
-        username = 'kostas'
-        email = 'kostas@gmail.com'
-        user = User.objects.create_user(
-            username=username, password=password, email=email)
+    def create_user(self):
+        return User.objects.create_user(
+            username=self.username, password=self.password, email=self.email)
+
+    def test_user_exists(self):
+        print "Creating a new testing user..."
+        user = self.create_user()
+        print "Done."
         user_profile = UserProfile(user=user)
 
         print user_profile.user.username
 
-        user = authenticate(username=username, password=password)
+        user = authenticate(username=self.username, password=self.password)
 
         if user is not None:
             # the password verified for the user
@@ -39,3 +49,44 @@ class UserExtensionTests(TestCase):
         router = routers.DefaultRouter()
         router.urls.append(r'^auth/login/$')
         print router.urls
+
+    def test_login(self):
+        print "Creating a new testing user..."
+        self.create_user()
+        print "Done"
+        client = APIClient()
+
+        result = client.login(username=self.username, password=self.password)
+        print "Result is:" + str(result)
+        self.assertTrue(
+            result, msg="User:" + self.username + ", does not exist")
+
+    def test_user_credentials(self):
+        print "Creating a testing user..."
+        self.create_user()
+        print "Done"
+        token = Token.objects.get(user__username=self.username)
+        client = APIClient()
+        result = client.credentials(HTTP_AUTHORIZATION='Token' + token.key)
+        print result
+
+
+class UserProfileTests(APITestCase):
+
+    password = 'kostas'
+    username = 'kostas'
+    email = 'kostas@gmail.com'
+
+    def create_user(self):
+        return User.objects.create_user(
+            username=self.username, password=self.password, email=self.email)
+
+    def test_create_user_profile(self):
+        url = reverse('users/userprofiles')
+        user = self.create_user()
+        data = {'name': 'kostas', 'surname':
+                'vogias', 'user': user}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(UserProfile.objects.count(), 1)
+        self.assertEqual(UserProfile.objects.get().name, 'kostas')
