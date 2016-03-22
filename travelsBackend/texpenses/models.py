@@ -27,7 +27,8 @@ class UserKind(models.Model):
 class TaxOffice(models.Model):
 
     """Docstring for TaxOffice. """
-    name = models.CharField(max_length=200, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200)
     kindDescription = models.CharField(max_length=300, blank=True)
     address = models.CharField(max_length=20)
     email = models.EmailField(blank=True)
@@ -40,14 +41,14 @@ class TaxOffice(models.Model):
 class UserProfile(models.Model):
 
     """Docstring for User. """
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     surname = models.CharField(max_length=200)
-    iban = models.CharField(max_length=200, blank=True)
-    specialtyID = models.ForeignKey(Specialty, blank=True)
-    userKind = models.ForeignKey(UserKind, blank=True)
-    taxRegNum = models.IntegerField(
-        primary_key=True, blank=True)
-    taxOffice = models.ForeignKey(TaxOffice, blank=True)
+    iban = models.CharField(max_length=200, blank=True, null=True)
+    specialtyID = models.ForeignKey(Specialty, blank=True, null=True)
+    userKind = models.ForeignKey(UserKind, blank=True, null=True)
+    taxRegNum = models.IntegerField(blank=True, null=True)
+    taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
     user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
 
     def __str__(self):
