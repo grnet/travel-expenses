@@ -22,7 +22,12 @@ email: admin@example.com
 password: admin
 
 
+<<<<<<< HEAD
 pythong manage.py loaddata texpenses/fixtures/dbdumpdata.json (this is automatically run when running python manage.py migrate be aware that the existing data will be refreshed)
 	python manage.py runserver
+=======
+pythong manage.py loaddata texpenses/fixtures/dbdumpdata.json
+python manage.py runserver
+>>>>>>> user_form_validation2
 
 

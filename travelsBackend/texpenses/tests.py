@@ -1,4 +1,5 @@
 from django.test import TestCase
+<<<<<<< HEAD
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from .models import UserProfile
@@ -90,3 +91,30 @@ class UserProfileTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(UserProfile.objects.count(), 1)
         self.assertEqual(UserProfile.objects.get().name, 'kostas')
+=======
+from validators import iban_validation
+from validators import afm_validator
+
+
+class UserFormValidation(TestCase):
+
+    def test_iban_validator(self):
+        """TODO: Docstring for test_iban_validator.
+        :returns: TODO
+
+        """
+        print "\nRunning iban validator test"
+        iban = "GR160110125000000001230069a"
+        iban_validation(iban)
+        print "============================="
+
+    def test_afm_validator(self):
+        """TODO: Docstring for test_afm_validator.
+        :returns: TODO
+
+        """
+        print "\nRunning afm validator test"
+        afm = 1234566789
+        afm_validator(afm)
+        print "============================"
+>>>>>>> user_form_validation2
