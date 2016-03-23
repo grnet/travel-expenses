@@ -11,7 +11,7 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserProfile
         fields = ('name', 'surname', 'iban',
-                  'specialtyID', 'userKind', 'taxRegNum', 'taxOffice')
+                  'specialtyID', 'taxRegNum', 'taxOffice')
 
 
 class SpecialtySerializer(serializers.HyperlinkedModelSerializer):
@@ -24,8 +24,6 @@ class SpecialtySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class TaxOfficeSerializer(serializers.HyperlinkedModelSerializer):
-
-    """Serializer class for user kind model """
 
     class Meta:
         model = TaxOffice
