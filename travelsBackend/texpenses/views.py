@@ -3,7 +3,6 @@ from models import Specialty
 from models import TaxOffice
 from serializers import UserProfileSerializer
 from serializers import SpecialtySerializer
-from serializers import UserKindSerializer
 from serializers import TaxOfficeSerializer
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
