@@ -7,8 +7,10 @@ export default DS.RESTAdapter.extend({
 	dataType: 'json',
 	
 	headers: {
-	 username: 'admin',
-     password: 'admin'
+		withCredentials: true,
+		"X-CSRFToken": 'qrxKb6Tn5C6JCj8EllYst2tsJqUfE3tT',
+		username: 'admin',
+    	password: 'admin'
     }, 
 
     buildURL: function(modelName, id, snapshot, requestType, query) {
@@ -16,7 +18,7 @@ export default DS.RESTAdapter.extend({
       	var url = this._super(modelName, id, snapshot, requestType, query);
       	
       	return url + "/";
-    },
+    }
 
    
    

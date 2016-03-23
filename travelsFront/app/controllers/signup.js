@@ -12,11 +12,13 @@ export default Ember.Controller.extend({
 
 			var account = this.store.createRecord('account',{
 					type: 'account',
+					id: this.get('username'),
 					username: this.get('username'),
 					password: this.get('password'),
 					email: this.get('email')
 				
 			});
+
 
 			account.save();
 			
