@@ -1,7 +1,5 @@
 from models import UserProfile
-# from models import Account
 from models import Specialty
-from models import UserKind
 from models import TaxOffice
 from rest_framework import serializers
 
@@ -22,15 +20,6 @@ class SpecialtySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Specialty
-        fields = ('name', 'kindDescription')
-
-
-class UserKindSerializer(serializers.HyperlinkedModelSerializer):
-
-    """Serializer class for user kind model """
-
-    class Meta:
-        model = UserKind
         fields = ('name', 'kindDescription')
 
 

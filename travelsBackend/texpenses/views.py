@@ -1,6 +1,5 @@
 from models import UserProfile
 from models import Specialty
-from models import UserKind
 from models import TaxOffice
 from serializers import UserProfileSerializer
 from serializers import SpecialtySerializer
@@ -31,15 +30,6 @@ class SpecialtyViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminUser,)
     queryset = Specialty.objects.all()
     serializer_class = SpecialtySerializer
-
-
-class UserKindViewSet(viewsets.ModelViewSet):
-
-    """API endpoint that allows specialty details to be viewed or edited """
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (IsAdminUser,)
-    queryset = UserKind.objects.all()
-    serializer_class = UserKindSerializer
 
 
 class TaxOfficeViewSet(viewsets.ModelViewSet):
