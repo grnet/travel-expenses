@@ -1,26 +1,26 @@
 <div class="container">
   <form class="form-horizontal col-md-10"  {{action "signup" on="submit"}}>
 
-
 	<div class="signupForm">
-
- 	  	<label>Username</label><br>
-    	{{input value=username type="text"}}
+    <label>Username</label><br>
+  	{{input value=username type="text"}}
 	</div>
 
 	<div class="signupForm">
-    	<label>Password</label><br>
-    	{{input value=password type="password"}}
+  	<label>Password</label><br>
+  	{{input value=password type="password"}}
  	</div> 
-   
-   	<div class="signupForm">
-    	<label>Email</label><br>
-    	{{input value=email type="email"}}
-    </div>
+ 
+ 	<div class="signupForm">
+  	<label>Email</label><br>
+  	{{input value=email type="email"}}
+  </div>
 
-    <button type="submit" class="btn btn-primary">Sign Up</button>
+  <button type="submit" class="btn btn-primary">Sign Up</button>
   </form>
+
 </div>
+
 
 <h3>Currently Activated Users</h3>
 {{#each model as |account|}}
