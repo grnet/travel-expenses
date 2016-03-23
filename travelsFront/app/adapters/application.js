@@ -9,6 +9,15 @@ export default DS.RESTAdapter.extend({
 	headers: {
 	 username: 'admin',
      password: 'admin'
-    } 
+    }, 
+
+    buildURL: function(modelName, id, snapshot, requestType, query) {
+      	
+      	var url = this._super(modelName, id, snapshot, requestType, query);
+      	
+      	return url + "/";
+    },
+
+   
    
 });
