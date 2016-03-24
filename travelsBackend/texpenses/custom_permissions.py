@@ -8,13 +8,8 @@ class IsOwnerOrAdmin(permissions.BasePermission):
     Assumes the model instance has an `owner` attribute.
     """
 
-    def has_object_permission(self, request, view, obj):
-        # Read permissions are allowed to any request,
-        # so we'll always allow GET, HEAD or OPTIONS requests.
-        # if request.method in permissions.SAFE_METHODS:
-            # return True
-        if request.user.is_superuser:
-            return True
+    def has_permission(self, request, view):
+        return request.user and request.user.is_staff
 
-        # Instance must have an attribute named `user`.
+    def has_object_permission(self, request, view, obj):
         return obj.user == request.user
