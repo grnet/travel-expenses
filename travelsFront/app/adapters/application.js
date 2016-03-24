@@ -1,8 +1,8 @@
 import DS from 'ember-data';
 
 export default DS.RESTAdapter.extend({
-	
-	host: 'http://127.0.0.1:8000/api',
+
+	host: 'http://127.0.0.1:8000/auth',
 	contentType: 'application/json',
 	dataType: 'json',
 	
@@ -14,10 +14,15 @@ export default DS.RESTAdapter.extend({
     }, 
 
     buildURL: function(modelName, id, snapshot, requestType, query) {
+
+		var url = this._super(modelName, id, snapshot, requestType, query);
+
+      	if (requestType == "createRecord" && modelName == "account")  {
+      		url = "http://127.0.0.1:8000/auth/register/"
+      	}
+
       	
-      	var url = this._super(modelName, id, snapshot, requestType, query);
-      	
-      	return url + "/";
+      	return url;
     }
 
    
