@@ -6,7 +6,8 @@ from serializers import SpecialtySerializer
 from serializers import TaxOfficeSerializer
 from serializers import CustomUserRegistrationSerializer
 from rest_framework import viewsets
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser, IsAuthenticated,\
+    DjangoModelPermissions
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
 from custom_permissions import IsOwnerOrAdmin
@@ -17,7 +18,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
     """API endpoint that allows users model to be viewed or edited """
     authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (IsAuthenticated, IsOwnerOrAdmin, )
+    permission_classes = (
+        IsAuthenticated, IsOwnerOrAdmin, DjangoModelPermissions)
 
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
@@ -28,7 +30,7 @@ class SpecialtyViewSet(viewsets.ModelViewSet):
     """API endpoint that allows specialty details to be viewed or edited """
 
     authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (IsAuthenticated, IsAdminUser,)
+    permission_classes = (IsAuthenticated, IsAdminUser, DjangoModelPermissions)
     queryset = Specialty.objects.all()
     serializer_class = SpecialtySerializer
 
@@ -37,7 +39,7 @@ class TaxOfficeViewSet(viewsets.ModelViewSet):
 
     """API endpoint that allows specialty details to be viewed or edited """
     authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (IsAuthenticated, IsAdminUser,)
+    permission_classes = (IsAuthenticated, IsAdminUser, DjangoModelPermissions)
     queryset = TaxOffice.objects.all()
     serializer_class = TaxOfficeSerializer
 
