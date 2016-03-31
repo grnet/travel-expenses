@@ -20,8 +20,11 @@ export default DS.RESTAdapter.extend({
 
 		var url = this._super(modelName, id, snapshot, requestType, query);
 	
-      	if (requestType == "createRecord")  {
+      	if (requestType === "createRecord"){
       		url = "http://127.0.0.1:8000/auth/register/";
+      	}
+      	else if (requestType === "findAll"){
+      		url = "http://127.0.0.1:8000/auth/login/";
       	}
 
       	return url;
