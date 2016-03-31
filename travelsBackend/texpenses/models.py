@@ -32,9 +32,9 @@ class TaxOffice(models.Model):
 class UserProfile(models.Model):
 
     """Docstring for User. """
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200)
-    surname = models.CharField(max_length=200)
+    # id = models.AutoField(primary_key=True)
+    # name = models.CharField(max_length=200)
+    # surname = models.CharField(max_length=200)
     iban = models.CharField(max_length=200, blank=True, null=True,
                             validators=[iban_validation])
     specialtyID = models.ForeignKey(Specialty, blank=True, null=True)
@@ -43,8 +43,6 @@ class UserProfile(models.Model):
                                     validators=[afm_validator])
     taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # user = models.ForeignKey(
-        # User, unique=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return "%s's profile" % self.user
