@@ -47,12 +47,13 @@ REST_FRAMEWORK = {
     ),
 }
 DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'auth/password/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'auth/activate/{uid}/{token}',
     'PASSWORD_VALIDATORS': [],
     'SERIALIZERS': {},
     'SEND_ACTIVATION_EMAIL': True,
     'SET_PASSWORD_RETYPE': True,
+    'SITE_NAME': 'GRNET Travel Expenses',
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
 }
 # email-conf

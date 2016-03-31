@@ -9,6 +9,8 @@ auth_urlpatterns = (
     url(r'^me/$', djoser_views.UserView.as_view(), name='user'),
     url(r'^register/$', views.CustomUserRegistrationView.as_view(),
         name='register'),
+    url(r'^activate/(?P<uid>\w{2,3})\/(?P<token>.*)',
+        views.custom_activation_view, name='url_activation'),
     url(r'^activate/$', djoser_views.ActivationView.as_view(), name='activate'),
     url(r'^{0}/$'.format(User.USERNAME_FIELD),
         djoser_views.SetUsernameView.as_view(), name='set_username'),

@@ -42,7 +42,9 @@ class UserProfile(models.Model):
     taxRegNum = models.IntegerField(blank=True, null=True,
                                     validators=[afm_validator])
     taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
-    user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # user = models.ForeignKey(
+        # User, unique=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return "%s's profile" % self.user
