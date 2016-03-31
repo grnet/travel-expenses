@@ -1,23 +1,24 @@
 import requests
 import urllib
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse
 from djoser import views
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets
+# , mixins
 from rest_framework.permissions import IsAdminUser, IsAuthenticated,\
     DjangoModelPermissions
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
-from models import UserProfile
+# from models import UserProfile
 from models import Specialty
 from models import TaxOffice
-from serializers import UserProfileSerializer
+# from serializers import UserProfileSerializer
 from serializers import SpecialtySerializer
 from serializers import TaxOfficeSerializer
 from serializers import CustomUserRegistrationSerializer
 # from serializers import UserCredentialsSerializer
-from custom_permissions import IsOwnerOrAdmin
+# from custom_permissions import IsOwnerOrAdmin
 
 
 @require_http_methods(["GET", ])
@@ -40,29 +41,29 @@ def custom_activation_view(request, uid=None, token=None):
                                 uid + " and token:" + token)
 
 
-class CustomUserViewSet(mixins.CreateModelMixin,
-                        mixins.RetrieveModelMixin,
-                        mixins.DestroyModelMixin,
-                        viewsets.GenericViewSet):
+# class CustomUserViewSet(mixins.CreateModelMixin,
+                        # mixins.RetrieveModelMixin,
+                        # mixins.DestroyModelMixin,
+                        # viewsets.GenericViewSet):
 
-    """API endpoint that allows users model to be viewed or edited """
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, IsOwnerOrAdmin, DjangoModelPermissions,)
+    # """API endpoint that allows users model to be viewed or edited """
+    # authentication_classes = (SessionAuthentication, TokenAuthentication)
+    # permission_classes = (
+        # IsAuthenticated, IsOwnerOrAdmin, DjangoModelPermissions,)
 
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+    # queryset = UserProfile.objects.all()
+    # serializer_class = UserProfileSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
+# class UserViewSet(viewsets.ModelViewSet):
 
-    """API endpoint that allows users model to be viewed or edited """
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, IsOwnerOrAdmin, DjangoModelPermissions,)
+    # """API endpoint that allows users model to be viewed or edited """
+    # authentication_classes = (SessionAuthentication, TokenAuthentication)
+    # permission_classes = (
+        # IsAuthenticated, IsOwnerOrAdmin, DjangoModelPermissions,)
 
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+    # queryset = UserProfile.objects.all()
+    # serializer_class = UserProfileSerializer
 
 
 class SpecialtyViewSet(viewsets.ModelViewSet):
