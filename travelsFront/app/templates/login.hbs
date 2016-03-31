@@ -1,16 +1,16 @@
 <div class="container">
-	<form class="form-horizontal col-md-10"  {{action "login" on="submit"}}>
+	<form class="form-horizontal col-md-10"  {{action "authenticate" on="submit"}}>
 
 	  	<div class="loginForm">
 
-	   	  	<label>Username</label><br>
-	      	{{input value=username type="text"}}
+	   	  	<label for="identification">Username</label><br>
+	      	{{input id="identification" value=identification type="text"}}
 	  	</div>
 
 	  	<div class="loginForm">
 	      	
-	      	<label>Password</label><br>
-	      	{{input value=password type="password"}}
+	      	<label for="password">Password</label><br>
+	      	{{input id="password" value=password type="password"}}
 	   	</div> 
 	 
 

@@ -1,11 +1,13 @@
 import DS from 'ember-data';
+import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 
-export default DS.RESTAdapter.extend({
 
+export default DS.RESTAdapter.extend(DataAdapterMixin,{
 	host: 'http://127.0.0.1:8000',
 	namespace: '/auth',
 	contentType: 'application/json',
 	dataType: 'json',
+	authorizer: 'authorizer:application',
 	
 	headers: {
 		withCredentials: true,
@@ -23,11 +25,9 @@ export default DS.RESTAdapter.extend({
       	if (requestType === "createRecord"){
       		url = "http://127.0.0.1:8000/auth/register/";
       	}
-      	else if (requestType === "findAll"){
-      		url = "http://127.0.0.1:8000/auth/login/";
-      	}
 
       	return url;
     } 
    
 });
+

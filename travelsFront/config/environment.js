@@ -19,6 +19,20 @@ module.exports = function(environment) {
     }
   };
 
+  ENV['ember-simple-auth'] = {
+    authorizer: 'authorizer:token'
+  };
+
+  ENV['ember-simple-auth-token'] = {
+    serverTokenEndpoint: 'http://127.0.0.1:8000/auth/login/',
+    identificationField: 'username',
+    passwordField: 'password',
+    tokenPropertyName: 'token',
+    authorizationPrefix: 'Bearer ',
+    authorizationHeaderName: 'Authorization',
+    headers: {},
+  };
+  
   if (environment === 'development') {
     ENV['ember-cli-mirage'] = {
       enabled: false
