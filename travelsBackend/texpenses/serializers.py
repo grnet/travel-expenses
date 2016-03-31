@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from models import UserProfile
+# from models import UserProfile
 from models import Specialty
 from models import TaxOffice
 from rest_framework import serializers
@@ -13,10 +13,10 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
     """Serializer class for User model """
 
     class Meta:
-        model = UserProfile
-        fields = ('name', 'surname', 'iban',
-                  'specialtyID', 'taxRegNum',
-                  'taxOffice', 'id')
+        model = User
+        fields = ('username', 'first_name', 'last_name',
+                  'email', 'password',
+                  'iban', 'specialtyID', 'taxRegNum', 'taxOffice')
 
 
 class SpecialtySerializer(serializers.HyperlinkedModelSerializer):

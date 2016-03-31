@@ -10,14 +10,13 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated,\
     DjangoModelPermissions
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
-# from models import UserProfile
+from models import UserProfile
 from models import Specialty
 from models import TaxOffice
-# from serializers import UserProfileSerializer
+from serializers import UserProfileSerializer
 from serializers import SpecialtySerializer
 from serializers import TaxOfficeSerializer
 from serializers import CustomUserRegistrationSerializer
-# from serializers import UserCredentialsSerializer
 # from custom_permissions import IsOwnerOrAdmin
 
 
@@ -55,15 +54,17 @@ def custom_activation_view(request, uid=None, token=None):
     # serializer_class = UserProfileSerializer
 
 
-# class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(viewsets.ModelViewSet):
 
-    # """API endpoint that allows users model to be viewed or edited """
-    # authentication_classes = (SessionAuthentication, TokenAuthentication)
+    """API endpoint that allows users model to be viewed or edited """
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
     # permission_classes = (
         # IsAuthenticated, IsOwnerOrAdmin, DjangoModelPermissions,)
 
-    # queryset = UserProfile.objects.all()
-    # serializer_class = UserProfileSerializer
+    permission_classes = (
+        IsAuthenticated, DjangoModelPermissions,)
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
 
 
 class SpecialtyViewSet(viewsets.ModelViewSet):

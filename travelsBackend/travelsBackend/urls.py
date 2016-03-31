@@ -5,7 +5,7 @@ from django.contrib import admin
 from . import auth_urls
 
 router = routers.DefaultRouter()
-# router.register(r'user_profiles', views.UserViewSet)
+router.register(r'user_profiles', views.UserViewSet)
 router.register(r'specialty', views.SpecialtyViewSet)
 router.register(r'taxoffice', views.TaxOfficeViewSet)
 # Wire up our API using automatic URL routing.
