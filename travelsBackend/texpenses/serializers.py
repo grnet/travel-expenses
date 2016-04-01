@@ -1,28 +1,26 @@
-from models import User
-from models import Account
+from django.contrib.auth import get_user_model
 from models import Specialty
-from models import UserKind
 from models import TaxOffice
 from rest_framework import serializers
+from djoser import settings, serializers as djoser_serializers
+from django.contrib.auth.models import Group
+
+User = get_user_model()
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
 
     """Serializer class for User model """
 
     class Meta:
         model = User
-        fields = ('name', 'surname', 'iban', 'accountID',
-                  'specialtyID', 'userKind', 'taxRegNum', 'taxOffice')
-
-
-class AccountSerializer(serializers.HyperlinkedModelSerializer):
-
-    """Serializer class for Account model """
-
-    class Meta:
-        model = Account
-        fields = ('username', 'password', 'email')
+        fields = ('username', 'first_name', 'last_name',
+                  'email', 'password',
+                  'iban', 'specialtyID', 'taxRegNum', 'taxOffice')
+        read_only_fields = (
+            'username',
+            'password',
+        )
 
 
 class SpecialtySerializer(serializers.HyperlinkedModelSerializer):
@@ -34,19 +32,22 @@ class SpecialtySerializer(serializers.HyperlinkedModelSerializer):
         fields = ('name', 'kindDescription')
 
 
-class UserKindSerializer(serializers.HyperlinkedModelSerializer):
-
-    """Serializer class for user kind model """
-
-    class Meta:
-        model = UserKind
-        fields = ('name', 'kindDescription')
-
-
 class TaxOfficeSerializer(serializers.HyperlinkedModelSerializer):
-
-    """Serializer class for user kind model """
 
     class Meta:
         model = TaxOffice
         fields = ('name', 'kindDescription', 'address', 'email', 'phone')
+
+
+class CustomUserRegistrationSerializer(
+        djoser_serializers.UserRegistrationSerializer):
+
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        group = Group.objects.get(name='USER')
+        group.user_set.add(user)
+
+        if settings.get('SEND_ACTIVATION_EMAIL'):
+            user.is_active = False
+            user.save(update_fields=['is_active'])
+        return user

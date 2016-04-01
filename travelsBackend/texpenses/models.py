@@ -1,33 +1,15 @@
 from django.db import models
-from validators import validate_iban
-
-
-class Account(models.Model):
-
-    """Docstring for Account. """
-    username = models.CharField(max_length=100, primary_key=True)
-    password = models.CharField(max_length=100)
-    email = models.EmailField()
-
-    def __str__(self):
-        return self.username
+from django.contrib.auth.models import AbstractUser
+from validators import iban_validation
+from validators import afm_validator
 
 
 class Specialty(models.Model):
 
     """Docstring for  Kind. """
-    name = models.CharField(max_length=200, primary_key=True)
-    kindDescription = models.CharField(max_length=300)
-
-    def __str__(self):
-        return self.name
-
-
-class UserKind(models.Model):
-
-    """Docstring for User Kind. """
-    name = models.CharField(max_length=200, primary_key=True)
-    kindDescription = models.CharField(max_length=300)
+    name = models.CharField(max_length=200)
+    kindDescription = models.CharField(max_length=300, blank=True)
+    id = models.AutoField(primary_key=True)
 
     def __str__(self):
         return self.name
@@ -36,32 +18,21 @@ class UserKind(models.Model):
 class TaxOffice(models.Model):
 
     """Docstring for TaxOffice. """
-    name = models.CharField(max_length=200, primary_key=True)
-    kindDescription = models.CharField(max_length=300)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200)
+    kindDescription = models.CharField(max_length=300, blank=True)
     address = models.CharField(max_length=20)
-    email = models.EmailField()
+    email = models.EmailField(blank=True)
     phone = models.CharField(max_length=20)
 
     def __str__(self):
         return self.name
 
 
-class User(models.Model):
-
-    """Docstring for User. """
-    name = models.CharField(max_length=200)
-    surname = models.CharField(max_length=200)
-    iban = models.CharField(max_length=200, validators=[validate_iban])
-    accountID = models.ForeignKey(Account, on_delete=models.CASCADE)
-    specialtyID = models.ForeignKey(Specialty)
-    userKind = models.ForeignKey(UserKind)
-    # KIND_CHOICES = (('USER', 'Simple User'), (
-    # 'SECRETARY', 'Secretary'), ('TRAVEL_SUPPORT', 'Travel Support'),
-    # ('ACCOUNTING', 'Accounting'), ('MANAGER', 'Manager'))
-    # userKind = models.CharField(
-    # choices=KIND_CHOICES, max_length=15)
-    taxRegNum = models.IntegerField(primary_key=True)
-    taxOffice = models.ForeignKey(TaxOffice)
-
-    def __str__(self):
-        return self.name + "," + self.surname + "," + self.userKind
+class UserProfile(AbstractUser):
+    iban = models.CharField(max_length=200, blank=True, null=True,
+                            validators=[iban_validation])
+    specialtyID = models.ForeignKey(Specialty, blank=True, null=True)
+    taxRegNum = models.IntegerField(blank=True, null=True,
+                                    validators=[afm_validator])
+    taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)

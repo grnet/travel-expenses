@@ -38,11 +38,29 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'texpenses',
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
 )
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
-    'PAGINATE_BY': 10
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
 }
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': 'auth/password/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'auth/activate/{uid}/{token}',
+    'PASSWORD_VALIDATORS': [],
+    'SERIALIZERS': {},
+    'SEND_ACTIVATION_EMAIL': True,
+    'SET_PASSWORD_RETYPE': True,
+    'SITE_NAME': 'GRNET Travel Expenses',
+    'PASSWORD_RESET_CONFIRM_RETYPE': True,
+}
+# email-conf
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = './emails'  # change this to a proper location
+
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -56,7 +74,7 @@ ROOT_URLCONF = 'travelsBackend.urls'
 
 WSGI_APPLICATION = 'travelsBackend.wsgi.application'
 
-
+AUTH_USER_MODEL = 'texpenses.UserProfile'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
