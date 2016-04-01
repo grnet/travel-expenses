@@ -6,7 +6,6 @@ from texpenses import views
 User = get_user_model()
 
 auth_urlpatterns = (
-    # url(r'^me/$', djoser_views.UserView.as_view(), name='user'),
     url(r'^me/$', views.CustomUserView.as_view(), name='user'),
     url(r'^register/$', views.CustomUserRegistrationView.as_view(),
         name='register'),
