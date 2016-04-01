@@ -1,4 +1,7 @@
 from django.core.exceptions import ValidationError
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def iban_validation(iban):
@@ -7,21 +10,29 @@ def iban_validation(iban):
     ibanString = ibanString.strip()
 
     if ibanString is None or ibanString == "":
-        raise ValidationError("IBAN is empty.Please import a 27 letters IBAN")
+        msg = "IBAN is empty.Please import a 27 letters IBAN"
+        logger.error(msg)
+        raise ValidationError(msg)
 
     if " " in ibanString:
-        raise ValidationError("IBAN sould not contain spaces")
+        msg = "IBAN sould not contain spaces"
+        logger.error(msg)
+        raise ValidationError(msg)
 
     ibanLength = len(ibanString)
 
     if ibanLength != 27:
-        raise ValidationError("IBAN should be a 27 letters alphanumeric")
+        msg = "IBAN should be a 27 letters alphanumeric"
+        logger.error(msg)
+        raise ValidationError(msg)
 
     ibanString = ibanString.upper()
     countryCode = ibanString[0:2]
 
     if countryCode != "GR":
-        raise ValidationError("IBAN country code:" + countryCode + " is not GR")
+        msg = "IBAN country code:" + countryCode + " is not GR"
+        logger.error(msg)
+        raise ValidationError(msg)
     try:
         iban_check_digits = ibanString[2:4]
         int(iban_check_digits)
@@ -43,9 +54,10 @@ def iban_validation(iban):
         int(customer_code)
         print "Customer code:" + customer_code
     except ValueError:
-        raise ValidationError(
-            "IBAN should contain only numbers apart"
-            " from the first 2 letters (GR)")
+        msg = "IBAN should contain only numbers apart"\
+            " from the first 2 letters (GR)"
+        logger.error(msg)
+        raise ValidationError(msg)
 
 
 def afm_validator(afm):
@@ -60,14 +72,19 @@ def afm_validator(afm):
     # raise ValidationError("AFM should be a 9 digits number")
 
     if afm is None:
-        raise ValidationError("AFM is empty.")
+        msg = "AFM is empty."
+        logger.error(msg)
+        raise ValidationError(msg)
     if afm == 0:
-        raise ValidationError("AFM should not be zero")
+        msg = "AFM should not be zero"
+        logger.error(msg)
+        raise ValidationError(msg)
 
     afmString = str(afm)
     afmString = afmString.strip()
     afmString_length = len(afmString)
     if len(afmString) != 9:
-        raise ValidationError(
-            "AFM should be a 9 digits number,"\
-            " current length:" + str(afmString_length))
+        msg = "AFM should be a 9 digits number,\
+            current length:" + str(afmString_length)
+        logger.error(msg)
+        raise ValidationError(msg)
