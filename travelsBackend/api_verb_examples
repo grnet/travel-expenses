@@ -1,0 +1,20 @@
+--register--
+curl -X POST http://127.0.0.1:8000/auth/register/ --data 'username={username}&password={password}'
+
+--login--
+curl -X POST http://127.0.0.1:8000/auth/login/ --data 'username={user}&password={pass}'
+
+--user simple info--
+curl -X GET http://127.0.0.1:8000/auth/me/ -H 'Authorization: Token {token}'
+
+--user detailed info--
+curl -X GET http://127.0.0.1:8000/auth/me/detailed/ -H 'Authorization: Token {token}'
+
+--change username--
+curl -X POST http://127.0.0.1:8000/auth/username/ -H 'Authorization: Token {token}' --data 'current_password={current_password}&new_username={new_username}'
+
+--change password--
+curl -X POST http://127.0.0.1:8000/auth/password/ -H 'Authorization: Token {token}' --data 'new_password={new_pass}&re_new_password={retype_new_password}&current_password={current_password}'
+
+--logout--
+curl -X POST http://127.0.0.1:8000/auth/logout/ -H 'Authorization: Token {token}'
