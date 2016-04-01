@@ -6,25 +6,25 @@ commands:
 * virtualenv ENV
 * cd /ENV/bin
 * source activate
-* pip install django
-* pip install djangorestframework
-* pip install markdown
-* pip install django-filter
-* pip install requests
+* pip install django==1.9.4
+* pip install djoser==0.4.3
+* pip install djangorestframework==3.3.3
+* pip install markdown==2.6.6
+* pip install django-filter==0.13.0
+* pip install requests==2.9.1
 
 
 run django:
 * cd /ENV/bin
 * source activate
+* python manage.py makemigrations texpenses
 * python manage.py migrate
-* python manage,py createsuperuser
+* python manage.py loaddata texpenses/fixtures/dbdump.json
+
 username: admin
 email: admin@example.com
 password: admin
 
-
-pythong manage.py loaddata texpenses/fixtures/dbdumpdata.json (this is automatically run when running python manage.py migrate be aware that the existing data will be refreshed)
-	python manage.py runserver
 
 
 
