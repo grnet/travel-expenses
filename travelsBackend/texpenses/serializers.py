@@ -1,10 +1,10 @@
 from django.contrib.auth import get_user_model
-from models import UserProfile
 from models import Specialty
 from models import TaxOffice
 from rest_framework import serializers
 from djoser import settings, serializers as djoser_serializers
 from django.contrib.auth.models import Group
+
 User = get_user_model()
 
 
@@ -13,10 +13,14 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
     """Serializer class for User model """
 
     class Meta:
-        model = UserProfile
-        fields = ('name', 'surname', 'iban',
-                  'specialtyID', 'taxRegNum',
-                  'taxOffice', 'id')
+        model = User
+        fields = ('username', 'first_name', 'last_name',
+                  'email', 'password',
+                  'iban', 'specialtyID', 'taxRegNum', 'taxOffice')
+        read_only_fields = (
+            'username',
+            'password',
+        )
 
 
 class SpecialtySerializer(serializers.HyperlinkedModelSerializer):
