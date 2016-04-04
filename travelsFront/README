@@ -42,6 +42,11 @@ mv app/styles/app.css app/styles/app.scss
 
 * Relaunch the app with ember server
 
+####Add Simple Auth Library & Simple Auth Token Plugin
+* ember install ember-simple-auth
+* ember-simple-auth-token
+
+
 #### Run the app 
 cd /appDirectory
 
