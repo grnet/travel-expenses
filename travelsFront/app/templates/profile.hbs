@@ -1,0 +1,45 @@
+<div class="container">
+  <form class="form-horizontal col-md-10"  {{action "#we don't know yet" on="submit"}}>
+
+	<div class="profileForm">
+    <label>First Name</label><br>
+  	{{input value=first_name type="text"}}
+	</div>
+
+	<div class="profileForm">
+	<label>Last Name</label><br>
+  	{{input value=last_name type="text"}}
+	</div>
+
+	<div class="profileForm">
+  	<label>IBAN</label><br>
+  	{{input value=iban type="text"}}
+ 	</div> 
+ 
+ 	<div class="profileForm">
+  	<label>Specialty</label><br>
+  	{{input value=specialtyID type="text"}}
+  	</div>
+
+  	<div class="profileForm">
+  	<label>Property</label><br>
+  	{{input value=propertyID type="text"}}
+  	</div>
+
+  	<div class="profileForm">
+  	<label>AFM</label><br>
+  	{{input value=taxRegNum type="text"}}
+  	</div>
+
+  	<div class="profileForm">
+  	<label>taxOffice</label><br>
+  	{{input value=taxOffice type="text"}}
+  	</div>
+
+  	<button type="submit" class="btn btn-primary">Sign Up</button>
+  </form>
+
+</div>
+
+{{outlet}}
+
