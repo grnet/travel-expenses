@@ -137,15 +137,6 @@ LOGGING = {
         }
     },
     'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'propagate': True,
-        },
-        'django.request': {
-            'handlers': ['mail_admins', 'file'],
-            'level': 'ERROR',
-            'propagate': False,
-        },
         'texpenses': {
             'handlers': ['console', 'mail_admins', 'file'],
             'level': 'INFO'
