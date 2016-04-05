@@ -1,5 +1,6 @@
 import requests
 import urllib
+import logging
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
@@ -9,6 +10,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated,\
     DjangoModelPermissions
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
+from rest_framework_tracking.mixins import LoggingMixin
 from models import Specialty
 from models import TaxOffice
 from serializers import UserProfileSerializer
@@ -16,6 +18,8 @@ from serializers import SpecialtySerializer
 from serializers import TaxOfficeSerializer
 from serializers import CustomUserRegistrationSerializer
 # from custom_permissions import IsOwnerOrAdmin
+logger = logging.getLogger(__name__)
+
 User = get_user_model()
 
 
@@ -39,7 +43,44 @@ def custom_activation_view(request, uid=None, token=None):
                                 uid + " and token:" + token)
 
 
-class CustomUserView(djoser_views.UserView):
+class CustomUserView(LoggingMixin, djoser_views.UserView):
+    pass
+
+
+class CustomActivationView(LoggingMixin, djoser_views.ActivationView):
+    pass
+
+
+class CustomSetUsernameView(LoggingMixin, djoser_views.SetUsernameView):
+    pass
+
+
+class CustomSetPasswordView(LoggingMixin, djoser_views.SetPasswordView):
+    pass
+
+
+class CustomPasswordResetView(LoggingMixin, djoser_views.PasswordResetView):
+    pass
+
+
+class CustomPasswordResetConfirmView(LoggingMixin,
+                                     djoser_views.PasswordResetConfirmView):
+    pass
+
+
+class CustomLoginView(LoggingMixin, djoser_views.LoginView):
+    pass
+
+
+class CustomLogoutView(LoggingMixin, djoser_views.LogoutView):
+    pass
+
+
+class CustomRootView(LoggingMixin, djoser_views.RootView):
+    pass
+
+
+class CustomUserDetailedView(LoggingMixin, djoser_views.UserView):
 
     serializer_class = UserProfileSerializer
     permission_classes = (
@@ -48,7 +89,7 @@ class CustomUserView(djoser_views.UserView):
     queryset = User.objects.all()
 
 
-class SpecialtyViewSet(viewsets.ModelViewSet):
+class SpecialtyViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     """API endpoint that allows specialty details to be viewed or edited """
 
@@ -58,7 +99,7 @@ class SpecialtyViewSet(viewsets.ModelViewSet):
     serializer_class = SpecialtySerializer
 
 
-class TaxOfficeViewSet(viewsets.ModelViewSet):
+class TaxOfficeViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     """API endpoint that allows specialty details to be viewed or edited """
     authentication_classes = (SessionAuthentication, TokenAuthentication)
@@ -67,5 +108,5 @@ class TaxOfficeViewSet(viewsets.ModelViewSet):
     serializer_class = TaxOfficeSerializer
 
 
-class CustomUserRegistrationView(djoser_views.RegistrationView):
+class CustomUserRegistrationView(LoggingMixin, djoser_views.RegistrationView):
     serializer_class = CustomUserRegistrationSerializer
