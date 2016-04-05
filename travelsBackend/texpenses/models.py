@@ -11,7 +11,7 @@ class Specialty(models.Model):
     kindDescription = models.CharField(max_length=300, blank=True)
     id = models.AutoField(primary_key=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
 
@@ -25,7 +25,7 @@ class TaxOffice(models.Model):
     email = models.EmailField(blank=True)
     phone = models.CharField(max_length=20)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
 
