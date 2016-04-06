@@ -22,8 +22,11 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 
 		var url = this._super(modelName, id, snapshot, requestType, query);
 	
-      	if (requestType === "createRecord"){
+      	if (modelName === "account" && requestType === "createRecord"){
       		url = "http://127.0.0.1:8000/auth/register/";
+      	}
+      	else if (modelName === "profile" && requestType === "createRecord") {
+      		url = "http://127.0.0.1:8000/auth/me/detailed/";
       	}
 
       	return url;
