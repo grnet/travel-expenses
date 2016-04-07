@@ -13,9 +13,11 @@ from rest_framework.authentication import SessionAuthentication,\
 from rest_framework_tracking.mixins import LoggingMixin
 from models import Specialty
 from models import TaxOffice
+from models import Kind
 from serializers import UserProfileSerializer
 from serializers import SpecialtySerializer
 from serializers import TaxOfficeSerializer
+from serializers import KindSerializer
 from serializers import CustomUserRegistrationSerializer
 # from custom_permissions import IsOwnerOrAdmin
 logger = logging.getLogger(__name__)
@@ -97,6 +99,16 @@ class SpecialtyViewSet(LoggingMixin, viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, IsAdminUser, DjangoModelPermissions,)
     queryset = Specialty.objects.all()
     serializer_class = SpecialtySerializer
+
+
+class KindViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows specialty details to be viewed or edited """
+
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticated, IsAdminUser, DjangoModelPermissions,)
+    queryset = Kind.objects.all()
+    serializer_class = KindSerializer
 
 
 class TaxOfficeViewSet(LoggingMixin, viewsets.ModelViewSet):
