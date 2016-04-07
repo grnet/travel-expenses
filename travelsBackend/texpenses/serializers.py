@@ -1,10 +1,10 @@
 from django.contrib.auth import get_user_model
-from models import Specialty
-from models import TaxOffice
 from rest_framework import serializers
 from djoser import settings, serializers as djoser_serializers
 from django.contrib.auth.models import Group
-
+from models import Specialty
+from models import TaxOffice
+from models import Kind
 User = get_user_model()
 
 
@@ -29,7 +29,18 @@ class SpecialtySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Specialty
-        fields = ('name', 'kindDescription')
+        fields = ('name', )
+        read_only_fields = ('id',)
+
+
+class KindSerializer(serializers.HyperlinkedModelSerializer):
+
+    """Serializer class for kind model """
+
+    class Meta:
+        model = Kind
+        fields = ('name', )
+        read_only_fields = ('id',)
 
 
 class TaxOfficeSerializer(serializers.HyperlinkedModelSerializer):
