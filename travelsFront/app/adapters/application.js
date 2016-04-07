@@ -13,8 +13,8 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 	// 	withCredentials: true,
 	// 	"X-CSRFToken": 'qrxKb6Tn5C6JCj8EllYst2tsJqUfE3tT',
 	// 	username: 'admin',
- //    	password: 'admin'
- //    },
+    //    	password: 'admin'
+    //    },
 
 
 
@@ -29,7 +29,7 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
       		url = "http://127.0.0.1:8000/auth/me/detailed/";
       	}
       	else if (modelName === "specialty") {
-      		url = "http://127.0.0.1:8000/users_related/kind/";
+      		url = "http://127.0.0.1:8000/users_related/specialty/";
       	}
 
       	return url;
