@@ -7,7 +7,7 @@ export default DS.Model.extend({
 	last_name: DS.attr(), 
 	iban: DS.attr(),
 	accountID: DS.attr(),
-	specialtyID: DS.attr(),
+	specialtyID: DS.belongsTo('specialty'),
 	userKind: DS.attr(),
 	taxRegNum: DS.attr(),
 	taxOffice: DS.attr()

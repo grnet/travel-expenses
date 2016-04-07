@@ -28,9 +28,13 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
       	else if (modelName === "profile") {
       		url = "http://127.0.0.1:8000/auth/me/detailed/";
       	}
+      	else if (modelName === "specialty") {
+      		url = "http://127.0.0.1:8000/users_related/kind/";
+      	}
 
       	return url;
     } 
    
 });
+
 
