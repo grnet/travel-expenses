@@ -7,6 +7,7 @@ from . import auth_urls
 router = routers.DefaultRouter()
 router.register(r'specialty', views.SpecialtyViewSet)
 router.register(r'taxoffice', views.TaxOfficeViewSet)
+router.register(r'kind', views.KindViewSet)
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browseable API.
 
