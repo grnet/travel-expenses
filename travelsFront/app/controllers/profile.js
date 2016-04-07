@@ -5,26 +5,26 @@ export default Ember.Controller.extend({
 	actions: {
 		
 		profileUpdate(){
-			console.log('Hi there, please authorize me', this.get('id'));
+			console.log('Hi there, please authorize me', this.get('model.taxRegNum'));
 			
 			
 
-			var profile = this.store.createRecord('profile',{
-					type: 'profile',
-					id: this.get('taxRegNum'), //the id will have to change
-					first_name: this.get('first_name'),
-					last_name: this.get('last_name'),
-					iban: this.get('iban'),
-					specialtyID: this.get('specialtyID'),
-					userKind: this.get('userKind'),
-					taxRegNum: this.get('taxRegNum'),
-					taxOffice: this.get('taxOffice')
+			// var profile = this.store.createRecord('profile',{
+			// 		type: 'profile',
+			// 		id: this.get('taxRegNum'), //the id will have to change
+			// 		first_name: this.get('first_name'),
+			// 		last_name: this.get('last_name'),
+			// 		iban: this.get('iban'),
+			// 		specialtyID: this.get('specialtyID'),
+			// 		userKind: this.get('userKind'),
+			// 		taxRegNum: this.get('taxRegNum'),
+			// 		taxOffice: this.get('taxOffice')
 					
 				
-			});
+			// });
 
 
-			profile.save();
+			this.get('model').save();
 			
 		}
 	}

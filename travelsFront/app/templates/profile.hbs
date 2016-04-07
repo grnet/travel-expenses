@@ -1,45 +1,60 @@
 <div class="container">
   <form class="form-horizontal col-md-10"  {{action "profileUpdate" on="submit"}}>
 
+  <div class="profileForm">
+    <label>Username</label><br>
+    {{input value=model.username type="text"}}
+  </div>
+
+  <div class="profileForm">
+    <label>Email</label><br>
+    {{input value=model.email type="text"}}
+  </div>
+
 	<div class="profileForm">
     <label>First Name</label><br>
-  	{{input value=first_name type="text"}}
+  	{{input value=model.first_name type="text"}}
 	</div>
 
 	<div class="profileForm">
 	<label>Last Name</label><br>
-  	{{input value=last_name type="text"}}
+  	{{input value=model.last_name type="text"}}
 	</div>
 
 	<div class="profileForm">
   	<label>IBAN</label><br>
-  	{{input value=iban type="text"}}
+  	{{input value=model.iban type="text"}}
  	</div> 
  
  	<div class="profileForm">
   	<label>Specialty</label><br>
-  	{{input value=specialtyID type="text"}}
+  	{{input value=model.specialtyID type="text"}}
   	</div>
 
   	<div class="profileForm">
   	<label>Property</label><br>
-  	{{input value=propertyID type="text"}}
+  	{{input value=model.propertyID type="text"}}
   	</div>
 
   	<div class="profileForm">
   	<label>AFM</label><br>
-  	{{input value=taxRegNum type="text"}}
+  	{{input value=model.taxRegNum type="text"}}
   	</div>
 
   	<div class="profileForm">
   	<label>taxOffice</label><br>
-  	{{input value=taxOffice type="text"}}
+  	{{input value=model.taxOffice type="text"}}
   	</div>
 
   	<button type="submit" class="btn btn-primary">Submit</button>
   </form>
 
 </div>
+
+<!-- <h1>Show me all profiles</h1>
+{{#each model as |profile|}}
+  <h4>{{profile}}</h4>
+{{/each}} -->
 
 {{outlet}}
 

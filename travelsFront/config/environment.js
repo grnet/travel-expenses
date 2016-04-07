@@ -28,7 +28,7 @@ module.exports = function(environment) {
     identificationField: 'username',
     passwordField: 'password',
     tokenPropertyName: 'auth_token',
-    authorizationPrefix: 'Bearer ',
+    authorizationPrefix: 'Token ',
     authorizationHeaderName: 'Authorization',
     headers: {},
   };
