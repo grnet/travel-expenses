@@ -6,9 +6,19 @@ from validators import afm_validator
 
 class Specialty(models.Model):
 
-    """Docstring for  Kind. """
+    """Docstring for Specialty . """
     name = models.CharField(max_length=200)
-    kindDescription = models.CharField(max_length=300, blank=True)
+    id = models.AutoField(primary_key=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Kind(models.Model):
+
+    """Docstring for Kind. """
+
+    name = models.CharField(max_length=200)
     id = models.AutoField(primary_key=True)
 
     def __unicode__(self):
@@ -36,3 +46,4 @@ class UserProfile(AbstractUser):
     taxRegNum = models.IntegerField(blank=True, null=True,
                                     validators=[afm_validator])
     taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
+    kind = models.ForeignKey(Kind, blank=True, null=True)
