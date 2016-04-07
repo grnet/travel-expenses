@@ -5,9 +5,8 @@ export default Ember.Controller.extend({
 	actions: {
 		
 		profileUpdate(){
-			console.log('My username is: ', this.get('username'));
-			console.log('My password is: ', this.get('password'));
-			console.log('My email is: ', this.get('email'));
+			console.log('Hi there, please authorize me', this.get('id'));
+			
 			
 
 			var profile = this.store.createRecord('profile',{

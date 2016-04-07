@@ -27,7 +27,7 @@ module.exports = function(environment) {
     serverTokenEndpoint: 'http://127.0.0.1:8000/auth/login/',
     identificationField: 'username',
     passwordField: 'password',
-    tokenPropertyName: 'token',
+    tokenPropertyName: 'auth_token',
     authorizationPrefix: 'Bearer ',
     authorizationHeaderName: 'Authorization',
     headers: {},
