@@ -47,3 +47,23 @@ class UserProfile(AbstractUser):
                                     validators=[afm_validator])
     taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
     kind = models.ForeignKey(Kind, blank=True, null=True)
+
+
+class Accomondation(models.Model):
+
+    """Docstring for Accomondation. """
+    hotel = models.CharField(max_length=200, blank=True, null=True)
+    hotelPrice = models.FloatFieldField(blank=True, null=True)
+    checkInDate = models.DateField(blank=True, null=True)
+    checkOutDate = models.DateField(blank=True, null=True)
+
+
+class Application(models.Model)
+
+    """Docstring for Travel Application. """
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(UserProfile)
+    accomondation = models.ForeignKey(Accomondation, blank=True, null=True)
+
+    def __unicode__(self):
+        return self.name
