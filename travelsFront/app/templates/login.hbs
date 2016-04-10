@@ -14,7 +14,10 @@
 	   	</div> 
 	 
 
-	  	<button type="submit" class="btn btn-primary">Log in</button>
+	  	<button type="submit" class="btn btn-primary">Login</button>
+	  	{{#if errorMessage}}
+    		<p>{{errorMessage}}</p>
+  		{{/if}}
 	</form>
 </div>	
 
