@@ -16,8 +16,6 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
     //    	password: 'admin'
     //    },
 
-
-
     buildURL: function(modelName, id, snapshot, requestType, query) {
 
 		var url = this._super(modelName, id, snapshot, requestType, query);
@@ -27,10 +25,6 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
       	}
       	else if (modelName === "profile") {
       		url = "http://127.0.0.1:8000/auth/me/detailed/";
-          
-          if (modelName === "specialty"){
-            url = "http://127.0.0.1:8000/users_related/specialty/";
-          }
       	}
 
       	return url;

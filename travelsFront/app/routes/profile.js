@@ -2,11 +2,11 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
 	model() {
-		
-	return Ember.RSVP.hash({
-      profile: this.store.findRecord('profile',1),
-      specialty: this.store.findAll('specialty')
-    });
-
+		return this.store.findRecord('profile',1);
+	},
+	
+	setupController: function(controller, model) {
+    	this._super(controller, model);
+    	controller.set('specialties', this.store.findAll('specialty'));
 	}
 });

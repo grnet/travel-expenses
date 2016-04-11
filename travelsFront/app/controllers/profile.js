@@ -7,8 +7,6 @@ export default Ember.Controller.extend({
 		profileUpdate(){
 			console.log('Hi there, please authorize me', this.get('model.taxRegNum'));
 			
-			
-
 			// var profile = this.store.createRecord('profile',{
 			// 		type: 'profile',
 			// 		id: this.get('taxRegNum'), //the id will have to change
@@ -18,11 +16,8 @@ export default Ember.Controller.extend({
 			// 		specialtyID: this.get('specialtyID'),
 			// 		userKind: this.get('userKind'),
 			// 		taxRegNum: this.get('taxRegNum'),
-			// 		taxOffice: this.get('taxOffice')
-					
-				
+			// 		taxOffice: this.get('taxOffice')	
 			// });
-
 
 			this.get('model').save();
 			

@@ -30,8 +30,8 @@
     	<label>Specialty</label><br>
     	<!-- {{input value=model.specialtyID type="text"}} -->
       <select>
-        {{#each model.specialty as |specialtyChoice|}}
-          <option value={{specialtyChoice.name}} }}>{{specialtyChoice.name}}</option>
+        {{#each specialties as |specialtyChoice|}}
+          <option value={{specialtyChoice.name}}>{{specialtyChoice.name}}</option>
         {{/each}}
       </select>
     </div> 
