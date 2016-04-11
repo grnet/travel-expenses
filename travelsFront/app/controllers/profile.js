@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
 			// 		first_name: this.get('first_name'),
 			// 		last_name: this.get('last_name'),
 			// 		iban: this.get('iban'),
-			// 		specialtyID: this.get('specialtyID'),
+			// 		specialty: this.get('specialty'),
 			// 		userKind: this.get('userKind'),
 			// 		taxRegNum: this.get('taxRegNum'),
 			// 		taxOffice: this.get('taxOffice')	
@@ -21,6 +21,12 @@ export default Ember.Controller.extend({
 
 			this.get('model').save();
 			
+		},
+
+		setSpecialty(id){
+			var rec = this.store.peekRecord('specialty', id);
+			this.get('model').set('specialtyID', rec)
+
 		}
 	},
 

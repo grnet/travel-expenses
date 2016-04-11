@@ -28,10 +28,12 @@
    
    	<div class="profileForm">
     	<label>Specialty</label><br>
-    	<!-- {{input value=model.specialtyID type="text"}} -->
-      <select>
+    	<!-- {{input value=model.specialty type="text"}} -->
+      <select onchange={{action "setSpecialty" value="target.value"}}>
         {{#each specialties as |specialtyChoice|}}
-          <option value={{specialtyChoice.name}}>{{specialtyChoice.name}}</option>
+        
+          <option value={{specialtyChoice.id}} selected={{eq specialtyChoice.id model.specialtyID.id}}>{{specialtyChoice.name}}</option>
+        
         {{/each}}
       </select>
     </div> 

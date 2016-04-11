@@ -2,7 +2,12 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
 	model() {
-		return this.store.findRecord('profile',1);
+		return new Ember.RSVP.Promise(function(r,e) {
+			this.store.findAll('specialty').then(function() {
+				r(this.store.findRecord('profile',1));
+			}.bind(this))
+			
+		}.bind(this));
 	},
 	
 	setupController: function(controller, model) {
