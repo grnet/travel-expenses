@@ -27,5 +27,7 @@ export default Ember.Controller.extend({
 			this.get('model').save();
 			
 		}
-	}
+	},
+
+	
 });

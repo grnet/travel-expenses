@@ -1,52 +1,57 @@
 <div class="container">
   <form class="form-horizontal col-md-10"  {{action "profileUpdate" on="submit"}}>
 
-  <div class="profileForm">
-    <label>Username</label><br>
-    {{input value=model.username type="text"}}
-  </div>
+    <div class="profileForm">
+      <label>Username</label><br>
+      {{input value=model.username type="text"}}
+    </div>
 
-  <div class="profileForm">
-    <label>Email</label><br>
-    {{input value=model.email type="text"}}
-  </div>
+    <div class="profileForm">
+      <label>Email</label><br>
+      {{input value=model.email type="text"}}
+    </div>
 
-	<div class="profileForm">
-    <label>First Name</label><br>
-  	{{input value=model.first_name type="text"}}
-	</div>
-
-	<div class="profileForm">
-	<label>Last Name</label><br>
-  	{{input value=model.last_name type="text"}}
-	</div>
-
-	<div class="profileForm">
-  	<label>IBAN</label><br>
-  	{{input value=model.iban type="text"}}
- 	</div> 
- 
- 	<div class="profileForm">
-  	<label>Specialty</label><br>
-  	{{input value=model.specialtyID type="text"}}
+  	<div class="profileForm">
+      <label>First Name</label><br>
+    	{{input value=model.first_name type="text"}}
   	</div>
 
   	<div class="profileForm">
-  	<label>Property</label><br>
-  	{{input value=model.propertyID type="text"}}
+  	  <label>Last Name</label><br>
+    	{{input value=model.last_name type="text"}}
   	</div>
 
   	<div class="profileForm">
-  	<label>AFM</label><br>
-  	{{input value=model.taxRegNum type="text"}}
-  	</div>
+    	<label>IBAN</label><br>
+    	{{input value=model.iban type="text"}}
+   	</div> 
+   
+   	<div class="profileForm">
+    	<label>Specialty</label><br>
+    	<!-- {{input value=model.specialtyID type="text"}} -->
+      <select>
+        {{#each model.specialty as |specialtyChoice|}}
+          <option value={{specialtyChoice.name}} }}>{{specialtyChoice.name}}</option>
+        {{/each}}
+      </select>
+    </div> 
 
-  	<div class="profileForm">
-  	<label>taxOffice</label><br>
-  	{{input value=model.taxOffice type="text"}}
-  	</div>
+    <div class="profileForm">
+    	<label>Property</label><br>
+    	{{input value=model.propertyID type="text"}}
+    </div>
 
-  	<button type="submit" class="btn btn-primary">Submit</button>
+    <div class="profileForm">
+    	<label>AFM</label><br>
+    	{{input value=model.taxRegNum type="text"}}
+    </div>
+
+    <div class="profileForm">
+    	<label>taxOffice</label><br>
+    	{{input value=model.taxOffice type="text"}}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 
 </div>
