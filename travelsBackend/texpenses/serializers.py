@@ -29,7 +29,7 @@ class SpecialtySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Specialty
-        fields = ('name', )
+        fields = ('name', 'id', 'url', )
         read_only_fields = ('id',)
 
 
