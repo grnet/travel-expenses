@@ -30,7 +30,7 @@ class SpecialtySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Specialty
         fields = ('name', 'id', 'url', )
-        read_only_fields = ('id',)
+        read_only_fields = ('id', 'url',)
 
 
 class KindSerializer(serializers.HyperlinkedModelSerializer):
@@ -39,15 +39,16 @@ class KindSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Kind
-        fields = ('name', )
-        read_only_fields = ('id',)
+        fields = ('name', 'id', 'url', )
+        read_only_fields = ('id', 'url',)
 
 
 class TaxOfficeSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = TaxOffice
-        fields = ('name', 'kindDescription', 'address', 'email', 'phone')
+        fields = ('name', 'kindDescription', 'address',
+                  'email', 'phone', 'id', 'url',)
 
 
 class CustomUserRegistrationSerializer(

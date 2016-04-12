@@ -6,8 +6,7 @@ from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 from djoser import views as djoser_views
 from rest_framework import viewsets
-from rest_framework.permissions import IsAdminUser, IsAuthenticated,\
-    DjangoModelPermissions
+from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
 from rest_framework_tracking.mixins import LoggingMixin
@@ -20,6 +19,7 @@ from serializers import TaxOfficeSerializer
 from serializers import KindSerializer
 from serializers import CustomUserRegistrationSerializer
 # from custom_permissions import IsOwnerOrAdmin
+from custom_permissions import isAdminOrRead
 logger = logging.getLogger(__name__)
 
 User = get_user_model()
@@ -96,7 +96,8 @@ class SpecialtyViewSet(LoggingMixin, viewsets.ModelViewSet):
     """API endpoint that allows specialty details to be viewed or edited """
 
     authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (IsAuthenticated, IsAdminUser, DjangoModelPermissions,)
+    permission_classes = (
+        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = Specialty.objects.all()
     serializer_class = SpecialtySerializer
 
@@ -106,7 +107,8 @@ class KindViewSet(LoggingMixin, viewsets.ModelViewSet):
     """API endpoint that allows specialty details to be viewed or edited """
 
     authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (IsAuthenticated, IsAdminUser, DjangoModelPermissions,)
+    permission_classes = (IsAuthenticated, isAdminOrRead,
+                          DjangoModelPermissions,)
     queryset = Kind.objects.all()
     serializer_class = KindSerializer
 
@@ -115,7 +117,8 @@ class TaxOfficeViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     """API endpoint that allows specialty details to be viewed or edited """
     authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (IsAuthenticated, IsAdminUser, DjangoModelPermissions,)
+    permission_classes = (IsAuthenticated, isAdminOrRead,
+                          DjangoModelPermissions,)
     queryset = TaxOffice.objects.all()
     serializer_class = TaxOfficeSerializer
 

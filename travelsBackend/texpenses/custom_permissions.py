@@ -13,3 +13,23 @@ class IsOwnerOrAdmin(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         return obj.user == request.user
+
+
+class isAdminOrRead(permissions.BasePermission):
+
+    """Docstring for . """
+
+    def has_permission(self, request, view):
+        """TODO: Docstring for .
+
+        :request: TODO
+        :view: TODO
+        :returns: TODO
+
+        """
+        isAdmin = request.user and request.user.is_staff
+
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        if isAdmin:
+            return True
