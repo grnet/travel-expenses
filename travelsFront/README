@@ -2,13 +2,13 @@
 
 
 ##### Nodejs ---Version v5.7.0
-** Command **
+** Command 
 curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
 
 ###### npm ---Version 3.7.5
 
 ###### ember ---Version 2.4.1
-** Command **
+** Command 
 npm install -g ember-cli
  
 ###### Watchman ---Version 4.5.0
@@ -46,11 +46,14 @@ mv app/styles/app.css app/styles/app.scss
 * ember install ember-simple-auth
 * ember-simple-auth-token
 
+####Add Truth Helpers library
+* npm install ember-truth-helpers --save
+
 
 #### Run the app 
 cd /appDirectory
 
-** Command **
+** Command 
 * ember serve
 * Ctrl+C: stops the ember server
 
