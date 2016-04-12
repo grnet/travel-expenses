@@ -15,14 +15,12 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 
 		var url = this._super(modelName, id, snapshot, requestType, query);
 
-		if (modelName === "specialty"){
-			url = "http://127.0.0.1:8000/users_related/specialty/";
+		if (modelName === "tax-office"){
+			url = "http://127.0.0.1:8000/users_related/taxoffice/";
 		}
 
 		return url;
 	} 
 
 });
-
-
 

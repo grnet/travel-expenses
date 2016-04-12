@@ -9,5 +9,6 @@ export default Ember.Route.extend({
 		this._super(controller, model);
 		controller.set('specialties', this.store.findAll('specialty'));
 		controller.set('kinds', this.store.findAll('kind'));
+		controller.set('tax-offices', this.store.findAll('taxOffice'));
 	}
 });

@@ -10,6 +10,6 @@ export default DS.Model.extend({
 	specialtyID: DS.belongsTo('specialty'),
 	kind: DS.belongsTo('kind'),
 	taxRegNum: DS.attr(),
-	taxOffice: DS.attr()
+	taxOffice: DS.belongsTo('tax-office')
 
 });

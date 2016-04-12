@@ -33,7 +33,13 @@ export default Ember.Controller.extend({
 			var rec = this.store.peekRecord('kind', id);
 			this.get('model').set('kind', rec)
 
+		},
+		setTaxOffice(id){
+			var rec = this.store.peekRecord('tax-office', id);
+			this.get('model').set('taxOffice', rec)
+
 		}
+
 	},
 
 

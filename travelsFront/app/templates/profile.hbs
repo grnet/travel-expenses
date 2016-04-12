@@ -56,8 +56,15 @@
 		</div>
 
 		<div class="profileForm">
-			<label>taxOffice</label><br>
-			{{input value=model.taxOffice type="text"}}
+			<label>Tax-Office</label><br>
+			<select onchange={{action "setTaxOffice" value="target.value"}}>
+				{{#each tax-offices  as |taxOfficeChoice|}}
+
+				<option value={{taxOfficeChoice.id}} selected={{eq taxOfficeChoice.id model.taxOffice.id}}>{{taxOfficeChoice.name}}</option>
+
+				{{/each}}
+			</select>
+
 		</div>
 
 		<button type="submit" class="btn btn-primary">Submit</button>
