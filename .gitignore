@@ -1,6 +1,9 @@
 *.py[cod]
 *$py.class
 
+*.js~
+*.hbs~
+*.swp
 # Django stuff:
 *.log
 local_settings.py
@@ -8,6 +11,8 @@ travelsBackend/texpenses/.*.py.swp
 travelsBackend/travelsBackend/.*.py.swp
 travelsBackend/travelsBackend/*.py~
 travelsBackend/texpenses/.admin.py.swp
+
+
 <<<<<<< HEAD
 travelsBackend/texpenses/migrations/
 instructions.txt~
