@@ -3,10 +3,10 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
 
 	actions: {
-		
+
 		profileUpdate(){
 			console.log('Hi there, please authorize me', this.get('model.taxRegNum'));
-			
+
 			// var profile = this.store.createRecord('profile',{
 			// 		type: 'profile',
 			// 		id: this.get('taxRegNum'), //the id will have to change
@@ -20,15 +20,21 @@ export default Ember.Controller.extend({
 			// });
 
 			this.get('model').save();
-			
+
 		},
 
 		setSpecialty(id){
 			var rec = this.store.peekRecord('specialty', id);
 			this.get('model').set('specialtyID', rec)
 
+		},
+
+		setKind(id){
+			var rec = this.store.peekRecord('kind', id);
+			this.get('model').set('kind', rec)
+
 		}
 	},
 
-	
+
 });

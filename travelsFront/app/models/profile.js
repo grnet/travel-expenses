@@ -8,8 +8,8 @@ export default DS.Model.extend({
 	iban: DS.attr(),
 	accountID: DS.attr(),
 	specialtyID: DS.belongsTo('specialty'),
-	userKind: DS.attr(),
+	kind: DS.belongsTo('kind'),
 	taxRegNum: DS.attr(),
 	taxOffice: DS.attr()
-  
+
 });
