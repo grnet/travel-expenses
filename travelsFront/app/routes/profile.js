@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
 	model() {
-		return this.store.findRecord('profile',1) 
+		return this.store.findRecord('profile',1); 
 	},
 
 	setupController: function(controller, model) {

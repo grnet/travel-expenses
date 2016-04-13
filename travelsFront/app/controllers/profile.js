@@ -25,18 +25,18 @@ export default Ember.Controller.extend({
 
 		setSpecialty(id){
 			var rec = this.store.peekRecord('specialty', id);
-			this.get('model').set('specialtyID', rec)
+			this.get('model').set('specialtyID', rec);
 
 		},
 
 		setKind(id){
 			var rec = this.store.peekRecord('kind', id);
-			this.get('model').set('kind', rec)
+			this.get('model').set('kind', rec);
 
 		},
 		setTaxOffice(id){
 			var rec = this.store.peekRecord('tax-office', id);
-			this.get('model').set('taxOffice', rec)
+			this.get('model').set('taxOffice', rec);
 
 		}
 
