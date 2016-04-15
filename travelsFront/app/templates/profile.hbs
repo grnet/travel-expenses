@@ -3,36 +3,60 @@
 	<label for="username">Logged in as: <font color="green">{{model.username}}</font></label>
 	<form class="form-horizontal col-md-10"  {{action "profileUpdate" on="submit"}}>
 
-
+<<<<<<< HEAD
+||||||| merged common ancestors
 		<div class="profileForm">
+			<label>Username</label><br>
+			{{input value=model.username type="text"}}
+		</div>
+=======
+		<div class="profileForm form-group">
+			<label>Username</label><br>
+			{{input value=model.username type="text" autofocus="autofocus"}}
+		</div>
+>>>>>>> style forms
+
+		<div class="profileForm form-group">
 			<label>Email</label><br>
+<<<<<<< HEAD
 			{{input value=model.email type="text"}}
 			{{#if (v-get model 'email' 'isInvalid') }}
 			<font color="red">{{v-get model 'email' 'message'}}</font>
 			<!--<font color="red">{{message}}</font>-->
 			{{/if}}
+||||||| merged common ancestors
+			{{input value=model.email type="text"}}
+=======
+			{{input value=model.email type="text" autofocus="autofocus"}}
+>>>>>>> style forms
 		</div>
 
-		<div class="profileForm">
+		<div class="profileForm form-group">
 			<label>First Name</label><br>
-			{{input value=model.first_name type="text"}}
+			{{input value=model.first_name type="text" autofocus="autofocus"}}
 		</div>
 
-		<div class="profileForm">
+		<div class="profileForm form-group">
 			<label>Last Name</label><br>
-			{{input value=model.last_name type="text"}}
+			{{input value=model.last_name type="text" autofocus="autofocus"}}
 		</div>
 
-		<div class="profileForm">
+		<div class="profileForm form-group">
 			<label>IBAN</label><br>
+<<<<<<< HEAD
 			{{input value=model.iban type="text"}}
 				{{#if (v-get model 'iban' 'isInvalid') }}
 			<font color="red">{{v-get model 'iban' 'message'}}</font>
 			{{/if}}
 
+||||||| merged common ancestors
+			{{input value=model.iban type="text"}}
+=======
+			{{input value=model.iban type="text" autofocus="autofocus"}}
+>>>>>>> style forms
 		</div> 
 
-		<div class="profileForm">
+		<div class="profileForm form-group">
 			<label>Specialty</label><br>
 			
 			<select onchange={{action "setSpecialty" value="target.value"}}>
@@ -44,7 +68,7 @@
 			</select>
 		</div> 
 
-		<div class="profileForm">
+		<div class="profileForm form-group">
 			<label>Kind</label><br>
 
 			<select onchange={{action "setKind" value="target.value"}}>
@@ -56,16 +80,22 @@
 			</select>
 		</div>
 
-		<div class="profileForm">
+		<div class="profileForm form-group">
 			<label>AFM</label><br>
+<<<<<<< HEAD
 			{{input value=model.taxRegNum type="text"}}
 			{{#if (v-get model 'taxRegNum' 'isInvalid') }}
 			<font color="red">{{v-get model 'taxRegNum' 'message'}}</font>
 			{{/if}}
 
+||||||| merged common ancestors
+			{{input value=model.taxRegNum type="text"}}
+=======
+			{{input value=model.taxRegNum type="text" autofocus="autofocus"}}
+>>>>>>> style forms
 		</div>
 
-		<div class="profileForm">
+		<div class="profileForm form-group">
 			<label>Tax-Office</label><br>
 			<select onchange={{action "setTaxOffice" value="target.value"}}>
 				{{#each tax-offices  as |taxOfficeChoice|}}
