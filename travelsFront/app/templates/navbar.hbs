@@ -1,0 +1,26 @@
+<nav class="navbar navbar-fixed-top" role="navigation">
+    <div class="container">
+		<div id="navbar">
+			<h2>Welcome to Travel Expenses!</h2>
+			<ul class="nav navbar-nav">
+
+                {{#link-to "profile" tagName="li"}}<a href="">Προφίλ</a>{{/link-to}}
+                {{#link-to "petition" tagName="li"}}<a href="">Νέα Αίτηση</a>{{/link-to}}
+			</ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {{#link-to "signup" tagName="li"}}<a href="">Signup</a>{{/link-to}}
+
+        		{{#if session.isAuthenticated}}
+					<a {{action "invalidateSession"}}>Logout</a> 
+				{{else}}
+					{{#link-to "login" tagName="li"}}<a href="">Login</a>{{/link-to}}
+				{{/if}}
+                
+            </ul>
+		</div>
+	</div>
+</nav>
+
+
+<!-- navbar-inverse -->

@@ -34,7 +34,7 @@
 
 		<div class="profileForm">
 			<label>Specialty</label><br>
-			<!-- {{input value=model.specialty type="text"}} -->
+			
 			<select onchange={{action "setSpecialty" value="target.value"}}>
 				{{#each specialties as |specialtyChoice|}}
 
@@ -82,11 +82,6 @@
 	</form>
 
 </div>
-
-<!-- <h1>Show me all profiles</h1>
-{{#each model as |profile|}}
-   <h4>{{profile}}</h4>
-{{/each}} -->
 
 {{outlet}}
 

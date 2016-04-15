@@ -1,17 +1,7 @@
 <div class="menu col-md-12">
-
-	<div class="col-md-offset-11">
-
-		{{#link-to "signup"}}<button class="btn btn-primary">Sign Up</button>{{/link-to}}
-	  
-		{{#if session.isAuthenticated}}
-			<a {{action 'invalidateSession'}}><button class="btn btn-primary">Logout</button></a>
-		{{else}}
-		    {{#link-to 'login'}}<button class="btn btn-primary">Login</button>{{/link-to}}
-		{{/if}}
-	</div>
+	{{partial 'navbar'}}
 </div>
 
 <div class="main col-md-12">
-  {{outlet}}
+  	{{outlet}}
 </div>

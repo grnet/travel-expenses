@@ -47,6 +47,7 @@
     "loader.js": "^4.0.0"
   },
   "dependencies": {
+    "ember-cp-validations": "git+https://github.com/offirgolan/ember-cp-validations.git#8c63c3c174ac813d02f6b847b1616f89e844c52b",
     "ember-truth-helpers": "^1.2.0"
   }
 }

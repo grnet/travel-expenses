@@ -7,7 +7,7 @@ export default Ember.Controller.extend({
 		invalidateSession() {
 
 			var self=this;
-			var token=self.get("session.data.authenticated.auth_token")
+			var token=self.get("session.data.authenticated.auth_token");
 			
 			Ember.$.ajax({
 				url: "http://127.0.0.1:8000/auth/logout/",
