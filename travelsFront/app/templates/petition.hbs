@@ -1,1 +1,117 @@
+<div class="container">
+	<form class="form-horizontal col-md-5 leftForm"  {{action "petitionUpdate" on="submit"}}>
+
+		<h4>Στοιχεία Προφίλ</h4><br>
+
+		<div class="profileForm form-group">
+			<label>Username</label><br>
+			{{input value=model.username type="text" autofocus="autofocus"}}
+		</div>
+
+		<div class="profileForm form-group">
+			<label>Email</label><br>
+			{{input value=model.email type="text" autofocus="autofocus"}}
+		</div>
+
+		<div class="profileForm form-group">
+			<label>First Name</label><br>
+			{{input value=model.first_name type="text" autofocus="autofocus"}}
+		</div>
+
+		<div class="profileForm form-group">
+			<label>Last Name</label><br>
+			{{input value=model.last_name type="text" autofocus="autofocus"}}
+		</div>
+
+		<div class="profileForm form-group">
+			<label>IBAN</label><br>
+			{{input value=model.iban type="text" autofocus="autofocus"}}
+		</div> 
+
+		<div class="profileForm form-group">
+			<label>Specialty</label><br>
+			{{input value=model.specialtyID type="text" autofocus="autofocus"}}		
+		</div> 
+
+		<div class="profileForm form-group">
+			<label>Kind</label><br>
+			{{input value=model.kind type="text" autofocus="autofocus"}}
+		</div>
+
+		<div class="profileForm form-group">
+			<label>AFM</label><br>
+			{{input value=model.taxRegNum type="text" autofocus="autofocus"}}
+		</div>
+
+		<div class="profileForm form-group">
+			<label>Tax-Office</label><br>
+			{{input value=model.taxOffice type="text" autofocus="autofocus"}}
+		</div>
+	</form>
+
+	<form class="form-horizontal col-md-5 rightForm"  {{action "petitionUpdate" on="submit"}}>	
+
+		<h4>Στοιχεία Αίτησης Ταξιδιού</h4><br>
+
+		<div class="profileForm form-group">
+			<label>Κατηγορία Μετακίνησης (Εσωτ/Εξωτ)</label><br>
+			{{input value=model.categoryOfTransport type="text" autofocus="autofocus"}}		
+		</div> 
+
+		<div class="profileForm form-group">
+			<label>Έργο</label><br>
+			{{input value=model.project type="text" autofocus="autofocus"}}
+		</div>
+
+		<div class="profileForm form-group">
+			<label>Ημ/νία - Ώρα Έναρξης Εργασιών</label><br>
+			{{input value=model.taskStartDate type="date" autofocus="autofocus"}}
+			{{input value=model.taskStartTime type="time" autofocus="autofocus"}}
+		</div>
+
+		<div class="profileForm form-group">
+			<label>Ημ/νία - Ώρα Λήξης Εργασιών</label><br>
+			{{input value=model.taskEndDate type="date" autofocus="autofocus"}}
+			{{input value=model.taskEndTime type="time" autofocus="autofocus"}}
+		</div>
+
+		<div class="profileForm form-group">
+			<label>Τόπος Αναχώρησης</label><br>
+			{{input value=model.departurePoint type="text" autofocus="autofocus"}}
+		</div>
+
+		<div class="profileForm form-group">
+			<label>Τόπος Προορισμού</label><br>
+			{{input value=model.arrivalPoint type="text" autofocus="autofocus"}}
+		</div>
+
+		<div class="profileForm form-group">
+			<label>Μέσο Μετακίνησης</label><br>
+			{{input value=model.meanOfTransport type="text" autofocus="autofocus"}}
+		</div> 
+
+		<div class="profileForm form-group">
+			<label>Προτεινόμενα Μέσα Μετακίνησης</label><br>
+			{{input value=model.recMeanOfTransport type="textarea" autofocus="autofocus"}}
+		</div>
+
+		<div class="profileForm form-group">
+			<label>Προτεινόμενο Κατάλυμα</label><br>
+			{{input value=model.recHotel type="textarea" autofocus="autofocus"}}
+		</div>
+
+		<div class="profileForm form-group">
+			<label>Κόστος Συμμετοχής</label><br>
+			{{input value=model.recCostParticipation type="textarea" autofocus="autofocus"}}
+		</div>
+
+		<button type="submit" class="btn btn-primary">Υποβολή Αίτησης</button>
+	</form>
+
+</div>
+
 {{outlet}}
+
+
+
+

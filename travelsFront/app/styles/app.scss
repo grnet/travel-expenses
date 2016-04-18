@@ -1,7 +1,13 @@
 @import "bootstrap";
 
-@charset 'utf-8';
+@charset "utf-8";
 
-body {
-  padding-top: 15%;
+
+.leftForm {
+    display: inline-block;   
 }
+
+.rightForm {
+    display: inline-block;   
+}
+
