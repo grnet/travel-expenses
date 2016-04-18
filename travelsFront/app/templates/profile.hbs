@@ -9,6 +9,10 @@
 		<div class="profileForm">
 			<label>Email</label><br>
 			{{input value=model.email type="text"}}
+			{{#if (v-get model 'email' 'isInvalid') }}
+				<font color="red">{{v-get model 'email' 'message'}}</font>
+				<!--<font color="red">{{message}}</font>-->
+			{{/if}}
 		</div>
 
 		<div class="profileForm">
@@ -32,7 +36,7 @@
 			<select onchange={{action "setSpecialty" value="target.value"}}>
 				{{#each specialties as |specialtyChoice|}}
 
-				<option value={{specialtyChoice.id}} selected={{eq specialtyChoice.id model.specialtyID.id}}>{{specialtyChoice.name}}</option>
+					<option value={{specialtyChoice.id}} selected={{eq specialtyChoice.id model.specialtyID.id}}>{{specialtyChoice.name}}</option>
 
 				{{/each}}
 			</select>
@@ -44,7 +48,7 @@
 			<select onchange={{action "setKind" value="target.value"}}>
 				{{#each kinds as |kindChoice|}}
 
-				<option value={{kindChoice.id}} selected={{eq kindChoice.id model.userKind.id}}>{{kindChoice.name}}</option>
+					<option value={{kindChoice.id}} selected={{eq kindChoice.id model.userKind.id}}>{{kindChoice.name}}</option>
 
 				{{/each}}
 			</select>
@@ -60,21 +64,22 @@
 			<select onchange={{action "setTaxOffice" value="target.value"}}>
 				{{#each tax-offices  as |taxOfficeChoice|}}
 
-				<option value={{taxOfficeChoice.id}} selected={{eq taxOfficeChoice.id model.taxOffice.id}}>{{taxOfficeChoice.name}}</option>
+					<option value={{taxOfficeChoice.id}} selected={{eq taxOfficeChoice.id model.taxOffice.id}}>{{taxOfficeChoice.name}}</option>
 
 				{{/each}}
 			</select>
 
 		</div>
 
-		<button type="submit" class="btn btn-primary">Submit</button>
+		<button type="submit" class="btn btn-primary" disabled={{v-get model 'isInvalid'}}>Submit</button>
+		<!--<button type="submit" class="btn btn-primary" >Submit</button>-->
 	</form>
 
 </div>
 
 <!-- <h1>Show me all profiles</h1>
 {{#each model as |profile|}}
-       <h4>{{profile}}</h4>
+   <h4>{{profile}}</h4>
 {{/each}} -->
 
 {{outlet}}

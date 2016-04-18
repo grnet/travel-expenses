@@ -19,7 +19,15 @@ export default Ember.Controller.extend({
 			// 		taxOffice: this.get('taxOffice')	
 			// });
 
-			this.get('model').save();
+			let profileIsValid=this.get('model.validations.isValid')
+
+			if (profileIsValid) {
+				this.get('model').save();
+			}
+			else{
+				console.log("Profile is invalid");
+			}
+
 
 		},
 

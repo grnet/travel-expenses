@@ -1,30 +1,48 @@
 <div class="container">
-  <form class="form-horizontal col-md-10"  {{action "signup" on="submit"}}>
+	<form class="form-horizontal col-md-10"  {{action "signup" on="submit"}}>
 
-	<div class="signupForm">
-    <label>Username</label><br>
-  	{{input value=username type="text"}}
-	</div>
+		<div class="signupForm">
+			<label>Username</label><br>
+			{{input value=username type="text"}}
+			{{#if (v-get model 'username' 'isInvalid') }}
+			<font color="red">{{v-get model 'username' 'message'}}</font>
+			{{/if}}
 
-	<div class="signupForm">
-  	<label>Password</label><br>
-  	{{input value=password type="password"}}
- 	</div> 
- 
- 	<div class="signupForm">
-  	<label>Email</label><br>
-  	{{input value=email type="email"}}
-  </div>
+		</div>
 
-  <button type="submit" class="btn btn-primary">Sign Up</button>
-  </form>
+		<div class="signupForm">
+			<label>Password</label><br>
+			{{input value=password type="password"}}
+			{{#if (v-get model 'password' 'isInvalid') }}
+			<font color="red">{{v-get model 'password' 'message'}}</font>
+			{{/if}}
+
+		</div> 
+
+		<div class="signupForm">
+			<label>Email</label><br>
+			{{input value=email type="text"}}
+			{{#if (v-get model 'email' 'isInvalid') }}
+			<font color="red">{{v-get model 'email' 'message'}}</font>
+			{{/if}}
+
+		</div>
+
+		<div class="signupForm">
+			{{#if (v-get model 'isValid') }}
+			<font color="green">{{message}}</font>
+			{{/if}}
+
+		</div>
+		<button type="submit" class="btn btn-primary">Sign Up</button>
+	</form>
 
 </div>
 
 
 <!--<h3>Currently Activated Users</h3>
 {{#each model as |account|}}
-  <h4>username: {{account.username}}</h4>
+   <h4>username: {{account.username}}</h4>
   <h4>password: {{account.password}}</h4>
   <h4>email: {{account.email}}</h4>
 {{/each}}-->

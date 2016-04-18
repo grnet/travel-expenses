@@ -6,7 +6,6 @@ export default Ember.Controller.extend({
 
 	actions: {
 		invalidateSession() {
-			//debugger;
 			var self=this;
 			var token=self.get("session.data.authenticated.auth_token")
 			console.log(token);

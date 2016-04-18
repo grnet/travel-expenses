@@ -3,6 +3,7 @@
 
 *.js~
 *.hbs~
+travelsFront/package.json~
 *.swp
 # Django stuff:
 *.log
@@ -12,13 +13,8 @@ travelsBackend/travelsBackend/.*.py.swp
 travelsBackend/travelsBackend/*.py~
 travelsBackend/texpenses/.admin.py.swp
 
-
-<<<<<<< HEAD
-travelsBackend/texpenses/migrations/
 instructions.txt~
-=======
 travelsBackend/texpenses/migrations/*
->>>>>>> user_form_validation2
 #backend sqlite testing db
 
 travelsBackend/db.sqlite3
