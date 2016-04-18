@@ -1,51 +1,70 @@
 <div class="container">
-	<form class="form-horizontal col-md-5 leftForm"  {{action "petitionUpdate" on="submit"}}>
+	<form class="form-horizontal col-md-6 leftForm" role="form" {{action "petitionUpdate" on="submit"}}>
 
 		<h4>Στοιχεία Προφίλ</h4><br>
 
+
 		<div class="profileForm form-group">
-			<label>Username</label><br>
-			{{input value=model.username type="text" autofocus="autofocus"}}
+			<label for="username" class="col-sm-2 control-label">Username</label>
+		<div class="col-sm-4">
+			{{input value=model.username type="text" class="form-control" autofocus="autofocus"}}
+		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label>Email</label><br>
-			{{input value=model.email type="text" autofocus="autofocus"}}
+			<label for="email" class="col-sm-2 control-label">Email</label>
+		<div class="col-sm-4">
+			{{input value=model.email type="text" class="form-control" autofocus="autofocus"}}
+		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label>Όνομα</label><br>
-			{{input value=model.first_name type="text" autofocus="autofocus"}}
+			<label for="first_name" class="col-sm-2 control-label">Όνομα</label>
+		<div class="col-sm-4">
+			{{input value=model.first_name type="text" class="form-control" autofocus="autofocus"}}
+		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label>Επώνυμο</label><br>
-			{{input value=model.last_name type="text" autofocus="autofocus"}}
+			<label for="last_name" class="col-sm-2 control-label">Επώνυμο</label>
+		<div class="col-sm-4">	
+			{{input value=model.last_name type="text" class="form-control" autofocus="autofocus"}}
+		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label>IBAN</label><br>
-			{{input value=model.iban type="text" autofocus="autofocus"}}
+			<label for="iban" class="col-sm-2 control-label">IBAN</label>
+		<div class="col-sm-4">	
+			{{input value=model.iban type="text" class="form-control" autofocus="autofocus"}}
+		</div>
 		</div> 
 
 		<div class="profileForm form-group">
-			<label>Ειδικότητα</label><br>
-			{{input value=model.specialtyID type="text" autofocus="autofocus"}}		
+			<label for="specialtyID" class="col-sm-2 control-label">Ειδικότητα</label>
+		<div class="col-sm-4">	
+			{{input value=model.specialtyID type="text" class="form-control" autofocus="autofocus"}}		
+		</div>
 		</div> 
 
 		<div class="profileForm form-group">
-			<label>Ιδιότητα</label><br>
-			{{input value=model.kind type="text" autofocus="autofocus"}}
+			<label for="kind" class="col-sm-2 control-label">Ιδιότητα</label>
+		<div class="col-sm-4">	
+			{{input value=model.kind type="text" class="form-control" autofocus="autofocus"}}
+		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label>ΑΦΜ</label><br>
-			{{input value=model.taxRegNum type="text" autofocus="autofocus"}}
+			<label for="taxRegNum" class="col-sm-2 control-label">ΑΦΜ</label>
+		<div class="col-sm-4">	
+			{{input value=model.taxRegNum type="text" class="form-control" autofocus="autofocus"}}
+		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label>ΔΟΥ</label><br>
-			{{input value=model.taxOffice type="text" autofocus="autofocus"}}
+			<label for="taxOffice" class="col-sm-2 control-label">ΔΟΥ</label>
+		<div class="col-sm-4">	
+			{{input value=model.taxOffice type="text" class="form-control" autofocus="autofocus"}}
+		</div>
 		</div>
 
 		<button type="save" class="btn btn-primary">Αποθήκευση Στοιχείων</button>
