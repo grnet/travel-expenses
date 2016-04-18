@@ -14,12 +14,12 @@
 		</div>
 
 		<div class="profileForm form-group">
-			<label>First Name</label><br>
+			<label>Όνομα</label><br>
 			{{input value=model.first_name type="text" autofocus="autofocus"}}
 		</div>
 
 		<div class="profileForm form-group">
-			<label>Last Name</label><br>
+			<label>Επώνυμο</label><br>
 			{{input value=model.last_name type="text" autofocus="autofocus"}}
 		</div>
 
@@ -29,24 +29,26 @@
 		</div> 
 
 		<div class="profileForm form-group">
-			<label>Specialty</label><br>
+			<label>Ειδικότητα</label><br>
 			{{input value=model.specialtyID type="text" autofocus="autofocus"}}		
 		</div> 
 
 		<div class="profileForm form-group">
-			<label>Kind</label><br>
+			<label>Ιδιότητα</label><br>
 			{{input value=model.kind type="text" autofocus="autofocus"}}
 		</div>
 
 		<div class="profileForm form-group">
-			<label>AFM</label><br>
+			<label>ΑΦΜ</label><br>
 			{{input value=model.taxRegNum type="text" autofocus="autofocus"}}
 		</div>
 
 		<div class="profileForm form-group">
-			<label>Tax-Office</label><br>
+			<label>ΔΟΥ</label><br>
 			{{input value=model.taxOffice type="text" autofocus="autofocus"}}
 		</div>
+
+		<button type="save" class="btn btn-primary">Αποθήκευση Στοιχείων</button>
 	</form>
 
 	<form class="form-horizontal col-md-5 rightForm"  {{action "petitionUpdate" on="submit"}}>	
@@ -54,8 +56,12 @@
 		<h4>Στοιχεία Αίτησης Ταξιδιού</h4><br>
 
 		<div class="profileForm form-group">
-			<label>Κατηγορία Μετακίνησης (Εσωτ/Εξωτ)</label><br>
-			{{input value=model.categoryOfTransport type="text" autofocus="autofocus"}}		
+			<label>Κατηγορία Μετακίνησης</label><br>
+			<select>
+  				<option value="inbound">Εσωτερικό</option>
+  				<option value="abroad">Εξωτερικό</option>
+			</select>
+			<!-- {{input value=model.categoryOfTransport type="text" autofocus="autofocus"}}		 -->
 		</div> 
 
 		<div class="profileForm form-group">
@@ -92,17 +98,17 @@
 
 		<div class="profileForm form-group">
 			<label>Προτεινόμενα Μέσα Μετακίνησης</label><br>
-			{{input value=model.recMeanOfTransport type="textarea" autofocus="autofocus"}}
+			{{textarea value=model.recMeanOfTransport type="text" autofocus="autofocus"}}
 		</div>
 
 		<div class="profileForm form-group">
 			<label>Προτεινόμενο Κατάλυμα</label><br>
-			{{input value=model.recHotel type="textarea" autofocus="autofocus"}}
+			{{textarea value=model.recHotel type="textarea" autofocus="autofocus"}}
 		</div>
 
 		<div class="profileForm form-group">
 			<label>Κόστος Συμμετοχής</label><br>
-			{{input value=model.recCostParticipation type="textarea" autofocus="autofocus"}}
+			{{textarea value=model.recCostParticipation type="textarea" autofocus="autofocus"}}
 		</div>
 
 		<button type="submit" class="btn btn-primary">Υποβολή Αίτησης</button>
