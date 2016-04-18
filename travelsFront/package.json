@@ -44,6 +44,7 @@
     "ember-resolver": "^2.0.3",
     "ember-simple-auth": "1.1.0-beta.3",
     "ember-simple-auth-token": "1.0.0",
+    "ember-text-limit": "0.1.0",
     "loader.js": "^4.0.0"
   },
   "dependencies": {
