@@ -98,17 +98,23 @@
 
 		<div class="profileForm form-group">
 			<label>Προτεινόμενα Μέσα Μετακίνησης</label><br>
+			{{#character-limit max=100}}
 			{{textarea value=model.recMeanOfTransport type="text" autofocus="autofocus"}}
+			{{/character-limit}}
 		</div>
 
 		<div class="profileForm form-group">
 			<label>Προτεινόμενο Κατάλυμα</label><br>
+			{{#character-limit max=100}}
 			{{textarea value=model.recHotel type="textarea" autofocus="autofocus"}}
+			{{/character-limit}}
 		</div>
 
 		<div class="profileForm form-group">
 			<label>Κόστος Συμμετοχής</label><br>
+			{{#character-limit max=100}}
 			{{textarea value=model.recCostParticipation type="textarea" autofocus="autofocus"}}
+			{{/character-limit}}
 		</div>
 
 		<button type="submit" class="btn btn-primary">Υποβολή Αίτησης</button>

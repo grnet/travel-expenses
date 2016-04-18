@@ -49,6 +49,9 @@ mv app/styles/app.css app/styles/app.scss
 ####Add Truth Helpers library
 * npm install ember-truth-helpers --save
 
+####Add ember-text-limit adon
+*  ember install ember-text-limit
+
 
 #### Run the app 
 cd /appDirectory
