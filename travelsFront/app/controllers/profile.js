@@ -21,6 +21,7 @@ export default Ember.Controller.extend({
 
 			let profileIsValid=this.get('model.validations.isValid')
 
+			console.log(this.get('models.validations.attrs.username.messages'))
 			if (profileIsValid) {
 				this.get('model').save();
 			}

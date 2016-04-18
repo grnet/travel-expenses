@@ -3,7 +3,11 @@ import DS from 'ember-data';
 import {validator, buildValidations} from 'ember-cp-validations';
 
 var Validations=buildValidations({
-	username: validator('presence', true),
+	username: [
+		validator('presence', true)
+		//validator('unique-username')
+	
+	],
 	password: [
 		validator('presence', true),
 		validator('length', {

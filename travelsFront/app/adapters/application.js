@@ -8,28 +8,46 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 	contentType: 'application/json',
 	dataType: 'json',
 	authorizer: 'authorizer:token',
-	
-	// headers: {
-	// 	withCredentials: true,
-	// 	"X-CSRFToken": 'qrxKb6Tn5C6JCj8EllYst2tsJqUfE3tT',
-	// 	username: 'admin',
-    //    	password: 'admin'
-    //    },
 
-    buildURL: function(modelName, id, snapshot, requestType, query) {
+
+	buildURL: function(modelName, id, snapshot, requestType, query) {
 
 		var url = this._super(modelName, id, snapshot, requestType, query);
-	
-      	if (modelName === "account" && requestType === "createRecord"){
-      		url = "http://127.0.0.1:8000/auth/register/";
-      	}
-      	else if (modelName === "profile") {
-      		url = "http://127.0.0.1:8000/auth/me/detailed/";
-      	}
 
-      	return url;
-    } 
-   
+		if (modelName === "account" && requestType === "createRecord" ){
+			url = "http://127.0.0.1:8000/auth/register/";
+		}
+		else if (modelName === "profile") {
+			url = "http://127.0.0.1:8000/auth/me/detailed/";
+		}
+
+		return url;
+	},
+	normalizeErrorResponse: function(store, primaryModelClass, payload,id,requestType) {
+		if (payload && typeof payload === 'object' && payload.errors) {
+			return payload.errors;
+		} else {
+			var username='';
+			if (payload.username!=null) {
+				username=payload.username[0];
+			}
+			var email='';
+
+			if (payload.email!=null) {
+				email=payload.email[0];
+			}
+
+			return [
+				{
+					username: username,
+					email: email
+				}
+			];
+		}
+	}
+
+
+
 });
 
 

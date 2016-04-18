@@ -3,10 +3,12 @@
 
 		<div class="signupForm">
 			<label>Username</label><br>
-			{{input value=username type="text"}}
+			{{input value=username type="text" key-up='clearUserErrorLabels'}}
 			{{#if (v-get model 'username' 'isInvalid') }}
 			<font color="red">{{v-get model 'username' 'message'}}</font>
+
 			{{/if}}
+			<font color="red">{{usernameExists}}</font>
 
 		</div>
 
@@ -21,11 +23,14 @@
 
 		<div class="signupForm">
 			<label>Email</label><br>
-			{{input value=email type="text"}}
+			{{input value=email type="text" key-up='clearEmailErrorLabels'}}
+
 			{{#if (v-get model 'email' 'isInvalid') }}
 			<font color="red">{{v-get model 'email' 'message'}}</font>
+
 			{{/if}}
 
+			<font color="red">{{emailProblems}}</font>
 		</div>
 
 		<div class="signupForm">
