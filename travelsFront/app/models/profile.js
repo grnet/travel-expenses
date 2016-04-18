@@ -6,7 +6,9 @@ var Validations=buildValidations({
 	email: [
 		validator('presence', true),
 		validator('format', { type: 'email' })
-	]
+	],
+	taxRegNum: validator('afm-validator'),
+
 });
 
 export default DS.Model.extend(Validations,{

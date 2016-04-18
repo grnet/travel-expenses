@@ -55,6 +55,11 @@
 		<div class="profileForm">
 			<label>AFM</label><br>
 			{{input value=model.taxRegNum type="text"}}
+			{{#if (v-get model 'taxRegNum' 'isInvalid') }}
+			<font color="red">{{v-get model 'taxRegNum' 'message'}}</font>
+			<!--<font color="red">{{message}}</font>-->
+			{{/if}}
+
 		</div>
 
 		<div class="profileForm">
