@@ -33,7 +33,7 @@ from serializers import MovementCategoriesSerializer
 from serializers import ProjectSerializer
 from serializers import TransportationSerializer
 from serializers import UserPetitionSerializer
-
+from custom_permissions import isAdminOrRead
 # from custom_permissions import IsOwnerOrAdmin
 from custom_permissions import isAdminOrRead
 logger = logging.getLogger(__name__)
