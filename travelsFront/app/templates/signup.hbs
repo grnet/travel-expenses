@@ -1,36 +1,36 @@
 <div class="container">
-
 	<form class="form-horizontal col-md-10"  {{action "signup" on="submit"}}>
 
-		<div class="signupForm">
-			<label>Username</label><br>
-			{{input value=username type="text" key-up='clearUserErrorLabels' autofocus="autofocus"}}
+		<div class="signupForm form-group">
+			<label for="username" class="col-sm-2 control-label">Username</label>
+		<div class="col-sm-4">  	
+			{{input value=username type="text" key-up='clearUserErrorLabels' class="form-control" autofocus="autofocus"}}
+		</div>	
 			{{#if (v-get model 'username' 'isInvalid') }}
 			<font color="red">{{v-get model 'username' 'message'}}</font>
 
 			{{/if}}
 			<font color="red">{{usernameExists}}</font>
-
 		</div>
 
 		<div class="signupForm form-group">
-			<label>Password</label><br>
-			{{input value=password type="password" autofocus="autofocus"}}
+			<label for="password" class="col-sm-2 control-label">Password</label>
+		<div class="col-sm-4">	
+			{{input value=password type="password" class="form-control" autofocus="autofocus"}}
+		</div>	
 			{{#if (v-get model 'password' 'isInvalid') }}
 			<font color="red">{{v-get model 'password' 'message'}}</font>
 			{{/if}}
-
 		</div> 
 
 		<div class="signupForm form-group">
-			<label>Email</label><br>
-			{{input value=email type="text" key-up='clearEmailErrorLabels' autofocus="autofocus"}}
-
+			<label for="email" class="col-sm-2 control-label">Email</label>
+		<div class="col-sm-4">	
+			{{input value=email type="text" key-up='clearEmailErrorLabels' class="form-control" autofocus="autofocus"}}
+		</div>	
 			{{#if (v-get model 'email' 'isInvalid') }}
 			<font color="red">{{v-get model 'email' 'message'}}</font>
-
 			{{/if}}
-
 			<font color="red">{{emailProblems}}</font>
 		</div>
 
@@ -40,7 +40,10 @@
 			{{/if}}
 
 		</div>
-		<button type="submit" class="btn btn-primary">Sign Up</button>
+
+		<div class="col-sm-offset-2">
+			<button type="submit" class="btn btn-primary">Sign Up</button>
+		</div>
 	</form>
 
 </div>

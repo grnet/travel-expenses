@@ -66,79 +66,98 @@
 			{{input value=model.taxOffice type="text" class="form-control" autofocus="autofocus"}}
 		</div>
 		</div>
-
-		<button type="save" class="btn btn-primary">Αποθήκευση Στοιχείων</button>
 	</form>
 
-	<form class="form-horizontal col-md-5 rightForm"  {{action "petitionUpdate" on="submit"}}>	
+	<form class="form-horizontal col-md-6 rightForm"  {{action "petitionUpdate" on="submit"}}>	
 
 		<h4>Στοιχεία Αίτησης Ταξιδιού</h4><br>
 
 		<div class="profileForm form-group">
-			<label>Κατηγορία Μετακίνησης</label><br>
+			<label for="categoryOfTransport" class="col-sm-4 control-label">Κατηγορία Μετακίνησης</label><br>
+		<div class="col-sm-8">	
 			<select>
   				<option value="inbound">Εσωτερικό</option>
   				<option value="abroad">Εξωτερικό</option>
 			</select>
 			<!-- {{input value=model.categoryOfTransport type="text" autofocus="autofocus"}}		 -->
+		</div>
 		</div> 
 
 		<div class="profileForm form-group">
-			<label>Έργο</label><br>
-			{{input value=model.project type="text" autofocus="autofocus"}}
+			<label for="project" class="col-sm-4 control-label">Έργο</label>
+		<div class="col-sm-8">	
+			{{input value=model.project type="text" class="form-control" autofocus="autofocus"}}
+		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label>Ημ/νία - Ώρα Έναρξης Εργασιών</label><br>
-			{{input value=model.taskStartDate type="date" autofocus="autofocus"}}
-			{{input value=model.taskStartTime type="time" autofocus="autofocus"}}
+			<label for="taskStartDate" class="col-sm-4 control-label">Ημ/νία - Ώρα Έναρξης Εργασιών</label>
+		<div class="col-sm-8">	
+			{{input value=model.taskStartDate type="date" class="form-control" autofocus="autofocus"}}
+			{{input value=model.taskStartTime type="time" class="form-control" autofocus="autofocus"}}
+		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label>Ημ/νία - Ώρα Λήξης Εργασιών</label><br>
-			{{input value=model.taskEndDate type="date" autofocus="autofocus"}}
-			{{input value=model.taskEndTime type="time" autofocus="autofocus"}}
+			<label for="taskEndDate" class="col-sm-4 control-label">Ημ/νία - Ώρα Λήξης Εργασιών</label>
+		<div class="col-sm-8">	
+			{{input value=model.taskEndDate type="date" class="form-control" autofocus="autofocus"}}
+			{{input value=model.taskEndTime type="time" class="form-control" autofocus="autofocus"}}
+		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label>Τόπος Αναχώρησης</label><br>
-			{{input value=model.departurePoint type="text" autofocus="autofocus"}}
+			<label for="departurePoint" class="col-sm-4 control-label">Τόπος Αναχώρησης</label>
+		<div class="col-sm-8">	
+			{{input value=model.departurePoint type="text" class="form-control" autofocus="autofocus"}}
+		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label>Τόπος Προορισμού</label><br>
-			{{input value=model.arrivalPoint type="text" autofocus="autofocus"}}
+			<label for="arrivalPoint" class="col-sm-4 control-label">Τόπος Προορισμού</label>
+		<div class="col-sm-8">	
+			{{input value=model.arrivalPoint type="text" class="form-control" autofocus="autofocus"}}
+		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label>Μέσο Μετακίνησης</label><br>
-			{{input value=model.meanOfTransport type="text" autofocus="autofocus"}}
+			<label for="meanOfTransport" class="col-sm-4 control-label">Μέσο Μετακίνησης</label>
+		<div class="col-sm-8">	
+			{{input value=model.meanOfTransport type="text" class="form-control" autofocus="autofocus"}}
+		</div>
 		</div> 
 
 		<div class="profileForm form-group">
-			<label>Προτεινόμενα Μέσα Μετακίνησης</label><br>
+			<label for="recMeanOfTransport" class="col-sm-4 control-label">Προτεινόμενα Μέσα Μετακίνησης</label>
+		<div class="col-sm-8">	
 			{{#character-limit max=100}}
-			{{textarea value=model.recMeanOfTransport type="text" autofocus="autofocus"}}
+			{{textarea value=model.recMeanOfTransport type="text" class="form-control" autofocus="autofocus"}}
 			{{/character-limit}}
+		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label>Προτεινόμενο Κατάλυμα</label><br>
+			<label for="recHotel" class="col-sm-4 control-label">Προτεινόμενο Κατάλυμα</label>
+		<div class="col-sm-8">	
 			{{#character-limit max=100}}
-			{{textarea value=model.recHotel type="textarea" autofocus="autofocus"}}
+			{{textarea value=model.recHotel type="textarea" class="form-control" autofocus="autofocus"}}
 			{{/character-limit}}
+		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label>Κόστος Συμμετοχής</label><br>
+			<label for="recCostParticipation" class="col-sm-4 control-label">Κόστος Συμμετοχής</label>
+		<div class="col-sm-8">	
 			{{#character-limit max=100}}
-			{{textarea value=model.recCostParticipation type="textarea" autofocus="autofocus"}}
+			{{textarea value=model.recCostParticipation type="textarea" class="form-control" autofocus="autofocus"}}
 			{{/character-limit}}
 		</div>
-
-		<button type="submit" class="btn btn-primary">Υποβολή Αίτησης</button>
-	</form>
-
+		</div>
+	</form><br>
+	
+	<button type="save" class="btn btn-primary">Αποθήκευση Στοιχείων</button>
+	<button type="submit" class="btn btn-primary">Υποβολή Αίτησης</button>
+	
 </div>
 
 {{outlet}}

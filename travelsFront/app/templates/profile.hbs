@@ -4,61 +4,58 @@
 	<form class="form-horizontal col-md-10"  {{action "profileUpdate" on="submit"}}>
 
 
-		<div class="profileForm form-group">
-			<label>Username</label><br>
-			{{input value=model.username type="text" autofocus="autofocus"}}
-		</div>
-
 
 		<div class="profileForm form-group">
-			<label>Email</label><br>
-
-			{{input value=model.email type="text"}}
-			{{#if (v-get model 'email' 'isInvalid') }}
-			<font color="red">{{v-get model 'email' 'message'}}</font>
-			<!--<font color="red">{{message}}</font>-->
-			{{/if}}
-			{{input value=model.email type="text" autofocus="autofocus"}}
-
+			<label for="email" class="col-sm-2 control-label">Email</label>
+		<div class="col-sm-4">
+			{{input value=model.email type="text" class="form-control" utofocus="autofocus"}}
+		</div>	
+		{{#if (v-get model 'email' 'isInvalid') }}
+		<font color="red">{{v-get model 'email' 'message'}}</font>
+		<!--<font color="red">{{message}}</font>-->
+		{{/if}}
 		</div>
 
 		<div class="profileForm form-group">
-			<label>Όνομα</label><br>
-			{{input value=model.first_name type="text" autofocus="autofocus"}}
+			<label for="first_name" class="col-sm-2 control-label">Όνομα</label>
+		<div class="col-sm-4"> 	
+			{{input value=model.first_name type="text" class="form-control" autofocus="autofocus"}}
+		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label>Επώνυμο</label><br>
-			{{input value=model.last_name type="text" autofocus="autofocus"}}
+			<label for="last_name" class="col-sm-2 control-label">Επώνυμο</label>
+		<div class="col-sm-4"> 	
+			{{input value=model.last_name type="text" class="form-control" autofocus="autofocus"}}
+		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label>IBAN</label><br>
-
-			{{input value=model.iban type="text"}}
-				{{#if (v-get model 'iban' 'isInvalid') }}
+			<label for="iban" class="col-sm-2 control-label">IBAN</label>
+		<div class="col-sm-4"> 
+			{{input value=model.iban type="text" class="form-control" autofocus="autofocus"}}
+		</div>	
+			{{#if (v-get model 'iban' 'isInvalid') }}
 			<font color="red">{{v-get model 'iban' 'message'}}</font>
-			{{/if}}
-
-			{{input value=model.iban type="text" autofocus="autofocus"}}
-
-		</div> 
+			{{/if}} 
+		</div>
 
 		<div class="profileForm form-group">
-			<label>Ειδικότητα</label><br>
+			<label for="specialty" class="col-sm-2 control-label">Ειδικότητα</label>
+		<div class="col-sm-4"> 	
 			
 			<select onchange={{action "setSpecialty" value="target.value"}}>
 				{{#each specialties as |specialtyChoice|}}
-
 				<option value={{specialtyChoice.id}} selected={{eq specialtyChoice.id model.specialtyID.id}}>{{specialtyChoice.name}}</option>
 
 				{{/each}}
 			</select>
 		</div> 
+		</div>
 
 		<div class="profileForm form-group">
-			<label>Ιδιότητα</label><br>
-
+			<label for="kind" class="col-sm-2 control-label">Ιδιότητα</label>
+		<div class="col-sm-4"> 	
 			<select onchange={{action "setKind" value="target.value"}}>
 				{{#each kinds as |kindChoice|}}
 
@@ -67,19 +64,21 @@
 				{{/each}}
 			</select>
 		</div>
+		</div>
 
 		<div class="profileForm form-group">
-
-			<label>ΑΦΜ</label><br>
-
-			{{input value=model.taxRegNum type="text" autofocus="autofocus"}}
+			<label for="taxRegNum" class="col-sm-2 control-label">ΑΦΜ</label>
+		<div class="col-sm-4">
+			{{input value=model.taxRegNum type="text" class="form-control" autofocus="autofocus"}}
+		</div>	
 			{{#if (v-get model 'taxRegNum' 'isInvalid') }}
 			<font color="red">{{v-get model 'taxRegNum' 'message'}}</font>
 			{{/if}}
 		</div>
 
 		<div class="profileForm form-group">
-			<label>ΔΟΥ</label><br>
+			<label for="taxOffice" class="col-sm-2 control-label">ΔΟΥ</label>
+		<div class="col-sm-4"> 	
 			<select onchange={{action "setTaxOffice" value="target.value"}}>
 				{{#each tax-offices  as |taxOfficeChoice|}}
 
@@ -87,11 +86,12 @@
 
 				{{/each}}
 			</select>
-
+		</div>	
 		</div>
 
-		<button type="submit" class="btn btn-primary" disabled={{v-get model 'isInvalid'}}>Submit</button>
-		<!--<button type="submit" class="btn btn-primary" >Submit</button>-->
+		<div class="col-sm-offset-2">
+			<button type="submit" class="btn btn-primary" disabled={{v-get model 'isInvalid'}}>Submit</button>
+		</div>	
 	</form>
 
 </div>
