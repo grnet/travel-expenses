@@ -52,18 +52,89 @@ class UserProfile(AbstractUser):
 class Accomondation(models.Model):
 
     """Docstring for Accomondation. """
-    hotel = models.CharField(max_length=200, blank=True, null=True)
-    hotelPrice = models.FloatFieldField(blank=True, null=True)
+    id = models.AutoField(primary_key=True)
+    hotel = models.CharField(max_length=200)
+    hotelPrice = models.FloatField(blank=True, null=True)
     checkInDate = models.DateField(blank=True, null=True)
     checkOutDate = models.DateField(blank=True, null=True)
 
 
-class Application(models.Model)
+class Project(models.Model):
+
+    """Docstring for Project. """
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200, blank=True, null=True)
+    accountingCode = models.CharField(max_length=20)
+
+    def __unicode__(self):
+        return self.name
+
+
+class MovementCategories(models.Model):
+
+    """Docstring for MovementCategories. """
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=20)
+
+    def __unicode__(self):
+        """TODO: to be defined1. """
+        return self.name
+
+
+class DeparturePoint(models.Model):
+
+    """Docstring for DeparturePoint. """
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=20)
+
+    def __unicode__(self):
+        """TODO: to be defined1. """
+        return self.name
+
+
+class ArrivalPoint(models.Model):
+
+    """Docstring for ArrivalPoint. """
+
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=20)
+
+    def __unicode__(self):
+        """TODO: to be defined1. """
+        return self.name
+
+
+class Transportation(models.Model):
+
+    """Docstring for Transportation. """
+
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=20)
+
+    def __unicode__(self):
+        """TODO: to be defined1. """
+        return self.name
+
+
+class Petition(models.Model):
 
     """Docstring for Travel Application. """
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(UserProfile)
     accomondation = models.ForeignKey(Accomondation, blank=True, null=True)
+    taskStartDate = models.DateTimeField(blank=True, null=True)
+    taskEndDate = models.DateTimeField(blank=True, null=True)
+    project = models.ForeignKey(Project)
+    reason = models.CharField(max_length=500, blank=True, null=True)
+    movementCategory = models.ForeignKey(
+        MovementCategories, blank=True, null=True)
+    departurePoint = models.ForeignKey(DeparturePoint, blank=True, null=True)
+    arrivalPoint = models.ForeignKey(ArrivalPoint, blank=True, null=True)
+    transportation = models.ForeignKey(Transportation, blank=True, null=True)
+    recTransport = models.CharField(max_length=200, blank=True, null=True)
+    recAccomondation = models.CharField(max_length=200, blank=True, null=True)
+    recCostParticipation = models.CharField(
+        max_length=200, blank=True, null=True)
 
     def __unicode__(self):
-        return self.name
+        return str(self.id) + "-" + self.project.name
