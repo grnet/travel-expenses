@@ -26,6 +26,10 @@
 		<div class="profileForm">
 			<label>IBAN</label><br>
 			{{input value=model.iban type="text"}}
+				{{#if (v-get model 'iban' 'isInvalid') }}
+			<font color="red">{{v-get model 'iban' 'message'}}</font>
+			{{/if}}
+
 		</div> 
 
 		<div class="profileForm">
@@ -57,7 +61,6 @@
 			{{input value=model.taxRegNum type="text"}}
 			{{#if (v-get model 'taxRegNum' 'isInvalid') }}
 			<font color="red">{{v-get model 'taxRegNum' 'message'}}</font>
-			<!--<font color="red">{{message}}</font>-->
 			{{/if}}
 
 		</div>

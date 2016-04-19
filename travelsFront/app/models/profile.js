@@ -8,6 +8,8 @@ var Validations=buildValidations({
 		validator('format', { type: 'email' })
 	],
 	taxRegNum: validator('afm-validator'),
+	iban: validator('iban-validator')
+
 
 });
 
