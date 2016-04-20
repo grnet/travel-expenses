@@ -153,6 +153,15 @@
 			{{/character-limit}}
 		</div>
 		</div>
+
+		<div class="profileForm form-group">
+			<label for="reasonOfTransport" class="col-sm-4 control-label">Αιτιολογία Μετακίνησης</label>
+		<div class="col-sm-8">	
+			{{#character-limit max=100}}
+			{{textarea value=model.reasonOfTransport type="textarea" class="form-control" autofocus="autofocus"}}
+			{{/character-limit}}
+		</div>
+		</div>
 	</form><br>
 	
 	<button type="save" class="btn btn-primary">Αποθήκευση Στοιχείων</button>
