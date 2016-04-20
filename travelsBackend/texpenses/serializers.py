@@ -138,7 +138,6 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user
-        print "validated date:" + str(validated_data)
         return Petition.objects.create(**validated_data)
 
     class Meta:
