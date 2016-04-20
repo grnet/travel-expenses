@@ -12,6 +12,7 @@ from models import MovementCategories
 from models import DeparturePoint
 from models import ArrivalPoint
 from models import Transportation
+
 User = get_user_model()
 
 
@@ -124,6 +125,11 @@ class TransportationSerializer(serializers.HyperlinkedModelSerializer):
 class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
     user = UserProfileSerializer()
+    # user = serializers.HyperlinkedRelatedField(
+        # view_name='user_detailed',
+        # lookup_field='username',
+        # read_only=True
+    # )
 
     class Meta:
         model = Petition
