@@ -4,6 +4,14 @@ export default Ember.Controller.extend({
 
 	session: Ember.inject.service('session'),
 
+	currUser: null,
+
+  	init: function() {
+    	this._super();
+  		this.get('store').findRecord('profile', 1).then((profile) => {
+    		this.set('currUser', profile);
+  		});
+  	},
 
 	actions: {
 		invalidateSession() {
@@ -19,7 +27,7 @@ export default Ember.Controller.extend({
 					self.get('session').invalidate();
 				},
 				error: function(request,error){
-					alert("Request: "+JSON.stringify(request));
+					alert("Request: " + JSON.stringify(request));
 				}
 			});
 		}
