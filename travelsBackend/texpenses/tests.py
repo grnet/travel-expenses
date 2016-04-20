@@ -115,6 +115,6 @@ class UserFormValidation(TestCase):
 
         """
         print "\nRunning afm validator test"
-        afm = 1234566789
+        afm = "00234566789"
         afm_validator(afm)
         print "============================"

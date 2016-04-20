@@ -9,17 +9,33 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
+
 from rest_framework_tracking.mixins import LoggingMixin
 from models import Specialty
 from models import TaxOffice
 from models import Kind
+from models import Petition
+from models import Accomondation
+from models import Project
+from models import MovementCategories
+from models import DeparturePoint
+from models import ArrivalPoint
+from models import Transportation
+
 from serializers import UserProfileSerializer
 from serializers import SpecialtySerializer
 from serializers import TaxOfficeSerializer
 from serializers import KindSerializer
 from serializers import CustomUserRegistrationSerializer
-# from custom_permissions import IsOwnerOrAdmin
+from serializers import AccomondationSerializer
+from serializers import ArrivalPointSerializer
+from serializers import DeparturePointSerializer
+from serializers import MovementCategoriesSerializer
+from serializers import ProjectSerializer
+from serializers import TransportationSerializer
+from serializers import UserPetitionSerializer
 from custom_permissions import isAdminOrRead
+from custom_permissions import IsOwnerOrAdmin
 logger = logging.getLogger(__name__)
 
 User = get_user_model()
@@ -107,8 +123,8 @@ class KindViewSet(LoggingMixin, viewsets.ModelViewSet):
     """API endpoint that allows specialty details to be viewed or edited """
 
     authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (IsAuthenticated, isAdminOrRead,
-                          DjangoModelPermissions,)
+    permission_classes = (
+        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = Kind.objects.all()
     serializer_class = KindSerializer
 
@@ -117,11 +133,86 @@ class TaxOfficeViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     """API endpoint that allows specialty details to be viewed or edited """
     authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (IsAuthenticated, isAdminOrRead,
-                          DjangoModelPermissions,)
+    permission_classes = (
+        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = TaxOffice.objects.all()
     serializer_class = TaxOfficeSerializer
 
 
 class CustomUserRegistrationView(LoggingMixin, djoser_views.RegistrationView):
     serializer_class = CustomUserRegistrationSerializer
+
+
+class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows accomondation details to be viewed or edited """
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
+    queryset = Accomondation.objects.all()
+    serializer_class = AccomondationSerializer
+
+
+class ProjectViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows project details to be viewed or edited """
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+
+
+class MovementCategoriesViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows movement  details to be viewed or edited """
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
+    queryset = MovementCategories.objects.all()
+    serializer_class = MovementCategoriesSerializer
+
+
+class DeparturePointViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows departure point to be viewed or edited """
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
+    queryset = DeparturePoint.objects.all()
+    serializer_class = DeparturePointSerializer
+
+
+class ArrivalPointViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows arrival point to be viewed or edited """
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
+    queryset = ArrivalPoint.objects.all()
+    serializer_class = ArrivalPointSerializer
+
+
+class TransportationViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows transportation to be viewed or edited """
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
+    queryset = Transportation.objects.all()
+    serializer_class = TransportationSerializer
+
+
+class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows transportation to be viewed or edited """
+
+    def create(self, request):
+        request.data['user'] = request.user
+        return super(UserPetitionViewSet, self).create(request)
+
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticated, IsOwnerOrAdmin,
+                          DjangoModelPermissions,)
+    queryset = Petition.objects.all()
+    serializer_class = UserPetitionSerializer
