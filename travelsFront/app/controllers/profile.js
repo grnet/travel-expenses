@@ -5,8 +5,7 @@ export default Ember.Controller.extend({
 	actions: {
 
 		profileUpdate(){
-			console.log('Hi there, please authorize me', this.get('model.taxRegNum'));
-
+			
 			// var profile = this.store.createRecord('profile',{
 			// 		type: 'profile',
 			// 		id: this.get('taxRegNum'), //the id will have to change
@@ -21,15 +20,15 @@ export default Ember.Controller.extend({
 
 			let profileIsValid=this.get('model.validations.isValid')
 
-			console.log(this.get('models.validations.attrs.username.messages'))
+			// console.log(this.get('models.validations.attrs.username.messages'))
 			if (profileIsValid) {
 				this.get('model').save();
 			}
-			else{
-				console.log("Profile is invalid");
-			}
-
-
+			// else{
+			// 	there we should put a warning message: ("Δεν έχετε συμπληρώσει όλα τα 
+			//  στοιχεία του προφίλ. Μπορείτε να σώσετε τα υπάρχοντα στοιχεία αλλά 
+			//  παρακαλούμε επιστρέψτε σύντομα για να ολοκληρώσετε τη διαδικασία");
+			// }
 		},
 
 		setSpecialty(id){
