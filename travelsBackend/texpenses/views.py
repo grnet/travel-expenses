@@ -9,6 +9,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
+
 from rest_framework_tracking.mixins import LoggingMixin
 from models import Specialty
 from models import TaxOffice
@@ -205,6 +206,11 @@ class TransportationViewSet(LoggingMixin, viewsets.ModelViewSet):
 class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     """API endpoint that allows transportation to be viewed or edited """
+
+    def create(self, request):
+        request.data['user'] = request.user
+        return super(UserPetitionViewSet, self).create(request)
+
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated, IsOwnerOrAdmin,
                           DjangoModelPermissions,)

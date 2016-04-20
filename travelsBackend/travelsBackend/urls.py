@@ -18,6 +18,7 @@ router_petition.register(
 router_petition.register(r'departure_point', views.DeparturePointViewSet)
 router_petition.register(r'arrival_point', views.ArrivalPointViewSet)
 router_petition.register(r'transportation', views.TransportationViewSet)
+# router_petition.register(r'user', views.PetitionUserView)
 router_petition.register(r'user_petition', views.UserPetitionViewSet)
 
 

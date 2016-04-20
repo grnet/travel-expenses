@@ -124,19 +124,38 @@ class TransportationSerializer(serializers.HyperlinkedModelSerializer):
 
 class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
-    user = UserProfileSerializer()
-    # user = serializers.HyperlinkedRelatedField(
-        # view_name='user_detailed',
-        # lookup_field='username',
-        # read_only=True
-    # )
+    # user = UserProfileSerializer()
+    # def create(self, validated_data):
+        # self.
+        # user = User.objects.create_user(**validated_data)
+        # group = Group.objects.get(name='USER')
+        # group.user_set.add(user)
+
+        # if settings.get('SEND_ACTIVATION_EMAIL'):
+            # user.is_active = False
+            # user.save(update_fields=['is_active'])
+        # return user
+
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        print "validated date:" + str(validated_data)
+        return Petition.objects.create(**validated_data)
 
     class Meta:
         model = Petition
-        fields = ('id', 'user', 'accomondation',
+        fields = ('id', 'accomondation',
                   'taskStartDate', 'taskEndDate',
                   'project', 'reason', 'movementCategory',
                   'departurePoint', 'arrivalPoint', 'transportation',
                   'recTransport', 'recAccomondation',
                   'recCostParticipation', 'url')
         read_only_fields = ('id',)
+
+
+# class UserProfilePetitionSerializer(serializers.HyperlinkedModelSerializer):
+
+    # class Meta:
+        # model = User
+        # fields = ('id', 'username', 'first_name', 'last_name',
+                  # 'email', 'password',
+                  # 'iban', 'specialtyID', 'taxRegNum', 'taxOffice')
