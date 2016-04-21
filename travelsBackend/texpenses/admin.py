@@ -10,6 +10,7 @@ from .models import MovementCategories
 from .models import Petition
 from .models import Project
 from .models import Transportation
+from .models import PetitionStatus
 
 # Register custom models here.
 
@@ -27,3 +28,4 @@ admin.site.register(MovementCategories)
 admin.site.register(Petition)
 admin.site.register(Project)
 admin.site.register(Transportation)
+admin.site.register(PetitionStatus)

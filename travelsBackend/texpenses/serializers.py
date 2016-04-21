@@ -12,6 +12,7 @@ from models import MovementCategories
 from models import DeparturePoint
 from models import ArrivalPoint
 from models import Transportation
+from models import PetitionStatus
 
 User = get_user_model()
 
@@ -122,6 +123,14 @@ class TransportationSerializer(serializers.HyperlinkedModelSerializer):
         read_only_fields = ('id', 'url')
 
 
+class PetitionStatusSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = PetitionStatus
+        fields = ('id', 'name', 'url')
+        read_only_fields = ('id', 'url')
+
+
 class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
     # user = UserProfileSerializer()
@@ -142,19 +151,11 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Petition
-        fields = ('id', 'accomondation',
+        fields = ('id', 'name', 'surname', 'iban', 'specialtyID', 'kind',
+                  'taxRegNum', 'taxOffice', 'accomondation',
                   'taskStartDate', 'taskEndDate',
                   'project', 'reason', 'movementCategory',
                   'departurePoint', 'arrivalPoint', 'transportation',
                   'recTransport', 'recAccomondation',
-                  'recCostParticipation', 'url')
-        read_only_fields = ('id', 'url')
-
-
-# class UserProfilePetitionSerializer(serializers.HyperlinkedModelSerializer):
-
-    # class Meta:
-        # model = User
-        # fields = ('id', 'username', 'first_name', 'last_name',
-                  # 'email', 'password',
-                  # 'iban', 'specialtyID', 'taxRegNum', 'taxOffice')
+                  'recCostParticipation', 'status', 'url')
+        read_only_fields = ('id', 'url', 'status')

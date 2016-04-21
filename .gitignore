@@ -24,3 +24,4 @@ travelsBackend/db.sqlite3
 *.js~
 *.swp
 *.hbs~
+*.py.swo

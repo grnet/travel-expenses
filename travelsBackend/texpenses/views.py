@@ -21,6 +21,7 @@ from models import MovementCategories
 from models import DeparturePoint
 from models import ArrivalPoint
 from models import Transportation
+from models import PetitionStatus
 
 from serializers import UserProfileSerializer
 from serializers import SpecialtySerializer
@@ -34,6 +35,7 @@ from serializers import MovementCategoriesSerializer
 from serializers import ProjectSerializer
 from serializers import TransportationSerializer
 from serializers import UserPetitionSerializer
+from serializers import PetitionStatusSerializer
 from custom_permissions import isAdminOrRead
 from custom_permissions import IsOwnerOrAdmin
 logger = logging.getLogger(__name__)
@@ -203,6 +205,16 @@ class TransportationViewSet(LoggingMixin, viewsets.ModelViewSet):
     serializer_class = TransportationSerializer
 
 
+class PetitionStatusViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows transportation to be viewed or edited """
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
+    queryset = PetitionStatus.objects.all()
+    serializer_class = PetitionStatusSerializer
+
+
 class UserPetitionViewSet(viewsets.ModelViewSet, LoggingMixin):
 
     """API endpoint that allows transportation to be viewed or edited """
@@ -215,13 +227,14 @@ class UserPetitionViewSet(viewsets.ModelViewSet, LoggingMixin):
     permission_classes = (IsAuthenticated, IsOwnerOrAdmin,
                           DjangoModelPermissions,)
     filter_backends = (filters.DjangoFilterBackend,
-                       filters.OrderingFilter)
+                       filters.OrderingFilter, filters.SearchFilter,)
     filter_fields = ('taskStartDate', 'taskEndDate', 'project',
                      'movementCategory', 'departurePoint', 'arrivalPoint',
-                     'transportation',)
+                     'transportation', 'surname', 'iban', 'taxRegNum',)
     ordering_fields = ('taskStartDate', 'taskEndDate', 'project',
                        'movementCategory', 'departurePoint', 'arrivalPoint',
-                       'transportation',)
+                       'transportation', 'surname', 'iban', 'taxRegNum',)
+    search_fields = ('name', 'surname',)
     ordering = ('project',)
 
     def get_queryset(self):

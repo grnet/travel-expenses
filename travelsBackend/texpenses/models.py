@@ -116,10 +116,32 @@ class Transportation(models.Model):
         return self.name
 
 
+class PetitionStatus(models.Model):
+
+    """Docstring for Petition status. """
+
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        """TODO: to be defined1. """
+        return self.name
+
+
 class Petition(models.Model):
 
     """Docstring for Travel Application. """
     id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200, blank=True, null=True)
+    surname = models.CharField(max_length=200, blank=True, null=True)
+    iban = models.CharField(max_length=200, blank=True, null=True,
+                            validators=[iban_validation])
+    specialtyID = models.ForeignKey(Specialty, blank=True, null=True)
+    taxRegNum = models.IntegerField(blank=True, null=True,
+                                    validators=[afm_validator])
+    taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
+    kind = models.ForeignKey(Kind, blank=True, null=True)
+
     user = models.ForeignKey(UserProfile)
     accomondation = models.ForeignKey(Accomondation, blank=True, null=True)
     taskStartDate = models.DateTimeField(blank=True, null=True)
@@ -135,6 +157,7 @@ class Petition(models.Model):
     recAccomondation = models.CharField(max_length=200, blank=True, null=True)
     recCostParticipation = models.CharField(
         max_length=200, blank=True, null=True)
+    status = models.ForeignKey(PetitionStatus, blank=True, null=True)
 
     def __unicode__(self):
         return str(self.id) + "-" + self.project.name
