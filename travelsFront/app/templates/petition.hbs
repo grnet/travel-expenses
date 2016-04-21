@@ -1,22 +1,8 @@
 <div class="container">
-<!-- 	<form class="form-horizontal col-md-6 leftForm" role="form" {{action "petitionUpdate" on="submit"}}>
+	<form class="form-horizontal col-md-12 leftForm" role="form" {{action "petitionUpdate" on="submit"}}>
 
+	<div class="col-md-6 leftForm">
 		<h4>Στοιχεία Προφίλ</h4><br>
-
-
-		<div class="profileForm form-group">
-			<label for="username" class="col-sm-2 control-label">Username</label>
-		<div class="col-sm-4">
-			{{input value=model.username type="text" class="form-control" autofocus="autofocus"}}
-		</div>
-		</div>
-
-		<div class="profileForm form-group">
-			<label for="email" class="col-sm-2 control-label">Email</label>
-		<div class="col-sm-4">
-			{{input value=model.email type="text" class="form-control" autofocus="autofocus"}}
-		</div>
-		</div>
 
 		<div class="profileForm form-group">
 			<label for="first_name" class="col-sm-2 control-label">Όνομα</label>
@@ -66,16 +52,20 @@
 			{{input value=model.taxOffice type="text" class="form-control" autofocus="autofocus"}}
 		</div>
 		</div>
-	</form> -->
+	</div>
 
-	<form class="form-horizontal col-md-6 rightForm"  {{action "petitionUpdate" on="submit"}}>	
+	<div class="col-md-6 rightForm">	
 
 		<h4>Στοιχεία Αίτησης Ταξιδιού</h4><br>
 
 		<div class="profileForm form-group">
-			<label for="categoryOfTransport" class="col-sm-4 control-label">Κατηγορία Μετακίνησης</label><br>
-		<div class="col-sm-8">	
-			
+			<label for="movementCategory" class="col-sm-4 control-label">Κατηγορία Μετακίνησης</label><br>
+		<div class="col-sm-8">
+			<select onchange={{action "setMovementCategory" value="target.value"}}>
+				{{#each movement-categories as |movementCategoryChoice|}}
+				<option value={{movementCategoryChoice.id}} selected={{eq movementCategoryChoice.id model.movementCategoryChoice.id}}>{{movementCategoryChoice.name}}</option>
+				{{/each}}
+			</select>				
 		</div>
 		</div> 
 
@@ -87,7 +77,6 @@
 				<option value={{projectChoice.id}} selected={{eq projectChoice.id model.projectChoice.id}}>{{projectChoice.name}}</option>
 				{{/each}}
 			</select>	
-			<!-- {{input value=model.project type="text" class="form-control" autofocus="autofocus"}} -->
 		</div>
 		</div>
 
@@ -109,24 +98,45 @@
 
 		<div class="profileForm form-group">
 			<label for="departurePoint" class="col-sm-4 control-label">Τόπος Αναχώρησης</label>
-		<div class="col-sm-8">	
-			{{input value=model.departure_point type="text" class="form-control" autofocus="autofocus"}}
+		<div class="col-sm-8">
+			<select onchange={{action "setDeparturePoint" value="target.value"}}>
+				{{#each departure-points as |departurePointChoice|}}
+				<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.id model.departurePointChoice.id}}>{{departurePointChoice.name}}</option>
+				{{/each}}
+			</select>	
 		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label for="arrival_point" class="col-sm-4 control-label">Τόπος Προορισμού</label>
+			<label for="arrivalPoint" class="col-sm-4 control-label">Τόπος Προορισμού</label>
 		<div class="col-sm-8">	
-			{{input value=model.arrival_point type="text" class="form-control" autofocus="autofocus"}}
+			<select onchange={{action "setArrivalPoint" value="target.value"}}>
+				{{#each arrival-points as |arrivalPointChoice|}}
+				<option value={{arrivalPointChoice.id}} selected={{eq arrivalPointChoice.id model.arrivalPointChoice.id}}>{{arrivalPointChoice.name}}</option>
+				{{/each}}
+			</select>
 		</div>
 		</div>
 
 		<div class="profileForm form-group">
 			<label for="transportation" class="col-sm-4 control-label">Μέσο Μετακίνησης</label>
 		<div class="col-sm-8">	
-			{{input value=model.transportation type="text" class="form-control" autofocus="autofocus"}}
+			<select onchange={{action "setTransportation" value="target.value"}}>
+				{{#each transportations as |transportationChoice|}}
+				<option value={{transportationChoice.id}} selected={{eq transportationChoice.id model.transportationChoice.id}}>{{transportationChoice.name}}</option>
+				{{/each}}
+			</select>
 		</div>
 		</div> 
+
+		<div class="profileForm form-group">
+			<label for="reason" class="col-sm-4 control-label">Αιτιολογία Μετακίνησης</label>
+		<div class="col-sm-8">	
+			{{#character-limit max=100}}
+			{{textarea value=model.reason type="textarea" class="form-control" autofocus="autofocus"}}
+			{{/character-limit}}
+		</div>
+		</div>
 
 		<div class="profileForm form-group">
 			<label for="recTransport" class="col-sm-4 control-label">Προτεινόμενα Μέσα Μετακίνησης</label>
@@ -154,15 +164,8 @@
 			{{/character-limit}}
 		</div>
 		</div>
-
-		<div class="profileForm form-group">
-			<label for="reason" class="col-sm-4 control-label">Αιτιολογία Μετακίνησης</label>
-		<div class="col-sm-8">	
-			{{#character-limit max=100}}
-			{{textarea value=model.reason type="textarea" class="form-control" autofocus="autofocus"}}
-			{{/character-limit}}
-		</div>
-		</div>
+	</div>	
+	
 	</form><br>
 	
 	<button type="save" class="btn btn-primary">Αποθήκευση Στοιχείων</button>

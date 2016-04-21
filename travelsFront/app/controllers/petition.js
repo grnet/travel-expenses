@@ -21,13 +21,13 @@ export default Ember.Controller.extend({
 
 		},
 
-		setCategoryOfTransport(id){
+		setMovementCategory(id){
 			var rec = this.store.peekRecord('movement-category', id);
 			this.get('model').set('movementCategory', rec);
 
 		},
 
-		setMeanOfTransport(id){
+		setTransportation(id){
 			var rec = this.store.peekRecord('transportation', id);
 			this.get('model').set('transportation', rec);
 

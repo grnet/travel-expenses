@@ -11,7 +11,7 @@ export default Ember.Route.extend({
 		controller.set('arrival-points', this.store.findAll('arrivalPoint'));
 		controller.set('departure-points', this.store.findAll('departurePoint'));
 		controller.set('movement-categories', this.store.findAll('movementCategory'));
-		controller.set('transportation', this.store.findAll('transportation'));
+		controller.set('transportations', this.store.findAll('transportation'));
 		controller.set('projects', this.store.findAll('project'));
 	}
 });
