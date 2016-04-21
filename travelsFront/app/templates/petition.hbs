@@ -1,5 +1,5 @@
 <div class="container">
-	<form class="form-horizontal col-md-6 leftForm" role="form" {{action "petitionUpdate" on="submit"}}>
+<!-- 	<form class="form-horizontal col-md-6 leftForm" role="form" {{action "petitionUpdate" on="submit"}}>
 
 		<h4>Στοιχεία Προφίλ</h4><br>
 
@@ -66,7 +66,7 @@
 			{{input value=model.taxOffice type="text" class="form-control" autofocus="autofocus"}}
 		</div>
 		</div>
-	</form>
+	</form> -->
 
 	<form class="form-horizontal col-md-6 rightForm"  {{action "petitionUpdate" on="submit"}}>	
 
@@ -75,18 +75,19 @@
 		<div class="profileForm form-group">
 			<label for="categoryOfTransport" class="col-sm-4 control-label">Κατηγορία Μετακίνησης</label><br>
 		<div class="col-sm-8">	
-			<select>
-  				<option value="inbound">Εσωτερικό</option>
-  				<option value="abroad">Εξωτερικό</option>
-			</select>
-			<!-- {{input value=model.categoryOfTransport type="text" autofocus="autofocus"}}		 -->
+			
 		</div>
 		</div> 
 
 		<div class="profileForm form-group">
 			<label for="project" class="col-sm-4 control-label">Έργο</label>
-		<div class="col-sm-8">	
-			{{input value=model.project type="text" class="form-control" autofocus="autofocus"}}
+		<div class="col-sm-8">
+			<select onchange={{action "setProject" value="target.value"}}>
+				{{#each projects as |projectChoice|}}
+				<option value={{projectChoice.id}} selected={{eq projectChoice.id model.projectChoice.id}}>{{projectChoice.name}}</option>
+				{{/each}}
+			</select>	
+			<!-- {{input value=model.project type="text" class="form-control" autofocus="autofocus"}} -->
 		</div>
 		</div>
 
@@ -109,38 +110,38 @@
 		<div class="profileForm form-group">
 			<label for="departurePoint" class="col-sm-4 control-label">Τόπος Αναχώρησης</label>
 		<div class="col-sm-8">	
-			{{input value=model.departurePoint type="text" class="form-control" autofocus="autofocus"}}
+			{{input value=model.departure_point type="text" class="form-control" autofocus="autofocus"}}
 		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label for="arrivalPoint" class="col-sm-4 control-label">Τόπος Προορισμού</label>
+			<label for="arrival_point" class="col-sm-4 control-label">Τόπος Προορισμού</label>
 		<div class="col-sm-8">	
-			{{input value=model.arrivalPoint type="text" class="form-control" autofocus="autofocus"}}
+			{{input value=model.arrival_point type="text" class="form-control" autofocus="autofocus"}}
 		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label for="meanOfTransport" class="col-sm-4 control-label">Μέσο Μετακίνησης</label>
+			<label for="transportation" class="col-sm-4 control-label">Μέσο Μετακίνησης</label>
 		<div class="col-sm-8">	
-			{{input value=model.meanOfTransport type="text" class="form-control" autofocus="autofocus"}}
+			{{input value=model.transportation type="text" class="form-control" autofocus="autofocus"}}
 		</div>
 		</div> 
 
 		<div class="profileForm form-group">
-			<label for="recMeanOfTransport" class="col-sm-4 control-label">Προτεινόμενα Μέσα Μετακίνησης</label>
+			<label for="recTransport" class="col-sm-4 control-label">Προτεινόμενα Μέσα Μετακίνησης</label>
 		<div class="col-sm-8">	
 			{{#character-limit max=100}}
-			{{textarea value=model.recMeanOfTransport type="text" class="form-control" autofocus="autofocus"}}
+			{{textarea value=model.recTransport type="text" class="form-control" autofocus="autofocus"}}
 			{{/character-limit}}
 		</div>
 		</div>
 
 		<div class="profileForm form-group">
-			<label for="recHotel" class="col-sm-4 control-label">Προτεινόμενο Κατάλυμα</label>
+			<label for="recAccomondation" class="col-sm-4 control-label">Προτεινόμενο Κατάλυμα</label>
 		<div class="col-sm-8">	
 			{{#character-limit max=100}}
-			{{textarea value=model.recHotel type="textarea" class="form-control" autofocus="autofocus"}}
+			{{textarea value=model.recAccomondation type="textarea" class="form-control" autofocus="autofocus"}}
 			{{/character-limit}}
 		</div>
 		</div>
@@ -155,10 +156,10 @@
 		</div>
 
 		<div class="profileForm form-group">
-			<label for="reasonOfTransport" class="col-sm-4 control-label">Αιτιολογία Μετακίνησης</label>
+			<label for="reason" class="col-sm-4 control-label">Αιτιολογία Μετακίνησης</label>
 		<div class="col-sm-8">	
 			{{#character-limit max=100}}
-			{{textarea value=model.reasonOfTransport type="textarea" class="form-control" autofocus="autofocus"}}
+			{{textarea value=model.reason type="textarea" class="form-control" autofocus="autofocus"}}
 			{{/character-limit}}
 		</div>
 		</div>
