@@ -1,6 +1,13 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
+	name: DS.attr(),
+	surname: DS.attr(),
+	iban: DS.attr(),
+	specialtyID: DS.belongsTo('specialty'),
+	kind: DS.belongsTo('kind'),
+	taxRegNum: DS.attr(),
+	taxOffice: DS.belongsTo('tax-office'),
 	taskStartDate: DS.attr(),
 	taskEndDate: DS.attr(),
 	departurePoint: DS.belongsTo('departure-point'),

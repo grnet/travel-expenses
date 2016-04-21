@@ -28,14 +28,25 @@
 		<div class="profileForm form-group">
 			<label for="specialtyID" class="col-sm-2 control-label">Ειδικότητα</label>
 		<div class="col-sm-4">	
-			{{input value=model.specialtyID type="text" class="form-control" autofocus="autofocus"}}		
+			<!-- <select onchange={{action "setSpecialty" value="target.value"}}>
+				{{#each specialties as |specialtyChoice|}}
+				<option value={{specialtyChoice.id}} selected={{eq specialtyChoice.id model.specialtyID.id}}>{{specialtyChoice.name}}</option>
+
+				{{/each}}
+			</select> -->		
 		</div>
 		</div> 
 
 		<div class="profileForm form-group">
 			<label for="kind" class="col-sm-2 control-label">Ιδιότητα</label>
 		<div class="col-sm-4">	
-			{{input value=model.kind type="text" class="form-control" autofocus="autofocus"}}
+			<!-- <select onchange={{action "setKind" value="target.value"}}>
+				{{#each kinds as |kindChoice|}}
+
+				<option value={{kindChoice.id}} selected={{eq kindChoice.id model.userKind.id}}>{{kindChoice.name}}</option>
+
+				{{/each}}
+			</select> -->
 		</div>
 		</div>
 
@@ -49,7 +60,13 @@
 		<div class="profileForm form-group">
 			<label for="taxOffice" class="col-sm-2 control-label">ΔΟΥ</label>
 		<div class="col-sm-4">	
-			{{input value=model.taxOffice type="text" class="form-control" autofocus="autofocus"}}
+			<!-- <select onchange={{action "setTaxOffice" value="target.value"}}>
+				{{#each tax-offices  as |taxOfficeChoice|}}
+
+				<option value={{taxOfficeChoice.id}} selected={{eq taxOfficeChoice.id model.taxOffice.id}}>{{taxOfficeChoice.name}}</option>
+
+				{{/each}}
+			</select> -->
 		</div>
 		</div>
 	</div>
