@@ -13,5 +13,8 @@ export default Ember.Route.extend({
 		controller.set('movement-categories', this.store.findAll('movementCategory'));
 		controller.set('transportations', this.store.findAll('transportation'));
 		controller.set('projects', this.store.findAll('project'));
+		controller.set('specialties', this.store.findAll('specialty'));
+		controller.set('kinds', this.store.findAll('kind'));
+		controller.set('tax-offices', this.store.findAll('taxOffice'));
 	}
 });
