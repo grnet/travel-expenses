@@ -3,8 +3,6 @@ import DS from 'ember-data';
 export default DS.Model.extend({
 	taskStartDate: DS.attr(),
 	taskEndDate: DS.attr(),
-	taskStartTime: DS.attr(),
-	taskEndTime: DS.attr(),
 	departurePoint: DS.belongsTo('departure-point'),
 	arrivalPoint: DS.belongsTo('arrival-point'),
 	transportation: DS.belongsTo('transportation'),
