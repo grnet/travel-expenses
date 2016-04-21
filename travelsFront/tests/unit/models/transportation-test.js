@@ -1,6 +1,6 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('mean-of-transport', 'Unit | Model | mean of transport', {
+moduleForModel('transportation', 'Unit | Model | transportation', {
   // Specify the other units that are required for this test.
   needs: []
 });
