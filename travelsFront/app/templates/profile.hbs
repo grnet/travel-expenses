@@ -6,7 +6,7 @@
 		<div class="profileForm form-group">
 			<label for="email" class="col-sm-2 control-label">Email</label>
 		<div class="col-sm-4">
-			{{input value=model.email type="text" class="form-control" utofocus="autofocus"}}
+			{{input value=model.email type="text" class="form-control" autofocus="autofocus"}}
 		</div>	
 		{{#if (v-get model 'email' 'isInvalid') }}
 		<font color="red">{{v-get model 'email' 'message'}}</font>

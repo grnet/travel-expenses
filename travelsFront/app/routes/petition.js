@@ -2,9 +2,9 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
 
-	// model() {
-	// 	return this.store.findRecord('petition',1); 
-	// },
+	 model() {
+		 return this.store.findRecord('petition',1); 
+	 },
 
 	setupController: function(controller, model) {
 		this._super(controller, model);
