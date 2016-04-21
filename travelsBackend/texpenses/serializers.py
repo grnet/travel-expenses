@@ -23,7 +23,7 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name',
+        fields = ('username', 'first_name', 'last_name',
                   'email', 'password',
                   'iban', 'specialtyID', 'kind', 'taxRegNum', 'taxOffice')
         read_only_fields = (
@@ -56,8 +56,8 @@ class TaxOfficeSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = TaxOffice
-        fields = ('name', 'kindDescription',
-                  'address', 'email', 'phone', 'id', 'url')
+        fields = ('name', 'kindDescription', 'address',
+                  'email', 'phone', 'id', 'url',)
 
 
 class CustomUserRegistrationSerializer(
@@ -159,3 +159,4 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'recTransport', 'recAccomondation',
                   'recCostParticipation', 'status', 'url')
         read_only_fields = ('id', 'url', 'status')
+
