@@ -79,7 +79,7 @@ class AccomondationSerializer(serializers.HyperlinkedModelSerializer):
         model = Accomondation
         fields = ('id', 'hotel', 'hotelPrice',
                   'checkInDate', 'checkOutDate', 'url')
-        read_only_fieldsd = ('id',)
+        read_only_fields = ('id', 'url',)
 
 
 class ProjectSerializer(serializers.HyperlinkedModelSerializer):
@@ -87,7 +87,7 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Project
         fields = ('id', 'name', 'accountingCode', 'url')
-        read_only_fieldsd = ('id',)
+        read_only_fields = ('id', 'url',)
 
 
 class MovementCategoriesSerializer(serializers.HyperlinkedModelSerializer):
@@ -95,7 +95,7 @@ class MovementCategoriesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = MovementCategories
         fields = ('id', 'name', 'url')
-        read_only_fieldsd = ('id',)
+        read_only_fields = ('id', 'url')
 
 
 class DeparturePointSerializer(serializers.HyperlinkedModelSerializer):
@@ -103,7 +103,7 @@ class DeparturePointSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = DeparturePoint
         fields = ('id', 'name', 'url')
-        read_only_fieldsd = ('id',)
+        read_only_fields = ('id', 'url')
 
 
 class ArrivalPointSerializer(serializers.HyperlinkedModelSerializer):
@@ -111,7 +111,7 @@ class ArrivalPointSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ArrivalPoint
         fields = ('id', 'name', 'url')
-        read_only_fieldsd = ('id',)
+        read_only_fields = ('id', 'url')
 
 
 class TransportationSerializer(serializers.HyperlinkedModelSerializer):
@@ -119,7 +119,7 @@ class TransportationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Transportation
         fields = ('id', 'name', 'url')
-        read_only_fieldsd = ('id',)
+        read_only_fields = ('id', 'url')
 
 
 class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
@@ -148,7 +148,7 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'departurePoint', 'arrivalPoint', 'transportation',
                   'recTransport', 'recAccomondation',
                   'recCostParticipation', 'url')
-        read_only_fields = ('id',)
+        read_only_fields = ('id', 'url')
 
 
 # class UserProfilePetitionSerializer(serializers.HyperlinkedModelSerializer):
