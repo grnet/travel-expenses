@@ -5,7 +5,7 @@ from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 from djoser import views as djoser_views
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
@@ -203,7 +203,7 @@ class TransportationViewSet(LoggingMixin, viewsets.ModelViewSet):
     serializer_class = TransportationSerializer
 
 
-class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
+class UserPetitionViewSet(viewsets.ModelViewSet, LoggingMixin):
 
     """API endpoint that allows transportation to be viewed or edited """
 
@@ -214,5 +214,21 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated, IsOwnerOrAdmin,
                           DjangoModelPermissions,)
-    queryset = Petition.objects.all()
+    filter_backends = (filters.DjangoFilterBackend,
+                       filters.OrderingFilter)
+    filter_fields = ('taskStartDate', 'taskEndDate', 'project',
+                     'movementCategory', 'departurePoint', 'arrivalPoint',
+                     'transportation',)
+    ordering_fields = ('taskStartDate', 'taskEndDate', 'project',
+                       'movementCategory', 'departurePoint', 'arrivalPoint',
+                       'transportation',)
+    ordering = ('project',)
+
+    def get_queryset(self):
+        request_user = self.request.user
+        if request_user.is_staff:
+            return Petition.objects.all()
+        else:
+            return Petition.objects.filter(user=request_user)
+
     serializer_class = UserPetitionSerializer
