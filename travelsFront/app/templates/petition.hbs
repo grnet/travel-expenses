@@ -13,6 +13,7 @@
 				<label for="movementCategory" class="col-sm-4 control-label">Κατηγορία Μετακίνησης</label><br>
 				<div class="col-sm-8">
 					<select onchange={{action "setMovementCategory" value="target.value"}}>
+						<option value=""></option>
 						{{#each movement-categories as |movementCategoryChoice|}}
 							<option value={{movementCategoryChoice.id}} selected={{eq movementCategoryChoice.id model.movementCategory.id}}>{{movementCategoryChoice.name}}</option>
 						{{/each}}
@@ -24,6 +25,7 @@
 				<label for="project" class="col-sm-4 control-label">Έργο</label>
 				<div class="col-sm-8">
 					<select onchange={{action "setProject" value="target.value"}}>
+						<option value=""></option>
 						{{#each projects as |projectChoice|}}
 							<option value={{projectChoice.id}} selected={{eq projectChoice.id model.project.id}}>{{projectChoice.name}}</option>
 						{{/each}}
@@ -49,6 +51,8 @@
 				<label for="departurePoint" class="col-sm-4 control-label">Τόπος Αναχώρησης</label>
 				<div class="col-sm-8">
 					<select onchange={{action "setDeparturePoint" value="target.value"}}>
+						<option value=""></option>
+
 						{{#each departure-points as |departurePointChoice|}}
 							<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.id model.departurePoint.id}}>{{departurePointChoice.name}}</option>
 						{{/each}}
@@ -60,6 +64,8 @@
 				<label for="arrivalPoint" class="col-sm-4 control-label">Τόπος Προορισμού</label>
 				<div class="col-sm-8">	
 					<select onchange={{action "setArrivalPoint" value="target.value"}}>
+						<option value=""></option>
+
 						{{#each arrival-points as |arrivalPointChoice|}}
 							<option value={{arrivalPointChoice.id}} selected={{eq arrivalPointChoice.id model.arrivalPoint.id}}>{{arrivalPointChoice.name}}</option>
 						{{/each}}
@@ -71,6 +77,8 @@
 				<label for="transportation" class="col-sm-4 control-label">Μέσο Μετακίνησης</label>
 				<div class="col-sm-8">	
 					<select onchange={{action "setTransportation" value="target.value"}}>
+						<option value=""></option>
+
 						{{#each transportations as |transportationChoice|}}
 							<option value={{transportationChoice.id}} selected={{eq transportationChoice.id model.transportation.id}}>{{transportationChoice.name}}</option>
 						{{/each}}

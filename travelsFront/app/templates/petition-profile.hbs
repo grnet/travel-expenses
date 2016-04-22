@@ -3,7 +3,7 @@
 		<div class="profileForm form-group">
 			<label for="first_name" class="col-sm-2 control-label">Όνομα</label>
 		<div class="col-sm-4">
-			{{input value=model.first_name type="text" class="form-control" autofocus="autofocus"}}
+			{{input value=profile.first_name type="text" class="form-control" autofocus="autofocus"}}
 		</div>
 		</div>
 
@@ -25,6 +25,8 @@
 			<label for="specialtyID" class="col-sm-2 control-label">Ειδικότητα</label>
 		<div class="col-sm-4">	
 			<select onchange={{action "setSpecialty" value="target.value"}}>
+				<option value=""></option>
+
 				{{#each specialties as |specialtyChoice|}}
 				<option value={{specialtyChoice.id}} selected={{eq specialtyChoice.id model.specialtyID.id}}>{{specialtyChoice.name}}</option>
 
@@ -37,6 +39,8 @@
 			<label for="kind" class="col-sm-2 control-label">Ιδιότητα</label>
 		<div class="col-sm-4">	
 			<select onchange={{action "setKind" value="target.value"}}>
+				<option value=""></option>
+
 				{{#each kinds as |kindChoice|}}
 
 				<option value={{kindChoice.id}} selected={{eq kindChoice.id model.userKind.id}}>{{kindChoice.name}}</option>

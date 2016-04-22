@@ -2,10 +2,20 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 
+	//currentUser: null,
+
+	//init: function() {
+		//this._super();
+		//this.get('store').findRecord('profile', 1).then((profile) => {
+			//this.set('currentUser', profile);
+		//});
+		//console.log(this.get('currentUser'))
+	//},
+
 	actions: {
 
 		profileUpdate(){
-			
+
 			// var profile = this.store.createRecord('profile',{
 			// 		type: 'profile',
 			// 		id: this.get('taxRegNum'), //the id will have to change

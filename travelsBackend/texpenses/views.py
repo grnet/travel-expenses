@@ -219,13 +219,10 @@ class UserPetitionViewSet(viewsets.ModelViewSet, LoggingMixin):
 
     """API endpoint that allows transportation to be viewed or edited """
 
-    def create(self, request):
-        request.data['user'] = request.user
-        return super(UserPetitionViewSet, self).create(request)
-
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated, IsOwnerOrAdmin,
                           DjangoModelPermissions,)
+
     filter_backends = (filters.DjangoFilterBackend,
                        filters.OrderingFilter, filters.SearchFilter,)
     filter_fields = ('taskStartDate', 'taskEndDate', 'project',
@@ -245,3 +242,7 @@ class UserPetitionViewSet(viewsets.ModelViewSet, LoggingMixin):
             return Petition.objects.filter(user=request_user)
 
     serializer_class = UserPetitionSerializer
+
+    def create(self, request):
+        request.data['user'] = request.user
+        return super(UserPetitionViewSet, self).create(request)

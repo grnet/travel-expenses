@@ -4,14 +4,14 @@ export default Ember.Controller.extend({
 
 	session: Ember.inject.service('session'),
 
-	currUser: null,
+	//currentUser: null,
 
-  	init: function() {
-    	this._super();
-  		this.get('store').findRecord('profile', 1).then((profile) => {
-    		this.set('currUser', profile);
-  		});
-  	},
+      //init: function() {
+        //this._super();
+          ////this.get('store').findRecord('profile', 1).then((profile) => {
+            ////this.set('currUser', profile);
+          ////});
+      //},
 
 	actions: {
 		invalidateSession() {

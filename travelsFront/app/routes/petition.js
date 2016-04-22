@@ -2,11 +2,9 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
 
-	 model() {
-		 //return this.store.findRecord('petition',1); 
-		 //console.log(this.store.findAll('petition').get('id'))
-		 return this.store.findAll('petition');
-	 },
+	model() {
+		return this.store.createRecord('petition');
+	},
 
 	setupController: function(controller, model) {
 		this._super(controller, model);
@@ -18,5 +16,7 @@ export default Ember.Route.extend({
 		controller.set('specialties', this.store.findAll('specialty'));
 		controller.set('kinds', this.store.findAll('kind'));
 		controller.set('tax-offices', this.store.findAll('taxOffice'));
+
+
 	}
 });
