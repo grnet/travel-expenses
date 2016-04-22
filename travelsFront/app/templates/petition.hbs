@@ -14,7 +14,7 @@
 				<div class="col-sm-8">
 					<select onchange={{action "setMovementCategory" value="target.value"}}>
 						{{#each movement-categories as |movementCategoryChoice|}}
-						<option value={{movementCategoryChoice.id}} selected={{eq movementCategoryChoice.id model.movementCategory.id}}>{{movementCategoryChoice.name}}</option>
+							<option value={{movementCategoryChoice.id}} selected={{eq movementCategoryChoice.id model.movementCategory.id}}>{{movementCategoryChoice.name}}</option>
 						{{/each}}
 					</select>				
 				</div>
@@ -25,7 +25,7 @@
 				<div class="col-sm-8">
 					<select onchange={{action "setProject" value="target.value"}}>
 						{{#each projects as |projectChoice|}}
-						<option value={{projectChoice.id}} selected={{eq projectChoice.id model.project.id}}>{{projectChoice.name}}</option>
+							<option value={{projectChoice.id}} selected={{eq projectChoice.id model.project.id}}>{{projectChoice.name}}</option>
 						{{/each}}
 					</select>	
 				</div>
@@ -50,7 +50,7 @@
 				<div class="col-sm-8">
 					<select onchange={{action "setDeparturePoint" value="target.value"}}>
 						{{#each departure-points as |departurePointChoice|}}
-						<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.id model.departurePoint.id}}>{{departurePointChoice.name}}</option>
+							<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.id model.departurePoint.id}}>{{departurePointChoice.name}}</option>
 						{{/each}}
 					</select>	
 				</div>
@@ -61,7 +61,7 @@
 				<div class="col-sm-8">	
 					<select onchange={{action "setArrivalPoint" value="target.value"}}>
 						{{#each arrival-points as |arrivalPointChoice|}}
-						<option value={{arrivalPointChoice.id}} selected={{eq arrivalPointChoice.id model.arrivalPoint.id}}>{{arrivalPointChoice.name}}</option>
+							<option value={{arrivalPointChoice.id}} selected={{eq arrivalPointChoice.id model.arrivalPoint.id}}>{{arrivalPointChoice.name}}</option>
 						{{/each}}
 					</select>
 				</div>
@@ -72,7 +72,7 @@
 				<div class="col-sm-8">	
 					<select onchange={{action "setTransportation" value="target.value"}}>
 						{{#each transportations as |transportationChoice|}}
-						<option value={{transportationChoice.id}} selected={{eq transportationChoice.id model.transportation.id}}>{{transportationChoice.name}}</option>
+							<option value={{transportationChoice.id}} selected={{eq transportationChoice.id model.transportation.id}}>{{transportationChoice.name}}</option>
 						{{/each}}
 					</select>
 				</div>
@@ -82,7 +82,7 @@
 				<label for="reason" class="col-sm-4 control-label">Αιτιολογία Μετακίνησης</label>
 				<div class="col-sm-8">	
 					{{#character-limit max=100}}
-					{{textarea value=model.reason type="textarea" class="form-control" autofocus="autofocus"}}
+						{{textarea value=model.reason type="textarea" class="form-control" autofocus="autofocus"}}
 					{{/character-limit}}
 				</div>
 			</div>
@@ -91,7 +91,7 @@
 				<label for="recTransport" class="col-sm-4 control-label">Προτεινόμενα Μέσα Μετακίνησης</label>
 				<div class="col-sm-8">	
 					{{#character-limit max=100}}
-					{{textarea value=model.recTransport type="text" class="form-control" autofocus="autofocus"}}
+						{{textarea value=model.recTransport type="text" class="form-control" autofocus="autofocus"}}
 					{{/character-limit}}
 				</div>
 			</div>
@@ -100,7 +100,7 @@
 				<label for="recAccomondation" class="col-sm-4 control-label">Προτεινόμενο Κατάλυμα</label>
 				<div class="col-sm-8">	
 					{{#character-limit max=100}}
-					{{textarea value=model.recAccomondation type="textarea" class="form-control" autofocus="autofocus"}}
+						{{textarea value=model.recAccomondation type="textarea" class="form-control" autofocus="autofocus"}}
 					{{/character-limit}}
 				</div>
 			</div>
@@ -109,7 +109,7 @@
 				<label for="recCostParticipation" class="col-sm-4 control-label">Κόστος Συμμετοχής</label>
 				<div class="col-sm-8">	
 					{{#character-limit max=100}}
-					{{textarea value=model.recCostParticipation type="textarea" class="form-control" autofocus="autofocus"}}
+						{{textarea value=model.recCostParticipation type="textarea" class="form-control" autofocus="autofocus"}}
 					{{/character-limit}}
 				</div>
 			</div>

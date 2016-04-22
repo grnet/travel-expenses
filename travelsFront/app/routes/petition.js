@@ -3,7 +3,9 @@ import Ember from 'ember';
 export default Ember.Route.extend({
 
 	 model() {
-		 return this.store.findRecord('petition',1); 
+		 //return this.store.findRecord('petition',1); 
+		 //console.log(this.store.findAll('petition').get('id'))
+		 return this.store.findAll('petition');
 	 },
 
 	setupController: function(controller, model) {
