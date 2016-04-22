@@ -21,6 +21,8 @@ router_petition.register(r'transportation', views.TransportationViewSet)
 # router_petition.register(r'user', views.PetitionUserView)
 router_petition.register(
     r'user_petition', views.UserPetitionViewSet, 'petition')
+router_petition.register(
+    r'petition_status', views.PetitionStatusViewSet)
 
 
 # Wire up our API using automatic URL routing.
