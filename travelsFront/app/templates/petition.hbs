@@ -31,6 +31,10 @@
 						{{/each}}
 					</select>	
 				</div>
+				{{#if (v-get model 'project' 'isInvalid') }}
+				<font color="red">{{v-get model 'project' 'message'}}</font>
+				{{/if}} 
+
 			</div>
 
 			<div class="profileForm form-group">
@@ -124,7 +128,7 @@
 			</div>
 		</div>	
 		<button type="save" class="btn btn-primary">Αποθήκευση Στοιχείων</button>
-		<button type="submit" class="btn btn-primary">Υποβολή Αίτησης</button>
+		<button type="submit" class="btn btn-primary" disabled={{v-get model 'isInvalid'}}>Υποβολή Αίτησης</button>
 
 
 	</form><br>

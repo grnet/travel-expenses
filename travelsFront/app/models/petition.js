@@ -3,22 +3,20 @@ import DS from 'ember-data';
 import {validator, buildValidations} from 'ember-cp-validations';
 
 var Validations=buildValidations({
-	email: [
-		validator('presence', true),
-		validator('format', { type: 'email' })
-	],
+	//email: [
+		//validator('presence', true),
+		//validator('format', { type: 'email' })
+	//],
 	taxRegNum: validator('afm-validator'),
 	iban: validator('iban-validator'),
 	project: [
 		validator('presence', true),
-
-
 	]
 
 
 });
 
-export default DS.Model.extend({
+export default DS.Model.extend(Validations,{
 	name: DS.attr(),
 	surname: DS.attr(),
 	iban: DS.attr(),
