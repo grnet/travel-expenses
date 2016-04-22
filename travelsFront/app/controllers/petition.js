@@ -4,10 +4,21 @@ export default Ember.Controller.extend({
 
 	actions: {
 
-		petitionUpdate(){
+		petitionCreate(){
+
+			var rec = this.store.peekRecord('petition-status', 'http://127.0.0.1:8000/petition/petition_status/1/');
+			this.get('model').set('status', rec);
+			console.log(rec.get('name'))
+			this.get('model').save();
+		},
+		petitionSave(){
+
+			var rec = this.store.peekRecord('petition-status', 2);
+			this.get('model').set('petitionStatus', rec);
 
 			this.get('model').save();
 		},
+
 
 		setArrivalPoint(id){
 			var rec = this.store.peekRecord('arrival-point', id);

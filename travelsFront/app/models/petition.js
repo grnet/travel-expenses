@@ -1,4 +1,22 @@
+import Ember from 'ember';
 import DS from 'ember-data';
+import {validator, buildValidations} from 'ember-cp-validations';
+
+var Validations=buildValidations({
+	email: [
+		validator('presence', true),
+		validator('format', { type: 'email' })
+	],
+	taxRegNum: validator('afm-validator'),
+	iban: validator('iban-validator'),
+	project: [
+		validator('presence', true),
+
+
+	]
+
+
+});
 
 export default DS.Model.extend({
 	name: DS.attr(),
@@ -17,7 +35,7 @@ export default DS.Model.extend({
 	project: DS.belongsTo('project'),
 	reason: DS.attr(),
 	recTransport: DS.attr(),
- 	recAccomondation: DS.attr(),
- 	recCostParticipation: DS.attr(),
- 	petitionStatus: DS.belongsTo('petition-status')
+	recAccomondation: DS.attr(),
+	recCostParticipation: DS.attr(),
+	status: DS.belongsTo('petition-status')
 });
