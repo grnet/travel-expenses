@@ -158,5 +158,4 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'departurePoint', 'arrivalPoint', 'transportation',
                   'recTransport', 'recAccomondation',
                   'recCostParticipation', 'status', 'url')
-        read_only_fields = ('id', 'url', 'status')
-
+        read_only_fields = ('id', 'url',)

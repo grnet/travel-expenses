@@ -215,7 +215,7 @@ class PetitionStatusViewSet(LoggingMixin, viewsets.ModelViewSet):
     serializer_class = PetitionStatusSerializer
 
 
-class UserPetitionViewSet(viewsets.ModelViewSet, LoggingMixin):
+class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     """API endpoint that allows transportation to be viewed or edited """
 
