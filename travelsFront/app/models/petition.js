@@ -18,5 +18,6 @@ export default DS.Model.extend({
 	reason: DS.attr(),
 	recTransport: DS.attr(),
  	recAccomondation: DS.attr(),
- 	recCostParticipation: DS.attr()
+ 	recCostParticipation: DS.attr(),
+ 	petitionStatus: DS.belongsTo('petition-status')
 });
