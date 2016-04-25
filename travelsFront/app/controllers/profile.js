@@ -32,7 +32,13 @@ export default Ember.Controller.extend({
 
 			// console.log(this.get('models.validations.attrs.username.messages'))
 			if (profileIsValid) {
-				this.get('model').save();
+				//this.get('model').save();
+
+				var self=this;
+				this.get('model').save().then(function(value) {
+
+					self.set('message','Τα στοιχεία του προφίλ σας έχουν αποθηκευθεί επιτυχώς !');
+				});
 			}
 			// else{
 			// 	there we should put a warning message: ("Δεν έχετε συμπληρώσει όλα τα 
