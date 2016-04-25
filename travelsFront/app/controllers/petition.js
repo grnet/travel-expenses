@@ -32,7 +32,13 @@ export default Ember.Controller.extend({
 			let profileIsValid=this.get('model.validations.isValid')
 
 			if (profileIsValid) {
-				this.get('model').save();
+				//this.get('model').save();
+
+				var self=this;
+				this.get('model').save().then(function(value) {
+
+					self.set('message','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
+				});
 			}
 		},
 		petitionSubmit(){
@@ -60,7 +66,13 @@ export default Ember.Controller.extend({
 			let profileIsValid=this.get('model.validations.isValid')
 
 			if (profileIsValid) {
-				this.get('model').save();
+				//this.get('model').save();
+
+				var self=this;
+				this.get('model').save().then(function(value) {
+
+					self.set('message','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
+				});
 			}
 		},
 		setArrivalPoint(id){
