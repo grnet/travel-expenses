@@ -12,6 +12,7 @@ Router.map(function() {
   this.route('specialty');
   this.route('kind');
   this.route('petition');
+  this.route('petitionList');
 });
 
 export default Router;
