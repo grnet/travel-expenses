@@ -34,15 +34,15 @@
 			<font color="red">{{emailProblems}}</font>
 		</div>
 
+		<div class="col-sm-offset-2">
+			<button type="submit" class="btn btn-primary">Sign Up</button>
+		</div>
+
 		<div class="signupForm">
 			{{#if (v-get model 'isValid') }}
 			<font color="green">{{message}}</font>
 			{{/if}}
 
-		</div>
-
-		<div class="col-sm-offset-2">
-			<button type="submit" class="btn btn-primary">Sign Up</button>
 		</div>
 	</form>
 
