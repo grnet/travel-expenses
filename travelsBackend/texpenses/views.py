@@ -219,6 +219,7 @@ class PetitionStatusViewSet(LoggingMixin, viewsets.ModelViewSet):
 class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     """API endpoint that allows transportation to be viewed or edited """
+    petition_status = "http://localhost:8000/petition/petition_status/2/"
 
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated, IsOwnerOrAdmin,
@@ -280,11 +281,19 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
     def create(self, request):
         request.data['user'] = request.user
         print request.data
-        return super(UserPetitionViewSet, self).create(request)
 
-        # if self.checkDataCompleteness(request):
-            # return super(UserPetitionViewSet, self).create(request)
-        # else:
-            # return Response({'error': 'Petition is not complete,\
-                             # please insert all mandatory fields'},
-                            # status=status.HTTP_400_BAD_REQUEST)
+        # return super(UserPetitionViewSet, self).create(request)
+        chosen_status = request.data['status']
+        print "Chosen status:" + str(chosen_status)
+        if chosen_status == self.petition_status:
+            if self.checkDataCompleteness(request):
+                return super(UserPetitionViewSet, self).create(request)
+            else:
+                return Response({'error': 'Petition is not complete,\
+                                 please insert all mandatory fields'},
+                                status=status.HTTP_400_BAD_REQUEST)
+        if chosen_status is None:
+            return Response({'error': 'Petition status is not set'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        return super(UserPetitionViewSet, self).create(request)

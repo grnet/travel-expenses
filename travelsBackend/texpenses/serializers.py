@@ -127,8 +127,8 @@ class PetitionStatusSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = PetitionStatus
-        fields = ('id', 'name','url')
-        read_only_fields = ('id','url',)
+        fields = ('id', 'name', 'url')
+        read_only_fields = ('id', 'url')
 
 
 class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
