@@ -2,13 +2,32 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 
+
+
 	actions: {
 
 		petitionSave(){
 
 			var rec = this.store.peekRecord('petition-status', 'http://127.0.0.1:8000/petition/petition_status/1/');
+			var pet_name=this.get('profile.first_name');	
+			var pet_surname=this.get('profile.last_name');
+			var pet_iban=this.get('profile.iban');
+			var pet_specialty=this.get('profile.specialtyID');
+			var pet_kind=this.get('profile.kind');
+			var pet_taxNum=this.get('profile.taxRegNum');
+			var pet_taxOffice=this.get('profile.taxOffice');
+
+
 			this.get('model').set('status', rec);
-			console.log(rec.get('name'))
+			this.get('model').set('name', pet_name);
+			this.get('model').set('surname',pet_surname);
+			this.get('model').set('iban', pet_iban);
+			this.get('model').set('specialtyID', pet_specialty);
+			this.get('model').set('kind', pet_kind);
+			this.get('model').set('taxRegNum', pet_taxNum);
+			this.get('model').set('taxOffice', pet_taxOffice);
+
+			this.get('model').set('status', rec);
 
 			let profileIsValid=this.get('model.validations.isValid')
 
@@ -19,8 +38,24 @@ export default Ember.Controller.extend({
 		petitionSubmit(){
 
 			var rec = this.store.peekRecord('petition-status', 'http://127.0.0.1:8000/petition/petition_status/2/');
+
+			var pet_name=this.get('profile.first_name');	
+			var pet_surname=this.get('profile.last_name');
+			var pet_iban=this.get('profile.iban');
+			var pet_specialty=this.get('profile.specialtyID');
+			var pet_kind=this.get('profile.kind');
+			var pet_taxNum=this.get('profile.taxRegNum');
+			var pet_taxOffice=this.get('profile.taxOffice');
+
+
 			this.get('model').set('status', rec);
-			console.log(rec.get('name'))
+			this.get('model').set('name', pet_name);
+			this.get('model').set('surname',pet_surname);
+			this.get('model').set('iban', pet_iban);
+			this.get('model').set('specialtyID', pet_specialty);
+			this.get('model').set('kind', pet_kind);
+			this.get('model').set('taxRegNum', pet_taxNum);
+			this.get('model').set('taxOffice', pet_taxOffice);
 
 			let profileIsValid=this.get('model.validations.isValid')
 
@@ -28,8 +63,6 @@ export default Ember.Controller.extend({
 				this.get('model').save();
 			}
 		},
-
-
 		setArrivalPoint(id){
 			var rec = this.store.peekRecord('arrival-point', id);
 			this.get('model').set('arrivalPoint', rec);
