@@ -18,5 +18,6 @@ export default Ember.Route.extend({
 		controller.set('tax-offices', this.store.findAll('taxOffice'));
 		controller.set('petition-statuses', this.store.findAll('petition-status'));
 		controller.set('profile',this.store.findRecord('profile',1));
+
 	}
 });

@@ -1,13 +1,12 @@
-<h1>Hello</h1>
+<h5>Λίστα Αιτήσεων: </h5>
 
-
-<!-- <ul>
-  {{#each petition in petitionList}}
+<ul>
+  {{#each model in petition}}
   <li>
-    {{user.lastName}} {{user.firstName}}
-    {{#linkTo "users.edit" user class="btn btn-primary btn-small"}}EDIT{{/linkTo}}
+    {{petition.projectChoice.id}}
+    {{#link-to "petition" class="btn btn-success btn-small"}}Νέα Αίτηση{{/link-to}}
   </li>
   {{/each}}
-</ul> -->
+</ul>
 
 {{outlet}}
