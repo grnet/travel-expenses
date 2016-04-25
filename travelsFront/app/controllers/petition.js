@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
 
 		petitionSave(){
 
-			var rec = this.store.peekRecord('petition-status', '1');
+			var rec = this.store.peekRecord('petition-status', 'http://localhost:8000/petition/petition_status/1/');
 			var pet_name=this.get('profile.first_name');	
 			var pet_surname=this.get('profile.last_name');
 			var pet_iban=this.get('profile.iban');
@@ -43,7 +43,7 @@ export default Ember.Controller.extend({
 		},
 		petitionSubmit(){
 
-			var rec = this.store.peekRecord('petition-status', '2');
+			var rec = this.store.peekRecord('petition-status', 'http://localhost:8000/petition/petition_status/2/');
 
 			var pet_name=this.get('profile.first_name');	
 			var pet_surname=this.get('profile.last_name');

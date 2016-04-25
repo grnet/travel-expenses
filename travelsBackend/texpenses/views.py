@@ -280,10 +280,11 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
     def create(self, request):
         request.data['user'] = request.user
         print request.data
+        return super(UserPetitionViewSet, self).create(request)
 
-        if self.checkDataCompleteness(request):
-            return super(UserPetitionViewSet, self).create(request)
-        else:
-            return Response({'error': 'Petition is not complete,\
-                             please insert all mandatory fields'},
-                            status=status.HTTP_400_BAD_REQUEST)
+        # if self.checkDataCompleteness(request):
+            # return super(UserPetitionViewSet, self).create(request)
+        # else:
+            # return Response({'error': 'Petition is not complete,\
+                             # please insert all mandatory fields'},
+                            # status=status.HTTP_400_BAD_REQUEST)
