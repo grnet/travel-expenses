@@ -4,7 +4,7 @@ export default Ember.Controller.extend({
 
 	actions: {
 
-		petitionCreate(){
+		petitionSave(){
 
 			var rec = this.store.peekRecord('petition-status', 'http://127.0.0.1:8000/petition/petition_status/1/');
 			this.get('model').set('status', rec);
@@ -16,12 +16,17 @@ export default Ember.Controller.extend({
 				this.get('model').save();
 			}
 		},
-		petitionSave(){
+		petitionSubmit(){
 
-			var rec = this.store.peekRecord('petition-status', 2);
-			this.get('model').set('petitionStatus', rec);
+			var rec = this.store.peekRecord('petition-status', 'http://127.0.0.1:8000/petition/petition_status/2/');
+			this.get('model').set('status', rec);
+			console.log(rec.get('name'))
 
-			this.get('model').save();
+			let profileIsValid=this.get('model.validations.isValid')
+
+			if (profileIsValid) {
+				this.get('model').save();
+			}
 		},
 
 
