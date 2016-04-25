@@ -123,12 +123,12 @@ class TransportationSerializer(serializers.HyperlinkedModelSerializer):
         read_only_fields = ('id', 'url')
 
 
-class PetitionStatusSerializer(serializers.HyperlinkedModelSerializer):
+class PetitionStatusSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PetitionStatus
-        fields = ('id', 'name', 'url')
-        read_only_fields = ('id', 'url')
+        fields = ('id', 'name')
+        read_only_fields = ('id')
 
 
 class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):

@@ -5,7 +5,8 @@ from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 from djoser import views as djoser_views
-from rest_framework import viewsets, filters
+from rest_framework import viewsets, filters, status
+from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
@@ -243,6 +244,46 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     serializer_class = UserPetitionSerializer
 
+    def checkDataCompleteness(self, request):
+        """TODO: Docstring for checkDataCompleteness.
+
+        :request: TODO
+        :returns: TODO
+
+        """
+        try:
+            name = request.data['name']
+            surname = request.data['surname']
+            iban = request.data['iban']
+            specialtyID = request.data['specialtyID']
+            taxRegNum = request.data['taxRegNum']
+            taxOffice = request.data['taxOffice']
+            kind = request.data['kind']
+            taskStartDate = request.data['taskStartDate']
+            taskEndDate = request.data['taskEndDate']
+            project = request.data['project']
+            reason = request.data['reason']
+            movementCategory = request.data['movementCategory']
+            departurePoint = request.data['departureCategory']
+            arrivalPoint = request.data['arrivalPoint']
+            transportation = request.data['transportation']
+        except KeyError:
+            return False
+
+        values = request.data.values()
+
+        if None in values or '' in values:
+            return False
+
+        return True
+
     def create(self, request):
         request.data['user'] = request.user
-        return super(UserPetitionViewSet, self).create(request)
+        print request.data
+
+        if self.checkDataCompleteness(request):
+            return super(UserPetitionViewSet, self).create(request)
+        else:
+            return Response({'error': 'Petition is not complete,\
+                             please insert all mandatory fields'},
+                            status=status.HTTP_400_BAD_REQUEST)
