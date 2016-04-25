@@ -219,7 +219,7 @@ class PetitionStatusViewSet(LoggingMixin, viewsets.ModelViewSet):
 class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     """API endpoint that allows transportation to be viewed or edited """
-    petition_status = "http://localhost:8000/petition/petition_status/2/"
+    petition_status = "http://127.0.0.1:8000/petition/petition_status/2/"
 
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated, IsOwnerOrAdmin,
