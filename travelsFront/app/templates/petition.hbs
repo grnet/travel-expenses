@@ -12,7 +12,7 @@
 			<div class="profileForm form-group">
 				<label for="movementCategory" class="col-sm-4 control-label">Κατηγορία Μετακίνησης</label><br>
 				<div class="col-sm-8">
-					<select onchange={{action "setMovementCategory" value="target.value"}}>
+					<select onchange={{action "setMovementCategory" value="target.value"}} class="form-control">
 						<option value=""></option>
 						{{#each movement-categories as |movementCategoryChoice|}}
 							<option value={{movementCategoryChoice.id}} selected={{eq movementCategoryChoice.id model.movementCategory.id}}>{{movementCategoryChoice.name}}</option>
@@ -24,7 +24,7 @@
 			<div class="profileForm form-group">
 				<label for="project" class="col-sm-4 control-label">Έργο</label>
 				<div class="col-sm-8">
-					<select onchange={{action "setProject" value="target.value"}}>
+					<select onchange={{action "setProject" value="target.value"}} class="form-control">
 						<option value=""></option>
 						{{#each projects as |projectChoice|}}
 							<option value={{projectChoice.id}} selected={{eq projectChoice.id model.project.id}}>{{projectChoice.name}}</option>
@@ -54,7 +54,7 @@
 			<div class="profileForm form-group">
 				<label for="departurePoint" class="col-sm-4 control-label">Τόπος Αναχώρησης</label>
 				<div class="col-sm-8">
-					<select onchange={{action "setDeparturePoint" value="target.value"}}>
+					<select onchange={{action "setDeparturePoint" value="target.value"}} class="form-control">
 						<option value=""></option>
 
 						{{#each departure-points as |departurePointChoice|}}
@@ -67,7 +67,7 @@
 			<div class="profileForm form-group">
 				<label for="arrivalPoint" class="col-sm-4 control-label">Τόπος Προορισμού</label>
 				<div class="col-sm-8">	
-					<select onchange={{action "setArrivalPoint" value="target.value"}}>
+					<select onchange={{action "setArrivalPoint" value="target.value"}} class="form-control">
 						<option value=""></option>
 
 						{{#each arrival-points as |arrivalPointChoice|}}
@@ -81,7 +81,7 @@
 			<div class="profileForm form-group">
 				<label for="transportation" class="col-sm-4 control-label">Μέσο Μετακίνησης</label>
 				<div class="col-sm-8">	
-					<select onchange={{action "setTransportation" value="target.value"}}>
+					<select onchange={{action "setTransportation" value="target.value"}} class="form-control"> 
 						<option value=""></option>
 
 						{{#each transportations as |transportationChoice|}}

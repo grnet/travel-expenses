@@ -42,7 +42,7 @@
 			<label for="specialty" class="col-sm-2 control-label">Ειδικότητα</label>
 		<div class="col-sm-4"> 	
 			
-			<select onchange={{action "setSpecialty" value="target.value"}}>
+			<select onchange={{action "setSpecialty" value="target.value"}} class="form-control">
 				<option value=""></option>
 				{{#each specialties as |specialtyChoice|}}
 				<option value={{specialtyChoice.id}} selected={{eq specialtyChoice.id model.specialtyID.id}}>{{specialtyChoice.name}}</option>
@@ -56,7 +56,7 @@
 			<label for="kind" class="col-sm-2 control-label">Ιδιότητα</label>
 		<div class="col-sm-4"> 
 
-			<select onchange={{action "setKind" value="target.value"}}>
+			<select onchange={{action "setKind" value="target.value"}} class="form-control">
 				<option value=""></option>
 				{{#each kinds as |kindChoice|}}
 				<option value={{kindChoice.id}} selected={{eq kindChoice.id model.kind.id}}>{{kindChoice.name}}</option>
@@ -79,7 +79,7 @@
 		<div class="profileForm form-group">
 			<label for="taxOffice" class="col-sm-2 control-label">ΔΟΥ</label>
 		<div class="col-sm-4"> 	
-			<select onchange={{action "setTaxOffice" value="target.value"}}>
+			<select onchange={{action "setTaxOffice" value="target.value"}} class="form-control">
 				<option value=""></option>
 
 					{{#each tax-offices  as |taxOfficeChoice|}}
