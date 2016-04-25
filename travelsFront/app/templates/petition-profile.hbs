@@ -70,6 +70,7 @@
 	<label for="taxOffice" class="col-sm-2 control-label">ΔΟΥ</label>
 	<div class="col-sm-4">	
 		<select onchange={{action "setTaxOffice" value="target.value"}}>
+			<option value=""></option>
 			{{#each tax-offices  as |taxOfficeChoice|}}
 
 			<option value={{taxOfficeChoice.id}} selected={{eq taxOfficeChoice.id profile.taxOffice.id}}>{{taxOfficeChoice.name}}</option>
