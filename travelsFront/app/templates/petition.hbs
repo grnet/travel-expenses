@@ -132,10 +132,14 @@
 
 		<div class="profileForm">
 			{{#if (v-get model 'isValid') }}
+			{{#if statePetition}}
 			<font color="green">{{message}}</font>
+			{{else}}
+			<font color="red">{{message}}</font>
 			{{/if}}
-
+			{{/if}}
 		</div>
+
 	</form><br>
 
 </div>

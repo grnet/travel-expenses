@@ -11,6 +11,7 @@ export default Ember.Controller.extend({
 		//});
 		//console.log(this.get('currentUser'))
 	//},
+	stateProfile:'',
 
 	actions: {
 
@@ -36,8 +37,13 @@ export default Ember.Controller.extend({
 
 				var self=this;
 				this.get('model').save().then(function(value) {
-
+					self.set('stateProfile', true);
 					self.set('message','Τα στοιχεία του προφίλ σας έχουν αποθηκευθεί επιτυχώς !');
+					
+				}, function(reason) {
+					self.set('stateProfile', false);
+					self.set('message','Η αποθήκευση των στοιχείων του προφίλ σας απέτυχε...');
+					
 				});
 			}
 			// else{
