@@ -39,7 +39,8 @@ export default Ember.Controller.extend({
 				this.get('model').save().then(function(value) {
 					self.set('statePetition', true);
 					self.set('message','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
-
+					self.transitionToRoute('petitionList');
+					
 				}, function(reason) {
 					self.set('statePetition', false);
 					self.set('message','Η αποθήκευση των στοιχείων της αίτησης σας απέτυχε...');
@@ -79,6 +80,7 @@ export default Ember.Controller.extend({
 
 					self.set('message','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
 					self.set('statePetition', true);
+					self.transitionToRoute('petitionList');
 				}, function(reason) {
 
 					self.set('message','Η υποβολή των στοιχείων της αίτησης σας απέτυχε...');

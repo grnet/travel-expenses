@@ -12,6 +12,7 @@
     </tr>
   </thead>
   <tbody>
+    
   	{{#each model as |petition|}}
     <tr>
       	<td>{{petition.name}}</td>
@@ -20,10 +21,11 @@
       	<td>{{petition.arrivalPoint.id}}</td>
       	<td>{{petition.taskStartDate}}</td>
       	<td>{{petition.taskEndDate}}</td>
-  		<td>{{#link-to "petition" class="btn btn-warning btn-small"}}Επεξεργασία{{/link-to}}</td>
+  		<td><span class="btn btn-warning btn-small">Επεξεργασία</span></td>
   		<td><span class="btn btn-danger btn-small">Διαγραφή</span></td>  
     </tr>
     {{/each}}
+    
   </tbody>
 </table>
 </div>
