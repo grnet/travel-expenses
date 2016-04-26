@@ -14,6 +14,7 @@
   <tbody>
     
   	{{#each model as |petition|}}
+    {{#if petition.name}}
     <tr>
       	<td>{{petition.name}}</td>
       	<td>{{petition.surname}}</td>
@@ -24,6 +25,7 @@
   		<td><span class="btn btn-warning btn-small">Επεξεργασία</span></td>
   		<td><span class="btn btn-danger btn-small">Διαγραφή</span></td>  
     </tr>
+    {{/if}}
     {{/each}}
     
   </tbody>
