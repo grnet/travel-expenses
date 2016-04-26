@@ -265,10 +265,11 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             project = request.data['project']
             reason = request.data['reason']
             movementCategory = request.data['movementCategory']
-            departurePoint = request.data['departureCategory']
+            departurePoint = request.data['departurePoint']
             arrivalPoint = request.data['arrivalPoint']
             transportation = request.data['transportation']
         except KeyError:
+            print "Shit"
             return False
 
         values = request.data.values()
