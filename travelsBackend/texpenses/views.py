@@ -229,7 +229,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
                        filters.OrderingFilter, filters.SearchFilter,)
     filter_fields = ('taskStartDate', 'taskEndDate', 'project',
                      'movementCategory', 'departurePoint', 'arrivalPoint',
-                     'transportation', 'surname', 'iban', 'taxRegNum',)
+                     'transportation', 'surname', 'iban', 'taxRegNum', 'status')
     ordering_fields = ('taskStartDate', 'taskEndDate', 'project',
                        'movementCategory', 'departurePoint', 'arrivalPoint',
                        'transportation', 'surname', 'iban', 'taxRegNum',)
