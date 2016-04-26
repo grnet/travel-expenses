@@ -9,71 +9,70 @@ export default Ember.Controller.extend({
 
 		petitionSave(){
 
-			var rec = this.store.peekRecord('petition-status','http://127.0.0.1:8000/petition/petition_status/1/');
-			console.log("status:"+rec)
-			var pet_name=this.get('profile.first_name');	
-			var pet_surname=this.get('profile.last_name');
-			var pet_iban=this.get('profile.iban');
-			var pet_specialty=this.get('profile.specialtyID');
-			var pet_kind=this.get('profile.kind');
-			var pet_taxNum=this.get('profile.taxRegNum');
-			var pet_taxOffice=this.get('profile.taxOffice');
-
-
-			this.get('model').set('status', rec);
-			this.get('model').set('name', pet_name);
-			this.get('model').set('surname',pet_surname);
-			this.get('model').set('iban', pet_iban);
-			this.get('model').set('specialtyID', pet_specialty);
-			this.get('model').set('kind', pet_kind);
-			this.get('model').set('taxRegNum', pet_taxNum);
-			this.get('model').set('taxOffice', pet_taxOffice);
-
-			this.get('model').set('status', rec);
 
 			let profileIsValid=this.get('model.validations.isValid')
 
 			if (profileIsValid) {
 				//this.get('model').save();
+				var rec = this.store.peekRecord('petition-status','http://127.0.0.1:8000/petition/petition_status/1/');
+				var pet_name=this.get('profile.first_name');	
+				var pet_surname=this.get('profile.last_name');
+				var pet_iban=this.get('profile.iban');
+				var pet_specialty=this.get('profile.specialtyID');
+				var pet_kind=this.get('profile.kind');
+				var pet_taxNum=this.get('profile.taxRegNum');
+				var pet_taxOffice=this.get('profile.taxOffice');
+
+
+				this.get('model').set('status', rec);
+				this.get('model').set('name', pet_name);
+				this.get('model').set('surname',pet_surname);
+				this.get('model').set('iban', pet_iban);
+				this.get('model').set('specialtyID', pet_specialty);
+				this.get('model').set('kind', pet_kind);
+				this.get('model').set('taxRegNum', pet_taxNum);
+				this.get('model').set('taxOffice', pet_taxOffice);
+
+				this.get('model').set('status', rec);
 
 				var self=this;
 				this.get('model').save().then(function(value) {
 					self.set('statePetition', true);
 					self.set('message','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
-					
+
 				}, function(reason) {
 					self.set('statePetition', false);
 					self.set('message','Η αποθήκευση των στοιχείων της αίτησης σας απέτυχε...');
-					
+
 				});
 			}
 		},
 		petitionSubmit(){
 
-			var rec = this.store.peekRecord('petition-status','http://127.0.0.1:8000/petition/petition_status/2/');
-
-			var pet_name=this.get('profile.first_name');	
-			var pet_surname=this.get('profile.last_name');
-			var pet_iban=this.get('profile.iban');
-			var pet_specialty=this.get('profile.specialtyID');
-			var pet_kind=this.get('profile.kind');
-			var pet_taxNum=this.get('profile.taxRegNum');
-			var pet_taxOffice=this.get('profile.taxOffice');
-
-
-			this.get('model').set('status', rec);
-			this.get('model').set('name', pet_name);
-			this.get('model').set('surname',pet_surname);
-			this.get('model').set('iban', pet_iban);
-			this.get('model').set('specialtyID', pet_specialty);
-			this.get('model').set('kind', pet_kind);
-			this.get('model').set('taxRegNum', pet_taxNum);
-			this.get('model').set('taxOffice', pet_taxOffice);
 
 			let profileIsValid=this.get('model.validations.isValid')
 
 			if (profileIsValid) {
 				//this.get('model').save();
+				var rec = this.store.peekRecord('petition-status','http://127.0.0.1:8000/petition/petition_status/2/');
+
+				var pet_name=this.get('profile.first_name');	
+				var pet_surname=this.get('profile.last_name');
+				var pet_iban=this.get('profile.iban');
+				var pet_specialty=this.get('profile.specialtyID');
+				var pet_kind=this.get('profile.kind');
+				var pet_taxNum=this.get('profile.taxRegNum');
+				var pet_taxOffice=this.get('profile.taxOffice');
+
+
+				this.get('model').set('status', rec);
+				this.get('model').set('name', pet_name);
+				this.get('model').set('surname',pet_surname);
+				this.get('model').set('iban', pet_iban);
+				this.get('model').set('specialtyID', pet_specialty);
+				this.get('model').set('kind', pet_kind);
+				this.get('model').set('taxRegNum', pet_taxNum);
+				this.get('model').set('taxOffice', pet_taxOffice);
 
 				var self=this;
 				this.get('model').save().then(function(value) {
