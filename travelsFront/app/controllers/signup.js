@@ -68,12 +68,7 @@ export default Ember.Controller.extend({
 				});
 
 			}
-			// else{
-			// 	there we should put a warning message ("Τα στοιχεία που έχετε συμπληρώσει δεν είναι έγκυρα
-			//   παρακαλούμε προσπαθήστε ξανά")
-			// }
-
-
+			
 		}
 	}
 });
