@@ -24,12 +24,13 @@
       	<td>{{petition.taskStartDate}}</td>
       	<td>{{petition.taskEndDate}}</td>
       	<td>{{petition.status.name}}</td>
-  		<td><span class="btn btn-warning btn-small">Επεξεργασία</span></td>
-  		<td><span class="btn btn-danger btn-small">Διαγραφή</span></td>  
+  		<td><span class="btn btn-warning btn-small" {{action "petitionEdit" petition.id}}>Επεξεργασία</span></td>
+  		<td><span class="btn btn-danger btn-small" {{action "petitionDelete" petition.id petition.status.name}}>Διαγραφή</span></td>
+  		  
     </tr>
     {{/if}}
     {{/each}}
-    	    
+    	{{deleteMessage}}    
   </tbody>
 </table>
 

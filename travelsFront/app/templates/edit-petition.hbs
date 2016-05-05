@@ -1,0 +1,235 @@
+<div class="container">
+	<form class="form-horizontal col-md-12 leftForm" role="form">
+
+		<div class="col-md-6 leftForm">
+			<h4>Στοιχεία Προφίλ</h4><br>
+
+<div class="profileForm form-group">
+	<label for="first_name" class="col-sm-2 control-label">Όνομα</label>
+	<div class="col-sm-8">
+		{{input value=model.first_name type="text" class="form-control" autofocus="autofocus"}}
+	</div>
+</div>
+
+<div class="profileForm form-group">
+	<label for="last_name" class="col-sm-2 control-label">Επώνυμο</label>
+	<div class="col-sm-8">	
+		{{input value=model.last_name type="text" class="form-control" autofocus="autofocus"}}
+	</div>
+</div>
+
+<div class="profileForm form-group">
+	<label for="iban" class="col-sm-2 control-label">IBAN</label>
+	<div class="col-sm-8">	
+		{{input value=model.iban type="text" class="form-control" autofocus="autofocus"}}
+	</div>
+	{{#if (v-get model 'iban' 'isInvalid') }}
+	<font color="red">{{v-get model 'iban' 'message'}}</font>
+	{{/if}} 
+
+</div> 
+
+<div class="profileForm form-group">
+	<label for="specialtyID" class="col-sm-2 control-label">Ειδικότητα</label>
+	<div class="col-sm-8">	
+		<select onchange={{action "setSpecialty" value="target.value"}} class="form-control">
+			<option value=""></option>
+
+			{{#each specialties as |specialtyChoice|}}
+			<option value={{specialtyChoice.id}} selected={{eq specialtyChoice.id model.specialtyID.id}}>{{specialtyChoice.name}}</option>
+
+			{{/each}}
+		</select>		
+	</div>
+</div> 
+
+<div class="profileForm form-group">
+	<label for="kind" class="col-sm-2 control-label">Ιδιότητα</label>
+	<div class="col-sm-8">	
+		<select onchange={{action "setKind" value="target.value"}} class="form-control">
+			<option value=""></option>
+
+			{{#each kinds as |kindChoice|}}
+
+			<option value={{kindChoice.id}} selected={{eq kindChoice.id model.kind.id}}>{{kindChoice.name}}</option>
+
+			{{/each}}
+		</select>
+	</div>
+</div>
+
+<div class="profileForm form-group">
+	<label for="taxRegNum" class="col-sm-2 control-label">ΑΦΜ</label>
+	<div class="col-sm-8">	
+		{{input value=model.taxRegNum type="text" class="form-control" autofocus="autofocus"}}
+
+	</div>
+	{{#if (v-get model 'taxRegNum' 'isInvalid') }}
+	<font color="red">{{v-get model 'taxRegNum' 'message'}}</font>
+	{{/if}}
+
+</div>
+
+<div class="profileForm form-group">
+	<label for="taxOffice" class="col-sm-2 control-label">ΔΟΥ</label>
+	<div class="col-sm-8">	
+		<select onchange={{action "setTaxOffice" value="target.value"}} class="form-control"> 
+			<option value=""></option>
+			{{#each tax-offices  as |taxOfficeChoice|}}
+
+			<option value={{taxOfficeChoice.id}} selected={{eq taxOfficeChoice.id model.taxOffice.id}}>{{taxOfficeChoice.name}}</option>
+
+			{{/each}}
+		</select>
+	</div>
+</div>
+
+		</div>
+
+		<div class="col-md-6 rightForm">	
+
+			<h4>Στοιχεία Αίτησης Ταξιδιού</h4><br>
+
+			<div class="profileForm form-group">
+				<label for="movementCategory" class="col-sm-4 control-label">Κατηγορία Μετακίνησης</label><br>
+				<div class="col-sm-8">
+					<select onchange={{action "setMovementCategory" value="target.value"}} class="form-control">
+						<option value=""></option>
+						{{#each movement-categories as |movementCategoryChoice|}}
+							<option value={{movementCategoryChoice.id}} selected={{eq movementCategoryChoice.id model.movementCategory.id}}>{{movementCategoryChoice.name}}</option>
+						{{/each}}
+					</select>				
+				</div>
+			</div> 
+
+			<div class="profileForm form-group">
+				<label for="project" class="col-sm-4 control-label">Έργο</label>
+				<div class="col-sm-8">
+					<select onchange={{action "setProject" value="target.value"}} class="form-control">
+						<option value=""></option>
+						{{#each projects as |projectChoice|}}
+							<option value={{projectChoice.id}} selected={{eq projectChoice.id model.project.id}}>{{projectChoice.name}}</option>
+						{{/each}}
+					</select>	
+				</div>
+				{{#if (v-get model 'project' 'isInvalid') }}
+					<font color="red">{{v-get model 'project' 'message'}}</font>
+				{{/if}} 
+
+			</div>
+
+			<div class="profileForm form-group">
+				<label for="taskStartDate" class="col-sm-4 control-label">Ημ/νία - Ώρα Έναρξης Εργασιών</label>
+				<div class="col-sm-8">	
+					{{input value=model.taskStartDate type="datetime-local" class="form-control" autofocus="autofocus"}}
+				</div>
+			</div>
+
+			<div class="profileForm form-group">
+				<label for="taskEndDate" class="col-sm-4 control-label">Ημ/νία - Ώρα Λήξης Εργασιών</label>
+				<div class="col-sm-8">	
+					{{input value=model.taskEndDate type="datetime-local" class="form-control" autofocus="autofocus"}}
+				</div>
+			</div>
+
+			<div class="profileForm form-group">
+				<label for="departurePoint" class="col-sm-4 control-label">Τόπος Αναχώρησης</label>
+				<div class="col-sm-8">
+					<select onchange={{action "setDeparturePoint" value="target.value"}} class="form-control">
+						<option value=""></option>
+
+						{{#each departure-points as |departurePointChoice|}}
+							<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.id model.departurePoint.id}}>{{departurePointChoice.name}}</option>
+						{{/each}}
+					</select>	
+				</div>
+			</div>
+
+			<div class="profileForm form-group">
+				<label for="arrivalPoint" class="col-sm-4 control-label">Τόπος Προορισμού</label>
+				<div class="col-sm-8">	
+					<select onchange={{action "setArrivalPoint" value="target.value"}} class="form-control">
+						<option value=""></option>
+
+						{{#each arrival-points as |arrivalPointChoice|}}
+							<option value={{arrivalPointChoice.id}} selected={{eq arrivalPointChoice.id model.arrivalPoint.id}}>{{arrivalPointChoice.name}}</option>
+						{{/each}}
+					</select>
+				</div>
+			</div>
+
+
+			<div class="profileForm form-group">
+				<label for="transportation" class="col-sm-4 control-label">Μέσο Μετακίνησης</label>
+				<div class="col-sm-8">	
+					<select onchange={{action "setTransportation" value="target.value"}} class="form-control"> 
+						<option value=""></option>
+
+						{{#each transportations as |transportationChoice|}}
+							<option value={{transportationChoice.id}} selected={{eq transportationChoice.id model.transportation.id}}>{{transportationChoice.name}}</option>
+						{{/each}}
+					</select>
+				</div>
+			</div> 
+
+			<div class="profileForm form-group">
+				<label for="reason" class="col-sm-4 control-label">Αιτιολογία Μετακίνησης</label>
+				<div class="col-sm-8">	
+					{{#character-limit max=100}}
+						{{textarea value=model.reason type="textarea" class="form-control" autofocus="autofocus"}}
+					{{/character-limit}}
+				</div>
+			</div>
+
+			<div class="profileForm form-group">
+				<label for="recTransport" class="col-sm-4 control-label">Προτεινόμενα Μέσα Μετακίνησης</label>
+				<div class="col-sm-8">	
+					{{#character-limit max=100}}
+						{{textarea value=model.recTransport type="text" class="form-control" autofocus="autofocus"}}
+					{{/character-limit}}
+				</div>
+			</div>
+
+			<div class="profileForm form-group">
+				<label for="recAccomondation" class="col-sm-4 control-label">Προτεινόμενο Κατάλυμα</label>
+				<div class="col-sm-8">	
+					{{#character-limit max=100}}
+						{{textarea value=model.recAccomondation type="textarea" class="form-control" autofocus="autofocus"}}
+					{{/character-limit}}
+				</div>
+			</div>
+
+			<div class="profileForm form-group">
+				<label for="recCostParticipation" class="col-sm-4 control-label">Κόστος Συμμετοχής</label>
+				<div class="col-sm-8">	
+					{{#character-limit max=100}}
+						{{textarea value=model.recCostParticipation type="textarea" class="form-control" autofocus="autofocus"}}
+					{{/character-limit}}
+				</div>
+			</div>
+		</div>	
+		<button type="submit" class="btn btn-primary" {{action "petitionSave"}} disabled={{v-get model 'isInvalid'}}>Αποθήκευση Στοιχείων</button>
+		<button type="submit" class="btn btn-primary" {{action "petitionSubmit"}} disabled={{v-get model 'isInvalid'}}>Υποβολή Αίτησης</button>
+
+		<div class="profileForm">
+			{{#if (v-get model 'isValid') }}
+			{{#if statePetition}}
+			<font color="green">{{message}}</font>
+			{{else}}
+			<font color="red">{{message}}</font>
+			{{/if}}
+			{{/if}}
+		</div>
+
+	</form><br>
+
+</div>
+
+{{outlet}}
+
+
+
+
+
+
+{{outlet}}

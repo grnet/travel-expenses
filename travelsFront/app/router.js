@@ -13,6 +13,7 @@ Router.map(function() {
   this.route('kind');
   this.route('petition');
   this.route('petitionList');
+  this.route('editPetition');
 });
 
 export default Router;
