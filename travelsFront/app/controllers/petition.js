@@ -4,6 +4,11 @@ export default Ember.Controller.extend({
 
 	message:'',
 	statePetition:'',
+	now: Ember.computed(function() {
+		return moment().format("YYYY-MM-DDTHH:mm:ssZ");
+
+	}),
+
 
 	actions: {
 
@@ -32,7 +37,7 @@ export default Ember.Controller.extend({
 				this.get('model').set('kind', pet_kind);
 				this.get('model').set('taxRegNum', pet_taxNum);
 				this.get('model').set('taxOffice', pet_taxOffice);
-				this.get('model').set('creationDate',);
+				this.get('model').set('creationDate',this.get('now'));
 
 				this.get('model').set('status', rec);
 
@@ -75,7 +80,8 @@ export default Ember.Controller.extend({
 				this.get('model').set('kind', pet_kind);
 				this.get('model').set('taxRegNum', pet_taxNum);
 				this.get('model').set('taxOffice', pet_taxOffice);
-				this.get('model').set('creationDate',);
+				this.get('model').set('creationDate',this.get('now'));
+
 
 				var self=this;
 				this.get('model').save().then(function(value) {
