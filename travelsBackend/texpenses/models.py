@@ -146,6 +146,8 @@ class Petition(models.Model):
     accomondation = models.ForeignKey(Accomondation, blank=True, null=True)
     taskStartDate = models.DateTimeField(blank=True, null=True)
     taskEndDate = models.DateTimeField(blank=True, null=True)
+    creationDate = models.DateTimeField(blank=True, null=True)
+    updateDate = models.DateTimeField(blank=True, null=True)
     project = models.ForeignKey(Project)
     reason = models.CharField(max_length=500, blank=True, null=True)
     movementCategory = models.ForeignKey(

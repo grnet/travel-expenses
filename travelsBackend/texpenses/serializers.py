@@ -153,7 +153,7 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
         model = Petition
         fields = ('id', 'name', 'surname', 'iban', 'specialtyID', 'kind',
                   'taxRegNum', 'taxOffice', 'accomondation',
-                  'taskStartDate', 'taskEndDate',
+                  'taskStartDate', 'taskEndDate', 'creationDate', 'updateDate',
                   'project', 'reason', 'movementCategory',
                   'departurePoint', 'arrivalPoint', 'transportation',
                   'recTransport', 'recAccomondation',

@@ -228,6 +228,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,
                        filters.OrderingFilter, filters.SearchFilter,)
     filter_fields = ('taskStartDate', 'taskEndDate', 'project',
+                     'creationDate', 'updateDate'
                      'movementCategory', 'departurePoint', 'arrivalPoint',
                      'transportation', 'surname', 'iban', 'taxRegNum', 'status')
     ordering_fields = ('taskStartDate', 'taskEndDate', 'project',
