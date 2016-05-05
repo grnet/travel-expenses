@@ -15,8 +15,13 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 
 		var url = this._super(modelName, id, snapshot, requestType, query);
 
-		if (modelName === "petition-status"){
+		if (modelName === "petition-status" && requestType==="findRecord"){
+			url=id;
+		}
+
+		if (modelName === "petition-status" && requestType==="findAll"){
 			url = "http://127.0.0.1:8000/petition/petition_status/";
+
 		}
 
 		return url;

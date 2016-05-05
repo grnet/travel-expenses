@@ -15,8 +15,14 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 
 		var url = this._super(modelName, id, snapshot, requestType, query);
 
-		if (modelName === "movement-category"){
+		if (modelName === "movement-category" && requestType==="findRecord"){
+			url=id;
+		}
+
+		if (modelName === "movement-category" && requestType==="findAll"){
 			url = "http://127.0.0.1:8000/petition/movement_categories/";
+
+
 		}
 
 		return url;

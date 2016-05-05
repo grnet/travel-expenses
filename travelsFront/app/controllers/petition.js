@@ -40,7 +40,7 @@ export default Ember.Controller.extend({
 					self.set('statePetition', true);
 					self.set('message','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
 					self.transitionToRoute('petitionList');
-					
+
 				}, function(reason) {
 					self.set('statePetition', false);
 					self.set('message','Η αποθήκευση των στοιχείων της αίτησης σας απέτυχε...');
