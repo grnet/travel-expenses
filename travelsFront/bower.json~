@@ -8,7 +8,6 @@
     "bootstrap-sass": "^3.3.6",
     "pretender": "~0.10.1",
     "lodash": "~3.7.0",
-    "Faker": "~3.0.0",
-    "moment": "^2.13.0"
+    "Faker": "~3.0.0"
   }
 }
