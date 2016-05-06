@@ -24,8 +24,8 @@
 			<td>{{petition.taskStartDate}}</td>
 			<td>{{petition.taskEndDate}}</td>
 			<td>{{petition.status.name}}</td>
-			<td><span class="btn btn-warning btn-small" {{action "petitionEdit" petition.id}}>Επεξεργασία</span></td>
-			<td><span class="btn btn-danger btn-small" {{action "petitionDelete" petition.id petition.status.name}}>Διαγραφή</span></td>
+			<td><span class="btn btn-warning btn-small" {{action "petitionEdit" petition.id}} disabled={{not-eq petition.status.name 'δημιουργηθείσα από μετακινούμενο' }}>Επεξεργασία</span></td>
+			<td><span class="btn btn-danger btn-small" {{action "petitionDelete" petition.id petition.status.name}} disabled={{not-eq petition.status.name 'δημιουργηθείσα από μετακινούμενο' }}>Διαγραφή</span></td>
 
 		</tr>
 		{{/if}}

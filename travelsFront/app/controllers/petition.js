@@ -20,7 +20,8 @@ export default Ember.Controller.extend({
 
 			if (profileIsValid) {
 				//this.get('model').save();
-				var rec = this.store.peekRecord('petition-status',ENV.APP.petition_status_1);
+				console.log("Status:"+ENV.APP.petition_status_1);
+				var rec = this.store.peekRecord('petition-status',ENV.petition_status_1);
 				var pet_name=this.get('profile.first_name');	
 				var pet_surname=this.get('profile.last_name');
 				var pet_iban=this.get('profile.iban');
@@ -62,7 +63,7 @@ export default Ember.Controller.extend({
 
 			if (profileIsValid) {
 				//this.get('model').save();
-				var rec = this.store.peekRecord('petition-status',ENV.APP.petition_status_2);
+				var rec = this.store.peekRecord('petition-status',ENV.petition_status_2);
 
 				var pet_name=this.get('profile.first_name');	
 				var pet_surname=this.get('profile.last_name');
