@@ -13,7 +13,8 @@ Router.map(function() {
   this.route('kind');
   this.route('petition');
   this.route('petitionList');
-  this.route('editPetition');
+  this.route('editPetition', {path: '/editPetition/:petition_id'});
+  
 });
 
 export default Router;

@@ -18,6 +18,7 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 	buildURL: function(modelName, id, snapshot, requestType, query) {
 
 		var url = this._super(modelName, id, snapshot, requestType, query);
+
 		if (requestType === "createRecord"){
 			url = url + "/";
 		}

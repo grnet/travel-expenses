@@ -24,7 +24,8 @@ export default Ember.Controller.extend({
 		},
 
 		petitionEdit(id){
-			this.transitionToRoute('editPetition');
+			this.transitionToRoute('editPetition',id);
 		}
 	}
+
 });

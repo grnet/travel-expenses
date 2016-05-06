@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Ember.Route.extend({
-	model() {
-		return this.store.findRecord('petition',);
+export default Ember.Route.extend(AuthenticatedRouteMixin,{
+	model(params) {
+		return this.store.findRecord('petition', params.petition_id);
 	},
 
 	setupController: function(controller, model) {
@@ -16,7 +17,7 @@ export default Ember.Route.extend({
 		controller.set('kinds', this.store.findAll('kind'));
 		controller.set('tax-offices', this.store.findAll('taxOffice'));
 		controller.set('petition-statuses', this.store.findAll('petition-status'));
-		//controller.set('profile',this.store.findRecord('profile',1));
+		controller.set('profile',this.store.findRecord('profile',1));
 
 	}
 });
