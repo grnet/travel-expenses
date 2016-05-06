@@ -20,7 +20,7 @@ export default Ember.Controller.extend({
 
 			if (profileIsValid) {
 				//this.get('model').save();
-				
+
 				var rec = this.store.peekRecord('petition-status',ENV.petition_status_1);
 				var pet_name=this.get('profile.first_name');	
 				var pet_surname=this.get('profile.last_name');
@@ -39,7 +39,10 @@ export default Ember.Controller.extend({
 				this.get('model').set('kind', pet_kind);
 				this.get('model').set('taxRegNum', pet_taxNum);
 				this.get('model').set('taxOffice', pet_taxOffice);
-				this.get('model').set('creationDate',this.get('now'));
+				let now=this.get('now');
+				this.get('model').set('creationDate',now);
+				this.get('model').set('updateDate',now);
+
 
 				this.get('model').set('status', rec);
 
@@ -82,7 +85,10 @@ export default Ember.Controller.extend({
 				this.get('model').set('kind', pet_kind);
 				this.get('model').set('taxRegNum', pet_taxNum);
 				this.get('model').set('taxOffice', pet_taxOffice);
-				this.get('model').set('creationDate',this.get('now'));
+				let now=this.get('now');
+				this.get('model').set('creationDate',now);
+				this.get('model').set('updateDate',now);
+
 
 
 				var self=this;

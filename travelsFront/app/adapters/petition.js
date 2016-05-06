@@ -25,6 +25,10 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 		if (requestType === "deleteRecord"){
 			url = id;
 		}
+		if (requestType === "updateRecord"){
+			url = id;
+		}
+
 		if (requestType === "findRecord"){
 			url = id;
 		}

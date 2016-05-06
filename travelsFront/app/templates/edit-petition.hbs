@@ -24,7 +24,7 @@
 					{{input value=model.iban type="text" class="form-control" autofocus="autofocus"}}
 				</div>
 				{{#if (v-get model 'iban' 'isInvalid') }}
-					<font color="red">{{v-get model 'iban' 'message'}}</font>
+				<font color="red">{{v-get model 'iban' 'message'}}</font>
 				{{/if}} 
 
 			</div> 
@@ -36,7 +36,7 @@
 						<option value=""></option>
 
 						{{#each specialties as |specialtyChoice|}}
-							<option value={{specialtyChoice.id}} selected={{eq specialtyChoice.id model.specialtyID.id}}>{{specialtyChoice.name}}</option>
+						<option value={{specialtyChoice.id}} selected={{eq specialtyChoice.id model.specialtyID.id}}>{{specialtyChoice.name}}</option>
 
 						{{/each}}
 					</select>		
@@ -51,7 +51,7 @@
 
 						{{#each kinds as |kindChoice|}}
 
-							<option value={{kindChoice.id}} selected={{eq kindChoice.id model.kind.id}}>{{kindChoice.name}}</option>
+						<option value={{kindChoice.id}} selected={{eq kindChoice.id model.kind.id}}>{{kindChoice.name}}</option>
 
 						{{/each}}
 					</select>
@@ -65,7 +65,7 @@
 
 				</div>
 				{{#if (v-get model 'taxRegNum' 'isInvalid') }}
-					<font color="red">{{v-get model 'taxRegNum' 'message'}}</font>
+				<font color="red">{{v-get model 'taxRegNum' 'message'}}</font>
 				{{/if}}
 
 			</div>
@@ -77,7 +77,7 @@
 						<option value=""></option>
 						{{#each tax-offices  as |taxOfficeChoice|}}
 
-							<option value={{taxOfficeChoice.id}} selected={{eq taxOfficeChoice.id model.taxOffice.id}}>{{taxOfficeChoice.name}}</option>
+						<option value={{taxOfficeChoice.id}} selected={{eq taxOfficeChoice.id model.taxOffice.id}}>{{taxOfficeChoice.name}}</option>
 
 						{{/each}}
 					</select>
@@ -96,7 +96,7 @@
 					<select onchange={{action "setMovementCategory" value="target.value"}} class="form-control">
 						<option value=""></option>
 						{{#each movement-categories as |movementCategoryChoice|}}
-							<option value={{movementCategoryChoice.id}} selected={{eq movementCategoryChoice.id model.movementCategory.id}}>{{movementCategoryChoice.name}}</option>
+						<option value={{movementCategoryChoice.id}} selected={{eq movementCategoryChoice.id model.movementCategory.id}}>{{movementCategoryChoice.name}}</option>
 						{{/each}}
 					</select>				
 				</div>
@@ -108,12 +108,12 @@
 					<select onchange={{action "setProject" value="target.value"}} class="form-control">
 						<option value=""></option>
 						{{#each projects as |projectChoice|}}
-							<option value={{projectChoice.id}} selected={{eq projectChoice.id model.project.id}}>{{projectChoice.name}}</option>
+						<option value={{projectChoice.id}} selected={{eq projectChoice.id model.project.id}}>{{projectChoice.name}}</option>
 						{{/each}}
 					</select>	
 				</div>
 				{{#if (v-get model 'project' 'isInvalid') }}
-					<font color="red">{{v-get model 'project' 'message'}}</font>
+				<font color="red">{{v-get model 'project' 'message'}}</font>
 				{{/if}} 
 
 			</div>
@@ -139,7 +139,7 @@
 						<option value=""></option>
 
 						{{#each departure-points as |departurePointChoice|}}
-							<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.id model.departurePoint.id}}>{{departurePointChoice.name}}</option>
+						<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.id model.departurePoint.id}}>{{departurePointChoice.name}}</option>
 						{{/each}}
 					</select>	
 				</div>
@@ -152,7 +152,7 @@
 						<option value=""></option>
 
 						{{#each arrival-points as |arrivalPointChoice|}}
-							<option value={{arrivalPointChoice.id}} selected={{eq arrivalPointChoice.id model.arrivalPoint.id}}>{{arrivalPointChoice.name}}</option>
+						<option value={{arrivalPointChoice.id}} selected={{eq arrivalPointChoice.id model.arrivalPoint.id}}>{{arrivalPointChoice.name}}</option>
 						{{/each}}
 					</select>
 				</div>
@@ -166,7 +166,7 @@
 						<option value=""></option>
 
 						{{#each transportations as |transportationChoice|}}
-							<option value={{transportationChoice.id}} selected={{eq transportationChoice.id model.transportation.id}}>{{transportationChoice.name}}</option>
+						<option value={{transportationChoice.id}} selected={{eq transportationChoice.id model.transportation.id}}>{{transportationChoice.name}}</option>
 						{{/each}}
 					</select>
 				</div>
@@ -176,7 +176,7 @@
 				<label for="reason" class="col-sm-4 control-label">Αιτιολογία Μετακίνησης</label>
 				<div class="col-sm-8">	
 					{{#character-limit max=100}}
-						{{textarea value=model.reason type="textarea" class="form-control" autofocus="autofocus"}}
+					{{textarea value=model.reason type="textarea" class="form-control" autofocus="autofocus"}}
 					{{/character-limit}}
 				</div>
 			</div>
@@ -185,7 +185,7 @@
 				<label for="recTransport" class="col-sm-4 control-label">Προτεινόμενα Μέσα Μετακίνησης</label>
 				<div class="col-sm-8">	
 					{{#character-limit max=100}}
-						{{textarea value=model.recTransport type="text" class="form-control" autofocus="autofocus"}}
+					{{textarea value=model.recTransport type="text" class="form-control" autofocus="autofocus"}}
 					{{/character-limit}}
 				</div>
 			</div>
@@ -194,7 +194,7 @@
 				<label for="recAccomondation" class="col-sm-4 control-label">Προτεινόμενο Κατάλυμα</label>
 				<div class="col-sm-8">	
 					{{#character-limit max=100}}
-						{{textarea value=model.recAccomondation type="textarea" class="form-control" autofocus="autofocus"}}
+					{{textarea value=model.recAccomondation type="textarea" class="form-control" autofocus="autofocus"}}
 					{{/character-limit}}
 				</div>
 			</div>
@@ -203,7 +203,7 @@
 				<label for="recCostParticipation" class="col-sm-4 control-label">Κόστος Συμμετοχής</label>
 				<div class="col-sm-8">	
 					{{#character-limit max=100}}
-						{{textarea value=model.recCostParticipation type="textarea" class="form-control" autofocus="autofocus"}}
+					{{textarea value=model.recCostParticipation type="textarea" class="form-control" autofocus="autofocus"}}
 					{{/character-limit}}
 				</div>
 			</div>
@@ -213,11 +213,11 @@
 
 		<div class="profileForm">
 			{{#if (v-get model 'isValid') }}
-				{{#if statePetition}}
-					<font color="green">{{message}}</font>
-				{{else}}
-					<font color="red">{{message}}</font>
-				{{/if}}
+			{{#if statePetition}}
+			<font color="green">{{message}}</font>
+			{{else}}
+			<font color="red">{{message}}</font>
+			{{/if}}
 			{{/if}}
 		</div>
 
