@@ -8,7 +8,7 @@
 		<div class="col-md-6 rightForm">	
 
 			<h4>Στοιχεία Αίτησης Ταξιδιού</h4><br>
-			
+
 			<div class="profileForm form-group">
 				<label for="movementCategory" class="col-sm-4 control-label">Κατηγορία Μετακίνησης</label><br>
 				<div class="col-sm-8">
@@ -132,11 +132,11 @@
 
 		<div class="profileForm">
 			{{#if (v-get model 'isValid') }}
-			{{#if statePetition}}
-			<font color="green">{{message}}</font>
-			{{else}}
-			<font color="red">{{message}}</font>
-			{{/if}}
+				{{#if statePetition}}
+					<font color="green">{{message}}</font>
+				{{else}}
+					<font color="red">{{message}}</font>
+				{{/if}}
 			{{/if}}
 		</div>
 

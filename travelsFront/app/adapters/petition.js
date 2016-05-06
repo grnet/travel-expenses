@@ -1,9 +1,10 @@
 import DS from 'ember-data';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
+import ENV from 'travels-front/config/environment'; 
 
 
 export default DS.RESTAdapter.extend(DataAdapterMixin,{
-	host: 'http://127.0.0.1:8000',
+	host: ENV.APP.backend_host,
 	namespace: 'petition/user_petition',
 	contentType: 'application/json',
 	dataType: 'json',

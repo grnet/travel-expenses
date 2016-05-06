@@ -20,7 +20,7 @@
 		{{input value=profile.iban type="text" class="form-control" autofocus="autofocus"}}
 	</div>
 	{{#if (v-get model 'iban' 'isInvalid') }}
-	<font color="red">{{v-get model 'iban' 'message'}}</font>
+		<font color="red">{{v-get model 'iban' 'message'}}</font>
 	{{/if}} 
 
 </div> 
@@ -32,7 +32,7 @@
 			<option value=""></option>
 
 			{{#each specialties as |specialtyChoice|}}
-			<option value={{specialtyChoice.id}} selected={{eq specialtyChoice.id profile.specialtyID.id}}>{{specialtyChoice.name}}</option>
+				<option value={{specialtyChoice.id}} selected={{eq specialtyChoice.id profile.specialtyID.id}}>{{specialtyChoice.name}}</option>
 
 			{{/each}}
 		</select>		
@@ -47,7 +47,7 @@
 
 			{{#each kinds as |kindChoice|}}
 
-			<option value={{kindChoice.id}} selected={{eq kindChoice.id profile.kind.id}}>{{kindChoice.name}}</option>
+				<option value={{kindChoice.id}} selected={{eq kindChoice.id profile.kind.id}}>{{kindChoice.name}}</option>
 
 			{{/each}}
 		</select>
@@ -61,7 +61,7 @@
 
 	</div>
 	{{#if (v-get model 'taxRegNum' 'isInvalid') }}
-	<font color="red">{{v-get model 'taxRegNum' 'message'}}</font>
+		<font color="red">{{v-get model 'taxRegNum' 'message'}}</font>
 	{{/if}}
 
 </div>
@@ -73,7 +73,7 @@
 			<option value=""></option>
 			{{#each tax-offices  as |taxOfficeChoice|}}
 
-			<option value={{taxOfficeChoice.id}} selected={{eq taxOfficeChoice.id profile.taxOffice.id}}>{{taxOfficeChoice.name}}</option>
+				<option value={{taxOfficeChoice.id}} selected={{eq taxOfficeChoice.id profile.taxOffice.id}}>{{taxOfficeChoice.name}}</option>
 
 			{{/each}}
 		</select>

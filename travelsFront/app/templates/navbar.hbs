@@ -1,29 +1,29 @@
 <nav class="navbar" role="navigation">
-    <div class="container">
+	<div class="container">
 		<div id="navbar">
 			<h2>Welcome to Travel Expenses!</h2>
-			
-			
-               	{{#if session.isAuthenticated}}
-               	<ul class="nav navbar-nav navbar-right">
-               		<div>Logged in as: {{currentUser.username}}</div>
+
+
+			{{#if session.isAuthenticated}}
+				<ul class="nav navbar-nav navbar-right">
+					<div>Logged in as: {{currentUser.username}}</div>
 					<a {{action "invalidateSession"}}>Logout</a>
 				</ul>	
 				<ul class="nav navbar-nav navbar-left">
 					{{#link-to "profile" tagName="li"}}<a href="">Προφίλ</a>{{/link-to}}
-                	{{#link-to "petition" tagName="li"}}<a href="">Νέα Αίτηση</a>{{/link-to}}
-                	{{#link-to "petitionList" tagName="li"}}<a href="">Αιτήσεις</a>{{/link-to}}
-				</ul> 
-				{{else}}
-				<ul class="nav navbar-nav navbar-right">
-					{{#link-to "signup" tagName="li"}}<a href="">Signup</a>{{/link-to}}
-					{{#link-to "login" tagName="li"}}<a href="">Login</a>{{/link-to}}
-				</ul>	
-				{{/if}}
-            
-		</div>
-	</div>
-</nav>
+						{{#link-to "petition" tagName="li"}}<a href="">Νέα Αίτηση</a>{{/link-to}}
+							{{#link-to "petitionList" tagName="li"}}<a href="">Αιτήσεις</a>{{/link-to}}
+							</ul> 
+						{{else}}
+							<ul class="nav navbar-nav navbar-right">
+								{{#link-to "signup" tagName="li"}}<a href="">Signup</a>{{/link-to}}
+									{{#link-to "login" tagName="li"}}<a href="">Login</a>{{/link-to}}
+									</ul>	
+								{{/if}}
+
+							</div>
+						</div>
+					</nav>
 
 
-<!-- navbar-inverse -->
+					<!-- navbar-inverse -->

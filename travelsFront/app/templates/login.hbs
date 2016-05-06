@@ -1,29 +1,29 @@
 <div class="container">
 	<form class="form-horizontal col-md-10" role="form" {{action "authenticate" on="submit"}}>
 
-	  	<div class="loginForm form-group">
+		<div class="loginForm form-group">
 			<label for="identification" class="col-sm-2 control-label">Username</label>
-		<div class="col-sm-4"> 	
-	      	{{input id="identification" class="form-control" value=identification type="text" autofocus="autofocus"}}
-	  	</div>
-	  	</div>
+			<div class="col-sm-4"> 	
+				{{input id="identification" class="form-control" value=identification type="text" autofocus="autofocus"}}
+			</div>
+		</div>
 
-	  	<div class="loginForm form-group">
-	      	<label for="password" class="col-sm-2 control-label">Password</label>
-	    <div class="col-sm-4">   	
-	      	{{input id="password" class="form-control" value=password type="password" autofocus="autofocus"}}
-	   	</div> 
-	   	</div>
+		<div class="loginForm form-group">
+			<label for="password" class="col-sm-2 control-label">Password</label>
+			<div class="col-sm-4">   	
+				{{input id="password" class="form-control" value=password type="password" autofocus="autofocus"}}
+			</div> 
+		</div>
 
-	   	<div class="col-sm-offset-2">	
+		<div class="col-sm-offset-2">	
 			<button type="submit" class="btn btn-primary">Login</button>
 		</div>
- 	
+
 	</form>
 	<!-- {{#if errorMessage}}
-    		<p>{{errorMessage}}</p>
-  		{{/if}} -->
-  	
+   <p>{{errorMessage}}</p>
+		{{/if}} -->
+
 </div>	
 
 

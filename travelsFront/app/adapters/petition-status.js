@@ -1,9 +1,10 @@
 import DS from 'ember-data';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
+import ENV from 'travels-front/config/environment'; 
 
 
 export default DS.RESTAdapter.extend(DataAdapterMixin,{
-	host: 'http://127.0.0.1:8000',
+	host: ENV.APP.backend_host,
 	namespace: '/petition',
 	contentType: 'application/json',
 	dataType: 'json',
@@ -20,7 +21,7 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 		}
 
 		if (modelName === "petition-status" && requestType==="findAll"){
-			url = "http://127.0.0.1:8000/petition/petition_status/";
+			url = this.get('host') +this.get('namespace')+"/petition_status/";
 
 		}
 

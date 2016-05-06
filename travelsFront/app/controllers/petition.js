@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from 'travels-front/config/environment'; 
 
 export default Ember.Controller.extend({
 
@@ -19,7 +20,7 @@ export default Ember.Controller.extend({
 
 			if (profileIsValid) {
 				//this.get('model').save();
-				var rec = this.store.peekRecord('petition-status','http://127.0.0.1:8000/petition/petition_status/1/');
+				var rec = this.store.peekRecord('petition-status',ENV.APP.petition_status_1);
 				var pet_name=this.get('profile.first_name');	
 				var pet_surname=this.get('profile.last_name');
 				var pet_iban=this.get('profile.iban');
@@ -61,7 +62,7 @@ export default Ember.Controller.extend({
 
 			if (profileIsValid) {
 				//this.get('model').save();
-				var rec = this.store.peekRecord('petition-status','http://127.0.0.1:8000/petition/petition_status/2/');
+				var rec = this.store.peekRecord('petition-status',ENV.APP.petition_status_2);
 
 				var pet_name=this.get('profile.first_name');	
 				var pet_surname=this.get('profile.last_name');

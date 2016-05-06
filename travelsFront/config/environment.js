@@ -15,7 +15,10 @@ module.exports = function(environment) {
 
     APP: {
       // Here you can pass flags/options to your application instance
-      // when it is created
+      // when it is created 
+		backend_host: 'http://127.0.0.1:8000',
+		petition_status_1: this.backend_host+'/petition/petition_status/1/',
+		petition_status_2: this.backend_host+'/petition/petition_status/2/'
     }
   };
 
@@ -24,7 +27,8 @@ module.exports = function(environment) {
   };
 
   ENV['ember-simple-auth-token'] = {
-    serverTokenEndpoint: 'http://127.0.0.1:8000/auth/login/',
+    //serverTokenEndpoint: 'http://127.0.0.1:8000/auth/login/',
+    serverTokenEndpoint: ENV.APP.backend_host+'/auth/login/',
     identificationField: 'username',
     passwordField: 'password',
     tokenPropertyName: 'auth_token',

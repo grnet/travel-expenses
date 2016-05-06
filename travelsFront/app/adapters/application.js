@@ -1,9 +1,10 @@
 import DS from 'ember-data';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
+import ENV from 'travels-front/config/environment'; 
 
 
 export default DS.RESTAdapter.extend(DataAdapterMixin,{
-	host: 'http://127.0.0.1:8000',
+	host: ENV.APP.backend_host,
 	namespace: '/auth',
 	contentType: 'application/json',
 	dataType: 'json',
@@ -15,10 +16,10 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 		var url = this._super(modelName, id, snapshot, requestType, query);
 
 		if (modelName === "account" && requestType === "createRecord"){
-			url = "http://127.0.0.1:8000/auth/register/";
+			url =this.get('host') +this.get('namespace')+"/register/";
 		}
 		else if (modelName === "profile") {
-			url = "http://127.0.0.1:8000/auth/me/detailed/";
+			url= this.get('host')+this.get('namespace')+'/me/detailed/';
 		}
 
 		//else if (modelName === "petition" && requestType === "createRecord") {
