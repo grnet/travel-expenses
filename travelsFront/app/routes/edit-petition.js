@@ -17,7 +17,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('kinds', this.store.findAll('kind'));
 		controller.set('tax-offices', this.store.findAll('taxOffice'));
 		controller.set('petition-statuses', this.store.findAll('petition-status'));
-		controller.set('profile',this.store.findRecord('profile',1));
+		//controller.set('profile',this.store.findRecord('profile',1));
 
 	}
 });

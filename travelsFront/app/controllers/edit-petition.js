@@ -1,8 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+	actions: {
 
-	setArrivalPoint(id){
+		setArrivalPoint(id){
 			var rec = this.store.peekRecord('arrival-point', id);
 			this.get('model').set('arrivalPoint', rec);
 
@@ -48,4 +49,5 @@ export default Ember.Controller.extend({
 			this.get('model').set('taxOffice', rec);
 
 		}
+	}	
 });
