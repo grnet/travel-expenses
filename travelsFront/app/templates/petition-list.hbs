@@ -6,6 +6,7 @@
 				<th>Επώνυμο</th>
 				<th>Έργο</th>
 				<th>Προορισμός</th>
+				<th>Ημ/νια Δημιουργίας</th>
 				<th>Ημ/νία Αναχώρησης</th>
 				<th>Ημ/νία Επιστροφής</th>
 				<th>Κατάσταση</th>
@@ -21,11 +22,12 @@
 			<td>{{petition.surname}}</td>
 			<td>{{petition.project.name}}</td>
 			<td>{{petition.arrivalPoint.name}}</td>
+			<td>{{petition.creationDate}}</td>
 			<td>{{petition.taskStartDate}}</td>
 			<td>{{petition.taskEndDate}}</td>
 			<td>{{petition.status.name}}</td>
-			<td><span class="btn btn-warning btn-small" {{action "petitionEdit" petition.id}} disabled={{not-eq petition.status.name 'δημιουργηθείσα από μετακινούμενο' }}>Επεξεργασία</span></td>
-			<td><span class="btn btn-danger btn-small" {{action "petitionDelete" petition.id petition.status.name}} disabled={{not-eq petition.status.name 'δημιουργηθείσα από μετακινούμενο' }}>Διαγραφή</span></td>
+			<td><span class="btn btn-warning btn-small" {{action "petitionEdit" petition.id on="click"}} disabled={{not-eq petition.status.name "δημιουργηθείσα από μετακινούμενο" }}>Επεξεργασία</span></td>
+			<td><span class="btn btn-danger btn-small" {{action "petitionDelete" petition.id petition.status.name on="click"}} disabled={{not-eq petition.status.name "δημιουργηθείσα από μετακινούμενο" }}>Διαγραφή</span></td>
 
 		</tr>
 		{{/if}}
