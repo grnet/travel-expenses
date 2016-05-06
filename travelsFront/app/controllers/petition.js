@@ -20,7 +20,7 @@ export default Ember.Controller.extend({
 
 			if (profileIsValid) {
 				//this.get('model').save();
-				console.log("Status:"+ENV.APP.petition_status_1);
+				
 				var rec = this.store.peekRecord('petition-status',ENV.petition_status_1);
 				var pet_name=this.get('profile.first_name');	
 				var pet_surname=this.get('profile.last_name');
