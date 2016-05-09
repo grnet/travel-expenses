@@ -81,26 +81,40 @@ class MovementCategories(models.Model):
         return self.name
 
 
-class DeparturePoint(models.Model):
+class CountryCategory(models.Model):
 
-    """Docstring for DeparturePoint. """
+    """Docstring for CountryCategory. """
+
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
+    compensation = models.IntegerField()
+
+    def __unicode__(self):
+        """TODO: to be defined. """
+        return self.name
+
+
+class Country(models.Model):
+
+    """Docstring for Countries. """
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=20)
+    category = models.ForeignKey(CountryCategory)
 
     def __unicode__(self):
         """TODO: to be defined1. """
         return self.name
 
 
-class ArrivalPoint(models.Model):
+class City(models.Model):
 
-    """Docstring for ArrivalPoint. """
-
+    """Docstring for City. """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
+    country = models.ForeignKey(Country, blank=True, null=True)
 
     def __unicode__(self):
-        """TODO: to be defined1. """
+        """TODO: to be defined. """
         return self.name
 
 
@@ -152,8 +166,10 @@ class Petition(models.Model):
     reason = models.CharField(max_length=500, blank=True, null=True)
     movementCategory = models.ForeignKey(
         MovementCategories, blank=True, null=True)
-    departurePoint = models.ForeignKey(DeparturePoint, blank=True, null=True)
-    arrivalPoint = models.ForeignKey(ArrivalPoint, blank=True, null=True)
+    departurePoint = models.ForeignKey(
+        City, blank=True, null=True, related_name='departure_point')
+    arrivalPoint = models.ForeignKey(City, blank=True, null=True,
+                                     related_name='arrivale_point')
     transportation = models.ForeignKey(Transportation, blank=True, null=True)
     recTransport = models.CharField(max_length=200, blank=True, null=True)
     recAccomondation = models.CharField(max_length=200, blank=True, null=True)

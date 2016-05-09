@@ -9,8 +9,9 @@ from models import Petition
 from models import Accomondation
 from models import Project
 from models import MovementCategories
-from models import DeparturePoint
-from models import ArrivalPoint
+from models import City
+from models import Country
+from models import CountryCategory
 from models import Transportation
 from models import PetitionStatus
 
@@ -99,19 +100,27 @@ class MovementCategoriesSerializer(serializers.HyperlinkedModelSerializer):
         read_only_fields = ('id', 'url')
 
 
-class DeparturePointSerializer(serializers.HyperlinkedModelSerializer):
+class CitySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
-        model = DeparturePoint
-        fields = ('id', 'name', 'url')
+        model = City
+        fields = ('id', 'name', 'country', 'url')
         read_only_fields = ('id', 'url')
 
 
-class ArrivalPointSerializer(serializers.HyperlinkedModelSerializer):
+class CountrySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
-        model = ArrivalPoint
-        fields = ('id', 'name', 'url')
+        model = Country
+        fields = ('id', 'name', 'category', 'url')
+        read_only_fields = ('id', 'url')
+
+
+class CountryCategorySerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = CountryCategory
+        fields = ('id', 'name', 'compensation', 'url')
         read_only_fields = ('id', 'url')
 
 

@@ -19,8 +19,9 @@ from models import Petition
 from models import Accomondation
 from models import Project
 from models import MovementCategories
-from models import DeparturePoint
-from models import ArrivalPoint
+from models import City
+from models import Country
+from models import CountryCategory
 from models import Transportation
 from models import PetitionStatus
 
@@ -30,8 +31,9 @@ from serializers import TaxOfficeSerializer
 from serializers import KindSerializer
 from serializers import CustomUserRegistrationSerializer
 from serializers import AccomondationSerializer
-from serializers import ArrivalPointSerializer
-from serializers import DeparturePointSerializer
+from serializers import CitySerializer
+from serializers import CountrySerializer
+from serializers import CountryCategorySerializer
 from serializers import MovementCategoriesSerializer
 from serializers import ProjectSerializer
 from serializers import TransportationSerializer
@@ -176,24 +178,36 @@ class MovementCategoriesViewSet(LoggingMixin, viewsets.ModelViewSet):
     serializer_class = MovementCategoriesSerializer
 
 
-class DeparturePointViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows departure point to be viewed or edited """
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = DeparturePoint.objects.all()
-    serializer_class = DeparturePointSerializer
-
-
-class ArrivalPointViewSet(LoggingMixin, viewsets.ModelViewSet):
+class CityViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     """API endpoint that allows arrival point to be viewed or edited """
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = ArrivalPoint.objects.all()
-    serializer_class = ArrivalPointSerializer
+    queryset = City.objects.all()
+    serializer_class = CitySerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ['country']
+
+
+class CountryViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows arrival point to be viewed or edited """
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
+    queryset = Country.objects.all()
+    serializer_class = CountrySerializer
+
+
+class CountryCategoryViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows arrival point to be viewed or edited """
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
+    queryset = CountryCategory.objects.all()
+    serializer_class = CountryCategorySerializer
 
 
 class TransportationViewSet(LoggingMixin, viewsets.ModelViewSet):
