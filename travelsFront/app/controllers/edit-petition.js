@@ -23,8 +23,6 @@ export default Ember.Controller.extend({
 				this.get('model').set('status', rec);
 				this.get('model').set('updateDate',this.get('now'));
 
-				console.log(this.get('model').get('updateDate'));
-
 				this.get('model').set('status', rec);
 
 				var self=this;
@@ -32,6 +30,21 @@ export default Ember.Controller.extend({
 					self.set('statePetition', true);
 					self.set('message','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
 
+					let endDate=self.get('model.taskEndDate');
+					if (endDate!==null) {
+
+						endDate=endDate.replace('Z','');
+
+						self.set('model.taskEndDate',endDate);
+					}
+
+
+					let startDate=self.get('model.taskStartDate');
+					if(startDate!==null){
+						startDate=startDate.replace('Z','');
+
+						self.set('model.taskStartDate',startDate);
+					}
 				}, function(reason) {
 					self.set('statePetition', false);
 					self.set('message','Η αποθήκευση των στοιχείων της αίτησης σας απέτυχε...');
@@ -57,6 +70,22 @@ export default Ember.Controller.extend({
 
 					self.set('message','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
 					self.set('statePetition', true);
+					let endDate=self.get('model.taskEndDate');
+					if (endDate!==null) {
+
+						endDate=endDate.replace('Z','');
+
+						self.set('model.taskEndDate',endDate);
+					}
+
+
+					let startDate=self.get('model.taskStartDate');
+					if(startDate!==null){
+						startDate=startDate.replace('Z','');
+
+						self.set('model.taskStartDate',startDate);
+					}
+
 				}, function(reason) {
 
 					self.set('message','Η υποβολή των στοιχείων της αίτησης σας απέτυχε...');

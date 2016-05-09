@@ -43,6 +43,12 @@ export default Ember.Controller.extend({
 				this.get('model').set('creationDate',now);
 				this.get('model').set('updateDate',now);
 
+				/*let endDate=this.get('model').get('taskEndDate');*/
+				//console.log("Enddate:"+endDate);
+				//endDate=moment(endDate).format("YYYY-MM-DDTHH:mm:ss");
+				//console.log("Formated enddate:"+endDate);
+				/*this.get('model').set('taskEndDate',endDate);*/
+
 
 				this.get('model').set('status', rec);
 
@@ -50,6 +56,7 @@ export default Ember.Controller.extend({
 				this.get('model').save().then(function(value) {
 					self.set('statePetition', true);
 					self.set('message','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
+
 					self.transitionToRoute('petitionList');
 
 				}, function(reason) {

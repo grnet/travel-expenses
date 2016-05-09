@@ -3,7 +3,43 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	model(params) {
-		return this.store.findRecord('petition', params.petition_id);
+
+		var model= this.store.findRecord('petition', params.petition_id);
+
+		//model.then(function(petition) {
+		//console.log(petition.get('taskEndDate'));
+
+		//let endDate=petition.get('taskEndDate');
+		//if (endDate!==null) {
+
+		//endDate=endDate.substring(0,endDate.length-1);
+		//petition.set('taskEndDate',endDate);
+		//}
+		//});
+
+		return model;
+	},
+	afterModel(petition){
+
+		let endDate=petition.get('taskEndDate');
+		console.log("End date:"+endDate);
+		if (endDate!==null) {
+
+			//endDate=endDate.substring(0,endDate.length-1);
+			endDate=endDate.replace('Z','');
+			petition.set('taskEndDate',endDate);
+		}
+
+		let startDate=petition.get('taskStartDate');
+
+		console.log("Start date:"+startDate);
+		if (startDate!==null){ 
+
+			//startDate=startDate.substring(0,startDate.length-1);
+			startDate=startDate.replace('Z','');
+			petition.set('taskStartDate',startDate);
+		}
+
 	},
 
 	setupController: function(controller, model) {
