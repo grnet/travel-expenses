@@ -36,5 +36,6 @@ urlpatterns = [
     url(r'^auth/', include(auth_urls)),
     url(r'^users_related/', include(router.urls)),
     url(r'^petition/', include(router_petition.urls)),
+    url(r'^docs/', include('rest_framework_docs.urls')),
 
 ]

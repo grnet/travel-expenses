@@ -25,7 +25,7 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
-
+TEMPLATE_DIRS = ()
 
 # Application definition
 
@@ -41,7 +41,8 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'rest_framework_tracking',
     'djoser',
-    'crispy_forms'
+    'crispy_forms',
+    'rest_framework_docs',
 )
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
