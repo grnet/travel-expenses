@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
 
 	}),
 	country_selected: false,
-	arrivalPointModel: null,
+	arrivalPoints: null,
 
 	actions: {
 		setCountry(value){
@@ -19,7 +19,7 @@ export default Ember.Controller.extend({
 
 				let id=value.substring(value.indexOf('country/')+8,value.lastIndexOf('/'));
 				var city=this.store.query('city',{ country: id});
-				this.set('arrivalPointModel',city);
+				this.set('arrivalPoints',city);
 				this.get('model').set('arrivalPoint',city);
 			}
 			else
@@ -44,7 +44,10 @@ export default Ember.Controller.extend({
 				var self=this;
 				this.get('model').save().then(function(value) {
 					self.set('statePetition', true);
+					self.set('country_selected',false);
+
 					self.set('message','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
+
 
 					let endDate=self.get('model.taskEndDate');
 					if (endDate!==null) {
@@ -64,6 +67,7 @@ export default Ember.Controller.extend({
 				}, function(reason) {
 					self.set('statePetition', false);
 					self.set('message','Η αποθήκευση των στοιχείων της αίτησης σας απέτυχε...');
+					self.set('country_selected',false);
 
 				});
 			}
@@ -86,6 +90,8 @@ export default Ember.Controller.extend({
 
 					self.set('message','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
 					self.set('statePetition', true);
+					self.set('country_selected',false);
+					
 					let endDate=self.get('model.taskEndDate');
 					if (endDate!==null) {
 
@@ -106,6 +112,8 @@ export default Ember.Controller.extend({
 
 					self.set('message','Η υποβολή των στοιχείων της αίτησης σας απέτυχε...');
 					self.set('statePetition', false);
+					self.set('country_selected',false);
+					
 				});
 			}
 		},	

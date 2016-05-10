@@ -56,10 +56,10 @@
 				<label for="departurePoint" class="col-sm-4 control-label">Τόπος Αναχώρησης</label>
 				<div class="col-sm-8">
 					<select onchange={{action "setDeparturePoint" value="target.value"}} class="form-control">
-						<option value=""></option>
+						<option value="">Επιλέξτε πόλη αναχώρησης</option>
 
 						{{#each departurePoints as |departurePointChoice|}}
-						<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.name "ΑΘΗΝΑ"}}>{{departurePointChoice.name}}</option>
+						<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.id model.departurePoint.id}}>{{departurePointChoice.name}}</option>
 						{{/each}}
 					</select>	
 				</div>

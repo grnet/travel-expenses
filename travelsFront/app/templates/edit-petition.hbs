@@ -167,7 +167,7 @@
 						<select onchange={{action "setArrivalPoint" value="target.value"}} class="form-control" disabled={{not country_selected}}>
 							<option value=""></option>
 
-							{{#each arrivalPointModel as |arrivalPointChoice|}}
+							{{#each arrivalPoints as |arrivalPointChoice|}}
 							<option value={{arrivalPointChoice.id}} selected={{eq arrivalPointChoice.id model.arrivalPoint.id}}>{{arrivalPointChoice.name}}</option>
 							{{/each}}
 						</select>
