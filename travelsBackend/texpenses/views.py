@@ -67,43 +67,64 @@ def custom_activation_view(request, uid=None, token=None):
 
 
 class CustomUserView(LoggingMixin, djoser_views.UserView):
+
+    """API endpoint that lets a user view and edit some basic\
+        user related info"""
     pass
 
 
 class CustomActivationView(LoggingMixin, djoser_views.ActivationView):
+
+    """API endpoint that activates a new user account"""
     pass
 
 
 class CustomSetUsernameView(LoggingMixin, djoser_views.SetUsernameView):
+
+    """API endpoint that lets a user change his/her username"""
     pass
 
 
 class CustomSetPasswordView(LoggingMixin, djoser_views.SetPasswordView):
+
+    """API endpoint that lets a user change his/her password"""
     pass
 
 
 class CustomPasswordResetView(LoggingMixin, djoser_views.PasswordResetView):
+
+    """API endpoint that sends email to user with password reset link"""
     pass
 
 
 class CustomPasswordResetConfirmView(LoggingMixin,
                                      djoser_views.PasswordResetConfirmView):
+
+    """Use this endpoint to finish reset password process"""
     pass
 
 
 class CustomLoginView(LoggingMixin, djoser_views.LoginView):
+
+    """Use this endpoint to obtain user authentication toke"""
     pass
 
 
 class CustomLogoutView(LoggingMixin, djoser_views.LogoutView):
+
+    """API endpoint for logging out a user"""
     pass
 
 
 class CustomRootView(LoggingMixin, djoser_views.RootView):
+
+    """API endpoint that lists all user related API endpoints"""
     pass
 
 
 class CustomUserDetailedView(LoggingMixin, djoser_views.UserView):
+
+    """API endpoint that allows a user to view and edit his personal info"""
 
     serializer_class = UserProfileSerializer
     permission_classes = (
@@ -114,7 +135,8 @@ class CustomUserDetailedView(LoggingMixin, djoser_views.UserView):
 
 class SpecialtyViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows specialty details to be viewed or edited """
+    """API endpoint that allows specialty details to be viewed or edited\
+        (by a permitted user) """
 
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
@@ -125,7 +147,8 @@ class SpecialtyViewSet(LoggingMixin, viewsets.ModelViewSet):
 
 class KindViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows specialty details to be viewed or edited """
+    """API endpoint that allows specialty details to be viewed or edited\
+        (by a permitted user)"""
 
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
@@ -136,7 +159,8 @@ class KindViewSet(LoggingMixin, viewsets.ModelViewSet):
 
 class TaxOfficeViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows specialty details to be viewed or edited """
+    """API endpoint that allows specialty details to be viewed or edited\
+        (by a permitted user)"""
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
@@ -145,12 +169,15 @@ class TaxOfficeViewSet(LoggingMixin, viewsets.ModelViewSet):
 
 
 class CustomUserRegistrationView(LoggingMixin, djoser_views.RegistrationView):
+
+    """API endpoint for registering a new user"""
     serializer_class = CustomUserRegistrationSerializer
 
 
 class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows accomondation details to be viewed or edited """
+    """API endpoint that allows accomondation details to be viewed or edited\
+        (permissions are needed)"""
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
@@ -160,7 +187,8 @@ class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
 
 class ProjectViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows project details to be viewed or edited """
+    """API endpoint that allows project details to be viewed or edited\
+        (permissions are needed) """
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
@@ -170,7 +198,8 @@ class ProjectViewSet(LoggingMixin, viewsets.ModelViewSet):
 
 class MovementCategoriesViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows movement  details to be viewed or edited """
+    """API endpoint that allows movement details to be viewed or edited\
+         (permissions are needed) """
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
@@ -180,7 +209,8 @@ class MovementCategoriesViewSet(LoggingMixin, viewsets.ModelViewSet):
 
 class CityViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows arrival point to be viewed or edited """
+    """API endpoint that allows city info to be viewed or edited\
+        (permissions are needed)"""
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
@@ -192,7 +222,8 @@ class CityViewSet(LoggingMixin, viewsets.ModelViewSet):
 
 class CountryViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows arrival point to be viewed or edited """
+    """API endpoint that allows country info to be viewed or edited \
+        (permissions are needed)"""
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
@@ -202,7 +233,8 @@ class CountryViewSet(LoggingMixin, viewsets.ModelViewSet):
 
 class CountryCategoryViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows arrival point to be viewed or edited """
+    """API endpoint that allows country categories to be viewed or edited\
+         (permissions are needed)"""
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
@@ -212,7 +244,8 @@ class CountryCategoryViewSet(LoggingMixin, viewsets.ModelViewSet):
 
 class TransportationViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows transportation to be viewed or edited """
+    """API endpoint that allows transportation info to be viewed or edited\
+        (permissions are needed) """
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
@@ -222,7 +255,8 @@ class TransportationViewSet(LoggingMixin, viewsets.ModelViewSet):
 
 class PetitionStatusViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows transportation to be viewed or edited """
+    """API endpoint that allows petition statuses to be viewed or edited \
+        (permissions are needed)"""
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
@@ -232,7 +266,8 @@ class PetitionStatusViewSet(LoggingMixin, viewsets.ModelViewSet):
 
 class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows transportation to be viewed or edited """
+    """API endpoint that allows user related petitions to be viewed or edited \
+        (permissions are needed)"""
     petition_status = "http://127.0.0.1:8000/petition/petition_status/2/"
 
     authentication_classes = (SessionAuthentication, TokenAuthentication)
