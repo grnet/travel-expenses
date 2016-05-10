@@ -11,5 +11,5 @@
 	display: inline-block;   
 }
 .arrival-point {
-	border-style: groove;
+	border-style: solid;
 }

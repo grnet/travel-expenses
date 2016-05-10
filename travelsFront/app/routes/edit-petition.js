@@ -42,8 +42,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 
 	setupController: function(controller, model) {
 		this._super(controller, model);
-		controller.set('arrivalPoints', this.store.findAll('city'));
-		//controller.set('departure-points', this.store.findAll('city'));
+		//controller.set('arrivalPoints', this.store.findAll('city'));
+		controller.set('countries', this.store.findAll('country'));
 		controller.set('departurePoints', this.store.query('city',{ country: 10}));
 		controller.set('movement-categories', this.store.findAll('movementCategory'));
 		controller.set('transportations', this.store.findAll('transportation'));

@@ -9,9 +9,26 @@ export default Ember.Controller.extend({
 		return moment().format("YYYY-MM-DDTHH:mm:ssZ");
 
 	}),
+	country_selected: false,
+	arrivalPointModel: null,
 
 
 	actions: {
+
+		setCountry(value){
+
+			if (value!=='') {
+				this.set('country_selected',true);
+
+				let id=value.substring(value.indexOf('country/')+8,value.lastIndexOf('/'));
+				var city=this.store.query('city',{ country: id});
+				this.set('arrivalPointModel',city);
+				this.get('model').set('arrivalPoint',city);
+			}
+			else
+				this.set('country_selected',false);
+
+		},
 
 		petitionSave(){
 

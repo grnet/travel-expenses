@@ -15,7 +15,7 @@
 					<select onchange={{action "setMovementCategory" value="target.value"}} class="form-control">
 						<option value=""></option>
 						{{#each movement-categories as |movementCategoryChoice|}}
-							<option value={{movementCategoryChoice.id}} selected={{eq movementCategoryChoice.id model.movementCategory.id}}>{{movementCategoryChoice.name}}</option>
+						<option value={{movementCategoryChoice.id}} selected={{eq movementCategoryChoice.id model.movementCategory.id}}>{{movementCategoryChoice.name}}</option>
 						{{/each}}
 					</select>				
 				</div>
@@ -27,12 +27,12 @@
 					<select onchange={{action "setProject" value="target.value"}} class="form-control">
 						<option value=""></option>
 						{{#each projects as |projectChoice|}}
-							<option value={{projectChoice.id}} selected={{eq projectChoice.id model.project.id}}>{{projectChoice.name}}</option>
+						<option value={{projectChoice.id}} selected={{eq projectChoice.id model.project.id}}>{{projectChoice.name}}</option>
 						{{/each}}
 					</select>	
 				</div>
 				{{#if (v-get model 'project' 'isInvalid') }}
-					<font color="red">{{v-get model 'project' 'message'}}</font>
+				<font color="red">{{v-get model 'project' 'message'}}</font>
 				{{/if}} 
 
 			</div>
@@ -59,25 +59,39 @@
 						<option value=""></option>
 
 						{{#each departurePoints as |departurePointChoice|}}
-							<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.id model.departurePoint.id}}>{{departurePointChoice.name}}</option>
+						<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.id model.departurePoint.id}}>{{departurePointChoice.name}}</option>
 						{{/each}}
 					</select>	
 				</div>
 			</div>
 
-			<div class="profileForm form-group">
-				<label for="arrivalPoint" class="col-sm-4 control-label">Τόπος Προορισμού</label>
-				<div class="col-sm-8">	
-					<select onchange={{action "setArrivalPoint" value="target.value"}} class="form-control">
-						<option value=""></option>
+			<div class='arrival-point'>
+				<div class="profileForm form-group">
+					<label for="arrivalPoint" class="col-sm-4 control-label">Χώρα Προορισμού</label>
+					<div class="col-sm-8">	
+						<select onchange={{action "setCountry" value="target.value"}} class="form-control">
+							<option value="">Επιλέξτε χώρα προορισμού</option>
 
-						{{#each arrivalPoints as |arrivalPointChoice|}}
+							{{#each countries as |countryChoice|}}
+							<option value={{countryChoice.id}}>{{countryChoice.name}}</option>
+							{{/each}}
+						</select>
+					</div>
+				</div>
+
+				<div class="profileForm form-group">
+					<label for="arrivalPoint" class="col-sm-4 control-label">Πόλη Προορισμού</label>
+					<div class="col-sm-8">	
+						<select onchange={{action "setArrivalPoint" value="target.value"}} class="form-control" disabled={{not country_selected}}>
+							<option value=""></option>
+
+							{{#each arrivalPointModel as |arrivalPointChoice|}}
 							<option value={{arrivalPointChoice.id}} selected={{eq arrivalPointChoice.id model.arrivalPoint.id}}>{{arrivalPointChoice.name}}</option>
-						{{/each}}
-					</select>
+							{{/each}}
+						</select>
+					</div>
 				</div>
 			</div>
-
 
 			<div class="profileForm form-group">
 				<label for="transportation" class="col-sm-4 control-label">Μέσο Μετακίνησης</label>
@@ -86,7 +100,7 @@
 						<option value=""></option>
 
 						{{#each transportations as |transportationChoice|}}
-							<option value={{transportationChoice.id}} selected={{eq transportationChoice.id model.transportation.id}}>{{transportationChoice.name}}</option>
+						<option value={{transportationChoice.id}} selected={{eq transportationChoice.id model.transportation.id}}>{{transportationChoice.name}}</option>
 						{{/each}}
 					</select>
 				</div>
@@ -96,7 +110,7 @@
 				<label for="reason" class="col-sm-4 control-label">Αιτιολογία Μετακίνησης</label>
 				<div class="col-sm-8">	
 					{{#character-limit max=100}}
-						{{textarea value=model.reason type="textarea" class="form-control" autofocus="autofocus"}}
+					{{textarea value=model.reason type="textarea" class="form-control" autofocus="autofocus"}}
 					{{/character-limit}}
 				</div>
 			</div>
@@ -105,7 +119,7 @@
 				<label for="recTransport" class="col-sm-4 control-label">Προτεινόμενα Μέσα Μετακίνησης</label>
 				<div class="col-sm-8">	
 					{{#character-limit max=100}}
-						{{textarea value=model.recTransport type="text" class="form-control" autofocus="autofocus"}}
+					{{textarea value=model.recTransport type="text" class="form-control" autofocus="autofocus"}}
 					{{/character-limit}}
 				</div>
 			</div>
@@ -114,7 +128,7 @@
 				<label for="recAccomondation" class="col-sm-4 control-label">Προτεινόμενο Κατάλυμα</label>
 				<div class="col-sm-8">	
 					{{#character-limit max=100}}
-						{{textarea value=model.recAccomondation type="textarea" class="form-control" autofocus="autofocus"}}
+					{{textarea value=model.recAccomondation type="textarea" class="form-control" autofocus="autofocus"}}
 					{{/character-limit}}
 				</div>
 			</div>
@@ -123,7 +137,7 @@
 				<label for="recCostParticipation" class="col-sm-4 control-label">Κόστος Συμμετοχής</label>
 				<div class="col-sm-8">	
 					{{#character-limit max=100}}
-						{{textarea value=model.recCostParticipation type="textarea" class="form-control" autofocus="autofocus"}}
+					{{textarea value=model.recCostParticipation type="textarea" class="form-control" autofocus="autofocus"}}
 					{{/character-limit}}
 				</div>
 			</div>
@@ -133,11 +147,11 @@
 
 		<div class="profileForm">
 			{{#if (v-get model 'isValid') }}
-				{{#if statePetition}}
-					<font color="green">{{message}}</font>
-				{{else}}
-					<font color="red">{{message}}</font>
-				{{/if}}
+			{{#if statePetition}}
+			<font color="green">{{message}}</font>
+			{{else}}
+			<font color="red">{{message}}</font>
+			{{/if}}
 			{{/if}}
 		</div>
 

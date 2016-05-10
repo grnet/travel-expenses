@@ -30,6 +30,7 @@ export default DS.Model.extend(Validations,{
 	updateDate: DS.attr(),
 	departurePoint: DS.belongsTo('city'),
 	arrivalPoint: DS.belongsTo('city'),
+	country: DS.belongsTo('country'),
 	transportation: DS.belongsTo('transportation'),
 	movementCategory: DS.belongsTo('movement-category'),
 	project: DS.belongsTo('project'),

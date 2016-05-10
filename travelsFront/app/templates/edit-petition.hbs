@@ -147,19 +147,33 @@
 				</div>
 			</div>
 
-			<div class="profileForm form-group">
-				<label for="arrivalPoint" class="col-sm-4 control-label">Τόπος Προορισμού</label>
-				<div class="col-sm-8">	
-					<select onchange={{action "setArrivalPoint" value="target.value"}} class="form-control">
-						<option value=""></option>
+				<div class='arrival-point'>
+				<div class="profileForm form-group">
+					<label for="arrivalPoint" class="col-sm-4 control-label">Χώρα Προορισμού</label>
+					<div class="col-sm-8">	
+						<select onchange={{action "setCountry" value="target.value"}} class="form-control">
+							<option value="">Επιλέξτε χώρα προορισμού</option>
 
-						{{#each arrivalPoints as |arrivalPointChoice|}}
-						<option value={{arrivalPointChoice.id}} selected={{eq arrivalPointChoice.id model.arrivalPoint.id}}>{{arrivalPointChoice.name}}</option>
-						{{/each}}
-					</select>
+							{{#each countries as |countryChoice|}}
+							<option value={{countryChoice.id}} selected={{eq countryChoice.id model.country.id}}>{{countryChoice.name}}</option>
+							{{/each}}
+						</select>
+					</div>
+				</div>
+
+				<div class="profileForm form-group">
+					<label for="arrivalPoint" class="col-sm-4 control-label">Πόλη Προορισμού</label>
+					<div class="col-sm-8">	
+						<select onchange={{action "setArrivalPoint" value="target.value"}} class="form-control" disabled={{not country_selected}}>
+							<option value=""></option>
+
+							{{#each arrivalPointModel as |arrivalPointChoice|}}
+							<option value={{arrivalPointChoice.id}} selected={{eq arrivalPointChoice.id model.arrivalPoint.id}}>{{arrivalPointChoice.name}}</option>
+							{{/each}}
+						</select>
+					</div>
 				</div>
 			</div>
-
 
 			<div class="profileForm form-group">
 				<label for="transportation" class="col-sm-4 control-label">Μέσο Μετακίνησης</label>
