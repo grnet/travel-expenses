@@ -94,13 +94,13 @@ export default Ember.Controller.extend({
 			}
 		},	
 		setArrivalPoint(id){
-			var rec = this.store.peekRecord('arrival-point', id);
+			var rec = this.store.peekRecord('city', id);
 			this.get('model').set('arrivalPoint', rec);
 
 		},
 
 		setDeparturePoint(id){
-			var rec = this.store.peekRecord('departure-point', id);
+			var rec = this.store.peekRecord('city', id);
 			this.get('model').set('departurePoint', rec);
 
 		},

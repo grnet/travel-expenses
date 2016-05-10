@@ -22,7 +22,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	afterModel(petition){
 
 		let endDate=petition.get('taskEndDate');
-		console.log("End date:"+endDate);
 		if (endDate!==null) {
 
 			//endDate=endDate.substring(0,endDate.length-1);
@@ -32,7 +31,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 
 		let startDate=petition.get('taskStartDate');
 
-		console.log("Start date:"+startDate);
 		if (startDate!==null){ 
 
 			//startDate=startDate.substring(0,startDate.length-1);
@@ -44,8 +42,9 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 
 	setupController: function(controller, model) {
 		this._super(controller, model);
-		controller.set('arrival-points', this.store.findAll('arrivalPoint'));
-		controller.set('departure-points', this.store.findAll('departurePoint'));
+		controller.set('arrivalPoints', this.store.findAll('city'));
+		//controller.set('departure-points', this.store.findAll('city'));
+		controller.set('departurePoints', this.store.query('city',{ country: 10}));
 		controller.set('movement-categories', this.store.findAll('movementCategory'));
 		controller.set('transportations', this.store.findAll('transportation'));
 		controller.set('projects', this.store.findAll('project'));

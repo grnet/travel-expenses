@@ -140,7 +140,7 @@
 					<select onchange={{action "setDeparturePoint" value="target.value"}} class="form-control">
 						<option value=""></option>
 
-						{{#each departure-points as |departurePointChoice|}}
+						{{#each departurePoints as |departurePointChoice|}}
 						<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.id model.departurePoint.id}}>{{departurePointChoice.name}}</option>
 						{{/each}}
 					</select>	
@@ -153,7 +153,7 @@
 					<select onchange={{action "setArrivalPoint" value="target.value"}} class="form-control">
 						<option value=""></option>
 
-						{{#each arrival-points as |arrivalPointChoice|}}
+						{{#each arrivalPoints as |arrivalPointChoice|}}
 						<option value={{arrivalPointChoice.id}} selected={{eq arrivalPointChoice.id model.arrivalPoint.id}}>{{arrivalPointChoice.name}}</option>
 						{{/each}}
 					</select>

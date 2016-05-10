@@ -16,12 +16,12 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 
 		var url = this._super(modelName, id, snapshot, requestType, query);
 
-		if (modelName === "departure-point" && requestType==="findRecord"){
+		if (modelName === "country" && requestType==="findRecord"){
 			url=id;
 		}
 
-		if (modelName === "departure-point" && requestType==="findAll"){
-			url = this.get('host') +this.get('namespace')+"/departure_point/";
+		if (modelName === "country" && requestType==="findAll"){
+			url = this.get('host') +this.get('namespace')+"/country/";
 		}
 
 		return url;
