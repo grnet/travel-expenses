@@ -8,6 +8,7 @@ router = routers.DefaultRouter()
 router.register(r'specialty', views.SpecialtyViewSet)
 router.register(r'taxoffice', views.TaxOfficeViewSet)
 router.register(r'kind', views.KindViewSet)
+router.register(r'category', views.UserCategoryViewSet)
 
 
 router_petition = routers.DefaultRouter()

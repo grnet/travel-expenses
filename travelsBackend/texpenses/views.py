@@ -24,6 +24,7 @@ from models import Country
 from models import CountryCategory
 from models import Transportation
 from models import PetitionStatus
+from models import UserCategory
 
 from serializers import UserProfileSerializer
 from serializers import SpecialtySerializer
@@ -39,6 +40,7 @@ from serializers import ProjectSerializer
 from serializers import TransportationSerializer
 from serializers import UserPetitionSerializer
 from serializers import PetitionStatusSerializer
+from serializers import UserCategorySerializer
 from custom_permissions import isAdminOrRead
 from custom_permissions import IsOwnerOrAdmin
 logger = logging.getLogger(__name__)
@@ -166,6 +168,17 @@ class TaxOfficeViewSet(LoggingMixin, viewsets.ModelViewSet):
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = TaxOffice.objects.all()
     serializer_class = TaxOfficeSerializer
+
+
+class UserCategoryViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows specialty details to be viewed or edited\
+        (by a permitted user)"""
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
+    queryset = UserCategory.objects.all()
+    serializer_class = UserCategorySerializer
 
 
 class CustomUserRegistrationView(LoggingMixin, djoser_views.RegistrationView):

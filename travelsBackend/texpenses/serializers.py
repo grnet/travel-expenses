@@ -14,6 +14,7 @@ from models import Country
 from models import CountryCategory
 from models import Transportation
 from models import PetitionStatus
+from models import UserCategory
 
 User = get_user_model()
 
@@ -53,6 +54,16 @@ class KindSerializer(serializers.HyperlinkedModelSerializer):
         read_only_fields = ('id', 'url',)
 
 
+class UserCategorySerializer(serializers.HyperlinkedModelSerializer):
+
+    """Serializer class for kind model """
+
+    class Meta:
+        model = UserCategory
+        fields = ('name', 'id', 'url', )
+        read_only_fields = ('id', 'url',)
+
+
 class TaxOfficeSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
@@ -69,9 +80,12 @@ class CustomUserRegistrationSerializer(
         group = Group.objects.get(name='USER')
         group.user_set.add(user)
 
+        category = UserCategory.objects.get(name='B')
+
         if settings.get('SEND_ACTIVATION_EMAIL'):
             user.is_active = False
-            user.save(update_fields=['is_active'])
+            user.category = category
+            user.save(update_fields=['is_active', 'category'])
         return user
 
 

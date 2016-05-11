@@ -25,6 +25,17 @@ class Kind(models.Model):
         return self.name
 
 
+class UserCategory(models.Model):
+
+    """Docstring for User Category. """
+
+    name = models.CharField(max_length=10)
+    id = models.AutoField(primary_key=True)
+
+    def __unicode__(self):
+        return self.name
+
+
 class TaxOffice(models.Model):
 
     """Docstring for TaxOffice. """
@@ -47,6 +58,8 @@ class UserProfile(AbstractUser):
                                     validators=[afm_validator])
     taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
     kind = models.ForeignKey(Kind, blank=True, null=True)
+    category = models.ForeignKey(
+        UserCategory, blank=True,null=True)
 
 
 class Accomondation(models.Model):

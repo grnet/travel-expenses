@@ -12,6 +12,7 @@ from .models import PetitionStatus
 from .models import CountryCategory
 from .models import Country
 from .models import City
+from .models import UserCategory
 # Register custom models here.
 
 # user profile related models
@@ -19,6 +20,7 @@ admin.site.register(UserProfile)
 admin.site.register(Specialty)
 admin.site.register(TaxOffice)
 admin.site.register(Kind)
+admin.site.register(UserCategory)
 
 # user petition related models
 admin.site.register(Accomondation)
