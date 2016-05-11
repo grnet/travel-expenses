@@ -5,6 +5,8 @@ from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 from djoser import views as djoser_views
+from django.db.utils import OperationalError
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
@@ -283,7 +285,12 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         (permissions are needed)"""
     # petition_status = "http://127.0.0.1:8000/petition/petition_status/2/"
     missing_field = None
-    petition_status = str(PetitionStatus.objects.get(id='2').id)
+    try:
+        petition_status = str(PetitionStatus.objects.get(id='2').id)
+    except OperationalError:
+        pass
+    except ObjectDoesNotExist:
+        pass
 
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated, IsOwnerOrAdmin,

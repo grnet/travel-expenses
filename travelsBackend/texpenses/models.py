@@ -59,7 +59,7 @@ class UserProfile(AbstractUser):
     taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
     kind = models.ForeignKey(Kind, blank=True, null=True)
     category = models.ForeignKey(
-        UserCategory, blank=True,null=True)
+        UserCategory, blank=True, null=True)
 
 
 class Accomondation(models.Model):
