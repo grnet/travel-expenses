@@ -36,38 +36,13 @@ export default Ember.Controller.extend({
 			let profileIsValid=this.get('model.validations.isValid')
 
 			if (profileIsValid) {
-				//this.get('model').save();
 
 				var rec = this.store.peekRecord('petition-status',ENV.petition_status_1);
-				var pet_name=this.get('profile.first_name');	
-				var pet_surname=this.get('profile.last_name');
-				var pet_iban=this.get('profile.iban');
-				var pet_specialty=this.get('profile.specialtyID');
-				var pet_kind=this.get('profile.kind');
-				var pet_taxNum=this.get('profile.taxRegNum');
-				var pet_taxOffice=this.get('profile.taxOffice');
-
-
 				this.get('model').set('status', rec);
-				this.get('model').set('name', pet_name);
-				this.get('model').set('surname',pet_surname);
-				this.get('model').set('iban', pet_iban);
-				this.get('model').set('specialtyID', pet_specialty);
-				this.get('model').set('kind', pet_kind);
-				this.get('model').set('taxRegNum', pet_taxNum);
-				this.get('model').set('taxOffice', pet_taxOffice);
+
 				let now=this.get('now');
 				this.get('model').set('creationDate',now);
 				this.get('model').set('updateDate',now);
-
-				/*let endDate=this.get('model').get('taskEndDate');*/
-				//console.log("Enddate:"+endDate);
-				//endDate=moment(endDate).format("YYYY-MM-DDTHH:mm:ss");
-				//console.log("Formated enddate:"+endDate);
-				/*this.get('model').set('taskEndDate',endDate);*/
-
-
-				this.get('model').set('status', rec);
 
 				var self=this;
 				this.get('model').save().then(function(value) {
@@ -89,31 +64,13 @@ export default Ember.Controller.extend({
 			let profileIsValid=this.get('model.validations.isValid')
 
 			if (profileIsValid) {
-				//this.get('model').save();
 				var rec = this.store.peekRecord('petition-status',ENV.petition_status_2);
-
-				var pet_name=this.get('profile.first_name');	
-				var pet_surname=this.get('profile.last_name');
-				var pet_iban=this.get('profile.iban');
-				var pet_specialty=this.get('profile.specialtyID');
-				var pet_kind=this.get('profile.kind');
-				var pet_taxNum=this.get('profile.taxRegNum');
-				var pet_taxOffice=this.get('profile.taxOffice');
 
 
 				this.get('model').set('status', rec);
-				this.get('model').set('name', pet_name);
-				this.get('model').set('surname',pet_surname);
-				this.get('model').set('iban', pet_iban);
-				this.get('model').set('specialtyID', pet_specialty);
-				this.get('model').set('kind', pet_kind);
-				this.get('model').set('taxRegNum', pet_taxNum);
-				this.get('model').set('taxOffice', pet_taxOffice);
 				let now=this.get('now');
 				this.get('model').set('creationDate',now);
 				this.get('model').set('updateDate',now);
-
-
 
 				var self=this;
 				this.get('model').save().then(function(value) {

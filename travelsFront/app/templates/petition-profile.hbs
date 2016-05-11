@@ -3,21 +3,21 @@
 <div class="profileForm form-group">
 	<label for="first_name" class="col-sm-2 control-label">Όνομα</label>
 	<div class="col-sm-8">
-		{{input value=profile.first_name type="text" class="form-control" autofocus="autofocus"}}
+		{{input value=model.name type="text" class="form-control" autofocus="autofocus"}}
 	</div>
 </div>
 
 <div class="profileForm form-group">
 	<label for="last_name" class="col-sm-2 control-label">Επώνυμο</label>
 	<div class="col-sm-8">	
-		{{input value=profile.last_name type="text" class="form-control" autofocus="autofocus"}}
+		{{input value=model.surname type="text" class="form-control" autofocus="autofocus"}}
 	</div>
 </div>
 
 <div class="profileForm form-group">
 	<label for="iban" class="col-sm-2 control-label">IBAN</label>
 	<div class="col-sm-8">	
-		{{input value=profile.iban type="text" class="form-control" autofocus="autofocus"}}
+		{{input value=model.iban type="text" class="form-control" autofocus="autofocus"}}
 	</div>
 	{{#if (v-get model 'iban' 'isInvalid') }}
 		<font color="red">{{v-get model 'iban' 'message'}}</font>
@@ -32,7 +32,7 @@
 			<option value=""></option>
 
 			{{#each specialties as |specialtyChoice|}}
-				<option value={{specialtyChoice.id}} selected={{eq specialtyChoice.id profile.specialtyID.id}}>{{specialtyChoice.name}}</option>
+				<option value={{specialtyChoice.id}} selected={{eq specialtyChoice.id model.specialtyID.id}}>{{specialtyChoice.name}}</option>
 
 			{{/each}}
 		</select>		
@@ -47,7 +47,7 @@
 
 			{{#each kinds as |kindChoice|}}
 
-				<option value={{kindChoice.id}} selected={{eq kindChoice.id profile.kind.id}}>{{kindChoice.name}}</option>
+				<option value={{kindChoice.id}} selected={{eq kindChoice.id model.kind.id}}>{{kindChoice.name}}</option>
 
 			{{/each}}
 		</select>
@@ -57,7 +57,7 @@
 <div class="profileForm form-group">
 	<label for="taxRegNum" class="col-sm-2 control-label">ΑΦΜ</label>
 	<div class="col-sm-8">	
-		{{input value=profile.taxRegNum type="text" class="form-control" autofocus="autofocus"}}
+		{{input value=model.taxRegNum type="text" class="form-control" autofocus="autofocus"}}
 
 	</div>
 	{{#if (v-get model 'taxRegNum' 'isInvalid') }}
@@ -73,7 +73,7 @@
 			<option value=""></option>
 			{{#each tax-offices  as |taxOfficeChoice|}}
 
-				<option value={{taxOfficeChoice.id}} selected={{eq taxOfficeChoice.id profile.taxOffice.id}}>{{taxOfficeChoice.name}}</option>
+				<option value={{taxOfficeChoice.id}} selected={{eq taxOfficeChoice.id model.taxOffice.id}}>{{taxOfficeChoice.name}}</option>
 
 			{{/each}}
 		</select>
