@@ -42,6 +42,5 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('tax-offices', this.store.findAll('taxOffice'));
 		controller.set('petition-statuses', this.store.findAll('petition-status'));
 		controller.set('petitionMessage','');
-
 	}
 });
