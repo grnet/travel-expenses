@@ -281,7 +281,9 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     """API endpoint that allows user related petitions to be viewed or edited \
         (permissions are needed)"""
-    petition_status = "http://127.0.0.1:8000/petition/petition_status/2/"
+    # petition_status = "http://127.0.0.1:8000/petition/petition_status/2/"
+    missing_field = None
+    petition_status = str(PetitionStatus.objects.get(id='2').id)
 
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated, IsOwnerOrAdmin,
@@ -335,26 +337,61 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             print "Shit"
             return False
 
-        values = request.data.values()
+        none_mandatory_fields = ['accomondation', 'recCostParticipation']
+        keys = request.data.keys()
 
-        if None in values or '' in values:
-            return False
+        for key in keys:
+            if key not in none_mandatory_fields:
+                value = request.data[key]
+                if value is None or value == '':
+                    self.missing_field = key
+                    return False
+            else:
+                continue
 
         return True
 
     def create(self, request):
         request.data['user'] = request.user
-        print request.data
 
+        # print request.data
         # return super(UserPetitionViewSet, self).create(request)
-        chosen_status = request.data['status']
-        print "Chosen status:" + str(chosen_status)
+        chosen_status = str(request.data['status'])
+
+        chosen_status = chosen_status[
+            chosen_status.index('status') + 7:-1]
+
         if chosen_status == self.petition_status:
             if self.checkDataCompleteness(request):
                 return super(UserPetitionViewSet, self).create(request)
             else:
                 return Response({'error': 'Petition is not complete,\
-                                 please insert all mandatory fields'},
+                                 please insert all mandatory fields\
+                                 (missing field:' + self.missing_field + ')'},
+                                status=status.HTTP_400_BAD_REQUEST)
+        if chosen_status is None:
+            return Response({'error': 'Petition status is not set'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        return super(UserPetitionViewSet, self).create(request)
+
+    def update(self, request, pk=None):
+        request.data['user'] = request.user
+
+        # print request.data
+        # return super(UserPetitionViewSet, self).create(request)
+        chosen_status = str(request.data['status'])
+
+        chosen_status = chosen_status[
+            chosen_status.index('status') + 7:-1]
+
+        if chosen_status == self.petition_status:
+            if self.checkDataCompleteness(request):
+                return super(UserPetitionViewSet, self).update(request, pk)
+            else:
+                return Response({'error': 'Petition is not complete,\
+                                 please insert all mandatory fields\
+                                 (missing field:' + self.missing_field + ')'},
                                 status=status.HTTP_400_BAD_REQUEST)
         if chosen_status is None:
             return Response({'error': 'Petition status is not set'},
