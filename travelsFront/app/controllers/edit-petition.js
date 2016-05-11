@@ -2,8 +2,9 @@ import Ember from 'ember';
 import ENV from 'travels-front/config/environment'; 
 
 export default Ember.Controller.extend({
-	message:'',
-	statePetition:'',
+	
+	editMessage:'',
+	
 	now: Ember.computed(function() {
 		return moment().format("YYYY-MM-DDTHH:mm:ssZ");
 
@@ -43,10 +44,11 @@ export default Ember.Controller.extend({
 
 				var self=this;
 				this.get('model').save().then(function(value) {
-					self.set('statePetition', true);
+					
 					self.set('country_selected',false);
 
-					self.set('message','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
+					self.set('editMessage','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
+					Ember.$('#divMessage').addClass('greenMessage');
 
 
 					let endDate=self.get('model.taskEndDate');
@@ -65,8 +67,9 @@ export default Ember.Controller.extend({
 						self.set('model.taskStartDate',startDate);
 					}
 				}, function(reason) {
-					self.set('statePetition', false);
-					self.set('message','Η αποθήκευση των στοιχείων της αίτησης σας απέτυχε...');
+					
+					self.set('editMessage','Η αποθήκευση των στοιχείων της αίτησης σας απέτυχε...');
+					Ember.$('#divMessage').addClass('redMessage');
 					self.set('country_selected',false);
 
 				});
@@ -88,8 +91,8 @@ export default Ember.Controller.extend({
 				var self=this;
 				this.get('model').save().then(function(value) {
 
-					self.set('message','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
-					self.set('statePetition', true);
+					self.set('editMessage','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
+					Ember.$('#divMessage').addClass('greenMessage');
 					self.set('country_selected',false);
 					
 					let endDate=self.get('model.taskEndDate');
@@ -110,8 +113,8 @@ export default Ember.Controller.extend({
 
 				}, function(reason) {
 
-					self.set('message','Η υποβολή των στοιχείων της αίτησης σας απέτυχε...');
-					self.set('statePetition', false);
+					self.set('editMessage','Η υποβολή των στοιχείων της αίτησης σας απέτυχε...');
+					Ember.$('#divMessage').addClass('redMessage');
 					self.set('country_selected',false);
 					
 				});

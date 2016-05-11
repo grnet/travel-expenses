@@ -18,12 +18,14 @@ export default Ember.Controller.extend({
 					petition.destroyRecord().then(function(value) {
 						self.set('statePetitionList', true);
 						self.set('deleteMessage', "Η αίτηση σας με id: " + value.id + " έχει διαγραφεί επιτυχώς !");
+						Ember.$('#divMessage').addClass('greenMessage');
 						console.log(value.id.name);
 						
 
 					}, function(reason) {
 						self.set('statePetitionList', false);
 						self.set('deleteMessage', 'Η διαγραφή της αίτησης σας απέτυχε...');
+						Ember.$('#divMessage').addClass('redMessage');
 
 					}); 
 
@@ -34,6 +36,7 @@ export default Ember.Controller.extend({
 			else{
 				self.set('statePetitionList', false);
 				self.set('deleteMessage', 'Η αίτηση σας έχει υποβληθεί συνεπώς δεν είναι δυνατή η διαγραφή της...');
+				Ember.$('#divMessage').addClass('redMessage');
 			}
 
 		},

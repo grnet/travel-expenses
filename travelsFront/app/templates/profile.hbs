@@ -95,13 +95,10 @@
 			<button type="submit" class="btn btn-primary" disabled={{v-get model 'isInvalid'}}>Submit</button>
 		</div>
 
-		<div class="profileForm">
+	
+		<div class="profileForm" id="divMessage">
 			{{#if (v-get model 'isValid') }}
-				{{#if stateProfile}}
-					<font color="green">{{profileMessage}}</font>
-				{{else}}
-					<font color="red">{{profileMessage}}</font>
-				{{/if}}
+				<font>{{profileMessage}}</font>	
 			{{/if}}
 		</div>	
 	</form>

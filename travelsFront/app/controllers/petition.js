@@ -4,7 +4,7 @@ import ENV from 'travels-front/config/environment';
 export default Ember.Controller.extend({
 
 	petitionMessage:'',
-	statePetition:'',
+
 	now: Ember.computed(function() {
 		return moment().format("YYYY-MM-DDTHH:mm:ssZ");
 
@@ -46,15 +46,13 @@ export default Ember.Controller.extend({
 
 				var self=this;
 				this.get('model').save().then(function(value) {
-					self.set('statePetition', true);
 					self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
-
+					Ember.$('#divMessage').addClass('greenMessage');
 					self.transitionToRoute('petitionList');
 
 				}, function(reason) {
-					self.set('statePetition', false);
 					self.set('petitionMessage','Η αποθήκευση των στοιχείων της αίτησης σας απέτυχε...');
-
+					Ember.$('#divMessage').addClass('redMessage');
 				});
 			}
 		},
@@ -76,12 +74,12 @@ export default Ember.Controller.extend({
 				this.get('model').save().then(function(value) {
 
 					self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
-					self.set('statePetition', true);
+					Ember.$('#divMessage').addClass('greenMessage');
 					self.transitionToRoute('petitionList');
 				}, function(reason) {
 
 					self.set('petitionMessage','Η υποβολή των στοιχείων της αίτησης σας απέτυχε...');
-					self.set('statePetition', false);
+					Ember.$('#divMessage').addClass('redMessage');
 				});
 			}
 		},
