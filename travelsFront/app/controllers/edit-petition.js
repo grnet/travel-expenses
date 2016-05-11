@@ -93,6 +93,7 @@ export default Ember.Controller.extend({
 
 					self.set('editMessage','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
 					Ember.$('#divMessage').addClass('greenMessage');
+					self.transitionToRoute('petitionList');
 					self.set('country_selected',false);
 					
 					let endDate=self.get('model.taskEndDate');

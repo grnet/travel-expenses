@@ -48,7 +48,7 @@ export default Ember.Controller.extend({
 				this.get('model').save().then(function(value) {
 					self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
 					Ember.$('#divMessage').addClass('greenMessage');
-					self.transitionToRoute('petitionList');
+					// self.transitionToRoute('petitionList');
 
 				}, function(reason) {
 					self.set('petitionMessage','Η αποθήκευση των στοιχείων της αίτησης σας απέτυχε...');
