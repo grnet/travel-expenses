@@ -8,7 +8,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	model() {
 		
 		return this.store.findAll('petition');
-	}
+	},
 	//afterModel(petitions){
 
 		//console.log("Petitions unsorted"+petitions);
@@ -21,8 +21,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		//return petitions;
 	//}
 
-	// setupController: function(controller, model) {
-	// 	this._super(controller, model);
-	// 	controller.set('petition',this.store.findAll('petition'));
-	// }
+	setupController: function(controller, model) {
+		this._super(controller, model);
+		controller.set('deleteMessage','');
+	}
 });
