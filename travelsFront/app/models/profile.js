@@ -24,6 +24,6 @@ export default DS.Model.extend(Validations,{
 	'kind': DS.belongsTo('kind'),
 	'taxRegNum': DS.attr(),
 	'taxOffice': DS.belongsTo('tax-office'),
-	'userCategory': DS.belongsTo('user-category')
+	'category': DS.belongsTo('category')
 
 });

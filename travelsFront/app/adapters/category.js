@@ -16,11 +16,11 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 
 		var url = this._super(modelName, id, snapshot, requestType, query);
 
-		if (modelName === "user-category" && requestType==="findRecord"){
+		if (modelName === "category" && requestType==="findRecord"){
 			url=id;
 		}
 
-		if (modelName === "user-category" && requestType==="findAll"){
+		if (modelName === "category" && requestType==="findAll"){
 			url = this.get('host') +this.get('namespace')+"/category/";
 
 		}

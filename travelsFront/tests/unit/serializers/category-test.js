@@ -1,8 +1,8 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('user-category', 'Unit | Serializer | user category', {
+moduleForModel('category', 'Unit | Serializer | category', {
   // Specify the other units that are required for this test.
-  needs: ['serializer:user-category']
+  needs: ['serializer:category']
 });
 
 // Replace this with your real tests.
