@@ -24,7 +24,7 @@ export default DS.Model.extend(Validations,{
 	kind: DS.belongsTo('kind'),
 	taxRegNum: DS.attr(),
 	taxOffice: DS.belongsTo('tax-office'),
-	category: DS.belongsTo('category'),
+	user_category: DS.belongsTo('category'),
 	taskStartDate: DS.attr(),
 	taskEndDate: DS.attr(),
 	creationDate: DS.attr(),

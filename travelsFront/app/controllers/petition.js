@@ -135,7 +135,7 @@ export default Ember.Controller.extend({
 		},
 		setCategory(id){
 			var rec = this.store.peekRecord('category', id);
-			this.get('model').set('category', rec);
+			this.get('model').set('user_category', rec);
 
 		}
 	},	

@@ -88,7 +88,7 @@
 
 			{{#each categories  as |categoryChoice|}}
 
-				<option value={{categoryChoice.id}} selected={{eq categoryChoice.id model.categoryChoice.id}}>{{categoryChoice.name}}</option>
+				<option value={{categoryChoice.id}} selected={{eq categoryChoice.id model.user_category.id}}>{{categoryChoice.name}}</option>
 
 			{{/each}}
 		</select>

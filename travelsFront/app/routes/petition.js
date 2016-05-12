@@ -24,7 +24,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 			petition.set('kind', pet_kind);
 			petition.set('taxRegNum', pet_taxNum);
 			petition.set('taxOffice', pet_taxOffice);
-			petition.set('category', pet_category);
+			petition.set('user_category', pet_category);
 
 		});
 
