@@ -46,6 +46,10 @@ export default Ember.Controller.extend({
 
 		petitionEdit(id){
 			this.transitionToRoute('editPetition',id);
+		},
+		clearMessage(){
+			var self=this;
+			self.set('deleteMessage','');
 		}
 
 	}
