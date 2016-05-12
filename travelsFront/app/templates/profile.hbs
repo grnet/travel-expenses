@@ -91,6 +91,21 @@
 			</div>	
 		</div>
 
+		<div class="profileForm form-group">
+			<label for="userCategory" class="col-sm-2 control-label">Κατηγορία Χρήστη</label>
+			<div class="col-sm-4"> 	
+				<select onchange={{action "setUserCategory" value="target.value"}} class="form-control">
+					<option value=""></option>
+
+					{{#each user-categories  as |userCategoryChoice|}}
+
+						<option value={{userCategoryChoice.id}} selected={{eq userCategoryChoice.id model.userCategoryChoice.id}}>{{userCategoryChoice.name}}</option>
+
+					{{/each}}
+				</select>
+			</div>	
+		</div>
+
 		<div class="col-sm-offset-2">
 			<button type="submit" class="btn btn-primary" disabled={{v-get model 'isInvalid'}}>Submit</button>
 		</div>

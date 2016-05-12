@@ -170,6 +170,11 @@ export default Ember.Controller.extend({
 			var rec = this.store.peekRecord('tax-office', id);
 			this.get('model').set('taxOffice', rec);
 
+		},
+		setUserCategory(id){
+			var rec = this.store.peekRecord('user-category', id);
+			this.get('model').set('userCategory', rec);
+
 		}
 	}	
 });

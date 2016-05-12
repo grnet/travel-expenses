@@ -51,6 +51,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('specialties', this.store.findAll('specialty'));
 		controller.set('kinds', this.store.findAll('kind'));
 		controller.set('tax-offices', this.store.findAll('taxOffice'));
+		controller.set('user-categories', this.store.findAll('userCategory'));
 		controller.set('petition-statuses', this.store.findAll('petition-status'));
 		controller.set('editMessage','');
 

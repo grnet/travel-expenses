@@ -15,6 +15,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 			let pet_kind=profile.get('kind');
 			let pet_taxNum=profile.get('taxRegNum');
 			let pet_taxOffice=profile.get('taxOffice');
+			let pet_userCategory=profile.get('userCategory');
 
 			petition.set('name', pet_name);
 			petition.set('surname',pet_surname);
@@ -23,6 +24,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 			petition.set('kind', pet_kind);
 			petition.set('taxRegNum', pet_taxNum);
 			petition.set('taxOffice', pet_taxOffice);
+			petition.set('userCategory', pet_userCategory);
 
 		});
 
@@ -40,6 +42,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('specialties', this.store.findAll('specialty'));
 		controller.set('kinds', this.store.findAll('kind'));
 		controller.set('tax-offices', this.store.findAll('taxOffice'));
+		controller.set('user-categories', this.store.findAll('userCategory'));
 		controller.set('petition-statuses', this.store.findAll('petition-status'));
 		controller.set('petitionMessage','');
 	}
