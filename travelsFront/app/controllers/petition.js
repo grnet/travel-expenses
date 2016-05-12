@@ -137,6 +137,10 @@ export default Ember.Controller.extend({
 			var rec = this.store.peekRecord('category', id);
 			this.get('model').set('user_category', rec);
 
+		},
+		clearMessage(){
+			var self=this;
+			self.set('petitionMessage','');
 		}
 	},	
 
