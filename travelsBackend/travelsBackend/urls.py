@@ -12,7 +12,6 @@ router.register(r'category', views.UserCategoryViewSet)
 
 
 router_petition = routers.DefaultRouter()
-router_petition.register(r'accomondation', views.AccomondationViewSet)
 router_petition.register(r'project', views.ProjectViewSet)
 router_petition.register(
     r'movement_categories', views.MovementCategoriesViewSet)

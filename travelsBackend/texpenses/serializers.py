@@ -176,10 +176,10 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Petition
         fields = ('id', 'name', 'surname', 'iban', 'specialtyID', 'kind',
-                  'taxRegNum', 'taxOffice', 'accomondation',
+                  'taxRegNum', 'taxOffice',
                   'taskStartDate', 'taskEndDate', 'creationDate', 'updateDate',
                   'project', 'reason', 'movementCategory',
                   'departurePoint', 'arrivalPoint', 'transportation',
                   'recTransport', 'recAccomondation',
-                  'recCostParticipation', 'status', 'url')
+                  'recCostParticipation', 'status', 'user_category', 'url')
         read_only_fields = ('id', 'url',)

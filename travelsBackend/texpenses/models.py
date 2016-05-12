@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from validators import iban_validation
 from validators import afm_validator
+from django.conf import settings
 
 
 class Specialty(models.Model):
@@ -68,8 +69,28 @@ class Accomondation(models.Model):
     id = models.AutoField(primary_key=True)
     hotel = models.CharField(max_length=200)
     hotelPrice = models.FloatField(blank=True, null=True)
-    checkInDate = models.DateField(blank=True, null=True)
-    checkOutDate = models.DateField(blank=True, null=True)
+
+    def __unicode__(self):
+        """TODO: Docstring for __unicode__.
+        :returns: TODO
+
+        """
+        return self.hotel
+
+
+class Flight(models.Model):
+
+    """Docstring for Accomondation. """
+    id = models.AutoField(primary_key=True)
+    flightName = models.CharField(max_length=200)
+    flightPrice = models.FloatField(blank=True, null=True)
+
+    def __unicode__(self):
+        """TODO: Docstring for __unicode__.
+        :returns: TODO
+
+        """
+        return self.flightName
 
 
 class Project(models.Model):
@@ -100,7 +121,6 @@ class CountryCategory(models.Model):
 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
-    compensation = models.IntegerField()
 
     def __unicode__(self):
         """TODO: to be defined. """
@@ -155,6 +175,81 @@ class PetitionStatus(models.Model):
         return self.name
 
 
+class FeedingKind(models.Model):
+
+    """Docstring for FeedindKind. """
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=20)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Compensation(models.Model):
+
+    """Docstring for Compensation. """
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    country_category = models.ForeignKey(CountryCategory, blank=True, null=True)
+    user_category = models.ForeignKey(UserCategory, blank=True, null=True)
+    compensation = models.IntegerField()
+
+    def __unicode__(self):
+        """TODO: to be defined1. """
+        return self.name
+
+
+class AdvancedPetition(models.Model):
+
+    """Docstring for AdvancedPetition. """
+    id = models.AutoField(primary_key=True)
+    depart_date = models.DateTimeField(blank=True, null=True)
+    return_date = models.DateTimeField(blank=True, null=True)
+    accomondation = models.ForeignKey(Accomondation, blank=True, null=True)
+    flight = models.ForeignKey(Flight, blank=True, null=True)
+    feeding = models.ForeignKey(FeedingKind, blank=True, null=True)
+    non_grnet_quota = models.FloatField(blank=True, null=True, default=0.0)
+
+    # computed model fields
+    compensation = models.ForeignKey(Compensation, blank=True, null=True)
+    compensation_days = models.IntegerField(default=0)
+
+    overnights_number = models.IntegerField(default=0)
+
+    overnights_sum_cost = models.FloatField(default=0.0)
+    sum_compenstation = models.FloatField(default=0.0)
+    same_day_return = models.BooleanField(default=False)
+
+    participation_cost = models.FloatField(default=0.0)
+
+    max_holiday_days = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
+    days_left_after = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
+    days_left_before = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
+
+    protocol_expenditure = models.CharField(
+        max_length=30, null=True, blank=True)
+    protocol_date_expenditure = models.DateField(blank=True, null=True)
+
+    protocol_movement = models.CharField(
+        max_length=30, null=True, blank=True)
+    protocol_date_movement = models.DateField(blank=True, null=True)
+
+    def __unicode__(self):
+        return self.id
+
+
+class AdditionalWages(models.Model):
+
+    """Docstring for AdditionalWages. """
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
+    cost = models.FloatField()
+    advanced_petition_id = models.ForeignKey(AdvancedPetition)
+
+    def __unicode__(self):
+        return self.name + "-" + self.id
+
+
 class Petition(models.Model):
 
     """Docstring for Travel Application. """
@@ -168,9 +263,9 @@ class Petition(models.Model):
                                     validators=[afm_validator])
     taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
     kind = models.ForeignKey(Kind, blank=True, null=True)
+    user_category = models.ForeignKey(UserCategory, blank=True, null=True)
 
     user = models.ForeignKey(UserProfile)
-    accomondation = models.ForeignKey(Accomondation, blank=True, null=True)
     taskStartDate = models.DateTimeField(blank=True, null=True)
     taskEndDate = models.DateTimeField(blank=True, null=True)
     creationDate = models.DateTimeField(blank=True, null=True)
@@ -189,6 +284,7 @@ class Petition(models.Model):
     recCostParticipation = models.CharField(
         max_length=200, blank=True, null=True)
     status = models.ForeignKey(PetitionStatus, blank=True, null=True)
+    advanced_info = models.ForeignKey(AdvancedPetition, blank=True, null=True)
 
     def __unicode__(self):
         return str(self.id) + "-" + self.project.name
