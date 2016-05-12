@@ -45,6 +45,10 @@ export default Ember.Controller.extend({
 			var rec = this.store.peekRecord('category', id);
 			this.get('model').set('category', rec);
 
+		},
+		clearMessage(){
+			var self=this;
+			self.set('profileMessage','');
 		}
 
 	},
