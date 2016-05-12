@@ -27,7 +27,8 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = ('username', 'first_name', 'last_name',
                   'email', 'password',
-                  'iban', 'specialtyID', 'kind', 'taxRegNum', 'taxOffice')
+                  'iban', 'specialtyID', 'kind', 'taxRegNum', 'taxOffice',
+                  'category')
         read_only_fields = (
             'username',
             'password',
