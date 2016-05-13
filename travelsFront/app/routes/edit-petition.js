@@ -3,7 +3,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	model(params) {
-
+		console.log("model id " + params.petition_id);
 		var model= this.store.findRecord('petition', params.petition_id);
 
 		//model.then(function(petition) {

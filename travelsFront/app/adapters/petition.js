@@ -26,13 +26,14 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 			url = id;
 		}
 		if (requestType === "updateRecord"){
+
 			url = id;
 		}
 
 		if (requestType === "findRecord"){
 			url = id;
 		}
-
+		console.log("My url " + url);
 		return url;
 	} 
 

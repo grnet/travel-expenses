@@ -38,5 +38,6 @@ export default DS.Model.extend(Validations,{
 	recTransport: DS.attr(),
 	recAccomondation: DS.attr(),
 	recCostParticipation: DS.attr(),
+	//recOtherCost: DS.attr(),
 	status: DS.belongsTo('petition-status')
 });

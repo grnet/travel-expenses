@@ -7,7 +7,7 @@ export default Ember.Controller.extend({
 	actions: {
 
 		profileUpdate(){
-			let profileIsValid=this.get('model.validations.isValid')
+			let profileIsValid=this.get('model.validations.isValid');
 
 			// console.log(this.get('models.validations.attrs.username.messages'))
 			if (profileIsValid) {

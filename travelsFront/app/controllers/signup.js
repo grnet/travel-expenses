@@ -56,12 +56,12 @@ export default Ember.Controller.extend({
 				}, function(reason) {
 					// on rejection
 					var emailIssues=reason.errors[0].email;
-					if (emailIssues!=""){
+					if (emailIssues!==""){
 						self.set('emailProblems',emailIssues);
 					}
 
 					var userIssues=reason.errors[0].username;
-					if (userIssues!=""){
+					if (userIssues!==""){
 						self.set('usernameExists',userIssues);
 
 					}
