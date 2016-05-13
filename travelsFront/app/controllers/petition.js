@@ -49,7 +49,7 @@ export default Ember.Controller.extend({
 					self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
 					Ember.$('#divMessage').removeClass('redMessage');
 					Ember.$('#divMessage').addClass('greenMessage');
-					// self.transitionToRoute('petitionList');
+					Ember.$('#submit').prop('disabled', false);
 
 				}, function(reason) {
 					self.set('petitionMessage','Η αποθήκευση των στοιχείων της αίτησης σας απέτυχε...');
@@ -141,6 +141,7 @@ export default Ember.Controller.extend({
 		clearMessage(){
 			var self=this;
 			self.set('petitionMessage','');
+			Ember.$('#submit').prop('disabled', true);
 		}
 	},	
 

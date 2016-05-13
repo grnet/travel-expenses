@@ -43,13 +43,16 @@ export default Ember.Controller.extend({
 				this.get('model').set('status', rec);
 
 				var self=this;
+				console.log("Model id in Controller " +  this.get('model.id'));
 				this.get('model').save().then(function(value) {
+
 					
 					self.set('country_selected',false);
 
 					self.set('editMessage','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
 					Ember.$('#divMessage').removeClass('redMessage');
 					Ember.$('#divMessage').addClass('greenMessage');
+					//Ember.$('#submit').prop('disabled', false);
 
 
 					let endDate=self.get('model.taskEndDate');
@@ -68,7 +71,8 @@ export default Ember.Controller.extend({
 						self.set('model.taskStartDate',startDate);
 					}
 				}, function(reason) {
-					
+					console.log("reason " + reason);
+					console.log("Model id in after save " +  self.get('model.id'));
 					self.set('editMessage','Η αποθήκευση των στοιχείων της αίτησης σας απέτυχε...');
 					Ember.$('#divMessage').removeClass('greenMessage');
 					Ember.$('#divMessage').addClass('redMessage');
@@ -179,6 +183,7 @@ export default Ember.Controller.extend({
 		clearMessage(){
 			var self=this;
 			self.set('editMessage','');
+			//Ember.$('#submit').prop('disabled', true);
 		}
 	}	
 });

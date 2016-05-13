@@ -141,9 +141,18 @@
 					{{/character-limit}}
 				</div>
 			</div>
+
+			<!-- <div class="profileForm form-group">
+				<label for="recOtherCost" class="col-sm-4 control-label">Λοιπά Έξοδα</label>
+				<div class="col-sm-8">	
+					{{#character-limit max=100}}
+					{{textarea value=model.recOtherCost type="textarea" class="form-control" autofocus="autofocus"}}
+					{{/character-limit}}
+				</div>
+			</div> -->
 		</div>	
 		<button type="submit" class="btn btn-primary" {{action "petitionSave"}} disabled={{v-get model 'isInvalid'}}>Αποθήκευση Στοιχείων</button>
-		<button type="submit" class="btn btn-primary" {{action "petitionSubmit"}} disabled={{v-get model 'isInvalid'}}>Υποβολή Αίτησης</button>
+		<button type="submit" class="btn btn-primary" id="submit" {{action "petitionSubmit"}} disabled={{v-get model 'isInvalid'}}>Υποβολή Αίτησης</button>
 
 
 		<div class="profileForm" id="divMessage">
