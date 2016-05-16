@@ -14,7 +14,7 @@ from .models import City
 from .models import UserCategory
 
 from .models import AdvancedPetition
-from .models import AdditionalWages
+from .models import AdditionalWage
 from .models import Compensation
 from .models import FeedingKind
 from .models import Flight
@@ -37,7 +37,7 @@ admin.site.register(PetitionStatus)
 
 # advanced petition info models
 admin.site.register(AdvancedPetition)
-admin.site.register(AdditionalWages)
+admin.site.register(AdditionalWage)
 admin.site.register(Compensation)
 admin.site.register(FeedingKind)
 admin.site.register(Flight)

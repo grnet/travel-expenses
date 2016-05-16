@@ -18,7 +18,6 @@ from models import Specialty
 from models import TaxOffice
 from models import Kind
 from models import Petition
-from models import Accomondation
 from models import Project
 from models import MovementCategories
 from models import City
@@ -28,12 +27,19 @@ from models import Transportation
 from models import PetitionStatus
 from models import UserCategory
 
+from models import AdditionalWage
+from models import Compensation
+from models import FeedingKind
+from models import Flight
+from models import Accomondation
+from models import AdvancedPetition
+
+
 from serializers import UserProfileSerializer
 from serializers import SpecialtySerializer
 from serializers import TaxOfficeSerializer
 from serializers import KindSerializer
 from serializers import CustomUserRegistrationSerializer
-from serializers import AccomondationSerializer
 from serializers import CitySerializer
 from serializers import CountrySerializer
 from serializers import CountryCategorySerializer
@@ -43,6 +49,14 @@ from serializers import TransportationSerializer
 from serializers import UserPetitionSerializer
 from serializers import PetitionStatusSerializer
 from serializers import UserCategorySerializer
+
+from serializers import AdditionalWagesSerializer
+from serializers import AdvancedPetitionSerializer
+from serializers import FlightSerializer
+from serializers import AccomondationSerializer
+from serializers import FeedingKindSerializer
+from serializers import CompensationSerializer
+
 from custom_permissions import isAdminOrRead
 from custom_permissions import IsOwnerOrAdmin
 logger = logging.getLogger(__name__)
@@ -189,17 +203,6 @@ class CustomUserRegistrationView(LoggingMixin, djoser_views.RegistrationView):
     serializer_class = CustomUserRegistrationSerializer
 
 
-class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows accomondation details to be viewed or edited\
-        (permissions are needed)"""
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = Accomondation.objects.all()
-    serializer_class = AccomondationSerializer
-
-
 class ProjectViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     """API endpoint that allows project details to be viewed or edited\
@@ -279,6 +282,108 @@ class PetitionStatusViewSet(LoggingMixin, viewsets.ModelViewSet):
     serializer_class = PetitionStatusSerializer
 
 
+class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows petition statuses to be viewed or edited \
+        (permissions are needed)"""
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, IsOwnerOrAdmin, DjangoModelPermissions,)
+
+    def get_queryset(self):
+        request_user = self.request.user
+        if request_user.is_staff:
+            return Accomondation.objects.all()
+        else:
+            return Accomondation.objects.filter(user=request_user)
+    serializer_class = AccomondationSerializer
+
+
+class AdvancedPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows petition statuses to be viewed or edited \
+        (permissions are needed)"""
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, IsOwnerOrAdmin, DjangoModelPermissions,)
+
+    def get_queryset(self):
+        request_user = self.request.user
+        if request_user.is_staff:
+            return AdvancedPetition.objects.all()
+        else:
+            return AdvancedPetition.objects.filter(user=request_user)
+    serializer_class = AdvancedPetitionSerializer
+
+    def destroy(self, request, pk=None):
+        print "Deleting advanced petition with id:" + str(pk)
+        advanced_petition = AdvancedPetition.objects.get(id=pk)
+        petition = Petition.objects.get(advanced_info=advanced_petition)
+        print "--Deleting related Petition with id:" + str(petition.id)
+        petition.delete()
+        print "--Done"
+        advanced_petition.delete()
+        print "Done"
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class FlightViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows petition statuses to be viewed or edited \
+        (permissions are needed)"""
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, IsOwnerOrAdmin, DjangoModelPermissions,)
+
+    def get_queryset(self):
+        request_user = self.request.user
+        if request_user.is_staff:
+            return Flight.objects.all()
+        else:
+            return Flight.objects.filter(user=request_user)
+    serializer_class = FlightSerializer
+
+
+class CompensationViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows petition statuses to be viewed or edited \
+        (permissions are needed)"""
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
+    queryset = Compensation.objects.all()
+    serializer_class = CompensationSerializer
+
+
+class AdditionalWagesViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows petition statuses to be viewed or edited \
+        (permissions are needed)"""
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, IsOwnerOrAdmin, DjangoModelPermissions,)
+
+    def get_queryset(self):
+        request_user = self.request.user
+        if request_user.is_staff:
+            return AdditionalWage.objects.all()
+        else:
+            return AdditionalWage.objects.filter(user=request_user)
+    serializer_class = AdditionalWagesSerializer
+
+
+class FeedingViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows petition statuses to be viewed or edited \
+        (permissions are needed)"""
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
+    queryset = FeedingKind.objects.all()
+    serializer_class = FeedingKindSerializer
+
+
 class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     """API endpoint that allows user related petitions to be viewed or edited \
@@ -286,7 +391,8 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
     # petition_status = "http://127.0.0.1:8000/petition/petition_status/2/"
     missing_field = None
     try:
-        petition_status = str(PetitionStatus.objects.get(id='2').id)
+
+        petition_status_2 = str(PetitionStatus.objects.get(id='2').id)
     except OperationalError:
         pass
     except ObjectDoesNotExist:
@@ -368,7 +474,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         chosen_status = chosen_status[
             chosen_status.index('status') + 7:-1]
 
-        if chosen_status == self.petition_status:
+        if chosen_status == self.petition_status_2:
             if self.checkDataCompleteness(request):
                 return super(UserPetitionViewSet, self).create(request)
             else:
@@ -382,6 +488,29 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         return super(UserPetitionViewSet, self).create(request)
 
+    def destroy(self, request, pk=None):
+
+        petition = Petition.objects.get(id=pk)
+        pet_status = petition.status.id
+        petition_status_to_delete = 1
+
+        if pet_status == petition_status_to_delete:
+            print "Deleting petition with id:" + str(pk)
+            # petition = Petition.objects.get(id=pk)
+            apet_id = petition.advanced_info.id
+            advanced_petition = AdvancedPetition.objects.get(id=apet_id)
+
+            print "--Deleting related Advanced Petition with id:" + str(apet_id)
+            advanced_petition.delete()
+            print "--Done"
+            petition.delete()
+            print "Done"
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({'error': "You dont have the permittions to delete \
+                         the specific Petition"},
+                        status=status.HTTP_403_FORBIDDEN)
+
     def update(self, request, pk=None):
         request.data['user'] = request.user
 
@@ -392,7 +521,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         chosen_status = chosen_status[
             chosen_status.index('status') + 7:-1]
 
-        if chosen_status == self.petition_status:
+        if chosen_status == self.petition_status_2:
             if self.checkDataCompleteness(request):
                 return super(UserPetitionViewSet, self).update(request, pk)
             else:

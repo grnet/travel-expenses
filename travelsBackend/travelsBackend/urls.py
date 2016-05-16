@@ -15,13 +15,21 @@ router_petition = routers.DefaultRouter()
 router_petition.register(r'project', views.ProjectViewSet)
 router_petition.register(
     r'movement_categories', views.MovementCategoriesViewSet)
-# router_petition.register(r'departure_point', views.DeparturePointViewSet)
-# router_petition.register(r'arrival_point', views.ArrivalPointViewSet)
 router_petition.register(r'city', views.CityViewSet)
 router_petition.register(r'country', views.CountryViewSet)
 router_petition.register(r'country_categories', views.CountryCategoryViewSet)
 router_petition.register(r'transportation', views.TransportationViewSet)
 # router_petition.register(r'user', views.PetitionUserView)
+router_petition.register(r'accomondation', views.AccomondationViewSet,
+                         base_name='accomondation')
+router_petition.register(r'advanced_petition', views.AdvancedPetitionViewSet,
+                         base_name='advancedpetition')
+router_petition.register(r'compensation_categories', views.CompensationViewSet)
+router_petition.register(r'feeding', views.FeedingViewSet)
+router_petition.register(r'flight', views.FlightViewSet, base_name='flight')
+router_petition.register(r'additional_wages', views.AdditionalWagesViewSet,
+                         base_name='additionalwage')
+
 router_petition.register(
     r'user_petition', views.UserPetitionViewSet, 'petition')
 router_petition.register(

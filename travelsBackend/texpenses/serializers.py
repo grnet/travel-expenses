@@ -6,7 +6,6 @@ from models import Specialty
 from models import TaxOffice
 from models import Kind
 from models import Petition
-from models import Accomondation
 from models import Project
 from models import MovementCategories
 from models import City
@@ -15,6 +14,13 @@ from models import CountryCategory
 from models import Transportation
 from models import PetitionStatus
 from models import UserCategory
+
+from models import AdditionalWage
+from models import Compensation
+from models import FeedingKind
+from models import Flight
+from models import Accomondation
+from models import AdvancedPetition
 
 User = get_user_model()
 
@@ -90,15 +96,6 @@ class CustomUserRegistrationSerializer(
         return user
 
 
-class AccomondationSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = Accomondation
-        fields = ('id', 'hotel', 'hotelPrice',
-                  'checkInDate', 'checkOutDate', 'url')
-        read_only_fields = ('id', 'url',)
-
-
 class ProjectSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
@@ -135,7 +132,7 @@ class CountryCategorySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = CountryCategory
-        fields = ('id', 'name', 'compensation', 'url')
+        fields = ('id', 'name', 'url')
         read_only_fields = ('id', 'url')
 
 
@@ -155,6 +152,66 @@ class PetitionStatusSerializer(serializers.HyperlinkedModelSerializer):
         read_only_fields = ('id', 'url')
 
 
+class AdditionalWagesSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = AdditionalWage
+        fields = ('id', 'name', 'cost', 'petition_id', 'url')
+        read_only_fields = ('id', 'petition_id', 'url')
+
+
+class CompensationSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Compensation
+        fields = ('id', 'name', 'country_category', 'user_category',
+                  'compensation', 'url')
+        read_only_fields = ('id', 'url')
+
+
+class FeedingKindSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = FeedingKind
+        fields = ('id', 'name', 'url')
+        read_only_fields = ('id', 'url')
+
+
+class FlightSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Flight
+        fields = ('id', 'flightName', 'flightPrice', 'url')
+        read_only_fields = ('id', 'url')
+
+
+class AccomondationSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Accomondation
+        fields = ('id', 'hotel', 'hotelPrice', 'url')
+        read_only_fields = ('id', 'url')
+
+
+class AdvancedPetitionSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = AdvancedPetition
+        fields = ('id', 'dse', 'depart_date', 'return_date', 'accomondation',
+                  'flight', 'feeding', 'non_grnet_quota', 'compensation',
+                  'compensation_days', 'overnights_number',
+                  'overnights_sum_cost', 'sum_compensation', 'same_day_return',
+                  'max_holiday_days', 'days_left_after',
+                  'days_left_before', 'expenditure_protocol',
+                  'expenditure_date_protocol', 'movement_protocol',
+                  'movement_date_protocol',
+                  'compensation_petition_protocol',
+                  'compensation_petition_date',
+                  'compensation_decision_protocol',
+                  'compensation_decision_date', 'url')
+        read_only_fields = ('id', 'url')
+
+
 class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
     # user = UserProfileSerializer()
@@ -170,7 +227,21 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
         # return user
 
     def create(self, validated_data):
-        validated_data['user'] = self.context['request'].user
+        user_object = self.context['request'].user
+        validated_data['user'] = user_object
+
+        advanced_pet_info = validated_data['advanced_info']
+        if not (advanced_pet_info and advanced_pet_info != ""):
+            print "Create an empty advanced petition"
+            ac = Accomondation(user=user_object, hotel="Hotel")
+            ac.save()
+            fl = Flight(user=user_object, flightName="Flight")
+            fl.save()
+            ap = AdvancedPetition(accomondation=ac, flight=fl, user=user_object)
+            ap.save()
+            print "Done"
+            validated_data['advanced_info'] = ap
+
         return Petition.objects.create(**validated_data)
 
     class Meta:
@@ -181,5 +252,6 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'project', 'reason', 'movementCategory',
                   'departurePoint', 'arrivalPoint', 'transportation',
                   'recTransport', 'recAccomondation',
-                  'recCostParticipation', 'status', 'user_category', 'url')
+                  'recCostParticipation', 'advanced_info',
+                  'status', 'user_category', 'url')
         read_only_fields = ('id', 'url',)

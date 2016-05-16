@@ -69,6 +69,7 @@ class Accomondation(models.Model):
     id = models.AutoField(primary_key=True)
     hotel = models.CharField(max_length=200)
     hotelPrice = models.FloatField(blank=True, null=True)
+    user = models.ForeignKey(UserProfile)
 
     def __unicode__(self):
         """TODO: Docstring for __unicode__.
@@ -84,6 +85,7 @@ class Flight(models.Model):
     id = models.AutoField(primary_key=True)
     flightName = models.CharField(max_length=200)
     flightPrice = models.FloatField(blank=True, null=True)
+    user = models.ForeignKey(UserProfile)
 
     def __unicode__(self):
         """TODO: Docstring for __unicode__.
@@ -203,6 +205,9 @@ class AdvancedPetition(models.Model):
 
     """Docstring for AdvancedPetition. """
     id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(UserProfile)
+
+    dse = models.IntegerField(blank=True, null=True)
     depart_date = models.DateTimeField(blank=True, null=True)
     return_date = models.DateTimeField(blank=True, null=True)
     accomondation = models.ForeignKey(Accomondation, blank=True, null=True)
@@ -217,37 +222,32 @@ class AdvancedPetition(models.Model):
     overnights_number = models.IntegerField(default=0)
 
     overnights_sum_cost = models.FloatField(default=0.0)
-    sum_compenstation = models.FloatField(default=0.0)
+    sum_compensation = models.FloatField(default=0.0)
     same_day_return = models.BooleanField(default=False)
-
-    participation_cost = models.FloatField(default=0.0)
 
     max_holiday_days = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
     days_left_after = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
     days_left_before = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
 
-    protocol_expenditure = models.CharField(
+    # ------------------------------------------#
+    expenditure_protocol = models.CharField(
         max_length=30, null=True, blank=True)
-    protocol_date_expenditure = models.DateField(blank=True, null=True)
+    expenditure_date_protocol = models.DateField(blank=True, null=True)
 
-    protocol_movement = models.CharField(
+    movement_protocol = models.CharField(
         max_length=30, null=True, blank=True)
-    protocol_date_movement = models.DateField(blank=True, null=True)
+    movement_date_protocol = models.DateField(blank=True, null=True)
+
+    compensation_petition_protocol = models.CharField(
+        max_length=30, null=True, blank=True)
+    compensation_petition_date = models.DateField(blank=True, null=True)
+
+    compensation_decision_protocol = models.CharField(
+        max_length=30, null=True, blank=True)
+    compensation_decision_date = models.DateField(blank=True, null=True)
 
     def __unicode__(self):
-        return self.id
-
-
-class AdditionalWages(models.Model):
-
-    """Docstring for AdditionalWages. """
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100, blank=True, null=True)
-    cost = models.FloatField()
-    advanced_petition_id = models.ForeignKey(AdvancedPetition)
-
-    def __unicode__(self):
-        return self.name + "-" + self.id
+        return str(self.id)
 
 
 class Petition(models.Model):
@@ -281,10 +281,23 @@ class Petition(models.Model):
     transportation = models.ForeignKey(Transportation, blank=True, null=True)
     recTransport = models.CharField(max_length=200, blank=True, null=True)
     recAccomondation = models.CharField(max_length=200, blank=True, null=True)
-    recCostParticipation = models.CharField(
-        max_length=200, blank=True, null=True)
-    status = models.ForeignKey(PetitionStatus, blank=True, null=True)
-    advanced_info = models.ForeignKey(AdvancedPetition, blank=True, null=True)
+    recCostParticipation = models.FloatField(blank=True, null=True, default=0.0)
+    status = models.ForeignKey(PetitionStatus)
+    advanced_info = models.OneToOneField(
+        AdvancedPetition, blank=True, null=True)
 
     def __unicode__(self):
         return str(self.id) + "-" + self.project.name
+
+
+class AdditionalWage(models.Model):
+
+    """Docstring for AdditionalWages. """
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
+    cost = models.FloatField()
+    petition_id = models.ForeignKey(Petition)
+    user = models.ForeignKey(UserProfile)
+
+    def __unicode__(self):
+        return self.name + "-" + str(self.id)
