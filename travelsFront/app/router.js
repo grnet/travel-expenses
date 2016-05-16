@@ -13,7 +13,7 @@ Router.map(function() {
   this.route('kind');
   this.route('petition');
   this.route('petitionList');
-  this.route('editPetition', {path: '/editPetition/:petition_id'});
+  this.route('editPetition', {path: ':petition_id'});
   
 });
 

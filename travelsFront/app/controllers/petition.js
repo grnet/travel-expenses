@@ -143,6 +143,7 @@ export default Ember.Controller.extend({
 			self.set('petitionMessage','');
 			Ember.$('#submit').prop('disabled', true);
 		}
-	},	
+	},
+		
 
 });

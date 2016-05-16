@@ -45,5 +45,24 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('categories', this.store.findAll('category'));
 		controller.set('petition-statuses', this.store.findAll('petition-status'));
 		controller.set('petitionMessage','');
-	}
+		
+	},
+	// deactivate: function() {
+ //    	this.modelFor("petition").get("transaction").rollback();
+ //    	alert('Please save before leave. If you leave now no changes will be saved');
+ //  	},
+  	actions: {
+	    willTransition(transition) {
+	    	this.controller.get('model').rollbackAttributes();
+	    	alert('Please save before leave. If you leave now no changes will be saved');
+	      // if (this.controller.get('here i should catch the save success action') &&
+	      //     !confirm('Are you sure you want to abandon progress?')) {
+	      //   transition.abort();
+	      // } else {
+	      //   // Bubble the `willTransition` action so that
+	      //   // parent routes can decide whether or not to abort.
+	      //   return true;
+	      // }
+	    }
+  	}
 });
