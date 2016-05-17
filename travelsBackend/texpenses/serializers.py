@@ -34,10 +34,11 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('username', 'first_name', 'last_name',
                   'email', 'password',
                   'iban', 'specialtyID', 'kind', 'taxRegNum', 'taxOffice',
-                  'category')
+                  'category', 'trip_days_left')
         read_only_fields = (
             'username',
             'password',
+            'trip_days_left'
         )
 
 
@@ -205,10 +206,8 @@ class AdvancedPetitionSerializer(serializers.HyperlinkedModelSerializer):
         model = AdvancedPetition
         fields = ('id', 'dse', 'depart_date', 'return_date', 'accomondation',
                   'flight', 'feeding', 'non_grnet_quota', 'compensation',
-                  'compensation_days', 'overnights_number',
                   'overnights_sum_cost', 'sum_compensation', 'same_day_return',
-                  'max_holiday_days', 'days_left_after',
-                  'days_left_before', 'expenditure_protocol',
+                  'expenditure_protocol',
                   'expenditure_date_protocol', 'movement_protocol',
                   'movement_date_protocol',
                   'compensation_petition_protocol',
@@ -256,8 +255,11 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'taxRegNum', 'taxOffice',
                   'taskStartDate', 'taskEndDate', 'creationDate', 'updateDate',
                   'project', 'reason', 'movementCategory',
-                  'departurePoint', 'arrivalPoint', 'transportation',
+                  'departurePoint', 'arrivalPoint', 'overnights_num',
+                  'transport_days', 'overnight_cost', 'overnights_sum_cost',
+                  'task_duration', 'same_day_return_task', 'compensation_level',
+                  'transportation', 'compensation_days',
                   'recTransport', 'recAccomondation',
-                  'recCostParticipation', 'advanced_info',
+                  'recCostParticipation', 'advanced_info', 'max_compensation',
                   'status', 'user_category', 'url')
         read_only_fields = ('id', 'url',)

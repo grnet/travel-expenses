@@ -61,6 +61,7 @@ class UserProfile(AbstractUser):
     kind = models.ForeignKey(Kind, blank=True, null=True)
     category = models.ForeignKey(
         UserCategory, blank=True, null=True)
+    trip_days_left = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
 
 
 class Accomondation(models.Model):
@@ -210,6 +211,18 @@ class AdvancedPetition(models.Model):
     dse = models.IntegerField(blank=True, null=True)
     depart_date = models.DateTimeField(blank=True, null=True)
     return_date = models.DateTimeField(blank=True, null=True)
+
+    def same_day_return(self):
+        if self.return_date is None:
+            return False
+        if self.depart_date is None:
+            return False
+
+        delta = self.return_date - self.depart_date
+        if delta.days == 0:
+            return True
+        return False
+
     accomondation = models.ForeignKey(Accomondation, blank=True, null=True)
     flight = models.ForeignKey(Flight, blank=True, null=True)
     feeding = models.ForeignKey(FeedingKind, blank=True, null=True)
@@ -217,17 +230,18 @@ class AdvancedPetition(models.Model):
 
     # computed model fields
     compensation = models.ForeignKey(Compensation, blank=True, null=True)
-    compensation_days = models.IntegerField(default=0)
+    # compensation_days = models.IntegerField(default=0)
 
-    overnights_number = models.IntegerField(default=0)
+    # overnights_number = models.IntegerField(default=0)
 
     overnights_sum_cost = models.FloatField(default=0.0)
     sum_compensation = models.FloatField(default=0.0)
-    same_day_return = models.BooleanField(default=False)
 
-    max_holiday_days = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
-    days_left_after = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
-    days_left_before = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
+    # same_day_return = models.BooleanField(default=False)
+
+    # max_holiday_days = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
+    # days_left_after = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
+    # days_left_before = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
 
     # ------------------------------------------#
     expenditure_protocol = models.CharField(
@@ -285,6 +299,68 @@ class Petition(models.Model):
     status = models.ForeignKey(PetitionStatus)
     advanced_info = models.OneToOneField(
         AdvancedPetition, blank=True, null=True)
+
+    def compensation_level(self):
+        comp_object = self.advanced_info.compensation
+        if comp_object is None:
+            return 0
+
+        return self.advanced_info.compensation.compensation
+
+    def transport_days(self):
+        depart_date = self.advanced_info.depart_date
+        if self.taskEndDate is None or \
+                self.taskStartDate is None or depart_date is None:
+            return 0
+        delta = self.taskEndDate - depart_date
+        days = delta.days
+        if days > 1:
+            days = 1
+        t_cycle = self.taskEndDate - self.taskStartDate
+
+        return t_cycle.days + days
+
+    def compensation_days(self):
+        return self.transport_days()
+
+    def max_compensation(self):
+        return self.compensation_days() * self.compensation_level()
+
+    def overnights_num(self):
+        trans_days = self.transport_days()
+        if trans_days == 0:
+            return 0
+        return trans_days - 1
+
+    def overnight_cost(self):
+        accomondation = self.advanced_info.accomondation
+        if accomondation is None:
+            return 0
+        hotel_price = accomondation.hotelPrice
+        if hotel_price is None:
+            return 0
+        return hotel_price
+
+    def overnights_sum_cost(self):
+        return self.overnight_cost() * self.overnights_num()
+
+    def task_duration(self):
+        if self.taskEndDate is None or self.taskStartDate is None:
+            return 0
+
+        delta = self.taskEndDate - self.taskStartDate
+
+        return delta.days
+
+    def same_day_return_task(self):
+        t_end_date = self.taskEndDate
+        r_date = self.advanced_info.return_date
+        if t_end_date is None or r_date is None:
+            return False
+        if t_end_date == r_date:
+            return True
+
+        return False
 
     def __unicode__(self):
         return str(self.id) + "-" + self.project.name

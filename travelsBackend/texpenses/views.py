@@ -480,8 +480,6 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
     def create(self, request):
         request.data['user'] = request.user
 
-        # print request.data
-        # return super(UserPetitionViewSet, self).create(request)
         chosen_status = str(request.data['status'])
 
         chosen_status = chosen_status[
@@ -527,8 +525,6 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
     def update(self, request, pk=None):
         request.data['user'] = request.user
 
-        # print request.data
-        # return super(UserPetitionViewSet, self).create(request)
         chosen_status = str(request.data['status'])
 
         chosen_status = chosen_status[
