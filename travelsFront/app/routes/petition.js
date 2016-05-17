@@ -29,8 +29,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		});
 
 	},
-
-
 	setupController: function(controller, model) {
 		this._super(controller, model);
 		controller.set('departurePoints', this.store.query('city',{ country: 10}));
@@ -45,24 +43,20 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('categories', this.store.findAll('category'));
 		controller.set('petition-statuses', this.store.findAll('petition-status'));
 		controller.set('petitionMessage','');
+		controller.set('petitionNotSaved',true);
 		
 	},
-	// deactivate: function() {
- //    	this.modelFor("petition").get("transaction").rollback();
- //    	alert('Please save before leave. If you leave now no changes will be saved');
- //  	},
   	actions: {
 	    willTransition(transition) {
-	    	this.controller.get('model').rollbackAttributes();
-	    	alert('Please save before leave. If you leave now no changes will be saved');
-	      // if (this.controller.get('here i should catch the save success action') &&
-	      //     !confirm('Are you sure you want to abandon progress?')) {
-	      //   transition.abort();
-	      // } else {
-	      //   // Bubble the `willTransition` action so that
-	      //   // parent routes can decide whether or not to abort.
-	      //   return true;
-	      // }
+			if (this.controller.get('petitionNotSaved') && !confirm('Are you sure you want to abandon progress?Any changes will be lost unless you save them')) {
+        		console.log('not saved');
+				transition.abort();
+      		} else {
+        		// Bubble the `willTransition` action so that
+        		// parent routes can decide whether or not to abort.
+				console.log('saved');
+        		return true;
+      		} 
 	    }
   	}
 });

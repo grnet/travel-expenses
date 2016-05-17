@@ -4,7 +4,7 @@ import ENV from 'travels-front/config/environment';
 export default Ember.Controller.extend({
 
 	petitionMessage:'',
-
+	//petitionNotSaved:true,
 	now: Ember.computed(function() {
 		return moment().format("YYYY-MM-DDTHH:mm:ssZ");
 
@@ -47,6 +47,7 @@ export default Ember.Controller.extend({
 				var self=this;
 				this.get('model').save().then(function(value) {
 					self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
+					self.set('petitionNotSaved',false);
 					Ember.$('#divMessage').removeClass('redMessage');
 					Ember.$('#divMessage').addClass('greenMessage');
 					Ember.$('#submit').prop('disabled', false);
@@ -141,6 +142,7 @@ export default Ember.Controller.extend({
 		clearMessage(){
 			var self=this;
 			self.set('petitionMessage','');
+			self.set('petitionNotSaved',true);
 			Ember.$('#submit').prop('disabled', true);
 		}
 	},
