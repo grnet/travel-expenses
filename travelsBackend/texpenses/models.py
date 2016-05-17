@@ -294,9 +294,9 @@ class AdditionalWage(models.Model):
 
     """Docstring for AdditionalWages. """
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100, blank=True, null=True)
+    name = models.CharField(max_length=100)
     cost = models.FloatField()
-    petition_id = models.ForeignKey(Petition)
+    petition = models.ForeignKey(Petition)
     user = models.ForeignKey(UserProfile)
 
     def __unicode__(self):

@@ -154,10 +154,16 @@ class PetitionStatusSerializer(serializers.HyperlinkedModelSerializer):
 
 class AdditionalWagesSerializer(serializers.HyperlinkedModelSerializer):
 
+    def create(self, validated_data):
+        request = self.context['request']
+        validated_data['user'] = request.data['user']
+
+        return AdditionalWage.objects.create(**validated_data)
+
     class Meta:
         model = AdditionalWage
-        fields = ('id', 'name', 'cost', 'petition_id', 'url')
-        read_only_fields = ('id', 'petition_id', 'url')
+        fields = ('id', 'name', 'cost', 'petition', 'url')
+        read_only_fields = ('id', 'url')
 
 
 class CompensationSerializer(serializers.HyperlinkedModelSerializer):

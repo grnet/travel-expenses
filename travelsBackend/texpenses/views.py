@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from djoser import views as djoser_views
 from django.db.utils import OperationalError
 from django.core.exceptions import ObjectDoesNotExist
-from rest_framework import viewsets, filters, status
+from rest_framework import viewsets, filters, status, mixins
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.authentication import SessionAuthentication,\
@@ -299,7 +299,12 @@ class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
     serializer_class = AccomondationSerializer
 
 
-class AdvancedPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
+class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
+                              mixins.RetrieveModelMixin,
+                              mixins.UpdateModelMixin,
+                              mixins.DestroyModelMixin,
+                              viewsets.GenericViewSet
+                              ):
 
     """API endpoint that allows petition statuses to be viewed or edited \
         (permissions are needed)"""
@@ -317,7 +322,7 @@ class AdvancedPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     def destroy(self, request, pk=None):
         print "Deleting advanced petition with id:" + str(pk)
-        advanced_petition = AdvancedPetition.objects.get(id=pk)
+        advanced_petition = self.get_object()
         petition = Petition.objects.get(advanced_info=advanced_petition)
         print "--Deleting related Petition with id:" + str(petition.id)
         petition.delete()
@@ -371,6 +376,14 @@ class AdditionalWagesViewSet(LoggingMixin, viewsets.ModelViewSet):
         else:
             return AdditionalWage.objects.filter(user=request_user)
     serializer_class = AdditionalWagesSerializer
+
+    def create(self, request):
+        petition = str(request.data['petition'])
+        petition_id = petition[petition.index('user_petition') + 14:-1]
+
+        petition_object = Petition.objects.get(id=petition_id)
+        request.data['user'] = petition_object.user
+        return super(AdditionalWagesViewSet, self).create(request)
 
 
 class FeedingViewSet(LoggingMixin, viewsets.ModelViewSet):
@@ -490,7 +503,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     def destroy(self, request, pk=None):
 
-        petition = Petition.objects.get(id=pk)
+        petition = self.get_object()
         pet_status = petition.status.id
         petition_status_to_delete = 1
 
