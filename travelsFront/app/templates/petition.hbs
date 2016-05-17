@@ -12,14 +12,9 @@
 			<div class="profileForm form-group">
 				<label for="movementCategory" class="col-sm-4 control-label">Κατηγορία Μετακίνησης</label><br>
 				<div class="col-sm-8">
-					<select onchange={{action "setMovementCategory" value="target.value"}} class="form-control">
-						<option value=""></option>
-						{{#each movement-categories as |movementCategoryChoice|}}
-						<option value={{movementCategoryChoice.id}} selected={{eq movementCategoryChoice.id model.movementCategory.id}}>{{movementCategoryChoice.name}}</option>
-						{{/each}}
-					</select>				
+					{{input type="text" name="movementCategory" class="form-control" value=categoryOfMovement.name readonly="readonly"}}	
 				</div>
-			</div> 
+			</div>
 
 			<div class="profileForm form-group">
 				<label for="project" class="col-sm-4 control-label">Έργο</label>

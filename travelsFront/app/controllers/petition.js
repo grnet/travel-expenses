@@ -4,13 +4,13 @@ import ENV from 'travels-front/config/environment';
 export default Ember.Controller.extend({
 
 	petitionMessage:'',
-	//petitionNotSaved:true,
 	now: Ember.computed(function() {
 		return moment().format("YYYY-MM-DDTHH:mm:ssZ");
 
 	}),
 	country_selected: false,
 	arrivalPointModel: null,
+	categoryOfMovement: null,
 
 
 	actions: {
@@ -21,6 +21,18 @@ export default Ember.Controller.extend({
 				this.set('country_selected',true);
 
 				let id=value.substring(value.indexOf('country/')+8,value.lastIndexOf('/'));
+				if (id == 10){
+					let movementID = 'http://127.0.0.1:8000/petition/movement_categories/1/';
+					var rec = this.store.findRecord('movement-category', movementID);
+					this.set('categoryOfMovement',rec);
+					this.get('model').set('movementCategory',rec);
+				}
+				else{
+					let movementID = 'http://127.0.0.1:8000/petition/movement_categories/2/';
+					var rec = this.store.findRecord('movement-category',movementID);
+					this.set('categoryOfMovement',rec);
+					this.get('model').set('movementCategory',rec);					
+				}
 				var city=this.store.query('city',{ country: id});
 				this.set('arrivalPointModel',city);
 				this.get('model').set('arrivalPoint',city);
@@ -33,7 +45,7 @@ export default Ember.Controller.extend({
 		petitionSave(){
 
 
-			let profileIsValid=this.get('model.validations.isValid')
+			let profileIsValid=this.get('model.validations.isValid');
 
 			if (profileIsValid) {
 
@@ -62,7 +74,7 @@ export default Ember.Controller.extend({
 		petitionSubmit(){
 
 
-			let profileIsValid=this.get('model.validations.isValid')
+			let profileIsValid=this.get('model.validations.isValid');
 
 			if (profileIsValid) {
 				var rec = this.store.peekRecord('petition-status',ENV.petition_status_2);
@@ -100,11 +112,10 @@ export default Ember.Controller.extend({
 
 		},
 
-		setMovementCategory(id){
-			var rec = this.store.peekRecord('movement-category', id);
-			this.get('model').set('movementCategory', rec);
-
-		},
+		//setMovementCategory(id){
+		//	var rec = this.store.peekRecord('movement-category', id);
+		//	this.get('model').set('movementCategory', rec);
+		//},
 
 		setTransportation(id){
 			var rec = this.store.peekRecord('transportation', id);
