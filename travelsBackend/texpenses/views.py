@@ -320,6 +320,15 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
             return AdvancedPetition.objects.filter(user=request_user)
     serializer_class = AdvancedPetitionSerializer
 
+    def update(self, request, pk=None):
+        dd = request.data['depart_date']
+        rd = request.data['return_date']
+        if rd < dd:
+            return Response(
+                {'error': 'Return date should be after departure date'},
+                status=status.HTTP_400_BAD_REQUEST)
+        return super(AdvancedPetitionViewSet, self).update(request, pk)
+
     def destroy(self, request, pk=None):
         print "Deleting advanced petition with id:" + str(pk)
         advanced_petition = self.get_object()
@@ -491,7 +500,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
             if ted < tsd:
                 return Response(
-                    {'error': 'Task end data should be after task start date'},
+                    {'error': 'Task end date should be after task start date'},
                     status=status.HTTP_400_BAD_REQUEST)
 
             if self.checkDataCompleteness(request):
