@@ -27,8 +27,9 @@ router_petition.register(r'advanced_petition', views.AdvancedPetitionViewSet,
 router_petition.register(r'compensation_categories', views.CompensationViewSet)
 router_petition.register(r'feeding', views.FeedingViewSet)
 router_petition.register(r'flight', views.FlightViewSet, base_name='flight')
-router_petition.register(r'additional_wages', views.AdditionalWagesViewSet,
-                         base_name='additionalwage')
+router_petition.register(r'additional_expenses',
+                         views.AdditionalExpensesViewSet,
+                         base_name='additionalexpenses')
 
 router_petition.register(
     r'user_petition', views.UserPetitionViewSet, 'petition')

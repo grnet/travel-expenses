@@ -228,22 +228,11 @@ class AdvancedPetition(models.Model):
     feeding = models.ForeignKey(FeedingKind, blank=True, null=True)
     non_grnet_quota = models.FloatField(blank=True, null=True, default=0.0)
 
-    # computed model fields
+    def grnet_quota(self):
+        return 100 - self.non_grnet_quota
+
     compensation = models.ForeignKey(Compensation, blank=True, null=True)
-    # compensation_days = models.IntegerField(default=0)
 
-    # overnights_number = models.IntegerField(default=0)
-
-    overnights_sum_cost = models.FloatField(default=0.0)
-    sum_compensation = models.FloatField(default=0.0)
-
-    # same_day_return = models.BooleanField(default=False)
-
-    # max_holiday_days = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
-    # days_left_after = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
-    # days_left_before = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
-
-    # ------------------------------------------#
     expenditure_protocol = models.CharField(
         max_length=30, null=True, blank=True)
     expenditure_date_protocol = models.DateField(blank=True, null=True)
@@ -366,7 +355,7 @@ class Petition(models.Model):
         return str(self.id) + "-" + self.project.name
 
 
-class AdditionalWage(models.Model):
+class AdditionalExpenses(models.Model):
 
     """Docstring for AdditionalWages. """
     id = models.AutoField(primary_key=True)

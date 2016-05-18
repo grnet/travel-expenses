@@ -15,7 +15,7 @@ from models import Transportation
 from models import PetitionStatus
 from models import UserCategory
 
-from models import AdditionalWage
+from models import AdditionalExpenses
 from models import Compensation
 from models import FeedingKind
 from models import Flight
@@ -153,16 +153,16 @@ class PetitionStatusSerializer(serializers.HyperlinkedModelSerializer):
         read_only_fields = ('id', 'url')
 
 
-class AdditionalWagesSerializer(serializers.HyperlinkedModelSerializer):
+class AdditionalExpensesSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data):
         request = self.context['request']
         validated_data['user'] = request.data['user']
 
-        return AdditionalWage.objects.create(**validated_data)
+        return AdditionalExpenses.objects.create(**validated_data)
 
     class Meta:
-        model = AdditionalWage
+        model = AdditionalExpenses
         fields = ('id', 'name', 'cost', 'petition', 'url')
         read_only_fields = ('id', 'url')
 
@@ -205,12 +205,10 @@ class AdvancedPetitionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AdvancedPetition
         fields = ('id', 'dse', 'depart_date', 'return_date', 'accomondation',
-                  'flight', 'feeding', 'non_grnet_quota', 'compensation',
-                  'overnights_sum_cost', 'sum_compensation', 'same_day_return',
-                  'expenditure_protocol',
+                  'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
+                  'compensation', 'same_day_return', 'expenditure_protocol',
                   'expenditure_date_protocol', 'movement_protocol',
-                  'movement_date_protocol',
-                  'compensation_petition_protocol',
+                  'movement_date_protocol', 'compensation_petition_protocol',
                   'compensation_petition_date',
                   'compensation_decision_protocol',
                   'compensation_decision_date', 'url')
@@ -242,7 +240,9 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
             ac.save()
             fl = Flight(user=user_object, flightName="Flight")
             fl.save()
-            ap = AdvancedPetition(accomondation=ac, flight=fl, user=user_object)
+            feeding_kind_1 = FeedingKind.objects.get(id=1)
+            ap = AdvancedPetition(accomondation=ac, flight=fl,
+                                  user=user_object, feeding=feeding_kind_1)
             ap.save()
             print "Done"
             validated_data['advanced_info'] = ap

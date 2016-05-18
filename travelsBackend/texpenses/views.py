@@ -27,7 +27,7 @@ from models import Transportation
 from models import PetitionStatus
 from models import UserCategory
 
-from models import AdditionalWage
+from models import AdditionalExpenses
 from models import Compensation
 from models import FeedingKind
 from models import Flight
@@ -50,7 +50,7 @@ from serializers import UserPetitionSerializer
 from serializers import PetitionStatusSerializer
 from serializers import UserCategorySerializer
 
-from serializers import AdditionalWagesSerializer
+from serializers import AdditionalExpensesSerializer
 from serializers import AdvancedPetitionSerializer
 from serializers import FlightSerializer
 from serializers import AccomondationSerializer
@@ -361,7 +361,7 @@ class CompensationViewSet(LoggingMixin, viewsets.ModelViewSet):
     serializer_class = CompensationSerializer
 
 
-class AdditionalWagesViewSet(LoggingMixin, viewsets.ModelViewSet):
+class AdditionalExpensesViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     """API endpoint that allows petition statuses to be viewed or edited \
         (permissions are needed)"""
@@ -372,10 +372,10 @@ class AdditionalWagesViewSet(LoggingMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         request_user = self.request.user
         if request_user.is_staff:
-            return AdditionalWage.objects.all()
+            return AdditionalExpenses.objects.all()
         else:
-            return AdditionalWage.objects.filter(user=request_user)
-    serializer_class = AdditionalWagesSerializer
+            return AdditionalExpenses.objects.filter(user=request_user)
+    serializer_class = AdditionalExpensesSerializer
 
     def create(self, request):
         petition = str(request.data['petition'])
@@ -383,7 +383,7 @@ class AdditionalWagesViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         petition_object = Petition.objects.get(id=petition_id)
         request.data['user'] = petition_object.user
-        return super(AdditionalWagesViewSet, self).create(request)
+        return super(AdditionalExpensesViewSet, self).create(request)
 
 
 class FeedingViewSet(LoggingMixin, viewsets.ModelViewSet):
