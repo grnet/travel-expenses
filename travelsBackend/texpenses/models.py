@@ -32,6 +32,7 @@ class UserCategory(models.Model):
 
     name = models.CharField(max_length=10)
     id = models.AutoField(primary_key=True)
+    max_overnight_cost = models.FloatField(default=0.0)
 
     def __unicode__(self):
         return self.name
@@ -340,6 +341,25 @@ class Petition(models.Model):
         delta = self.taskEndDate - self.taskStartDate
 
         return delta.days
+
+    def is_city_ny(self):
+        ap = self.arrivalPoint
+        if ap is None:
+            return False
+        if ap.name == "NEW YORK":
+            return True
+        else:
+            return False
+
+    def max_overnight_cost(self):
+        user_category = self.user_category
+        if user_category is None:
+            return 0
+        default_max_overnight_cost = user_category.max_overnight_cost
+        if self.is_city_ny():
+            return default_max_overnight_cost + 100
+        else:
+            return default_max_overnight_cost
 
     def same_day_return_task(self):
         t_end_date = self.taskEndDate

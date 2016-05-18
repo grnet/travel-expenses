@@ -486,6 +486,29 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         return True
 
+    def destroy(self, request, pk=None):
+
+        petition = self.get_object()
+        pet_status = petition.status.id
+        petition_status_to_delete = 1
+
+        if pet_status == petition_status_to_delete:
+            print "Deleting petition with id:" + str(pk)
+            # petition = Petition.objects.get(id=pk)
+            apet_id = petition.advanced_info.id
+            advanced_petition = AdvancedPetition.objects.get(id=apet_id)
+
+            print "--Deleting related Advanced Petition with id:" + str(apet_id)
+            advanced_petition.delete()
+            print "--Done"
+            petition.delete()
+            print "Done"
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({'error': "You dont have the permittions to delete \
+                         the specific Petition"},
+                        status=status.HTTP_403_FORBIDDEN)
+
     def create(self, request):
         request.data['user'] = request.user
 
@@ -516,29 +539,6 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         return super(UserPetitionViewSet, self).create(request)
 
-    def destroy(self, request, pk=None):
-
-        petition = self.get_object()
-        pet_status = petition.status.id
-        petition_status_to_delete = 1
-
-        if pet_status == petition_status_to_delete:
-            print "Deleting petition with id:" + str(pk)
-            # petition = Petition.objects.get(id=pk)
-            apet_id = petition.advanced_info.id
-            advanced_petition = AdvancedPetition.objects.get(id=apet_id)
-
-            print "--Deleting related Advanced Petition with id:" + str(apet_id)
-            advanced_petition.delete()
-            print "--Done"
-            petition.delete()
-            print "Done"
-
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response({'error': "You dont have the permittions to delete \
-                         the specific Petition"},
-                        status=status.HTTP_403_FORBIDDEN)
-
     def update(self, request, pk=None):
         request.data['user'] = request.user
 
@@ -565,5 +565,4 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         if chosen_status is None:
             return Response({'error': 'Petition status is not set'},
                             status=status.HTTP_400_BAD_REQUEST)
-
-        return super(UserPetitionViewSet, self).create(request)
+        return super(UserPetitionViewSet, self).update(request, pk)

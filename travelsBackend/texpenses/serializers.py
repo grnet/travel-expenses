@@ -68,7 +68,7 @@ class UserCategorySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = UserCategory
-        fields = ('name', 'id', 'url', )
+        fields = ('name', 'id', 'max_overnight_cost', 'url', )
         read_only_fields = ('id', 'url',)
 
 
@@ -257,7 +257,8 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'taskStartDate', 'taskEndDate', 'creationDate', 'updateDate',
                   'project', 'reason', 'movementCategory',
                   'departurePoint', 'arrivalPoint', 'overnights_num',
-                  'transport_days', 'overnight_cost', 'overnights_sum_cost',
+                  'transport_days', 'overnight_cost', 'max_overnight_cost',
+                  'overnights_sum_cost',
                   'task_duration', 'same_day_return_task', 'compensation_level',
                   'transportation', 'compensation_days',
                   'recTransport', 'recAccomondation',
