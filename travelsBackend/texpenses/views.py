@@ -486,6 +486,14 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             chosen_status.index('status') + 7:-1]
 
         if chosen_status == self.petition_status_2:
+            tsd = request.data['taskStartDate']
+            ted = request.data['taskEndDate']
+
+            if ted < tsd:
+                return Response(
+                    {'error': 'Task end data should be after task start date'},
+                    status=status.HTTP_400_BAD_REQUEST)
+
             if self.checkDataCompleteness(request):
                 return super(UserPetitionViewSet, self).create(request)
             else:
@@ -531,6 +539,13 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             chosen_status.index('status') + 7:-1]
 
         if chosen_status == self.petition_status_2:
+            tsd = request.data['taskStartDate']
+            ted = request.data['taskEndDate']
+
+            if ted < tsd:
+                return Response(
+                    {'error': 'Task end data should be after task start date'},
+                    status=status.HTTP_400_BAD_REQUEST)
             if self.checkDataCompleteness(request):
                 return super(UserPetitionViewSet, self).update(request, pk)
             else:

@@ -234,6 +234,7 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
         validated_data['user'] = user_object
 
         advanced_pet_info = validated_data['advanced_info']
+
         if not (advanced_pet_info and advanced_pet_info != ""):
             print "Create an empty advanced petition"
             ac = Accomondation(user=user_object, hotel="Hotel")
