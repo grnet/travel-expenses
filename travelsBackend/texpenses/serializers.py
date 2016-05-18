@@ -235,20 +235,51 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
         advanced_pet_info = validated_data['advanced_info']
 
+        arrival_point = validated_data['arrivalPoint']
+        user_category = user_object.category
+
+        compensation_object = None
+
+        if arrival_point and user_category:
+            country_category_name = arrival_point.country.category.name
+            compensation_object = Compensation.objects.get(
+                name=user_category.name + country_category_name)
+
         if not (advanced_pet_info and advanced_pet_info != ""):
             print "Create an empty advanced petition"
+
             ac = Accomondation(user=user_object, hotel="Hotel")
             ac.save()
             fl = Flight(user=user_object, flightName="Flight")
             fl.save()
             feeding_kind_1 = FeedingKind.objects.get(id=1)
             ap = AdvancedPetition(accomondation=ac, flight=fl,
-                                  user=user_object, feeding=feeding_kind_1)
+                                  user=user_object,
+                                  compensation=compensation_object,
+                                  feeding=feeding_kind_1)
             ap.save()
             print "Done"
             validated_data['advanced_info'] = ap
 
         return Petition.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        user_object = instance.user
+        arrival_point = instance.arrivalPoint
+
+        user_category = user_object.category
+
+        compensation_object = None
+
+        if arrival_point and user_category:
+            country_category_name = arrival_point.country.category.name
+            compensation_object = Compensation.objects.get(
+                name=user_category.name + country_category_name)
+
+        instance.advanced_info.compensation = compensation_object
+        instance.advanced_info.save()
+        return super(UserPetitionSerializer, self).update(instance,
+                                                          validated_data)
 
     class Meta:
         model = Petition
@@ -259,7 +290,8 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'departurePoint', 'arrivalPoint', 'overnights_num',
                   'transport_days', 'overnight_cost', 'max_overnight_cost',
                   'overnights_sum_cost',
-                  'task_duration', 'same_day_return_task', 'compensation_level',
+                  'task_duration', 'same_day_return_task',
+                  'compensation_level',
                   'transportation', 'compensation_days',
                   'recTransport', 'recAccomondation',
                   'recCostParticipation', 'advanced_info', 'max_compensation',

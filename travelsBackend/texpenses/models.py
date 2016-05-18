@@ -290,12 +290,46 @@ class Petition(models.Model):
     advanced_info = models.OneToOneField(
         AdvancedPetition, blank=True, null=True)
 
-    def compensation_level(self):
-        comp_object = self.advanced_info.compensation
-        if comp_object is None:
-            return 0
+    def compensation_name(self):
 
-        return self.advanced_info.compensation.compensation
+        ap = self.arrivalPoint
+        if ap is None:
+            return ''
+
+        ap_country = ap.country
+        if ap_country is None:
+            return ''
+
+        ap_country_category = ap_country.category
+        if ap_country_category is None:
+            return ''
+
+        ap_country_category_name = ap_country_category.name
+
+        user_category = self.user_category
+
+        if user_category is None:
+            user_category = self.user.category
+
+        if user_category is None:
+            return ''
+
+        user_category_name = user_category.name
+
+        return user_category_name + ap_country_category_name
+
+    def compensation_level(self):
+        # comp_object = self.advanced_info.compensation
+        # if comp_object is None:
+            # return 0
+        cn = self.compensation_name()
+        if cn == "":
+            return 0
+        compensation_object = Compensation.objects.get(name=cn)
+        if compensation_object:
+            return compensation_object.compensation
+
+        return 0
 
     def transport_days(self):
         depart_date = self.advanced_info.depart_date
