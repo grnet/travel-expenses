@@ -12,7 +12,6 @@ export default Ember.Controller.extend({
 	arrivalPointModel: null,
 	categoryOfMovement: null,
 
-
 	actions: {
 
 		setCountry(value){
@@ -25,7 +24,7 @@ export default Ember.Controller.extend({
 					let movementID = 'http://127.0.0.1:8000/petition/movement_categories/1/';
 					var rec = this.store.findRecord('movement-category', movementID);
 					this.set('categoryOfMovement',rec);
-					this.get('model').set('movementCategory',rec);
+					this.get('model').set('movementCategory',rec)		
 				}
 				else{
 					let movementID = 'http://127.0.0.1:8000/petition/movement_categories/2/';
@@ -109,7 +108,7 @@ export default Ember.Controller.extend({
 		setDeparturePoint(id){
 			var rec = this.store.peekRecord('city', id);
 			this.get('model').set('departurePoint', rec);
-
+					
 		},
 
 		//setMovementCategory(id){

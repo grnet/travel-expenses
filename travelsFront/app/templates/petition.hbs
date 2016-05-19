@@ -17,6 +17,13 @@
 			</div>
 
 			<div class="profileForm form-group">
+				<label for="countryCategory" class="col-sm-4 control-label">Κατηγορία Χώρας</label><br>
+				<div class="col-sm-8">
+					{{input type="text" name="countryCategory" class="form-control" value=""  readonly="readonly"}}	
+				</div>
+			</div>
+
+			<div class="profileForm form-group">
 				<label for="project" class="col-sm-4 control-label">Έργο</label>
 				<div class="col-sm-8">
 					<select onchange={{action "setProject" value="target.value"}} class="form-control">
@@ -50,8 +57,7 @@
 			<div class="profileForm form-group">
 				<label for="departurePoint" class="col-sm-4 control-label">Τόπος Αναχώρησης</label>
 				<div class="col-sm-8">
-					<select onchange={{action "setDeparturePoint" value="target.value"}} class="form-control">
-						<option value="">Επιλέξτε πόλη αναχώρησης</option>
+					<select onchange={{action "setDeparturePoint" value="target.value"}} class="form-control" id="test">
 
 						{{#each departurePoints as |departurePointChoice|}}
 						<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.id model.departurePoint.id}}>{{departurePointChoice.name}}</option>

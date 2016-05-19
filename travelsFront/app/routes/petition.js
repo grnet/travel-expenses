@@ -3,8 +3,15 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	model() {
-		return this.store.createRecord('petition');
+		var model = this.store.createRecord('petition');
+		let departureID = 'http://127.0.0.1:8000/petition/city/10/';
+		var rec = this.store.findRecord('city', departureID);
+		rec.then(function(m) {
+			model.set('departurePoint', m)
+		})
+		return model
 	},
+
 	afterModel(petition){
 
 		this.store.findRecord('profile', 1).then(function(profile) {
