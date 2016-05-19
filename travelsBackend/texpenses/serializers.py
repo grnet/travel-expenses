@@ -291,6 +291,7 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'overnight_cost', 'max_overnight_cost', 'overnights_sum_cost',
                   'transport_days', 'task_duration', 'same_day_return_task',
                   'compensation_level', 'compensation_days',
+                  'additional_expenses_sum',
                   'max_compensation', 'compensation_sum',
                   'transportation', 'recTransport', 'recAccomondation',
                   'recCostParticipation', 'advanced_info',

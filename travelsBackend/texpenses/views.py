@@ -298,6 +298,31 @@ class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
             return Accomondation.objects.all()
         else:
             return Accomondation.objects.filter(user=request_user)
+
+    def update(self, request, pk=None):
+        hotel = self.get_object()
+        hotel_cost = float(request.data['hotelPrice'])
+        max_overnight = 0
+
+        advanced_petition = AdvancedPetition.objects.get(accomondation=hotel)
+        petition = Petition.objects.get(advanced_info=advanced_petition)
+
+        if petition.user_category.max_overnight_cost:
+            max_overnight = petition.user_category.max_overnight_cost
+        else:
+            user = request.user
+            max_overnight = user.category.max_overnight_cost
+
+        print hotel_cost
+        print max_overnight
+
+        if hotel_cost > max_overnight:
+            return Response({'error': 'Hotel cost:' + str(hotel_cost) +
+                             ' exceeds max hotel cost:' +
+                             str(max_overnight)},
+                            status=status.HTTP_400_BAD_REQUEST)
+        return super(AccomondationViewSet, self).update(request, pk)
+
     serializer_class = AccomondationSerializer
 
 

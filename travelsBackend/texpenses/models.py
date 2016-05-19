@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from validators import iban_validation
 from validators import afm_validator
 from django.conf import settings
+from django.db.models import Sum
 
 
 class Specialty(models.Model):
@@ -336,13 +337,17 @@ class Petition(models.Model):
         if self.taskEndDate is None or \
                 self.taskStartDate is None or depart_date is None:
             return 0
-        delta = self.taskEndDate - depart_date
-        days = delta.days
+        # delta = self.taskEndDate - depart_date
+
+        delta = self.taskStartDate - depart_date
+        days = delta.days + 1
         if days > 1:
             days = 1
+        if days < 0:
+            days = 0
         t_cycle = self.taskEndDate - self.taskStartDate
 
-        return t_cycle.days + days
+        return t_cycle.days + days + 2
 
     def compensation_days(self):
         return self.transport_days()
@@ -356,11 +361,11 @@ class Petition(models.Model):
         if self.same_day_return_task() or self.advanced_info.feeding.id == 2:
             comp_sum = comp_sum / 2
 
-        if self.advanced_info.feeding.id == 3 \
-           or self.advanced_info.accomondation is not None:
+        if self.advanced_info.feeding.id == 3:
             comp_sum = comp_sum * 25 / 100
 
-        return comp_sum * self.advanced_info.grnet_quota() / 100
+        return comp_sum * self.advanced_info.grnet_quota() / 100 +\
+            self.additional_expenses_sum()
 
     def overnights_num(self):
         trans_days = self.transport_days()
@@ -386,7 +391,7 @@ class Petition(models.Model):
 
         delta = self.taskEndDate - self.taskStartDate
 
-        return delta.days
+        return delta.days + 2
 
     def is_city_ny(self):
         ap = self.arrivalPoint
@@ -419,6 +424,11 @@ class Petition(models.Model):
             return True
 
         return False
+
+    def additional_expenses_sum(self):
+        ae = AdditionalExpenses.objects.filter(petition=self).\
+            aggregate(Sum('cost'))
+        return ae['cost__sum']
 
     def __unicode__(self):
         return str(self.id) + "-" + self.project.name
