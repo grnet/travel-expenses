@@ -1,7 +1,8 @@
 import requests
 import urllib
 import logging
-from datetime import datetime
+
+from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
@@ -535,7 +536,16 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
             tsd = request.data['taskStartDate']
             ted = request.data['taskEndDate']
+            now = str(timezone.now())
 
+            if tsd < now:
+                return Response(
+                    {'error': 'Task start date should be after today'},
+                    status=status.HTTP_400_BAD_REQUEST)
+            if ted < now:
+                return Response(
+                    {'error': 'Task end date should be after today'},
+                    status=status.HTTP_400_BAD_REQUEST)
             if ted < tsd:
                 return Response(
                     {'error': 'Task end date should be after task start date'},
@@ -561,11 +571,11 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         chosen_status = petition.status.id
         chosen_status = str(chosen_status)
 
-        now = datetime.today()
+        now = str(timezone.now())
 
         if chosen_status == self.petition_status_2:
-            tsd = petition.taskStartDate
-            ted = petition.taskEndDate
+            tsd = request.data['taskStartDate']
+            ted = request.data['taskEndDate']
 
             if tsd < now:
                 return Response(
