@@ -288,7 +288,7 @@ class Petition(models.Model):
     recCostParticipation = models.FloatField(blank=True, null=True, default=0.0)
     status = models.ForeignKey(PetitionStatus)
     advanced_info = models.OneToOneField(
-        AdvancedPetition, blank=True, null=True)
+        AdvancedPetition, on_delete=models.CASCADE, blank=True, null=True)
 
     def compensation_name(self):
 
@@ -350,6 +350,18 @@ class Petition(models.Model):
     def max_compensation(self):
         return self.compensation_days() * self.compensation_level()
 
+    def compensation_sum(self):
+
+        comp_sum = self.max_compensation()
+        if self.same_day_return_task() or self.advanced_info.feeding.id == 2:
+            comp_sum = comp_sum / 2
+
+        if self.advanced_info.feeding.id == 3 \
+           or self.advanced_info.accomondation is not None:
+            comp_sum = comp_sum * 25 / 100
+
+        return comp_sum * self.advanced_info.grnet_quota() / 100
+
     def overnights_num(self):
         trans_days = self.transport_days()
         if trans_days == 0:
@@ -397,10 +409,13 @@ class Petition(models.Model):
 
     def same_day_return_task(self):
         t_end_date = self.taskEndDate
+        t_start_date = self.taskStartDate
         r_date = self.advanced_info.return_date
-        if t_end_date is None or r_date is None:
+        d_date = self.advanced_info.depart_date
+        if t_end_date is None or r_date is None \
+                or t_start_date is None or d_date is None:
             return False
-        if t_end_date == r_date:
+        if t_end_date.day == r_date.day == t_start_date.day == d_date.day:
             return True
 
         return False

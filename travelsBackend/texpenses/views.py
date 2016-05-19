@@ -1,6 +1,7 @@
 import requests
 import urllib
 import logging
+from datetime import datetime
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
@@ -332,9 +333,12 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
     def destroy(self, request, pk=None):
         print "Deleting advanced petition with id:" + str(pk)
         advanced_petition = self.get_object()
-        petition = Petition.objects.get(advanced_info=advanced_petition)
-        print "--Deleting related Petition with id:" + str(petition.id)
-        petition.delete()
+        print "--Deleting related flight:" + str(advanced_petition.flight)
+        advanced_petition.flight.delete()
+        print "--Done"
+        print "--Deleting related accomondation:"\
+            + str(advanced_petition.accomondation)
+        advanced_petition.accomondation.delete()
         print "--Done"
         advanced_petition.delete()
         print "Done"
@@ -494,17 +498,27 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         if pet_status == petition_status_to_delete:
             print "Deleting petition with id:" + str(pk)
-            # petition = Petition.objects.get(id=pk)
-            apet_id = petition.advanced_info.id
-            advanced_petition = AdvancedPetition.objects.get(id=apet_id)
 
-            print "--Deleting related Advanced Petition with id:" + str(apet_id)
+            advanced_petition = petition.advanced_info
+
+            print "--Deleting related Advanced\
+                Petition with id:" + str(advanced_petition.id)
             advanced_petition.delete()
+            print "----Deleting related flight:" + str(advanced_petition.flight)
+            advanced_petition.flight.delete()
+            print "----Done"
+
+            print "----Deleting related accomondation:\
+                  " + str(advanced_petition.accomondation)
+            advanced_petition.accomondation.delete()
+            print "----Done"
             print "--Done"
             petition.delete()
             print "Done"
 
             return Response(status=status.HTTP_204_NO_CONTENT)
+            # return super(UserPetitionViewSet, self).destroy(request, pk)
+
         return Response({'error': "You dont have the permittions to delete \
                          the specific Petition"},
                         status=status.HTTP_403_FORBIDDEN)
@@ -518,6 +532,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             chosen_status.index('status') + 7:-1]
 
         if chosen_status == self.petition_status_2:
+
             tsd = request.data['taskStartDate']
             ted = request.data['taskEndDate']
 
@@ -542,19 +557,29 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
     def update(self, request, pk=None):
         request.data['user'] = request.user
 
-        chosen_status = str(request.data['status'])
+        petition = self.get_object()
+        chosen_status = petition.status.id
+        chosen_status = str(chosen_status)
 
-        chosen_status = chosen_status[
-            chosen_status.index('status') + 7:-1]
+        now = datetime.today()
 
         if chosen_status == self.petition_status_2:
-            tsd = request.data['taskStartDate']
-            ted = request.data['taskEndDate']
+            tsd = petition.taskStartDate
+            ted = petition.taskEndDate
 
+            if tsd < now:
+                return Response(
+                    {'error': 'Task start date should be after today'},
+                    status=status.HTTP_400_BAD_REQUEST)
+            if ted < now:
+                return Response(
+                    {'error': 'Task end date should be after today'},
+                    status=status.HTTP_400_BAD_REQUEST)
             if ted < tsd:
                 return Response(
-                    {'error': 'Task end data should be after task start date'},
+                    {'error': 'Task end date should be after task start date'},
                     status=status.HTTP_400_BAD_REQUEST)
+
             if self.checkDataCompleteness(request):
                 return super(UserPetitionViewSet, self).update(request, pk)
             else:

@@ -288,12 +288,11 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'taskStartDate', 'taskEndDate', 'creationDate', 'updateDate',
                   'project', 'reason', 'movementCategory',
                   'departurePoint', 'arrivalPoint', 'overnights_num',
-                  'transport_days', 'overnight_cost', 'max_overnight_cost',
-                  'overnights_sum_cost',
-                  'task_duration', 'same_day_return_task',
-                  'compensation_level',
-                  'transportation', 'compensation_days',
-                  'recTransport', 'recAccomondation',
-                  'recCostParticipation', 'advanced_info', 'max_compensation',
+                  'overnight_cost', 'max_overnight_cost', 'overnights_sum_cost',
+                  'transport_days', 'task_duration', 'same_day_return_task',
+                  'compensation_level', 'compensation_days',
+                  'max_compensation', 'compensation_sum',
+                  'transportation', 'recTransport', 'recAccomondation',
+                  'recCostParticipation', 'advanced_info',
                   'status', 'user_category', 'url')
         read_only_fields = ('id', 'url',)
