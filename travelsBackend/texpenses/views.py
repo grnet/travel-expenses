@@ -323,8 +323,19 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
     serializer_class = AdvancedPetitionSerializer
 
     def update(self, request, pk=None):
+
         dd = request.data['depart_date']
         rd = request.data['return_date']
+        now = str(timezone.now())
+
+        if dd < now:
+            return Response(
+                {'error': 'Depart date should be after today'},
+                status=status.HTTP_400_BAD_REQUEST)
+        if rd < now:
+            return Response(
+                {'error': 'Return date should be after today'},
+                status=status.HTTP_400_BAD_REQUEST)
         if rd < dd:
             return Response(
                 {'error': 'Return date should be after departure date'},
