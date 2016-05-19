@@ -3,21 +3,21 @@
 <div class="profileForm form-group">
 	<label for="first_name" class="col-sm-2 control-label">Όνομα</label>
 	<div class="col-sm-8">
-		{{input value=model.name type="text" class="form-control" autofocus="autofocus"}}
+		{{input value=model.name type="text" class="form-control"}}
 	</div>
 </div>
 
 <div class="profileForm form-group">
 	<label for="last_name" class="col-sm-2 control-label">Επώνυμο</label>
 	<div class="col-sm-8">	
-		{{input value=model.surname type="text" class="form-control" autofocus="autofocus"}}
+		{{input value=model.surname type="text" class="form-control"}}
 	</div>
 </div>
 
 <div class="profileForm form-group">
 	<label for="iban" class="col-sm-2 control-label">IBAN</label>
 	<div class="col-sm-8">	
-		{{input value=model.iban type="text" class="form-control" autofocus="autofocus"}}
+		{{input value=model.iban type="text" class="form-control"}}
 	</div>
 	{{#if (v-get model 'iban' 'isInvalid') }}
 		<font color="red">{{v-get model 'iban' 'message'}}</font>
@@ -57,7 +57,7 @@
 <div class="profileForm form-group">
 	<label for="taxRegNum" class="col-sm-2 control-label">ΑΦΜ</label>
 	<div class="col-sm-8">	
-		{{input value=model.taxRegNum type="text" class="form-control" autofocus="autofocus"}}
+		{{input value=model.taxRegNum type="text" class="form-control"}}
 
 	</div>
 	{{#if (v-get model 'taxRegNum' 'isInvalid') }}

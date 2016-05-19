@@ -5,18 +5,10 @@ export default Ember.Controller.extend({
 	profileMessage:'',
 
 	init: function(){
-		this._super();
-    	console.log("I get called once");	
+		this._super();	
 		let userCategory = 'http://127.0.0.1:8000/users_related/category/2/';
 		var rec = this.store.findRecord('category', userCategory);
-		this.set('category',rec);
-		//this.get('model').set('departurePoint',rec);
-
-		console.log("departurePoint.name at first", this.get('model.category.name'));
-		console.log("rec" , this.rec);	
-		
-				
-			
+		this.set('category',rec);		
   	},
 
 	actions: {
