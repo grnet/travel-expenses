@@ -3,7 +3,8 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	model() {
-		return this.store.findRecord('profile',1); 
+		
+		return this.store.findRecord('profile',1);
 	},
 
 	setupController: function(controller, model) {
@@ -15,3 +16,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('profileMessage','');
 	}
 });
+
+
+
+		

@@ -4,20 +4,20 @@ export default Ember.Controller.extend({
 
 	profileMessage:'',
 
-	// init: function(){
-	// 	this._super();
- //    	console.log("I get called once");	
-	// 	let departureID = 'http://127.0.0.1:8000/petition/city/10/';
-	// 	var rec = this.store.peekRecord('city', departureID);
-	// 	this.set('departurePointModel',rec);
-	// 	//this.get('model').set('departurePoint',rec);
+	init: function(){
+		this._super();
+    	console.log("I get called once");	
+		let userCategory = 'http://127.0.0.1:8000/users_related/category/2/';
+		var rec = this.store.findRecord('category', userCategory);
+		this.set('category',rec);
+		//this.get('model').set('departurePoint',rec);
 
-	// 	console.log("departurePoint.name at first", this.get('model.departurePoint.name'));
-	// 	console.log("rec" , this.rec);	
+		console.log("departurePoint.name at first", this.get('model.category.name'));
+		console.log("rec" , this.rec);	
 		
 				
 			
- //  	},
+  	},
 
 	actions: {
 
