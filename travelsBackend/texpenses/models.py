@@ -214,21 +214,14 @@ class AdvancedPetition(models.Model):
     depart_date = models.DateTimeField(blank=True, null=True)
     return_date = models.DateTimeField(blank=True, null=True)
 
-    def same_day_return(self):
-        if self.return_date is None:
-            return False
-        if self.depart_date is None:
-            return False
-
-        delta = self.return_date - self.depart_date
-        if delta.days == 0:
-            return True
-        return False
-
     accomondation = models.ForeignKey(Accomondation, blank=True, null=True)
     flight = models.ForeignKey(Flight, blank=True, null=True)
     feeding = models.ForeignKey(FeedingKind, blank=True, null=True)
     non_grnet_quota = models.FloatField(blank=True, null=True, default=0.0)
+
+    transport_days = models.IntegerField(blank=True, null=True)
+    overnights_num = models.IntegerField(blank=True, null=True)
+    compensation_days = models.IntegerField(blank=True, null=True)
 
     def grnet_quota(self):
         return 100 - self.non_grnet_quota
@@ -337,25 +330,27 @@ class Petition(models.Model):
         if self.taskEndDate is None or \
                 self.taskStartDate is None or depart_date is None:
             return 0
-        # delta = self.taskEndDate - depart_date
 
-        delta = self.taskStartDate - depart_date
-        days = delta.days + 1
-        if days > 1:
+        delta = self.taskStartDate.day - depart_date.day
+
+        days = 0
+
+        if delta > 1:
             days = 1
-        if days < 0:
+        if delta < 0:
             days = 0
-        t_cycle = self.taskEndDate - self.taskStartDate
+        t_cycle = self.taskEndDate.day - self.taskStartDate.day
 
-        return t_cycle.days + days + 2
+        return t_cycle + days + 1
 
     def compensation_days(self):
         return self.transport_days()
 
     def max_compensation(self):
-        return self.compensation_days() * self.compensation_level()
+        return self.compensation_days() * self.compensation_level()\
+            + self.additional_expenses_sum()
 
-    def compensation_sum(self):
+    def compensation_final(self):
 
         comp_sum = self.max_compensation()
         if self.same_day_return_task() or self.advanced_info.feeding.id == 2:
@@ -364,13 +359,10 @@ class Petition(models.Model):
         if self.advanced_info.feeding.id == 3:
             comp_sum = comp_sum * 25 / 100
 
-        return comp_sum * self.advanced_info.grnet_quota() / 100 +\
-            self.additional_expenses_sum()
+        return comp_sum * self.advanced_info.grnet_quota() / 100
 
     def overnights_num(self):
         trans_days = self.transport_days()
-        if trans_days == 0:
-            return 0
         return trans_days - 1
 
     def overnight_cost(self):
@@ -389,9 +381,9 @@ class Petition(models.Model):
         if self.taskEndDate is None or self.taskStartDate is None:
             return 0
 
-        delta = self.taskEndDate - self.taskStartDate
+        delta = self.taskEndDate.day - self.taskStartDate.day
 
-        return delta.days + 2
+        return delta + 1
 
     def is_city_ny(self):
         ap = self.arrivalPoint

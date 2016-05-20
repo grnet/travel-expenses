@@ -206,9 +206,10 @@ class AdvancedPetitionSerializer(serializers.HyperlinkedModelSerializer):
         model = AdvancedPetition
         fields = ('id', 'dse', 'depart_date', 'return_date', 'accomondation',
                   'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
-                  'compensation', 'same_day_return', 'expenditure_protocol',
+                  'compensation', 'expenditure_protocol',
                   'expenditure_date_protocol', 'movement_protocol',
                   'movement_date_protocol', 'compensation_petition_protocol',
+                  'transport_days', 'overnights_num', 'compensation_days',
                   'compensation_petition_date',
                   'compensation_decision_protocol',
                   'compensation_decision_date', 'url')
@@ -291,8 +292,9 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'overnight_cost', 'max_overnight_cost', 'overnights_sum_cost',
                   'transport_days', 'task_duration', 'same_day_return_task',
                   'compensation_level', 'compensation_days',
+                  'compensation_name',
                   'additional_expenses_sum',
-                  'max_compensation', 'compensation_sum',
+                  'max_compensation', 'compensation_final',
                   'transportation', 'recTransport', 'recAccomondation',
                   'recCostParticipation', 'advanced_info',
                   'status', 'user_category', 'url')

@@ -455,7 +455,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
     missing_field = None
     try:
 
-        petition_status_2 = str(PetitionStatus.objects.get(id='2').id)
+        petition_status_1 = str(PetitionStatus.objects.get(id='1').id)
     except OperationalError:
         pass
     except ObjectDoesNotExist:
@@ -568,7 +568,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         chosen_status = chosen_status[
             chosen_status.index('status') + 7:-1]
 
-        if chosen_status == self.petition_status_2:
+        if chosen_status != self.petition_status_1:
 
             tsd = request.data['taskStartDate']
             ted = request.data['taskEndDate']
@@ -609,7 +609,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         now = str(timezone.now())
 
-        if chosen_status == self.petition_status_2:
+        if chosen_status != self.petition_status_1:
             tsd = request.data['taskStartDate']
             ted = request.data['taskEndDate']
 
