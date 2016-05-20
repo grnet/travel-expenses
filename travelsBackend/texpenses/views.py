@@ -313,9 +313,6 @@ class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
             user = request.user
             max_overnight = user.category.max_overnight_cost
 
-        print hotel_cost
-        print max_overnight
-
         if hotel_cost > max_overnight:
             return Response({'error': 'Hotel cost:' + str(hotel_cost) +
                              ' exceeds max hotel cost:' +
@@ -365,6 +362,14 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
             return Response(
                 {'error': 'Return date should be after departure date'},
                 status=status.HTTP_400_BAD_REQUEST)
+        tdm = request.data['transport_days_manual']
+        onm = request.data['overnights_num_manual']
+
+        if tdm < onm:
+            return Response(
+                {'error': 'Transport days should be bigger from overnights'},
+                status=status.HTTP_400_BAD_REQUEST)
+
         return super(AdvancedPetitionViewSet, self).update(request, pk)
 
     def destroy(self, request, pk=None):

@@ -202,6 +202,34 @@ class AccomondationSerializer(serializers.HyperlinkedModelSerializer):
 
 class AdvancedPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
+    def update(self, instance, validated_data):
+
+        print validated_data
+
+        if validated_data['transport_days_manual'] == None:
+            print "transport days is None"
+            instance.transport_days_manual_updated = False
+        else:
+            print "transport days did change"
+            instance.transport_days_manual_updated = True
+
+        if validated_data['overnights_num_manual'] == None:
+            print "overnights num is None"
+            instance.overnights_num_manual_updated = False
+        else:
+            print "overnights did change"
+            instance.overnights_num_manual_updated = True
+
+       # if validated_data['compensation days_manual'] == None:
+            # print "compensation days is None"
+            # instance.compensation_days_manual_updated = False
+       # else:
+            # print "compensation days did change"
+            # instance.compensation_days_manual_updated = True
+
+        return super(AdvancedPetitionSerializer, self).update(instance,
+                                                              validated_data)
+
     class Meta:
         model = AdvancedPetition
         fields = ('id', 'dse', 'depart_date', 'return_date', 'accomondation',
@@ -209,10 +237,12 @@ class AdvancedPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'compensation', 'expenditure_protocol',
                   'expenditure_date_protocol', 'movement_protocol',
                   'movement_date_protocol', 'compensation_petition_protocol',
-                  'transport_days', 'overnights_num', 'compensation_days',
                   'compensation_petition_date',
                   'compensation_decision_protocol',
-                  'compensation_decision_date', 'url')
+                  'compensation_decision_date', 'url',
+                  'transport_days_manual', 'overnights_num_manual',
+                  'compensation_days_manual'
+                  )
         read_only_fields = ('id', 'url')
 
 
@@ -290,7 +320,8 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'project', 'reason', 'movementCategory',
                   'departurePoint', 'arrivalPoint', 'overnights_num',
                   'overnight_cost', 'max_overnight_cost', 'overnights_sum_cost',
-                  'transport_days', 'task_duration', 'same_day_return_task',
+                  'transport_days',
+                  'task_duration', 'same_day_return_task',
                   'compensation_level', 'compensation_days',
                   'compensation_name',
                   'additional_expenses_sum',

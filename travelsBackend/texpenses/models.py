@@ -219,14 +219,18 @@ class AdvancedPetition(models.Model):
     feeding = models.ForeignKey(FeedingKind, blank=True, null=True)
     non_grnet_quota = models.FloatField(blank=True, null=True, default=0.0)
 
-    transport_days = models.IntegerField(blank=True, null=True)
-    overnights_num = models.IntegerField(blank=True, null=True)
-    compensation_days = models.IntegerField(blank=True, null=True)
-
     def grnet_quota(self):
         return 100 - self.non_grnet_quota
-
     compensation = models.ForeignKey(Compensation, blank=True, null=True)
+
+    transport_days_manual = models.IntegerField(blank=True, null=True)
+    transport_days_manual_updated = models.BooleanField(default=False)
+
+    overnights_num_manual = models.IntegerField(blank=True, null=True)
+    overnights_num_manual_updated = models.BooleanField(default=False)
+
+    compensation_days_manual = models.IntegerField(blank=True, null=True)
+    compensation_days_manual_updated = models.BooleanField(default=False)
 
     expenditure_protocol = models.CharField(
         max_length=30, null=True, blank=True)
@@ -326,6 +330,9 @@ class Petition(models.Model):
         return 0
 
     def transport_days(self):
+        if self.advanced_info.transport_days_manual_updated:
+            return self.advanced_info.transport_days_manual
+
         depart_date = self.advanced_info.depart_date
         if self.taskEndDate is None or \
                 self.taskStartDate is None or depart_date is None:
@@ -362,6 +369,8 @@ class Petition(models.Model):
         return comp_sum * self.advanced_info.grnet_quota() / 100
 
     def overnights_num(self):
+        if self.advanced_info.overnights_num_manual_updated:
+            return self.advanced_info.overnights_num_manual
         trans_days = self.transport_days()
         return trans_days - 1
 
