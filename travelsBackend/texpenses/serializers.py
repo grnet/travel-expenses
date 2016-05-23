@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from djoser import settings, serializers as djoser_serializers
 from django.contrib.auth.models import Group
+
 from models import Specialty
 from models import TaxOffice
 from models import Kind
@@ -34,7 +35,7 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('username', 'first_name', 'last_name',
                   'email', 'password',
                   'iban', 'specialtyID', 'kind', 'taxRegNum', 'taxOffice',
-                  'category', 'trip_days_left')
+                  'category', 'user_group', 'trip_days_left')
         read_only_fields = (
             'username',
             'password',
@@ -283,12 +284,12 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
     def update(self, instance, validated_data):
         user_object = instance.user
-        arrival_point = instance.arrivalPoint
+        arrival_point = validated_data['arrivalPoint']
 
         user_category = user_object.category
 
         compensation_object = None
-        status = instance.status
+        status = validated_data['status']
 
         if arrival_point and user_category:
             country_category_name = arrival_point.country.category.name
@@ -297,11 +298,17 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
         instance.advanced_info.compensation = compensation_object
         instance.advanced_info.save()
-        if status.id >= 3 and status.id < 9:
+
+        if status.id >= 2 and status.id < 9:
             user_object.trip_days_left = instance.trip_days_after()
             user_object.save()
-        if status.id == 9:
-            user_object.trip_days_left = instance.trip_days_before
+
+        days_left = user_object.trip_days_left
+        days_left_default = settings.MAX_HOLIDAY_DAYS
+
+        if status.id == 9 and days_left < days_left_default:
+            user_object.trip_days_left = days_left + \
+                instance.transport_days()
             user_object.save()
 
         return super(UserPetitionSerializer, self).update(instance,

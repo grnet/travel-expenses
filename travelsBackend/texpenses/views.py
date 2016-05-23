@@ -7,10 +7,8 @@ from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 from djoser import views as djoser_views
-from django.db.utils import OperationalError
 from django.conf import settings
 
-from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets, filters, status, mixins
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
@@ -468,13 +466,6 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         (permissions are needed)"""
     # petition_status = "http://127.0.0.1:8000/petition/petition_status/2/"
     missing_field = None
-    try:
-
-        petition_status_1 = str(PetitionStatus.objects.get(id='1').id)
-    except OperationalError:
-        pass
-    except ObjectDoesNotExist:
-        pass
 
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated, IsOwnerOrAdmin,
@@ -583,7 +574,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         chosen_status = chosen_status[
             chosen_status.index('status') + 7:-1]
 
-        if chosen_status != self.petition_status_1:
+        if chosen_status > 1 and chosen_status < 9:
 
             tsd = request.data['taskStartDate']
             ted = request.data['taskEndDate']
@@ -618,13 +609,14 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
     def update(self, request, pk=None):
         request.data['user'] = request.user
 
-        petition = self.get_object()
-        chosen_status = petition.status.id
-        chosen_status = str(chosen_status)
+        chosen_status = str(request.data['status'])
+
+        chosen_status = chosen_status[
+            chosen_status.index('status') + 7:-1]
 
         now = str(timezone.now())
 
-        if chosen_status != self.petition_status_1:
+        if chosen_status > 1 and chosen_status < 9:
             tsd = request.data['taskStartDate']
             ted = request.data['taskEndDate']
 

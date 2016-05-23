@@ -65,6 +65,13 @@ class UserProfile(AbstractUser):
         UserCategory, blank=True, null=True)
     trip_days_left = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
 
+    def user_group(self):
+        groups = self.groups.all()
+        print groups
+        if not groups:
+            return "Unknown"
+        return groups[0].name
+
 
 class Accomondation(models.Model):
 
