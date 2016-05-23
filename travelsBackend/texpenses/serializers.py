@@ -207,17 +207,13 @@ class AdvancedPetitionSerializer(serializers.HyperlinkedModelSerializer):
         print validated_data
 
         if validated_data['transport_days_manual'] == None:
-            print "transport days is None"
             instance.transport_days_manual_updated = False
         else:
-            print "transport days did change"
             instance.transport_days_manual_updated = True
 
         if validated_data['overnights_num_manual'] == None:
-            print "overnights num is None"
             instance.overnights_num_manual_updated = False
         else:
-            print "overnights did change"
             instance.overnights_num_manual_updated = True
 
        # if validated_data['compensation days_manual'] == None:
@@ -249,22 +245,13 @@ class AdvancedPetitionSerializer(serializers.HyperlinkedModelSerializer):
 class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
     # user = UserProfileSerializer()
-    # def create(self, validated_data):
-        # self.
-        # user = User.objects.create_user(**validated_data)
-        # group = Group.objects.get(name='USER')
-        # group.user_set.add(user)
-
-        # if settings.get('SEND_ACTIVATION_EMAIL'):
-            # user.is_active = False
-            # user.save(update_fields=['is_active'])
-        # return user
 
     def create(self, validated_data):
         user_object = self.context['request'].user
         validated_data['user'] = user_object
 
         advanced_pet_info = validated_data['advanced_info']
+        validated_data['trip_days_before'] = user_object.trip_days_left
 
         arrival_point = validated_data['arrivalPoint']
         user_category = user_object.category
@@ -301,6 +288,7 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
         user_category = user_object.category
 
         compensation_object = None
+        status = instance.status
 
         if arrival_point and user_category:
             country_category_name = arrival_point.country.category.name
@@ -309,6 +297,10 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
         instance.advanced_info.compensation = compensation_object
         instance.advanced_info.save()
+        if status.id == 8:
+            user_object.trip_days_left = instance.trip_days_after()
+            user_object.save()
+
         return super(UserPetitionSerializer, self).update(instance,
                                                           validated_data)
 
@@ -323,10 +315,10 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'transport_days',
                   'task_duration', 'same_day_return_task',
                   'compensation_level', 'compensation_days',
-                  'compensation_name',
                   'additional_expenses_sum',
                   'max_compensation', 'compensation_final',
                   'transportation', 'recTransport', 'recAccomondation',
                   'recCostParticipation', 'advanced_info',
-                  'status', 'user_category', 'url')
+                  'status', 'user_category', 'trip_days_before',
+                  'trip_days_after', 'url')
         read_only_fields = ('id', 'url',)

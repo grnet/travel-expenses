@@ -265,6 +265,7 @@ class Petition(models.Model):
                                     validators=[afm_validator])
     taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
     kind = models.ForeignKey(Kind, blank=True, null=True)
+    trip_days_before = models.IntegerField(blank=True, null=True)
     user_category = models.ForeignKey(UserCategory, blank=True, null=True)
 
     user = models.ForeignKey(UserProfile)
@@ -350,6 +351,9 @@ class Petition(models.Model):
 
         return t_cycle + days + 1
 
+    def trip_days_after(self):
+        return self.trip_days_before - self.transport_days()
+
     def compensation_days(self):
         return self.transport_days()
 
@@ -429,6 +433,8 @@ class Petition(models.Model):
     def additional_expenses_sum(self):
         ae = AdditionalExpenses.objects.filter(petition=self).\
             aggregate(Sum('cost'))
+        if ae['cost__sum'] is None:
+            return 0
         return ae['cost__sum']
 
     def __unicode__(self):

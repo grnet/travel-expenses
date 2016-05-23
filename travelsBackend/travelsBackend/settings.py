@@ -28,6 +28,7 @@ ALLOWED_HOSTS = []
 TEMPLATE_DIRS = ()
 
 MAX_HOLIDAY_DAYS = 60
+HOST_URL = "http://localhost:8000/"
 # Application definition
 
 INSTALLED_APPS = (

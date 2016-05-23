@@ -8,6 +8,8 @@ from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 from djoser import views as djoser_views
 from django.db.utils import OperationalError
+from django.conf import settings
+
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets, filters, status, mixins
 from rest_framework.response import Response
@@ -74,7 +76,7 @@ def custom_activation_view(request, uid=None, token=None):
             'token': token
         }
         enc = urllib.urlencode(payload)
-        url = 'http://localhost:8000/auth/activate/'
+        url = settings.HOST_URL + 'auth/activate/'
         headers = {'content-type': 'application/x-www-form-urlencoded'}
         response = requests.post(url, data=enc, headers=headers)
         if response.status_code == 200:
@@ -294,6 +296,12 @@ class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     def get_queryset(self):
         request_user = self.request.user
+
+        # print request_user.groups.all()
+        # user_group_name = request_user.groups.all()[0].name
+        # print user_group_name
+
+        # if user_group_name == "SECRETARY":
         if request_user.is_staff:
             return Accomondation.objects.all()
         else:
@@ -365,7 +373,9 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
         tdm = request.data['transport_days_manual']
         onm = request.data['overnights_num_manual']
 
-        if tdm < onm:
+        print tdm
+        print onm
+        if tdm < onm and tdm != "":
             return Response(
                 {'error': 'Transport days should be bigger from overnights'},
                 status=status.HTTP_400_BAD_REQUEST)
