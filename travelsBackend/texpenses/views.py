@@ -537,9 +537,9 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         petition = self.get_object()
         pet_status = petition.status.id
-        petition_status_to_delete = 1
+        petition_status_to_delete = [1, 9]
 
-        if pet_status == petition_status_to_delete:
+        if pet_status in petition_status_to_delete:
             print "Deleting petition with id:" + str(pk)
 
             advanced_petition = petition.advanced_info

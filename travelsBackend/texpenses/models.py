@@ -383,6 +383,8 @@ class Petition(models.Model):
         if self.advanced_info.overnights_num_manual_updated:
             return self.advanced_info.overnights_num_manual
         trans_days = self.transport_days()
+        if trans_days == 0:
+            return 0
         return trans_days - 1
 
     def overnight_cost(self):

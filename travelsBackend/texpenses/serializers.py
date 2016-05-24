@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from djoser import settings, serializers as djoser_serializers
 from django.contrib.auth.models import Group
+from django.conf import settings as django_settings
 
 from models import Specialty
 from models import TaxOffice
@@ -299,14 +300,17 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
         instance.advanced_info.compensation = compensation_object
         instance.advanced_info.save()
 
-        if status.id >= 2 and status.id < 9:
+        if status.id > 1 and status.id < 9:
+            print instance.trip_days_after()
             user_object.trip_days_left = instance.trip_days_after()
+            print user_object.trip_days_left
             user_object.save()
 
         days_left = user_object.trip_days_left
-        days_left_default = settings.MAX_HOLIDAY_DAYS
+        days_left_default = django_settings.MAX_HOLIDAY_DAYS
 
         if status.id == 9 and days_left < days_left_default:
+            print "trip days after:" + str(instance.trip_days_after())
             user_object.trip_days_left = days_left + \
                 instance.transport_days()
             user_object.save()
