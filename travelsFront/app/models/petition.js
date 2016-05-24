@@ -3,10 +3,7 @@ import DS from 'ember-data';
 import {validator, buildValidations} from 'ember-cp-validations';
 
 var Validations=buildValidations({
-	//email: [
-	//validator('presence', true),
-	//validator('format', { type: 'email' })
-	//],
+
 	taxRegNum: validator('afm-validator'),
 	iban: validator('iban-validator'),
 	project: [
@@ -33,12 +30,26 @@ export default DS.Model.extend(Validations,{
 	arrivalPoint: DS.belongsTo('city'),
 	transportation: DS.belongsTo('transportation'),
 	movementCategory: DS.belongsTo('movement-category'),
-	countryCategory: DS.belongsTo('country-category'),
 	project: DS.belongsTo('project'),
 	reason: DS.attr(),
 	recTransport: DS.attr(),
 	recAccomondation: DS.attr(),
 	recCostParticipation: DS.attr(),
-	//recOtherCost: DS.attr(),
-	status: DS.belongsTo('petition-status')
+	additional_expenses_sum: DS.attr(),
+	status: DS.belongsTo('petition-status'),
+	overnights_num: DS.attr(),
+	overnight_cost: DS.attr(),
+	max_overnight_cost: DS.attr(),
+	overnights_sum_cost: DS.attr(), 
+	transport_days: DS.attr(),
+	task_duration: DS.attr(),
+	same_day_return_task: DS.attr(),
+	compensation_level: DS.attr(),
+	compensation_days: DS.attr(),
+	max_compensation: DS.attr(),
+	compensation_final: DS.attr(),
+	advancedInfo: DS.belongsTo('advanced-petition'),
+	trip_days_before: DS.attr(),
+	trip_days_after: DS.attr(),
+
 });
