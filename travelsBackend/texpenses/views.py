@@ -371,8 +371,6 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
         tdm = request.data['transport_days_manual']
         onm = request.data['overnights_num_manual']
 
-        print tdm
-        print onm
         if tdm < onm and tdm != "":
             return Response(
                 {'error': 'Transport days should be bigger from overnights'},

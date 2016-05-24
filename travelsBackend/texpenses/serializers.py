@@ -206,17 +206,15 @@ class AdvancedPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
     def update(self, instance, validated_data):
 
-        print validated_data
+        # if validated_data['transport_days_manual'] == None:
+            # instance.transport_days_manual_updated = False
+        # else:
+            # instance.transport_days_manual_updated = True
 
-        if validated_data['transport_days_manual'] == None:
-            instance.transport_days_manual_updated = False
-        else:
-            instance.transport_days_manual_updated = True
-
-        if validated_data['overnights_num_manual'] == None:
-            instance.overnights_num_manual_updated = False
-        else:
-            instance.overnights_num_manual_updated = True
+        # if validated_data['overnights_num_manual'] == None:
+            # instance.overnights_num_manual_updated = False
+        # else:
+            # instance.overnights_num_manual_updated = True
 
        # if validated_data['compensation days_manual'] == None:
             # print "compensation days is None"
@@ -249,6 +247,7 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
     # user = UserProfileSerializer()
 
     def create(self, validated_data):
+
         user_object = self.context['request'].user
         validated_data['user'] = user_object
 
@@ -301,16 +300,13 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
         instance.advanced_info.save()
 
         if status.id > 1 and status.id < 9:
-            print instance.trip_days_after()
             user_object.trip_days_left = instance.trip_days_after()
-            print user_object.trip_days_left
             user_object.save()
 
         days_left = user_object.trip_days_left
         days_left_default = django_settings.MAX_HOLIDAY_DAYS
 
         if status.id == 9 and days_left < days_left_default:
-            print "trip days after:" + str(instance.trip_days_after())
             user_object.trip_days_left = days_left + \
                 instance.transport_days()
             user_object.save()
@@ -325,8 +321,9 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'taskStartDate', 'taskEndDate', 'creationDate', 'updateDate',
                   'project', 'reason', 'movementCategory',
                   'departurePoint', 'arrivalPoint', 'overnights_num',
+                  'overnights_num_proposed',
                   'overnight_cost', 'max_overnight_cost', 'overnights_sum_cost',
-                  'transport_days',
+                  'transport_days', 'transport_days_proposed',
                   'task_duration', 'same_day_return_task',
                   'compensation_level', 'compensation_days',
                   'additional_expenses_sum',

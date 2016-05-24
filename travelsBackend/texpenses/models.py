@@ -4,6 +4,7 @@ from validators import iban_validation
 from validators import afm_validator
 from django.conf import settings
 from django.db.models import Sum
+from model_utils import FieldTracker
 
 
 class Specialty(models.Model):
@@ -231,13 +232,10 @@ class AdvancedPetition(models.Model):
     compensation = models.ForeignKey(Compensation, blank=True, null=True)
 
     transport_days_manual = models.IntegerField(blank=True, null=True)
-    transport_days_manual_updated = models.BooleanField(default=False)
 
     overnights_num_manual = models.IntegerField(blank=True, null=True)
-    overnights_num_manual_updated = models.BooleanField(default=False)
 
     compensation_days_manual = models.IntegerField(blank=True, null=True)
-    compensation_days_manual_updated = models.BooleanField(default=False)
 
     expenditure_protocol = models.CharField(
         max_length=30, null=True, blank=True)
@@ -254,6 +252,19 @@ class AdvancedPetition(models.Model):
     compensation_decision_protocol = models.CharField(
         max_length=30, null=True, blank=True)
     compensation_decision_date = models.DateField(blank=True, null=True)
+    tracker = FieldTracker()
+
+    def save(self, *args, **kwargs):
+        dd_changed = self.tracker.has_changed('depart_date')
+        rd_changed = self.tracker.has_changed('return_date')
+        if dd_changed or rd_changed:
+            print "Updating manual fields advanced petition"
+            petition = Petition.objects.get(advanced_info=self)
+            self.transport_days_manual =\
+                petition.transport_days_proposed()
+            self.overnights_num_manual =\
+                petition.overnights_num_proposed()
+        super(AdvancedPetition, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return str(self.id)
@@ -295,6 +306,20 @@ class Petition(models.Model):
     status = models.ForeignKey(PetitionStatus)
     advanced_info = models.OneToOneField(
         AdvancedPetition, on_delete=models.CASCADE, blank=True, null=True)
+
+    tracker = FieldTracker()
+
+    def save(self, *args, **kwargs):
+        tsd_changed = self.tracker.has_changed('taskStartDate')
+        ted_changed = self.tracker.has_changed('taskEndDate')
+        super(Petition, self).save(*args, **kwargs)
+        if tsd_changed or ted_changed:
+            print "Updating manual fields simple petition"
+            self.advanced_info.transport_days_manual =\
+                self.transport_days_proposed()
+            self.advanced_info.overnights_num_manual =\
+                self.overnights_num_proposed()
+            self.advanced_info.save()
 
     def compensation_name(self):
 
@@ -338,8 +363,12 @@ class Petition(models.Model):
         return 0
 
     def transport_days(self):
-        if self.advanced_info.transport_days_manual_updated:
+        if self.advanced_info.transport_days_manual:
             return self.advanced_info.transport_days_manual
+
+        return 0
+
+    def transport_days_proposed(self):
 
         depart_date = self.advanced_info.depart_date
         if self.taskEndDate is None or \
@@ -380,9 +409,12 @@ class Petition(models.Model):
         return comp_sum * self.advanced_info.grnet_quota() / 100
 
     def overnights_num(self):
-        if self.advanced_info.overnights_num_manual_updated:
+        if self.advanced_info.overnights_num_manual:
             return self.advanced_info.overnights_num_manual
-        trans_days = self.transport_days()
+        return 0
+
+    def overnights_num_proposed(self):
+        trans_days = self.transport_days_proposed()
         if trans_days == 0:
             return 0
         return trans_days - 1
