@@ -2,16 +2,16 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import {validator, buildValidations} from 'ember-cp-validations';
 
-// var Validations=buildValidations({
+var Validations=buildValidations({
 
-// 	taxRegNum: validator('afm-validator'),
-// 	iban: validator('iban-validator'),
-// 	project: [
-// 		validator('presence', true),
-// 	]
+	taxRegNum: validator('afm-validator'),
+	iban: validator('iban-validator'),
+	project: [
+		validator('presence', true),
+	]
 
 
-// });
+});
 
 export default DS.Model.extend(Validations,{
 	dse: DS.attr(),

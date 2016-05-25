@@ -14,7 +14,7 @@ Router.map(function() {
   this.route('petition');
   this.route('petitionList');
   this.route('editPetition', {path: ':petition_id'});
-  
+  this.route('advancedPetition');
 });
 
 export default Router;
