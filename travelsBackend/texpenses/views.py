@@ -295,12 +295,13 @@ class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         request_user = self.request.user
 
-        # print request_user.groups.all()
-        # user_group_name = request_user.groups.all()[0].name
-        # print user_group_name
+        user_groups = request_user.groups.all()
 
-        # if user_group_name == "SECRETARY":
-        if request_user.is_staff:
+        if user_groups:
+            user_group_name = user_groups[0].name
+
+        if request_user.is_staff or user_group_name == "SECRETARY":
+
             return Accomondation.objects.all()
         else:
             return Accomondation.objects.filter(user=request_user)
@@ -344,7 +345,12 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
 
     def get_queryset(self):
         request_user = self.request.user
-        if request_user.is_staff:
+        user_groups = request_user.groups.all()
+
+        if user_groups:
+            user_group_name = user_groups[0].name
+
+        if request_user.is_staff or user_group_name == "SECRETARY":
             return AdvancedPetition.objects.all()
         else:
             return AdvancedPetition.objects.filter(user=request_user)
@@ -404,7 +410,12 @@ class FlightViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     def get_queryset(self):
         request_user = self.request.user
-        if request_user.is_staff:
+        user_groups = request_user.groups.all()
+
+        if user_groups:
+            user_group_name = user_groups[0].name
+
+        if request_user.is_staff or user_group_name == "SECRETARY":
             return Flight.objects.all()
         else:
             return Flight.objects.filter(user=request_user)
@@ -432,7 +443,12 @@ class AdditionalExpensesViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     def get_queryset(self):
         request_user = self.request.user
-        if request_user.is_staff:
+        user_groups = request_user.groups.all()
+
+        if user_groups:
+            user_group_name = user_groups[0].name
+
+        if request_user.is_staff or user_group_name == "SECRETARY":
             return AdditionalExpenses.objects.all()
         else:
             return AdditionalExpenses.objects.filter(user=request_user)
@@ -483,7 +499,12 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     def get_queryset(self):
         request_user = self.request.user
-        if request_user.is_staff:
+        user_groups = request_user.groups.all()
+
+        if user_groups:
+            user_group_name = user_groups[0].name
+
+        if request_user.is_staff or user_group_name == "SECRETARY":
             return Petition.objects.all()
         else:
             return Petition.objects.filter(user=request_user)
