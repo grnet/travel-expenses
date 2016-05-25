@@ -228,7 +228,7 @@ class AdvancedPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = AdvancedPetition
-        fields = ('id', 'movement_num', 'dse', 'depart_date',
+        fields = ('id', 'petition', 'movement_num', 'dse', 'depart_date',
                   'return_date', 'accomondation',
                   'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
                   'compensation', 'expenditure_protocol',
@@ -240,7 +240,7 @@ class AdvancedPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'transport_days_manual', 'overnights_num_manual',
                   'compensation_days_manual'
                   )
-        read_only_fields = ('id', 'url')
+        read_only_fields = ('id', 'url', 'petition')
 
 
 class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
