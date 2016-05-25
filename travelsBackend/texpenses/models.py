@@ -259,7 +259,8 @@ class AdvancedPetition(models.Model):
         rd_changed = self.tracker.has_changed('return_date')
         if dd_changed or rd_changed:
             print "Updating manual fields advanced petition"
-            petition = Petition.objects.get(advanced_info=self)
+            # petition = Petition.objects.get(advanced_info=self)
+            petition = self.petition
             self.transport_days_manual =\
                 petition.transport_days_proposed()
             self.overnights_num_manual =\
