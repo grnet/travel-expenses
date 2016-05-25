@@ -5,6 +5,7 @@ from validators import afm_validator
 from django.conf import settings
 from django.db.models import Sum
 from model_utils import FieldTracker
+from workdays import networkdays
 
 
 class Specialty(models.Model):
@@ -228,7 +229,10 @@ class AdvancedPetition(models.Model):
     non_grnet_quota = models.FloatField(blank=True, null=True, default=0.0)
 
     def grnet_quota(self):
+        if self.non_grnet_quota is None:
+            return 100
         return 100 - self.non_grnet_quota
+    movement_num = models.CharField(max_length=200, null=True, blank=True)
     compensation = models.ForeignKey(Compensation, blank=True, null=True)
 
     transport_days_manual = models.IntegerField(blank=True, null=True)
@@ -259,12 +263,13 @@ class AdvancedPetition(models.Model):
         rd_changed = self.tracker.has_changed('return_date')
         if dd_changed or rd_changed:
             print "Updating manual fields advanced petition"
-            # petition = Petition.objects.get(advanced_info=self)
             petition = self.petition
             self.transport_days_manual =\
                 petition.transport_days_proposed()
             self.overnights_num_manual =\
                 petition.overnights_num_proposed()
+            self.compensation_days_manual =\
+                petition.compensation_days_proposed()
         super(AdvancedPetition, self).save(*args, **kwargs)
 
     def __unicode__(self):
@@ -320,6 +325,8 @@ class Petition(models.Model):
                 self.transport_days_proposed()
             self.advanced_info.overnights_num_manual =\
                 self.overnights_num_proposed()
+            self.advanced_info.compensation_days_manual =\
+                self.compensation_days_proposed()
             self.advanced_info.save()
 
     def compensation_name(self):
@@ -369,30 +376,50 @@ class Petition(models.Model):
 
         return 0
 
+    def holidays(self, start_date, end_date, holidays=[]):
+        """TODO: Docstring for holidays.
+
+        :start_date: TODO
+        :end_date: TODO
+        :returns: TODO
+
+        """
+        workdays = networkdays(start_date, end_date, holidays=[])
+        delta = end_date.date() - start_date.date()
+        holidays = delta.days - workdays
+        return holidays
+
     def transport_days_proposed(self):
-
         depart_date = self.advanced_info.depart_date
-        if self.taskEndDate is None or \
-                self.taskStartDate is None or depart_date is None:
+        return_date = self.advanced_info.return_date
+
+        if depart_date is None or return_date is None:
             return 0
-
-        delta = self.taskStartDate.day - depart_date.day
-
-        days = 0
-
-        if delta > 1:
-            days = 1
-        if delta < 0:
-            days = 0
-        t_cycle = self.taskEndDate.day - self.taskStartDate.day
-
-        return t_cycle + days + 1
+        delta = return_date.date() - depart_date.date()
+        result = delta.days - self.holidays(depart_date, return_date)
+        return result
 
     def trip_days_after(self):
         return self.trip_days_before - self.transport_days()
 
     def compensation_days(self):
-        return self.transport_days()
+        if self.advanced_info.compensation_days_manual:
+            return self.advanced_info.compensation_days_manual
+        return 0
+
+    def compensation_days_proposed(self):
+        tsd = self.taskStartDate
+        ted = self.taskEndDate
+
+        dd = self.advanced_info.depart_date
+        if tsd is None or ted is None or dd is None:
+            return 0
+        result = ted.date() - tsd.date()
+        result = result.days
+        delta = dd.date() - tsd.date()
+        if delta.days < 0:
+            result += 1
+        return result
 
     def max_compensation(self):
         return self.compensation_days() * self.compensation_level()\
@@ -415,10 +442,26 @@ class Petition(models.Model):
         return 0
 
     def overnights_num_proposed(self):
-        trans_days = self.transport_days_proposed()
-        if trans_days == 0:
+        tsd = self.taskStartDate
+        ted = self.taskEndDate
+
+        dd = self.advanced_info.depart_date
+        rd = self.advanced_info.return_date
+        if tsd is None or ted is None or dd is None or rd is None:
             return 0
-        return trans_days - 1
+        result = ted.date() - tsd.date()
+        result = result.days
+
+        delta = dd.date() - tsd.date()
+        if delta.days < 0:
+            result += 1
+
+        delta = rd.date() - ted.date()
+
+        if delta.days == 1:
+            result += 1
+
+        return result
 
     def overnight_cost(self):
         accomondation = self.advanced_info.accomondation

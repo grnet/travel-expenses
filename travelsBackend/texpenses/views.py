@@ -374,13 +374,13 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
             return Response(
                 {'error': 'Return date should be after departure date'},
                 status=status.HTTP_400_BAD_REQUEST)
-        tdm = request.data['transport_days_manual']
-        onm = request.data['overnights_num_manual']
+        # tdm = request.data['transport_days_manual']
+        # onm = request.data['overnights_num_manual']
 
-        if tdm < onm and tdm != "":
-            return Response(
-                {'error': 'Transport days should be bigger from overnights'},
-                status=status.HTTP_400_BAD_REQUEST)
+        # if tdm < onm and tdm != "":
+            # return Response(
+                # {'error': 'Transport days should be bigger from overnights'},
+                # status=status.HTTP_400_BAD_REQUEST)
 
         return super(AdvancedPetitionViewSet, self).update(request, pk)
 

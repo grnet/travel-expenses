@@ -228,7 +228,8 @@ class AdvancedPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = AdvancedPetition
-        fields = ('id', 'dse', 'depart_date', 'return_date', 'accomondation',
+        fields = ('id', 'movement_num', 'dse', 'depart_date',
+                  'return_date', 'accomondation',
                   'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
                   'compensation', 'expenditure_protocol',
                   'expenditure_date_protocol', 'movement_protocol',
@@ -326,6 +327,7 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'transport_days', 'transport_days_proposed',
                   'task_duration', 'same_day_return_task',
                   'compensation_level', 'compensation_days',
+                  'compensation_days_proposed',
                   'additional_expenses_sum',
                   'max_compensation', 'compensation_final',
                   'transportation', 'recTransport', 'recAccomondation',
