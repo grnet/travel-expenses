@@ -5,10 +5,10 @@ export default Ember.Controller.extend({
 	
 	editMessage:'',
 	
-	now: Ember.computed(function() {
-		return moment().format("YYYY-MM-DDTHH:mm:ssZ");
+	// now: Ember.computed(function() {
+	// 	return moment().format("YYYY-MM-DDTHH:mm:ssZ");
 
-	}),
+	// }),
 	country_selected: false,
 	arrivalPoints: null,
 
@@ -37,8 +37,8 @@ export default Ember.Controller.extend({
 
 				var rec = this.store.peekRecord('petition-status',ENV.petition_status_1);
 
-				this.get('model').set('status', rec);
-				this.get('model').set('updateDate',this.get('now'));
+				// this.get('model').set('status', rec);
+				// this.get('model').set('updateDate',this.get('now'));
 
 				this.get('model').set('status', rec);
 
@@ -91,7 +91,7 @@ export default Ember.Controller.extend({
 
 
 				this.get('model').set('status', rec);
-				this.get('model').set('updateDate',this.get('now'));
+				// this.get('model').set('updateDate',this.get('now'));
 
 
 				var self=this;

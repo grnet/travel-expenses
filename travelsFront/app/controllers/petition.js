@@ -4,10 +4,10 @@ import ENV from 'travels-front/config/environment';
 export default Ember.Controller.extend({
 
 	petitionMessage:'',
-	now: Ember.computed(function() {
-		return moment().format("YYYY-MM-DDTHH:mm:ssZ");
+	// now: Ember.computed(function() {
+	// 	return moment().format("YYYY-MM-DDTHH:mm:ssZ");
 
-	}),
+	// }),
 	country_selected: false,
 	arrivalPointModel: null,
 	categoryOfMovement: null,
@@ -51,9 +51,9 @@ export default Ember.Controller.extend({
 				var rec = this.store.peekRecord('petition-status',ENV.petition_status_1);
 				this.get('model').set('status', rec);
 
-				let now=this.get('now');
-				this.get('model').set('creationDate',now);
-				this.get('model').set('updateDate',now);
+				// let now=this.get('now');
+				// this.get('model').set('creationDate',now);
+				// this.get('model').set('updateDate',now);
 
 				var self=this;
 				this.get('model').save().then(function(value) {
@@ -80,9 +80,9 @@ export default Ember.Controller.extend({
 
 
 				this.get('model').set('status', rec);
-				let now=this.get('now');
-				this.get('model').set('creationDate',now);
-				this.get('model').set('updateDate',now);
+				// let now=this.get('now');
+				// this.get('model').set('creationDate',now);
+				// this.get('model').set('updateDate',now);
 
 				var self=this;
 				this.get('model').save().then(function(value) {
