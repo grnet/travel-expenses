@@ -1,6 +1,6 @@
 <div class="container">
 	<form class="form-horizontal col-md-12 panel panel-default" {{action "clearMessage" on="click"}} role="form">
-
+	<br>
 		{{partial 'petition-form'}}
 
 		<div class="panel panel-default">
@@ -13,6 +13,11 @@
 					<label for="dse" class="col-sm-2 control-label">ΔΣΕ</label>
 					<div class="col-sm-4">
 						{{input value=model.dse type="text" class="form-control"}}
+					</div>
+
+					<label for="movement_num" class="col-sm-2 control-label">Αρ. Μετακίνησης</label>
+					<div class="col-sm-4">
+						{{input value=model.movement_num type="text" class="form-control"}}
 					</div>
 				</div>
 
@@ -133,19 +138,19 @@
 
 				<label for="transport_num_proposed" class="col-sm-2 control-label">Προτεινόμενη Τιμή</label>
 				<div class="col-sm-4">	
-					{{input value=model.transport_num_proposed type="text" class="form-control"}}
+					{{input value=model.transport_num_proposed type="text" class="form-control" readonly="readonly"}}
 				</div>
 			</div>
 
 			<div class="profileForm form-group">
 				<label for="overnights_num_manual" class="col-sm-2 control-label">Διανυκτερεύσεις</label>
 				<div class="col-sm-4">
-					{{input value=model.overnights_num_manual type="text" class="form-control"}}
+					{{input value=model.overnights_num_manual type="text" class="form-control" }}
 				</div>
 
 				<label for="overnights_num_proposed" class="col-sm-2 control-label">Προτεινόμενη Τιμή</label>
 				<div class="col-sm-4">	
-					{{input value=model.overnights_num_proposed type="text" class="form-control"}}
+					{{input value=model.overnights_num_proposed type="text" class="form-control" readonly="readonly"}}
 				</div>
 			</div>
 
@@ -157,7 +162,7 @@
 
 				<label for="compensation_days_proposed" class="col-sm-2 control-label">Προτεινόμενη Τιμή</label>
 				<div class="col-sm-4">	
-					{{input value=model.compensation_days_proposed type="text" class="form-control"}}
+					{{input value=model.compensation_days_proposed type="text" class="form-control" readonly="readonly"}}
 				</div>
 			</div>
 
