@@ -1,10 +1,11 @@
 <div class="container">
-	<form class="form-horizontal col-md-12" {{action "clearMessage" on="click"}} role="form">
+	<form class="form-horizontal col-md-12 panel panel-default" {{action "clearMessage" on="click"}} role="form">
+	<br>
 
 		{{partial 'petition-form'}}
 
 
-		<div class="col-md-12">
+		<div class="col-md-12 panel panel-default">
 			<h4>Στοιχεία Aίτησης που Καταχωρεί η Γραμματεία</h4><br>
 
 			<div class="profileForm form-group">
@@ -110,13 +111,13 @@
 				</div>
 			</div>
 		</div>
-
+		
+		<br>
 		<button type="submit" class="btn btn-primary">Αποθήκευση Αλλαγών</button> <!-- {{action "advancedpetitionSave"}} -->
-
 	</form><br><br>
 
 	<form class="form-horizontal col-md-12" {{action "clearMessage" on="click"}} role="form">
-
+	<div class="col-md-12 panel panel-default">
 		<h4>Υπολογιζόμενα Οικονομικά Στοιχεία</h4><br>
 
 		<div class="profileForm form-group">
@@ -156,12 +157,11 @@
 		</div>
 
 		<div class="profileForm form-group">
-			<label for="same_day_return_task" class="col-sm-2 control-label">Αυθημερόν Επιστροφή</label>
+			<label for="movementCategory" class="col-sm-2 control-label">Αυθημερόν Επιστροφή</label>
 			<div class="col-sm-4">
-				{{input type="checkbox" checked=model.same_day_return_task  class="checkbox" name="model.same_day_return_task"}}
+				{{input type="text" name="same_day_return_task" class="form-control" value=model.same_day_return_task readonly="readonly"}}	
 			</div>
 		</div>
-		<!-- value=model.same_day_return_task -->
 
 		<div class="profileForm form-group">
 			<label for="trip_days_before" class="col-sm-2 control-label">Εναπομείνασες Ημέρες Μετακίνησης Εργασιών: Πριν</label>
@@ -202,10 +202,9 @@
 				{{input value=model.compensation type="text" class="form-control" }}
 			</div>
 		</div>
-		
-		
+		<br>
 		<button type="submit" class="btn btn-primary">Τροποποίηση Υπολογιζόμενων Ημερών</button>
-
+	</div>
 	</form><br>
 
 
