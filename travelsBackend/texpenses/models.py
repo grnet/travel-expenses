@@ -495,8 +495,12 @@ class Petition(models.Model):
     def max_overnight_cost(self):
         user_category = self.user_category
         if user_category is None:
+            if self.user.category:
+                return self.user.category.max_overnight_cost
             return 0
+
         default_max_overnight_cost = user_category.max_overnight_cost
+
         if self.is_city_ny():
             return default_max_overnight_cost + 100
         else:

@@ -312,9 +312,10 @@ class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
         max_overnight = 0
 
         advanced_petition = AdvancedPetition.objects.get(accomondation=hotel)
-        petition = Petition.objects.get(advanced_info=advanced_petition)
 
-        if petition.user_category.max_overnight_cost:
+        petition = advanced_petition.petition
+
+        if petition.user_category:
             max_overnight = petition.user_category.max_overnight_cost
         else:
             user = request.user

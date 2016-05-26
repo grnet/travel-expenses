@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+import datetime
 from rest_framework import serializers
 from djoser import settings, serializers as djoser_serializers
 from django.contrib.auth.models import Group
@@ -281,9 +282,14 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
             print "Done"
             validated_data['advanced_info'] = ap
 
+        now = datetime.datetime.now()
+        validated_data['creationDate'] = now
+        validated_data['updateDate'] = now
+
         return Petition.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
+
         user_object = instance.user
         arrival_point = validated_data['arrivalPoint']
 
@@ -311,7 +317,8 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
             user_object.trip_days_left = days_left + \
                 instance.transport_days()
             user_object.save()
-
+        now = datetime.datetime.now()
+        validated_data['updateDate'] = now
         return super(UserPetitionSerializer, self).update(instance,
                                                           validated_data)
 
