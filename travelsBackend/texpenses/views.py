@@ -589,6 +589,47 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
                          the specific Petition"},
                         status=status.HTTP_403_FORBIDDEN)
 
+    def date_check(self, task_start, task_end, depart_date, return_date):
+
+        result = {'error': False, 'msg': ''}
+        now = str(timezone.now())
+
+        if task_start < now:
+            result['error'] = True
+            result['msg'] = 'Task start date should be after today'
+            return result
+
+        if task_end < now:
+
+            result['error'] = True
+            result['msg'] = 'Task end date should be after today'
+            return result
+
+        if task_end < task_start:
+
+            result['error'] = True
+            result['msg'] = 'Task end date should be after task start date'
+            return result
+
+        if depart_date < now:
+
+            result['error'] = True
+            result['msg'] = 'Depart date should be after today'
+            return result
+
+        if return_date < now:
+
+            result['error'] = True
+            result['msg'] = 'Return date should be after today'
+            return result
+
+        if return_date < depart_date:
+
+            result['error'] = True
+            result['msg'] = 'Return date should be after departure date'
+            return result
+        return result
+
     def create(self, request):
         request.data['user'] = request.user
 
@@ -604,7 +645,6 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             ted = request.data['taskEndDate']
             dd = request.data['depart_date']
             rd = request.data['return_date']
-            now = str(timezone.now())
 
             if self.checkDataCompleteness(request):
                 return super(UserPetitionViewSet, self).create(request)
@@ -613,30 +653,11 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
                                  please insert all mandatory fields\
                                  (missing field:' + self.missing_field + ')'},
                                 status=status.HTTP_400_BAD_REQUEST)
-            if tsd < now:
-                return Response(
-                    {'error': 'Task start date should be after today'},
-                    status=status.HTTP_400_BAD_REQUEST)
-            if ted < now:
-                return Response(
-                    {'error': 'Task end date should be after today'},
-                    status=status.HTTP_400_BAD_REQUEST)
-            if ted < tsd:
-                return Response(
-                    {'error': 'Task end date should be after task start date'},
-                    status=status.HTTP_400_BAD_REQUEST)
-            if dd < now:
-                return Response(
-                    {'error': 'Depart date should be after today'},
-                    status=status.HTTP_400_BAD_REQUEST)
-            if rd < now:
-                return Response(
-                    {'error': 'Return date should be after today'},
-                    status=status.HTTP_400_BAD_REQUEST)
-            if rd < dd:
-                return Response(
-                    {'error': 'Return date should be after departure date'},
-                    status=status.HTTP_400_BAD_REQUEST)
+
+            date_check_result = self.date_check(tsd, ted, dd, rd)
+            if date_check_result['error']:
+                return Response({'error': date_check_result['msg']},
+                                status=status.HTTP_400_BAD_REQUEST)
 
         if chosen_status is None:
             return Response({'error': 'Petition status is not set'},
@@ -658,7 +679,11 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             ted = request.data['taskEndDate']
             dd = request.data['depart_date']
             rd = request.data['return_date']
-            now = str(timezone.now())
+
+            date_check_result = self.date_check(tsd, ted, dd, rd)
+            if date_check_result['error']:
+                return Response({'error': date_check_result['msg']},
+                                status=status.HTTP_400_BAD_REQUEST)
 
             if self.checkDataCompleteness(request):
                 return super(UserPetitionViewSet, self).update(request, pk)
@@ -667,30 +692,6 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
                                  please insert all mandatory fields\
                                  (missing field:' + self.missing_field + ')'},
                                 status=status.HTTP_400_BAD_REQUEST)
-            if tsd < now:
-                return Response(
-                    {'error': 'Task start date should be after today'},
-                    status=status.HTTP_400_BAD_REQUEST)
-            if ted < now:
-                return Response(
-                    {'error': 'Task end date should be after today'},
-                    status=status.HTTP_400_BAD_REQUEST)
-            if ted < tsd:
-                return Response(
-                    {'error': 'Task end date should be after task start date'},
-                    status=status.HTTP_400_BAD_REQUEST)
-            if dd < now:
-                return Response(
-                    {'error': 'Depart date should be after today'},
-                    status=status.HTTP_400_BAD_REQUEST)
-            if rd < now:
-                return Response(
-                    {'error': 'Return date should be after today'},
-                    status=status.HTTP_400_BAD_REQUEST)
-            if rd < dd:
-                return Response(
-                    {'error': 'Return date should be after departure date'},
-                    status=status.HTTP_400_BAD_REQUEST)
 
         if chosen_status is None:
             return Response({'error': 'Petition status is not set'},
