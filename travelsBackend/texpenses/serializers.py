@@ -319,4 +319,5 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'recCostParticipation', 'advanced_info',
                   'status', 'user_category', 'trip_days_before',
                   'trip_days_after', 'url')
-        read_only_fields = ('id', 'url', 'creationDate', 'updateDate',)
+        read_only_fields = ('id', 'url', 'creationDate', 'updateDate',
+                            'advanced_info')
