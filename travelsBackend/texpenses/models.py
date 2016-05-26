@@ -254,21 +254,6 @@ class AdvancedPetition(models.Model):
     compensation_decision_protocol = models.CharField(
         max_length=30, null=True, blank=True)
     compensation_decision_date = models.DateField(blank=True, null=True)
-    # tracker = FieldTracker()
-
-    # def save(self, *args, **kwargs):
-        # dd_changed = self.tracker.has_changed('depart_date')
-        # rd_changed = self.tracker.has_changed('return_date')
-        # if dd_changed or rd_changed:
-            # print "Updating manual fields advanced petition"
-            # petition = self.petition
-            # self.transport_days_manual =\
-                # petition.transport_days_proposed()
-            # self.overnights_num_manual =\
-                # petition.overnights_num_proposed()
-            # self.compensation_days_manual =\
-                # petition.compensation_days_proposed()
-        # super(AdvancedPetition, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return str(self.id)
@@ -531,6 +516,13 @@ class Petition(models.Model):
         if ae['cost__sum'] is None:
             return 0
         return ae['cost__sum']
+
+    def total_cost(self):
+        flight = 0
+        if self.advanced_info.flight.flightPrice:
+            flight = self.advanced_info.flight.flightPrice
+        total = flight + self.overnights_sum_cost() + self.compensation_final()
+        return total
 
     def __unicode__(self):
         return str(self.id) + "-" + self.project.name

@@ -314,7 +314,7 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'compensation_level', 'compensation_days',
                   'compensation_days_proposed',
                   'additional_expenses_sum',
-                  'max_compensation', 'compensation_final',
+                  'max_compensation', 'compensation_final', 'total_cost',
                   'transportation', 'recTransport', 'recAccomondation',
                   'recCostParticipation', 'advanced_info',
                   'status', 'user_category', 'trip_days_before',

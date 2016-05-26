@@ -664,17 +664,16 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             dd = request.data['depart_date']
             rd = request.data['return_date']
 
-            date_check_result = self.date_check(tsd, ted, dd, rd)
-            if date_check_result['error']:
-                return Response({'error': date_check_result['msg']},
-                                status=status.HTTP_400_BAD_REQUEST)
-
             if self.checkDataCompleteness(request):
                 return super(UserPetitionViewSet, self).update(request, pk)
             else:
                 return Response({'error': 'Petition is not complete,\
                                  please insert all mandatory fields\
                                  (missing field:' + self.missing_field + ')'},
+                                status=status.HTTP_400_BAD_REQUEST)
+            date_check_result = self.date_check(tsd, ted, dd, rd)
+            if date_check_result['error']:
+                return Response({'error': date_check_result['msg']},
                                 status=status.HTTP_400_BAD_REQUEST)
 
         if chosen_status is None:
