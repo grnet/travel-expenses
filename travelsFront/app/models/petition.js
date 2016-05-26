@@ -56,5 +56,6 @@ export default DS.Model.extend(Validations,{
 	advancedInfo: DS.belongsTo('advanced-petition'),
 	trip_days_before: DS.attr(),
 	trip_days_after: DS.attr(),
+	total_cost: DS.attr()
 
 });
