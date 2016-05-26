@@ -14,9 +14,9 @@ var Validations=buildValidations({
 });
 
 export default DS.Model.extend(Validations,{
+	petition: DS.belongsTo('petition'),
+	movement_num: DS.attr(),
 	dse: DS.attr(),
-	depart_date: DS.attr(),
-	return_date: DS.attr(),
 	accomondation: DS.belongsTo('accomondation'),
 	flight: DS.belongsTo('flight'),
 	feeding: DS.belongsTo('feeding'),
