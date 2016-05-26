@@ -12,7 +12,15 @@ class IsOwnerOrAdmin(permissions.BasePermission):
         return request.user or request.user.is_staff
 
     def has_object_permission(self, request, view, obj):
-        return obj.user == request.user or request.user.is_staff
+        request_user = request.user
+        user_groups = request_user.groups.all()
+        user_group_name = 'Unknown'
+
+        if user_groups:
+            user_group_name = user_groups[0].name
+
+        return obj.user == request.user or request.user.is_staff or\
+            user_group_name == 'SECRETARY'
 
 
 class isAdminOrRead(permissions.BasePermission):

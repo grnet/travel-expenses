@@ -223,14 +223,12 @@ class AdvancedPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
 class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
-    # user = UserProfileSerializer()
-
     def create(self, validated_data):
 
         user_object = self.context['request'].user
         validated_data['user'] = user_object
 
-        advanced_pet_info = validated_data['advanced_info']
+        # advanced_pet_info = validated_data['advanced_info']
         validated_data['trip_days_before'] = user_object.trip_days_left
 
         arrival_point = validated_data['arrivalPoint']
@@ -243,21 +241,22 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
             compensation_object = Compensation.objects.get(
                 name=user_category.name + country_category_name)
 
-        if not (advanced_pet_info and advanced_pet_info != ""):
-            print "Create an empty advanced petition"
+        # if not (advanced_pet_info and advanced_pet_info != ""):
 
-            ac = Accomondation(user=user_object, hotel="Hotel")
-            ac.save()
-            fl = Flight(user=user_object, flightName="Flight")
-            fl.save()
-            feeding_kind_1 = FeedingKind.objects.get(id=1)
-            ap = AdvancedPetition(accomondation=ac, flight=fl,
-                                  user=user_object,
-                                  compensation=compensation_object,
-                                  feeding=feeding_kind_1)
-            ap.save()
-            print "Done"
-            validated_data['advanced_info'] = ap
+        print "Create an empty advanced petition"
+
+        ac = Accomondation(user=user_object, hotel="Hotel")
+        ac.save()
+        fl = Flight(user=user_object, flightName="Flight")
+        fl.save()
+        feeding_kind_1 = FeedingKind.objects.get(id=1)
+        ap = AdvancedPetition(accomondation=ac, flight=fl,
+                              user=user_object,
+                              compensation=compensation_object,
+                              feeding=feeding_kind_1)
+        ap.save()
+        print "Done"
+        validated_data['advanced_info'] = ap
 
         now = datetime.datetime.now()
         validated_data['creationDate'] = now
