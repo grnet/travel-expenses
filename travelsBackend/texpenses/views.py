@@ -1,8 +1,8 @@
 import requests
 import urllib
 import logging
+import datetime
 
-from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
@@ -357,34 +357,6 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
             return AdvancedPetition.objects.filter(user=request_user)
     serializer_class = AdvancedPetitionSerializer
 
-    # def update(self, request, pk=None):
-
-        # dd = request.data['depart_date']
-        # rd = request.data['return_date']
-        # now = str(timezone.now())
-
-        # if dd < now:
-            # return Response(
-                # {'error': 'Depart date should be after today'},
-                # status=status.HTTP_400_BAD_REQUEST)
-        # if rd < now:
-            # return Response(
-                # {'error': 'Return date should be after today'},
-                # status=status.HTTP_400_BAD_REQUEST)
-        # if rd < dd:
-            # return Response(
-                # {'error': 'Return date should be after departure date'},
-                # status=status.HTTP_400_BAD_REQUEST)
-        # tdm = request.data['transport_days_manual']
-        # onm = request.data['overnights_num_manual']
-
-        # if tdm < onm and tdm != "":
-            # return Response(
-                # {'error': 'Transport days should be bigger from overnights'},
-                # status=status.HTTP_400_BAD_REQUEST)
-
-        # return super(AdvancedPetitionViewSet, self).update(request, pk)
-
     def destroy(self, request, pk=None):
         print "Deleting advanced petition with id:" + str(pk)
         advanced_petition = self.get_object()
@@ -479,7 +451,6 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     """API endpoint that allows user related petitions to be viewed or edited \
         (permissions are needed)"""
-    # petition_status = "http://127.0.0.1:8000/petition/petition_status/2/"
     missing_field = None
 
     authentication_classes = (SessionAuthentication, TokenAuthentication)
@@ -583,7 +554,6 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             print "Done"
 
             return Response(status=status.HTTP_204_NO_CONTENT)
-            # return super(UserPetitionViewSet, self).destroy(request, pk)
 
         return Response({'error': "You dont have the permittions to delete \
                          the specific Petition"},
@@ -592,7 +562,19 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
     def date_check(self, task_start, task_end, depart_date, return_date):
 
         result = {'error': False, 'msg': ''}
-        now = str(timezone.now())
+        now = datetime.datetime.now()
+
+        task_start = datetime.datetime.strptime(
+            task_start, '%Y-%m-%dT%H:%M:%S')
+
+        task_end = datetime.datetime.strptime(
+            task_end, '%Y-%m-%dT%H:%M:%S')
+
+        depart_date = datetime.datetime.strptime(
+            depart_date, '%Y-%m-%dT%H:%M:%S')
+
+        return_date = datetime.datetime.strptime(
+            return_date, '%Y-%m-%dT%H:%M:%S')
 
         if task_start < now:
             result['error'] = True
@@ -673,9 +655,11 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         chosen_status = chosen_status[
             chosen_status.index('status') + 7:-1]
         chosen_status = int(chosen_status)
+
         if chosen_status > 1 and chosen_status < 9:
 
             tsd = request.data['taskStartDate']
+
             ted = request.data['taskEndDate']
             dd = request.data['depart_date']
             rd = request.data['return_date']
