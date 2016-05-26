@@ -205,32 +205,9 @@ class AccomondationSerializer(serializers.HyperlinkedModelSerializer):
 
 class AdvancedPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
-    def update(self, instance, validated_data):
-
-        # if validated_data['transport_days_manual'] == None:
-            # instance.transport_days_manual_updated = False
-        # else:
-            # instance.transport_days_manual_updated = True
-
-        # if validated_data['overnights_num_manual'] == None:
-            # instance.overnights_num_manual_updated = False
-        # else:
-            # instance.overnights_num_manual_updated = True
-
-       # if validated_data['compensation days_manual'] == None:
-            # print "compensation days is None"
-            # instance.compensation_days_manual_updated = False
-       # else:
-            # print "compensation days did change"
-            # instance.compensation_days_manual_updated = True
-
-        return super(AdvancedPetitionSerializer, self).update(instance,
-                                                              validated_data)
-
     class Meta:
         model = AdvancedPetition
-        fields = ('id', 'petition', 'movement_num', 'dse', 'depart_date',
-                  'return_date', 'accomondation',
+        fields = ('id', 'petition', 'movement_num', 'dse', 'accomondation',
                   'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
                   'compensation', 'expenditure_protocol',
                   'expenditure_date_protocol', 'movement_protocol',
@@ -326,7 +303,8 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
         model = Petition
         fields = ('id', 'name', 'surname', 'iban', 'specialtyID', 'kind',
                   'taxRegNum', 'taxOffice',
-                  'taskStartDate', 'taskEndDate', 'creationDate', 'updateDate',
+                  'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
+                  'creationDate', 'updateDate',
                   'project', 'reason', 'movementCategory',
                   'departurePoint', 'arrivalPoint', 'overnights_num',
                   'overnights_num_proposed',
@@ -341,4 +319,4 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
                   'recCostParticipation', 'advanced_info',
                   'status', 'user_category', 'trip_days_before',
                   'trip_days_after', 'url')
-        read_only_fields = ('id', 'url',)
+        read_only_fields = ('id', 'url', 'creationDate', 'updateDate',)

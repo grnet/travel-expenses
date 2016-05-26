@@ -220,8 +220,6 @@ class AdvancedPetition(models.Model):
     user = models.ForeignKey(UserProfile)
 
     dse = models.IntegerField(blank=True, null=True)
-    depart_date = models.DateTimeField(blank=True, null=True)
-    return_date = models.DateTimeField(blank=True, null=True)
 
     accomondation = models.ForeignKey(Accomondation, blank=True, null=True)
     flight = models.ForeignKey(Flight, blank=True, null=True)
@@ -256,21 +254,21 @@ class AdvancedPetition(models.Model):
     compensation_decision_protocol = models.CharField(
         max_length=30, null=True, blank=True)
     compensation_decision_date = models.DateField(blank=True, null=True)
-    tracker = FieldTracker()
+    # tracker = FieldTracker()
 
-    def save(self, *args, **kwargs):
-        dd_changed = self.tracker.has_changed('depart_date')
-        rd_changed = self.tracker.has_changed('return_date')
-        if dd_changed or rd_changed:
-            print "Updating manual fields advanced petition"
-            petition = self.petition
-            self.transport_days_manual =\
-                petition.transport_days_proposed()
-            self.overnights_num_manual =\
-                petition.overnights_num_proposed()
-            self.compensation_days_manual =\
-                petition.compensation_days_proposed()
-        super(AdvancedPetition, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+        # dd_changed = self.tracker.has_changed('depart_date')
+        # rd_changed = self.tracker.has_changed('return_date')
+        # if dd_changed or rd_changed:
+            # print "Updating manual fields advanced petition"
+            # petition = self.petition
+            # self.transport_days_manual =\
+                # petition.transport_days_proposed()
+            # self.overnights_num_manual =\
+                # petition.overnights_num_proposed()
+            # self.compensation_days_manual =\
+                # petition.compensation_days_proposed()
+        # super(AdvancedPetition, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return str(self.id)
@@ -293,8 +291,12 @@ class Petition(models.Model):
     user_category = models.ForeignKey(UserCategory, blank=True, null=True)
 
     user = models.ForeignKey(UserProfile)
+
     taskStartDate = models.DateTimeField(blank=True, null=True)
     taskEndDate = models.DateTimeField(blank=True, null=True)
+    depart_date = models.DateTimeField(blank=True, null=True)
+    return_date = models.DateTimeField(blank=True, null=True)
+
     creationDate = models.DateTimeField(blank=True, null=True)
     updateDate = models.DateTimeField(blank=True, null=True)
     project = models.ForeignKey(Project)
@@ -318,8 +320,11 @@ class Petition(models.Model):
     def save(self, *args, **kwargs):
         tsd_changed = self.tracker.has_changed('taskStartDate')
         ted_changed = self.tracker.has_changed('taskEndDate')
+        dd_changed = self.tracker.has_changed('depart_date')
+        rd_changed = self.tracker.has_changed('return_date')
+
         super(Petition, self).save(*args, **kwargs)
-        if tsd_changed or ted_changed:
+        if tsd_changed or ted_changed or dd_changed or rd_changed:
             print "Updating manual fields simple petition"
             self.advanced_info.transport_days_manual =\
                 self.transport_days_proposed()
@@ -390,8 +395,8 @@ class Petition(models.Model):
         return holidays
 
     def transport_days_proposed(self):
-        depart_date = self.advanced_info.depart_date
-        return_date = self.advanced_info.return_date
+        depart_date = self.depart_date
+        return_date = self.return_date
 
         if depart_date is None or return_date is None:
             return 0
@@ -411,7 +416,7 @@ class Petition(models.Model):
         tsd = self.taskStartDate
         ted = self.taskEndDate
 
-        dd = self.advanced_info.depart_date
+        dd = self.depart_date
         if tsd is None or ted is None or dd is None:
             return 0
         result = ted.date() - tsd.date()
@@ -445,8 +450,8 @@ class Petition(models.Model):
         tsd = self.taskStartDate
         ted = self.taskEndDate
 
-        dd = self.advanced_info.depart_date
-        rd = self.advanced_info.return_date
+        dd = self.depart_date
+        rd = self.return_date
         if tsd is None or ted is None or dd is None or rd is None:
             return 0
         result = ted.date() - tsd.date()
@@ -479,9 +484,9 @@ class Petition(models.Model):
         if self.taskEndDate is None or self.taskStartDate is None:
             return 0
 
-        delta = self.taskEndDate.day - self.taskStartDate.day
+        delta = self.taskEndDate.date() - self.taskStartDate.date()
 
-        return delta + 1
+        return delta.days
 
     def is_city_ny(self):
         ap = self.arrivalPoint
@@ -509,12 +514,13 @@ class Petition(models.Model):
     def same_day_return_task(self):
         t_end_date = self.taskEndDate
         t_start_date = self.taskStartDate
-        r_date = self.advanced_info.return_date
-        d_date = self.advanced_info.depart_date
+        r_date = self.return_date
+        d_date = self.depart_date
         if t_end_date is None or r_date is None \
                 or t_start_date is None or d_date is None:
             return False
-        if t_end_date.day == r_date.day == t_start_date.day == d_date.day:
+        if t_end_date.date() == r_date.date() == t_start_date.date()\
+                == d_date.date():
             return True
 
         return False
