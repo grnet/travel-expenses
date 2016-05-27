@@ -11,18 +11,18 @@
 				</ul>	
 				<ul class="nav navbar-nav navbar-left">
 					{{#link-to "profile" tagName="li"}}<a href="">Προφίλ</a>{{/link-to}}
-					{{#link-to "petition" tagName="li"}}<a href="">Νέα Αίτηση</a>{{/link-to}}
-					{{#link-to "petitionList" tagName="li"}}<a href="">Αιτήσεις</a>{{/link-to}}
-					{{#link-to "advancedPetition" tagName="li"}}<a href="">Αιτήσεις Προς Έγκριση</a>{{/link-to}}
-				</ul> 
-			{{else}}
-				<ul class="nav navbar-nav navbar-right">
-					{{#link-to "signup" tagName="li"}}<a href="">Signup</a>{{/link-to}}
-					{{#link-to "login" tagName="li"}}<a href="">Login</a>{{/link-to}}
-				</ul>	
-			{{/if}}
+						{{#link-to "petition" tagName="li"}}<a href="">Νέα Αίτηση</a>{{/link-to}}
+							{{#link-to "petitionList" tagName="li"}}<a href="">Αιτήσεις</a>{{/link-to}}
+								{{#link-to "advancedPetition" tagName="li"}}<a href="">Αιτήσεις Προς Έγκριση</a>{{/link-to}}
+								</ul> 
+							{{else}}
+								<ul class="nav navbar-nav navbar-right">
+									{{#link-to "signup" tagName="li"}}<a href="">Signup</a>{{/link-to}}
+										{{#link-to "login" tagName="li"}}<a href="">Login</a>{{/link-to}}
+										</ul>	
+									{{/if}}
 
-		</div>
-	</div>
-</nav>
-<!-- navbar-inverse -->
+								</div>
+							</div>
+						</nav>
+						<!-- navbar-inverse -->

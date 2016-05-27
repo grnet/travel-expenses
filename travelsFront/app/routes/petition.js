@@ -1,14 +1,16 @@
 import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import ENV from 'travels-front/config/environment'; 
 
 export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	model() {
 		var model = this.store.createRecord('petition');
-		let departureID = 'http://127.0.0.1:8000/petition/city/10/';
+		let departureID = ENV.APP.backend_host+'/petition/city/10/';
 		var rec = this.store.findRecord('city', departureID);
 		rec.then(function(m) {
 			model.set('departurePoint', m)
 		})
+
 		return model
 	},
 
@@ -51,19 +53,19 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('petition-statuses', this.store.findAll('petition-status'));
 		controller.set('petitionMessage','');
 		controller.set('petitionNotSaved',true);
-		
+
 	},
-  	actions: {
-	    willTransition(transition) {
+	actions: {
+		willTransition(transition) {
 			if (this.controller.get('petitionNotSaved') && !confirm('Are you sure you want to abandon progress?Any changes will be lost unless you save them')) {
-        		console.log('not saved');
+				console.log('not saved');
 				transition.abort();
-      		} else {
-        		// Bubble the `willTransition` action so that
-        		// parent routes can decide whether or not to abort.
+			} else {
+				// Bubble the `willTransition` action so that
+				// parent routes can decide whether or not to abort.
 				console.log('saved');
-        		return true;
-      		} 
-	    }
-  	}
+				return true;
+			} 
+		}
+	}
 });

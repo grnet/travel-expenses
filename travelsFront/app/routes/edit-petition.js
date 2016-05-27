@@ -1,10 +1,17 @@
 import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import ENV from 'travels-front/config/environment'; 
 
 export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	model(params) {
-		console.log("model id " + params.petition_id);
-		var model= this.store.findRecord('petition', params.petition_id);
+
+		let id=params.petition_id
+		id=ENV.APP.backend_host+'/petition/user_petition/'+id
+		//var model= this.store.findRecord('petition', params.petition_id);
+		
+
+		//console.log(id)	
+		var model= this.store.findRecord('petition', id);
 
 		//model.then(function(petition) {
 		//console.log(petition.get('taskEndDate'));
