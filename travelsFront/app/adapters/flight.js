@@ -16,7 +16,7 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 
 		var url = this._super(modelName, id, snapshot, requestType, query);
 
-		if (modelName === "flight" && requestType==="flight"){
+		if (modelName === "flight" && requestType==="findRecord"){
 			url=id;
 		}
 		if (modelName === "flight" && requestType==="findAll"){

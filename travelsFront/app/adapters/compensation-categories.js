@@ -14,13 +14,17 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 
 	buildURL: function(modelName, id, snapshot, requestType, query) {
 
+
 		var url = this._super(modelName, id, snapshot, requestType, query);
 
-		if (modelName === "compensation_categories" && requestType==="compensation_categories"){
+		if (modelName === "compensation-categories" && requestType==="findRecord"){
 			url=id;
 		}
-		if (modelName === "compensation_categories" && requestType==="findAll"){
+
+		if (modelName === "compensation-categories" && requestType==="findAll"){
 			url = this.get('host') +this.get('namespace')+"/compensation_categories/";
+
+
 		}
 
 		return url;

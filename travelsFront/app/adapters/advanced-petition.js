@@ -33,7 +33,7 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 		if (requestType === "findRecord"){
 			url = id;
 		}
-		console.log("My url " + url);
+		
 		return url;
 	} 
 

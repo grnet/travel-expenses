@@ -12,7 +12,7 @@ Router.map(function() {
   this.route('petition');
   this.route('petitionList');
   this.route('editPetition', {path: ':petition_id'});
-  this.route('advancedPetition');
+  this.route('advancedPetition',{path:':petition_id'});
   this.route('advancedList');
 });
 

@@ -53,7 +53,7 @@ export default DS.Model.extend(Validations,{
 	compensation_days_proposed: DS.attr(),
 	max_compensation: DS.attr(),
 	compensation_final: DS.attr(),
-	advancedInfo: DS.belongsTo('advanced-petition'),
+	advanced_info: DS.belongsTo('advanced-petition'),
 	trip_days_before: DS.attr(),
 	trip_days_after: DS.attr(),
 	total_cost: DS.attr()

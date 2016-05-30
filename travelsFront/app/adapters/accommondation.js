@@ -15,12 +15,12 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 	buildURL: function(modelName, id, snapshot, requestType, query) {
 
 		var url = this._super(modelName, id, snapshot, requestType, query);
-
-		if (modelName === "accomondation" && requestType==="findRecord"){
+		if (modelName === "accommondation" && requestType==="findRecord"){
 			url=id;
 		}
-		if (modelName === "accomondation" && requestType==="findAll"){
+		if (modelName === "accommondation" && requestType==="findAll"){
 			url = this.get('host') +this.get('namespace')+"/accomondation/";
+			
 		}
 
 		return url;

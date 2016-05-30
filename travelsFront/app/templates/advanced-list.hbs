@@ -1,5 +1,5 @@
 <div>
-	<table class="table table-sm" {{action "clearMessage" on="click"}}> 
+	<table class="table table-sm" > 
 		<thead>
 			<tr>
 				<th>Όνομα</th>
@@ -15,27 +15,24 @@
 		</thead>
 		<tbody>
 
-			{{#each model as |petition|}}
-				{{#if petition.project.name}}
-					<tr>
-						<td>{{petition.name}}</td>
-						<td>{{petition.surname}}</td>
-						<td>{{petition.project.name}}</td>
-						<td>{{petition.arrivalPoint.name}}</td>
-						<td>{{petition.creationDate}}</td>
-						<td>{{petition.updateDate}}</td>
-						<td>{{petition.taskStartDate}}</td>
-						<td>{{petition.taskEndDate}}</td>
-						<td>{{petition.status.name}}</td>
-						<td><button type="submit" class="btn btn-warning btn-small">Επεξεργασία</button></td>
-						<td><button type="submit" class="btn btn-danger btn-small">Διαγραφή</button></td>
-					</tr>
-				{{/if}}
-			{{/each}}
+		{{#each model as |petition|}}
+		{{#if petition.project.name}}
+		<tr>
+			<td>{{petition.name}}</td>
+			<td>{{petition.surname}}</td>
+			<td>{{petition.project.name}}</td>
+			<td>{{petition.arrivalPoint.name}}</td>
+			<td>{{petition.creationDate}}</td>
+			<td>{{petition.updateDate}}</td>
+			<td>{{petition.taskStartDate}}</td>
+			<td>{{petition.taskEndDate}}</td>
+			<td>{{petition.status.name}}</td>
+			<td><button type="submit" class="btn btn-warning btn-small" {{action "petitionEdit" petition.id on="click"}}>Επεξεργασία</button></td>
+			<td><button type="submit" class="btn btn-danger btn-small">Διαγραφή</button></td>
+		</tr>
+		{{/if}}
+		{{/each}}
 
-			<div class="profileForm" id="divMessage">
-				<font>{{deleteMessage}}</font>	
-			</div>    
 		</tbody>
 	</table>
 

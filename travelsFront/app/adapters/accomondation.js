@@ -5,35 +5,26 @@ import ENV from 'travels-front/config/environment';
 
 export default DS.RESTAdapter.extend(DataAdapterMixin,{
 	host: ENV.APP.backend_host,
-	namespace: 'petition/user_petition',
+	namespace: '/petition',
 	contentType: 'application/json',
 	dataType: 'json',
 	authorizer: 'authorizer:token',
 
 
-	pathForType: function(modelName) {
-		var decamelized = Ember.String.decamelize(modelName);
-		return "";
-	},
+
 	buildURL: function(modelName, id, snapshot, requestType, query) {
 
 		var url = this._super(modelName, id, snapshot, requestType, query);
-
-		if (requestType === "createRecord"){
-			url = url + "/";
+		if (modelName === "accommondation" && requestType==="findRecord"){
+			url=id;
 		}
-		if (requestType === "deleteRecord"){
-			url = id;
-		}
-		if (requestType === "updateRecord"){
-
-			url = id;
+		if (modelName === "accommondation" && requestType==="findAll"){
+			url = this.get('host') +this.get('namespace')+"/accomondation/";
+			
 		}
 
-		if (requestType === "findRecord"){
-			url = id;
-		}
 		return url;
 	} 
 
 });
+
