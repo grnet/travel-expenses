@@ -26,5 +26,4 @@ export default DS.Model.extend(Validations,{
 	'taxOffice': DS.belongsTo('tax-office'),
 	'category': DS.belongsTo('category'),
 	'user_group': DS.attr()
-
 });

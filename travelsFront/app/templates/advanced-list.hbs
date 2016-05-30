@@ -11,9 +11,9 @@
 				<th>Ημ/νία Αναχώρησης</th>
 				<th>Ημ/νία Επιστροφής</th>
 				<th>Κατάσταση</th>
-				</tr>
-			</thead>
-			<tbody>
+			</tr>
+		</thead>
+		<tbody>
 
 			{{#each model as |petition|}}
 				{{#if petition.project.name}}
@@ -27,8 +27,8 @@
 						<td>{{petition.taskStartDate}}</td>
 						<td>{{petition.taskEndDate}}</td>
 						<td>{{petition.status.name}}</td>
-						<!-- <td><button type="submit" class="btn btn-warning btn-small" {{action "petitionEdit" petition.id on="click"}} disabled={{not-eq petition.status.name "δημιουργηθείσα από μετακινούμενο" }}>Επεξεργασία</button></td>
-						<td><button type="submit" class="btn btn-danger btn-small" {{action "petitionDelete" petition.id petition.status.name on="click"}} disabled={{not-eq petition.status.name "δημιουργηθείσα από μετακινούμενο" }}>Διαγραφή</button></td> -->
+						<td><button type="submit" class="btn btn-warning btn-small">Επεξεργασία</button></td>
+						<td><button type="submit" class="btn btn-danger btn-small">Διαγραφή</button></td>
 					</tr>
 				{{/if}}
 			{{/each}}
@@ -36,7 +36,7 @@
 			<div class="profileForm" id="divMessage">
 				<font>{{deleteMessage}}</font>	
 			</div>    
-			</tbody>
+		</tbody>
 	</table>
 
 </div>
