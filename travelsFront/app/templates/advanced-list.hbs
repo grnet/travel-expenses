@@ -27,8 +27,8 @@
 						<td>{{petition.taskStartDate}}</td>
 						<td>{{petition.taskEndDate}}</td>
 						<td>{{petition.status.name}}</td>
-						<td><button type="submit" class="btn btn-warning btn-small" {{action "petitionEdit" petition.id on="click"}} disabled={{not-eq petition.status.name "δημιουργηθείσα από μετακινούμενο" }}>Επεξεργασία</button></td>
-						<td><button type="submit" class="btn btn-danger btn-small" {{action "petitionDelete" petition.id petition.status.name on="click"}} disabled={{not-eq petition.status.name "δημιουργηθείσα από μετακινούμενο" }}>Διαγραφή</button></td>
+						<!-- <td><button type="submit" class="btn btn-warning btn-small" {{action "petitionEdit" petition.id on="click"}} disabled={{not-eq petition.status.name "δημιουργηθείσα από μετακινούμενο" }}>Επεξεργασία</button></td>
+						<td><button type="submit" class="btn btn-danger btn-small" {{action "petitionDelete" petition.id petition.status.name on="click"}} disabled={{not-eq petition.status.name "δημιουργηθείσα από μετακινούμενο" }}>Διαγραφή</button></td> -->
 					</tr>
 				{{/if}}
 			{{/each}}

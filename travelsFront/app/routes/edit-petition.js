@@ -7,25 +7,13 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 
 		let id=params.petition_id
 		id=ENV.APP.backend_host+'/petition/user_petition/'+id
-		//var model= this.store.findRecord('petition', params.petition_id);
-		
-
-		//console.log(id)	
 		var model= this.store.findRecord('petition', id);
-
-		//model.then(function(petition) {
-		//console.log(petition.get('taskEndDate'));
-
-		//let endDate=petition.get('taskEndDate');
-		//if (endDate!==null) {
-
-		//endDate=endDate.substring(0,endDate.length-1);
-		//petition.set('taskEndDate',endDate);
-		//}
-		//});
-
+		
 		return model;
+
+		//var model= this.store.findRecord('petition', params.petition_id);
 	},
+
 	afterModel(petition){
 
 		let endDate=petition.get('taskEndDate');
