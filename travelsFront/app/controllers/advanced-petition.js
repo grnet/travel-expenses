@@ -2,6 +2,10 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 
+	country_selected: false,
+	arrivalPoints: null,
+	categoryOfMovement: null,
+
 	actions: {
 
 		setCountry(value){
@@ -10,6 +14,18 @@ export default Ember.Controller.extend({
 				this.set('country_selected',true);
 
 				let id=value.substring(value.indexOf('country/')+8,value.lastIndexOf('/'));
+				if (id == 10){
+					let movementID = 'http://127.0.0.1:8000/petition/movement_categories/1/';
+					var rec = this.store.findRecord('movement-category', movementID);
+					this.set('categoryOfMovement',rec);
+					this.get('model').set('movementCategory',rec)		
+				}
+				else{
+					let movementID = 'http://127.0.0.1:8000/petition/movement_categories/2/';
+					var rec = this.store.findRecord('movement-category',movementID);
+					this.set('categoryOfMovement',rec);
+					this.get('model').set('movementCategory',rec);					
+				}
 				var city=this.store.query('city',{ country: id});
 				this.set('arrivalPoints',city);
 				this.get('model').set('arrivalPoint',city);
