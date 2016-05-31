@@ -34,7 +34,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		}
 		var city_code=petition.get('arrivalPoint.id');
 		if (city_code!=null) {
-
+			var self=this;
 			self.store.findRecord('city',city_code).then(function(city) {
 				var country_id=city.get('country.id');
 				self.store.findRecord('country',country_id).then(function(country) {
