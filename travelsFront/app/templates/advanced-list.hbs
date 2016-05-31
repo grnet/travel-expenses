@@ -38,4 +38,10 @@
 
 </div>
 
+{{#if (can "approve petition")}}
+  <button {{action "new"}}>Approve</button>
+{{else}}
+  You can't approve this petition
+{{/if}}
+
 {{outlet}}

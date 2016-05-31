@@ -7,7 +7,7 @@ export default Ember.Controller.extend({
 
 	actions: {
 		invalidateSession() {
-
+			
 			var self=this;
 			var token=self.get("session.data.authenticated.auth_token");
 
