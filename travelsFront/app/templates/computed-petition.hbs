@@ -1,0 +1,93 @@
+<div class="panel panel-default">
+
+<div class = "panel-heading">
+	<h4 class = "panel-title">Υπολογιζόμενα Οικονομικά Στοιχεία</h4>
+</div>
+
+<div class = "panel-body">
+	<div class="profileForm form-group">
+		<label for="transport_days_manual" class="col-sm-2 control-label">Ημέρες Μετακίνησης Εργασιών</label>
+		<div class="col-sm-4">
+			{{input value=model.transport_days_manual type="text" class="form-control"}}
+		</div>
+
+		<label for="transport_num_proposed" class="col-sm-2 control-label">Προτεινόμενη Τιμή</label>
+		<div class="col-sm-4">	
+			{{input value=model.transport_num_proposed type="text" class="form-control" readonly="readonly"}}
+		</div>
+	</div>
+
+	<div class="profileForm form-group">
+		<label for="overnights_num_manual" class="col-sm-2 control-label">Διανυκτερεύσεις</label>
+		<div class="col-sm-4">
+			{{input value=model.overnights_num_manual type="text" class="form-control" }}
+		</div>
+
+		<label for="overnights_num_proposed" class="col-sm-2 control-label">Προτεινόμενη Τιμή</label>
+		<div class="col-sm-4">	
+			{{input value=model.overnights_num_proposed type="text" class="form-control" readonly="readonly"}}
+		</div>
+	</div>
+
+	<div class="profileForm form-group">
+		<label for="compensation_days_manual" class="col-sm-2 control-label">Ημέρες Αποζημίωσης</label>
+		<div class="col-sm-4">
+			{{input value=model.compensation_days_manual type="text" class="form-control"}}
+		</div>
+
+		<label for="compensation_days_proposed" class="col-sm-2 control-label">Προτεινόμενη Τιμή</label>
+		<div class="col-sm-4">	
+			{{input value=model.compensation_days_proposed type="text" class="form-control" readonly="readonly"}}
+		</div>
+	</div>
+
+	<div class="profileForm form-group">
+		<label for="movementCategory" class="col-sm-2 control-label">Αυθημερόν Επιστροφή</label>
+		<div class="col-sm-4">
+			{{input type="text" name="same_day_return_task" class="form-control" value=model.same_day_return_task readonly="readonly"}}	
+		</div>
+	</div>
+
+	<div class="profileForm form-group">
+		<label for="trip_days_before" class="col-sm-2 control-label">Εναπομείνασες Ημέρες Μετακίνησης Εργασιών: Πριν</label>
+		<div class="col-sm-4">
+			{{input value=model.trip_days_before type="text" class="form-control" }}
+		</div>
+
+		<label for="compensation_days_after" class="col-sm-2 control-label">Εναπομείνασες Ημέρες Μετακίνησης Εργασιών: Μετά</label>
+		<div class="col-sm-4">	
+			{{input value=model.compensation_days_after type="text" class="form-control"}}
+		</div>
+	</div>
+
+	<div class="profileForm form-group">
+		<label for="overnights_sum_cost" class="col-sm-2 control-label">Σύνολο Διανυκτέρευσης</label>
+		<div class="col-sm-4">
+			{{input value=model.overnights_sum_cost type="text" class="form-control" }}
+		</div>
+	</div>
+
+	<div class="profileForm form-group">
+		<label for="compensation_level" class="col-sm-2 control-label">Αποζημίωση Ημερήσια</label>
+		<div class="col-sm-4">
+			{{input value=model.compensation_level type="text" class="form-control" }}
+		</div>
+	</div>
+
+	<div class="profileForm form-group">
+		<label for="compensation_final" class="col-sm-2 control-label">Σύνολο Ημερήσιας Αποζημίωσης</label>
+		<div class="col-sm-4">
+			{{input value=model.compensation_final type="text" class="form-control" }}
+		</div>
+	</div>
+
+	<div class="profileForm form-group">
+		<label for="compensation" class="col-sm-2 control-label">ΣΥΝΟΛΟ</label>
+		<div class="col-sm-4">
+			{{input value=model.compensation type="text" class="form-control" }}
+		</div>
+	</div>
+</div>	
+<br>
+<button type="submit" class="btn btn-primary">Τροποποίηση Υπολογιζόμενων Ημερών</button>
+</div>
