@@ -8,7 +8,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		let id=params.petition_id
 		id=ENV.APP.backend_host+'/petition/user_petition/'+id
 		var model= this.store.findRecord('petition', id);
-		
+
 		return model;
 
 		//var model= this.store.findRecord('petition', params.petition_id);
@@ -33,15 +33,16 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 			petition.set('taskStartDate',startDate);
 		}
 		var city_code=petition.get('arrivalPoint.id');
+		if (city_code!=null) {
 
-		var self=this;
-		self.store.findRecord('city',city_code).then(function(city) {
-			var country_id=city.get('country.id');
-			self.store.findRecord('country',country_id).then(function(country) {
-				var category_id=country.get('category.id');
-				self.store.findRecord('country-category',category_id);
+			self.store.findRecord('city',city_code).then(function(city) {
+				var country_id=city.get('country.id');
+				self.store.findRecord('country',country_id).then(function(country) {
+					var category_id=country.get('category.id');
+					self.store.findRecord('country-category',category_id);
+				});
 			});
-		});
+		}
 
 
 	},

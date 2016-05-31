@@ -40,16 +40,25 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 			self.store.findRecord('accommondation',accomondation_id);
 		});
 		var movement_id=petition.get('movementCategory.id');
-		self.store.findRecord('movement-category',movement_id);
-		var city_code=petition.get('arrivalPoint.id');
 
-		self.store.findRecord('city',city_code).then(function(city) {
-			var country_id=city.get('country.id');
-			self.store.findRecord('country',country_id).then(function(country) {
-				var category_id=country.get('category.id');
-				self.store.findRecord('country-category',category_id);
+		if (movement_id!=null) {
+
+			self.store.findRecord('movement-category',movement_id);
+		}
+
+
+		var city_code=petition.get('arrivalPoint.id');
+		if (city_code!=null) {
+
+			self.store.findRecord('city',city_code).then(function(city) {
+				var country_id=city.get('country.id');
+				self.store.findRecord('country',country_id).then(function(country) {
+					var category_id=country.get('category.id');
+					self.store.findRecord('country-category',category_id);
+				});
 			});
-		});
+		}
+
 
 
 	},
