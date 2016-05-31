@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
 
 	// }),
 	country_selected: false,
-	arrivalPointModel: null,
+	arrivalPoints: null,
 	categoryOfMovement: null,
 
 	actions: {
@@ -33,7 +33,7 @@ export default Ember.Controller.extend({
 					this.get('model').set('movementCategory',rec);					
 				}
 				var city=this.store.query('city',{ country: id});
-				this.set('arrivalPointModel',city);
+				this.set('arrivalPoints',city);
 				this.get('model').set('arrivalPoint',city);
 			}
 			else

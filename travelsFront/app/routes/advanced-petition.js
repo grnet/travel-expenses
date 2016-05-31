@@ -5,7 +5,7 @@ import ENV from 'travels-front/config/environment';
 export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	model(params) {
 
-		let id=params.petition_id
+		let id=params.ap_id
 		id=ENV.APP.backend_host+'/petition/user_petition/'+id
 		var model= this.store.findRecord('petition', id);
 
@@ -41,6 +41,17 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		});
 		var movement_id=petition.get('movementCategory.id');
 		self.store.findRecord('movement-category',movement_id);
+		var city_code=petition.get('arrivalPoint.id');
+
+		self.store.findRecord('city',city_code).then(function(city) {
+			var country_id=city.get('country.id');
+			self.store.findRecord('country',country_id).then(function(country) {
+				var category_id=country.get('category.id');
+				self.store.findRecord('country-category',category_id);
+			});
+		});
+
+
 	},
 
 	setupController: function(controller, model) {

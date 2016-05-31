@@ -32,6 +32,17 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 			startDate=startDate.replace('Z','');
 			petition.set('taskStartDate',startDate);
 		}
+		var city_code=petition.get('arrivalPoint.id');
+
+		var self=this;
+		self.store.findRecord('city',city_code).then(function(city) {
+			var country_id=city.get('country.id');
+			self.store.findRecord('country',country_id).then(function(country) {
+				var category_id=country.get('category.id');
+				self.store.findRecord('country-category',category_id);
+			});
+		});
+
 
 	},
 

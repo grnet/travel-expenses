@@ -1,10 +1,10 @@
 <div class="panel panel-default">	
 
 	<div class = "panel-heading">
-      <h4 class = "panel-title">Στοιχεία Αίτησης Ταξιδιού</h4>
-   	</div>
-	
-   	<div class = "panel-body">
+		<h4 class = "panel-title">Στοιχεία Αίτησης Ταξιδιού</h4>
+	</div>
+
+	<div class = "panel-body">
 		<div class="profileForm form-group">
 			<label for="movementCategory" class="col-sm-2 control-label">Κατηγορία Μετακίνησης</label>
 			<div class="col-sm-4">
@@ -13,7 +13,7 @@
 
 			<label for="countryCategory" class="col-sm-2 control-label">Κατηγορία Χώρας</label>
 			<div class="col-sm-4">
-				{{input type="text" name="countryCategory" class="form-control" value=""  readonly="readonly"}}	
+				{{input type="text" name="countryCategory" class="form-control" value=model.arrivalPoint.country.category.name  readonly="readonly"}}	
 			</div>
 		</div>
 
@@ -24,7 +24,7 @@
 					<option value=""></option>
 
 					{{#each projects as |projectChoice|}}
-						<option value={{projectChoice.id}} selected={{eq projectChoice.id model.project.id}}>{{projectChoice.name}}</option>
+					<option value={{projectChoice.id}} selected={{eq projectChoice.id model.project.id}}>{{projectChoice.name}}</option>
 					{{/each}}
 				</select>	
 			</div>
@@ -51,11 +51,11 @@
 				<select onchange={{action "setDeparturePoint" value="target.value"}} class="form-control" id="test">
 
 					{{#each departurePoints as |departurePointChoice|}}
-						<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.id model.departurePoint.id}}>{{departurePointChoice.name}}</option>
+					<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.id model.departurePoint.id}}>{{departurePointChoice.name}}</option>
 					{{/each}}
 				</select>	
 			</div>
-			
+
 			<label for="arrivalPoint" class="col-sm-2 control-label">Προορισμός</label>
 			<!-- <div class="arrival-point col-sm-4"> -->	
 			<div class="col-sm-4">	
@@ -63,17 +63,17 @@
 					<option value="">Επιλέξτε χώρα προορισμού</option>
 
 					{{#each countries as |countryChoice|}}
-						<option value={{countryChoice.id}}>{{countryChoice.name}}</option>
+					<option value={{countryChoice.id}} selected={{eq countryChoice.id model.arrivalPoint.country.id}}>{{countryChoice.name}}</option>
 					{{/each}}
 				</select>
 			</div>
-			
+
 			<div class="col-sm-4 col-sm-push-8">	
 				<select onchange={{action "setArrivalPoint" value="target.value"}} class="form-control" disabled={{not country_selected}}>
 					<option value=""></option>
 
-					{{#each arrivalPointModel as |arrivalPointChoice|}}
-						<option value={{arrivalPointChoice.id}} selected={{eq arrivalPointChoice.id model.arrivalPoint.id}}>{{arrivalPointChoice.name}}</option>
+					{{#each arrivalPoints as |arrivalPointChoice|}}
+					<option value={{arrivalPointChoice.id}} selected={{eq arrivalPointChoice.id model.arrivalPoint.id}}>{{arrivalPointChoice.name}}</option>
 					{{/each}}
 				</select>
 			</div>		
@@ -86,7 +86,7 @@
 					<option value=""></option>
 
 					{{#each transportations as |transportationChoice|}}
-						<option value={{transportationChoice.id}} selected={{eq transportationChoice.id model.transportation.id}}>{{transportationChoice.name}}</option>
+					<option value={{transportationChoice.id}} selected={{eq transportationChoice.id model.transportation.id}}>{{transportationChoice.name}}</option>
 					{{/each}}
 				</select>
 			</div>
