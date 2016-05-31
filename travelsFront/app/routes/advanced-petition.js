@@ -39,6 +39,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 			var accomondation_id=advanced_petition.get('accomondation.id');
 			self.store.findRecord('accommondation',accomondation_id);
 		});
+		var movement_id=petition.get('movementCategory.id');
+		self.store.findRecord('movement-category',movement_id);
 	},
 
 	setupController: function(controller, model) {
@@ -46,7 +48,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('arrivalPoints', this.store.findAll('city'));
 		controller.set('countries', this.store.findAll('country'));
 		controller.set('departurePoints', this.store.query('city',{ country: 10}));
-		controller.set('movement-categories', this.store.findAll('movementCategory'));
+		//controller.set('movement-categories', this.store.findAll('movementCategory'));
 		controller.set('transportations', this.store.findAll('transportation'));
 		controller.set('projects', this.store.findAll('project'));
 		controller.set('specialties', this.store.findAll('specialty'));
@@ -54,9 +56,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('tax-offices', this.store.findAll('taxOffice'));
 		controller.set('categories', this.store.findAll('category'));
 		controller.set('petition-statuses', this.store.findAll('petition-status'));
-		//controller.set('advanced-petitions', this.store.findAll('advanced-petition'));
-		//controller.set('accommondations', this.store.findAll('accommondation'));
-		//controller.set('flights', this.store.findAll('flight'));
 		controller.set('feedings', this.store.findAll('feeding'));
 		controller.set('compensations', this.store.findAll('compensation-categories'));
 		controller.set('editMessage','');
