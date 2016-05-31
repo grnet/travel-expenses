@@ -31,6 +31,22 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 			startDate=startDate.replace('Z','');
 			petition.set('taskStartDate',startDate);
 		}
+		let startTripDate=petition.get('depart_date');
+
+		if (startTripDate!==null){ 
+
+			startTripDate=startTripDate.replace('Z','');
+			petition.set('depart_date',startTripDate);
+		}
+		let endTripDate=petition.get('return_date');
+
+		if (endTripDate!==null){ 
+
+			endTripDate=endTripDate.replace('Z','');
+			petition.set('return_date',endTripDate);
+		}
+
+
 		var ap_id=petition.get('advanced_info.id');
 		let self=this;
 		self.store.findRecord('advanced-petition', ap_id).then(function(advanced_petition) {

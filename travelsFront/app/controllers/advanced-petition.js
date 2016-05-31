@@ -60,6 +60,12 @@ export default Ember.Controller.extend({
 			this.get('model').set('kind', rec);
 
 		},
+		setFeeding(id){
+			var rec = this.store.peekRecord('feeding', id);
+			this.get('model').set('feeding', rec);
+
+		},
+
 		setTaxOffice(id){
 			var rec = this.store.peekRecord('tax-office', id);
 			this.get('model').set('taxOffice', rec);
