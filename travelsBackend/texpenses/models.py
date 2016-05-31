@@ -521,7 +521,9 @@ class Petition(models.Model):
         flight = 0
         if self.advanced_info.flight.flightPrice:
             flight = self.advanced_info.flight.flightPrice
-        total = flight + self.overnights_sum_cost() + self.compensation_final()
+        total = flight + \
+            self.overnights_sum_cost() + \
+            self.compensation_final() + self.recCostParticipation
         return total
 
     def __unicode__(self):
