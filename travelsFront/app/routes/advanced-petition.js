@@ -87,7 +87,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('petition-statuses', this.store.findAll('petition-status'));
 		controller.set('feedings', this.store.findAll('feeding'));
 		controller.set('compensations', this.store.findAll('compensation-categories'));
-		controller.set('editMessage','');
+		controller.set('petitionMessage','');
+		controller.set('datesChanged',false);
 
 	}
 });

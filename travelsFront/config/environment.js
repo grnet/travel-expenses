@@ -21,6 +21,8 @@ module.exports = function(environment) {
 
 		petition_status_1: 'http://127.0.0.1:8000'+'/petition/petition_status/1/',
 		petition_status_2: 'http://127.0.0.1:8000'+'/petition/petition_status/2/',
+		petition_status_3: 'http://127.0.0.1:8000'+'/petition/petition_status/3/',
+
 
 	};
 

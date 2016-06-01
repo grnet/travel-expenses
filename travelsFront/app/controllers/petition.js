@@ -73,12 +73,13 @@ export default Ember.Controller.extend({
 			let profileIsValid=this.get('model.validations.isValid');
 
 			if (profileIsValid) {
-
 				var rec = this.store.peekRecord('petition-status',ENV.petition_status_2);
-				this.get('model').set('status', rec);
 
 				var self=this;
-				this.get('model').save().then(function(value) {
+
+				self.get('model').set('status', rec);
+
+				self.get('model').save().then(function(value) {
 
 					self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
 					Ember.$('#divMessage').removeClass('redMessage');

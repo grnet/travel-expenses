@@ -24,12 +24,12 @@
 					<option value=""></option>
 
 					{{#each projects as |projectChoice|}}
-					<option value={{projectChoice.id}} selected={{eq projectChoice.id model.project.id}}>{{projectChoice.name}}</option>
+						<option value={{projectChoice.id}} selected={{eq projectChoice.id model.project.id}}>{{projectChoice.name}}</option>
 					{{/each}}
 				</select>	
 			</div>
 			{{#if (v-get model 'project' 'isInvalid') }}
-			<font color="red">{{v-get model 'project' 'message'}}</font>
+				<font color="red">{{v-get model 'project' 'message'}}</font>
 			{{/if}} 
 		</div>
 
@@ -51,7 +51,7 @@
 				<select onchange={{action "setDeparturePoint" value="target.value"}} class="form-control" id="test">
 
 					{{#each departurePoints as |departurePointChoice|}}
-					<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.id model.departurePoint.id}}>{{departurePointChoice.name}}</option>
+						<option value={{departurePointChoice.id}} selected={{eq departurePointChoice.id model.departurePoint.id}}>{{departurePointChoice.name}}</option>
 					{{/each}}
 				</select>	
 			</div>
@@ -63,7 +63,7 @@
 					<option value="">Επιλέξτε χώρα προορισμού</option>
 
 					{{#each countries as |countryChoice|}}
-					<option value={{countryChoice.id}} selected={{eq countryChoice.id model.arrivalPoint.country.id}}>{{countryChoice.name}}</option>
+						<option value={{countryChoice.id}} selected={{eq countryChoice.id model.arrivalPoint.country.id}}>{{countryChoice.name}}</option>
 					{{/each}}
 				</select>
 			</div>
@@ -73,7 +73,7 @@
 					<option value=""></option>
 
 					{{#each arrivalPoints as |arrivalPointChoice|}}
-					<option value={{arrivalPointChoice.id}} selected={{eq arrivalPointChoice.id model.arrivalPoint.id}}>{{arrivalPointChoice.name}}</option>
+						<option value={{arrivalPointChoice.id}} selected={{eq arrivalPointChoice.id model.arrivalPoint.id}}>{{arrivalPointChoice.name}}</option>
 					{{/each}}
 				</select>
 			</div>		
@@ -86,7 +86,7 @@
 					<option value=""></option>
 
 					{{#each transportations as |transportationChoice|}}
-					<option value={{transportationChoice.id}} selected={{eq transportationChoice.id model.transportation.id}}>{{transportationChoice.name}}</option>
+						<option value={{transportationChoice.id}} selected={{eq transportationChoice.id model.transportation.id}}>{{transportationChoice.name}}</option>
 					{{/each}}
 				</select>
 			</div>
@@ -96,7 +96,7 @@
 			<label for="reason" class="col-sm-2 control-label">Αιτιολογία Μετακίνησης</label>
 			<div class="col-sm-4">	
 				{{#character-limit max=100}}
-				{{textarea value=model.reason type="textarea" cols="75" class="form-control"}}
+					{{textarea value=model.reason type="textarea" cols="75" class="form-control"}}
 				{{/character-limit}}
 			</div>
 		</div>
@@ -105,7 +105,7 @@
 			<label for="recTransport" class="col-sm-2 control-label">Προτεινόμενα Μέσα Μετακίνησης</label>
 			<div class="col-sm-4">	
 				{{#character-limit max=100}}
-				{{textarea value=model.recTransport type="textarea" cols="75" class="form-control"}}
+					{{textarea value=model.recTransport type="textarea" cols="75" class="form-control"}}
 				{{/character-limit}}
 			</div>
 		</div>
@@ -114,7 +114,7 @@
 			<label for="recAccomondation" class="col-sm-2 control-label">Προτεινόμενο Κατάλυμα</label>
 			<div class="col-sm-4">	
 				{{#character-limit max=100}}
-				{{textarea value=model.recAccomondation type="textarea" cols="75" class="form-control"}}
+					{{textarea value=model.recAccomondation type="textarea" cols="75" class="form-control"}}
 				{{/character-limit}}
 			</div>
 		</div>
@@ -123,7 +123,7 @@
 			<label for="recCostParticipation" class="col-sm-2 control-label">Κόστος Συμμετοχής</label>
 			<div class="col-sm-4">	
 				{{#character-limit max=100}}
-				{{textarea value=model.recCostParticipation type="textarea" cols="75" class="form-control"}}
+					{{textarea value=model.recCostParticipation type="textarea" cols="75" class="form-control"}}
 				{{/character-limit}}
 			</div>
 		</div>
@@ -132,7 +132,7 @@
 			<label for="recOtherCost" class="col-sm-2 control-label">Λοιπά Έξοδα</label>
 			<div class="col-sm-4">	
 				{{#character-limit max=100}}
-				{{textarea value=model.recOtherCost type="textarea" cols="75" class="form-control"}}
+   {{textarea value=model.recOtherCost type="textarea" cols="75" class="form-control"}}
 				{{/character-limit}}
 			</div>
 		</div> -->

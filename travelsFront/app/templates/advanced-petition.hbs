@@ -2,18 +2,45 @@
 	<form class="form-horizontal col-md-12 panel panel-default" {{action "clearMessage" on="click"}} role="form">
 		<br>
 		{{partial 'profile-form'}}
-		
+
 		{{partial 'petition-form'}}
 
 		{{partial 'secretary-form'}}
 
 		<br>
-		<button type="submit" class="btn btn-primary">Αποθήκευση Αλλαγών</button> <!-- {{action "advancedpetitionSave"}} -->
+		<!--<button type="submit" class="btn btn-primary" {{action "petitionSave"}}>Αποθήκευση Αλλαγών</button>-->
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"{{action "checkDates"}}>
+			Αποθήκευση Αλλαγών
+		</button>
+
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Αποθήκευση αλλαγών</h4>
+					</div>
+					<div class="modal-body">
+						{{if datesChanged "Οι ημερομηνίες έχουν αλλάξει, ως εκτούτου τα κόστη ταξιδιού((α) Ημέρες Μετακίνησης Εργασιών (β) Διανυκτερεύσεις και (γ) Ημέρες Αποζημίωσης) θα επανα-υπολογιστούν." "Είστε σίγουροι ότι θέλετε να αποθηκεύσετε τις αλλαγές?"
+						}}
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
+						<button type="submit" class="btn btn-primary" {{action "petitionSave"}} data-dismiss="modal">Αποθήκευση</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="profileForm" id="divMessage">
+			<font>{{petitionMessage}}</font>	
+		</div>
 	</form><br><br>
 
 	<form class="form-horizontal col-md-12" {{action "clearMessage" on="click"}} role="form">
 		{{partial 'computed-petition'}}
-	
+
 	</form><br>
 </div>
 

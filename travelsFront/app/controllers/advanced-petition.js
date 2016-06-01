@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+	petitionMessage:'',
+	datesChanged:false,
 
 	country_selected: false,
 	arrivalPoints: null,
@@ -30,6 +32,7 @@ export default Ember.Controller.extend({
 					});
 
 				}
+
 				self.store.query('city',{ country: id}).then(function(city){
 
 					self.set('arrivalPoints',city);
@@ -40,6 +43,94 @@ export default Ember.Controller.extend({
 				this.set('country_selected',false);
 
 		},
+		checkDates(){
+			var self=this;
+			var petition=self.get('model');
+
+
+			if (petition.get('hasDirtyAttributes')) {
+
+				var changed_attributes=petition.changedAttributes();
+
+
+				var dd=changed_attributes['depart_date'];
+				var rd=changed_attributes['return_date'];
+				var ted=changed_attributes['taskEndDate'];
+				var tsd=changed_attributes['taskStartDate'];
+
+				if (dd!=null) {
+					var before=dd[0].substring(0,dd[0].length-1);
+					var after=dd[1];
+					if (before!=after) {
+						self.set('datesChanged',true);
+					}
+
+				}
+				if (rd!=null) {
+					var before=rd[0].substring(0,rd[0].length-1);
+					var after=rd[1];
+					if (before!=after) {
+						self.set('datesChanged',true);
+					}
+				}
+
+				if (ted!=null) {
+					var before=ted[0].substring(0,ted[0].length-1);
+					var after=ted[1];
+					if (before!=after) {
+						self.set('datesChanged',true);
+					}
+				}
+
+				if (tsd!=null) {
+					var before=tsd[0].substring(0,tsd[0].length-1);
+					var after=tsd[1];
+					if (before!=after) {
+						self.set('datesChanged',true);
+					}
+				}
+			}
+
+		},
+
+		petitionSave(){
+
+			var self=this;
+
+			let profileIsValid=self.get('model.validations.isValid');
+
+
+			var petition=self.get('model');
+
+			var a_petition=petition.get('advanced_info');
+
+
+
+			if (petition.get('hasDirtyAttributes') || a_petition.get('hasDirtyAttributes')) {
+
+				if (profileIsValid) {
+
+					//var rec = this.store.peekRecord('petition-status',ENV.petition_status_3);
+					//self.get('model').set('status', rec);
+
+					self.get('model').save().then(function(value) {
+						self.set('petitionMessage','Τα στοιχεία της αίτησης έχουν αποθηκευθεί επιτυχώς !');
+						self.set('petitionNotSaved',false);
+						Ember.$('#divMessage').removeClass('redMessage');
+						Ember.$('#divMessage').addClass('greenMessage');
+						Ember.$('#submit').prop('disabled', false);
+
+
+					}, function(reason) {
+						self.set('petitionMessage','Η αποθήκευση των στοιχείων της αίτησης απέτυχε...');
+						Ember.$('#divMessage').removeClass('greenMessage');
+						Ember.$('#divMessage').addClass('redMessage');
+					});
+				}	
+			}
+
+		},
+
 
 		setArrivalPoint(id){
 			var rec = this.store.peekRecord('city', id);
@@ -94,7 +185,7 @@ export default Ember.Controller.extend({
 		},
 		clearMessage(){
 			var self=this;
-			self.set('editMessage','');
+			self.set('petitionMessage','');
 			//Ember.$('#submit').prop('disabled', true);
 		}
 	}	

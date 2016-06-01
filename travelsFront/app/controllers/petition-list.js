@@ -14,13 +14,11 @@ export default Ember.Controller.extend({
 			if (status === "δημιουργηθείσα από μετακινούμενο"){
 
 				self.store.findRecord('petition', id).then(function(petition) {
-
-					petition.destroyRecord().then(function(value) {
+					petition.destroyRecord().then(function() {
 						self.set('statePetitionList', true);
-						self.set('deleteMessage', "Η αίτηση σας με id: " + value.id + " έχει διαγραφεί επιτυχώς !");
+						self.set('deleteMessage', "Η αίτηση σας με id: " + id + " έχει διαγραφεί επιτυχώς !");
 						Ember.$('#divMessage').removeClass('redMessage');
 						Ember.$('#divMessage').addClass('greenMessage');
-						console.log(value.id.name);
 
 
 					}, function(reason) {
