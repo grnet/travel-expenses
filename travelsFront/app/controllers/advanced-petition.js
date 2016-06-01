@@ -4,8 +4,7 @@ export default Ember.Controller.extend({
 
 	country_selected: false,
 	arrivalPoints: null,
-	categoryOfMovement: null,
-
+	
 	actions: {
 
 		setCountry(value){
@@ -14,21 +13,28 @@ export default Ember.Controller.extend({
 				this.set('country_selected',true);
 
 				let id=value.substring(value.indexOf('country/')+8,value.lastIndexOf('/'));
+				let self=this;
+				let movementID='';
 				if (id == 10){
-					let movementID = 'http://127.0.0.1:8000/petition/movement_categories/1/';
-					var rec = this.store.findRecord('movement-category', movementID);
-					this.set('categoryOfMovement',rec);
-					this.get('model').set('movementCategory',rec)		
+					movementID = 'http://127.0.0.1:8000/petition/movement_categories/1/';
+
+					self.store.findRecord('movement-category', movementID).then(function(mc) {
+						self.get('model').set('movementCategory',mc)		
+					});
 				}
 				else{
-					let movementID = 'http://127.0.0.1:8000/petition/movement_categories/2/';
-					var rec = this.store.findRecord('movement-category',movementID);
-					this.set('categoryOfMovement',rec);
-					this.get('model').set('movementCategory',rec);					
+					movementID = 'http://127.0.0.1:8000/petition/movement_categories/2/';
+
+					self.store.findRecord('movement-category', movementID).then(function(mc) {
+						self.get('model').set('movementCategory',mc)		
+					});
+
 				}
-				var city=this.store.query('city',{ country: id});
-				this.set('arrivalPoints',city);
-				this.get('model').set('arrivalPoint',city);
+				self.store.query('city',{ country: id}).then(function(city){
+
+					self.set('arrivalPoints',city);
+					self.get('model').set('arrivalPoint',city);
+				});
 			}
 			else
 				this.set('country_selected',false);
@@ -44,12 +50,6 @@ export default Ember.Controller.extend({
 		setDeparturePoint(id){
 			var rec = this.store.peekRecord('city', id);
 			this.get('model').set('departurePoint', rec);
-
-		},
-
-		setMovementCategory(id){
-			var rec = this.store.peekRecord('movement-category', id);
-			this.get('model').set('movementCategory', rec);
 
 		},
 

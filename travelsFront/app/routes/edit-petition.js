@@ -10,28 +10,24 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		var model= this.store.findRecord('petition', id);
 
 		return model;
-
-		//var model= this.store.findRecord('petition', params.petition_id);
 	},
 
 	afterModel(petition){
 
 		let endDate=petition.get('taskEndDate');
 		if (endDate!==null) {
-
 			//endDate=endDate.substring(0,endDate.length-1);
 			endDate=endDate.replace('Z','');
 			petition.set('taskEndDate',endDate);
 		}
 
 		let startDate=petition.get('taskStartDate');
-
 		if (startDate!==null){ 
-
 			//startDate=startDate.substring(0,startDate.length-1);
 			startDate=startDate.replace('Z','');
 			petition.set('taskStartDate',startDate);
 		}
+
 		var city_code=petition.get('arrivalPoint.id');
 		if (city_code!=null) {
 			var self=this;
@@ -43,8 +39,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 				});
 			});
 		}
-
-
 	},
 
 	setupController: function(controller, model) {
@@ -52,7 +46,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('arrivalPoints', this.store.findAll('city'));
 		controller.set('countries', this.store.findAll('country'));
 		controller.set('departurePoints', this.store.query('city',{ country: 10}));
-		controller.set('movement-categories', this.store.findAll('movementCategory'));
 		controller.set('transportations', this.store.findAll('transportation'));
 		controller.set('projects', this.store.findAll('project'));
 		controller.set('specialties', this.store.findAll('specialty'));

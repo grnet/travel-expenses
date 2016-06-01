@@ -20,11 +20,9 @@ export default Ember.Controller.extend({
 				if (id == 10){
 					movementID = 'http://127.0.0.1:8000/petition/movement_categories/1/';
 
-
 					self.store.findRecord('movement-category', movementID).then(function(mc) {
 						self.get('model').set('movementCategory',mc)		
 					});
-
 				}
 				else{
 					movementID = 'http://127.0.0.1:8000/petition/movement_categories/2/';
@@ -47,7 +45,6 @@ export default Ember.Controller.extend({
 
 		petitionSave(){
 
-
 			let profileIsValid=this.get('model.validations.isValid');
 
 			if (profileIsValid) {
@@ -55,12 +52,9 @@ export default Ember.Controller.extend({
 				var rec = this.store.peekRecord('petition-status',ENV.petition_status_1);
 				this.get('model').set('status', rec);
 
-				// let now=this.get('now');
-				// this.get('model').set('creationDate',now);
-				// this.get('model').set('updateDate',now);
-
 				var self=this;
 				this.get('model').save().then(function(value) {
+					
 					self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
 					self.set('petitionNotSaved',false);
 					Ember.$('#divMessage').removeClass('redMessage');
@@ -76,17 +70,12 @@ export default Ember.Controller.extend({
 		},
 		petitionSubmit(){
 
-
 			let profileIsValid=this.get('model.validations.isValid');
 
 			if (profileIsValid) {
+
 				var rec = this.store.peekRecord('petition-status',ENV.petition_status_2);
-
-
 				this.get('model').set('status', rec);
-				// let now=this.get('now');
-				// this.get('model').set('creationDate',now);
-				// this.get('model').set('updateDate',now);
 
 				var self=this;
 				this.get('model').save().then(function(value) {
@@ -95,6 +84,7 @@ export default Ember.Controller.extend({
 					Ember.$('#divMessage').removeClass('redMessage');
 					Ember.$('#divMessage').addClass('greenMessage');
 					self.transitionToRoute('petitionList');
+
 				}, function(reason) {
 
 					self.set('petitionMessage','Η υποβολή των στοιχείων της αίτησης σας απέτυχε...');
@@ -103,6 +93,7 @@ export default Ember.Controller.extend({
 				});
 			}
 		},
+
 		setArrivalPoint(id){
 			var rec = this.store.peekRecord('city', id);
 			this.get('model').set('arrivalPoint', rec);
@@ -114,11 +105,6 @@ export default Ember.Controller.extend({
 			this.get('model').set('departurePoint', rec);
 
 		},
-
-		//setMovementCategory(id){
-		//	var rec = this.store.peekRecord('movement-category', id);
-		//	this.get('model').set('movementCategory', rec);
-		//},
 
 		setTransportation(id){
 			var rec = this.store.peekRecord('transportation', id);
@@ -160,6 +146,4 @@ export default Ember.Controller.extend({
 			Ember.$('#submit').prop('disabled', true);
 		}
 	},
-
-
 });
