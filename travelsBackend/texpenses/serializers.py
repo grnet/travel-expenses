@@ -245,9 +245,9 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
         print "Create an empty advanced petition"
 
-        ac = Accomondation(user=user_object, hotel="Hotel")
+        ac = Accomondation(user=user_object, hotel="Hotel", hotelPrice=0.0)
         ac.save()
-        fl = Flight(user=user_object, flightName="Flight")
+        fl = Flight(user=user_object, flightName="Flight", flightPrice=0.0)
         fl.save()
         feeding_kind_1 = FeedingKind.objects.get(id=1)
         ap = AdvancedPetition(accomondation=ac, flight=fl,

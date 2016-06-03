@@ -308,8 +308,15 @@ class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     def update(self, request, pk=None):
         hotel = self.get_object()
-        print request.data['hotelPrice']
-        hotel_cost = float(request.data['hotelPrice'])
+        price = request.data['hotelPrice']
+
+        hotel_cost = 0.0
+        try:
+            hotel_cost = float(price)
+        except ValueError:
+            hotel_cost = 0.0
+            request.data['hotelPrice'] = hotel_cost
+
         max_overnight = 0
 
         advanced_petition = AdvancedPetition.objects.get(accomondation=hotel)
@@ -327,6 +334,7 @@ class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
                              ' exceeds max hotel cost:' +
                              str(max_overnight)},
                             status=status.HTTP_400_BAD_REQUEST)
+
         return super(AccomondationViewSet, self).update(request, pk)
 
     serializer_class = AccomondationSerializer
@@ -393,6 +401,18 @@ class FlightViewSet(LoggingMixin, viewsets.ModelViewSet):
             return Flight.objects.all()
         else:
             return Flight.objects.filter(user=request_user)
+
+    def update(self, request, pk=None):
+        price = request.data['flightPrice']
+
+        flight_cost = 0.0
+        try:
+            flight_cost = float(price)
+        except ValueError:
+            flight_cost = 0.0
+            request.data['flightPrice'] = flight_cost
+
+        return super(FlightViewSet, self).update(request, pk)
     serializer_class = FlightSerializer
 
 
