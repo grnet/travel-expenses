@@ -22,6 +22,11 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 		if (modelName === "flight" && requestType==="findAll"){
 			url = this.get('host') +this.get('namespace')+"/flight/";
 		}
+		if (requestType === "updateRecord"){
+
+			url = id;
+		}
+
 
 		return url;
 	} 

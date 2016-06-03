@@ -308,6 +308,7 @@ class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     def update(self, request, pk=None):
         hotel = self.get_object()
+        print request.data['hotelPrice']
         hotel_cost = float(request.data['hotelPrice'])
         max_overnight = 0
 

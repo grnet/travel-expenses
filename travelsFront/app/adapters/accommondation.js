@@ -20,8 +20,13 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 		}
 		if (modelName === "accommondation" && requestType==="findAll"){
 			url = this.get('host') +this.get('namespace')+"/accomondation/";
-			
+
 		}
+		if (requestType === "updateRecord"){
+
+			url = id;
+		}
+		console.log(url);
 
 		return url;
 	} 

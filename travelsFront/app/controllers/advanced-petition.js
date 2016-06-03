@@ -51,7 +51,7 @@ export default Ember.Controller.extend({
 			if (petition.get('hasDirtyAttributes')) {
 
 				var changed_attributes=petition.changedAttributes();
-
+				console.log(changed_attributes);
 
 				var dd=changed_attributes['depart_date'];
 				var rd=changed_attributes['return_date'];
@@ -59,7 +59,7 @@ export default Ember.Controller.extend({
 				var tsd=changed_attributes['taskStartDate'];
 
 				if (dd!=null) {
-					var before=dd[0].substring(0,dd[0].length-1);
+					var before=dd[0];
 					var after=dd[1];
 					if (before!=after) {
 						self.set('datesChanged',true);
@@ -67,7 +67,7 @@ export default Ember.Controller.extend({
 
 				}
 				if (rd!=null) {
-					var before=rd[0].substring(0,rd[0].length-1);
+					var before=rd[0];
 					var after=rd[1];
 					if (before!=after) {
 						self.set('datesChanged',true);
@@ -75,7 +75,7 @@ export default Ember.Controller.extend({
 				}
 
 				if (ted!=null) {
-					var before=ted[0].substring(0,ted[0].length-1);
+					var before=ted[0];
 					var after=ted[1];
 					if (before!=after) {
 						self.set('datesChanged',true);
@@ -83,7 +83,7 @@ export default Ember.Controller.extend({
 				}
 
 				if (tsd!=null) {
-					var before=tsd[0].substring(0,tsd[0].length-1);
+					var before=tsd[0];
 					var after=tsd[1];
 					if (before!=after) {
 						self.set('datesChanged',true);
@@ -103,34 +103,48 @@ export default Ember.Controller.extend({
 			var petition=self.get('model');
 
 			var a_petition=petition.get('advanced_info');
+			var hotel=a_petition.get('accomondation');
+			var flight=a_petition.get('flight');
 
 			var ap_model=self.store.peekRecord('advanced-petition',a_petition.get('id'));
 
-			if (petition.get('hasDirtyAttributes')||ap_model.get('hasDirtyAttributes') ) {
-
-				if (profileIsValid) {
-					console.log(petition.changedAttributes());
-
-					//var rec = this.store.peekRecord('petition-status',ENV.petition_status_3);
-					//self.get('model').set('status', rec);
-					petition.save().then(function(value) {
-						self.set('petitionMessage','Τα στοιχεία της αίτησης έχουν αποθηκευθεί επιτυχώς !');
-						self.set('petitionNotSaved',false);
-						Ember.$('#divMessage').removeClass('redMessage');
-						Ember.$('#divMessage').addClass('greenMessage');
-						Ember.$('#submit').prop('disabled', false);
+			var hotel_model=self.store.peekRecord('accommondation',hotel.get('id'));
+			var flight_model=self.store.peekRecord('flight',flight.get('id'));
 
 
-					}, function(reason) {
-						self.set('petitionMessage','Η αποθήκευση των στοιχείων της αίτησης απέτυχε...');
-						Ember.$('#divMessage').removeClass('greenMessage');
-						Ember.$('#divMessage').addClass('redMessage');
+			if (profileIsValid) {
+
+				//var rec = this.store.peekRecord('petition-status',ENV.petition_status_3);
+				//self.get('model').set('status', rec);
+				//
+
+				hotel_model.save().then(function(hotel){
+					flight_model.save().then(function(flight){
+
+						ap_model.save().then(function(ap){
+							petition.save().then(function(value) {
+								self.set('petitionMessage','Τα στοιχεία της αίτησης έχουν αποθηκευθεί επιτυχώς !');
+								self.set('petitionNotSaved',false);
+								Ember.$('#divMessage').removeClass('redMessage');
+								Ember.$('#divMessage').addClass('greenMessage');
+								Ember.$('#submit').prop('disabled', false);
+
+
+							}, function(reason) {
+								self.set('petitionMessage','Η αποθήκευση των στοιχείων της αίτησης απέτυχε...');
+								Ember.$('#divMessage').removeClass('greenMessage');
+								Ember.$('#divMessage').addClass('redMessage');
+							});
+
+						});
+
 					});
 
+				});
 
 
-				}	
-			}
+
+			}	
 
 		},
 
