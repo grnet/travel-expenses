@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
 
 	country_selected: false,
 	arrivalPoints: null,
-	
+
 	actions: {
 
 		setCountry(value){
@@ -104,16 +104,16 @@ export default Ember.Controller.extend({
 
 			var a_petition=petition.get('advanced_info');
 
+			var ap_model=self.store.peekRecord('advanced-petition',a_petition.get('id'));
 
-
-			if (petition.get('hasDirtyAttributes') || a_petition.get('hasDirtyAttributes')) {
+			if (petition.get('hasDirtyAttributes')||ap_model.get('hasDirtyAttributes') ) {
 
 				if (profileIsValid) {
+					console.log(petition.changedAttributes());
 
 					//var rec = this.store.peekRecord('petition-status',ENV.petition_status_3);
 					//self.get('model').set('status', rec);
-
-					self.get('model').save().then(function(value) {
+					petition.save().then(function(value) {
 						self.set('petitionMessage','Τα στοιχεία της αίτησης έχουν αποθηκευθεί επιτυχώς !');
 						self.set('petitionNotSaved',false);
 						Ember.$('#divMessage').removeClass('redMessage');
@@ -126,6 +126,9 @@ export default Ember.Controller.extend({
 						Ember.$('#divMessage').removeClass('greenMessage');
 						Ember.$('#divMessage').addClass('redMessage');
 					});
+
+
+
 				}	
 			}
 

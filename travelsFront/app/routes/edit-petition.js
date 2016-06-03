@@ -14,19 +14,19 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 
 	afterModel(petition){
 
-		let endDate=petition.get('taskEndDate');
-		if (endDate!==null) {
-			//endDate=endDate.substring(0,endDate.length-1);
-			endDate=endDate.replace('Z','');
-			petition.set('taskEndDate',endDate);
-		}
+		//let endDate=petition.get('taskEndDate');
+		//if (endDate!==null) {
+			////endDate=endDate.substring(0,endDate.length-1);
+			//endDate=endDate.replace('Z','');
+			//petition.set('taskEndDate',endDate);
+		//}
 
-		let startDate=petition.get('taskStartDate');
-		if (startDate!==null){ 
-			//startDate=startDate.substring(0,startDate.length-1);
-			startDate=startDate.replace('Z','');
-			petition.set('taskStartDate',startDate);
-		}
+		//let startDate=petition.get('taskStartDate');
+		//if (startDate!==null){ 
+			////startDate=startDate.substring(0,startDate.length-1);
+			//startDate=startDate.replace('Z','');
+			//petition.set('taskStartDate',startDate);
+		//}
 
 		var city_code=petition.get('arrivalPoint.id');
 		if (city_code!=null) {

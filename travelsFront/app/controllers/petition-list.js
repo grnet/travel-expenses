@@ -20,7 +20,6 @@ export default Ember.Controller.extend({
 						Ember.$('#divMessage').removeClass('redMessage');
 						Ember.$('#divMessage').addClass('greenMessage');
 
-
 					}, function(reason) {
 						self.set('statePetitionList', false);
 						self.set('deleteMessage', 'Η διαγραφή της αίτησης σας απέτυχε...');

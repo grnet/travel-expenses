@@ -31,7 +31,7 @@ export default DS.Model.extend(Validations,{
     compensation_petition_date: DS.attr(),
     compensation_decision_protocol: DS.attr(),
     compensation_decision_date: DS.attr(),
-    transport_days_manual: DS.attr(),
-    overnights_num_manual: DS.attr(),
-    compensation_days_manual: DS.attr()
+    transport_days_manual: DS.attr('number'),
+    overnights_num_manual: DS.attr('number'),
+    compensation_days_manual: DS.attr('number')
 });

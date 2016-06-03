@@ -61,20 +61,20 @@ export default Ember.Controller.extend({
 					Ember.$('#divMessage').removeClass('redMessage');
 					Ember.$('#divMessage').addClass('greenMessage');
 
-					let endDate=self.get('model.taskEndDate');
-					if (endDate!==null) {
+					//let endDate=self.get('model.taskEndDate');
+					//if (endDate!==null) {
 
-						endDate=endDate.replace('Z','');
-						self.set('model.taskEndDate',endDate);
-					}
+						//endDate=endDate.replace('Z','');
+						//self.set('model.taskEndDate',endDate);
+					//}
 
 
-					let startDate=self.get('model.taskStartDate');
-					if(startDate!==null){
+					//let startDate=self.get('model.taskStartDate');
+					//if(startDate!==null){
 
-						startDate=startDate.replace('Z','');
-						self.set('model.taskStartDate',startDate);
-					}
+						//startDate=startDate.replace('Z','');
+						//self.set('model.taskStartDate',startDate);
+					//}
 				}, function(reason) {
 					console.log("reason " + reason);
 					console.log("Model id in after save " +  self.get('model.id'));
@@ -104,21 +104,21 @@ export default Ember.Controller.extend({
 					self.transitionToRoute('petitionList');
 					self.set('country_selected',false);
 					
-					let endDate=self.get('model.taskEndDate');
-					if (endDate!==null) {
+					//let endDate=self.get('model.taskEndDate');
+					//if (endDate!==null) {
 
-						endDate=endDate.replace('Z','');
+						//endDate=endDate.replace('Z','');
 
-						self.set('model.taskEndDate',endDate);
-					}
+						//self.set('model.taskEndDate',endDate);
+					//}
 
 
-					let startDate=self.get('model.taskStartDate');
-					if(startDate!==null){
-						startDate=startDate.replace('Z','');
+					//let startDate=self.get('model.taskStartDate');
+					//if(startDate!==null){
+						//startDate=startDate.replace('Z','');
 
-						self.set('model.taskStartDate',startDate);
-					}
+						//self.set('model.taskStartDate',startDate);
+					//}
 
 				}, function(reason) {
 					self.set('editMessage','Η υποβολή των στοιχείων της αίτησης σας απέτυχε...');

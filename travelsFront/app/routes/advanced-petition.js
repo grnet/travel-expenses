@@ -3,6 +3,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 import ENV from 'travels-front/config/environment'; 
 
 export default Ember.Route.extend(AuthenticatedRouteMixin,{
+
 	model(params) {
 
 		let id=params.ap_id
@@ -15,33 +16,35 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 
 	afterModel(petition){
 
-		let endDate=petition.get('taskEndDate');
-		if (endDate!==null) {
-			//endDate=endDate.substring(0,endDate.length-1);
-			endDate=endDate.replace('Z','');
-			petition.set('taskEndDate',endDate);
-		}
+		//let endDate=petition.get('taskEndDate');
+		//console.log('Unformatted date:'+endDate);
+		//console.log('Formatted date:'+moment(endDate).format('yyyy-MM-ddThh:mm'));
+		//if (endDate!==null) {
+			////endDate=endDate.substring(0,endDate.length-1);
+			//endDate=endDate.replace('Z','');
+			//petition.set('taskEndDate',endDate);
+		//}
 
-		let startDate=petition.get('taskStartDate');
-		if (startDate!==null){ 
-			//startDate=startDate.substring(0,startDate.length-1);
-			startDate=startDate.replace('Z','');
-			petition.set('taskStartDate',startDate);
-		}
+		//let startDate=petition.get('taskStartDate');
+		//if (startDate!==null){ 
+			////startDate=startDate.substring(0,startDate.length-1);
+			//startDate=startDate.replace('Z','');
+			//petition.set('taskStartDate',startDate);
+		//}
 
-		let startTripDate=petition.get('depart_date');
-		if (startTripDate!==null){ 
+		//let startTripDate=petition.get('depart_date');
+		//if (startTripDate!==null){ 
 
-			startTripDate=startTripDate.replace('Z','');
-			petition.set('depart_date',startTripDate);
-		}
+			//startTripDate=startTripDate.replace('Z','');
+			//petition.set('depart_date',startTripDate);
+		//}
 
-		let endTripDate=petition.get('return_date');
-		if (endTripDate!==null){ 
+		//let endTripDate=petition.get('return_date');
+		//if (endTripDate!==null){ 
 
-			endTripDate=endTripDate.replace('Z','');
-			petition.set('return_date',endTripDate);
-		}
+			//endTripDate=endTripDate.replace('Z','');
+			//petition.set('return_date',endTripDate);
+		//}
 
 		var ap_id=petition.get('advanced_info.id');
 		let self=this;
@@ -56,7 +59,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		if (movement_id!=null) {
 
 			self.store.findRecord('movement-category',movement_id).then(function(movement_category) {
-				console.log("movement-category", this.get('movement_id'))
+				console.log("movement-category", self.get('movement_id'))
 			});
 		}
 

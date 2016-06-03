@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'rest_framework_docs',
 )
 REST_FRAMEWORK = {
+    'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S",
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
@@ -97,10 +98,11 @@ LANGUAGE_CODE = 'en-us'
 
 # TIME_ZONE = 'UTC'
 TIME_ZONE = 'Europe/Athens'
+DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 
