@@ -9,9 +9,12 @@ export default Ember.Controller.extend({
 			var credentials = this.getProperties('identification', 'password'),
 				authenticator = 'authenticator:token';
 
-				this.get('session').authenticate(authenticator, credentials).catch((reason) => {
-					this.set('errorMessage', reason.error || reason);
-				});
+				// this.get('session').authenticate(authenticator, credentials).catch((reason) => {
+				// 	this.set('errorMessage', reason.error || reason);
+				// });
+			this.get('session').authenticate(authenticator, credentials).then(() => { 
+    			this.get("account").loadCurrentUser();
+			});
 
 		}
 	}

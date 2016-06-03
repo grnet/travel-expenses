@@ -6,7 +6,7 @@
 
 			{{#if session.isAuthenticated}}
 				<ul class="nav navbar-nav navbar-right">
-					<div>Logged in as: {{currentUser.username}}</div>
+					<div>Logged in as: {{account.user.username}}</div>
 					<a {{action "invalidateSession"}}>Logout</a>
 				</ul>	
 				<ul class="nav navbar-nav navbar-left">

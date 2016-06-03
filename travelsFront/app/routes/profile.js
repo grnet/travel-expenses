@@ -6,7 +6,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		
 		return this.store.findRecord('profile',1);
 	},
-
+	
 	setupController: function(controller, model) {
 		this._super(controller, model);
 		controller.set('specialties', this.store.findAll('specialty'));

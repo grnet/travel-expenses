@@ -58,6 +58,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		var movement_id=petition.get('movementCategory.id');
 		if (movement_id!=null) {
 
+
 			self.store.findRecord('movement-category',movement_id).then(function(movement_category) {
 				console.log("movement-category", self.get('movement_id'))
 			});
