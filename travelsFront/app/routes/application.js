@@ -2,9 +2,10 @@ import Ember from 'ember';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
 export default Ember.Route.extend(ApplicationRouteMixin,{
-	user: null,
+	// user: null,
 
 	beforeModel(){
-    	let user = this.get("account").loadCurrentUser();
+    	// let user = this.get("account").loadCurrentUser();
+    	this.get("account").loadCurrentUser();
 	},	
 });
