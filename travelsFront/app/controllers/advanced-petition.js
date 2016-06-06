@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import ENV from 'travels-front/config/environment'; 
+
 
 export default Ember.Controller.extend({
 	petitionMessage:'',
@@ -111,6 +113,8 @@ export default Ember.Controller.extend({
 			var hotel_model=self.store.peekRecord('accommondation',hotel.get('id'));
 			var flight_model=self.store.peekRecord('flight',flight.get('id'));
 
+			var status = this.store.peekRecord('petition-status',ENV.petition_status_3);
+			petition.set('status', status);
 
 			if (profileIsValid) {
 
@@ -120,6 +124,7 @@ export default Ember.Controller.extend({
 
 				hotel_model.save().then(function(hotel){
 					flight_model.save().then(function(flight){
+
 
 						ap_model.save().then(function(ap){
 							petition.save().then(function(value) {
