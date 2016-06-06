@@ -26,7 +26,6 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 
 			url = id;
 		}
-		console.log(url);
 
 		return url;
 	} 

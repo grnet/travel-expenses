@@ -1,9 +1,9 @@
 <div class="container">
-	<form class="form-horizontal col-md-12" {{action "clearMessage" on="click"}} role="form">
+	<form class="form-horizontal col-md-12"  role="form">
 		{{partial 'profile-form'}}
-		
+
 		{{partial 'petition-form'}}
-		
+
 		<button type="submit" class="btn btn-primary" {{action "petitionSave"}} disabled={{v-get model 'isInvalid'}}>Αποθήκευση Στοιχείων</button>
 		<button type="submit" class="btn btn-primary" id="submit" {{action "petitionSubmit"}} disabled={{v-get model 'isInvalid'}}>Υποβολή Αίτησης</button>
 

@@ -45,7 +45,7 @@ export default Ember.Controller.extend({
 
 		petitionSave(){
 
-			let profileIsValid=this.get('model.validations.isValid');
+		let profileIsValid=this.get('model.validations.isValid');
 
 			if (profileIsValid) {
 

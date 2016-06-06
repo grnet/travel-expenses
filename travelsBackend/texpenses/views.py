@@ -597,10 +597,10 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         now = datetime.datetime.now()
 
         task_start = datetime.datetime.strptime(
-            task_start, '%Y-%m-%dT%H:%M:%S')
+            task_start, '%Y-%m-%dT%H:%M')
 
         task_end = datetime.datetime.strptime(
-            task_end, '%Y-%m-%dT%H:%M:%S')
+            task_end, '%Y-%m-%dT%H:%M')
 
         if task_start < now:
             result['error'] = True
@@ -621,10 +621,10 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         if user_group == 'SECRETARY':
             depart_date = datetime.datetime.strptime(
-                depart_date, '%Y-%m-%dT%H:%M:%S')
+                depart_date, '%Y-%m-%dT%H:%M')
 
             return_date = datetime.datetime.strptime(
-                return_date, '%Y-%m-%dT%H:%M:%S')
+                return_date, '%Y-%m-%dT%H:%M')
             if depart_date < now:
                 result['error'] = True
                 result['msg'] = 'Depart date should be after today'

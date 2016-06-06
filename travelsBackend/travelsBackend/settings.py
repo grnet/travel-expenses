@@ -47,7 +47,8 @@ INSTALLED_APPS = (
     'rest_framework_docs',
 )
 REST_FRAMEWORK = {
-    'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S",
+    # 'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S",
+    'DATETIME_FORMAT': "%Y-%m-%dT%H:%M",
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
