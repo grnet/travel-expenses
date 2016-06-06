@@ -390,7 +390,9 @@ class Petition(models.Model):
         return result
 
     def trip_days_after(self):
-        return self.trip_days_before - self.transport_days()
+        if self.trip_days_before:
+            return self.trip_days_before - self.transport_days()
+        return 0
 
     def compensation_days(self):
         if self.advanced_info.compensation_days_manual:

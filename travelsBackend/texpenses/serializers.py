@@ -281,8 +281,9 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
 
         instance.advanced_info.compensation = compensation_object
         instance.advanced_info.save()
+        submission_statuses = [2, 4, 5, 6, 7, 8, 9]
 
-        if status.id > 1 and status.id < 10:
+        if status.id in submission_statuses:
             user_object.trip_days_left = instance.trip_days_after()
             user_object.save()
 

@@ -542,7 +542,8 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         none_mandatory_fields = ['accomondation', 'recCostParticipation',
                                  'recTransport', 'recAccomondation',
                                  'depart_date', 'return_date']
-        if user_group_name == 'SECRETARY':
+        print user_group_name
+        if user_group_name in ['SECRETARY', 'Unknown']:
             none_mandatory_fields = ['accomondation', 'recCostParticipation',
                                      'recTransport', 'recAccomondation']
         keys = request.data.keys()
@@ -619,7 +620,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             result['msg'] = 'Task end date should be after task start date'
             return result
 
-        if user_group == 'SECRETARY':
+        if user_group in ['SECRETARY', 'Unknown']:
             depart_date = datetime.datetime.strptime(
                 depart_date, '%Y-%m-%dT%H:%M')
 
@@ -650,8 +651,9 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         chosen_status = chosen_status[
             chosen_status.index('status') + 7:-1]
         chosen_status = int(chosen_status)
+        submission_statuses = [2, 4, 5, 6, 7, 8, 9]
 
-        if chosen_status > 1 and chosen_status < 10:
+        if chosen_status in submission_statuses:
 
             tsd = request.data['taskStartDate']
             ted = request.data['taskEndDate']
@@ -690,8 +692,9 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         chosen_status = chosen_status[
             chosen_status.index('status') + 7:-1]
         chosen_status = int(chosen_status)
+        submission_statuses = [2, 4, 5, 6, 7, 8, 9]
 
-        if chosen_status > 1 and chosen_status < 10:
+        if chosen_status in submission_statuses:
 
             tsd = request.data['taskStartDate']
 
