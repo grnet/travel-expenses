@@ -512,6 +512,10 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         :returns: TODO
 
         """
+        user_groups = request.user.groups.all()
+        user_group_name = 'Unknown'
+        if user_groups:
+            user_group_name = user_groups[0].name
         try:
             name = request.data['name']
             surname = request.data['surname']
@@ -532,9 +536,15 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             transportation = request.data['transportation']
         except KeyError:
             print "Shit"
+
             return False
 
-        none_mandatory_fields = ['accomondation', 'recCostParticipation']
+        none_mandatory_fields = ['accomondation', 'recCostParticipation',
+                                 'recTransport', 'recAccomondation',
+                                 'depart_date', 'return_date']
+        if user_group_name == 'SECRETARY':
+            none_mandatory_fields = ['accomondation', 'recCostParticipation',
+                                     'recTransport', 'recAccomondation']
         keys = request.data.keys()
 
         for key in keys:
@@ -552,7 +562,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         petition = self.get_object()
         pet_status = petition.status.id
-        petition_status_to_delete = [1, 9]
+        petition_status_to_delete = [1, 10]
 
         if pet_status in petition_status_to_delete:
             print "Deleting petition with id:" + str(pk)
@@ -580,7 +590,8 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
                          the specific Petition"},
                         status=status.HTTP_403_FORBIDDEN)
 
-    def date_check(self, task_start, task_end, depart_date, return_date):
+    def date_check(self, task_start, task_end, depart_date, return_date,
+                   user_group):
 
         result = {'error': False, 'msg': ''}
         now = datetime.datetime.now()
@@ -590,12 +601,6 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         task_end = datetime.datetime.strptime(
             task_end, '%Y-%m-%dT%H:%M:%S')
-
-        depart_date = datetime.datetime.strptime(
-            depart_date, '%Y-%m-%dT%H:%M:%S')
-
-        return_date = datetime.datetime.strptime(
-            return_date, '%Y-%m-%dT%H:%M:%S')
 
         if task_start < now:
             result['error'] = True
@@ -614,23 +619,27 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             result['msg'] = 'Task end date should be after task start date'
             return result
 
-        if depart_date < now:
+        if user_group == 'SECRETARY':
+            depart_date = datetime.datetime.strptime(
+                depart_date, '%Y-%m-%dT%H:%M:%S')
 
-            result['error'] = True
-            result['msg'] = 'Depart date should be after today'
-            return result
+            return_date = datetime.datetime.strptime(
+                return_date, '%Y-%m-%dT%H:%M:%S')
+            if depart_date < now:
+                result['error'] = True
+                result['msg'] = 'Depart date should be after today'
+                return result
 
-        if return_date < now:
+            if return_date < now:
+                result['error'] = True
+                result['msg'] = 'Return date should be after today'
+                return result
 
-            result['error'] = True
-            result['msg'] = 'Return date should be after today'
-            return result
+            if return_date < depart_date:
 
-        if return_date < depart_date:
-
-            result['error'] = True
-            result['msg'] = 'Return date should be after departure date'
-            return result
+                result['error'] = True
+                result['msg'] = 'Return date should be after departure date'
+                return result
         return result
 
     def create(self, request):
@@ -642,24 +651,29 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             chosen_status.index('status') + 7:-1]
         chosen_status = int(chosen_status)
 
-        if chosen_status > 1 and chosen_status < 9:
+        if chosen_status > 1 and chosen_status < 10:
 
             tsd = request.data['taskStartDate']
             ted = request.data['taskEndDate']
             dd = request.data['depart_date']
             rd = request.data['return_date']
 
+            user_groups = request.user.groups.all()
+            user_group_name = 'Unknown'
+            if user_groups:
+                user_group_name = user_groups[0].name
+
             if self.checkDataCompleteness(request):
+                date_check_result = self.date_check(tsd, ted, dd, rd,
+                                                    user_group_name)
+                if date_check_result['error']:
+                    return Response({'error': date_check_result['msg']},
+                                    status=status.HTTP_400_BAD_REQUEST)
                 return super(UserPetitionViewSet, self).create(request)
             else:
                 return Response({'error': 'Petition is not complete,\
                                  please insert all mandatory fields\
                                  (missing field:' + self.missing_field + ')'},
-                                status=status.HTTP_400_BAD_REQUEST)
-
-            date_check_result = self.date_check(tsd, ted, dd, rd)
-            if date_check_result['error']:
-                return Response({'error': date_check_result['msg']},
                                 status=status.HTTP_400_BAD_REQUEST)
 
         if chosen_status is None:
@@ -677,7 +691,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             chosen_status.index('status') + 7:-1]
         chosen_status = int(chosen_status)
 
-        if chosen_status > 1 and chosen_status < 9:
+        if chosen_status > 1 and chosen_status < 10:
 
             tsd = request.data['taskStartDate']
 
@@ -685,16 +699,23 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             dd = request.data['depart_date']
             rd = request.data['return_date']
 
+            user_groups = request.user.groups.all()
+            user_group_name = 'Unknown'
+            if user_groups:
+                user_group_name = user_groups[0].name
+
             if self.checkDataCompleteness(request):
+                date_check_result = self.date_check(tsd, ted, dd, rd,
+                                                    user_group_name)
+                if date_check_result['error']:
+                    return Response({'error': date_check_result['msg']},
+                                    status=status.HTTP_400_BAD_REQUEST)
+
                 return super(UserPetitionViewSet, self).update(request, pk)
             else:
                 return Response({'error': 'Petition is not complete,\
                                  please insert all mandatory fields\
                                  (missing field:' + self.missing_field + ')'},
-                                status=status.HTTP_400_BAD_REQUEST)
-            date_check_result = self.date_check(tsd, ted, dd, rd)
-            if date_check_result['error']:
-                return Response({'error': date_check_result['msg']},
                                 status=status.HTTP_400_BAD_REQUEST)
 
         if chosen_status is None:

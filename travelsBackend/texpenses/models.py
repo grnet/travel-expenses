@@ -181,7 +181,7 @@ class PetitionStatus(models.Model):
 
     """Docstring for Petition status. """
 
-    id = models.AutoField(primary_key=True)
+    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
 
     def __unicode__(self):
@@ -295,7 +295,7 @@ class Petition(models.Model):
     transportation = models.ForeignKey(Transportation, blank=True, null=True)
     recTransport = models.CharField(max_length=200, blank=True, null=True)
     recAccomondation = models.CharField(max_length=200, blank=True, null=True)
-    recCostParticipation = models.FloatField(blank=True, null=True, default=0.0)
+    recCostParticipation = models.FloatField(blank=True, null=True)
     status = models.ForeignKey(PetitionStatus)
     advanced_info = models.OneToOneField(
         AdvancedPetition, on_delete=models.CASCADE, blank=True, null=True)
@@ -521,9 +521,13 @@ class Petition(models.Model):
         flight = 0
         if self.advanced_info.flight.flightPrice:
             flight = self.advanced_info.flight.flightPrice
+        cost_participation = 0
+        if self.recCostParticipation:
+            cost_participation = self.recCostParticipation
+
         total = flight + \
             self.overnights_sum_cost() + \
-            self.compensation_final() + self.recCostParticipation
+            self.compensation_final() + cost_participation
         return total
 
     def __unicode__(self):

@@ -122,9 +122,7 @@
 		<div class="profileForm form-group">
 			<label for="recCostParticipation" class="col-sm-2 control-label">Κόστος Συμμετοχής</label>
 			<div class="col-sm-4">	
-				{{#character-limit max=100}}
-					{{textarea value=model.recCostParticipation type="textarea" cols="75" class="form-control"}}
-				{{/character-limit}}
+					{{input value=model.recCostParticipation type="number" class="form-control"}}
 			</div>
 		</div>
 

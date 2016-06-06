@@ -282,14 +282,14 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
         instance.advanced_info.compensation = compensation_object
         instance.advanced_info.save()
 
-        if status.id > 1 and status.id < 9:
+        if status.id > 1 and status.id < 10:
             user_object.trip_days_left = instance.trip_days_after()
             user_object.save()
 
         days_left = user_object.trip_days_left
         days_left_default = django_settings.MAX_HOLIDAY_DAYS
 
-        if status.id == 9 and days_left < days_left_default:
+        if status.id == 10 and days_left < days_left_default:
             user_object.trip_days_left = days_left + \
                 instance.transport_days()
             user_object.save()
