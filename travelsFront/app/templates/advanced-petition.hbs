@@ -39,9 +39,12 @@
 		</div>
 	</form><br><br>
 
-	<form class="form-horizontal col-md-12" {{action "clearMessage" on="click"}} role="form">
+	<form class="form-horizontal col-md-12 panel panel-default" {{action "clearMessage" on="click" preventDefault=false}} role="form">
+		<br>
+		
 		{{partial 'computed-petition'}}
 
+		<button type="submit" class="btn btn-primary">Τροποποίηση Υπολογιζόμενων Ημερών</button>
 	</form><br>
 </div>
 
