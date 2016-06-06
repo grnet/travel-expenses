@@ -1,5 +1,6 @@
 <div class="container">
-	<form class="form-horizontal col-md-12 panel panel-default" role="form">
+	<form class="form-horizontal col-md-12 panel panel-default" {{action "clearMessage" on="click" preventDefault=false}} role="form">
+
 		<br>
 		{{partial 'profile-form'}}
 

@@ -1,11 +1,13 @@
 <div class="container">
-	<form class="form-horizontal col-md-12"  role="form">
+	<form class="form-horizontal col-md-12" {{action "clearMessage" on="click" preventDefault=false}} role="form">
+
 		{{partial 'profile-form'}}
 
 		{{partial 'petition-form'}}
 
 		<button type="submit" class="btn btn-primary" {{action "petitionSave"}} disabled={{v-get model 'isInvalid'}}>Αποθήκευση Στοιχείων</button>
 		<button type="submit" class="btn btn-primary" id="submit" {{action "petitionSubmit"}} disabled={{v-get model 'isInvalid'}}>Υποβολή Αίτησης</button>
+
 
 		<div class="profileForm" id="divMessage">
 			{{#if (v-get model 'isValid') }}
@@ -14,10 +16,11 @@
 		</div>
 
 	</form><br>
-
 </div>
-
 {{outlet}}
+
+
+
 
 
 

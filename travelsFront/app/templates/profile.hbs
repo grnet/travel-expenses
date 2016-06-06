@@ -1,6 +1,6 @@
 <div class="container">
 
-	<form class="form-horizontal col-md-10" {{action "clearMessage" on="click"}}>
+	<form class="form-horizontal col-md-10" {{action "clearMessage" on="click" preventDefault=false}}>
 
 		<div class="profileForm form-group">
 			<label for="email" class="col-sm-2 control-label">Email</label>
@@ -118,6 +118,9 @@
 	</form>
 
 </div>
+
+
+
 
 {{outlet}}
 
