@@ -82,6 +82,7 @@ export default Ember.Controller.extend({
 				self.get('model').save().then(function(value) {
 
 					self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
+					self.set('petitionNotSaved',false);
 					Ember.$('#divMessage').removeClass('redMessage');
 					Ember.$('#divMessage').addClass('greenMessage');
 					self.transitionToRoute('petitionList');
