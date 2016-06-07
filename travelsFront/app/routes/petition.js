@@ -10,7 +10,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		rec.then(function(m) {
 			model.set('departurePoint', m)
 		})
-
+		var petitionNotSaved = model.get('hasDirtyAttributes');
+		
 		return model
 	},
 
@@ -50,10 +51,9 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('tax-offices', this.store.findAll('taxOffice'));
 		controller.set('categories', this.store.findAll('category'));
 		controller.set('petition-statuses', this.store.findAll('petition-status'));
-		controller.set('petitionMessage','');
-		controller.set('petitionNotSaved',true);
-
+		controller.set('petitionMessage','');	
 	},
+
 	actions: {
 		willTransition(transition) {
 			if (this.controller.get('petitionNotSaved') && !confirm('Are you sure you want to abandon progress?Any changes will be lost unless you save them')) {

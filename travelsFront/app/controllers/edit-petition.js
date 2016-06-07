@@ -58,6 +58,7 @@ export default Ember.Controller.extend({
 
 					self.set('country_selected',false);
 					self.set('editMessage','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
+					self.set('petitionNotSaved',false);
 					Ember.$('#divMessage').removeClass('redMessage');
 					Ember.$('#divMessage').addClass('greenMessage');
 
@@ -99,6 +100,7 @@ export default Ember.Controller.extend({
 				this.get('model').save().then(function(value) {
 
 					self.set('editMessage','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
+					self.set('petitionNotSaved',false);
 					Ember.$('#divMessage').removeClass('redMessage');
 					Ember.$('#divMessage').addClass('greenMessage');
 					self.transitionToRoute('petitionList');

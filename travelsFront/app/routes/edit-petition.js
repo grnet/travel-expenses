@@ -54,6 +54,21 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('categories', this.store.findAll('category'));
 		controller.set('petition-statuses', this.store.findAll('petition-status'));
 		controller.set('editMessage','');
+		controller.set('petitionNotSaved', true);
 
+	},
+
+	actions: {
+		willTransition(transition) {
+			if (this.controller.get('petitionNotSaved') && !confirm('Are you sure you want to abandon progress?Any changes will be lost unless you save them')) {
+				console.log('not saved');
+				transition.abort();
+			} else {
+				// Bubble the `willTransition` action so that
+				// parent routes can decide whether or not to abort.
+				console.log('saved');
+				return true;
+			} 
+		}
 	}
 });
