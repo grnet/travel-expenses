@@ -127,7 +127,9 @@ export default Ember.Controller.extend({
 
 
 						ap_model.save().then(function(ap){
-							petition.save().then(function(value) {
+							petition.save().then(function(pet) {
+
+								ap.reload();	
 								self.set('petitionMessage','Τα στοιχεία της αίτησης έχουν αποθηκευθεί επιτυχώς !');
 								self.set('petitionNotSaved',false);
 								Ember.$('#divMessage').removeClass('redMessage');
