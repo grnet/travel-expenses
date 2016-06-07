@@ -14,7 +14,7 @@
 			Αποθήκευση Αλλαγών
 		</button>
 
-		<!-- Modal -->
+		<!-- Modal for save advanced petition-->
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -44,7 +44,41 @@
 		
 		{{partial 'computed-petition'}}
 
-		<button type="submit" class="btn btn-primary">Τροποποίηση Υπολογιζόμενων Ημερών</button>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datesModal">
+			Τροποποίηση Υπολογιζόμενων Ημερών
+		</button>
+
+		<!-- Modal for change dates in computed petition-->
+		<div class="modal fade" id="datesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Τροποποίηση Υπολογιζόμενων Ημερών</h4>
+					</div>
+					<div class="modal-body">
+				
+						<label for="transport_days_manual" class="control-label">Ημέρες Μετακίνησης Εργασιών</label>
+						
+							{{input value=model.advanced_info.transport_days_manual type="number" class="form-control"}}
+				
+						<label for="overnights_num_manual" class="control-label">Διανυκτερεύσεις</label>
+						
+							{{input value=model.advanced_info.overnights_num_manual type="number" class="form-control"}}
+						
+						<label for="compensation_days_manual" class="control-label">Ημέρες Αποζημίωσης</label>
+						
+							{{input value=model.advanced_info.compensation_days_manual type="number" class="form-control"}}
+						
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
+						<button type="submit" class="btn btn-primary" data-dismiss="modal">Αποθήκευση</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</form><br>
 </div>
 
