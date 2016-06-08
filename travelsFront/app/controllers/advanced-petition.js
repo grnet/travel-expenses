@@ -48,12 +48,13 @@ export default Ember.Controller.extend({
 		checkDates(){
 			var self=this;
 			var petition=self.get('model');
+			console.log("This is my strange model petition", petition)
 
 
 			if (petition.get('hasDirtyAttributes')) {
 
 				var changed_attributes=petition.changedAttributes();
-				console.log(changed_attributes);
+				console.log("Have I changed ? ", changed_attributes);
 
 				var dd=changed_attributes['depart_date'];
 				var rd=changed_attributes['return_date'];
@@ -141,12 +142,10 @@ export default Ember.Controller.extend({
 
 						});
 
+
 					});
 
 				});
-
-
-
 			}	
 
 		},
@@ -260,7 +259,15 @@ export default Ember.Controller.extend({
 		clearMessage(){
 			var self=this;
 			self.set('petitionMessage','');
-			//Ember.$('#submit').prop('disabled', true);
+
+			var petition=self.get('model');
+			var a_petition=petition.get('advanced_info');
+			var hotel=a_petition.get('accomondation');
+			var flight=a_petition.get('flight');
+
+			if (petition.get('hasDirtyAttributes') || a_petition.get('hasDirtyAttributes') || hotel.get('hasDirtyAttributes') || flight.get('hasDirtyAttributes')) {
+				Ember.$('#compute').prop('disabled', true);
+			}	
 		}
 	}	
 });
