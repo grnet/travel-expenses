@@ -1,3 +1,4 @@
+{{#if (can "approve petition")}}
 <div>
 	<table class="table table-sm" > 
 		<thead>
@@ -37,11 +38,8 @@
 	</table>
 
 </div>
-
-{{#if (can "approve petition")}}
-  <button {{action "new"}}>Approve</button>
 {{else}}
-  You can't approve this petition
+  We are sorry but you don't have permmission to view this page...
 {{/if}}
 
 {{outlet}}

@@ -13,7 +13,9 @@
 					{{#link-to "profile" tagName="li"}}<a href="">Προφίλ</a>{{/link-to}}
 					{{#link-to "petition" tagName="li"}}<a href="">Νέα Αίτηση</a>{{/link-to}}
 					{{#link-to "petitionList" tagName="li"}}<a href="">Αιτήσεις</a>{{/link-to}}
-					{{#link-to "advancedList" tagName="li"}}<a href="">Αιτήσεις Προς Έγκριση</a>{{/link-to}}
+					{{#if (can "approve petition")}}
+						{{#link-to "advancedList" tagName="li"}}<a href="">Αιτήσεις Προς Έγκριση</a>{{/link-to}}
+					{{/if}}	
 				</ul> 
 			{{else}}
 				<ul class="nav navbar-nav navbar-right">
