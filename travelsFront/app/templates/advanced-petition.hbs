@@ -33,15 +33,39 @@
 				</div>
 			</div>
 		</div>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#submissionModal" {{action "checkDates"}} >
+			Υποβολή Αλλαγών
+		</button>
+
+		<!-- Modal -->
+		<div class="modal fade" id="submissionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Υποβολή αλλαγών</h4>
+					</div>
+					<div class="modal-body">
+						{{if datesChanged "Οι ημερομηνίες έχουν αλλάξει, ως εκτούτου τα κόστη ταξιδιού((α) Ημέρες Μετακίνησης Εργασιών (β) Διανυκτερεύσεις και (γ) Ημέρες Αποζημίωσης) θα επανα-υπολογιστούν." "Είστε σίγουροι ότι θέλετε να αποθηκεύσετε τις αλλαγές?"
+						}}
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
+						<button type="submit" class="btn btn-primary" {{action "petitionSubmit"}} data-dismiss="modal">Αποθήκευση</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<div class="profileForm" id="divMessage">
 			<font>{{petitionMessage}}</font>	
 		</div>
+
 	</form><br><br>
 
 	<form class="form-horizontal col-md-12 panel panel-default" {{action "clearMessage" on="click" preventDefault=false}} role="form">
 		<br>
-		
+
 		{{partial 'computed-petition'}}
 
 		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datesModal">

@@ -118,10 +118,6 @@ export default Ember.Controller.extend({
 
 			if (profileIsValid) {
 
-				//var rec = this.store.peekRecord('petition-status',ENV.petition_status_3);
-				//self.get('model').set('status', rec);
-				//
-
 				hotel_model.save().then(function(hotel){
 					flight_model.save().then(function(flight){
 
@@ -154,7 +150,61 @@ export default Ember.Controller.extend({
 			}	
 
 		},
+		petitionSubmit(){
 
+			var self=this;
+
+			let profileIsValid=self.get('model.validations.isValid');
+
+
+			var petition=self.get('model');
+
+			var a_petition=petition.get('advanced_info');
+			var hotel=a_petition.get('accomondation');
+			var flight=a_petition.get('flight');
+
+			var ap_model=self.store.peekRecord('advanced-petition',a_petition.get('id'));
+
+			var hotel_model=self.store.peekRecord('accommondation',hotel.get('id'));
+			var flight_model=self.store.peekRecord('flight',flight.get('id'));
+
+			var status = this.store.peekRecord('petition-status',ENV.petition_status_4);
+			petition.set('status', status);
+
+			if (profileIsValid) {
+
+				hotel_model.save().then(function(hotel){
+					flight_model.save().then(function(flight){
+
+
+						ap_model.save().then(function(ap){
+							petition.save().then(function(pet) {
+
+								ap.reload();	
+								self.set('petitionMessage','Τα στοιχεία της αίτησης έχουν υποβληθεί επιτυχώς !');
+								self.set('petitionNotSaved',false);
+								Ember.$('#divMessage').removeClass('redMessage');
+								Ember.$('#divMessage').addClass('greenMessage');
+								Ember.$('#submit').prop('disabled', false);
+
+
+							}, function(reason) {
+								self.set('petitionMessage','Η υποβολή των στοιχείων της αίτησης απέτυχε...');
+								Ember.$('#divMessage').removeClass('greenMessage');
+								Ember.$('#divMessage').addClass('redMessage');
+							});
+
+						});
+
+					});
+
+				});
+
+
+
+			}	
+
+		},
 
 		setArrivalPoint(id){
 			var rec = this.store.peekRecord('city', id);

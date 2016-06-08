@@ -10,11 +10,13 @@ export default Ember.Controller.extend({
 		petitionDelete(id,status){
 
 			var self=this;
+			var model=this.get('model');
 
 			if (status === "δημιουργηθείσα από μετακινούμενο"){
 
 				self.store.findRecord('petition', id).then(function(petition) {
 					petition.destroyRecord().then(function() {
+						
 						self.set('statePetitionList', true);
 						self.set('deleteMessage', "Η αίτηση σας με id: " + id + " έχει διαγραφεί επιτυχώς !");
 						Ember.$('#divMessage').removeClass('redMessage');
