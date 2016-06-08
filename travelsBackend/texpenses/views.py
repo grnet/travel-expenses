@@ -500,7 +500,8 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             user_group_name = user_groups[0].name
 
         if request_user.is_staff or user_group_name == "SECRETARY":
-            return Petition.objects.all()
+            return Petition.objects.filter(status__gte=2)
+            # return Petition.objects.all()
         else:
             return Petition.objects.filter(user=request_user)
 
