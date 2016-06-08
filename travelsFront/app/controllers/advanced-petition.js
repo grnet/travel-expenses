@@ -130,7 +130,7 @@ export default Ember.Controller.extend({
 								self.set('petitionNotSaved',false);
 								Ember.$('#divMessage').removeClass('redMessage');
 								Ember.$('#divMessage').addClass('greenMessage');
-								Ember.$('#submit').prop('disabled', false);
+								Ember.$('#compute').prop('disabled', false);
 
 
 							}, function(reason) {
