@@ -346,6 +346,7 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
                               mixins.DestroyModelMixin,
                               viewsets.GenericViewSet
                               ):
+    missing_field = None
 
     """API endpoint that allows petition statuses to be viewed or edited \
         (permissions are needed)"""
@@ -505,7 +506,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     serializer_class = UserPetitionSerializer
 
-    def checkDataCompleteness(self, request):
+    def checkPetitionCompleteness(self, request):
         """TODO: Docstring for checkDataCompleteness.
 
         :request: TODO
@@ -542,7 +543,6 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         none_mandatory_fields = ['accomondation', 'recCostParticipation',
                                  'recTransport', 'recAccomondation',
                                  'depart_date', 'return_date']
-        print user_group_name
         if user_group_name in ['SECRETARY', 'Unknown']:
             none_mandatory_fields = ['accomondation', 'recCostParticipation',
                                      'recTransport', 'recAccomondation']
@@ -559,6 +559,23 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         return True
 
+    def checkAdvancedPetitionCompleteness(self, advanced_petition):
+
+        none_mandatory_fields = ['compensation_petition_protocol',
+                                 'compensation_petition_date',
+                                 'compensation_decision_protocol',
+                                 'compensation_decision_date']
+
+        for f in advanced_petition._meta.get_fields():
+            field_name = f.name
+            field_value = getattr(advanced_petition, f.name)
+            print field_name + ":" + str(field_value)
+            if field_value is None and field_name not in none_mandatory_fields:
+                self.missing_field = f.name
+                return False
+
+        return True
+
     def destroy(self, request, pk=None):
 
         petition = self.get_object()
@@ -570,15 +587,15 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
             advanced_petition = petition.advanced_info
 
-            print "--Deleting related Advanced\
-                Petition with id:" + str(advanced_petition.id)
+            print "--Deleting related Advanced"\
+                "Petition with id:" + str(advanced_petition.id)
             advanced_petition.delete()
             print "----Deleting related flight:" + str(advanced_petition.flight)
             advanced_petition.flight.delete()
             print "----Done"
 
-            print "----Deleting related accomondation:\
-                  " + str(advanced_petition.accomondation)
+            print "----Deleting related accomondation"\
+                + str(advanced_petition.accomondation)
             advanced_petition.accomondation.delete()
             print "----Done"
             print "--Done"
@@ -587,8 +604,8 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-        return Response({'error': "You dont have the permittions to delete \
-                         the specific Petition"},
+        return Response({'error': "You dont have the permittions to delete"
+                         "the specific Petition"},
                         status=status.HTTP_403_FORBIDDEN)
 
     def date_check(self, task_start, task_end, depart_date, return_date,
@@ -665,17 +682,27 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             if user_groups:
                 user_group_name = user_groups[0].name
 
-            if self.checkDataCompleteness(request):
+            if self.checkPetitionCompleteness(request):
                 date_check_result = self.date_check(tsd, ted, dd, rd,
                                                     user_group_name)
                 if date_check_result['error']:
                     return Response({'error': date_check_result['msg']},
                                     status=status.HTTP_400_BAD_REQUEST)
+
+                if chosen_status == 4:
+                    if self.checkAdvancedPetitionCompleteness\
+                            (self.get_object().advanced_info) == False:
+                        return Response({'error': 'Advanced Petition is'
+                                         'not complete,'
+                                         'please insert all mandatory fields'
+                                         '(missing field:' +
+                                         self.missing_field + ')'},
+                                        status=status.HTTP_400_BAD_REQUEST)
                 return super(UserPetitionViewSet, self).create(request)
             else:
-                return Response({'error': 'Petition is not complete,\
-                                 please insert all mandatory fields\
-                                 (missing field:' + self.missing_field + ')'},
+                return Response({'error': 'Petition is not complete,'
+                                 ' please insert all mandatory fields'
+                                 ' (missing field:' + self.missing_field + ')'},
                                 status=status.HTTP_400_BAD_REQUEST)
 
         if chosen_status is None:
@@ -707,18 +734,27 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             if user_groups:
                 user_group_name = user_groups[0].name
 
-            if self.checkDataCompleteness(request):
+            if self.checkPetitionCompleteness(request):
                 date_check_result = self.date_check(tsd, ted, dd, rd,
                                                     user_group_name)
                 if date_check_result['error']:
                     return Response({'error': date_check_result['msg']},
                                     status=status.HTTP_400_BAD_REQUEST)
+                if chosen_status == 4:
+                    if self.checkAdvancedPetitionCompleteness\
+                            (self.get_object().advanced_info) == False:
+                        return Response({'error': 'Advanced Petition is'
+                                         ' not complete,'
+                                         ' please insert all mandatory fields'
+                                         ' (missing field:' +
+                                         self.missing_field + ')'},
+                                        status=status.HTTP_400_BAD_REQUEST)
 
                 return super(UserPetitionViewSet, self).update(request, pk)
             else:
-                return Response({'error': 'Petition is not complete,\
-                                 please insert all mandatory fields\
-                                 (missing field:' + self.missing_field + ')'},
+                return Response({'error': 'Petition is not complete,'
+                                 ' please insert all mandatory fields'
+                                 ' (missing field:' + self.missing_field + ')'},
                                 status=status.HTTP_400_BAD_REQUEST)
 
         if chosen_status is None:

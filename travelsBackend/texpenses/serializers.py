@@ -274,6 +274,7 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
         compensation_object = None
         status = validated_data['status']
 
+        print user_category
         if arrival_point and user_category:
             country_category_name = arrival_point.country.category.name
             compensation_object = Compensation.objects.get(
