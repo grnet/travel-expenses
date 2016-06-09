@@ -58,9 +58,12 @@ export default Ember.Controller.extend({
 
 					self.set('country_selected',false);
 					self.set('editMessage','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
+					Ember.$('#messageModal').modal();
+					Ember.$('#styleModal').removeClass('btn-warning');
+					Ember.$('#styleModal').addClass('btn-success');
 					self.set('petitionNotSaved',false);
-					Ember.$('#divMessage').removeClass('redMessage');
-					Ember.$('#divMessage').addClass('greenMessage');
+					// Ember.$('#divMessage').removeClass('redMessage');
+					// Ember.$('#divMessage').addClass('greenMessage');
 
 					//let endDate=self.get('model.taskEndDate');
 					//if (endDate!==null) {
@@ -80,8 +83,9 @@ export default Ember.Controller.extend({
 					console.log("reason " + reason);
 					console.log("Model id in after save " +  self.get('model.id'));
 					self.set('editMessage','Η αποθήκευση των στοιχείων της αίτησης σας απέτυχε...');
-					Ember.$('#divMessage').removeClass('greenMessage');
-					Ember.$('#divMessage').addClass('redMessage');
+					Ember.$('#messageModal').modal();
+					Ember.$('#styleModal').removeClass('btn-success');
+					Ember.$('#styleModal').addClass('btn-warning');
 					self.set('country_selected',false);
 
 				});
@@ -101,8 +105,9 @@ export default Ember.Controller.extend({
 
 					self.set('editMessage','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
 					self.set('petitionNotSaved',false);
-					Ember.$('#divMessage').removeClass('redMessage');
-					Ember.$('#divMessage').addClass('greenMessage');
+					// Ember.$('#messageModal').modal();
+					// Ember.$('#styleModal').removeClass('btn-warning');
+					// Ember.$('#styleModal').addClass('btn-success');
 					self.transitionToRoute('petitionList');
 					self.set('country_selected',false);
 					
@@ -124,8 +129,9 @@ export default Ember.Controller.extend({
 
 				}, function(reason) {
 					self.set('editMessage','Η υποβολή των στοιχείων της αίτησης σας απέτυχε...');
-					Ember.$('#divMessage').removeClass('greenMessage');
-					Ember.$('#divMessage').addClass('redMessage');
+					Ember.$('#messageModal').modal();
+					Ember.$('#styleModal').removeClass('btn-success');
+					Ember.$('#styleModal').addClass('btn-warning');
 					self.set('country_selected',false);
 					
 				});
