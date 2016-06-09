@@ -85,10 +85,10 @@ export default Ember.Controller.extend({
 
 					self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
 					self.set('petitionNotSaved',false);
-					Ember.$('#messageModal').modal();
-					Ember.$('#styleModal').removeClass('btn-warning');
-					Ember.$('#styleModal').addClass('btn-success');
 					self.transitionToRoute('petitionList');
+					// Ember.$('#messageModal').modal();
+					// Ember.$('#styleModal').removeClass('btn-warning');
+					// Ember.$('#styleModal').addClass('btn-success');
 
 				}, function(reason) {
 
