@@ -33,7 +33,7 @@
 			</div>
 		</div>
 		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#submissionModal" {{action "checkDates"}} >
-			Υποβολή Αλλαγών
+			Υποβολή Αίτησης
 		</button>
 
 		<!-- Modal -->
@@ -56,8 +56,15 @@
 			</div>
 		</div>
 
-		<div class="profileForm" id="divMessage">
-			<font>{{petitionMessage}}</font>	
+		<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header" id="styleModal">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel"><font>{{petitionMessage}}</font></h4>
+					</div>
+				</div>
+			</div>
 		</div>
 
 	</form><br><br>

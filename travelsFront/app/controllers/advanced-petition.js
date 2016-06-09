@@ -129,15 +129,17 @@ export default Ember.Controller.extend({
 								ap.reload();	
 								self.set('petitionMessage','Τα στοιχεία της αίτησης έχουν αποθηκευθεί επιτυχώς !');
 								self.set('petitionNotSaved',false);
-								Ember.$('#divMessage').removeClass('redMessage');
-								Ember.$('#divMessage').addClass('greenMessage');
+								Ember.$('#messageModal').modal();
+								Ember.$('#styleModal').removeClass('btn-warning');
+								Ember.$('#styleModal').addClass('btn-success');
 								Ember.$('#compute').prop('disabled', false);
 
 
 							}, function(reason) {
 								self.set('petitionMessage','Η αποθήκευση των στοιχείων της αίτησης απέτυχε...');
-								Ember.$('#divMessage').removeClass('greenMessage');
-								Ember.$('#divMessage').addClass('redMessage');
+								Ember.$('#messageModal').modal();
+								Ember.$('#styleModal').removeClass('btn-success');
+								Ember.$('#styleModal').addClass('btn-warning');
 							});
 
 						});
@@ -182,15 +184,17 @@ export default Ember.Controller.extend({
 								ap.reload();	
 								self.set('petitionMessage','Τα στοιχεία της αίτησης έχουν υποβληθεί επιτυχώς !');
 								self.set('petitionNotSaved',false);
-								Ember.$('#divMessage').removeClass('redMessage');
-								Ember.$('#divMessage').addClass('greenMessage');
+								Ember.$('#messageModal').modal();
+								Ember.$('#styleModal').removeClass('btn-warning');
+								Ember.$('#styleModal').addClass('btn-success');
 								Ember.$('#submit').prop('disabled', false);
 
 
 							}, function(reason) {
-								self.set('petitionMessage','Η υποβολή των στοιχείων της αίτησης απέτυχε...');
-								Ember.$('#divMessage').removeClass('greenMessage');
-								Ember.$('#divMessage').addClass('redMessage');
+								self.set('petitionMessage','Η υποβολή των στοιχείων της αίτησης απέτυχε. Παρακαλούμε συμπληρώστε όλα τα στοιχεία της αίτησης.');
+								Ember.$('#messageModal').modal();
+								Ember.$('#styleModal').removeClass('btn-success');
+								Ember.$('#styleModal').addClass('btn-warning');
 							});
 
 						});
