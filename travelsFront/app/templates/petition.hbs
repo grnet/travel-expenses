@@ -8,11 +8,15 @@
 		<button type="submit" class="btn btn-primary" {{action "petitionSave"}} disabled={{v-get model 'isInvalid'}}>Αποθήκευση Στοιχείων</button>
 		<button type="submit" class="btn btn-primary" id="submit" {{action "petitionSubmit"}} disabled={{v-get model 'isInvalid'}}>Υποβολή Αίτησης</button>
 
-
-		<div class="profileForm" id="divMessage">
-			{{#if (v-get model 'isValid') }}
-				<font>{{petitionMessage}}</font>	
-			{{/if}}
+		<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header" id="styleModal">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel"><font>{{petitionMessage}}</font></h4>
+					</div>
+				</div>
+			</div>
 		</div>
 
 	</form><br>

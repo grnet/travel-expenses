@@ -57,14 +57,16 @@ export default Ember.Controller.extend({
 					
 					self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
 					self.set('petitionNotSaved',false);
-					Ember.$('#divMessage').removeClass('redMessage');
-					Ember.$('#divMessage').addClass('greenMessage');
+					Ember.$('#messageModal').modal();
+					Ember.$('#styleModal').removeClass('btn-warning');
+					Ember.$('#styleModal').addClass('btn-success');
 					Ember.$('#submit').prop('disabled', false);
 
 				}, function(reason) {
 					self.set('petitionMessage','Η αποθήκευση των στοιχείων της αίτησης σας απέτυχε...');
-					Ember.$('#divMessage').removeClass('greenMessage');
-					Ember.$('#divMessage').addClass('redMessage');
+					Ember.$('#messageModal').modal();
+					Ember.$('#styleModal').removeClass('btn-success');
+					Ember.$('#styleModal').addClass('btn-warning');
 				});
 			}
 		},
@@ -83,15 +85,17 @@ export default Ember.Controller.extend({
 
 					self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
 					self.set('petitionNotSaved',false);
-					Ember.$('#divMessage').removeClass('redMessage');
-					Ember.$('#divMessage').addClass('greenMessage');
+					Ember.$('#messageModal').modal();
+					Ember.$('#styleModal').removeClass('btn-warning');
+					Ember.$('#styleModal').addClass('btn-success');
 					self.transitionToRoute('petitionList');
 
 				}, function(reason) {
 
-					self.set('petitionMessage','Η υποβολή των στοιχείων της αίτησης σας απέτυχε...');
-					Ember.$('#divMessage').removeClass('greenMessage');
-					Ember.$('#divMessage').addClass('redMessage');
+					self.set('petitionMessage','Η υποβολή των στοιχείων της αίτησης σας απέτυχε. Παρακαλούμε συμπληρώστε όλα τα στοιχεία της αίτησης');
+					Ember.$('#messageModal').modal();
+					Ember.$('#styleModal').removeClass('btn-success');
+					Ember.$('#styleModal').addClass('btn-warning');
 				});
 			}
 		},
@@ -145,7 +149,7 @@ export default Ember.Controller.extend({
 			var self=this;
 			self.set('petitionMessage','');
 			self.set('petitionNotSaved',true);
-			Ember.$('#submit').prop('disabled', true);
+			//Ember.$('#submit').prop('disabled', true);
 		}
 	},
 });
