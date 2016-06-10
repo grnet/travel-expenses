@@ -92,7 +92,7 @@ export default Ember.Controller.extend({
 
 				}, function(reason) {
 
-					self.set('petitionMessage','Η υποβολή των στοιχείων της αίτησης σας απέτυχε. Παρακαλούμε συμπληρώστε όλα τα στοιχεία της αίτησης');
+					self.set('petitionMessage','Η υποβολή των στοιχείων της αίτησης σας απέτυχε. Παρακαλούμε συμπληρώστε σωστά όλα τα στοιχεία της αίτησης');
 					Ember.$('#messageModal').modal();
 					Ember.$('#styleModal').removeClass('btn-success');
 					Ember.$('#styleModal').addClass('btn-warning');
