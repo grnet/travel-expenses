@@ -17,3 +17,9 @@
 .redMessage {
 	color: red;
 }
+
+.form-control {
+	@extend .input-sm;
+}
+
+
