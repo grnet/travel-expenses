@@ -22,11 +22,15 @@ export default Ember.Controller.extend({
 				var self=this;
 				this.get('model').save().then(function(value) {
 					self.set('profileMessage','Τα στοιχεία του προφίλ σας έχουν αποθηκευθεί επιτυχώς !');
-					Ember.$('#divMessage').addClass('greenMessage');
+					Ember.$('#messageModal').modal();
+					Ember.$('#styleModal').removeClass('btn-warning');
+					Ember.$('#styleModal').addClass('btn-success');
 
 				}, function(reason) {
 					self.set('profileMessage','Η αποθήκευση των στοιχείων του προφίλ σας απέτυχε...');
-					Ember.$('#divMessage').addClass('redMessage');
+					Ember.$('#messageModal').modal();
+					Ember.$('#styleModal').removeClass('btn-success');
+					Ember.$('#styleModal').addClass('btn-warning');
 
 				});
 			}
