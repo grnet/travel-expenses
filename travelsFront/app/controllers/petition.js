@@ -57,6 +57,7 @@ export default Ember.Controller.extend({
 					
 					self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
 					self.set('petitionNotSaved',false);
+					console.log('petitionNotSaved', self.get('petitionNotSaved'));
 					Ember.$('#messageModal').modal();
 					Ember.$('#styleModal').removeClass('btn-warning');
 					Ember.$('#styleModal').addClass('btn-success');
@@ -148,7 +149,7 @@ export default Ember.Controller.extend({
 		clearMessage(){
 			var self=this;
 			self.set('petitionMessage','');
-			self.set('petitionNotSaved',true);
+			//self.set('petitionNotSaved',true);
 			//Ember.$('#submit').prop('disabled', true);
 		}
 	},
