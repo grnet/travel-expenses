@@ -1,9 +1,13 @@
 <div class="panel panel-default">	
 
-	<div class = "panel-heading">
-		<h4 class = "panel-title">Στοιχεία Αίτησης Ταξιδιού</h4>
+	<div class = "panel-heading" role="tab" id="headingPetition">
+		<h4 class = "panel-title"><a role="button" data-toggle="collapse"
+                 data-parent="#accordion" href="#petitionForm"
+                 aria-expanded="true" aria-controls="petitionForm">Στοιχεία Αίτησης Ταξιδιού</a></h4>
 	</div>
 
+	<div role="tabpanel" class="panel-collapse collapse in"
+         id="petitionForm" aria-labelledby="headingPetition">
 	<div class = "panel-body">
 		<div class="profileForm form-group">
 			<label for="movementCategory" class="col-sm-2 control-label">Κατηγορία Μετακίνησης</label>
@@ -140,6 +144,7 @@
 				{{/character-limit}}
 			</div>
 		</div> -->
+	</div>
 	</div>
 </div>	
 

@@ -1,8 +1,12 @@
 <div class="panel panel-default">
-	<div class = "panel-heading">
-		<h4 class = "panel-title">Στοιχεία Προφίλ</h4>
+	<div class = "panel-heading" role="tab" id="headingProfile">
+		<h4 class = "panel-title"><a role="button" data-toggle="collapse"
+                 data-parent="#accordion" href="#profileForm"
+                 aria-expanded="false" aria-controls="profileForm">Στοιχεία Προφίλ</a></h4>
 	</div>
 
+	<div role="tabpanel" class="panel-collapse collapse"
+         id="profileForm" aria-labelledby="headingProfile">
 	<div class = "panel-body">
 		<div class="profileForm form-group">
 			<label for="first_name" class="col-sm-2 control-label">Όνομα</label>
@@ -80,5 +84,6 @@
 				</select>
 			</div>	
 		</div>
+	</div>
 	</div>
 </div>

@@ -8,7 +8,7 @@
 	border: 1px dotted #cccccc;
 	margin-top: 1%;
 	-bottom: 3%; 
-}*/
+}
 
 .greenMessage {
 	color:green;
@@ -16,10 +16,14 @@
 
 .redMessage {
 	color: red;
-}
+}*/
 
 .form-control {
 	@extend .input-sm;
+}
+
+.btn {
+	@extend .btn-sm;
 }
 
 
