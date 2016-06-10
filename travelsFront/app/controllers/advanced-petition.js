@@ -5,7 +5,6 @@ import ENV from 'travels-front/config/environment';
 export default Ember.Controller.extend({
 	petitionMessage:'',
 	datesChanged:false,
-
 	country_selected: false,
 	arrivalPoints: null,
 
@@ -48,13 +47,10 @@ export default Ember.Controller.extend({
 		checkDates(){
 			var self=this;
 			var petition=self.get('model');
-			console.log("This is my strange model petition", petition)
-
-
+			
 			if (petition.get('hasDirtyAttributes')) {
 
 				var changed_attributes=petition.changedAttributes();
-				console.log("Have I changed ? ", changed_attributes);
 
 				var dd=changed_attributes['depart_date'];
 				var rd=changed_attributes['return_date'];
@@ -66,9 +62,9 @@ export default Ember.Controller.extend({
 					var after=dd[1];
 					if (before!=after) {
 						self.set('datesChanged',true);
-					}
-
+					}	
 				}
+
 				if (rd!=null) {
 					var before=rd[0];
 					var after=rd[1];
@@ -129,6 +125,7 @@ export default Ember.Controller.extend({
 								ap.reload();	
 								self.set('petitionMessage','Τα στοιχεία της αίτησης έχουν αποθηκευθεί επιτυχώς !');
 								self.set('petitionNotSaved',false);
+								self.set('datesChanged',false);
 								Ember.$('#messageModal').modal();
 								Ember.$('#styleModal').removeClass('btn-warning');
 								Ember.$('#styleModal').addClass('btn-success');
@@ -184,6 +181,7 @@ export default Ember.Controller.extend({
 								ap.reload();	
 								self.set('petitionMessage','Τα στοιχεία της αίτησης έχουν υποβληθεί επιτυχώς !');
 								self.set('petitionNotSaved',false);
+								self.set('datesChanged',false);
 								Ember.$('#messageModal').modal();
 								Ember.$('#styleModal').removeClass('btn-warning');
 								Ember.$('#styleModal').addClass('btn-success');
