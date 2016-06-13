@@ -100,6 +100,11 @@
 					{{/each}}
 				</select>
 			</div>
+
+			<label for="additional_expenses_sum" class="col-sm-2 control-label">Λοιπά Έξοδα</label>
+			<div class="col-sm-4">	
+   				{{input value=model.additional_expenses_sum type="number" class="form-control"}}	
+			</div>
 		</div> 
 
 		<div class="profileForm form-group">
@@ -109,9 +114,7 @@
 					{{textarea value=model.reason type="textarea" cols="75" class="form-control"}}
 				{{/character-limit}}
 			</div>
-		</div>
 
-		<div class="profileForm form-group">
 			<label for="recTransport" class="col-sm-2 control-label" style="font-weight:normal;">Προτεινόμενα Μέσα Μετακίνησης</label>
 			<div class="col-sm-4">	
 				{{#character-limit max=100}}
@@ -121,29 +124,18 @@
 		</div>
 
 		<div class="profileForm form-group">
+			<label for="recCostParticipation" class="col-sm-2 control-label" style="font-weight:normal;">Κόστος Συμμετοχής</label>
+			<div class="col-sm-4">	
+					{{input value=model.recCostParticipation type="number" class="form-control"}}
+			</div>
+
 			<label for="recAccomondation" class="col-sm-2 control-label" style="font-weight:normal;">Προτεινόμενο Κατάλυμα</label>
 			<div class="col-sm-4">	
 				{{#character-limit max=100}}
 					{{textarea value=model.recAccomondation type="textarea" cols="75" class="form-control"}}
 				{{/character-limit}}
 			</div>
-		</div>
-
-		<div class="profileForm form-group">
-			<label for="recCostParticipation" class="col-sm-2 control-label" style="font-weight:normal;">Κόστος Συμμετοχής</label>
-			<div class="col-sm-4">	
-					{{input value=model.recCostParticipation type="number" class="form-control"}}
-			</div>
-		</div>
-
-		<!-- <div class="profileForm form-group">
-			<label for="recOtherCost" class="col-sm-2 control-label">Λοιπά Έξοδα</label>
-			<div class="col-sm-4">	
-				{{#character-limit max=100}}
-   {{textarea value=model.recOtherCost type="textarea" cols="75" class="form-control"}}
-				{{/character-limit}}
-			</div>
-		</div> -->
+		</div>		
 	</div>
 	</div>
 </div>	
