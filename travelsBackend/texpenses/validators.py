@@ -57,15 +57,6 @@ def iban_validation(iban):
 
 def afm_validator(afm):
 
-    # afmString = str(afm)
-    # afmString = afmString.strip()
-
-    # if afmString is None or afmString == "":
-    # raise ValidationError("AFM is empty. Please import a 9 digits AFM")
-    # afmStringLength = len(afmString)
-    # if afmStringLength != 9:
-    # raise ValidationError("AFM should be a 9 digits number")
-
     if afm is None:
         msg = "AFM is empty."
         logger.error(msg)
@@ -79,7 +70,36 @@ def afm_validator(afm):
     afmString = afmString.strip()
     afmString_length = len(afmString)
     if len(afmString) != 9:
-        msg = "AFM should be a 9 digits number,\
-            current length:" + str(afmString_length)
+        msg = "AFM should be a 9 digits number,current length:" + \
+            str(afmString_length)
         logger.error(msg)
         raise ValidationError(msg)
+    for digit in afmString:
+        try:
+            int(digit)
+        except ValueError:
+            msg = "AFM should contain only digits."
+            raise ValidationError(msg)
+    # nSum = 0
+    # xDigit = 0
+    # nT = 0
+    # nExp = 1
+
+    # for i in range(afmString_length - 2, 0, -1):
+        # afmSubString = afmString[i:0:-1]
+        # xDigit = int(afmSubString)
+        # nT = xDigit * int(pow(2, nExp))
+        # nSum += nT
+        # nExp += 1
+    # xDigit = int(afmString[afmString_length - 1:1:-1])
+    # nT = nSum / 11
+    # k = nT * 11
+    # k = nSum - k
+    # print "K:" + str(k)
+    # print "xDigit:" + str(xDigit)
+
+    # if k == 10:
+        # k = 0
+    # if xDigit != k:
+        # msg = "AFM does not conform to specific AFM rules."
+        # return ValidationError(msg)
