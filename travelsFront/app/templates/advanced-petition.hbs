@@ -1,6 +1,6 @@
 <div class="container">
 	<form class="form-horizontal col-md-12 panel panel-default" {{action "clearMessage" on="click" preventDefault=false}} role="form">
-	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+	<!-- <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true"> -->
 		<br>
 		{{partial 'profile-form'}}
 
@@ -8,7 +8,6 @@
 
 		{{partial 'secretary-form'}}
 
-		<br>
 		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" {{action "checkDates"}} >
 			Αποθήκευση Αλλαγών
 		</button>
@@ -68,7 +67,7 @@
 				</div>
 			</div>
 		</div>
-		</div>
+		<!-- </div> end of accordion-->
 	</form>
 
 	<form class="form-horizontal col-md-12 panel panel-default" {{action "clearMessage" on="click" preventDefault=false}} role="form">
