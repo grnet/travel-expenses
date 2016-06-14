@@ -581,7 +581,16 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         petition = self.get_object()
         pet_status = petition.status.id
+
+        user_groups = request.user.groups.all()
+        user_group_name = 'Unknown'
+        if user_groups:
+            user_group_name = user_groups[0].name
+
         petition_status_to_delete = [1, 10]
+
+        if user_group_name in ['SECRETARY', 'Unknown']:
+            petition_status_to_delete = [1, 2, 3, 10]
 
         if pet_status in petition_status_to_delete:
             print "Deleting petition with id:" + str(pk)
