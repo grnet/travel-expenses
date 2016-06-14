@@ -66,8 +66,9 @@ def afm_validator(afm):
         logger.error(msg)
         raise ValidationError(msg)
 
-    afmString = str(afm)
-    afmString = afmString.strip()
+    # afmString = str(afm)
+    afmString = afm.strip()
+    print afmString
     afmString_length = len(afmString)
     if len(afmString) != 9:
         msg = "AFM should be a 9 digits number,current length:" + \
@@ -80,26 +81,23 @@ def afm_validator(afm):
         except ValueError:
             msg = "AFM should contain only digits."
             raise ValidationError(msg)
-    # nSum = 0
-    # xDigit = 0
-    # nT = 0
-    # nExp = 1
 
-    # for i in range(afmString_length - 2, 0, -1):
-        # afmSubString = afmString[i:0:-1]
-        # xDigit = int(afmSubString)
-        # nT = xDigit * int(pow(2, nExp))
-        # nSum += nT
-        # nExp += 1
-    # xDigit = int(afmString[afmString_length - 1:1:-1])
-    # nT = nSum / 11
-    # k = nT * 11
-    # k = nSum - k
-    # print "K:" + str(k)
-    # print "xDigit:" + str(xDigit)
+    afm = map(int, list(str(afmString)))
 
-    # if k == 10:
-        # k = 0
-    # if xDigit != k:
-        # msg = "AFM does not conform to specific AFM rules."
-        # return ValidationError(msg)
+    if sum(afm) == 0:
+        msg = "AFM should not be zero."
+        raise ValidationError(msg)
+
+    afm_sum = 0
+    afm_length_for_calculations = afmString_length - 1
+    for afm_digit in range(0, afm_length_for_calculations, 1):
+        power = afm_length_for_calculations - afm_digit
+        product = afm[afm_digit] * pow(2, power)
+        afm_sum += product
+
+    remainder = afm_sum % 11
+    afm_last_digit = afm[afm_length_for_calculations]
+
+    if remainder != afm_last_digit:
+        msg = "Specific AFM value does not conform to AFM general rules."
+        raise ValidationError(msg)
