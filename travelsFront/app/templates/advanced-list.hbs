@@ -1,45 +1,46 @@
 {{#if (can "approve petition")}}
-<div>
-	<table class="table table-sm" > 
-		<thead>
-			<tr>
-				<th>Όνομα</th>
-				<th>Επώνυμο</th>
-				<th>Έργο</th>
-				<th>Προορισμός</th>
-				<th>Ημ/νια Δημιουργίας</th>
-				<th>Τελευταία ανανέωση</th>
-				<th>Ημ/νία Αναχώρησης</th>
-				<th>Ημ/νία Επιστροφής</th>
-				<th>Κατάσταση</th>
-			</tr>
-		</thead>
-		<tbody>
+	<div>
+		<table class="table table-sm" > 
+			<thead>
+				<tr>
+					<th>Όνομα</th>
+					<th>Επώνυμο</th>
+					<th>Έργο</th>
+					<th>Προορισμός</th>
+					<th>Ημ/νια Δημιουργίας</th>
+					<th>Τελευταία ανανέωση</th>
+					<th>Ημ/νία Αναχώρησης</th>
+					<th>Ημ/νία Επιστροφής</th>
+					<th>Κατάσταση</th>
+				</tr>
+			</thead>
+			<tbody>
 
-		{{#each model as |petition|}}
-		{{#if petition.project.name}}
-		<tr>
-			<td>{{petition.name}}</td>
-			<td>{{petition.surname}}</td>
-			<td>{{petition.project.name}}</td>
-			<td>{{petition.arrivalPoint.name}}</td>
-			<td>{{petition.creationDate}}</td>
-			<td>{{petition.updateDate}}</td>
-			<td>{{petition.taskStartDate}}</td>
-			<td>{{petition.taskEndDate}}</td>
-			<td>{{petition.status.name}}</td>
-			<td><button type="submit" class="btn btn-warning btn-small" {{action "petitionEdit" petition.id on="click"}}>Επεξεργασία</button></td>
-			<td><button type="submit" class="btn btn-danger btn-small">Διαγραφή</button></td>
-		</tr>
-		{{/if}}
-		{{/each}}
+			{{#each model as |petition|}}
+				{{#if petition.project.name}}
+					<tr>
+						<td>{{petition.name}}</td>
+						<td>{{petition.surname}}</td>
+						<td>{{petition.project.name}}</td>
+						<td>{{petition.arrivalPoint.name}}</td>
+						<td>{{petition.creationDate}}</td>
+						<td>{{petition.updateDate}}</td>
+						<td>{{petition.taskStartDate}}</td>
+						<td>{{petition.taskEndDate}}</td>
+						<td>{{petition.status.name}}</td>
+						<td><button type="submit" class="btn btn-warning btn-small" {{action "petitionEdit" petition.id on="click"}} disabled={{not (or (eq petition.status.name "υποβεβλημένη από μετακινούμενο") (eq petition.status.name "σε επεξεργασία απο τη γραμματεία")) }}>Επεξεργασία</button></td>
+						<td><button type="submit" class="btn btn-danger btn-small" {{action "petitionDelete" petition.id petition.status.name on="click"}} disabled={{not (or (eq petition.status.name "υποβεβλημένη από μετακινούμενο") (eq petition.status.name "σε επεξεργασία απο τη γραμματεία")) }}>Διαγραφή</button></td>
+						<td><button type="submit" class="btn btn-danger btn-small" {{action "petitionUndo" petition.id on="click"}} disabled={{or (eq petition.status.name "υποβεβλημένη από μετακινούμενο") (eq petition.status.name "σε επεξεργασία απο τη γραμματεία") }}>Αναίρεση Υποβολής </button></td>
+					</tr>
+				{{/if}}
+			{{/each}}
 
-		</tbody>
-	</table>
+			</tbody>
+		</table>
 
-</div>
+	</div>
 {{else}}
-  We are sorry but you don't have permmission to view this page...
+	We are sorry but you don't have permmission to view this page...
 {{/if}}
 
 {{outlet}}
