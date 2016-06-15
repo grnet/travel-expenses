@@ -268,8 +268,8 @@ class Petition(models.Model):
     iban = models.CharField(max_length=200, blank=True, null=True,
                             validators=[iban_validation])
     specialtyID = models.ForeignKey(Specialty, blank=True, null=True)
-    taxRegNum = models.IntegerField(blank=True, null=True,
-                                    validators=[afm_validator])
+    taxRegNum = models.CharField(max_length=9, blank=True, null=True,
+                                 validators=[afm_validator])
     taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
     kind = models.ForeignKey(Kind, blank=True, null=True)
     trip_days_before = models.IntegerField(blank=True, null=True)
