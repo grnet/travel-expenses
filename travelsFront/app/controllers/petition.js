@@ -18,14 +18,14 @@ export default Ember.Controller.extend({
 				let self=this;
 				let movementID='';
 				if (id == 10){
-					movementID = 'http://127.0.0.1:8000/petition/movement_categories/1/';
+					movementID = ENV.APP.backend_host+'/petition/movement_categories/1/';
 
 					self.store.findRecord('movement-category', movementID).then(function(mc) {
 						self.get('model').set('movementCategory',mc)		
 					});
 				}
 				else{
-					movementID = 'http://127.0.0.1:8000/petition/movement_categories/2/';
+					movementID = ENV.APP.backend_host+'/petition/movement_categories/2/';
 
 					self.store.findRecord('movement-category', movementID).then(function(mc) {
 						self.get('model').set('movementCategory',mc)		
@@ -147,8 +147,8 @@ export default Ember.Controller.extend({
 
 		},
 		clearMessage(){
-			var self=this;
-			self.set('petitionMessage','');
+			//var self=this;
+			//self.set('petitionMessage','');
 			//self.set('petitionNotSaved',true);
 			//Ember.$('#submit').prop('disabled', true);
 		}

@@ -54,16 +54,41 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	},
 
 	actions: {
+		//willTransition with custom modal	
+		// willTransition(transition) {
+			
+		// 	var self = this;
+		// 	if (self.controller.get('petitionNotSaved')) {
+		// 		console.log("petitionNotSaved", self.controller.get('petitionNotSaved'));
+				
+		// 		transition.abort();
+
+		// 		Ember.$('#confirmModal').modal();
+		// 		Ember.$('#leave').on('click', function(){
+		// 			console.log("Leave is clicked");
+		// 			console.log("self",self);
+		// 			console.log("Transition name", transition.handlerInfos[1].name);
+		// 			Ember.self.transitionTo(transition.handlerInfos[1].name);
+					
+  //   			});
+
+		// 	}
+		// 	else {
+		// 		return true;
+		// 	}				
+		// },
 		willTransition(transition) {
-			if (this.controller.get('petitionNotSaved')) {
-				if (!confirm('Are you sure you want to abandon progress?Any changes will be lost unless you save them')){
-					transition.abort();
-				} else {
-					// Bubble the `willTransition` action so that
-					// parent routes can decide whether or not to abort.
-					return true;
-				}	
-			}	 
-		}
+      		
+      		if (this.controller.get('petitionNotSaved') &&
+          		!confirm('Are you sure you want to abandon progress?Any changes will be lost unless you save them')) {
+        		transition.abort();
+     		} 
+     		else {
+        		// Bubble the `willTransition` action so that
+        		// parent routes can decide whether or not to abort.
+        		return true;
+      		}
+    	},	 
 	}
+	
 });

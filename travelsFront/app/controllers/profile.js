@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from 'travels-front/config/environment';
 
 export default Ember.Controller.extend({
 
@@ -6,7 +7,7 @@ export default Ember.Controller.extend({
 
 	init: function(){
 		this._super();	
-		let userCategory = 'http://127.0.0.1:8000/users_related/category/2/';
+		let userCategory = ENV.APP.backend_host+"/users_related/category/2/";
 		var rec = this.store.findRecord('category', userCategory);
 		this.set('category',rec);		
   	},
