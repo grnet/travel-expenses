@@ -1,0 +1,10 @@
+django==1.9.4
+djoser==0.4.3
+djangorestframework==3.3.3
+markdown==2.6.6
+django-filter==0.13.0
+requests==2.9.1
+drf-tracking==0.2.5
+pytz==2016.3
+django-crispy-forms==1.6.0
+drfdocs==0.0.9

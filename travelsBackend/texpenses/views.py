@@ -286,8 +286,8 @@ class PetitionStatusViewSet(LoggingMixin, viewsets.ModelViewSet):
 
 class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows petition statuses to be viewed or edited \
-        (permissions are needed)"""
+    """API endpoint that allows Accomondation info to be viewed or edited \
+        (Secretary permissions and above are needed)"""
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
         IsAuthenticated, IsOwnerOrAdmin, DjangoModelPermissions,)
@@ -348,8 +348,10 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
                               ):
     missing_field = None
 
-    """API endpoint that allows petition statuses to be viewed or edited \
-        (permissions are needed)"""
+    """API endpoint that allows Advanced petition info to be viewed or edited \
+        (Secretary permissions and above are needed). An Advanced Petition is\
+        created during simple Petition creation.
+        """
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
         IsAuthenticated, IsOwnerOrAdmin, DjangoModelPermissions,)
@@ -385,8 +387,8 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
 
 class FlightViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows petition statuses to be viewed or edited \
-        (permissions are needed)"""
+    """API endpoint that allows user Flights to be viewed (from the Traveller)\
+        or edited (Secretary permissions and above are needed)"""
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
         IsAuthenticated, IsOwnerOrAdmin, DjangoModelPermissions,)
@@ -419,7 +421,7 @@ class FlightViewSet(LoggingMixin, viewsets.ModelViewSet):
 
 class CompensationViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows petition statuses to be viewed or edited \
+    """API endpoint that allows per country compensationw be viewed or edited \
         (permissions are needed)"""
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
@@ -430,8 +432,8 @@ class CompensationViewSet(LoggingMixin, viewsets.ModelViewSet):
 
 class AdditionalExpensesViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows petition statuses to be viewed or edited \
-        (permissions are needed)"""
+    """API endpoint that allows Additional Expenses to be created, viewed or\
+        edited """
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
         IsAuthenticated, IsOwnerOrAdmin, DjangoModelPermissions,)
@@ -460,8 +462,8 @@ class AdditionalExpensesViewSet(LoggingMixin, viewsets.ModelViewSet):
 
 class FeedingViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-    """API endpoint that allows petition statuses to be viewed or edited \
-        (permissions are needed)"""
+    """API endpoint that allows Feeding info be created, viewed or edited \
+        (Secretary permissions are needed)"""
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
