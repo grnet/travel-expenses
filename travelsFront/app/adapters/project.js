@@ -16,12 +16,9 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 
 		var url = this._super(modelName, id, snapshot, requestType, query);
 
-
-
 		if (modelName === "project" && requestType==="findRecord"){
 			url=id;
 		}
-
 		if (modelName === "project" && requestType==="findAll"){
 			url = this.get('host') +this.get('namespace')+"/project/";
 		}

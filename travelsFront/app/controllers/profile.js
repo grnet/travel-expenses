@@ -17,7 +17,6 @@ export default Ember.Controller.extend({
 		profileUpdate(){
 			let profileIsValid=this.get('model.validations.isValid');
 
-			// console.log(this.get('models.validations.attrs.username.messages'))
 			if (profileIsValid) {
 
 				var self=this;
@@ -57,13 +56,6 @@ export default Ember.Controller.extend({
 			var rec = this.store.peekRecord('category', id);
 			this.get('model').set('category', rec);
 
-		},
-		clearMessage(){
-			var self=this;
-			self.set('profileMessage','');
-		}
-
-	},
-
-
+		},	
+	}
 });

@@ -19,11 +19,8 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 		if (modelName === "movement-category" && requestType==="findRecord"){
 			url=id;
 		}
-
 		if (modelName === "movement-category" && requestType==="findAll"){
 			url = this.get('host') +this.get('namespace')+"/movement_categories/";
-
-
 		}
 
 		return url;

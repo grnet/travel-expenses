@@ -20,11 +20,8 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 		if (modelName === "compensation-categories" && requestType==="findRecord"){
 			url=id;
 		}
-
 		if (modelName === "compensation-categories" && requestType==="findAll"){
 			url = this.get('host') +this.get('namespace')+"/compensation_categories/";
-
-
 		}
 
 		return url;

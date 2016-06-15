@@ -45,7 +45,6 @@ export default Ember.Controller.extend({
 
 		petitionSave(){
 
-
 			let profileIsValid=this.get('model.validations.isValid')
 
 			if (profileIsValid) {
@@ -62,8 +61,7 @@ export default Ember.Controller.extend({
 					Ember.$('#styleModal').removeClass('btn-warning');
 					Ember.$('#styleModal').addClass('btn-success');
 					self.set('petitionNotSaved',false);
-					// Ember.$('#divMessage').removeClass('redMessage');
-					// Ember.$('#divMessage').addClass('greenMessage');
+					
 
 					//let endDate=self.get('model.taskEndDate');
 					//if (endDate!==null) {
@@ -105,9 +103,6 @@ export default Ember.Controller.extend({
 
 					self.set('editMessage','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
 					self.set('petitionNotSaved',false);
-					// Ember.$('#messageModal').modal();
-					// Ember.$('#styleModal').removeClass('btn-warning');
-					// Ember.$('#styleModal').addClass('btn-success');
 					self.transitionToRoute('petitionList');
 					self.set('country_selected',false);
 					
@@ -181,11 +176,6 @@ export default Ember.Controller.extend({
 			var rec = this.store.peekRecord('category', id);
 			this.get('model').set('user_category', rec);
 
-		},
-		clearMessage(){
-			var self=this;
-			self.set('editMessage','');
-			//Ember.$('#submit').prop('disabled', true);
-		}
+		},	
 	}	
 });

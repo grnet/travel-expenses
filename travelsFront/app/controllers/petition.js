@@ -87,9 +87,6 @@ export default Ember.Controller.extend({
 					self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
 					self.set('petitionNotSaved',false);
 					self.transitionToRoute('petitionList');
-					// Ember.$('#messageModal').modal();
-					// Ember.$('#styleModal').removeClass('btn-warning');
-					// Ember.$('#styleModal').addClass('btn-success');
 
 				}, function(reason) {
 
@@ -145,12 +142,6 @@ export default Ember.Controller.extend({
 			var rec = this.store.peekRecord('category', id);
 			this.get('model').set('user_category', rec);
 
-		},
-		clearMessage(){
-			//var self=this;
-			//self.set('petitionMessage','');
-			//self.set('petitionNotSaved',true);
-			//Ember.$('#submit').prop('disabled', true);
-		}
-	},
+		},	
+	}
 });

@@ -1,5 +1,5 @@
 <div>
-	<table class="table table-sm" {{action "clearMessage" on="click"}}> 
+	<table class="table table-sm"> 
 		<thead>
 			<tr>
 				<th>Όνομα</th>
@@ -34,13 +34,21 @@
 						<td><button type="submit" class="btn btn-danger btn-small" {{action "petitionUndo" petition.id on="click"}} disabled={{not-eq petition.status.name "υποβεβλημένη από μετακινούμενο" }}>Αναίρεση Υποβολής </button></td>
 					</tr>
 				{{/if}}
-			{{/each}}
-
-			<div class="profileForm" id="divMessage">
-				<font>{{deleteMessage}}</font>	
-			</div>    
+			{{/each}}   
 			</tbody>
 		</table>
+
+		<!-- Message Modal-->
+		<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header" id="styleModal">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel"><font>{{deleteMessage}}</font></h4>
+					</div>
+				</div>
+			</div>
+		</div>
 
 	</div>
 

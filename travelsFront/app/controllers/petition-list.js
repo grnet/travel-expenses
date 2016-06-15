@@ -19,15 +19,18 @@ export default Ember.Controller.extend({
 					petition.destroyRecord().then(function() {
 
 						self.set('statePetitionList', true);
-						self.set('deleteMessage', "Η αίτηση σας με id: " + id + " έχει διαγραφεί επιτυχώς !");
-						Ember.$('#divMessage').removeClass('redMessage');
-						Ember.$('#divMessage').addClass('greenMessage');
+						self.set('deleteMessage', "Η αίτηση σας έχει διαγραφεί επιτυχώς !");
+						Ember.$('#messageModal').modal();
+						Ember.$('#styleModal').removeClass('btn-warning');
+						Ember.$('#styleModal').addClass('btn-success');
+						
 
 					}, function(reason) {
 						self.set('statePetitionList', false);
 						self.set('deleteMessage', 'Η διαγραφή της αίτησης σας απέτυχε...');
-						Ember.$('#divMessage').removeClass('greenMessage');
-						Ember.$('#divMessage').addClass('redMessage');
+						Ember.$('#messageModal').modal();
+						Ember.$('#styleModal').removeClass('btn-success');
+						Ember.$('#styleModal').addClass('btn-warning');
 
 					}); 
 
@@ -38,8 +41,9 @@ export default Ember.Controller.extend({
 			else{
 				self.set('statePetitionList', false);
 				self.set('deleteMessage', 'Η αίτηση σας έχει υποβληθεί συνεπώς δεν είναι δυνατή η διαγραφή της...');
-				Ember.$('#divMessage').removeClass('greenMessage');
-				Ember.$('#divMessage').addClass('redMessage');
+				Ember.$('#messageModal').modal();
+				Ember.$('#styleModal').removeClass('btn-success');
+				Ember.$('#styleModal').addClass('btn-warning');
 			}
 
 		},
@@ -61,12 +65,7 @@ export default Ember.Controller.extend({
 		petitionEdit(id){
 			id=id.substring(id.indexOf('user_petition/')+14,id.lastIndexOf('/'));
 			this.transitionToRoute('editPetition',id);
-		},
-		clearMessage(){
-			var self=this;
-			self.set('deleteMessage','');
-		}
-
+		},	
 	}
 
 });

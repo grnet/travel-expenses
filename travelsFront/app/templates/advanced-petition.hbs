@@ -1,5 +1,5 @@
 <div class="container">
-	<form class="form-horizontal col-md-12 panel panel-default" {{action "clearMessage" on="click" preventDefault=false}} role="form">
+	<form class="form-horizontal col-md-12 panel panel-default" {{action "computeButtonActivate" on="click" preventDefault=false}} role="form">
 	<!-- <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true"> -->
 		<br>
 		{{partial 'profile-form'}}
@@ -70,7 +70,7 @@
 		<!-- </div> end of accordion-->
 	</form>
 
-	<form class="form-horizontal col-md-12 panel panel-default" {{action "clearMessage" on="click" preventDefault=false}} role="form">
+	<form class="form-horizontal col-md-12 panel panel-default"  role="form">
 		<br>
 
 		{{partial 'computed-petition'}}

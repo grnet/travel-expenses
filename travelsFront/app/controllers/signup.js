@@ -22,12 +22,6 @@ export default Ember.Controller.extend({
 
 
 		signup(){
-
-			console.log('My username is: ', this.get('username'));
-			console.log('My password is: ', this.get('password'));
-			console.log('My email is: ', this.get('email'));
-
-			//where do we use these vars?
 			this.set('uname',this.get('username'));
 			this.set('pass',this.get('password'));
 			this.set('mail',this.get('email'));
@@ -35,7 +29,6 @@ export default Ember.Controller.extend({
 
 			var account = this.store.createRecord('account',{
 				type: 'account',
-				//id: this.get('username'),
 				username: this.get('username'),
 				password: this.get('password'),
 				email: this.get('email')
@@ -47,7 +40,6 @@ export default Ember.Controller.extend({
 
 			let accountIsValid=validations.get('isValid');
 
-			// console.log('Account object is:'+accountIsValid);
 			if (accountIsValid) {
 				var self=this;
 				account.save().then(function(value) {
@@ -66,9 +58,7 @@ export default Ember.Controller.extend({
 
 					}
 				});
-
-			}
-			
+			}	
 		}
 	}
 });

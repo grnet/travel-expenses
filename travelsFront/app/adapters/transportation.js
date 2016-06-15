@@ -19,11 +19,8 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 		if (modelName === "transportation" && requestType==="findRecord"){
 			url=id;
 		}
-
 		if (modelName === "transportation" && requestType==="findAll"){
 			url = this.get('host') +this.get('namespace')+"/transportation/";
-
-
 		}
 
 		return url;

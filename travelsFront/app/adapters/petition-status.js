@@ -19,10 +19,8 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 		if (modelName === "petition-status" && requestType==="findRecord"){
 			url=id;
 		}
-
 		if (modelName === "petition-status" && requestType==="findAll"){
 			url = this.get('host') +this.get('namespace')+"/petition_status/";
-
 		}
 
 		return url;

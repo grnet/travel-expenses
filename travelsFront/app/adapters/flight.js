@@ -23,7 +23,6 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 			url = this.get('host') +this.get('namespace')+"/flight/";
 		}
 		if (requestType === "updateRecord"){
-
 			url = id;
 		}
 

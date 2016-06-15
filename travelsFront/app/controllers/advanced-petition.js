@@ -95,22 +95,17 @@ export default Ember.Controller.extend({
 		petitionSave(){
 
 			var self=this;
-
 			let profileIsValid=self.get('model.validations.isValid');
 
-
 			var petition=self.get('model');
-
 			var a_petition=petition.get('advanced_info');
 			var hotel=a_petition.get('accomondation');
 			var flight=a_petition.get('flight');
-
 			var ap_model=self.store.peekRecord('advanced-petition',a_petition.get('id'));
-
 			var hotel_model=self.store.peekRecord('accommondation',hotel.get('id'));
 			var flight_model=self.store.peekRecord('flight',flight.get('id'));
-
 			var status = this.store.peekRecord('petition-status',ENV.petition_status_3);
+			
 			petition.set('status', status);
 
 			if (profileIsValid) {
@@ -154,19 +149,15 @@ export default Ember.Controller.extend({
 
 			let profileIsValid=self.get('model.validations.isValid');
 
-
 			var petition=self.get('model');
-
 			var a_petition=petition.get('advanced_info');
 			var hotel=a_petition.get('accomondation');
 			var flight=a_petition.get('flight');
-
 			var ap_model=self.store.peekRecord('advanced-petition',a_petition.get('id'));
-
 			var hotel_model=self.store.peekRecord('accommondation',hotel.get('id'));
 			var flight_model=self.store.peekRecord('flight',flight.get('id'));
-
 			var status = this.store.peekRecord('petition-status',ENV.petition_status_4);
+			
 			petition.set('status', status);
 
 			if (profileIsValid) {
@@ -194,17 +185,10 @@ export default Ember.Controller.extend({
 								Ember.$('#styleModal').removeClass('btn-success');
 								Ember.$('#styleModal').addClass('btn-warning');
 							});
-
 						});
-
 					});
-
 				});
-
-
-
 			}	
-
 		},
 
 		setArrivalPoint(id){
@@ -258,10 +242,8 @@ export default Ember.Controller.extend({
 			this.get('model').set('user_category', rec);
 
 		},
-		clearMessage(){
+		computeButtonActivate(){
 			var self=this;
-			self.set('petitionMessage','');
-
 			var petition=self.get('model');
 			var a_petition=petition.get('advanced_info');
 			var hotel=a_petition.get('accomondation');

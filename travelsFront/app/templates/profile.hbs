@@ -1,6 +1,6 @@
 <div class="container">
 
-	<form class="form-horizontal col-md-10" {{action "clearMessage" on="click" preventDefault=false}}>
+	<form class="form-horizontal col-md-10">
 
 		<div class="profileForm form-group">
 			<label for="email" class="col-sm-2 control-label">Email</label>
@@ -9,7 +9,6 @@
 			</div>	
 			{{#if (v-get model 'email' 'isInvalid') }}
 				<font color="red">{{v-get model 'email' 'message'}}</font>
-				<!--<font color="red">{{message}}</font>-->
 			{{/if}}
 		</div>
 

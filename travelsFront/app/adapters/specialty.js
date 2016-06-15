@@ -19,10 +19,8 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 		if (modelName === "specialty" && requestType==="findRecord"){
 			url=id;
 		}
-
 		if (modelName === "specialty" && requestType==="findAll"){
 			url = this.get('host') +this.get('namespace')+"/specialty/";
-
 		}
 
 		return url;

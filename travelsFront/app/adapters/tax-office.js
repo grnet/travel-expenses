@@ -19,10 +19,8 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 		if (modelName === "tax-office" && requestType==="findRecord"){
 			url=id;
 		}
-
 		if (modelName === "tax-office" && requestType==="findAll"){
 			url = this.get('host') +this.get('namespace')+"/taxoffice/";
-
 		}
 
 		return url;
