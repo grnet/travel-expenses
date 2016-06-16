@@ -3,7 +3,7 @@ import DS from 'ember-data';
 export default DS.JSONSerializer.extend({
 	primaryKey: 'url',
 
-	normalizeCreateRecordResponse: function(store, primaryModelClass, payload,id,requestType) {
+	normalizeErrorResponse: function(store, primaryModelClass, payload,id,requestType) {
 		console.log(payload);
 		console.log(primaryModelClass);
 
