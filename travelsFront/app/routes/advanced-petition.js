@@ -93,21 +93,23 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('compensations', this.store.findAll('compensation-categories'));
 		controller.set('petitionMessage','');
 		controller.set('datesChanged',false);
-		controller.set('petitionNotSaved', true);
+		//controller.set('petitionNotSaved', true);
 
 	},
 
 	actions: {
 		willTransition(transition) {
-			if (this.controller.get('petitionNotSaved')) {
-				if (!confirm('Are you sure you want to abandon progress?Any changes will be lost unless you save them')){
-					transition.abort();
-				} else {
-					// Bubble the `willTransition` action so that
-					// parent routes can decide whether or not to abort.
-					return true;
-				}	
-			}	 
-		}
+			console.log("petitionNotSaved", this.controller.get('petitionNotSaved'));
+      		if (this.controller.get('petitionNotSaved') &&
+          		!confirm('Are you sure you want to abandon progress?Any changes will be lost unless you save them')) {
+
+        		transition.abort();
+     		} 
+     		else {
+        		// Bubble the `willTransition` action so that
+        		// parent routes can decide whether or not to abort.
+        		return true;
+      		}
+    	},
 	}
 });

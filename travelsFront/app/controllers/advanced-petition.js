@@ -7,7 +7,8 @@ export default Ember.Controller.extend({
 	datesChanged:false,
 	country_selected: false,
 	arrivalPoints: null,
-
+	petitionNotSaved: false,
+	
 	actions: {
 
 		setCountry(value){
@@ -242,7 +243,7 @@ export default Ember.Controller.extend({
 			this.get('model').set('user_category', rec);
 
 		},
-		computeButtonActivate(){
+		checkChanges(){
 			var self=this;
 			var petition=self.get('model');
 			var a_petition=petition.get('advanced_info');
@@ -250,7 +251,9 @@ export default Ember.Controller.extend({
 			var flight=a_petition.get('flight');
 
 			if (petition.get('hasDirtyAttributes') || a_petition.get('hasDirtyAttributes') || hotel.get('hasDirtyAttributes') || flight.get('hasDirtyAttributes')) {
+				
 				Ember.$('#compute').prop('disabled', true);
+				self.set('petitionNotSaved',true);
 			}	
 		}
 	}	
