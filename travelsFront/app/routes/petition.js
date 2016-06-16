@@ -5,12 +5,12 @@ import ENV from 'travels-front/config/environment';
 export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	model() {
 		var model = this.store.createRecord('petition');
+
 		let departureID = ENV.APP.backend_host+'/petition/city/10/';
 		var rec = this.store.findRecord('city', departureID);
 		rec.then(function(m) {
 			model.set('departurePoint', m)
 		})
-		
 		return model
 	},
 
@@ -34,11 +34,10 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 			petition.set('taxRegNum', pet_taxNum);
 			petition.set('taxOffice', pet_taxOffice);
 			petition.set('user_category', pet_category);
-
-
 		});
 
 	},
+
 	setupController: function(controller, model) {
 		this._super(controller, model);
 		controller.set('departurePoints', this.store.query('city',{ country: 10}));
@@ -51,7 +50,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('categories', this.store.findAll('category'));
 		controller.set('petition-statuses', this.store.findAll('petition-status'));
 		controller.set('petitionMessage','');
-		controller.set('petitionNotSaved',true);	
 	},
 
 	actions: {
@@ -68,24 +66,20 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
         		return true;
       		}
     	},
-		//willTransition with custom modal	
+
+		// willTransition with custom modal	
 		// willTransition(transition) {
 			
-		// 	var self = this;
-		// 	if (self.controller.get('petitionNotSaved')) {
-		// 		console.log("petitionNotSaved", self.controller.get('petitionNotSaved'));
+		// 	if (this.controller.get('petitionNotSaved')) {
+		// 		console.log("petitionNotSaved", this.controller.get('petitionNotSaved'));
 				
 		// 		transition.abort();
 
 		// 		Ember.$('#confirmModal').modal();
-		// 		Ember.$('#leave').on('click', function(){
+		// 		Ember.$('#leave').on('click', () => {
 		// 			console.log("Leave is clicked");
-		// 			console.log("self",self);
-		// 			console.log("Transition name", transition.handlerInfos[1].name);
-		// 			Ember.self.transitionTo(transition.handlerInfos[1].name);
-					
-  		//   	});
-
+  		//   		this.transitionTo(transition.handlerInfos[1].name);
+		// 		});
 		// 	}
 		// 	else {
 		// 		return true;

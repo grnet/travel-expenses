@@ -9,6 +9,20 @@ export default Ember.Controller.extend({
 
 	actions: {
 
+		checkChanges(){
+
+			var self=this;
+			var petition=self.get('model');
+			
+			if (petition.get('hasDirtyAttributes')) {
+
+				var changed_attributes=petition.changedAttributes();
+				if (changed_attributes !== null) {
+					self.set('petitionNotSaved',true);
+				}
+			}	
+		},
+
 		setCountry(value){
 
 			if (value!=='') {
@@ -71,6 +85,7 @@ export default Ember.Controller.extend({
 				});
 			}
 		},
+		
 		petitionSubmit(){
 
 			let profileIsValid=this.get('model.validations.isValid');
