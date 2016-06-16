@@ -1,209 +1,28 @@
-import requests
-import urllib
 import logging
-import datetime
-
-from django.views.decorators.http import require_http_methods
-from django.http import HttpResponse
 from django.contrib.auth import get_user_model
-from djoser import views as djoser_views
-from django.conf import settings
-from django.db.models import Q
-
+from rest_framework_tracking.mixins import LoggingMixin
 from rest_framework import viewsets, filters, status, mixins
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
+from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
+from texpenses.custom_permissions import isAdminOrRead, IsOwnerOrAdmin
+from rest_framework.response import Response
+from django.db.models import Q
+import datetime
 
-from rest_framework_tracking.mixins import LoggingMixin
-from models import Specialty
-from models import TaxOffice
-from models import Kind
-from models import Petition
-from models import Project
-from models import MovementCategories
-from models import City
-from models import Country
-from models import CountryCategory
-from models import Transportation
-from models import PetitionStatus
-from models import UserCategory
-
-from models import AdditionalExpenses
-from models import Compensation
-from models import FeedingKind
-from models import Flight
-from models import Accomondation
-from models import AdvancedPetition
-
-
-from serializers import UserProfileSerializer
-from serializers import SpecialtySerializer
-from serializers import TaxOfficeSerializer
-from serializers import KindSerializer
-from serializers import CustomUserRegistrationSerializer
-from serializers import CitySerializer
-from serializers import CountrySerializer
-from serializers import CountryCategorySerializer
-from serializers import MovementCategoriesSerializer
-from serializers import ProjectSerializer
-from serializers import TransportationSerializer
-from serializers import UserPetitionSerializer
-from serializers import PetitionStatusSerializer
-from serializers import UserCategorySerializer
-
-from serializers import AdditionalExpensesSerializer
-from serializers import AdvancedPetitionSerializer
-from serializers import FlightSerializer
-from serializers import AccomondationSerializer
-from serializers import FeedingKindSerializer
-from serializers import CompensationSerializer
-
-from custom_permissions import isAdminOrRead
-from custom_permissions import IsOwnerOrAdmin
+from texpenses.serializers import ProjectSerializer,\
+    MovementCategoriesSerializer, CitySerializer, CountryCategorySerializer,\
+    TransportationSerializer, PetitionStatusSerializer,\
+    AccomondationSerializer, AdvancedPetitionSerializer, CountrySerializer,\
+    FlightSerializer, CompensationSerializer, AdditionalExpensesSerializer,\
+    FeedingKindSerializer, UserPetitionSerializer
+from texpenses.models import Project, MovementCategories, City, Country,\
+    CountryCategory, Transportation, PetitionStatus, Accomondation,\
+    AdvancedPetition, Flight, Compensation, AdditionalExpenses, Petition,\
+    FeedingKind
 logger = logging.getLogger(__name__)
 
 User = get_user_model()
-
-
-@require_http_methods(["GET", ])
-def custom_activation_view(request, uid=None, token=None):
-    if uid and token:
-        payload = {
-            'uid': uid,
-            'token': token
-        }
-        enc = urllib.urlencode(payload)
-        url = settings.HOST_URL + 'auth/activate/'
-        headers = {'content-type': 'application/x-www-form-urlencoded'}
-        response = requests.post(url, data=enc, headers=headers)
-        if response.status_code == 200:
-            return HttpResponse("ACTIVATED")
-        elif response.status_code == 403:
-            return HttpResponse("ALREADY ACTIVATED")
-        else:
-            return HttpResponse("Could not activate account with uid:" +
-                                uid + " and token:" + token)
-
-
-class CustomUserView(LoggingMixin, djoser_views.UserView):
-
-    """API endpoint that lets a user view and edit some basic\
-        user related info"""
-    pass
-
-
-class CustomActivationView(LoggingMixin, djoser_views.ActivationView):
-
-    """API endpoint that activates a new user account"""
-    pass
-
-
-class CustomSetUsernameView(LoggingMixin, djoser_views.SetUsernameView):
-
-    """API endpoint that lets a user change his/her username"""
-    pass
-
-
-class CustomSetPasswordView(LoggingMixin, djoser_views.SetPasswordView):
-
-    """API endpoint that lets a user change his/her password"""
-    pass
-
-
-class CustomPasswordResetView(LoggingMixin, djoser_views.PasswordResetView):
-
-    """API endpoint that sends email to user with password reset link"""
-    pass
-
-
-class CustomPasswordResetConfirmView(LoggingMixin,
-                                     djoser_views.PasswordResetConfirmView):
-
-    """Use this endpoint to finish reset password process"""
-    pass
-
-
-class CustomLoginView(LoggingMixin, djoser_views.LoginView):
-
-    """Use this endpoint to obtain user authentication toke"""
-    pass
-
-
-class CustomLogoutView(LoggingMixin, djoser_views.LogoutView):
-
-    """API endpoint for logging out a user"""
-    pass
-
-
-class CustomRootView(LoggingMixin, djoser_views.RootView):
-
-    """API endpoint that lists all user related API endpoints"""
-    pass
-
-
-class CustomUserDetailedView(LoggingMixin, djoser_views.UserView):
-
-    """API endpoint that allows a user to view and edit his personal info"""
-
-    serializer_class = UserProfileSerializer
-    permission_classes = (
-        IsAuthenticated, DjangoModelPermissions,
-    )
-    queryset = User.objects.all()
-
-
-class SpecialtyViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows specialty details to be viewed or edited\
-        (by a permitted user) """
-
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = Specialty.objects.all()
-    serializer_class = SpecialtySerializer
-
-
-class KindViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows specialty details to be viewed or edited\
-        (by a permitted user)"""
-
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = Kind.objects.all()
-    serializer_class = KindSerializer
-
-
-class TaxOfficeViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows specialty details to be viewed or edited\
-        (by a permitted user)"""
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = TaxOffice.objects.all()
-    serializer_class = TaxOfficeSerializer
-
-
-class UserCategoryViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows specialty details to be viewed or edited\
-        (by a permitted user)"""
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = UserCategory.objects.all()
-    serializer_class = UserCategorySerializer
-
-
-class CustomUserRegistrationView(LoggingMixin, djoser_views.RegistrationView):
-
-    """API endpoint for registering a new user"""
-    serializer_class = CustomUserRegistrationSerializer
 
 
 class ProjectViewSet(LoggingMixin, viewsets.ModelViewSet):
