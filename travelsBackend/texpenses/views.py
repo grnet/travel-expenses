@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 from djoser import views as djoser_views
 from django.conf import settings
+from django.db.models import Q
 
 from rest_framework import viewsets, filters, status, mixins
 from rest_framework.response import Response
@@ -502,14 +503,15 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             user_group_name = user_groups[0].name
 
         if request_user.is_staff or user_group_name == "SECRETARY":
-            return Petition.objects.filter(status__gte=2)
+            return Petition.objects.filter(Q(status__gte=2) |
+                                           Q(user=request_user))
             # return Petition.objects.all()
         else:
             return Petition.objects.filter(user=request_user)
 
     serializer_class = UserPetitionSerializer
 
-    def checkPetitionCompleteness(self, request):
+    def checkPetitionCompleteness(self, request, status):
         """TODO: Docstring for checkDataCompleteness.
 
         :request: TODO
@@ -530,8 +532,9 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             kind = request.data['kind']
             taskStartDate = request.data['taskStartDate']
             taskEndDate = request.data['taskEndDate']
-            depart_date = request.data['depart_date']
-            return_date = request.data['return_date']
+            if status > 2:
+                depart_date = request.data['depart_date']
+                return_date = request.data['return_date']
             project = request.data['project']
             reason = request.data['reason']
             movementCategory = request.data['movementCategory']
@@ -545,10 +548,11 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         none_mandatory_fields = ['accomondation', 'recCostParticipation',
                                  'recTransport', 'recAccomondation',
-                                 'depart_date', 'return_date']
+                                 'depart_date', 'return_date', 'advanced_info']
         if user_group_name in ['SECRETARY', 'Unknown']:
             none_mandatory_fields = ['accomondation', 'recCostParticipation',
-                                     'recTransport', 'recAccomondation']
+                                     'recTransport', 'recAccomondation',
+                                     'advanced_info']
         keys = request.data.keys()
 
         for key in keys:
@@ -621,7 +625,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
                         status=status.HTTP_403_FORBIDDEN)
 
     def date_check(self, task_start, task_end, depart_date, return_date,
-                   user_group):
+                   user_group, status):
 
         result = {'error': False, 'msg': ''}
         now = datetime.datetime.now()
@@ -649,7 +653,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
             result['msg'] = 'Task end date should be after task start date'
             return result
 
-        if user_group in ['SECRETARY', 'Unknown']:
+        if user_group in ['SECRETARY', 'Unknown'] and status > 2:
             depart_date = datetime.datetime.strptime(
                 depart_date, '%Y-%m-%dT%H:%M')
 
@@ -684,19 +688,24 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         if chosen_status in submission_statuses:
 
-            tsd = request.data['taskStartDate']
-            ted = request.data['taskEndDate']
-            dd = request.data['depart_date']
-            rd = request.data['return_date']
-
             user_groups = request.user.groups.all()
             user_group_name = 'Unknown'
             if user_groups:
                 user_group_name = user_groups[0].name
 
-            if self.checkPetitionCompleteness(request):
+            print request.data
+
+            if self.checkPetitionCompleteness(request, chosen_status):
+                tsd = request.data['taskStartDate']
+                ted = request.data['taskEndDate']
+                dd = None
+                rd = None
+                if chosen_status > 2:
+                    dd = request.data['depart_date']
+                    rd = request.data['return_date']
                 date_check_result = self.date_check(tsd, ted, dd, rd,
-                                                    user_group_name)
+                                                    user_group_name,
+                                                    chosen_status)
                 if date_check_result['error']:
                     return Response({'error': date_check_result['msg']},
                                     status=status.HTTP_400_BAD_REQUEST)
@@ -712,9 +721,16 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
                                         status=status.HTTP_400_BAD_REQUEST)
                 return super(UserPetitionViewSet, self).create(request)
             else:
+                if self.missing_field is None:
+                    return Response({'error': 'Petition is not complete,'
+                                    ' please insert all mandatory fields'
+                                    ' (missing field:' + "All"
+                                    + ')'},
+                                    status=status.HTTP_400_BAD_REQUEST)
                 return Response({'error': 'Petition is not complete,'
                                  ' please insert all mandatory fields'
-                                 ' (missing field:' + self.missing_field + ')'},
+                                 ' (missing field:' + str(self.missing_field)
+                                 + ')'},
                                 status=status.HTTP_400_BAD_REQUEST)
 
         if chosen_status is None:
@@ -735,20 +751,22 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         if chosen_status in submission_statuses:
 
-            tsd = request.data['taskStartDate']
-
-            ted = request.data['taskEndDate']
-            dd = request.data['depart_date']
-            rd = request.data['return_date']
-
             user_groups = request.user.groups.all()
             user_group_name = 'Unknown'
             if user_groups:
                 user_group_name = user_groups[0].name
 
-            if self.checkPetitionCompleteness(request):
+            if self.checkPetitionCompleteness(request, chosen_status):
+                tsd = request.data['taskStartDate']
+                ted = request.data['taskEndDate']
+                dd = None
+                rd = None
+                if chosen_status > 2:
+                    dd = request.data['depart_date']
+                    rd = request.data['return_date']
                 date_check_result = self.date_check(tsd, ted, dd, rd,
-                                                    user_group_name)
+                                                    user_group_name,
+                                                    chosen_status)
                 if date_check_result['error']:
                     return Response({'error': date_check_result['msg']},
                                     status=status.HTTP_400_BAD_REQUEST)
@@ -764,6 +782,12 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
                 return super(UserPetitionViewSet, self).update(request, pk)
             else:
+                if self.missing_field is None:
+                    return Response({'error': 'Petition is not complete,'
+                                    ' please insert all mandatory fields'
+                                    ' (missing field:' + "All"
+                                    + ')'},
+                                    status=status.HTTP_400_BAD_REQUEST)
                 return Response({'error': 'Petition is not complete,'
                                  ' please insert all mandatory fields'
                                  ' (missing field:' + self.missing_field + ')'},

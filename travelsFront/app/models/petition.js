@@ -37,7 +37,7 @@ export default DS.Model.extend(Validations,{
 	recTransport: DS.attr(),
 	recAccomondation: DS.attr(),
 	recCostParticipation: DS.attr(),
-	additional_expenses_sum: DS.belongsTo('additional-expenses'),
+	additional_expenses_sum: DS.attr(),
 	status: DS.belongsTo('petition-status'),
 	overnights_num: DS.attr(),
 	overnights_num_proposed: DS.attr(),
