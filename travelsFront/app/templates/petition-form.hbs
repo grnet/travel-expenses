@@ -56,6 +56,24 @@
 		</div>
 
 		<div class="profileForm form-group">
+			<label for="depart_date" class="col-sm-2 control-label">Ημ/νία Αναχώρησης</label>
+			<div class="col-sm-4">	
+				{{input value=model.depart_date type="datetime-local" class="form-control"  }}
+			</div>
+			<!-- <div class="col-sm-4">
+				{{bs-datetimepicker date="" format="DD/MM/YYYY-hh:mm a" }}
+			</div> -->
+
+			<label for="return_date" class="col-sm-2 control-label">Ημ/νία Επιστροφής</label>
+			<div class="col-sm-4">	
+				{{input value=model.return_date type="datetime-local" class="form-control" }}
+			</div>
+			<!-- <div class="col-sm-4">
+				{{bs-datetimepicker date="" format="DD/MM/YYYY-hh:mm a" }}
+			</div> -->
+		</div>
+
+		<div class="profileForm form-group">
 			<label for="departurePoint" class="col-sm-2 control-label">Αναχώρηση</label>
 			<div class="col-sm-4">
 				<select onchange={{action "setDeparturePoint" value="target.value"}} class="form-control" id="test">
