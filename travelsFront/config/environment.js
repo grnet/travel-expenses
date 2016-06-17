@@ -1,5 +1,5 @@
 /* jshint node: true */
-
+var API = 'http://127.0.0.1:8000';
 module.exports = function(environment) {
 	var ENV = {
 		modulePrefix: 'travels-front',
@@ -16,13 +16,13 @@ module.exports = function(environment) {
 		APP: {
 			// Here you can pass flags/options to your application instance
 			// when it is created 
-			backend_host: 'http://127.0.0.1:8000',
+			backend_host: API,
 		},
 
-		petition_status_1: 'http://127.0.0.1:8000'+'/petition/petition_status/1/',
-		petition_status_2: 'http://127.0.0.1:8000'+'/petition/petition_status/2/',
-		petition_status_3: 'http://127.0.0.1:8000'+'/petition/petition_status/3/',
-		petition_status_4: 'http://127.0.0.1:8000'+'/petition/petition_status/4/',
+		petition_status_1: API+'/petition/petition_status/1/',
+		petition_status_2: API+'/petition/petition_status/2/',
+		petition_status_3: API+'/petition/petition_status/3/',
+		petition_status_4: API+'/petition/petition_status/4/',
 
 
 	};
@@ -32,7 +32,6 @@ module.exports = function(environment) {
 	};
 
 	ENV['ember-simple-auth-token'] = {
-		//serverTokenEndpoint: 'http://127.0.0.1:8000/auth/login/',
 		serverTokenEndpoint: ENV.APP.backend_host+'/auth/login/',
 		identificationField: 'username',
 		passwordField: 'password',
