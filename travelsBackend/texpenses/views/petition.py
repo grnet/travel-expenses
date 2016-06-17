@@ -367,7 +367,10 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         none_mandatory_fields = ['accomondation', 'recCostParticipation',
                                  'recTransport', 'recAccomondation',
-                                 'depart_date', 'return_date', 'advanced_info']
+                                 'depart_date', 'return_date',
+                                 'advanced_info',
+                                 'additional_expenses_initial',
+                                 'additional_expenses_initial_description']
         if user_group_name in ['SECRETARY', 'Unknown']:
             none_mandatory_fields = ['accomondation', 'recCostParticipation',
                                      'recTransport', 'recAccomondation',

@@ -232,7 +232,7 @@ class Petition(models.Model):
     status = models.ForeignKey(PetitionStatus)
     advanced_info = models.OneToOneField(
         AdvancedPetition, on_delete=models.CASCADE, blank=True, null=True)
-    additional_expenses_initial = models.FloatField(default=0.0)
+    additional_expenses_initial = models.FloatField(blank=True, default=0.0)
     additional_expenses_initial_description = models.CharField(
         max_length=400, blank=True, null=True)
 
