@@ -119,9 +119,9 @@
 				</select>
 			</div>
 
-			<!-- <label for="additional_expenses_sum" class="col-sm-2 control-label">Λοιπά Έξοδα</label>
+			<!-- <label for="additional_expenses_initial" class="col-sm-2 control-label">Λοιπά Έξοδα</label>
 			<div class="col-sm-4">	
-   				{{input value=model.additional_expenses_sum type="text" class="form-control"}}	
+   				{{input value=model.additional_expenses_initial type="text" class="form-control"}}	
 			</div> -->
 		</div> 
 
@@ -133,18 +133,20 @@
 				{{/character-limit}}
 			</div>
 
+			<!-- <label for="additional_expenses_initial_description" class="col-sm-2 control-label" style="font-weight:normal;">Προτεινόμενα Μέσα Μετακίνησης</label>
+			<div class="col-sm-4">	
+				{{#character-limit max=100}}
+					{{textarea value=model.additional_expenses_initial_description type="textarea" cols="75" class="form-control"}}
+				{{/character-limit}}
+			</div> -->
+		</div>
+
+		<div class="profileForm form-group">
 			<label for="recTransport" class="col-sm-2 control-label" style="font-weight:normal;">Προτεινόμενα Μέσα Μετακίνησης</label>
 			<div class="col-sm-4">	
 				{{#character-limit max=100}}
 					{{textarea value=model.recTransport type="textarea" cols="75" class="form-control"}}
 				{{/character-limit}}
-			</div>
-		</div>
-
-		<div class="profileForm form-group">
-			<label for="recCostParticipation" class="col-sm-2 control-label" style="font-weight:normal;">Κόστος Συμμετοχής</label>
-			<div class="col-sm-4">	
-					{{input value=model.recCostParticipation type="number" class="form-control"}}
 			</div>
 
 			<label for="recAccomondation" class="col-sm-2 control-label" style="font-weight:normal;">Προτεινόμενο Κατάλυμα</label>
@@ -152,6 +154,15 @@
 				{{#character-limit max=100}}
 					{{textarea value=model.recAccomondation type="textarea" cols="75" class="form-control"}}
 				{{/character-limit}}
+			</div>
+
+			
+		</div>	
+
+		<div class="profileForm form-group">
+			<label for="recCostParticipation" class="col-sm-2 col-sm-offset-6 control-label" style="font-weight:normal;">Κόστος Συμμετοχής</label>
+			<div class="col-sm-4">	
+					{{input value=model.recCostParticipation type="number" class="form-control"}}
 			</div>
 		</div>		
 	</div>
