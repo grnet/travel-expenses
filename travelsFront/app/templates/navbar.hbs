@@ -11,8 +11,8 @@
 				</ul>	
 				<ul class="nav navbar-nav navbar-left">
 					{{#link-to "profile" tagName="li"}}<a href="">Προφίλ</a>{{/link-to}}
-					{{#link-to "petition" tagName="li"}}<a href="">Νέα Αίτηση</a>{{/link-to}}
 					{{#unless (can "approve petition")}}
+						{{#link-to "petition" tagName="li"}}<a href="">Νέα Αίτηση</a>{{/link-to}}
 						{{#link-to "petitionList" tagName="li"}}<a href="">Αιτήσεις</a>{{/link-to}}
 					{{/unless}}	
 					{{#if (can "approve petition")}}
