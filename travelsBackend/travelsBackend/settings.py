@@ -29,6 +29,7 @@ TEMPLATE_DIRS = ()
 
 MAX_HOLIDAY_DAYS = 60
 HOST_URL = "http://localhost:8000/"
+API_PREFIX = "api"
 # Application definition
 
 INSTALLED_APPS = (

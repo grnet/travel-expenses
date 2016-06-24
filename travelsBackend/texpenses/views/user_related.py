@@ -31,7 +31,7 @@ def custom_activation_view(request, uid=None, token=None):
             'token': token
         }
         enc = urllib.urlencode(payload)
-        url = settings.HOST_URL + 'auth/activate/'
+        url = settings.HOST_URL + settings.API_PREFIX + '/auth/activate/'
         headers = {'content-type': 'application/x-www-form-urlencoded'}
         response = requests.post(url, data=enc, headers=headers)
         if response.status_code == 200:

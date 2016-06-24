@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 from rest_framework import routers
 from texpenses import views
 from django.contrib import admin
+from django.conf import settings
 from . import auth_urls
 
 router = routers.DefaultRouter()
@@ -40,11 +41,12 @@ router_petition.register(
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browseable API.
 admin.autodiscover()
+api_prefix = settings.API_PREFIX
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^auth/', include(auth_urls)),
-    url(r'^users_related/', include(router.urls)),
-    url(r'^petition/', include(router_petition.urls)),
-    url(r'^docs/', include('rest_framework_docs.urls')),
+    url(r'^' + api_prefix + '/admin/', include(admin.site.urls)),
+    url(r'^' + api_prefix + '/auth/', include(auth_urls)),
+    url(r'^' + api_prefix + '/users_related/', include(router.urls)),
+    url(r'^' + api_prefix + '/petition/', include(router_petition.urls)),
+    url(r'^' + api_prefix + '/docs/', include('rest_framework_docs.urls')),
 
 ]
