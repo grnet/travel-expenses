@@ -1,5 +1,6 @@
 /* jshint node: true */
-var API = 'http://127.0.0.1:8000';
+var API_EP='http://127.0.0.1:8000/api'
+var APPLICATION_URL_PREFIX='/app/'
 module.exports = function(environment) {
 	var ENV = {
 		modulePrefix: 'travels-front',
@@ -16,13 +17,14 @@ module.exports = function(environment) {
 		APP: {
 			// Here you can pass flags/options to your application instance
 			// when it is created 
-			backend_host: API,
+			backend_host: API_EP,
+			app_url_prefix: APPLICATION_URL_PREFIX
 		},
 
-		petition_status_1: API+'/petition/petition_status/1/',
-		petition_status_2: API+'/petition/petition_status/2/',
-		petition_status_3: API+'/petition/petition_status/3/',
-		petition_status_4: API+'/petition/petition_status/4/',
+		petition_status_1: API_EP+'/petition/petition_status/1/',
+		petition_status_2: API_EP+'/petition/petition_status/2/',
+		petition_status_3: API_EP+'/petition/petition_status/3/',
+		petition_status_4: API_EP+'/petition/petition_status/4/',
 
 
 	};
