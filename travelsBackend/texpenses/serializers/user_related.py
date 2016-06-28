@@ -67,10 +67,10 @@ class CustomUserRegistrationSerializer(
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
-        group = Group.objects.get(name='USER')
+        group, created = Group.objects.get_or_create(name='USER')
         group.user_set.add(user)
 
-        category = UserCategory.objects.get(name='B')
+        category, created = UserCategory.objects.get_or_create(name='B')
 
         if settings.get('SEND_ACTIVATION_EMAIL'):
             user.is_active = False
