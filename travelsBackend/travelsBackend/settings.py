@@ -8,9 +8,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+# Build paths inside the dir manage commands are run from.
+BASE_DIR = os.path.abspath(os.getcwd())
 
 
 # Quick-start development settings - unsuitable for production
@@ -20,9 +21,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '26ch88!x45adfwl4-6vuh6@3z^-@8#^b8#a@)ty(tp^)1!za*x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-TEMPLATE_DEBUG = True
+DEBUG = False
+TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = []
 TEMPLATE_DIRS = ()
@@ -64,10 +64,6 @@ DJOSER = {
     'SITE_NAME': 'GRNET Travel Expenses',
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
 }
-# email-conf
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = './emails'  # change this to a proper location
-
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -89,7 +85,7 @@ AUTH_USER_MODEL = 'texpenses.UserProfile'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'mydb.sqlite3'),
     }
 }
 
@@ -132,7 +128,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': './logs/debug.log',
+            'filename': os.path.join(BASE_DIR, 'travelexpenses.log'),
             'formatter': 'verbose'
         },
         'console': {
@@ -152,3 +148,10 @@ LOGGING = {
         }
     }
 }
+
+
+# useful trick for custom settings
+try:
+    from local_settings import *
+except ImportError, e:
+    pass
