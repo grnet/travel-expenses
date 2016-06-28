@@ -1,6 +1,8 @@
 *.py[cod]
 *$py.class
 
+.ropeproject
+*.*~
 *.js~
 *.hbs~
 travelsFront/package.json~
@@ -17,7 +19,7 @@ instructions.txt~
 travelsBackend/texpenses/migrations/*
 #backend sqlite testing db
 
-travelsBackend/db.sqlite3
+*.sqlite3
 .gitignore~
 *.py~
 *$py.class
