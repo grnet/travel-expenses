@@ -4,7 +4,6 @@ import ENV from 'travels-front/config/environment';
 
 const Router = Ember.Router.extend({
 	location: config.locationType,
-	rootURL:ENV.APP.app_url_prefix
 });
 
 Router.map(function() {

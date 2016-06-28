@@ -1,11 +1,11 @@
 /* jshint node: true */
-var API_EP='http://127.0.0.1:8000/api'
+var API_EP='/api'
 var APPLICATION_URL_PREFIX='/app/'
 module.exports = function(environment) {
 	var ENV = {
 		modulePrefix: 'travels-front',
 		environment: environment,
-		baseURL: '/',
+		baseURL: '/ui/',
 		locationType: 'auto',
 		EmberENV: {
 			FEATURES: {
