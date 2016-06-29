@@ -501,6 +501,9 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
     def create(self, request):
         request.data['user'] = request.user
 
+        if request.data['status'] is None:
+            return Response({'error': 'Missing petition status'},
+                            status=status.HTTP_400_BAD_REQUEST)
         chosen_status = str(request.data['status'])
 
         chosen_status = chosen_status[
@@ -564,8 +567,14 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
     def update(self, request, pk=None):
         request.data['user'] = request.user
 
+        if request.data['status'] is None:
+            return Response({'error': 'Missing petition status'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
         chosen_status = str(request.data['status'])
 
+        # import pdb
+        # pdb.set_trace()
         chosen_status = chosen_status[
             chosen_status.index('status') + 7:-1]
         chosen_status = int(chosen_status)
