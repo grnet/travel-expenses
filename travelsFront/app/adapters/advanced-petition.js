@@ -31,7 +31,7 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 		if (requestType === "findRecord"){
 			url = id;
 		}
-		
+
 		return url;
 	} 
 

@@ -5,49 +5,47 @@ import ENV from 'travels-front/config/environment';
 
 export default DS.RESTAdapter.extend(DataAdapterMixin,{
 	host: ENV.APP.backend_host,
-	namespace: '/auth',
+	namespace: '/petition',
 	contentType: 'application/json',
 	dataType: 'json',
 	authorizer: 'authorizer:token',
+	user_related_models:['category','kind','specialty','tax-office'],
+
 
 
 	buildURL: function(modelName, id, snapshot, requestType, query) {
 
 		var url = this._super(modelName, id, snapshot, requestType, query);
 
-		if (modelName === "account" && requestType === "createRecord"){
-			url =this.get('host') +this.get('namespace')+"/register/";
+
+		if (this.get('user_related_models').contains(modelName))
+			this.set('namespace','/users_related');
+		else
+			this.set('namespace','/petition');
+
+		if (requestType==="findRecord"){
+			url=id;
 		}
-		else if (modelName === "profile") {
-			url= this.get('host')+this.get('namespace')+'/me/detailed/';
+		if (requestType==="findAll"){
+			url = this.get('host') +this.get('namespace')+"/"+modelName+"/";
+		}
+		if (requestType === "updateRecord"){
+
+			url = id;
+		}
+		if (requestType === "createRecord"){
+			url = url + "/";
+		}
+		if (requestType === "deleteRecord"){
+			url = id;
+		}
+		if (requestType==="query"){
+			url = this.get('host') +this.get('namespace')+"/"+modelName+"/";
 		}
 
 		return url;
-	},
-
-	normalizeErrorResponse: function(store, primaryModelClass, payload,id,requestType) {
-		
-		if (payload && typeof payload === 'object' && payload.errors) {
-			return payload.errors;
-		} 
-		else {
-			var username='';
-			if (payload.username!=null) {
-				username=payload.username[0];
-			}
-			var email='';
-			if (payload.email!=null) {
-				email=payload.email[0];
-			}
-
-			return [
-				{
-					username: username,
-					email: email
-				}
-			];
-		}
 	}
+
 
 
 
