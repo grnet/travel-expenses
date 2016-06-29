@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
 
 			var self=this;
 			var petition=self.get('model');
-			
+
 			if (petition.get('hasDirtyAttributes')) {
 
 				var changed_attributes=petition.changedAttributes();
@@ -32,14 +32,14 @@ export default Ember.Controller.extend({
 				let self=this;
 				let movementID='';
 				if (id == 10){
-					movementID = ENV.APP.backend_host+'/petition/movement_categories/1/';
+					movementID = ENV.APP.backend_host+'/petition/movement-categories/1/';
 
 					self.store.findRecord('movement-category', movementID).then(function(mc) {
 						self.get('model').set('movementCategory',mc)		
 					});
 				}
 				else{
-					movementID = ENV.APP.backend_host+'/petition/movement_categories/2/';
+					movementID = ENV.APP.backend_host+'/petition/movement-categories/2/';
 
 					self.store.findRecord('movement-category', movementID).then(function(mc) {
 						self.get('model').set('movementCategory',mc)		
@@ -59,7 +59,7 @@ export default Ember.Controller.extend({
 
 		petitionSave(){
 
-		let profileIsValid=this.get('model.validations.isValid');
+			let profileIsValid=this.get('model.validations.isValid');
 
 			if (profileIsValid) {
 
@@ -68,7 +68,7 @@ export default Ember.Controller.extend({
 
 				var self=this;
 				this.get('model').save().then(function(value) {
-					
+
 					self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
 					self.set('petitionNotSaved',false);
 					console.log('petitionNotSaved', self.get('petitionNotSaved'));
@@ -85,7 +85,7 @@ export default Ember.Controller.extend({
 				});
 			}
 		},
-		
+
 		petitionSubmit(){
 
 			let profileIsValid=this.get('model.validations.isValid');

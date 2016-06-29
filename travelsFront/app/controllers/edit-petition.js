@@ -32,14 +32,14 @@ export default Ember.Controller.extend({
 				let self=this;
 				let movementID='';
 				if (id == 10){
-					movementID = ENV.APP.backend_host+'/petition/movement_categories/1/';
+					movementID = ENV.APP.backend_host+'/petition/movement-categories/1/';
 
 					self.store.findRecord('movement-category', movementID).then(function(mc) {
 						self.get('model').set('movementCategory',mc)		
 					});
 				}
 				else{
-					movementID = ENV.APP.backend_host+'/petition/movement_categories/2/';
+					movementID = ENV.APP.backend_host+'/petition/movement-categories/2/';
 
 					self.store.findRecord('movement-category', movementID).then(function(mc) {
 						self.get('model').set('movementCategory',mc)		

@@ -1,5 +1,5 @@
 /* jshint node: true */
-var API_EP='/api'
+var API_EP='http://localhost:8000/api'
 var APPLICATION_URL_PREFIX='/app/'
 module.exports = function(environment) {
 	var ENV = {
@@ -21,10 +21,10 @@ module.exports = function(environment) {
 			app_url_prefix: APPLICATION_URL_PREFIX
 		},
 
-		petition_status_1: API_EP+'/petition/petition_status/1/',
-		petition_status_2: API_EP+'/petition/petition_status/2/',
-		petition_status_3: API_EP+'/petition/petition_status/3/',
-		petition_status_4: API_EP+'/petition/petition_status/4/',
+		petition_status_1: API_EP+'/petition/petition-status/1/',
+		petition_status_2: API_EP+'/petition/petition-status/2/',
+		petition_status_3: API_EP+'/petition/petition-status/3/',
+		petition_status_4: API_EP+'/petition/petition-status/4/',
 
 
 	};
