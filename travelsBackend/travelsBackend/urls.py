@@ -8,7 +8,7 @@ from . import auth_urls
 
 router = routers.DefaultRouter()
 router.register(r'specialty', views.SpecialtyViewSet)
-router.register(r'taxoffice', views.TaxOfficeViewSet)
+router.register(r'tax-office', views.TaxOfficeViewSet)
 router.register(r'kind', views.KindViewSet)
 router.register(r'category', views.UserCategoryViewSet)
 
@@ -16,27 +16,27 @@ router.register(r'category', views.UserCategoryViewSet)
 router_petition = routers.DefaultRouter()
 router_petition.register(r'project', views.ProjectViewSet)
 router_petition.register(
-    r'movement_categories', views.MovementCategoriesViewSet)
+    r'movement-categories', views.MovementCategoriesViewSet)
 router_petition.register(r'city', views.CityViewSet)
 router_petition.register(r'country', views.CountryViewSet)
-router_petition.register(r'country_categories', views.CountryCategoryViewSet)
+router_petition.register(r'country-categories', views.CountryCategoryViewSet)
 router_petition.register(r'transportation', views.TransportationViewSet)
 # router_petition.register(r'user', views.PetitionUserView)
-router_petition.register(r'accomondation', views.AccomondationViewSet,
+router_petition.register(r'accommondation', views.AccomondationViewSet,
                          base_name='accomondation')
 router_petition.register(r'advanced_petition', views.AdvancedPetitionViewSet,
                          base_name='advancedpetition')
-router_petition.register(r'compensation_categories', views.CompensationViewSet)
+router_petition.register(r'compensation-categories', views.CompensationViewSet)
 router_petition.register(r'feeding', views.FeedingViewSet)
 router_petition.register(r'flight', views.FlightViewSet, base_name='flight')
-router_petition.register(r'additional_expenses',
+router_petition.register(r'additional-expenses',
                          views.AdditionalExpensesViewSet,
                          base_name='additionalexpenses')
 
 router_petition.register(
     r'user_petition', views.UserPetitionViewSet, 'petition')
 router_petition.register(
-    r'petition_status', views.PetitionStatusViewSet)
+    r'petition-status', views.PetitionStatusViewSet)
 
 
 # Wire up our API using automatic URL routing.
@@ -79,5 +79,5 @@ if getattr(settings, 'SERVE_UI', True):
         url('^%s.*' % ui_prefix, serve, {
             'path': 'index.html',
             'document_root': ui_root
-        }),
+            }),
     ]
