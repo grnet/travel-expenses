@@ -43,6 +43,10 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 			url = this.get('host') +this.get('namespace')+"/"+modelName+"/";
 		}
 
+		if (modelName === "account" && requestType === "createRecord"){
+			url =this.get('host') +'/auth'+'/register/';
+		}
+
 		return url;
 	}
 
