@@ -135,7 +135,6 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
         user_object = self.context['request'].user
         validated_data['user'] = user_object
 
-        # advanced_pet_info = validated_data['advanced_info']
         validated_data['trip_days_before'] = user_object.trip_days_left
 
         arrival_point = validated_data['arrivalPoint']
@@ -147,8 +146,6 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
             country_category_name = arrival_point.country.category.name
             compensation_object = Compensation.objects.get(
                 name=user_category.name + country_category_name)
-
-        # if not (advanced_pet_info and advanced_pet_info != ""):
 
         print "Create an empty advanced petition"
 
@@ -181,7 +178,6 @@ class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
         compensation_object = None
         status = validated_data['status']
 
-        print user_category
         if arrival_point and user_category:
             country_category_name = arrival_point.country.category.name
             compensation_object = Compensation.objects.get(
