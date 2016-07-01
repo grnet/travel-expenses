@@ -1,66 +1,52 @@
 from rest_framework import serializers
-from texpenses.models import Project, MovementCategories, City, Country,\
-    CountryCategory, Transportation, PetitionStatus, AdditionalExpenses,\
-    Compensation, FeedingKind, Flight, Accomondation, AdvancedPetition,\
-    Petition
+from rest_framework.fields import Field
+from collections import OrderedDict
+
+from texpenses.models import AdditionalExpenses, Compensation, FeedingKind,\
+    Flight, Accomondation, AdvancedPetition, Petition
 from django.conf import settings as django_settings
 import datetime
 
 
-class ProjectSerializer(serializers.HyperlinkedModelSerializer):
+def modelserializer_factory(mdl, fields=None, read_only_fields=None, **kwargss):
+    """ Generalized serializer factory to increase DRYness of code.
 
-    class Meta:
-        model = Project
-        fields = ('id', 'name', 'accountingCode', 'url')
-        read_only_fields = ('id', 'url',)
+    :param mdl: The model for the ModelSerializer
+    :param fields: The fields that should be exclusively present on the\
+        serializer
+    :param read_only_fields: The fields that should be read only on the\
+        serialzer
+    :param kwargss: Optional additional field specifications
+    :return: An awesome ModelSerializer
+    """
 
+    def _get_declared_fields(attrs):
+        fields = [(field_name, attrs.pop(field_name))
+                  for field_name, obj in list(attrs.items())
+                  if isinstance(obj, Field)]
+        fields.sort(key=lambda x: x[1]._creation_counter)
+        return OrderedDict(fields)
 
-class MovementCategoriesSerializer(serializers.HyperlinkedModelSerializer):
+    # Create an object that will look like a base serializer
+    class Base(object):
+        pass
 
-    class Meta:
-        model = MovementCategories
-        fields = ('id', 'name', 'url')
-        read_only_fields = ('id', 'url')
+    Base._declared_fields = _get_declared_fields(kwargss)
 
+    class TESerializer(Base, serializers.HyperlinkedModelSerializer):
 
-class CitySerializer(serializers.HyperlinkedModelSerializer):
+        class Meta:
+            model = mdl
 
-    class Meta:
-        model = City
-        fields = ('id', 'name', 'country', 'url')
-        read_only_fields = ('id', 'url')
+        if read_only_fields is None:
+            setattr(Meta, "read_only_fields", ('id', 'url'))
+        else:
+            setattr(Meta, "read_only_fields", read_only_fields)
 
+        if fields:
+            setattr(Meta, "fields", fields)
 
-class CountrySerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = Country
-        fields = ('id', 'name', 'category', 'url')
-        read_only_fields = ('id', 'url')
-
-
-class CountryCategorySerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = CountryCategory
-        fields = ('id', 'name', 'url')
-        read_only_fields = ('id', 'url')
-
-
-class TransportationSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = Transportation
-        fields = ('id', 'name', 'url')
-        read_only_fields = ('id', 'url')
-
-
-class PetitionStatusSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = PetitionStatus
-        fields = ('id', 'name', 'url')
-        read_only_fields = ('id', 'url')
+    return TESerializer
 
 
 class AdditionalExpensesSerializer(serializers.HyperlinkedModelSerializer):
@@ -75,57 +61,6 @@ class AdditionalExpensesSerializer(serializers.HyperlinkedModelSerializer):
         model = AdditionalExpenses
         fields = ('id', 'name', 'cost', 'petition', 'url')
         read_only_fields = ('id', 'url')
-
-
-class CompensationSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = Compensation
-        fields = ('id', 'name', 'country_category', 'user_category',
-                  'compensation', 'url')
-        read_only_fields = ('id', 'url')
-
-
-class FeedingKindSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = FeedingKind
-        fields = ('id', 'name', 'url')
-        read_only_fields = ('id', 'url')
-
-
-class FlightSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = Flight
-        fields = ('id', 'flightName', 'flightPrice', 'url')
-        read_only_fields = ('id', 'url')
-
-
-class AccomondationSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = Accomondation
-        fields = ('id', 'hotel', 'hotelPrice', 'url')
-        read_only_fields = ('id', 'url')
-
-
-class AdvancedPetitionSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = AdvancedPetition
-        fields = ('id', 'petition', 'movement_num', 'dse', 'accomondation',
-                  'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
-                  'compensation', 'expenditure_protocol',
-                  'expenditure_date_protocol', 'movement_protocol',
-                  'movement_date_protocol', 'compensation_petition_protocol',
-                  'compensation_petition_date',
-                  'compensation_decision_protocol',
-                  'compensation_decision_date', 'url',
-                  'transport_days_manual', 'overnights_num_manual',
-                  'compensation_days_manual'
-                  )
-        read_only_fields = ('id', 'url', 'petition')
 
 
 class UserPetitionSerializer(serializers.HyperlinkedModelSerializer):
