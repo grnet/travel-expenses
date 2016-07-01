@@ -31,8 +31,8 @@ class ProjectViewSet(LoggingMixin, viewsets.ModelViewSet):
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = Project.objects.all()
-    fields = ('id', 'name', 'accountingCode', 'url')
-    serializer_class = modelserializer_factory(Project, fields)
+    # fields = ('id', 'name', 'accountingCode', 'url')
+    serializer_class = modelserializer_factory(Project)
 
 
 class MovementCategoriesViewSet(LoggingMixin, viewsets.ModelViewSet):
@@ -43,8 +43,8 @@ class MovementCategoriesViewSet(LoggingMixin, viewsets.ModelViewSet):
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = MovementCategories.objects.all()
-    fields = ('id', 'name', 'url')
-    serializer_class = modelserializer_factory(MovementCategories, fields)
+    # fields = ('id', 'name', 'url')
+    serializer_class = modelserializer_factory(MovementCategories)
 
 
 class CityViewSet(LoggingMixin, viewsets.ModelViewSet):
@@ -55,8 +55,8 @@ class CityViewSet(LoggingMixin, viewsets.ModelViewSet):
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = City.objects.all()
-    fields = ('id', 'name', 'country', 'url')
-    serializer_class = modelserializer_factory(City, fields)
+    # fields = ('id', 'name', 'country', 'url')
+    serializer_class = modelserializer_factory(City)
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ['country']
 
@@ -69,8 +69,8 @@ class CountryViewSet(LoggingMixin, viewsets.ModelViewSet):
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = Country.objects.all()
-    fields = ('id', 'name', 'category', 'url')
-    serializer_class = modelserializer_factory(Country, fields)
+    # fields = ('id', 'name', 'category', 'url')
+    serializer_class = modelserializer_factory(Country)
 
 
 class CountryCategoryViewSet(LoggingMixin, viewsets.ModelViewSet):
@@ -81,8 +81,8 @@ class CountryCategoryViewSet(LoggingMixin, viewsets.ModelViewSet):
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = CountryCategory.objects.all()
-    fields = ('id', 'name', 'url')
-    serializer_class = modelserializer_factory(CountryCategory, fields)
+    # fields = ('id', 'name', 'url')
+    serializer_class = modelserializer_factory(CountryCategory)
 
 
 class TransportationViewSet(LoggingMixin, viewsets.ModelViewSet):
@@ -93,8 +93,8 @@ class TransportationViewSet(LoggingMixin, viewsets.ModelViewSet):
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = Transportation.objects.all()
-    fields = ('id', 'name', 'url')
-    serializer_class = modelserializer_factory(Transportation, fields)
+    # fields = ('id', 'name', 'url')
+    serializer_class = modelserializer_factory(Transportation)
 
 
 class PetitionStatusViewSet(LoggingMixin, viewsets.ModelViewSet):
@@ -105,8 +105,8 @@ class PetitionStatusViewSet(LoggingMixin, viewsets.ModelViewSet):
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = PetitionStatus.objects.all()
-    fields = ('id', 'name', 'url')
-    serializer_class = modelserializer_factory(PetitionStatus, fields)
+    # fields = ('id', 'name', 'url')
+    serializer_class = modelserializer_factory(PetitionStatus)
 
 
 class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
@@ -151,8 +151,8 @@ class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
                             status=status.HTTP_400_BAD_REQUEST)
 
         return super(AccomondationViewSet, self).update(request, pk)
-    fields = ('id', 'hotel', 'hotelPrice', 'url')
-    serializer_class = modelserializer_factory(Accomondation, fields)
+    # fields = ('id', 'hotel', 'hotelPrice', 'url')
+    serializer_class = modelserializer_factory(Accomondation)
 
 
 class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
@@ -175,20 +175,20 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
         request_user = self.request.user
         return get_queryset_on_group(request_user, AdvancedPetition)
 
-    fields = ('id', 'petition', 'movement_num', 'dse', 'accomondation',
-              'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
-              'compensation', 'expenditure_protocol',
-              'expenditure_date_protocol', 'movement_protocol',
-              'movement_date_protocol', 'compensation_petition_protocol',
-              'compensation_petition_date',
-              'compensation_decision_protocol',
-              'compensation_decision_date', 'url',
-              'transport_days_manual', 'overnights_num_manual',
-              'compensation_days_manual'
-              )
-    read_only_fields = ('id', 'url', 'petition')
+    # fields = ('id', 'petition', 'movement_num', 'dse', 'accomondation',
+              # 'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
+              # 'compensation', 'expenditure_protocol',
+              # 'expenditure_date_protocol', 'movement_protocol',
+              # 'movement_date_protocol', 'compensation_petition_protocol',
+              # 'compensation_petition_date',
+              # 'compensation_decision_protocol',
+              # 'compensation_decision_date', 'url',
+              # 'transport_days_manual', 'overnights_num_manual',
+              # 'compensation_days_manual'
+              # )
+    # read_only_fields = ('id', 'url', 'petition')
     serializer_class = modelserializer_factory(
-        AdvancedPetition, fields, read_only_fields)
+        AdvancedPetition)
 
     def destroy(self, request, pk=None):
         print "Deleting advanced petition with id:" + str(pk)
@@ -229,8 +229,8 @@ class FlightViewSet(LoggingMixin, viewsets.ModelViewSet):
             request.data['flightPrice'] = flight_cost
 
         return super(FlightViewSet, self).update(request, pk)
-    fields = ('id', 'flightName', 'flightPrice', 'url')
-    serializer_class = modelserializer_factory(Flight, fields)
+    # fields = ('id', 'flightName', 'flightPrice', 'url')
+    serializer_class = modelserializer_factory(Flight)
 
 
 class CompensationViewSet(LoggingMixin, viewsets.ModelViewSet):
@@ -241,9 +241,9 @@ class CompensationViewSet(LoggingMixin, viewsets.ModelViewSet):
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = Compensation.objects.all()
-    fields = ('id', 'name', 'country_category', 'user_category',
-              'compensation', 'url')
-    serializer_class = modelserializer_factory(Compensation, fields)
+    # fields = ('id', 'name', 'country_category', 'user_category',
+              # 'compensation', 'url')
+    serializer_class = modelserializer_factory(Compensation)
 
 
 class AdditionalExpensesViewSet(LoggingMixin, viewsets.ModelViewSet):
@@ -277,8 +277,8 @@ class FeedingViewSet(LoggingMixin, viewsets.ModelViewSet):
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = FeedingKind.objects.all()
-    fields = ('id', 'name', 'url')
-    serializer_class = modelserializer_factory(FeedingKind, fields)
+    # fields = ('id', 'name', 'url')
+    serializer_class = modelserializer_factory(FeedingKind)
 
 
 class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):

@@ -16,6 +16,9 @@ class Accomondation(models.Model):
     hotelPrice = models.FloatField(blank=True, null=True)
     user = models.ForeignKey(UserProfile)
 
+    class APITravel(object):
+        fields = ('id', 'hotel', 'hotelPrice', 'url')
+
     def __unicode__(self):
         """TODO: Docstring for __unicode__.
         :returns: TODO
@@ -32,6 +35,9 @@ class Flight(models.Model):
     flightPrice = models.FloatField(blank=True, null=True)
     user = models.ForeignKey(UserProfile)
 
+    class APITravel(object):
+        fields = ('id', 'flightName', 'flightPrice', 'url')
+
     def __unicode__(self):
         """TODO: Docstring for __unicode__.
         :returns: TODO
@@ -47,6 +53,9 @@ class Project(models.Model):
     name = models.CharField(max_length=200, blank=True, null=True)
     accountingCode = models.CharField(max_length=20)
 
+    class APITravel(object):
+        fields = ('id', 'name', 'accountingCode', 'url')
+
     def __unicode__(self):
         return self.name
 
@@ -56,6 +65,9 @@ class MovementCategories(models.Model):
     """Docstring for MovementCategories. """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
+
+    class APITravel(object):
+        fields = ('id', 'name', 'url')
 
     def __unicode__(self):
         """TODO: to be defined1. """
@@ -69,6 +81,9 @@ class CountryCategory(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
 
+    class APITravel(object):
+        fields = ('id', 'name', 'url')
+
     def __unicode__(self):
         """TODO: to be defined. """
         return self.name
@@ -80,6 +95,9 @@ class Country(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
     category = models.ForeignKey(CountryCategory)
+
+    class APITravel(object):
+        fields = ('id', 'name', 'category', 'url')
 
     def __unicode__(self):
         """TODO: to be defined1. """
@@ -93,6 +111,9 @@ class City(models.Model):
     name = models.CharField(max_length=20)
     country = models.ForeignKey(Country, blank=True, null=True)
 
+    class APITravel(object):
+        fields = ('id', 'name', 'country', 'url')
+
     def __unicode__(self):
         """TODO: to be defined. """
         return self.name
@@ -104,6 +125,9 @@ class Transportation(models.Model):
 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
+
+    class APITravel(object):
+        fields = ('id', 'name', 'url')
 
     def __unicode__(self):
         """TODO: to be defined1. """
@@ -117,6 +141,9 @@ class PetitionStatus(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
 
+    class APITravel(object):
+        fields = ('id', 'name', 'url')
+
     def __unicode__(self):
         """TODO: to be defined1. """
         return self.name
@@ -127,6 +154,9 @@ class FeedingKind(models.Model):
     """Docstring for FeedindKind. """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
+
+    class APITravel(object):
+        fields = ('id', 'name', 'url')
 
     def __unicode__(self):
         return self.name
@@ -140,6 +170,10 @@ class Compensation(models.Model):
     country_category = models.ForeignKey(CountryCategory, blank=True, null=True)
     user_category = models.ForeignKey(UserCategory, blank=True, null=True)
     compensation = models.IntegerField()
+
+    class APITravel(object):
+        fields = ('id', 'name', 'country_category', 'user_category',
+                  'compensation', 'url')
 
     def __unicode__(self):
         """TODO: to be defined1. """
@@ -187,6 +221,20 @@ class AdvancedPetition(models.Model):
     compensation_decision_protocol = models.CharField(
         max_length=30, null=True, blank=True)
     compensation_decision_date = models.DateField(blank=True, null=True)
+
+    class APITravel(object):
+        fields = ('id', 'petition', 'movement_num', 'dse', 'accomondation',
+                  'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
+                  'compensation', 'expenditure_protocol',
+                  'expenditure_date_protocol', 'movement_protocol',
+                  'movement_date_protocol', 'compensation_petition_protocol',
+                  'compensation_petition_date',
+                  'compensation_decision_protocol',
+                  'compensation_decision_date', 'url',
+                  'transport_days_manual', 'overnights_num_manual',
+                  'compensation_days_manual'
+                  )
+        read_only_fields = ('id', 'url', 'petition')
 
     def __unicode__(self):
         return str(self.id)

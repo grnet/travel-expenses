@@ -2,8 +2,11 @@ from rest_framework import serializers
 from rest_framework.fields import Field
 from collections import OrderedDict
 
+READ_ONLY_FIELDS = ('id', 'url')
 
-def modelserializer_factory(mdl, fields=None, read_only_fields=None, **kwargss):
+
+def modelserializer_factory(mdl, api_name='APITravel',
+                            **kwargss):
     """ Generalized serializer factory to increase DRYness of code.
 
     :param mdl: The model for the HyperLinkedModelSerializer
@@ -27,16 +30,17 @@ def modelserializer_factory(mdl, fields=None, read_only_fields=None, **kwargss):
         pass
 
     Base._declared_fields = _get_declared_fields(kwargss)
+    model_meta = getattr(mdl, api_name)
+    fields = ('id', 'url') if model_meta is None else model_meta.fields
+    read_only_fields = READ_ONLY_FIELDS + getattr(
+        model_meta, 'read_only_fields', ())
 
     class TESerializer(Base, serializers.HyperlinkedModelSerializer):
 
         class Meta:
             model = mdl
 
-        if read_only_fields is None:
-            setattr(Meta, "read_only_fields", ('id', 'url'))
-        else:
-            setattr(Meta, "read_only_fields", read_only_fields)
+        setattr(Meta, "read_only_fields", read_only_fields)
 
         if fields:
             setattr(Meta, "fields", fields)

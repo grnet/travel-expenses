@@ -11,6 +11,9 @@ class Specialty(models.Model):
     name = models.CharField(max_length=200)
     id = models.AutoField(primary_key=True)
 
+    class APITravel(object):
+        fields = ('name', 'id', 'url', )
+
     def __unicode__(self):
         return self.name
 
@@ -21,6 +24,9 @@ class Kind(models.Model):
 
     name = models.CharField(max_length=200)
     id = models.AutoField(primary_key=True)
+
+    class APITravel(object):
+        fields = ('name', 'id', 'url', )
 
     def __unicode__(self):
         return self.name
@@ -33,6 +39,9 @@ class UserCategory(models.Model):
     name = models.CharField(max_length=10)
     id = models.AutoField(primary_key=True)
     max_overnight_cost = models.FloatField(default=0.0)
+
+    class APITravel(object):
+        fields = ('name', 'id', 'max_overnight_cost', 'url', )
 
     def __unicode__(self):
         return self.name
@@ -47,6 +56,10 @@ class TaxOffice(models.Model):
     address = models.CharField(max_length=20)
     email = models.EmailField(blank=True)
     phone = models.CharField(max_length=20)
+
+    class APITravel(object):
+        fields = ('name', 'kindDescription', 'address',
+                  'email', 'phone', 'id', 'url',)
 
     def __unicode__(self):
         return self.name
@@ -63,6 +76,17 @@ class UserProfile(AbstractUser):
     category = models.ForeignKey(
         UserCategory, blank=True, null=True)
     trip_days_left = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
+
+    class APITravel(object):
+        fields = ('username', 'first_name', 'last_name',
+                  'email', 'password',
+                  'iban', 'specialtyID', 'kind', 'taxRegNum', 'taxOffice',
+                  'category', 'user_group', 'trip_days_left')
+        read_only_fields = (
+            'username',
+            'password',
+            'trip_days_left'
+        )
 
     def user_group(self):
         groups = self.groups.all()
