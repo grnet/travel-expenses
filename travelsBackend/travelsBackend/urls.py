@@ -4,13 +4,15 @@ from texpenses import views
 from django.contrib import admin
 from django.conf import settings
 from django.views.generic.base import RedirectView
+from texpenses.views.factories import viewset_factory
+from texpenses.models import Specialty, TaxOffice, Kind, UserCategory
 from . import auth_urls
 
 router = routers.DefaultRouter()
-router.register(r'specialty', views.SpecialtyViewSet)
-router.register(r'tax-office', views.TaxOfficeViewSet)
-router.register(r'kind', views.KindViewSet)
-router.register(r'category', views.UserCategoryViewSet)
+router.register(r'specialty', viewset_factory(Specialty))
+router.register(r'tax-office', viewset_factory(TaxOffice))
+router.register(r'kind', viewset_factory(Kind))
+router.register(r'category', viewset_factory(UserCategory))
 
 
 router_petition = routers.DefaultRouter()

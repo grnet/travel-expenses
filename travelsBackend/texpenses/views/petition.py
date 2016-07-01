@@ -175,18 +175,6 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
         request_user = self.request.user
         return get_queryset_on_group(request_user, AdvancedPetition)
 
-    # fields = ('id', 'petition', 'movement_num', 'dse', 'accomondation',
-              # 'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
-              # 'compensation', 'expenditure_protocol',
-              # 'expenditure_date_protocol', 'movement_protocol',
-              # 'movement_date_protocol', 'compensation_petition_protocol',
-              # 'compensation_petition_date',
-              # 'compensation_decision_protocol',
-              # 'compensation_decision_date', 'url',
-              # 'transport_days_manual', 'overnights_num_manual',
-              # 'compensation_days_manual'
-              # )
-    # read_only_fields = ('id', 'url', 'petition')
     serializer_class = modelserializer_factory(
         AdvancedPetition)
 

@@ -8,13 +8,8 @@ from django.http import HttpResponse
 from rest_framework_tracking.mixins import LoggingMixin
 from djoser import views as djoser_views
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
-from rest_framework import viewsets
-from rest_framework.authentication import SessionAuthentication,\
-    TokenAuthentication
-from texpenses.custom_permissions import isAdminOrRead
 from texpenses.serializers import CustomUserRegistrationSerializer
 from texpenses.serializers.factories import modelserializer_factory
-from texpenses.models import Specialty, Kind, TaxOffice, UserCategory
 
 
 logger = logging.getLogger(__name__)
@@ -106,52 +101,6 @@ class CustomUserDetailedView(LoggingMixin, djoser_views.UserView):
         IsAuthenticated, DjangoModelPermissions,
     )
     queryset = User.objects.all()
-
-
-class SpecialtyViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows specialty details to be viewed or edited\
-        (by a permitted user) """
-
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = Specialty.objects.all()
-    serializer_class = modelserializer_factory(Specialty)
-
-
-class KindViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows specialty details to be viewed or edited\
-        (by a permitted user)"""
-
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = Kind.objects.all()
-    serializer_class = modelserializer_factory(Kind)
-
-
-class TaxOfficeViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows specialty details to be viewed or edited\
-        (by a permitted user)"""
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = TaxOffice.objects.all()
-    serializer_class = modelserializer_factory(TaxOffice)
-
-
-class UserCategoryViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows specialty details to be viewed or edited\
-        (by a permitted user)"""
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = UserCategory.objects.all()
-    serializer_class = modelserializer_factory(UserCategory)
 
 
 class CustomUserRegistrationView(LoggingMixin, djoser_views.RegistrationView):
