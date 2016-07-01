@@ -1,14 +1,4 @@
-@import "bootstrap";
-
 @charset "utf-8";
+@import 'ember-paper';
 
-
-.form-control {
-	@extend .input-sm;
-}
-
-.btn {
-	@extend .btn-sm;
-}
-
-
+body, body div.app, body div.app > div { height: 100%; }

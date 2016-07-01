@@ -9,8 +9,6 @@ var Validations=buildValidations({
 	project: [
 		validator('presence', true),
 	]
-
-
 });
 
 export default DS.Model.extend(Validations,{

@@ -1,6 +1,7 @@
 /* jshint node: true */
-var API_EP='http://localhost:8000/api'
+var API_EP = 'http://localhost:8000/api'
 var APPLICATION_URL_PREFIX='/app/'
+
 module.exports = function(environment) {
 	var ENV = {
 		modulePrefix: 'travels-front',
@@ -15,10 +16,7 @@ module.exports = function(environment) {
 		},
 
 		APP: {
-			// Here you can pass flags/options to your application instance
-			// when it is created 
 			backend_host: API_EP,
-			app_url_prefix: APPLICATION_URL_PREFIX
 		},
 
 		petition_status_1: API_EP+'/petition/petition-status/1/',
@@ -29,12 +27,21 @@ module.exports = function(environment) {
 
 	};
 
+  ENV.contentSecurityPolicy = {
+    'default-src': "'none'",
+    'script-src': "'self'",
+    'font-src': "'self' http://fonts.gstatic.com",
+    'connect-src': "'self'",
+    'img-src': "'self' data:",
+    'media-src': "'self'"
+  };
+
 	ENV['ember-simple-auth'] = {
 		authorizer: 'authorizer:token'
 	};
 
 	ENV['ember-simple-auth-token'] = {
-		serverTokenEndpoint: ENV.APP.backend_host+'/auth/login/',
+		serverTokenEndpoint: ENV.APP.backend_host + '/auth/login/',
 		identificationField: 'username',
 		passwordField: 'password',
 		tokenPropertyName: 'auth_token',

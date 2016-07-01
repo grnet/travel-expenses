@@ -7,10 +7,7 @@ export default Ember.Controller.extend({
 
 	init: function(){
 		this._super();	
-		let userCategory = ENV.APP.backend_host+"/users_related/category/2/";
-		var rec = this.store.findRecord('category', userCategory);
-		this.set('category',rec);		
-  	},
+  },
 
 	actions: {
 

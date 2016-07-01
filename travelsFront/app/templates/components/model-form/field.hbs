@@ -1,0 +1,99 @@
+{{#unless isSelect }}
+{{ component
+    fieldComponent
+
+    onChange=(action 'updateProperty')
+    label=label
+    value=value
+    placeholder=placeholder
+    errors=errors
+    isTouched=isTouched
+    
+    icon=icon
+    accesskey=accesskey
+    autocomplete=autocomplete
+    autofocus=autofocus
+    autosave=autosave
+    dir=dir
+    disabled=disabled
+    hidden=hidden
+    inputmode=inputmode
+    lang=lang
+    list=list
+    max=max
+    maxlength=maxlength
+    min=min
+    minlength=minlength
+    multiple=multiple
+    pattern=pattern
+    readonly=readonly
+    required=required
+    size=size
+    spellcheck=spellcheck
+    step=step
+    tabindex=tabindex
+    title=title
+}}
+{{else}}
+{{# component
+    fieldComponent
+
+    onChange=(action 'updateProperty')
+    label=label
+    value=value
+    placeholder=placeholder
+    isTouched=isTouched
+    errors=errors
+    
+    getItems=getItems
+    itemLabelCallback=itemLabelCallback
+
+    icon=icon
+    accesskey=accesskey
+    autocomplete=autocomplete
+    autofocus=autofocus
+    autosave=autosave
+    dir=dir
+    disabled=disabled
+    hidden=hidden
+    inputmode=inputmode
+    lang=lang
+    list=list
+    max=max
+    maxlength=maxlength
+    min=min
+    minlength=minlength
+    multiple=multiple
+    pattern=pattern
+    readonly=readonly
+    required=required
+    size=size
+    spellcheck=spellcheck
+    step=step
+    tabindex=tabindex
+    title=title
+
+    as |options|
+}}
+  {{#each options as |option|}}
+    {{#paper-option value=option action=(action 'updateProperty')}}
+      {{option.name}}
+    {{/paper-option}}
+  {{else}}
+    {{#paper-option value='' disabled=true}}
+        No choices available
+    {{/paper-option}}
+  {{/each}}
+{{/component}}
+    {{#if (and errors isTouched)}}
+        <div class="md-input-messages-animation md-auto-hide" ng-messages>
+          {{#each errors as |error index|}}
+            <div
+              id="error-{{index}}"
+              class="paper-input-error ng-enter ng-enter-active" ng-message>
+              {{error.message}}
+            </div>
+          {{/each}}
+        </div>
+    {{/if}}
+{{/unless}}

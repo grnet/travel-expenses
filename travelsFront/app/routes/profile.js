@@ -3,17 +3,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	model() {
-		
-		return this.store.findRecord('profile',1);
-	},
-	
-	setupController: function(controller, model) {
-		this._super(controller, model);
-		controller.set('specialties', this.store.findAll('specialty'));
-		controller.set('kinds', this.store.findAll('kind'));
-		controller.set('tax-offices', this.store.findAll('taxOffice'));
-		controller.set('categories', this.store.findAll('category'));
-		controller.set('profileMessage','');
+    return this.store.findRecord('profile', 1);
 	}
 });
 

@@ -1,0 +1,6 @@
+{{# if hasBlock}}
+{{else}}
+    {{model-form/errors}}
+    {{model-form/fields object=model fields=meta.fieldsList meta=meta isTouched=isTouched classNames="layout-wrap layout-row"}}
+    {{model-form/controls object=model submit=(action 'submit') reset=(action 'reset')}}
+{{/if}}

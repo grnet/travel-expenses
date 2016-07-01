@@ -1,0 +1,6 @@
+{{#if hasBlock}}
+{{else}}
+    {{#each fields as |field|}}
+        {{model-form/field field=field object=object isTouched=isTouched flex=field.layout.flex}}
+    {{/each}}
+{{/if}}

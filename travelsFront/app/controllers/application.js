@@ -9,21 +9,15 @@ export default Ember.Controller.extend({
 
 		invalidateSession() {
 
-			var self=this;
-			var token=self.get("session.data.authenticated.auth_token");
+			var token = this.get("session.data.authenticated.auth_token");
 
 			Ember.$.ajax({
 				url: ENV.APP.backend_host+"/auth/logout/",
 				method: "POST", 
 				headers: {"Authorization":"Token " + token}, 
 				success: function(result){
-					self.get('session').invalidate().then(function(){
-						if (!Ember.testing) {
-
-							window.location.replace(ENV.APP.app_url_prefix);
-						}
-					});
-				},
+					this.get('session').invalidate();
+        }.bind(this),
 				error: function(request,error){
 					alert("Request: " + JSON.stringify(request));
 				}

@@ -1,5 +1,6 @@
-<div class="menu col-md-12">
-	{{partial 'navbar'}}
-	
-  	{{outlet}}
+{{#paper-sidenav-container class="site-nav-container"}}
+{{partial 'navbar'}}
+<div class="flex layout-column" tabindex="-1" role="main">
+    {{outlet}}
 </div>
+{{/paper-sidenav-container}}

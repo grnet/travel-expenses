@@ -1,31 +1,23 @@
-<nav class="navbar" role="navigation">
-	<div class="container">
-		<div id="navbar">
-			<h2>Welcome to Travel Expenses!</h2>
+  {{#paper-sidenav class="md-whiteframe-z2 site-sidenav" lockedOpen="gt-sm"
+    open=isSidenavOpen onToggle=(action (mut isSidenavOpen))}}
 
+    {{#paper-toolbar class="site-content-toolbar" tall=true}}
+      <div class="logo layout-column layout-align-center-center">
+        <h3 style="margin: 0; margin-top: 3rem">Travel</h3>
+        <h5 style="margin: 0">Expenses</h5>
+      </div>
+    {{/paper-toolbar}}
 
-			{{#if session.isAuthenticated}}
-				<ul class="nav navbar-nav navbar-right">
-					<div>Logged in as: {{account.user.username}}</div>
-					<a {{action "invalidateSession"}}>Logout</a>
-				</ul>	
-				<ul class="nav navbar-nav navbar-left">
-					{{#link-to "profile" tagName="li"}}<a href="">Προφίλ</a>{{/link-to}}
-					{{#unless (can "approve petition")}}
-						{{#link-to "petition" tagName="li"}}<a href="">Νέα Αίτηση</a>{{/link-to}}
-						{{#link-to "petitionList" tagName="li"}}<a href="">Αιτήσεις</a>{{/link-to}}
-					{{/unless}}	
-					{{#if (can "approve petition")}}
-						{{#link-to "advancedList" tagName="li"}}<a href="">Αιτήσεις Προς Έγκριση</a>{{/link-to}}
-					{{/if}}	
-				</ul> 
-			{{else}}
-				<ul class="nav navbar-nav navbar-right">
-					{{#link-to "signup" tagName="li"}}<a href="">Signup</a>{{/link-to}}
-					{{#link-to "login" tagName="li"}}<a href="">Login</a>{{/link-to}}
-				</ul>	
-			{{/if}}
-
-		</div>
-	</div>
-</nav>
+    {{#paper-content}}
+      {{#paper-list}}
+        {{#unless session.isAuthenticated}}
+            {{#menu-item onClick=(transition-to "login")}}Login{{/menu-item}}
+            {{#menu-item onClick=(transition-to "signup")}}Signup{{/menu-item}}
+        {{else}}
+            {{#menu-item onClick=(transition-to "profile")}}Profile{{/menu-item}}
+            {{#menu-item onClick=(transition-to "petitionList")}}Petitions{{/menu-item}}
+            {{#menu-item onClick=(transition-to "petition")}}New Petition{{/menu-item}}
+        {{/unless}}
+      {{/paper-list}}
+      {{/paper-content}}
+{{/paper-sidenav}}

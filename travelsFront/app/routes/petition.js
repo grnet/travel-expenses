@@ -5,12 +5,6 @@ import ENV from 'travels-front/config/environment';
 export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	model() {
 		var model = this.store.createRecord('petition');
-
-		let departureID = ENV.APP.backend_host+'/petition/city/10/';
-		var rec = this.store.findRecord('city', departureID);
-		rec.then(function(m) {
-			model.set('departurePoint', m)
-		})
 		return model
 	},
 
