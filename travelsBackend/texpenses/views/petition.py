@@ -9,9 +9,9 @@ from texpenses.custom_permissions import isAdminOrRead, IsOwnerOrAdmin
 from rest_framework.response import Response
 from django.db.models import Q
 
-from texpenses.serializers import \
-    AdditionalExpensesSerializer,\
-    UserPetitionSerializer, modelserializer_factory
+from texpenses.serializers import AdditionalExpensesSerializer,\
+    UserPetitionSerializer
+from texpenses.serializers.factories import modelserializer_factory
 from texpenses.models import Project, MovementCategories, City, Country,\
     CountryCategory, Transportation, PetitionStatus, Accomondation,\
     AdvancedPetition, Flight, Compensation, AdditionalExpenses, Petition,\
@@ -173,8 +173,8 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
 
     def get_queryset(self):
         request_user = self.request.user
-
         return get_queryset_on_group(request_user, AdvancedPetition)
+
     fields = ('id', 'petition', 'movement_num', 'dse', 'accomondation',
               'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
               'compensation', 'expenditure_protocol',

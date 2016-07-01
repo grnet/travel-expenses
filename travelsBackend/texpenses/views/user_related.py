@@ -12,9 +12,8 @@ from rest_framework import viewsets
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
 from texpenses.custom_permissions import isAdminOrRead
-from texpenses.serializers import UserProfileSerializer, SpecialtySerializer,\
-    KindSerializer, TaxOfficeSerializer, UserCategorySerializer,\
-    CustomUserRegistrationSerializer
+from texpenses.serializers import CustomUserRegistrationSerializer
+from texpenses.serializers.factories import modelserializer_factory
 from texpenses.models import Specialty, Kind, TaxOffice, UserCategory
 
 
@@ -102,8 +101,16 @@ class CustomRootView(LoggingMixin, djoser_views.RootView):
 class CustomUserDetailedView(LoggingMixin, djoser_views.UserView):
 
     """API endpoint that allows a user to view and edit his personal info"""
-
-    serializer_class = UserProfileSerializer
+    fields = ('username', 'first_name', 'last_name',
+              'email', 'password',
+              'iban', 'specialtyID', 'kind', 'taxRegNum', 'taxOffice',
+              'category', 'user_group', 'trip_days_left')
+    read_only_fields = (
+        'username',
+        'password',
+        'trip_days_left'
+    )
+    serializer_class = modelserializer_factory(User, fields, read_only_fields)
     permission_classes = (
         IsAuthenticated, DjangoModelPermissions,
     )
@@ -119,7 +126,8 @@ class SpecialtyViewSet(LoggingMixin, viewsets.ModelViewSet):
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = Specialty.objects.all()
-    serializer_class = SpecialtySerializer
+    fields = ('name', 'id', 'url', )
+    serializer_class = modelserializer_factory(Specialty, fields)
 
 
 class KindViewSet(LoggingMixin, viewsets.ModelViewSet):
@@ -131,7 +139,8 @@ class KindViewSet(LoggingMixin, viewsets.ModelViewSet):
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = Kind.objects.all()
-    serializer_class = KindSerializer
+    fields = ('name', 'id', 'url', )
+    serializer_class = modelserializer_factory(Kind, fields)
 
 
 class TaxOfficeViewSet(LoggingMixin, viewsets.ModelViewSet):
@@ -142,7 +151,9 @@ class TaxOfficeViewSet(LoggingMixin, viewsets.ModelViewSet):
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = TaxOffice.objects.all()
-    serializer_class = TaxOfficeSerializer
+    fields = ('name', 'kindDescription', 'address',
+              'email', 'phone', 'id', 'url',)
+    serializer_class = modelserializer_factory(TaxOffice, fields)
 
 
 class UserCategoryViewSet(LoggingMixin, viewsets.ModelViewSet):
@@ -153,7 +164,8 @@ class UserCategoryViewSet(LoggingMixin, viewsets.ModelViewSet):
     permission_classes = (
         IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
     queryset = UserCategory.objects.all()
-    serializer_class = UserCategorySerializer
+    fields = ('name', 'id', 'max_overnight_cost', 'url', )
+    serializer_class = modelserializer_factory(UserCategory, fields)
 
 
 class CustomUserRegistrationView(LoggingMixin, djoser_views.RegistrationView):
