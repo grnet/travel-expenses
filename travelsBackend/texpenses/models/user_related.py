@@ -1,8 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from texpenses.validators import iban_validation
-from texpenses.validators import afm_validator
 from django.conf import settings
+from django.contrib.auth.models import AbstractUser
+from texpenses.validators import afm_validator, iban_validation
 
 
 class Specialty(models.Model):
@@ -74,7 +73,7 @@ class UserProfile(AbstractUser):
     taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
     kind = models.ForeignKey(Kind, blank=True, null=True)
     category = models.ForeignKey(
-        UserCategory, blank=True, null=True)
+        UserCategory, blank=True, null=True, default=2)
     trip_days_left = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
 
     class APITravel(object):

@@ -1,8 +1,7 @@
 from django.db import models
 from user_related import UserProfile, UserCategory, Specialty, Kind,\
     TaxOffice
-from texpenses.validators import iban_validation
-from texpenses.validators import afm_validator
+from texpenses.validators import afm_validator, iban_validation
 from django.db.models import Sum
 from model_utils import FieldTracker
 from workdays import networkdays
