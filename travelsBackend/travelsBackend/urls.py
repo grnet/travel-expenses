@@ -5,7 +5,11 @@ from django.contrib import admin
 from django.conf import settings
 from django.views.generic.base import RedirectView
 from texpenses.views.factories import viewset_factory
-from texpenses.models import Specialty, TaxOffice, Kind, UserCategory
+from texpenses.models import (Specialty, TaxOffice, Kind, UserCategory,
+                              Project, MovementCategories, City, Country,
+                              CountryCategory, Transportation, Accomondation,
+                              Compensation, FeedingKind, Flight,
+                              PetitionStatus)
 from . import auth_urls
 
 router = routers.DefaultRouter()
@@ -16,21 +20,24 @@ router.register(r'category', viewset_factory(UserCategory))
 
 
 router_petition = routers.DefaultRouter()
-router_petition.register(r'project', views.ProjectViewSet)
+router_petition.register(r'project', viewset_factory(Project))
 router_petition.register(
-    r'movement-categories', views.MovementCategoriesViewSet)
-router_petition.register(r'city', views.CityViewSet)
-router_petition.register(r'country', views.CountryViewSet)
-router_petition.register(r'country-categories', views.CountryCategoryViewSet)
-router_petition.register(r'transportation', views.TransportationViewSet)
+    r'movement-categories', viewset_factory(MovementCategories))
+router_petition.register(r'city', viewset_factory(City))
+router_petition.register(r'country', viewset_factory(Country))
+router_petition.register(r'country-categories', viewset_factory(
+    CountryCategory))
+router_petition.register(r'transportation', viewset_factory(Transportation))
 # router_petition.register(r'user', views.PetitionUserView)
-router_petition.register(r'accommondation', views.AccomondationViewSet,
+router_petition.register(r'accommondation', viewset_factory(Accomondation),
                          base_name='accomondation')
 router_petition.register(r'advanced_petition', views.AdvancedPetitionViewSet,
                          base_name='advancedpetition')
-router_petition.register(r'compensation-categories', views.CompensationViewSet)
-router_petition.register(r'feeding', views.FeedingViewSet)
-router_petition.register(r'flight', views.FlightViewSet, base_name='flight')
+router_petition.register(r'compensation-categories',
+                         viewset_factory(Compensation))
+router_petition.register(r'feeding', viewset_factory(FeedingKind))
+router_petition.register(r'flight', viewset_factory(Flight),
+                         base_name='flight')
 router_petition.register(r'additional-expenses',
                          views.AdditionalExpensesViewSet,
                          base_name='additionalexpenses')
@@ -38,7 +45,7 @@ router_petition.register(r'additional-expenses',
 router_petition.register(
     r'user_petition', views.UserPetitionViewSet, 'petition')
 router_petition.register(
-    r'petition-status', views.PetitionStatusViewSet)
+    r'petition-status', viewset_factory(PetitionStatus))
 
 
 # Wire up our API using automatic URL routing.

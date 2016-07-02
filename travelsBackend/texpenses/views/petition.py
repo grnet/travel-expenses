@@ -23,92 +23,6 @@ logger = logging.getLogger(__name__)
 User = get_user_model()
 
 
-class ProjectViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows project details to be viewed or edited\
-        (permissions are needed) """
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = Project.objects.all()
-    # fields = ('id', 'name', 'accountingCode', 'url')
-    serializer_class = modelserializer_factory(Project)
-
-
-class MovementCategoriesViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows movement details to be viewed or edited\
-         (permissions are needed) """
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = MovementCategories.objects.all()
-    # fields = ('id', 'name', 'url')
-    serializer_class = modelserializer_factory(MovementCategories)
-
-
-class CityViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows city info to be viewed or edited\
-        (permissions are needed)"""
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = City.objects.all()
-    # fields = ('id', 'name', 'country', 'url')
-    serializer_class = modelserializer_factory(City)
-    filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ['country']
-
-
-class CountryViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows country info to be viewed or edited \
-        (permissions are needed)"""
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = Country.objects.all()
-    # fields = ('id', 'name', 'category', 'url')
-    serializer_class = modelserializer_factory(Country)
-
-
-class CountryCategoryViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows country categories to be viewed or edited\
-         (permissions are needed)"""
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = CountryCategory.objects.all()
-    # fields = ('id', 'name', 'url')
-    serializer_class = modelserializer_factory(CountryCategory)
-
-
-class TransportationViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows transportation info to be viewed or edited\
-        (permissions are needed) """
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = Transportation.objects.all()
-    # fields = ('id', 'name', 'url')
-    serializer_class = modelserializer_factory(Transportation)
-
-
-class PetitionStatusViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows petition statuses to be viewed or edited \
-        (permissions are needed)"""
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = PetitionStatus.objects.all()
-    # fields = ('id', 'name', 'url')
-    serializer_class = modelserializer_factory(PetitionStatus)
-
-
 class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     """API endpoint that allows Accomondation info to be viewed or edited \
@@ -221,19 +135,6 @@ class FlightViewSet(LoggingMixin, viewsets.ModelViewSet):
     serializer_class = modelserializer_factory(Flight)
 
 
-class CompensationViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows per country compensationw be viewed or edited \
-        (permissions are needed)"""
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = Compensation.objects.all()
-    # fields = ('id', 'name', 'country_category', 'user_category',
-              # 'compensation', 'url')
-    serializer_class = modelserializer_factory(Compensation)
-
-
 class AdditionalExpensesViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     """API endpoint that allows Additional Expenses to be created, viewed or\
@@ -255,18 +156,6 @@ class AdditionalExpensesViewSet(LoggingMixin, viewsets.ModelViewSet):
         petition_object = Petition.objects.get(id=petition_id)
         request.data['user'] = petition_object.user
         return super(AdditionalExpensesViewSet, self).create(request)
-
-
-class FeedingViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows Feeding info be created, viewed or edited \
-        (Secretary permissions are needed)"""
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
-    queryset = FeedingKind.objects.all()
-    # fields = ('id', 'name', 'url')
-    serializer_class = modelserializer_factory(FeedingKind)
 
 
 class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
