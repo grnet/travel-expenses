@@ -113,6 +113,7 @@ class City(models.Model):
 
     class APITravel(object):
         fields = ('id', 'name', 'country', 'url')
+        filter_fields = ('country',)
 
     def __unicode__(self):
         """TODO: to be defined. """
