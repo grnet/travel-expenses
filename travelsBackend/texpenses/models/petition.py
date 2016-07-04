@@ -3,7 +3,7 @@ from django.db import models
 from user_related import UserProfile, UserCategory, Specialty, Kind,\
     TaxOffice
 from texpenses.validators import (
-    afm_validator, iban_validation, required_validator)
+    afm_validator, iban_validation, required_validator, date_validator)
 from django.db.models import Sum
 from model_utils import FieldTracker
 from workdays import networkdays
@@ -313,6 +313,17 @@ class Petition(models.Model):
 
     tracker = FieldTracker()
 
+    required_fields = ('name', 'surname', 'iban', 'specialtyID', 'kind',
+                       'taxRegNum', 'taxOffice',
+                       'taskStartDate', 'taskEndDate',
+                       'project', 'reason', 'movementCategory',
+                       'departurePoint', 'arrivalPoint', 'transportation',
+                       'status', 'user_category', 'trip_days_before',
+                       'trip_days_after')
+    additional_required_fields = ('depart_date', 'return_date',
+                                  'additional_expenses_initial_description',
+                                  'additional_expenses_initial')
+
     class APITravel:
         fields = ('id', 'name', 'surname', 'iban', 'specialtyID', 'kind',
                   'taxRegNum', 'taxOffice',
@@ -334,13 +345,6 @@ class Petition(models.Model):
                   'recCostParticipation', 'advanced_info',
                   'status', 'user_category', 'trip_days_before',
                   'trip_days_after', 'url')
-        required_fields = ('name', 'surname', 'iban', 'specialtyID', 'kind',
-                           'taxRegNum', 'taxOffice',
-                           'taskStartDate', 'taskEndDate',
-                           'project', 'reason', 'movementCategory',
-                           'departurePoint', 'arrivalPoint', 'transportation',
-                           'status', 'user_category', 'trip_days_before',
-                           'trip_days_after')
         read_only_fields = ('id', 'url', 'creationDate', 'updateDate',
                             'advanced_info')
 
@@ -353,8 +357,18 @@ class Petition(models.Model):
         """
         super(Petition, self).clean()
         if self.status.id not in [1, 10]:
-            required_validator(self,
-                               Petition.APITravel.required_fields)
+            required_validator(
+                self, (Petition.required_fields if self.status.id != 4 else
+                       Petition.required_fields +
+                       Petition.additional_required_fields))
+            self.validate_dates()
+
+    def validate_dates(self):
+        date_validator(self.taskStartDate, self.taskEndDate,
+                       ('task start', 'task end'))
+        if self.depart_date and self.return_date:
+            date_validator(self.depart_date, self.return_date,
+                           ('depart', 'return'))
 
     def save(self, *args, **kwargs):
         tsd_changed = self.tracker.has_changed('taskStartDate')
