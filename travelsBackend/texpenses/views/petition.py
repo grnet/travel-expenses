@@ -5,17 +5,13 @@ from rest_framework import viewsets, filters, status, mixins
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
-from texpenses.custom_permissions import isAdminOrRead, IsOwnerOrAdmin
+from texpenses.custom_permissions import IsOwnerOrAdmin
 from rest_framework.response import Response
 from django.db.models import Q
 
-from texpenses.serializers import AdditionalExpensesSerializer,\
-    UserPetitionSerializer
 from texpenses.serializers.factories import modelserializer_factory
-from texpenses.models import Project, MovementCategories, City, Country,\
-    CountryCategory, Transportation, PetitionStatus, Accomondation,\
-    AdvancedPetition, Flight, Compensation, AdditionalExpenses, Petition,\
-    FeedingKind
+from texpenses.models import Accomondation, AdvancedPetition, Flight,\
+    AdditionalExpenses, Petition
 from helper_methods import get_queryset_on_group, checkPetitionCompleteness,\
     checkAdvancedPetitionCompleteness, date_check
 logger = logging.getLogger(__name__)
@@ -65,7 +61,6 @@ class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
                             status=status.HTTP_400_BAD_REQUEST)
 
         return super(AccomondationViewSet, self).update(request, pk)
-    # fields = ('id', 'hotel', 'hotelPrice', 'url')
     serializer_class = modelserializer_factory(Accomondation)
 
 
@@ -131,7 +126,6 @@ class FlightViewSet(LoggingMixin, viewsets.ModelViewSet):
             request.data['flightPrice'] = flight_cost
 
         return super(FlightViewSet, self).update(request, pk)
-    # fields = ('id', 'flightName', 'flightPrice', 'url')
     serializer_class = modelserializer_factory(Flight)
 
 
@@ -147,7 +141,7 @@ class AdditionalExpensesViewSet(LoggingMixin, viewsets.ModelViewSet):
         request_user = self.request.user
         return get_queryset_on_group(request_user, AdditionalExpenses)
 
-    serializer_class = AdditionalExpensesSerializer
+    serializer_class = modelserializer_factory(AdditionalExpenses)
 
     def create(self, request):
         petition = str(request.data['petition'])
@@ -193,7 +187,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         else:
             return Petition.objects.filter(user=request_user)
 
-    serializer_class = UserPetitionSerializer
+    serializer_class = modelserializer_factory(Petition)
 
     def destroy(self, request, pk=None):
 

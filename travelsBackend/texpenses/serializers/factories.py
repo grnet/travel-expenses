@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework.fields import Field
 from collections import OrderedDict
+from texpenses.serializers import petition
 
 READ_ONLY_FIELDS = ('id', 'url')
 
@@ -36,6 +37,27 @@ def modelserializer_factory(mdl, api_name='APITravel',
         model_meta, 'read_only_fields', ())
 
     class TESerializer(Base, serializers.HyperlinkedModelSerializer):
+
+        create_method_name = "create_" + mdl.__name__
+        if hasattr(
+                petition, create_method_name):
+            create_method = getattr(
+                petition, create_method_name)
+            create = create_method
+
+        update_method_name = "update_" + mdl.__name__
+        if hasattr(
+                petition, update_method_name):
+            update_method = getattr(
+                petition, update_method_name)
+            update = update_method
+
+        delete_method_name = "delete_" + mdl.__name__
+        if hasattr(
+                petition, delete_method_name):
+            delete_method = getattr(
+                petition, delete_method_name)
+            delete = delete_method
 
         class Meta:
             model = mdl
