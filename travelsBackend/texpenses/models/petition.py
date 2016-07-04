@@ -237,6 +237,15 @@ class AdvancedPetition(models.Model):
         max_length=30, null=True, blank=True)
     compensation_decision_date = models.DateField(blank=True, null=True)
 
+    required_fields = ('movement_num', 'dse', 'accomondation',
+                       'flight', 'feeding', 'non_grnet_quota',
+                       'grnet_quota', 'compensation',
+                       'expenditure_protocol', 'expenditure_date_protocol',
+                       'movement_protocol', 'movement_date_protocol',
+                       'transport_days_manual', 'overnights_num_manual',
+                       'compensation_days_manual'
+                       )
+
     class APITravel(object):
         fields = ('id', 'petition', 'movement_num', 'dse', 'accomondation',
                   'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
@@ -249,19 +258,11 @@ class AdvancedPetition(models.Model):
                   'transport_days_manual', 'overnights_num_manual',
                   'compensation_days_manual'
                   )
-        required_fields = ('movement_num', 'dse', 'accomondation',
-                           'flight', 'feeding', 'non_grnet_quota',
-                           'grnet_quota', 'compensation',
-                           'expenditure_protocol', 'expenditure_date_protocol',
-                           'movement_protocol', 'movement_date_protocol',
-                           'transport_days_manual', 'overnights_num_manual',
-                           'compensation_days_manual'
-                           )
         read_only_fields = ('id', 'url', 'petition')
 
     def clean(self):
         if self.petition.status.id == 4:
-            required_validator(self, AdvancedPetition.APITravel.fields)
+            required_validator(self, AdvancedPetition.required_fields)
 
     def __unicode__(self):
         return str(self.id)
