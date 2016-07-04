@@ -286,6 +286,37 @@ class Petition(models.Model):
 
     tracker = FieldTracker()
 
+    class APITravel:
+        fields = ('id', 'name', 'surname', 'iban', 'specialtyID', 'kind',
+                  'taxRegNum', 'taxOffice',
+                  'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
+                  'creationDate', 'updateDate',
+                  'project', 'reason', 'movementCategory',
+                  'departurePoint', 'arrivalPoint', 'overnights_num',
+                  'overnights_num_proposed',
+                  'overnight_cost', 'max_overnight_cost',
+                  'overnights_sum_cost',
+                  'transport_days', 'transport_days_proposed',
+                  'task_duration', 'same_day_return_task',
+                  'compensation_level', 'compensation_days',
+                  'compensation_days_proposed',
+                  'additional_expenses_sum', 'additional_expenses_initial',
+                  'additional_expenses_initial_description',
+                  'max_compensation', 'compensation_final', 'total_cost',
+                  'transportation', 'recTransport', 'recAccomondation',
+                  'recCostParticipation', 'advanced_info',
+                  'status', 'user_category', 'trip_days_before',
+                  'trip_days_after', 'url')
+        required_fields = ('name', 'surname', 'iban', 'specialtyID', 'kind',
+                           'taxRegNum', 'taxOffice',
+                           'taskStartDate', 'taskEndDate',
+                           'project', 'reason', 'movementCategory',
+                           'departurePoint', 'arrivalPoint', 'transportation',
+                           'status', 'user_category', 'trip_days_before',
+                           'trip_days_after')
+        read_only_fields = ('id', 'url', 'creationDate', 'updateDate',
+                            'advanced_info')
+
     def save(self, *args, **kwargs):
         tsd_changed = self.tracker.has_changed('taskStartDate')
         ted_changed = self.tracker.has_changed('taskEndDate')
@@ -528,6 +559,10 @@ class AdditionalExpenses(models.Model):
     cost = models.FloatField()
     petition = models.ForeignKey(Petition)
     user = models.ForeignKey(UserProfile)
+
+    class APITravel:
+        fields = ('id', 'name', 'cost', 'petition', 'url')
+        read_only_fields = ('id', 'url')
 
     def __unicode__(self):
         return self.name + "-" + str(self.id)
