@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 import logging
@@ -61,3 +62,32 @@ def afm_validator(afm):
     if remainder != afm_last_digit:
         msg = "Specific AFM value does not conform to AFM general rules."
         raise ValidationError(msg)
+
+
+def date_validator(start_date, end_date, labels):
+    """
+    This validator checks if two given dates (starting date and ending date)
+    are valid.
+
+    Valid dates are dates which are after today and starting date is before
+    ending date.
+
+    :param start_date: Starting date.
+    :param end_date: Ending date.
+    :labels: tuple which contains labels for the start_date and end_date
+    fields respectively.
+
+    :raises: VallidationError if two given dates are not valid.
+    """
+    now = datetime.now()
+    start_label, end_label = labels
+    if start_date < now:
+        raise ValidationError('%s date should be after today' % (start_label))
+
+    if end_date < now:
+        raise ValidationError('%s should be after today' % (end_label))
+
+    if end_date < start_date:
+        raise ValidationError(
+            '%s date should be after %s date' % (
+                end_label, start_label))
