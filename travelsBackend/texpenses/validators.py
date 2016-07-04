@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 
 iban_validation = RegexValidator(
-    r'^DE(?:\s*[0-9a-zA-Z]\s*){20}$', 'IBAN number is not valid.')
+    r'^GR(?:\s*[0-9a-zA-Z]\s*){20}$', 'IBAN number is not valid.')
 
 
 def afm_validator(afm):
