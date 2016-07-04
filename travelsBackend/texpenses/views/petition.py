@@ -5,19 +5,14 @@ from rest_framework import viewsets, filters, status, mixins
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
-from texpenses.custom_permissions import isAdminOrRead, IsOwnerOrAdmin
+from texpenses.custom_permissions import IsOwnerOrAdmin
 from rest_framework.response import Response
 from django.db.models import Q
-
-from texpenses.serializers import AdditionalExpensesSerializer,\
-    UserPetitionSerializer
+from texpenses.serializers import AdditionalExpensesSerializer
 from texpenses.serializers.factories import modelserializer_factory
-from texpenses.models import Project, MovementCategories, City, Country,\
-    CountryCategory, Transportation, PetitionStatus, Accomondation,\
-    AdvancedPetition, Flight, Compensation, AdditionalExpenses, Petition,\
-    FeedingKind
-from helper_methods import get_queryset_on_group, checkPetitionCompleteness,\
-    checkAdvancedPetitionCompleteness, date_check
+from texpenses.models import (Accomondation, AdvancedPetition,
+                              AdditionalExpenses, Petition)
+from helper_methods import get_queryset_on_group
 logger = logging.getLogger(__name__)
 
 User = get_user_model()
@@ -35,36 +30,6 @@ class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
         request_user = self.request.user
         return get_queryset_on_group(request_user, Accomondation)
 
-    def update(self, request, pk=None):
-        hotel = self.get_object()
-        price = request.data['hotelPrice']
-
-        hotel_cost = 0.0
-        try:
-            hotel_cost = float(price)
-        except ValueError:
-            hotel_cost = 0.0
-            request.data['hotelPrice'] = hotel_cost
-
-        max_overnight = 0
-
-        advanced_petition = AdvancedPetition.objects.get(accomondation=hotel)
-
-        petition = advanced_petition.petition
-
-        if petition.user_category:
-            max_overnight = petition.user_category.max_overnight_cost
-        else:
-            user = request.user
-            max_overnight = user.category.max_overnight_cost
-
-        if hotel_cost > max_overnight:
-            return Response({'error': 'Hotel cost:' + str(hotel_cost) +
-                             ' exceeds max hotel cost:' +
-                             str(max_overnight)},
-                            status=status.HTTP_400_BAD_REQUEST)
-
-        return super(AccomondationViewSet, self).update(request, pk)
     # fields = ('id', 'hotel', 'hotelPrice', 'url')
     serializer_class = modelserializer_factory(Accomondation)
 
@@ -75,8 +40,6 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
                               mixins.DestroyModelMixin,
                               viewsets.GenericViewSet
                               ):
-    missing_field = None
-
     """API endpoint that allows Advanced petition info to be viewed or edited \
         (Secretary permissions and above are needed). An Advanced Petition is\
         created during simple Petition creation.
@@ -89,50 +52,7 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
         request_user = self.request.user
         return get_queryset_on_group(request_user, AdvancedPetition)
 
-    serializer_class = modelserializer_factory(
-        AdvancedPetition)
-
-    def destroy(self, request, pk=None):
-        print "Deleting advanced petition with id:" + str(pk)
-        advanced_petition = self.get_object()
-        print "--Deleting related flight:" + str(advanced_petition.flight)
-        advanced_petition.flight.delete()
-        print "--Done"
-        print "--Deleting related accomondation:"\
-            + str(advanced_petition.accomondation)
-        advanced_petition.accomondation.delete()
-        print "--Done"
-        advanced_petition.delete()
-        print "Done"
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class FlightViewSet(LoggingMixin, viewsets.ModelViewSet):
-
-    """API endpoint that allows user Flights to be viewed (from the Traveller)\
-        or edited (Secretary permissions and above are needed)"""
-    authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (
-        IsAuthenticated, IsOwnerOrAdmin, DjangoModelPermissions,)
-
-    def get_queryset(self):
-        request_user = self.request.user
-        return get_queryset_on_group(request_user, Flight)
-
-    def update(self, request, pk=None):
-        price = request.data['flightPrice']
-
-        flight_cost = 0.0
-        try:
-            flight_cost = float(price)
-        except ValueError:
-            flight_cost = 0.0
-            request.data['flightPrice'] = flight_cost
-
-        return super(FlightViewSet, self).update(request, pk)
-    # fields = ('id', 'flightName', 'flightPrice', 'url')
-    serializer_class = modelserializer_factory(Flight)
+    serializer_class = modelserializer_factory(AdvancedPetition)
 
 
 class AdditionalExpensesViewSet(LoggingMixin, viewsets.ModelViewSet):
@@ -193,7 +113,7 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         else:
             return Petition.objects.filter(user=request_user)
 
-    serializer_class = UserPetitionSerializer
+    serializer_class = modelserializer_factory(Petition)
 
     def destroy(self, request, pk=None):
 
@@ -235,142 +155,3 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
         return Response({'error': "You dont have the permittions to delete"
                          "the specific Petition"},
                         status=status.HTTP_403_FORBIDDEN)
-
-    def create(self, request):
-        request.data['user'] = request.user
-
-        if request.data['status'] is None:
-            return Response({'error': 'Missing petition status'},
-                            status=status.HTTP_400_BAD_REQUEST)
-        chosen_status = str(request.data['status'])
-
-        chosen_status = chosen_status[
-            chosen_status.index('status') + 7:-1]
-        chosen_status = int(chosen_status)
-        submission_statuses = [2, 4, 5, 6, 7, 8, 9]
-
-        if chosen_status in submission_statuses:
-
-            user_groups = request.user.groups.all()
-            user_group_name = 'Unknown'
-            if user_groups:
-                user_group_name = user_groups[0].name
-
-            is_petition_complete, missing_field = checkPetitionCompleteness(
-                request, chosen_status)
-
-            if is_petition_complete:
-                tsd = request.data['taskStartDate']
-                ted = request.data['taskEndDate']
-                dd = None
-                rd = None
-                if chosen_status > 2:
-                    dd = request.data['depart_date']
-                    rd = request.data['return_date']
-                date_check_result = date_check(tsd, ted, dd, rd,
-                                               user_group_name,
-                                               chosen_status)
-                if date_check_result['error']:
-                    return Response({'error': date_check_result['msg']},
-                                    status=status.HTTP_400_BAD_REQUEST)
-
-                if chosen_status == 4:
-                    is_apetition_complete, ap_missing_field =\
-                        checkAdvancedPetitionCompleteness(
-                            self.get_object().advanced_info)
-                    if is_apetition_complete is False:
-                        return Response({'error': 'Advanced Petition is'
-                                         'not complete,'
-                                         'please insert all mandatory fields'
-                                         '(missing field:' +
-                                         ap_missing_field + ')'},
-                                        status=status.HTTP_400_BAD_REQUEST)
-                return super(UserPetitionViewSet, self).create(request)
-            else:
-                if missing_field is None:
-                    return Response({'error': 'Petition is not complete,'
-                                    ' please insert all mandatory fields'
-                                    ' (missing field:' + "All"
-                                    + ')'},
-                                    status=status.HTTP_400_BAD_REQUEST)
-                return Response({'error': 'Petition is not complete,'
-                                 ' please insert all mandatory fields'
-                                 ' (missing field:' + str(missing_field)
-                                 + ')'},
-                                status=status.HTTP_400_BAD_REQUEST)
-
-        if chosen_status is None:
-            return Response({'error': 'Petition status is not set'},
-                            status=status.HTTP_400_BAD_REQUEST)
-
-        return super(UserPetitionViewSet, self).create(request)
-
-    def update(self, request, pk=None):
-        request.data['user'] = request.user
-
-        if request.data['status'] is None:
-            return Response({'error': 'Missing petition status'},
-                            status=status.HTTP_400_BAD_REQUEST)
-
-        chosen_status = str(request.data['status'])
-
-        # import pdb
-        # pdb.set_trace()
-        chosen_status = chosen_status[
-            chosen_status.index('status') + 7:-1]
-        chosen_status = int(chosen_status)
-        submission_statuses = [2, 4, 5, 6, 7, 8, 9]
-
-        if chosen_status in submission_statuses:
-
-            user_groups = request.user.groups.all()
-            user_group_name = 'Unknown'
-            if user_groups:
-                user_group_name = user_groups[0].name
-
-            is_petition_complete, missing_field = checkPetitionCompleteness(
-                request, chosen_status)
-
-            if is_petition_complete:
-                tsd = request.data['taskStartDate']
-                ted = request.data['taskEndDate']
-                dd = None
-                rd = None
-                if chosen_status > 2:
-                    dd = request.data['depart_date']
-                    rd = request.data['return_date']
-                date_check_result = date_check(tsd, ted, dd, rd,
-                                               user_group_name,
-                                               chosen_status)
-                if date_check_result['error']:
-                    return Response({'error': date_check_result['msg']},
-                                    status=status.HTTP_400_BAD_REQUEST)
-                if chosen_status == 4:
-                    is_apetition_complete, ap_missing_field =\
-                        checkAdvancedPetitionCompleteness(
-                            self.get_object().advanced_info)
-                    if is_apetition_complete is False:
-                        return Response({'error': 'Advanced Petition is'
-                                         ' not complete,'
-                                         ' please insert all mandatory fields'
-                                         ' (missing field:' +
-                                         ap_missing_field + ')'},
-                                        status=status.HTTP_400_BAD_REQUEST)
-
-                return super(UserPetitionViewSet, self).update(request, pk)
-            else:
-                if missing_field is None:
-                    return Response({'error': 'Petition is not complete,'
-                                    ' please insert all mandatory fields'
-                                    ' (missing field:' + "All"
-                                    + ')'},
-                                    status=status.HTTP_400_BAD_REQUEST)
-                return Response({'error': 'Petition is not complete,'
-                                 ' please insert all mandatory fields'
-                                 ' (missing field:' + missing_field + ')'},
-                                status=status.HTTP_400_BAD_REQUEST)
-
-        if chosen_status is None:
-            return Response({'error': 'Petition status is not set'},
-                            status=status.HTTP_400_BAD_REQUEST)
-        return super(UserPetitionViewSet, self).update(request, pk)
