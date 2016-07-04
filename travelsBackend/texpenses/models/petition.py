@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from user_related import UserProfile, UserCategory, Specialty, Kind,\
     TaxOffice
@@ -14,6 +15,19 @@ class Accomondation(models.Model):
     hotel = models.CharField(max_length=200)
     hotelPrice = models.FloatField(blank=True, null=True)
     user = models.ForeignKey(UserProfile)
+
+    def clean(self):
+        super(Accomondation, self).clean()
+        advanced_petitions = AdvancedPetition.objects.filter(
+            accomondation__id=self.id)
+        for advanced_petition in advanced_petitions:
+            petition = advanced_petition.petition
+            if petition.user_category:
+                max_overnight = petition.user_category.max_overnight_cost
+                if self.hotelPrice > max_overnight:
+                    raise ValidationError(
+                        'Hotel cost %.2f exceedes the max hotel allowable'
+                        ' limit' % (self.hotelPrice))
 
     class APITravel(object):
         fields = ('id', 'hotel', 'hotelPrice', 'url')
