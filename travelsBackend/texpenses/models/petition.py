@@ -2,7 +2,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from user_related import UserProfile, UserCategory, Specialty, Kind,\
     TaxOffice
-from texpenses.validators import afm_validator, iban_validation
+from texpenses.validators import (
+    afm_validator, iban_validation, required_validator)
 from django.db.models import Sum
 from model_utils import FieldTracker
 from workdays import networkdays
@@ -248,7 +249,19 @@ class AdvancedPetition(models.Model):
                   'transport_days_manual', 'overnights_num_manual',
                   'compensation_days_manual'
                   )
+        required_fields = ('movement_num', 'dse', 'accomondation',
+                           'flight', 'feeding', 'non_grnet_quota',
+                           'grnet_quota', 'compensation',
+                           'expenditure_protocol', 'expenditure_date_protocol',
+                           'movement_protocol', 'movement_date_protocol',
+                           'transport_days_manual', 'overnights_num_manual',
+                           'compensation_days_manual'
+                           )
         read_only_fields = ('id', 'url', 'petition')
+
+    def clean(self):
+        if self.petition.status.id == 4:
+            required_validator(self, AdvancedPetition.APITravel.fields)
 
     def __unicode__(self):
         return str(self.id)
@@ -340,9 +353,8 @@ class Petition(models.Model):
         """
         super(Petition, self).clean()
         if self.status.id not in [1, 10]:
-            for field in Petition.APITravel.required_fields:
-                if not getattr(Petition, field, None):
-                    raise ValidationError('Field %s is required' % repr(field))
+            required_validator(self,
+                               Petition.APITravel.required_fields)
 
     def save(self, *args, **kwargs):
         tsd_changed = self.tracker.has_changed('taskStartDate')

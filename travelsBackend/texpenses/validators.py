@@ -9,6 +9,12 @@ iban_validation = RegexValidator(
     r'^DE(?:\s*[0-9a-zA-Z]\s*){20}$', 'IBAN number is not valid.')
 
 
+def required_validator(obj, required_fields):
+    for field in required_fields:
+        if not getattr(obj, field, None):
+            raise ValidationError('Field %s is required' % repr(field))
+
+
 def afm_validator(afm):
 
     if afm is None:
