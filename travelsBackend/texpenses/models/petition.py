@@ -331,6 +331,19 @@ class Petition(models.Model):
         read_only_fields = ('id', 'url', 'creationDate', 'updateDate',
                             'advanced_info')
 
+    def clean(self):
+        """
+        Overrides `clean` method and checks if required fields are specified.
+
+        This extra check is took place when the petition is not on incomplete
+        state or cancelled.
+        """
+        super(Petition, self).clean()
+        if self.status.id not in [1, 10]:
+            for field in Petition.APITravel.required_fields:
+                if not getattr(Petition, field, None):
+                    raise ValidationError('Field %s is required' % repr(field))
+
     def save(self, *args, **kwargs):
         tsd_changed = self.tracker.has_changed('taskStartDate')
         ted_changed = self.tracker.has_changed('taskEndDate')
