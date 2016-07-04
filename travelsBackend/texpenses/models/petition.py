@@ -615,7 +615,7 @@ class AdditionalExpenses(models.Model):
 
     class APITravel:
         fields = ('id', 'name', 'cost', 'petition', 'url')
-        read_only_fields = ('id', 'url')
+        # read_only_fields = ('id', 'url')
 
     def __unicode__(self):
         return self.name + "-" + str(self.id)

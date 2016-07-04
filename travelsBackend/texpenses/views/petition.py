@@ -8,11 +8,11 @@ from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from texpenses.custom_permissions import IsOwnerOrAdmin
 from rest_framework.response import Response
 from django.db.models import Q
-from texpenses.serializers import AdditionalExpensesSerializer
 from texpenses.serializers.factories import modelserializer_factory
 from texpenses.models import (Accomondation, AdvancedPetition,
-                              AdditionalExpenses, Petition)
+                              AdditionalExpenses, Petition, Flight)
 from helper_methods import get_queryset_on_group
+
 logger = logging.getLogger(__name__)
 
 User = get_user_model()
@@ -30,7 +30,6 @@ class AccomondationViewSet(LoggingMixin, viewsets.ModelViewSet):
         request_user = self.request.user
         return get_queryset_on_group(request_user, Accomondation)
 
-    # fields = ('id', 'hotel', 'hotelPrice', 'url')
     serializer_class = modelserializer_factory(Accomondation)
 
 
@@ -54,6 +53,36 @@ class AdvancedPetitionViewSet(LoggingMixin, mixins.ListModelMixin,
 
     serializer_class = modelserializer_factory(AdvancedPetition)
 
+    def destroy(self, request, pk=None):
+        print "Deleting advanced petition with id:" + str(pk)
+        advanced_petition = self.get_object()
+        print "--Deleting related flight:" + str(advanced_petition.flight)
+        advanced_petition.flight.delete()
+        print "--Done"
+        print "--Deleting related accomondation:"\
+            + str(advanced_petition.accomondation)
+        advanced_petition.accomondation.delete()
+        print "--Done"
+        advanced_petition.delete()
+        print "Done"
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class FlightViewSet(LoggingMixin, viewsets.ModelViewSet):
+
+    """API endpoint that allows user Flights to be viewed (from the Traveller)\
+        or edited (Secretary permissions and above are needed)"""
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (
+        IsAuthenticated, IsOwnerOrAdmin, DjangoModelPermissions,)
+
+    def get_queryset(self):
+        request_user = self.request.user
+        return get_queryset_on_group(request_user, Flight)
+
+    serializer_class = modelserializer_factory(Flight)
+
 
 class AdditionalExpensesViewSet(LoggingMixin, viewsets.ModelViewSet):
 
@@ -67,7 +96,7 @@ class AdditionalExpensesViewSet(LoggingMixin, viewsets.ModelViewSet):
         request_user = self.request.user
         return get_queryset_on_group(request_user, AdditionalExpenses)
 
-    serializer_class = AdditionalExpensesSerializer
+    serializer_class = modelserializer_factory(AdditionalExpenses)
 
     def create(self, request):
         petition = str(request.data['petition'])
