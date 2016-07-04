@@ -264,6 +264,11 @@ class AdvancedPetition(models.Model):
         if self.petition.status.id == 4:
             required_validator(self, AdvancedPetition.required_fields)
 
+    def delete(self):
+        super(AdvancedPetition, self).delete()
+        self.flight.delete()
+        self.accomondation.delete()
+
     def __unicode__(self):
         return str(self.id)
 
@@ -387,6 +392,10 @@ class Petition(models.Model):
             self.advanced_info.compensation_days_manual =\
                 self.compensation_days_proposed()
             self.advanced_info.save()
+
+    def delete(self):
+        self.advanced_info.delete()
+        super(Petition, self).delete()
 
     def compensation_name(self):
 
