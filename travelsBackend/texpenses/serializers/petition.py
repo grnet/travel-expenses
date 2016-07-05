@@ -1,10 +1,10 @@
-from texpenses.models import Compensation, FeedingKind,\
-    Flight, Accomondation, AdvancedPetition, Petition
-from django.conf import settings as django_settings
 import datetime
-
+from django.conf import settings as django_settings
+from texpenses.models import (Compensation, FeedingKind, Flight, Accomondation,
+                              AdvancedPetition, Petition)
 
 # Naming convention for method naming: (create|update|delete)_ModelName
+
 
 def create_AdditionalExpenses(self, validated_data):
     request = self.context['request']
