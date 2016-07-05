@@ -353,6 +353,17 @@ class Petition(models.Model):
                   'trip_days_after', 'url')
         read_only_fields = ('id', 'url', 'creationDate', 'updateDate',
                             'advanced_info')
+        filter_fields = (
+            'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
+            'project', 'creationDate', 'updateDate',
+            'movementCategory', 'departurePoint', 'arrivalPoint',
+            'transportation', 'surname', 'iban', 'taxRegNum', 'status')
+        ordering_fields = ('taskStartDate', 'taskEndDate', 'project',
+                           'movementCategory', 'departurePoint',
+                           'arrivalPoint', 'transportation', 'surname', 'iban',
+                           'taxRegNum',)
+        search_fields = ('name', 'surname',)
+        ordering = ('project',)
 
     def clean(self):
         """
