@@ -10,7 +10,7 @@ from django.db.models import Q
 from texpenses.serializers.factories import modelserializer_factory
 from texpenses.models import (Accomondation, AdvancedPetition,
                               AdditionalExpenses, Petition, Flight)
-from texpenses.models.utils import get_queryset_on_group
+from texpenses.models.services import get_queryset_on_group
 logger = logging.getLogger(__name__)
 
 

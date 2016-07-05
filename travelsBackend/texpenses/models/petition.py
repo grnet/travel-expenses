@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from texpenses.models.utils import get_queryset_on_group
+from texpenses.models.services import get_queryset_on_group
 from django.db import models
 from user_related import UserProfile, UserCategory, Specialty, Kind,\
     TaxOffice
