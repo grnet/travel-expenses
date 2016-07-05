@@ -15,16 +15,6 @@ def viewset_factory(model_class, api_name='APITravel', **kwargs):
     :returns: A ModelViewSet viewset
 
     """
-    class AbstractFilter(filters.FilterSet):
-
-        class Meta:
-            model = model_class
-
-        model_meta = getattr(model_class, api_name)
-        filter_fields = getattr(model_meta, 'filter_fields', ())
-
-        setattr(Meta, 'fields', filter_fields)
-
     class AbstractViewSet(LoggingMixin, viewsets.ModelViewSet):
 
         """API endpoint that allows specialty details to be viewed or edited\
@@ -37,9 +27,19 @@ def viewset_factory(model_class, api_name='APITravel', **kwargs):
             IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
         queryset = model_class.objects.all()
 
-        if AbstractFilter.Meta.fields:
-            filter_backends = (filters.DjangoFilterBackend,)
-            filter_class = AbstractFilter
+        model_meta = getattr(model_class, api_name)
+        filter_fields = getattr(model_meta, 'filter_fields', None)
+        search_fields = getattr(model_meta, 'search_fields', None)
+        ordering_fields = getattr(model_meta, 'search_fields', None)
+        ordering = getattr(model_meta, 'ordering', None)
+        filter_backends = ()
+
+        if filter_fields:
+            filter_backends += (filters.DjangoFilterBackend,)
+        if search_fields:
+            filter_backends += (filters.SearchFilter)
+        if ordering_fields:
+            filter_backends += (filters.OrderingFilter)
         serializer_class = modelserializer_factory(model_class)
 
     return AbstractViewSet
