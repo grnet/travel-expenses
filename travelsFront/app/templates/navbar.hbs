@@ -14,6 +14,10 @@
             {{#menu-item onClick=(transition-to "login")}}Login{{/menu-item}}
             {{#menu-item onClick=(transition-to "signup")}}Signup{{/menu-item}}
         {{else}}
+            {{#paper-content classNames='login-info layout-padding layout-row'}}
+                {{#paper-content classNames="user-label" flex="80" padding=1 }}Logged in as: {{ account.user.username }}{{/paper-content}}
+                {{#paper-button flex="20" onClick=(action 'invalidateSession')}}logout{{/paper-button}}
+            {{/paper-content}}
             {{#menu-item onClick=(transition-to "profile")}}Profile{{/menu-item}}
             {{#menu-item onClick=(transition-to "petitionList")}}Petitions{{/menu-item}}
             {{#menu-item onClick=(transition-to "petition")}}New Petition{{/menu-item}}
