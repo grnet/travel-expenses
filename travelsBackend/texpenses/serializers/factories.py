@@ -73,5 +73,6 @@ def modelserializer_factory(mdl, api_name='APITravel',
                 attrs['id'] = self.instance.id
             model_inst = mdl(**attrs)
             model_inst.clean()
+            return attrs
 
     return TESerializer
