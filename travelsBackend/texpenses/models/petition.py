@@ -1,11 +1,11 @@
 from django.core.exceptions import ValidationError
+from texpenses.models.utils import get_queryset_on_group
 from django.db import models
 from user_related import UserProfile, UserCategory, Specialty, Kind,\
     TaxOffice
-from texpenses.views.helper_methods import get_queryset_on_group
 from texpenses.validators import (
     afm_validator, iban_validation, required_validator, date_validator)
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from model_utils import FieldTracker
 from workdays import networkdays
 
@@ -34,9 +34,9 @@ class Accomondation(models.Model):
     class APITravel(object):
         fields = ('id', 'hotel', 'hotelPrice', 'url')
 
-        # @classmethod
-        # def get_queryset(request_user):
-            # return get_queryset_on_group(request_user, Accomondation)
+        @staticmethod
+        def get_queryset(request_user):
+            return get_queryset_on_group(request_user, Accomondation)
 
     def __unicode__(self):
         """TODO: Docstring for __unicode__.
@@ -56,6 +56,10 @@ class Flight(models.Model):
 
     class APITravel(object):
         fields = ('id', 'flightName', 'flightPrice', 'url')
+
+        @staticmethod
+        def get_queryset(request_user):
+            return get_queryset_on_group(request_user, Flight)
 
     def __unicode__(self):
         """TODO: Docstring for __unicode__.
@@ -371,6 +375,19 @@ class Petition(models.Model):
         search_fields = ('name', 'surname',)
         ordering = ('project',)
 
+        @staticmethod
+        def get_queryset(request_user):
+            user_groups = request_user.groups.all()
+
+            if user_groups:
+                user_group_name = user_groups[0].name
+
+            if request_user.is_staff or user_group_name == "SECRETARY":
+                return Petition.objects.filter(Q(status__gte=2) |
+                                               Q(user=request_user))
+            else:
+               return Petition.objects.filter(user=request_user)
+
     def clean(self):
         """
         Overrides `clean` method and checks if required fields are specified.
@@ -642,7 +659,10 @@ class AdditionalExpenses(models.Model):
 
     class APITravel:
         fields = ('id', 'name', 'cost', 'petition', 'url')
-        # read_only_fields = ('id', 'url')
+
+        @staticmethod
+        def get_queryset(request_user):
+            return get_queryset_on_group(request_user, AdditionalExpenses)
 
     def __unicode__(self):
         return self.name + "-" + str(self.id)
