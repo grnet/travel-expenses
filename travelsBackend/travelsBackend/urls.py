@@ -9,43 +9,48 @@ from texpenses.models import (Specialty, TaxOffice, Kind, UserCategory,
                               Project, MovementCategories, City, Country,
                               CountryCategory, Transportation, Accomondation,
                               Compensation, FeedingKind, Flight,
-                              PetitionStatus)
+                              PetitionStatus, AdvancedPetition, Petition,
+                              AdditionalExpenses)
+from texpenses.custom_permissions import IsOwnerOrAdmin, isAdminOrRead
 from . import auth_urls
 
 router = routers.DefaultRouter()
-router.register(r'specialty', viewset_factory(Specialty))
-router.register(r'tax-office', viewset_factory(TaxOffice))
-router.register(r'kind', viewset_factory(Kind))
-router.register(r'category', viewset_factory(UserCategory))
+router.register(r'specialty', viewset_factory(Specialty, isAdminOrRead))
+router.register(r'tax-office', viewset_factory(TaxOffice, isAdminOrRead))
+router.register(r'kind', viewset_factory(Kind, isAdminOrRead))
+router.register(r'category', viewset_factory(UserCategory, isAdminOrRead))
 
 
 router_petition = routers.DefaultRouter()
-router_petition.register(r'project', viewset_factory(Project))
+router_petition.register(r'project', viewset_factory(Project, isAdminOrRead))
 router_petition.register(
-    r'movement-categories', viewset_factory(MovementCategories))
-router_petition.register(r'city', viewset_factory(City))
-router_petition.register(r'country', viewset_factory(Country))
+    r'movement-categories', viewset_factory(MovementCategories, isAdminOrRead))
+router_petition.register(r'city', viewset_factory(City, isAdminOrRead))
+router_petition.register(r'country', viewset_factory(Country, isAdminOrRead))
 router_petition.register(r'country-categories', viewset_factory(
-    CountryCategory))
-router_petition.register(r'transportation', viewset_factory(Transportation))
+    CountryCategory, isAdminOrRead))
+router_petition.register(r'transportation', viewset_factory(
+    Transportation, isAdminOrRead))
 # router_petition.register(r'user', views.PetitionUserView)
-router_petition.register(r'accommondation', viewset_factory(Accomondation),
-                         base_name='accomondation')
-router_petition.register(r'advanced_petition', views.AdvancedPetitionViewSet,
+router_petition.register(r'accommondation', viewset_factory(
+    Accomondation, IsOwnerOrAdmin), base_name='accomondation')
+router_petition.register(r'advanced_petition',
+                         views.AdvancedPetitionViewSet,
                          base_name='advancedpetition')
 router_petition.register(r'compensation-categories',
-                         viewset_factory(Compensation))
-router_petition.register(r'feeding', viewset_factory(FeedingKind))
-router_petition.register(r'flight', views.FlightViewSet,
+                         viewset_factory(Compensation, isAdminOrRead))
+router_petition.register(r'feeding', viewset_factory(
+    FeedingKind, isAdminOrRead))
+router_petition.register(r'flight', viewset_factory(Flight, IsOwnerOrAdmin),
                          base_name='flight')
 router_petition.register(r'additional-expenses',
-                         views.AdditionalExpensesViewSet,
+                         viewset_factory(AdditionalExpenses, IsOwnerOrAdmin),
                          base_name='additionalexpenses')
 
 router_petition.register(
-    r'user_petition', views.UserPetitionViewSet, 'petition')
+    r'user_petition', viewset_factory(Petition, IsOwnerOrAdmin), 'petition')
 router_petition.register(
-    r'petition-status', viewset_factory(PetitionStatus))
+    r'petition-status', viewset_factory(PetitionStatus, isAdminOrRead))
 
 
 # Wire up our API using automatic URL routing.
