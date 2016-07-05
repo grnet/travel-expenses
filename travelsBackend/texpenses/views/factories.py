@@ -30,7 +30,7 @@ def viewset_factory(model_class, api_name='APITravel', **kwargs):
         model_meta = getattr(model_class, api_name)
         filter_fields = getattr(model_meta, 'filter_fields', None)
         search_fields = getattr(model_meta, 'search_fields', None)
-        ordering_fields = getattr(model_meta, 'search_fields', None)
+        ordering_fields = getattr(model_meta, 'ordering_fields', None)
         ordering = getattr(model_meta, 'ordering', None)
         filter_backends = ()
 
