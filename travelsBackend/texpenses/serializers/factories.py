@@ -67,4 +67,11 @@ def modelserializer_factory(mdl, api_name='APITravel',
         if fields:
             setattr(Meta, "fields", fields)
 
+        def validate(self, attrs):
+            super(TESerializer, self).validate(attrs)
+            if self.instance is not None:
+                attrs['id'] = self.instance.id
+            model_inst = mdl(**attrs)
+            model_inst.clean()
+
     return TESerializer
