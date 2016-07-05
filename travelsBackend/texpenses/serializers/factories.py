@@ -32,31 +32,31 @@ def modelserializer_factory(mdl, api_name='APITravel',
 
     Base._declared_fields = _get_declared_fields(kwargss)
     model_meta = getattr(mdl, api_name)
-    fields = ('id', 'url') if model_meta is None else model_meta.fields
+    # fields = ('id', 'url') if model_meta is None else model_meta.fields
+
+    if model_meta is None:
+        fields = '__all__'
+    else:
+        if model_meta.fields is None:
+            fields = '__all__'
+        else:
+            fields = model_meta.fields
+
     read_only_fields = READ_ONLY_FIELDS + getattr(
         model_meta, 'read_only_fields', ())
 
     class TESerializer(Base, serializers.HyperlinkedModelSerializer):
 
-        create_method_name = "create_" + mdl.__name__
-        if hasattr(
-                petition, create_method_name):
-            create_method = getattr(
-                petition, create_method_name)
+        if hasattr(petition, 'create'):
+            create_method = getattr(petition, 'create')
             create = create_method
 
-        update_method_name = "update_" + mdl.__name__
-        if hasattr(
-                petition, update_method_name):
-            update_method = getattr(
-                petition, update_method_name)
+        if hasattr(petition, 'update'):
+            update_method = getattr(petition, 'update')
             update = update_method
 
-        delete_method_name = "delete_" + mdl.__name__
-        if hasattr(
-                petition, delete_method_name):
-            delete_method = getattr(
-                petition, delete_method_name)
+        if hasattr(petition, 'delete'):
+            delete_method = getattr(petition, 'delete')
             delete = delete_method
 
         class Meta:
