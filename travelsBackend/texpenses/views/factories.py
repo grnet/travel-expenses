@@ -8,11 +8,11 @@ from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from texpenses.custom_permissions import isAdminOrRead, IsOwnerOrAdmin
 from texpenses.serializers.factories import modelserializer_factory
 
-
 DEFAULT_QUERYSET = lambda model: model.objects.all()
 
 
-def viewset_factory(model_class, api_name='APITravel', **kwargs):
+def viewset_factory(model_class, custom_permission, api_name='APITravel',
+                    **kwargs):
     """TODO: Docstring for viewset_factory.
 
     :model_class: TODO
@@ -27,10 +27,9 @@ def viewset_factory(model_class, api_name='APITravel', **kwargs):
             raise Exception
 
         authentication_classes = (SessionAuthentication, TokenAuthentication)
-        permission_classes = (
-            IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
+        permission_classes = (IsAuthenticated,) + (custom_permission,) + (
+            DjangoModelPermissions,)
         queryset = model_class.objects.all()
-
         model_meta = getattr(model_class, api_name)
         filter_fields = getattr(model_meta, 'filter_fields', None)
         search_fields = getattr(model_meta, 'search_fields', None)
@@ -41,9 +40,9 @@ def viewset_factory(model_class, api_name='APITravel', **kwargs):
         if filter_fields:
             filter_backends += (filters.DjangoFilterBackend,)
         if search_fields:
-            filter_backends += (filters.SearchFilter)
+            filter_backends += (filters.SearchFilter,)
         if ordering_fields:
-            filter_backends += (filters.OrderingFilter)
+            filter_backends += (filters.OrderingFilter,)
         serializer_class = modelserializer_factory(model_class)
 
         def get_queryset(self):
