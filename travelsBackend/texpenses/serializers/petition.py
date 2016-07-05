@@ -1,24 +1,10 @@
 import datetime
 from django.conf import settings as django_settings
 from texpenses.models import (Compensation, FeedingKind, Flight, Accomondation,
-                              AdvancedPetition, Petition)
-
-# Naming convention for method naming: (create|update|delete)_ModelName
+                              AdvancedPetition)
 
 
-def create_AdditionalExpenses(self, validated_data):
-    request = self.context['request']
-    petition = str(request.data['petition'])
-    petition_id = petition[petition.index('user_petition') + 14:-1]
-
-    petition_object = Petition.objects.get(id=petition_id)
-    request.data['user'] = petition_object.user
-    validated_data['user'] = request.data['user']
-    model_name = getattr(self.Meta, 'model')
-    return model_name.objects.create(**validated_data)
-
-
-def create_Petition(self, validated_data):
+def create(self, validated_data):
     user_object = self.context['request'].user
     validated_data['user'] = user_object
 
@@ -57,7 +43,7 @@ def create_Petition(self, validated_data):
     return model_name.objects.create(**validated_data)
 
 
-def update_Petition(self, instance, validated_data):
+def update(self, instance, validated_data):
 
     user_object = instance.user
     arrival_point = validated_data['arrivalPoint']

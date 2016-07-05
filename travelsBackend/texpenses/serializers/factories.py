@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from rest_framework.fields import Field
 from collections import OrderedDict
-from texpenses.serializers import petition
+from texpenses.serializers.utils import get_package_modules, camel2snake,\
+    CUSTOM_SERIALIZER_CODE
+
 
 READ_ONLY_FIELDS = ('id', 'url')
 
@@ -32,7 +34,6 @@ def modelserializer_factory(mdl, api_name='APITravel',
 
     Base._declared_fields = _get_declared_fields(kwargss)
     model_meta = getattr(mdl, api_name)
-    # fields = ('id', 'url') if model_meta is None else model_meta.fields
 
     if model_meta is None:
         fields = '__all__'
@@ -42,22 +43,30 @@ def modelserializer_factory(mdl, api_name='APITravel',
         else:
             fields = model_meta.fields
 
-    read_only_fields = READ_ONLY_FIELDS + getattr(
-        model_meta, 'read_only_fields', ())
+    read_only_fields = READ_ONLY_FIELDS + getattr(model_meta,
+                                                  'read_only_fields', ())
 
     class TESerializer(Base, serializers.HyperlinkedModelSerializer):
 
-        if hasattr(petition, 'create'):
-            create_method = getattr(petition, 'create')
-            create = create_method
+        modules = get_package_modules()
+        model_name = camel2snake(mdl.__name__)
 
-        if hasattr(petition, 'update'):
-            update_method = getattr(petition, 'update')
-            update = update_method
+        if model_name in modules:
 
-        if hasattr(petition, 'delete'):
-            delete_method = getattr(petition, 'delete')
-            delete = delete_method
+            module = __import__(CUSTOM_SERIALIZER_CODE + "." + model_name,
+                                fromlist="dummy")
+
+            if hasattr(module, 'create'):
+                create_method = getattr(module, 'create')
+                create = create_method
+
+            if hasattr(module, 'update'):
+                update_method = getattr(module, 'update')
+                update = update_method
+
+            if hasattr(module, 'delete'):
+                delete_method = getattr(module, 'delete')
+                delete = delete_method
 
         class Meta:
             model = mdl
