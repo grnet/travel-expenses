@@ -261,6 +261,7 @@ class AdvancedPetition(models.Model):
         read_only_fields = ('id', 'url', 'petition')
 
     def clean(self):
+        super(AdvancedPetition, self).clean()
         if self.petition.status.id == 4:
             required_validator(self, AdvancedPetition.required_fields)
 
