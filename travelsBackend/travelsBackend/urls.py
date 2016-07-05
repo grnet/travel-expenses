@@ -36,7 +36,7 @@ router_petition.register(r'advanced_petition', views.AdvancedPetitionViewSet,
 router_petition.register(r'compensation-categories',
                          viewset_factory(Compensation))
 router_petition.register(r'feeding', viewset_factory(FeedingKind))
-router_petition.register(r'flight', viewset_factory(Flight),
+router_petition.register(r'flight', views.FlightViewSet,
                          base_name='flight')
 router_petition.register(r'additional-expenses',
                          views.AdditionalExpensesViewSet,

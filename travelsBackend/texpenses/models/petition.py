@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from user_related import UserProfile, UserCategory, Specialty, Kind,\
     TaxOffice
+from texpenses.views.helper_methods import get_queryset_on_group
 from texpenses.validators import (
     afm_validator, iban_validation, required_validator, date_validator)
 from django.db.models import Sum
@@ -32,6 +33,10 @@ class Accomondation(models.Model):
 
     class APITravel(object):
         fields = ('id', 'hotel', 'hotelPrice', 'url')
+
+        # @classmethod
+        # def get_queryset(request_user):
+            # return get_queryset_on_group(request_user, Accomondation)
 
     def __unicode__(self):
         """TODO: Docstring for __unicode__.
