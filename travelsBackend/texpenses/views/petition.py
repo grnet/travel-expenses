@@ -82,14 +82,6 @@ class AdditionalExpensesViewSet(LoggingMixin, viewsets.ModelViewSet):
 
     serializer_class = modelserializer_factory(AdditionalExpenses)
 
-    def create(self, request):
-        petition = str(request.data['petition'])
-        petition_id = petition[petition.index('user_petition') + 14:-1]
-
-        petition_object = Petition.objects.get(id=petition_id)
-        request.data['user'] = petition_object.user
-        return super(AdditionalExpensesViewSet, self).create(request)
-
 
 class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
 
