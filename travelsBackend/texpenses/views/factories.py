@@ -22,6 +22,7 @@ def viewset_factory(model_class, api_name='APITravel', **kwargs):
 
         model_meta = getattr(model_class, api_name)
         filter_fields = getattr(model_meta, 'filter_fields', ())
+
         setattr(Meta, 'fields', filter_fields)
 
     class AbstractViewSet(LoggingMixin, viewsets.ModelViewSet):
@@ -35,8 +36,10 @@ def viewset_factory(model_class, api_name='APITravel', **kwargs):
         permission_classes = (
             IsAuthenticated, isAdminOrRead, DjangoModelPermissions,)
         queryset = model_class.objects.all()
-        filter_backends = (filters.DjangoFilterBackend,)
-        filter_class = AbstractFilter
+
+        if AbstractFilter.Meta.fields:
+            filter_backends = (filters.DjangoFilterBackend,)
+            filter_class = AbstractFilter
         serializer_class = modelserializer_factory(model_class)
 
     return AbstractViewSet
