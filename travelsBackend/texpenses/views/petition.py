@@ -92,19 +92,6 @@ class UserPetitionViewSet(LoggingMixin, viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, IsOwnerOrAdmin,
                           DjangoModelPermissions,)
 
-    filter_backends = (filters.DjangoFilterBackend,
-                       filters.OrderingFilter, filters.SearchFilter,)
-    filter_fields = (
-        'taskStartDate', 'taskEndDate', 'depart_date', 'return_date', 'project',
-        'creationDate', 'updateDate',
-        'movementCategory', 'departurePoint', 'arrivalPoint',
-        'transportation', 'surname', 'iban', 'taxRegNum', 'status')
-    ordering_fields = ('taskStartDate', 'taskEndDate', 'project',
-                       'movementCategory', 'departurePoint', 'arrivalPoint',
-                       'transportation', 'surname', 'iban', 'taxRegNum',)
-    search_fields = ('name', 'surname',)
-    ordering = ('project',)
-
     def get_queryset(self):
         request_user = self.request.user
         user_groups = request_user.groups.all()
