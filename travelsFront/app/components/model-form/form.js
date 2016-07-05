@@ -28,8 +28,14 @@ const ModelForm = Ember.Component.extend({
     this.updateValidationErrors(this.get('model'));
   }),
 
+  fieldsets: null,
+
   extractMetaForType(type) {
     if (TypesCache[type]) { return TypesCache[type]; }
+    let formParams = type.prototype.__form__ || {};
+    let layout = this.get("flexLayout") || formParams.layout || "100";
+    if (!Ember.isArray(layout)) { layout = layout.split(" "); }
+
     let meta = {fields: {}, keys: [], fieldsList: []};
     let fields = get(type, 'fields');
     let unordered = {};
@@ -37,13 +43,26 @@ const ModelForm = Ember.Component.extend({
     type.eachRelationship((k,v) => { unordered[k] = v; });
     let keys = fields._keys.list;
     meta.keys = keys;
-    let flexLayout = (this.get('flexLayout') || "100").split(" ");
+
+    let defaultFlex = layout[layout.length - 1];
     meta.keys.forEach((key, i) => {
       let field = unordered[key];
-      field.layout = {flex: flexLayout[i] || flexLayout[flexLayout.length[-1]]};
+      field.layout = {flex: layout[i] || defaultFlex};
       meta.fields[key] = field;
       meta.fieldsList.push(field);
     });
+    formParams.fieldsets = formParams.fieldsets || undefined;
+    let fieldsets = [];
+    if (formParams.fieldsets) {
+      formParams.fieldsets.forEach(function(f) {
+        fieldsets.push({
+          fields: f.fields.map((k) => meta.fields[k]),
+          label: f.label,
+          flexLayout: '100' 
+        })
+      });
+      meta.fieldsets = fieldsets;
+    };
     return meta;
   },
 

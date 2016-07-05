@@ -1,0 +1,10 @@
+{{#paper-content classNames="layout-column model-form-fieldset" flex=flex}}
+    {{#paper-content flex=100}}
+        <h2>{{ label }}</h2>
+    {{/paper-content}}
+    {{#paper-content classNames="layout-row layout-wrap"}}
+        {{#each fields as |field|}}
+            {{model-form/field field=field object=object isTouched=isTouched flex=field.layout.flex}}
+        {{/each}}
+    {{/paper-content}}
+{{/paper-content}}

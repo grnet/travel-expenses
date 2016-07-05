@@ -11,7 +11,20 @@ var Validations=buildValidations({
 	]
 });
 
-export default DS.Model.extend(Validations,{
+export default DS.Model.extend(Validations, {
+  __form__: {
+    layout: [100, 33, 33, 33, 100, 50, 50],
+    fieldsets: [
+      {
+        'label': 'Profile fields',
+        'fields': ['name', 'surname', 'iban', 'specialtyID']
+      },
+      {
+        'label': 'Petition',
+        'fields': ['project', 'reason', 'return_date']
+      }
+    ]
+  }, 
 	name: DS.attr(),
 	surname: DS.attr(),
 	iban: DS.attr(),
