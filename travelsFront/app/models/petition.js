@@ -13,18 +13,54 @@ var Validations=buildValidations({
 
 export default DS.Model.extend(Validations, {
   __form__: {
-    layout: [100, 33, 33, 33, 100, 50, 50],
+    layout: [33],
+    layoutMap: {"reason": 100},
     fieldsets: [
       {
-        'label': 'Profile fields',
-        'fields': ['name', 'surname', 'iban', 'specialtyID']
+        'label': 'Profile',
+        'fields': ['name', 'surname', 'iban', 'specialtyID', 
+          'kind', 'taxRegNum', 'taxOffice', 'user_category']
       },
       {
-        'label': 'Petition',
-        'fields': ['project', 'reason', 'return_date']
+        'label': 'Dates',
+        'fields': ['taskStartDate', 'taskEndDate', 
+          'depart_date', 'return_date', 'creationDate', 'updateDate']
+      },
+      {
+        'label': 'Transportation',
+        'fields': [
+          'departurePoint', 'arrivalPoint', 'transportation',
+          'movementCategory'
+        ]
+      },
+      {
+        'label': 'Project',
+        'fields': [
+          'project', 'reason', 'recTransport', 'recAccomondation',
+          'recCostParticipation'
+        ]
+      },
+      {
+        'label': 'Expenses',
+        'fields': [
+          'additional_expenses_sum', 'additional_expenses_initial',
+          'additional_expenses_initial_description',
+          'status', 'overnights_num', 'overnights_num_proposed',
+          'overnight_cost', 'max_overnight_cost', 'overnights_sum_cost'
+        ]
+      },
+      {
+        'label': 'Duration',
+        'fields': [
+          'transport_days', 'transport_days_proposed', 'task_duration',
+          'same_day_return_task', 'compensation_level', 'compensation_days_proposed',
+          'max_compensation', 'compensation_final', 'advanced_info', 'trip_days_before',
+          'trip_days_after', 'total_cost'
+        ]
       }
     ]
   }, 
+
 	name: DS.attr(),
 	surname: DS.attr(),
 	iban: DS.attr(),
@@ -44,7 +80,10 @@ export default DS.Model.extend(Validations, {
 	transportation: DS.belongsTo('transportation'),
 	movementCategory: DS.belongsTo('movement-category'),
 	project: DS.belongsTo('project'),
-	reason: DS.attr(),
+	reason: DS.attr({fieldAttrs: {
+    textarea: true,
+    rows: 20
+  }}),
 	recTransport: DS.attr(),
 	recAccomondation: DS.attr(),
 	recCostParticipation: DS.attr(),

@@ -34,6 +34,7 @@ const ModelForm = Ember.Component.extend({
     if (TypesCache[type]) { return TypesCache[type]; }
     let formParams = type.prototype.__form__ || {};
     let layout = this.get("flexLayout") || formParams.layout || "100";
+    let layoutMap = formParams.layoutMap || {};
     if (!Ember.isArray(layout)) { layout = layout.split(" "); }
 
     let meta = {fields: {}, keys: [], fieldsList: []};
@@ -47,10 +48,13 @@ const ModelForm = Ember.Component.extend({
     let defaultFlex = layout[layout.length - 1];
     meta.keys.forEach((key, i) => {
       let field = unordered[key];
-      field.layout = {flex: layout[i] || defaultFlex};
+      let flex = layout[i];
+      if (!flex) { flex = layoutMap[key] || defaultFlex; }
+      field.layout = {flex: flex};
       meta.fields[key] = field;
       meta.fieldsList.push(field);
     });
+
     formParams.fieldsets = formParams.fieldsets || undefined;
     let fieldsets = [];
     if (formParams.fieldsets) {
@@ -85,7 +89,9 @@ const ModelForm = Ember.Component.extend({
 
   keyPress: function(e) {
     if (e.which === 13) {
-      this.actions.submit.call(this);
+      if (e.target && e.target.tagName.toLowerCase() !== "textarea") {
+        this.actions.submit.call(this);
+      }
     }
   },
 

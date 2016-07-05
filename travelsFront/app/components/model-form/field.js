@@ -64,7 +64,7 @@ export default Ember.Component.extend({
   fieldComponent: computed('field', function() {
     let field = this.get('field');
     let key = 'paper-input';
-    if (field.fieldType) { return field.fieldType; }
+    if (field.options.fieldType) { return field.options.fieldType; }
     if (this.get("isSelect")) { key = 'paper-select'; }
     if (field.type === 'boolean') { key = 'paper-checkbox'; }
     return key;
@@ -106,7 +106,7 @@ export default Ember.Component.extend({
     };
   }),
 
-  propertyDidChange: observer('field', function() {
+  fieldDidChange: observer('field', function() {
     let key = this.get('key');
 
     mixin(this, {
@@ -149,7 +149,7 @@ export default Ember.Component.extend({
 
   didReceiveAttrs() {
     this._super(...arguments);
-    this.propertyDidChange();
+    this.fieldDidChange();
   },
   
   actions: {
