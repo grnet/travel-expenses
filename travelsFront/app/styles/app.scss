@@ -17,11 +17,28 @@ md-content.login-info {
 
 .md-input-hint {
   position: relative;
-  top: -35px;
+  top: -38px;
   padding-left: 4px;
   color: color($primary, '400');
   font-size: 12px;
   .message {
     @extend .md-input-invalid;
+  }
+  z-index: 1000;
+}
+
+md-content {
+  md-input-container.md-input-invalid {
+    md-select-value.md-select-placeholder {
+      border-bottom-color: color($warn, '800');
+      border-width: 0 0 2px 0;
+    }
+  }
+  .md-input-error {
+    font-size: 12px;
+    color: color($warn, '800');
+    position: relative;
+    top: -14px;
+    padding-left: 4px;
   }
 }
