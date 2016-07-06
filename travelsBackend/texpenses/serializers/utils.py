@@ -14,7 +14,7 @@ def get_package_module(module_name):
 
     :param module_name: Name of module inside the package.
 
-    :returns: The module object is it exists; `None` otherwise.
+    :returns: The module object if it exists; `None` otherwise.
     """
     try:
         return importlib.import_module(
