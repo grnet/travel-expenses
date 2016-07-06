@@ -55,6 +55,9 @@ export default Ember.Component.extend({
 
   isRelationship: reads('field.isRelationship'),
   isSelect: reads('isRelationship'),
+  isInput: computed('isSelect', function() {
+    return !this.get('isSelect')
+  }),
 
   label: computed('field', 'field.options.label', function() {
     return this.get('field.options.label') || titlecase(this.get('key'));
@@ -122,6 +125,7 @@ export default Ember.Component.extend({
     });
 
     let attrs = this.get('field.options.fieldAttrs') || {};
+    if (this.get('isInput') && !attrs.type) { attrs.type = "text"; }
     Object.keys(attrs).forEach((k) => set(this, k, attrs[k]));
 
     if (this.get('isRelationship')) {

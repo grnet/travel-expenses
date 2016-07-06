@@ -76,8 +76,16 @@ export default DS.Model.extend(Validations, {
 	taskStartDate: DS.attr(),
 	taskEndDate: DS.attr(),
 	depart_date: DS.attr(),
-	return_date: DS.attr(),
-	creationDate: DS.attr(),
+	return_date: DS.attr({
+    fieldAttrs: {
+      type: 'datetime-local'
+    }
+  }),
+	creationDate: DS.attr({
+    fieldAttrs: {
+      type: 'date'
+    }
+  }),
 	updateDate: DS.attr(),
 	departurePoint: DS.belongsTo('city'),
 	arrivalPoint: DS.belongsTo('city'),
