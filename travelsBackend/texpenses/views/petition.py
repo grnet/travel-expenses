@@ -7,7 +7,7 @@ from rest_framework.authentication import SessionAuthentication,\
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from texpenses.custom_permissions import IsOwnerOrAdmin
 from django.db.models import Q
-from texpenses.serializers.factories import modelserializer_factory
+from texpenses.factories.serializers import modelserializer_factory
 from texpenses.models import (Accomondation, AdvancedPetition,
                               AdditionalExpenses, Petition, Flight)
 from texpenses.models.services import get_queryset_on_group

@@ -9,7 +9,7 @@ from rest_framework_tracking.mixins import LoggingMixin
 from djoser import views as djoser_views
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from texpenses.serializers import CustomUserRegistrationSerializer
-from texpenses.serializers.factories import modelserializer_factory
+from texpenses.factories.serializers import modelserializer_factory
 
 
 logger = logging.getLogger(__name__)
