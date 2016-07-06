@@ -1,11 +1,12 @@
 from rest_framework import serializers
 from rest_framework.fields import Field
 from collections import OrderedDict
-from texpenses.serializers.utils import get_package_modules, camel2snake,\
+from texpenses.serializers.utils import get_package_module, camel2snake,\
     CUSTOM_SERIALIZER_CODE
 
 
 READ_ONLY_FIELDS = ('id', 'url')
+METHODS_TO_OVERRIDE = ['create', 'update', 'delete']
 
 
 def modelserializer_factory(mdl, api_name='APITravel',
@@ -20,63 +21,14 @@ def modelserializer_factory(mdl, api_name='APITravel',
     :param kwargss: Optional additional field specifications
     :return: A HyperLinkedModelSerializer
     """
-
-    def _get_declared_fields(attrs):
-        fields = [(field_name, attrs.pop(field_name))
-                  for field_name, obj in list(attrs.items())
-                  if isinstance(obj, Field)]
-        fields.sort(key=lambda x: x[1]._creation_counter)
-        return OrderedDict(fields)
-
-    # Create an object that will look like a base serializer
-    class Base(object):
-        pass
-
-    Base._declared_fields = _get_declared_fields(kwargss)
-    model_meta = getattr(mdl, api_name)
-
-    if model_meta is None:
-        fields = '__all__'
-    else:
-        if model_meta.fields is None:
-            fields = '__all__'
-        else:
-            fields = model_meta.fields
-
-    read_only_fields = READ_ONLY_FIELDS + getattr(model_meta,
-                                                  'read_only_fields', ())
-
-    class TESerializer(Base, serializers.HyperlinkedModelSerializer):
-
-        modules = get_package_modules()
-        model_name = camel2snake(mdl.__name__)
-
-        if model_name in modules:
-
-            module = __import__(CUSTOM_SERIALIZER_CODE + "." + model_name,
-                                fromlist="dummy")
-
-            if hasattr(module, 'create'):
-                create_method = getattr(module, 'create')
-                create = create_method
-
-            if hasattr(module, 'update'):
-                update_method = getattr(module, 'update')
-                update = update_method
-
-            if hasattr(module, 'delete'):
-                delete_method = getattr(module, 'delete')
-                delete = delete_method
+    class TESerializer(serializers.HyperlinkedModelSerializer):
 
         class Meta:
             model = mdl
 
-        setattr(Meta, "read_only_fields", read_only_fields)
-
-        if fields:
-            setattr(Meta, "fields", fields)
-
         def validate(self, attrs):
+            # TODO We have to make this method works without any need of the
+            # id of object.
             super(TESerializer, self).validate(attrs)
             if self.instance is not None:
                 attrs['id'] = self.instance.id
@@ -84,4 +36,30 @@ def modelserializer_factory(mdl, api_name='APITravel',
             model_inst.clean()
             return attrs
 
+    model_meta = getattr(mdl, api_name)
+    fields = '__all__' if model_meta is None or model_meta.fields is None\
+        else model_meta.fields
+    read_only_fields = READ_ONLY_FIELDS + getattr(
+        model_meta, 'read_only_fields', ())
+    setattr(TESerializer.Meta, "read_only_fields", read_only_fields)
+    if fields:
+        setattr(TESerializer.Meta, "fields", fields)
+    module_name = camel2snake(mdl.__name__)
+    module = get_package_module(module_name)
+    override_methods(TESerializer, module)
     return TESerializer
+
+
+def override_methods(cls, module):
+    """
+    This function looks up for specific methods in a specified module and if
+    methods exist, then it overrides the corresponding methods of the given
+    class.
+
+    :param cls: Class to override its methods.
+    :param module: Module object to look for implementations of the functions.
+    """
+    for method_name in METHODS_TO_OVERRIDE:
+        custom_method = getattr(module, method_name, None)
+        if custom_method is not None:
+            setattr(cls, method_name, custom_method)
