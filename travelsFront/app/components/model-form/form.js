@@ -106,7 +106,9 @@ const ModelForm = Ember.Component.extend({
       if (isValid) {
         model.save().then(() => {
           this.set('formSuccess', 'Success');
+          this.sendAction('onSuccess', model);
         }).catch((err) => {
+          this.sendAction('onError', model);
           this.set('formError', err.message);
         });
         return true;

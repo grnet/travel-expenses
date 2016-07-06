@@ -23,7 +23,7 @@ var Validations=buildValidations({
 
 export default DS.Model.extend(Validations,{
 	'username': DS.attr('string'),
-	'password': DS.attr('string'), 
+	'password': DS.attr('string', {fieldAttrs: {type: 'password'}}), 
 	'email': DS.attr('string')
 });
 
