@@ -6,7 +6,7 @@ READ_ONLY_FIELDS = ('id', 'url')
 FIELDS_TO_OVERRIDE = [('fields', '__all__'),
                       ('read_only_fields', READ_ONLY_FIELDS),
                       ('write_only_fields', None)]
-METHODS_TO_OVERRIDE = ['create', 'update', 'delete']
+METHODS_TO_OVERRIDE = ['create', 'update', 'delete', 'validate']
 
 
 def modelserializer_factory(mdl, api_name='APITravel'):
