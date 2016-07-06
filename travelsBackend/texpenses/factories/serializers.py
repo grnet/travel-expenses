@@ -7,6 +7,7 @@ FIELDS_TO_OVERRIDE = [('fields', '__all__'),
                       ('read_only_fields', READ_ONLY_FIELDS),
                       ('write_only_fields', None)]
 METHODS_TO_OVERRIDE = ['create', 'update', 'delete', 'validate']
+CUSTOM_SERIALIZERS_CODE = 'texpenses.serializers'
 
 
 def modelserializer_factory(mdl, api_name='APITravel'):
@@ -38,6 +39,7 @@ def modelserializer_factory(mdl, api_name='APITravel'):
     model_meta = getattr(mdl, api_name)
     utils.override_fields(TESerializer.Meta, model_meta, FIELDS_TO_OVERRIDE)
     module_name = utils.camel2snake(mdl.__name__)
-    module = utils.get_package_module(module_name)
+    module = utils.get_package_module(
+        CUSTOM_SERIALIZERS_CODE + '.' + module_name)
     utils.override_methods(TESerializer, module, METHODS_TO_OVERRIDE)
     return TESerializer

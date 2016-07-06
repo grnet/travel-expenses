@@ -16,6 +16,8 @@ FILTERING_BACKENDS = {
 }
 FIELDS_TO_OVERRIDE = [('filter_fields', None), ('ordering_fields', None),
                       ('search_fields', None), ('ordering', None)]
+METHODS_TO_OVERRIDE = ['create', 'update', 'delete']
+CUSTOM_VIEWS_CODE = 'texpenses.views'
 
 def viewset_factory(model_class, custom_permission, api_name='APITravel'):
     """TODO: Docstring for viewset_factory.
@@ -46,6 +48,10 @@ def viewset_factory(model_class, custom_permission, api_name='APITravel'):
     utils.override_fields(AbstractViewSet, AbstractViewSet.model_meta,
                           FIELDS_TO_OVERRIDE)
     init_filter_backends(AbstractViewSet)
+    module_name = utils.camel2snake(model_class.__name__)
+    module = utils.get_package_module(
+        CUSTOM_VIEWS_CODE + '.' + module_name)
+    utils.override_methods(AbstractViewSet, module, METHODS_TO_OVERRIDE)
     return AbstractViewSet
 
 

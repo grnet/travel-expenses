@@ -3,9 +3,6 @@ import pkgutil
 import re
 
 
-CUSTOM_SERIALIZER_CODE = 'texpenses.serializers'
-
-
 def get_package_module(module_name):
     """
     This function loads programtically the desired module which is located in
@@ -17,8 +14,7 @@ def get_package_module(module_name):
     :returns: The module object if it exists; `None` otherwise.
     """
     try:
-        return importlib.import_module(
-            CUSTOM_SERIALIZER_CODE + '.' + module_name)
+        return importlib.import_module(module_name)
     except ImportError:
         return None
 
