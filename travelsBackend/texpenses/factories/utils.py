@@ -33,6 +33,7 @@ def override_methods(cls, module, methods_to_override):
 
     :param cls: Class to override its methods.
     :param module: Module object to look for implementations of the functions.
+    :param methods_to_override: List with the names of methods to override.
     """
     if module is None:
         return
@@ -46,10 +47,13 @@ def override_methods(cls, module, methods_to_override):
 def override_fields(cls, meta_class, fields_to_override):
     """
     This function looks up for specific fields in a specified meta class which
-    define how fields will be treated by the serializer.
+    define how fields will be treated by the REST API classes (serializers,
+    viewsets).
 
     :param cls: Class to override its fields.
     :param module: Class to get its fields.
+    :param fields_to_override: List of tuple with the fields to override and
+    their default values.
     """
     if meta_class is None:
         return

@@ -56,6 +56,12 @@ def viewset_factory(model_class, custom_permission, api_name='APITravel'):
 
 
 def init_filter_backends(cls):
+    """
+    Initialize the corresponding Django filter backends if the corresponding
+    fields of the viewset class have been assigned.
+
+    :param cls: Viewset class.
+    """
     assert cls.filter_backends == ()
     for filter_option, filter_backend in FILTERING_BACKENDS.iteritems():
         value = getattr(cls, filter_option, None)
