@@ -3,6 +3,9 @@ from texpenses.serializers.utils import get_package_module, camel2snake
 
 
 READ_ONLY_FIELDS = ('id', 'url')
+FIELDS_TO_OVERRIDE = [('fields', '__all__'),
+                      ('read_only_fields', READ_ONLY_FIELDS),
+                      ('write_only_fields', None)]
 METHODS_TO_OVERRIDE = ['create', 'update', 'delete']
 
 
@@ -33,12 +36,7 @@ def modelserializer_factory(mdl, api_name='APITravel'):
             return attrs
 
     model_meta = getattr(mdl, api_name)
-    fields = '__all__' if model_meta is None or model_meta.fields is None\
-        else model_meta.fields
-    read_only_fields = READ_ONLY_FIELDS + getattr(
-        model_meta, 'read_only_fields', ())
-    setattr(TESerializer.Meta, "read_only_fields", read_only_fields)
-    setattr(TESerializer.Meta, "fields", fields)
+    override_fields(TESerializer.Meta, model_meta)
     module_name = camel2snake(mdl.__name__)
     module = get_package_module(module_name)
     override_methods(TESerializer, module)
@@ -61,3 +59,22 @@ def override_methods(cls, module):
         custom_method = getattr(module, method_name, None)
         if custom_method is not None:
             setattr(cls, method_name, custom_method)
+
+
+def override_fields(cls, meta_class):
+    """
+    This function looks up for specific fields in a specified meta class which
+    define how fields will be treated by the serializer.
+
+    :param cls: Class to override its fields.
+    :param module: Class to get its fields.
+    """
+    if meta_class is None:
+        return
+
+    for field_name, default in FIELDS_TO_OVERRIDE:
+        field_value = getattr(meta_class, field_name, None)
+        if field_value is None and default is None:
+            continue
+        setattr(cls, field_name, (
+            default if field_value is None else field_value))
