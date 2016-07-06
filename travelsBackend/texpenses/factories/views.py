@@ -6,7 +6,7 @@ from rest_framework.authentication import SessionAuthentication,\
 from rest_framework_tracking.mixins import LoggingMixin
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from texpenses.factories import utils
-from texpenses.factories.serializers import modelserializer_factory
+from texpenses.factories.serializers import factory as serializer_factory
 
 DEFAULT_QUERYSET = lambda model: model.objects.all()
 FILTERING_BACKENDS = {
@@ -19,7 +19,8 @@ FIELDS_TO_OVERRIDE = [('filter_fields', None), ('ordering_fields', None),
 METHODS_TO_OVERRIDE = ['create', 'update', 'delete']
 CUSTOM_VIEWS_CODE = 'texpenses.views'
 
-def viewset_factory(model_class, custom_permission, api_name='APITravel'):
+
+def factory(model_class, custom_permission, api_name='APITravel'):
     """TODO: Docstring for viewset_factory.
 
     :model_class: TODO
@@ -39,7 +40,8 @@ def viewset_factory(model_class, custom_permission, api_name='APITravel'):
         queryset = model_class.objects.all()
         filter_backends = ()
         model_meta = getattr(model_class, api_name)
-        serializer_class = modelserializer_factory(model_class)
+        serializer_class = serializer_factory(model_class)
+
         def get_queryset(self):
             queryset = getattr(self.model_meta, 'get_queryset', None)
             return queryset(self.request.user) if queryset else\

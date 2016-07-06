@@ -10,7 +10,7 @@ METHODS_TO_OVERRIDE = ['create', 'update', 'delete', 'validate']
 CUSTOM_SERIALIZERS_CODE = 'texpenses.serializers'
 
 
-def modelserializer_factory(mdl, api_name='APITravel'):
+def factory(mdl, api_name='APITravel'):
     """ Generalized serializer factory to increase DRYness of code.
 
     :param mdl: The model for the HyperLinkedModelSerializer
