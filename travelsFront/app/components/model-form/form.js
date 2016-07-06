@@ -66,6 +66,8 @@ const ModelForm = Ember.Component.extend({
         })
       });
       meta.fieldsets = fieldsets;
+    } else {
+      meta.fieldsets = [{label: null, fields:meta.fieldsList}];
     };
     return meta;
   },

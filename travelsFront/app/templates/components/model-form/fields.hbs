@@ -1,14 +1,6 @@
 {{#if hasBlock}}
 {{else}}
-    {{#if fieldsets}}
-        {{#each fieldsets as |fieldset| }}
-            {{model-form/set object=object fields=fieldset.fields label=fieldset.label isTouched=isTouched flex=fieldset.flexLayout tagName='' isTouched=isTouched}}
-        {{/each}}
-    {{else}}
-        {{#paper-content classNames="layout-row layout-wrap"}}
-            {{#each fields as |field|}}
-                {{model-form/field field=field object=object isTouched=isTouched flex=field.layout.flex}}
-            {{/each}}
-        {{/paper-content}}
-    {{/if}}
+    {{#each fieldsets as |fieldset| }}
+        {{model-form/set object=object fields=fieldset.fields label=fieldset.label isTouched=isTouched flex=fieldset.flexLayout tagName='' isTouched=isTouched}}
+    {{/each}}
 {{/if}}
