@@ -29,8 +29,6 @@ def factory(model_class, custom_permission, api_name='APITravel'):
     """
     class AbstractViewSet(LoggingMixin, viewsets.ModelViewSet):
 
-        """API endpoint that allows specialty details to be viewed or edited\
-        (by a permitted user) """
         if model_class is None:
             raise Exception
 
