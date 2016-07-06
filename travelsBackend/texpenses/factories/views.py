@@ -54,6 +54,7 @@ def factory(model_class, custom_permission, api_name='APITravel'):
     module = utils.get_package_module(
         CUSTOM_VIEWS_CODE + '.' + module_name)
     utils.override_methods(AbstractViewSet, module, METHODS_TO_OVERRIDE)
+    AbstractViewSet.__name__ = model_class.__name__
     return AbstractViewSet
 
 

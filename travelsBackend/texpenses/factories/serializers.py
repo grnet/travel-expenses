@@ -43,4 +43,5 @@ def factory(mdl, api_name='APITravel'):
     module = utils.get_package_module(
         CUSTOM_SERIALIZERS_CODE + '.' + module_name)
     utils.override_methods(AbstractSerializer, module, METHODS_TO_OVERRIDE)
+    AbstractSerializer.__name__ = mdl.__name__
     return AbstractSerializer
