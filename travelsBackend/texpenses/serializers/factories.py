@@ -38,8 +38,7 @@ def modelserializer_factory(mdl, api_name='APITravel'):
     read_only_fields = READ_ONLY_FIELDS + getattr(
         model_meta, 'read_only_fields', ())
     setattr(TESerializer.Meta, "read_only_fields", read_only_fields)
-    if fields:
-        setattr(TESerializer.Meta, "fields", fields)
+    setattr(TESerializer.Meta, "fields", fields)
     module_name = camel2snake(mdl.__name__)
     module = get_package_module(module_name)
     override_methods(TESerializer, module)
