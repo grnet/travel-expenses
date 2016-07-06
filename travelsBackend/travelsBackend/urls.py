@@ -4,7 +4,7 @@ from texpenses import views
 from django.contrib import admin
 from django.conf import settings
 from django.views.generic.base import RedirectView
-from texpenses.views.factories import viewset_factory
+from texpenses.factories.views import viewset_factory
 from texpenses.models import (Specialty, TaxOffice, Kind, UserCategory,
                               Project, MovementCategories, City, Country,
                               CountryCategory, Transportation, Accomondation,

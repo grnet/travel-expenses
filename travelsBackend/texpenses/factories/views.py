@@ -5,10 +5,17 @@ from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
 from rest_framework_tracking.mixins import LoggingMixin
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
-from texpenses.serializers.factories import modelserializer_factory
+from texpenses.factories import utils
+from texpenses.factories.serializers import modelserializer_factory
 
 DEFAULT_QUERYSET = lambda model: model.objects.all()
-
+FILTERING_BACKENDS = {
+    'filter_fields': filters.DjangoFilterBackend,
+    'search_fields': filters.SearchFilter,
+    'ordering_fields': filters.OrderingFilter
+}
+FIELDS_TO_OVERRIDE = [('filter_fields', None), ('ordering_fields', None),
+                      ('search_fields', None), ('ordering', None)]
 
 def viewset_factory(model_class, custom_permission, api_name='APITravel'):
     """TODO: Docstring for viewset_factory.
@@ -28,24 +35,23 @@ def viewset_factory(model_class, custom_permission, api_name='APITravel'):
         permission_classes = (IsAuthenticated,) + (custom_permission,) + (
             DjangoModelPermissions,)
         queryset = model_class.objects.all()
-        model_meta = getattr(model_class, api_name)
-        filter_fields = getattr(model_meta, 'filter_fields', None)
-        search_fields = getattr(model_meta, 'search_fields', None)
-        ordering_fields = getattr(model_meta, 'ordering_fields', None)
-        ordering = getattr(model_meta, 'ordering', None)
         filter_backends = ()
-
-        if filter_fields:
-            filter_backends += (filters.DjangoFilterBackend,)
-        if search_fields:
-            filter_backends += (filters.SearchFilter,)
-        if ordering_fields:
-            filter_backends += (filters.OrderingFilter,)
+        model_meta = getattr(model_class, api_name)
         serializer_class = modelserializer_factory(model_class)
-
         def get_queryset(self):
             queryset = getattr(self.model_meta, 'get_queryset', None)
             return queryset(self.request.user) if queryset else\
                 DEFAULT_QUERYSET(model_class)
 
+    utils.override_fields(AbstractViewSet, AbstractViewSet.model_meta,
+                          FIELDS_TO_OVERRIDE)
+    init_filter_backends(AbstractViewSet)
     return AbstractViewSet
+
+
+def init_filter_backends(cls):
+    assert cls.filter_backends == ()
+    for filter_option, filter_backend in FILTERING_BACKENDS.iteritems():
+        value = getattr(cls, filter_option, None)
+        if value:
+            cls.filter_backends += (filter_backend,)
