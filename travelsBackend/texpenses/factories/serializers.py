@@ -21,7 +21,7 @@ def factory(mdl, api_name='APITravel'):
     :param kwargss: Optional additional field specifications
     :return: A HyperLinkedModelSerializer
     """
-    class TESerializer(serializers.HyperlinkedModelSerializer):
+    class AbstractSerializer(serializers.HyperlinkedModelSerializer):
 
         class Meta:
             model = mdl
@@ -29,7 +29,7 @@ def factory(mdl, api_name='APITravel'):
         def validate(self, attrs):
             # TODO We have to make this method works without any need of the
             # id of object.
-            super(TESerializer, self).validate(attrs)
+            super(AbstractSerializer, self).validate(attrs)
             if self.instance is not None:
                 attrs['id'] = self.instance.id
             model_inst = mdl(**attrs)
@@ -37,9 +37,10 @@ def factory(mdl, api_name='APITravel'):
             return attrs
 
     model_meta = getattr(mdl, api_name)
-    utils.override_fields(TESerializer.Meta, model_meta, FIELDS_TO_OVERRIDE)
+    utils.override_fields(
+        AbstractSerializer.Meta, model_meta, FIELDS_TO_OVERRIDE)
     module_name = utils.camel2snake(mdl.__name__)
     module = utils.get_package_module(
         CUSTOM_SERIALIZERS_CODE + '.' + module_name)
-    utils.override_methods(TESerializer, module, METHODS_TO_OVERRIDE)
-    return TESerializer
+    utils.override_methods(AbstractSerializer, module, METHODS_TO_OVERRIDE)
+    return AbstractSerializer
