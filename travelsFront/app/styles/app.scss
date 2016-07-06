@@ -13,3 +13,15 @@ md-content.login-info {
     background-color: transparent;
   }
 }
+
+
+.md-input-hint {
+  position: relative;
+  top: -35px;
+  padding-left: 4px;
+  color: color($primary, '400');
+  font-size: 12px;
+  .message {
+    @extend .md-input-invalid;
+  }
+}

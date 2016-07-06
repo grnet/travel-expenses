@@ -16,8 +16,8 @@ var Validations=buildValidations({
 });
 
 export default DS.Model.extend(Validations, {
-	'username': DS.attr({formAttrs: true}),
-	'email': DS.attr(),
+	'username': DS.attr(),
+	'email': DS.attr({hint: 'A valid email address'}),
 	'first_name': DS.attr(),
 	'last_name': DS.attr(), 
 	'iban': DS.attr(),

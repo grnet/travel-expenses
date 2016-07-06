@@ -44,8 +44,14 @@ export default Ember.Component.extend({
 
   store: Ember.inject.service('store'),
 
+  canShowHint: computed('hint', 'errors', 'errors.[]', function() {
+    if (this.get('errors.length')) { return false; }
+    if (this.get('hint')) { return true; }
+  }),
+
   options: alias('field.options'),
   key: reads('field.key'),
+  hint: reads('options.hint'),
 
   isRelationship: reads('field.isRelationship'),
   isSelect: reads('isRelationship'),
@@ -116,7 +122,7 @@ export default Ember.Component.extend({
     });
 
     let attrs = this.get('field.options.fieldAttrs') || {};
-    Ember.keys(attrs).forEach((k) => set(this, k, attrs[k]));
+    Object.keys(attrs).forEach((k) => set(this, k, attrs[k]));
 
     if (this.get('isRelationship')) {
       mixin(this, {

@@ -61,9 +61,13 @@ export default DS.Model.extend(Validations, {
     ]
   }, 
 
-	name: DS.attr(),
+	name: DS.attr({
+    hint: 'Provide your name'
+  }),
 	surname: DS.attr(),
-	iban: DS.attr(),
+	iban: DS.attr({
+    hint: new Ember.Handlebars.SafeString('This should be your IBAN number. See <a href="lla">here</a> for more details.')
+  }),
 	specialtyID: DS.belongsTo('specialty'),
 	kind: DS.belongsTo('kind'),
 	taxRegNum: DS.attr(),
