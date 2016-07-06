@@ -35,7 +35,7 @@ Follow the steps below in order to setup your development environment::
     # run the development server
     (venv)$ python travelsBackend/manage.py runserver
 
-How to create a new Model/Form
+Expose a model to REST API
 ==============================
 You can easily create a new model and expose it to REST API by following the
 steps below.
@@ -80,7 +80,7 @@ implementations for your model then you can simply add your code to a new module
 with the snake case name of your model inside `serializers` package. Factory
 function will include them and will override custom implementation.
 
-Don't forget to perform your schema migration after adding your model by running:
+Don't forget to perform the required schema migrations after adding your model by running:
 ```
 python manage.py makemigrations texpenses
 python manage.py migrate
