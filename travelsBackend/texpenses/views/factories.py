@@ -5,14 +5,12 @@ from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
 from rest_framework_tracking.mixins import LoggingMixin
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
-from texpenses.custom_permissions import isAdminOrRead, IsOwnerOrAdmin
 from texpenses.serializers.factories import modelserializer_factory
 
 DEFAULT_QUERYSET = lambda model: model.objects.all()
 
 
-def viewset_factory(model_class, custom_permission, api_name='APITravel',
-                    **kwargs):
+def viewset_factory(model_class, custom_permission, api_name='APITravel'):
     """TODO: Docstring for viewset_factory.
 
     :model_class: TODO

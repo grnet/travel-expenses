@@ -1,16 +1,12 @@
 from rest_framework import serializers
-from rest_framework.fields import Field
-from collections import OrderedDict
-from texpenses.serializers.utils import get_package_module, camel2snake,\
-    CUSTOM_SERIALIZER_CODE
+from texpenses.serializers.utils import get_package_module, camel2snake
 
 
 READ_ONLY_FIELDS = ('id', 'url')
 METHODS_TO_OVERRIDE = ['create', 'update', 'delete']
 
 
-def modelserializer_factory(mdl, api_name='APITravel',
-                            **kwargss):
+def modelserializer_factory(mdl, api_name='APITravel'):
     """ Generalized serializer factory to increase DRYness of code.
 
     :param mdl: The model for the HyperLinkedModelSerializer
@@ -59,6 +55,9 @@ def override_methods(cls, module):
     :param cls: Class to override its methods.
     :param module: Module object to look for implementations of the functions.
     """
+    if module is None:
+        return
+
     for method_name in METHODS_TO_OVERRIDE:
         custom_method = getattr(module, method_name, None)
         if custom_method is not None:
