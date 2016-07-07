@@ -5,6 +5,9 @@ import ENV from 'travels-front/config/environment';
 export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	model() {
 		var model = this.store.createRecord('petition');
+		this.store.findAll("petition-status").then(function() {
+			model.set("status", this.store.peekRecord('petition-status',ENV.petition_status_1));
+		}.bind(this));
 		return model
 	},
 
