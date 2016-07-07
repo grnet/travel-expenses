@@ -1,28 +1,4 @@
-<div class="container">
-
-	<form class="form-horizontal col-md-12" {{action "checkChanges" preventDefault=false}} role="form">
-
-		{{partial 'profile-form'}}
-
-		{{partial 'petition-form'}}
-	
-		<button type="submit" class="btn btn-primary" {{action "petitionSave"}} disabled={{v-get model 'isInvalid'}}>Αποθήκευση Αλλαγών</button>
-		<button type="submit" class="btn btn-primary" id="submit" {{action "petitionSubmit"}} disabled={{v-get model 'isInvalid'}}>Υποβολή Αίτησης</button>
-
-
-		<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header" id="styleModal">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel"><font>{{editMessage}}</font></h4>
-					</div>
-				</div>
-			</div>
-		</div>
-
-	</form><br>
-
-</div>
-
-{{outlet}}
+{{ page-toolbar pageTitle="Edit petition" }}
+{{#paper-content classNames="md-padding"}}
+    {{ model-form/form model }}
+{{/paper-content}}
