@@ -29,7 +29,7 @@ def factory(mdl, api_name='APITravel'):
         def validate(self, attrs):
             # TODO We have to make this method works without any need of the
             # id of object.
-            super(AbstractSerializer, self).validate(attrs)
+            attrs = super(AbstractSerializer, self).validate(attrs)
             if self.instance is not None:
                 attrs['id'] = self.instance.id
             model_inst = mdl(**attrs)
