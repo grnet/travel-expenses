@@ -4,15 +4,24 @@ import {validator, buildValidations} from 'ember-cp-validations';
 
 
 var Validations=buildValidations({
-   email: [
-       validator('presence', true),
-       validator('format', { type: 'email' })
-   ],
-   taxRegNum: validator('afm-validator'),
-   iban: validator('iban-validator'),
-   first_name: [validator('length', {min: 1}), validator('presence', true)],
-   last_name: [validator('length', {min: 1}), validator('presence', true)],
-   taxRegNum: [validator('length', {min: 1}), validator('presence', true)]
+  email: [
+    validator('presence', true),
+    validator('format', { type: 'email' })
+  ],
+  iban: validator('iban-validator'),
+  first_name: [
+    validator('presence', true),
+    validator('length', {min: 1})
+  ],
+  last_name: [
+    validator('presence', true),
+    validator('length', {min: 1})
+  ],
+  taxRegNum: [
+    validator('presence', true),
+    validator('length', {min: 1}),
+    validator('afm-validator')
+  ]
 });
 
 export default DS.Model.extend(Validations, {
@@ -20,12 +29,12 @@ export default DS.Model.extend(Validations, {
     'default': {
       fieldsets: [
         {
-          'label': 'account info',
-          'fields': ['username', 'email', 'first_name', 'last_name']
+          'label': 'My account',
+          'fields': ['username', 'email']
         },
         {
-          'label': 'personal info',
-          'fields': ['specialtyID', 'kind','taxRegNum', 'taxOffice', 'iban', 'category']
+          'label': 'Personal info',
+          'fields': ['first_name', 'last_name', 'specialtyID', 'kind','taxRegNum', 'taxOffice', 'iban', 'category']
         }
       ],
       layout: {
