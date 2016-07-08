@@ -38,7 +38,7 @@ export default DS.Model.extend(Validations, {
         }
       ],
       layout: {
-        flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50 , 50]
+        flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
       }
     }
   },
