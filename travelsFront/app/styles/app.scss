@@ -42,3 +42,15 @@ md-content {
     padding-left: 4px;
   }
 }
+
+md-content.md-form-messages {
+  md-content.md-form-error {
+    background-color: color($warn, '800'); 
+    color: #fff;
+  }
+
+  md-content.md-form-success {
+    background-color: color($link, '800'); 
+    color: #fff;
+  }
+}
