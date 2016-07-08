@@ -12,23 +12,25 @@ var Validations=buildValidations({
 });
 
 export default DS.Model.extend(Validations, {
-  __form__: {
-    layout: [50],
-    layoutMap: {"reason": 100},
-    fieldsets: [
-      {
-        'label': 'Profile',
-        'fields': ['name', 'surname', 'specialtyID', 
-          'kind', 'taxRegNum', 'taxOffice','iban', 'user_category']
-      },
-      {
-        'label': 'Travel Data',
-        'fields': ['project', 'reason', 'departurePoint', 'arrivalPoint',
-        'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
-        'transportation', 'recCostParticipation', 'additional_expenses_initial']
-      },
-    ]
-  }, 
+  __ui__: {
+    "user": {
+      layout: [50],
+      layoutMap: {"reason": 100},
+      fieldsets: [
+        {
+          'label': 'Profile',
+          'fields': ['name', 'surname', 'specialtyID', 
+            'kind', 'taxRegNum', 'taxOffice','iban', 'user_category']
+        },
+        {
+          'label': 'Travel Data',
+          'fields': ['project', 'reason', 'departurePoint', 'arrivalPoint',
+          'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
+          'transportation', 'recCostParticipation', 'additional_expenses_initial']
+        },
+      ]
+    }
+  },
 
 	name: DS.attr({
     hint: 'Provide your name'
