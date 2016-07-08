@@ -2,11 +2,28 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import {validator, buildValidations} from 'ember-cp-validations';
 
+const LOGIN_UI = {
+  exclude: ['email', 'password'],
+  extra_fields: [
+    ['login_pass', 
+      {
+        type: 'string',
+        label: 'Password',
+        attrs: {type: 'password', required: true}
+      }
+    ]
+  ],
+  layout: {
+    flex: [50, 50, 50, 50]
+  }
+};
+
+const SIGNUP_UI = {}
+
+
 var Validations=buildValidations({
 	username: [
 		validator('presence', true)
-		//validator('unique-username')
-	
 	],
 	password: [
 		validator('presence', true),
@@ -21,12 +38,13 @@ var Validations=buildValidations({
 	]
 });
 
-export default DS.Model.extend(Validations,{
-	'username': DS.attr('string'),
-	'password': DS.attr('string', {fieldAttrs: {type: 'password'}}), 
+export default DS.Model.extend(Validations, {
+  __ui__: {
+    'signup': SIGNUP_UI,
+    'login': LOGIN_UI
+  },
+
+	'username': DS.attr('string', {attrs: {required: true}}),
+	'password': DS.attr('string', {attrs: {type: 'password'}}), 
 	'email': DS.attr('string')
 });
-
-
-
-

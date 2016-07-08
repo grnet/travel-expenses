@@ -1,8 +1,4 @@
 {{ page-toolbar pageTitle="Login" }}
-{{#paper-content classNames="md-padding"}}
-	<form class="form-horizontal col-md-10" role="form" {{action "authenticate" on="submit"}}>
-        {{paper-input value=identification onChange=(action (mut identification)) label="Username"}}
-        {{paper-input type="password" value=password onChange=(action (mut password)) label="Password"}}
-        {{#paper-button type="submit" raised=true onClick=(action "authenticate")}}Login{{/paper-button}}
-	</form>
+{{#paper-content}}
+    {{model-form/form model ui='login' submit=(action 'authenticate') submitError=(mut submitError) hideReset=true}}
 {{/paper-content}}
