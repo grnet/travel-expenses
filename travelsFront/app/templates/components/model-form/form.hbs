@@ -1,6 +1,17 @@
 {{# if hasBlock}}
 {{else}}
-    {{model-form/errors}}
-    {{model-form/fields object=model fieldsets=meta.fieldsets fields=meta.fieldsList meta=meta isTouched=isTouched}}
-    {{model-form/controls object=model submit=(action 'submit')}}
+    {{model-form/messages 
+        isInvalid=isInvalid 
+        submitError=submitError 
+        errors=errors 
+        submitMessage=submitMessage
+    }}
+    {{model-form/fields object=model fieldsets=meta.fieldsets isTouched=isTouched}}
+    {{model-form/controls
+        object=model
+        submit=(action 'submit')
+        reset=(action 'reset')
+        hideReset=hideReset
+        inProgress=inProgress
+    }}
 {{/if}}

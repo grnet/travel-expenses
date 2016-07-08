@@ -1,0 +1,21 @@
+{{#if (or isInvalid submitError submitMessage)}}
+{{#ember-wormhole to="app-messages"}}
+{{#paper-content classNames="md-form-messages"}}
+{{#if (or isInvalid submitError )}}
+{{#paper-content classNames="md-padding md-form-error"}}
+    {{#if isInvalid}}
+    Cannot validate form data
+    {{/if}}
+    {{#if submitError }}
+    {{ submitError }}
+    {{/if}}
+{{/paper-content}}
+{{/if}}
+{{#if submitMessage }}
+{{#paper-content classNames="md-padding md-form-success"}}
+{{ submitMessage }}
+{{/paper-content}}
+{{/if}}
+{{/paper-content}}
+{{/ember-wormhole}}
+{{/if}}

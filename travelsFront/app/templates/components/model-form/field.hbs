@@ -1,6 +1,6 @@
 {{#unless isSelect }}
 {{ component
-    fieldComponent
+    componentName
 
     onChange=(action 'updateProperty')
     label=label
@@ -8,39 +8,39 @@
     placeholder=placeholder
     errors=errors
     isTouched=isTouched
-    type=type
+    type=fieldAttrs.type
     
-    icon=icon
-    accesskey=accesskey
-    autocomplete=autocomplete
-    autofocus=autofocus
-    autosave=autosave
-    dir=dir
-    disabled=disabled
-    hidden=hidden
-    inputmode=inputmode
-    lang=lang
-    list=list
-    max=max
-    maxlength=maxlength
-    min=min
-    minlength=minlength
-    multiple=multiple
-    pattern=pattern
-    readonly=readonly
-    required=required
-    size=size
-    spellcheck=spellcheck
-    step=step
-    tabindex=tabindex
-    title=title
-    textarea=textarea
-    rows=rows
-    columns=columns
+    icon=fieldAttrs.icon
+    accesskey=fieldAttrs.accesskey
+    autocomplete=fieldAttrs.autocomplete
+    autofocus=fieldAttrs.autofocus
+    autosave=fieldAttrs.autosave
+    dir=fieldAttrs.dir
+    disabled=fieldAttrs.disabled
+    hidden=fieldAttrs.hidden
+    inputmode=fieldAttrs.inputmode
+    lang=fieldAttrs.lang
+    list=fieldAttrs.list
+    max=fieldAttrs.max
+    maxlength=fieldAttrs.maxlength
+    min=fieldAttrs.min
+    minlength=fieldAttrs.minlength
+    multiple=fieldAttrs.multiple
+    pattern=fieldAttrs.pattern
+    readonly=fieldAttrs.readonly
+    required=fieldAttrs.required
+    size=fieldAttrs.size
+    spellcheck=fieldAttrs.spellcheck
+    step=fieldAttrs.step
+    tabindex=fieldAttrs.tabindex
+    title=fieldAttrs.title
+    textarea=fieldAttrs.textarea
+    rows=fieldAttrs.rows
+    columns=fieldAttrs.columns
 }}
 {{else}}
 {{# component
-    fieldComponent
+    componentName
 
     onChange=(action 'updateProperty')
     label=label
@@ -53,30 +53,33 @@
     getItems=getItems
     itemLabelCallback=itemLabelCallback
 
-    icon=icon
-    accesskey=accesskey
-    autocomplete=autocomplete
-    autofocus=autofocus
-    autosave=autosave
-    dir=dir
-    disabled=disabled
-    hidden=hidden
-    inputmode=inputmode
-    lang=lang
-    list=list
-    max=max
-    maxlength=maxlength
-    min=min
-    minlength=minlength
-    multiple=multiple
-    pattern=pattern
-    readonly=readonly
-    required=required
-    size=size
-    spellcheck=spellcheck
-    step=step
-    tabindex=tabindex
-    title=title
+    icon=fieldAttrs.icon
+    accesskey=fieldAttrs.accesskey
+    autocomplete=fieldAttrs.autocomplete
+    autofocus=fieldAttrs.autofocus
+    autosave=fieldAttrs.autosave
+    dir=fieldAttrs.dir
+    disabled=fieldAttrs.disabled
+    hidden=fieldAttrs.hidden
+    inputmode=fieldAttrs.inputmode
+    lang=fieldAttrs.lang
+    list=fieldAttrs.list
+    max=fieldAttrs.max
+    maxlength=fieldAttrs.maxlength
+    min=fieldAttrs.min
+    minlength=fieldAttrs.minlength
+    multiple=fieldAttrs.multiple
+    pattern=fieldAttrs.pattern
+    readonly=fieldAttrs.readonly
+    required=fieldAttrs.required
+    size=fieldAttrs.size
+    spellcheck=fieldAttrs.spellcheck
+    step=fieldAttrs.step
+    tabindex=fieldAttrs.tabindex
+    title=fieldAttrs.title
+    textarea=fieldAttrs.textarea
+    rows=fieldAttrs.rows
+    columns=fieldAttrs.columns
 
     as |options|
 }}

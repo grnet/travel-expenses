@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import _ from 'lodash/lodash';
+import {ResourceMetaFrom} from './util';
 
-var getKeys = Object.keys;
-var get = Ember.get;
-var set = Ember.set;
+const {
+  get, set, computed: { alias }
+} = Ember
 var TypesCache = {};
 
 const ModelForm = Ember.Component.extend({
@@ -18,64 +19,23 @@ const ModelForm = Ember.Component.extend({
 
   didReceiveAttrs() {
     this._super(...arguments);
-    let model = this.get("model");
-    let type = model.constructor;
-    let meta = this.extractMetaForType(type);
-    this.setProperties({model, type, meta});
+    let object = this.get("model");
+    let ui = this.get("ui") || "default";
+    let meta = ResourceMetaFrom(object, null, ui);
+    window['meta'] = meta;
+    this.setProperties({object, meta});
   },
 
   handleErrors: Ember.observer('validationErrors.@each', function() {
     this.updateValidationErrors(this.get('model'));
   }),
 
-  fieldsets: null,
-
-  extractMetaForType(type) {
-    if (TypesCache[type]) { return TypesCache[type]; }
-    let formParams = type.prototype.__form__ || {};
-    let layout = this.get("flexLayout") || formParams.layout || "100";
-    let layoutMap = formParams.layoutMap || {};
-    if (!Ember.isArray(layout)) { layout = layout.split(" "); }
-
-    let meta = {fields: {}, keys: [], fieldsList: []};
-    let fields = get(type, 'fields');
-    let unordered = {};
-    type.eachAttribute((k,v) => { unordered[k] = v; v.key = v.name; });
-    type.eachRelationship((k,v) => { unordered[k] = v; });
-    let keys = fields._keys.list;
-    meta.keys = keys;
-
-    let defaultFlex = layout[layout.length - 1];
-    meta.keys.forEach((key, i) => {
-      let field = unordered[key];
-      let flex = layout[i];
-      if (!flex) { flex = layoutMap[key] || defaultFlex; }
-      field.layout = {flex: flex};
-      meta.fields[key] = field;
-      meta.fieldsList.push(field);
-    });
-
-    formParams.fieldsets = formParams.fieldsets || undefined;
-    let fieldsets = [];
-    if (formParams.fieldsets) {
-      formParams.fieldsets.forEach(function(f) {
-        fieldsets.push({
-          fields: f.fields.map((k) => meta.fields[k]),
-          label: f.label,
-          flexLayout: '100' 
-        })
-      });
-      meta.fieldsets = fieldsets;
-    } else {
-      meta.fieldsets = [{label: null, fields:meta.fieldsList}];
-    };
-    return meta;
-  },
+  fieldsets: alias('meta.fieldsets'),
 
   clearModelErrors: function(errors) {
     if (!errors) { return; }
     // TODO: skip clearing of unmodified server side errors, somehow
-    getKeys(errors).forEach(function(k) {
+    Object.keys(errors).forEach(function(k) {
       errors.set(k, null);
     });
   },
@@ -92,35 +52,60 @@ const ModelForm = Ember.Component.extend({
   keyPress: function(e) {
     if (e.which === 13) {
       if (e.target && e.target.tagName.toLowerCase() !== "textarea") {
-        this.actions.submit.call(this);
+        let submit = this.get('submit');
+        if (submit) { return submit(this); }
+        return this.actions.submit.call(this);
       }
     }
   },
 
+  isInvalid: false,
+  submitFailed: false,
+
+  resetMessages: function() {
+    this.setProperties({
+      'submitMessage': '', 
+      'submitError': '',
+      'isInvalid': false,
+      'submitFailed': false
+    });
+  },
+
   actions: {
     submit() {
+      if (this.get("submit")) { return this.get("submit")(this); }
       let model = this.get("model");
       let isValid = get(this, "isValid");
-      this.setProperties({'formSuccess': null, 'formError': null});
+      this.resetMessages();
       set(this, 'isTouched', true);
       if (isValid) {
+        this.set('inProgress', true);
         model.save().then(() => {
-          this.set('formSuccess', 'Success');
+          this.set('submitMessage', 'Saved');
           this.sendAction('onSuccess', model);
         }).catch((err) => {
           this.sendAction('onError', model);
-          this.set('formError', err.message);
-        });
+          this.set('submitError', err.message);
+          this.set('submitFailed', true);
+          console.error("model.errors")
+          console.error(err);
+        }).finally(() => { this.set('inProgress', false)});
         return true;
       } else {
         this.updateValidationErrors(model);
+        this.set("isInvalid", true);
+        console.error(model.get('errors'));
         return false;
       }
     },
 
     reset() {
+      if (this.get("submit")) { return this.get("submit")(this); }
       // TODO: how to rollback relationships???
-      this.get("model").rollbackAttributes();
+      this.resetMessages();
+      if (this.get("model.id")) {
+        this.get("model").rollbackAttributes();
+      }
     }
   }
 });

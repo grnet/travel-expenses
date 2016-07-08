@@ -1,4 +1,4 @@
-{{#paper-content classNames="layout-column model-form-fieldset" flex=flex}}
+{{#paper-content classNames="md-padding layout-column model-form-fieldset" flex=layout.flex}}
     {{#if label}}
         {{#paper-content flex=100}}
             <h2>{{ label }}</h2>
@@ -6,7 +6,12 @@
     {{/if}}
     {{#paper-content classNames="layout-row layout-wrap"}}
         {{#each fields as |field|}}
-            {{model-form/field field=field object=object isTouched=isTouched flex=field.layout.flex}}
+            {{model-form/field 
+                field=field
+                object=object
+                flex=field.layout.flex
+                isTouched=isTouched
+            }}
         {{/each}}
     {{/paper-content}}
 {{/paper-content}}

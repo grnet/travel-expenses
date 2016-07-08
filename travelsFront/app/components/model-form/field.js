@@ -3,7 +3,7 @@ import _ from 'lodash/lodash';
 
 const {
   computed,
-  computed: { notEmpty, reads, alias },
+  computed: { notEmpty, reads, alias, equal, gt, or, bool, not },
   mixin,
   getWithDefault,
   observer,
@@ -30,6 +30,7 @@ export default Ember.Component.extend({
   classNames: ['layout-column'],
 
   classNameBindings: ['flexCls'],
+
   flexCls: computed('flex', 'options.flex', function() {
     if (this.get('flex')) {
       return 'flex-' + this.get('flex');
@@ -49,34 +50,22 @@ export default Ember.Component.extend({
     if (this.get('hint')) { return true; }
   }),
 
-  options: alias('field.options'),
   key: reads('field.key'),
-  hint: reads('options.hint'),
-
-  isRelationship: reads('field.isRelationship'),
-  isSelect: reads('isRelationship'),
-  isInput: computed('isSelect', function() {
-    return !this.get('isSelect')
-  }),
+  hint: reads('field.hint'),
+  isRelation: equal('field.type', 'relation'),
+  hasOptions: bool('field.selectOptions'),
+  isSelect: or('hasOptions', 'isRelation'),
+  isInput: not('isSelect'),
+  componentName: alias('field.component'),
+  fieldAttrs: alias('field.attrs'),
 
   label: computed('field', 'field.options.label', function() {
     return this.get('field.options.label') || titlecase(this.get('key'));
   }),
 
-  placeholder: computed('fieldComponent', function() {
-    if (this.get('isSelect')) {
-      return this.get('label');
-    }
+  placeholder: computed('isSelect', function() {
+    if (this.get('isSelect')) { return this.get('label'); }
     return null;
-  }),
-
-  fieldComponent: computed('field', function() {
-    let field = this.get('field');
-    let key = 'paper-input';
-    if (field.options.fieldType) { return field.options.fieldType; }
-    if (this.get("isSelect")) { key = 'paper-select'; }
-    if (field.type === 'boolean') { key = 'paper-checkbox'; }
-    return key;
   }),
 
   // select related method
@@ -91,8 +80,8 @@ export default Ember.Component.extend({
     }
 
     if (getOptions) { return getOptions; }
-    if (this.get('isRelationship')) {
-      let type = this.get('field.type');
+    if (this.get('isRelation')) {
+      let type = this.get('field.relModel');
       return function() {
         return this.get("store").findAll(type);
       }.bind(this);
@@ -102,7 +91,7 @@ export default Ember.Component.extend({
   // select related method
   getOptionLabel: computed('field', function(i) {
     let key = this.get('options.labelKey') || 'name';
-    let isRel = this.get('isRelationship');
+    let isRel = this.get('isRelation');
     return function(item) {
       if (isRel) {
         return item.get(key);
@@ -124,11 +113,7 @@ export default Ember.Component.extend({
       hasErrors: notEmpty(`object.validations.attrs.${key}.errors`),
     });
 
-    let attrs = this.get('field.options.fieldAttrs') || {};
-    if (this.get('isInput') && !attrs.type) { attrs.type = "text"; }
-    Object.keys(attrs).forEach((k) => set(this, k, attrs[k]));
-
-    if (this.get('isRelationship')) {
+    if (this.get('isRelation')) {
       mixin(this, {
         rawValueObserver: observer(`object.${key}.id`, function() {
           this.set('rawValue', this.get('object.' + this.get('key')));
@@ -147,7 +132,7 @@ export default Ember.Component.extend({
   value: computed('rawValue', function() {
     let serializeValue = getWithDefault(this, 'serializeValue', (value) => value);
     let raw = get(this, 'rawValue');
-    if (raw instanceof Ember.ObjectProxy) {
+    if (raw instanceof Ember.ObjectProxy && this.get('isRelation')) {
       raw.then(function(v) {
         this.set('rawValue', v);
       }.bind(this));

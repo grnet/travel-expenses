@@ -1,1 +1,11 @@
-{{#paper-button onClick=submit raised=true}}SAVE{{/paper-button}}
+{{#paper-content classNames=""}}
+    {{#paper-button 
+        onClick=submit 
+        primary=true 
+        raised=true
+        disabled=inProgress
+    }}SUBMIT{{/paper-button}}
+{{#unless showReset}}
+    {{#paper-button onClick=reset accent=true raised=true}}RESET{{/paper-button}}
+{{/unless}}
+{{/paper-content}}
