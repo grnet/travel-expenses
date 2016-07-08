@@ -13,51 +13,20 @@ var Validations=buildValidations({
 
 export default DS.Model.extend(Validations, {
   __form__: {
-    layout: [33],
+    layout: [50],
     layoutMap: {"reason": 100},
     fieldsets: [
       {
         'label': 'Profile',
-        'fields': ['name', 'surname', 'iban', 'specialtyID', 
-          'kind', 'taxRegNum', 'taxOffice', 'user_category']
+        'fields': ['name', 'surname', 'specialtyID', 
+          'kind', 'taxRegNum', 'taxOffice','iban', 'user_category']
       },
       {
-        'label': 'Dates',
-        'fields': ['taskStartDate', 'taskEndDate', 
-          'depart_date', 'return_date', 'creationDate', 'updateDate']
+        'label': 'Travel Data',
+        'fields': ['project', 'reason', 'departurePoint', 'arrivalPoint',
+        'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
+        'transportation', 'recCostParticipation', 'additional_expenses_initial']
       },
-      {
-        'label': 'Transportation',
-        'fields': [
-          'departurePoint', 'arrivalPoint', 'transportation',
-          'movementCategory'
-        ]
-      },
-      {
-        'label': 'Project',
-        'fields': [
-          'project', 'reason', 'recTransport', 'recAccomondation',
-          'recCostParticipation'
-        ]
-      },
-      {
-        'label': 'Expenses',
-        'fields': [
-          'additional_expenses_sum', 'additional_expenses_initial',
-          'additional_expenses_initial_description',
-          'status', 'overnights_num', 'overnights_num_proposed',
-          'overnight_cost', 'max_overnight_cost', 'overnights_sum_cost'
-        ]
-      },
-      {
-        'label': 'Duration',
-        'fields': [
-          'transport_days', 'transport_days_proposed', 'task_duration',
-          'same_day_return_task', 'compensation_level', 'compensation_days_proposed',
-          'max_compensation', 'compensation_final', 'advanced_info', 'trip_days_before',
-          'trip_days_after', 'total_cost'
-        ]
-      }
     ]
   }, 
 
@@ -73,12 +42,24 @@ export default DS.Model.extend(Validations, {
 	taxRegNum: DS.attr(),
 	taxOffice: DS.belongsTo('tax-office'),
 	user_category: DS.belongsTo('category'),
-	taskStartDate: DS.attr(),
-	taskEndDate: DS.attr(),
-	depart_date: DS.attr(),
-	return_date: DS.attr({
+	taskStartDate: DS.attr({
     fieldAttrs: {
       type: 'datetime-local'
+    }
+  }),
+	taskEndDate: DS.attr({
+    fieldAttrs: {
+      type: 'datetime-local'
+    }
+  }),
+	depart_date: DS.attr({
+    fieldAttrs: {
+      type: 'date'
+    }
+  }),
+	return_date: DS.attr({
+    fieldAttrs: {
+      type: 'date'
     }
   }),
 	creationDate: DS.attr({
@@ -86,7 +67,11 @@ export default DS.Model.extend(Validations, {
       type: 'date'
     }
   }),
-	updateDate: DS.attr(),
+	updateDate: DS.attr({
+    fieldAttrs: {
+      type: 'date'
+    }
+  }),
 	departurePoint: DS.belongsTo('city'),
 	arrivalPoint: DS.belongsTo('city'),
 	transportation: DS.belongsTo('transportation'),
