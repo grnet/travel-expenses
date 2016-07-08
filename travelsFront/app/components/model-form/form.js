@@ -16,6 +16,7 @@ const ModelForm = Ember.Component.extend({
   validation: Ember.computed.alias('model.validations.attrs'),
   isValid: Ember.computed.alias('model.validations.isValid'),
   modelErrors: Ember.computed.alias('model.errors'),
+  submitLabel: 'Save',
 
   didReceiveAttrs() {
     this._super(...arguments);

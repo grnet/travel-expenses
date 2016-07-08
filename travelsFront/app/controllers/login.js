@@ -10,6 +10,7 @@ export default Ember.Controller.extend({
         'identification': this.get('model.username'),
         'password': this.get('model.login_pass')
       };
+
 			var authenticator = 'authenticator:token';
 			this.get('session').authenticate(authenticator, credentials).then(() => { 
     			this.get("account").loadCurrentUser();

@@ -4,8 +4,8 @@
         primary=true 
         raised=true
         disabled=inProgress
-    }}SUBMIT{{/paper-button}}
-{{#unless showReset}}
+    }}{{ submitLabel }}{{/paper-button}}
+{{#if showReset}}
     {{#paper-button onClick=reset accent=true raised=true}}RESET{{/paper-button}}
-{{/unless}}
+{{/if}}
 {{/paper-content}}
