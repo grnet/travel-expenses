@@ -58,6 +58,7 @@ export default Ember.Component.extend({
   isInput: not('isSelect'),
   componentName: alias('field.component'),
   fieldAttrs: alias('field.attrs'),
+  passThruAttrs: alias('fieldAttrs'),
 
   label: computed('field', 'field.options.label', function() {
     return this.get('field.options.label') || titlecase(this.get('key'));
