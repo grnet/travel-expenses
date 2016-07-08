@@ -1,55 +1,61 @@
-<div>
-	<table class="table table-sm"> 
-		<thead>
-			<tr>
-				<th>Όνομα</th>
-				<th>Επώνυμο</th>
-				<th>Έργο</th>
-				<th>Προορισμός</th>
-				<th>Ημ/νια Δημιουργίας</th>
-				<th>Τελευταία ανανέωση</th>
-				<th>Ημ/νία Αναχώρησης</th>
-				<th>Ημ/νία Επιστροφής</th>
-				<th>Κατάσταση</th>
-				<th>{{#link-to "petition" class="btn btn-success btn-small"}}Νέα Αίτηση{{/link-to}}</th>
-				</tr>
-			</thead>
-			<tbody>
+{{page-toolbar pageTitle="Petition List"}}
 
-			{{#each model as |petition|}}
-				{{#if petition.project.name}}
-					<tr>
-						<td>{{petition.name}}</td>
-						<td>{{petition.surname}}</td>
-						<td>{{petition.project.name}}</td>
-						<td>{{petition.arrivalPoint.name}}</td>
-						<td>{{petition.creationDate}}</td>
-						<td>{{petition.updateDate}}</td>
-						<td>{{petition.taskStartDate}}</td>
-						<td>{{petition.taskEndDate}}</td>
-						<td>{{petition.status.name}}</td>
-						<td><button type="submit" class="btn btn-warning btn-small" {{action "petitionEdit" petition.id on="click"}} disabled={{not-eq petition.status.name "δημιουργηθείσα από μετακινούμενο" }}>Επεξεργασία</button></td>
-						<td><button type="submit" class="btn btn-danger btn-small" {{action "petitionDelete" petition.id petition.status.name on="click"}} disabled={{not-eq petition.status.name "δημιουργηθείσα από μετακινούμενο" }}>Διαγραφή</button></td>
+<table class="table"> 
+  {{#paper-content class="md-whiteframe-z1"}}
+    <thead>
+      {{#paper-list}}
+        <tr>
+          <th>Όνομα</th>
+          <th>Επώνυμο</th>
+          <th>Έργο</th>
+          <th>Προορισμός</th>
+          <th>Ημ/νια Δημιουργίας</th>
+          <th>Τελευταία ανανέωση</th>
+          <th>Ημ/νία Αναχώρησης</th>
+          <th>Ημ/νία Επιστροφής</th>
+          <th>Κατάσταση</th>
+          <th>{{#paper-button raised=true primary=true onClick=(transition-to "petition") href="/petition" bubbles=false}}Νεα Αιτηση{{/paper-button}}</th>
+        </tr>
+      {{/paper-list}} 
+    </thead>
+  {{/paper-content}}
+  
+  {{#paper-content class="md-whiteframe-z1"}}
+    <tbody>
+      {{#paper-list}}
+        {{#each model as |petition|}}
+          {{#if petition.project.name}}
+          {{#paper-item}}
+            <tr>
+              <td>{{petition.name}}</td>
+              <td>{{petition.surname}}</td>
+              <td>{{petition.project.name}}</td>
+              <td>{{petition.arrivalPoint.name}}</td>
+              <td>{{petition.creationDate}}</td>
+              <td>{{petition.updateDate}}</td>
+              <td>{{petition.taskStartDate}}</td>
+              <td>{{petition.taskEndDate}}</td>
+              <td>{{petition.status.name}}</td>
+              <td>{{#paper-button type="submit" raised=true onClick=(action "petitionEdit" petition.id)}}Επεξεργασια{{/paper-button}}</td>
+              <td>{{#paper-button type="submit" raised=true warn=true onClick=(action "petitionDelete" petition.id petition.status.name)}}Διαγραφη{{/paper-button}}</td>
+              <td>{{#paper-button type="submit" raised=true onClick=(action "petitionUndo" petition.id)}}Αναιρεση Υποβολης{{/paper-button}}</td>
+            </tr>
+          {{/paper-item}}
+          {{/if}}
+        {{/each}}
+      {{/paper-list}}
+    </tbody>
+  {{/paper-content}}
+</table>
 
-						<td><button type="submit" class="btn btn-danger btn-small" {{action "petitionUndo" petition.id on="click"}} disabled={{not-eq petition.status.name "υποβεβλημένη από μετακινούμενο" }}>Αναίρεση Υποβολής </button></td>
-					</tr>
-				{{/if}}
-			{{/each}}   
-			</tbody>
-		</table>
 
-		<!-- Message Modal-->
-		<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header" id="styleModal">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel"><font>{{deleteMessage}}</font></h4>
-					</div>
-				</div>
-			</div>
-		</div>
-
-	</div>
-
-	{{outlet}}
+<!-- <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" id="styleModal">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><font>{{deleteMessage}}</font></h4>
+      </div>
+    </div>
+  </div>
+</div> -->
