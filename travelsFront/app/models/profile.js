@@ -16,6 +16,20 @@ var Validations=buildValidations({
 });
 
 export default DS.Model.extend(Validations, {
+	__form__: {
+    layout: [50],
+    fieldsets: [
+      {
+        'label': 'account info',
+        'fields': ['username', 'email', 'first_name', 'last_name']
+      },
+      {
+        'label': 'personal info',
+        'fields': ['specialtyID', 'kind','taxRegNum', 'taxOffice', 'iban', 'category']
+      }
+    ]
+  	},
+
 	'username': DS.attr(),
 	'email': DS.attr({hint: 'A valid email address'}),
 	'first_name': DS.attr(),
