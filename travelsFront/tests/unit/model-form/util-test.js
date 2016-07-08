@@ -25,7 +25,7 @@ const META2 = {
   fieldsets: [
     ['username'],
     {
-      'title': 'label2',
+      'label': 'label2',
       'fields': ['password']
     }
   ]
@@ -57,7 +57,7 @@ test('fieldsets computed', function(assert) {
   meta = new ResourceMeta({options: META2});
   assert.equal(meta.get('fieldsets.length'), 2);
   fs = meta.get('fieldsets')[1];
-  assert.equal(fs.get('title'), 'label2');
+  assert.equal(fs.get('label'), 'label2');
   assert.ok(fs instanceof FieldSet);
   assert.equal(fs.get('fields.length'), 1);
 });

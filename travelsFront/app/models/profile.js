@@ -16,21 +16,25 @@ var Validations=buildValidations({
 });
 
 export default DS.Model.extend(Validations, {
-	__form__: {
-    layout: [50],
-    fieldsets: [
-      {
-        'label': 'account info',
-        'fields': ['username', 'email', 'first_name', 'last_name']
-      },
-      {
-        'label': 'personal info',
-        'fields': ['specialtyID', 'kind','taxRegNum', 'taxOffice', 'iban', 'category']
+  __ui__: {
+    'default': {
+      fieldsets: [
+        {
+          'label': 'account info',
+          'fields': ['username', 'email', 'first_name', 'last_name']
+        },
+        {
+          'label': 'personal info',
+          'fields': ['specialtyID', 'kind','taxRegNum', 'taxOffice', 'iban', 'category']
+        }
+      ],
+      layout: {
+        flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50 , 50]
       }
-    ]
-  	},
+    }
+  },
 
-	'username': DS.attr(),
+	'username': DS.attr({attrs: {readonly: true}}),
 	'email': DS.attr({hint: 'A valid email address'}),
 	'first_name': DS.attr(),
 	'last_name': DS.attr(), 
