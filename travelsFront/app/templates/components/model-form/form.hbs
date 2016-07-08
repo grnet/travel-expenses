@@ -2,5 +2,5 @@
 {{else}}
     {{model-form/errors}}
     {{model-form/fields object=model fieldsets=meta.fieldsets fields=meta.fieldsList meta=meta isTouched=isTouched}}
-    {{model-form/controls object=model submit=(action 'submit') reset=(action 'reset')}}
+    {{model-form/controls object=model submit=(action 'submit')}}
 {{/if}}
