@@ -30,7 +30,7 @@ export default DS.RESTAdapter.extend(DataAdapterMixin,{
 			url = id;
 		}
 		if (requestType === "findRecord"){
-			url = id;
+			url = '/api/petition/user_petition/' + id;
 		}
 		return url;
 	} 
