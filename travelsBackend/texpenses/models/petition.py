@@ -1,4 +1,5 @@
-from django.core.exceptions import ValidationError
+from datetime import datetime
+from django.core.exceptions import ValidationError, MinValueValidator
 from texpenses.models.services import get_queryset_on_group
 from django.db import models
 from user_related import UserProfile, UserCategory, Specialty, Kind,\
@@ -368,125 +369,54 @@ class SecretarialInfo(models.Model):
         abstract = True
 
 
-class Petition(models.Model):
+def get_next_dse():
+    try:
+        return Petition.objects.latest('dse').dse + 1
+    except:
+        return 1
 
-    """Docstring for Travel Application. """
+
+class Petition(UserSnapshot, TravelInfo, SecretarialInfo):
+    SAVED_BY_USER = 1
+    SUBMITTED_BY_USER = 2
+    SAVED_BY_SECRETARY = 3
+    SUBMITTED_BY_SECRETARY = 4
+    CANCELLED = 10
+    DELETED = 100
+
+    USER_FIELDS = ['first_name', 'last_name', 'iban', 'specialtyID', 'kind',
+                   'taxOffice', 'taxRegNum',
+                   'category']
+
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200, blank=True, null=True)
-    surname = models.CharField(max_length=200, blank=True, null=True)
-    iban = models.CharField(max_length=200, blank=True, null=True,
-                            validators=[iban_validation])
-    specialtyID = models.ForeignKey(Specialty, blank=True, null=True)
-    taxRegNum = models.CharField(max_length=9, blank=True, null=True,
-                                 validators=[afm_validator])
-    taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
-    kind = models.ForeignKey(Kind, blank=True, null=True)
-    trip_days_before = models.IntegerField(blank=True, null=True)
-    user_category = models.ForeignKey(UserCategory, blank=True, null=True)
-
-    user = models.ForeignKey(UserProfile)
-
-    taskStartDate = models.DateTimeField(blank=True, null=True)
-    taskEndDate = models.DateTimeField(blank=True, null=True)
-    depart_date = models.DateTimeField(blank=True, null=True)
-    return_date = models.DateTimeField(blank=True, null=True)
-
-    creationDate = models.DateTimeField(blank=True, null=True)
+    dse = models.IntegerField(
+        default=get_next_dse, blank=False, null=False)
+    user = models.ForeignKey(UserProfile, blank=False, null=False)
+    creationDate = models.DateTimeField(blank=False, null=False,
+                                        default=datetime.now())
     updateDate = models.DateTimeField(blank=True, null=True)
-    project = models.ForeignKey(Project)
+    project = models.ForeignKey(Project, blank=False, null=False)
     reason = models.CharField(max_length=500, blank=True, null=True)
-    movementCategory = models.ForeignKey(
-        MovementCategories, blank=True, null=True)
-    departurePoint = models.ForeignKey(
-        City, blank=True, null=True, related_name='departure_point')
-    arrivalPoint = models.ForeignKey(City, blank=True, null=True,
-                                     related_name='arrivale_point')
-    transportation = models.ForeignKey(Transportation, blank=True, null=True)
-    recTransport = models.CharField(max_length=200, blank=True, null=True)
-    recAccomondation = models.CharField(max_length=200, blank=True, null=True)
-    recCostParticipation = models.FloatField(blank=True, null=True)
-    status = models.ForeignKey(PetitionStatus)
-    advanced_info = models.OneToOneField(
-        AdvancedPetition, on_delete=models.CASCADE, blank=True, null=True)
-    additional_expenses_initial = models.FloatField(blank=True, default=0.0)
+    status = models.IntegerField(blank=False, null=False,
+                                 default=SAVED_BY_USER)
+    additional_expenses_initial = models.FloatField(
+        blank=False, null=False, default=0.0,
+        validators=[MinValueValidator(0.0)])
     additional_expenses_initial_description = models.CharField(
         max_length=400, blank=True, null=True)
 
-    tracker = FieldTracker()
-
-    required_fields = ('name', 'surname', 'iban', 'specialtyID', 'kind',
-                       'taxRegNum', 'taxOffice',
-                       'taskStartDate', 'taskEndDate',
-                       'project', 'reason', 'movementCategory',
-                       'departurePoint', 'arrivalPoint', 'transportation',
-                       'status', 'user_category', 'trip_days_before',
-                       'trip_days_after')
-    additional_required_fields = ('depart_date', 'return_date',
-                                  'additional_expenses_initial_description',
-                                  'additional_expenses_initial')
-
-    class APITravel:
-        fields = ('id', 'name', 'surname', 'iban', 'specialtyID', 'kind',
-                  'taxRegNum', 'taxOffice',
-                  'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
-                  'creationDate', 'updateDate',
-                  'project', 'reason', 'movementCategory',
-                  'departurePoint', 'arrivalPoint', 'overnights_num',
-                  'overnights_num_proposed',
-                  'overnight_cost', 'max_overnight_cost',
-                  'overnights_sum_cost',
-                  'transport_days', 'transport_days_proposed',
-                  'task_duration', 'same_day_return_task',
-                  'compensation_level', 'compensation_days',
-                  'compensation_days_proposed',
-                  'additional_expenses_sum', 'additional_expenses_initial',
-                  'additional_expenses_initial_description',
-                  'max_compensation', 'compensation_final', 'total_cost',
-                  'transportation', 'recTransport', 'recAccomondation',
-                  'recCostParticipation', 'advanced_info',
-                  'status', 'user_category', 'trip_days_before',
-                  'trip_days_after', 'url')
-        read_only_fields = ('id', 'url', 'creationDate', 'updateDate',
-                            'advanced_info')
-        filter_fields = (
-            'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
-            'project', 'creationDate', 'updateDate',
-            'movementCategory', 'departurePoint', 'arrivalPoint',
-            'transportation', 'surname', 'iban', 'taxRegNum', 'status')
-        ordering_fields = ('taskStartDate', 'taskEndDate', 'project',
-                           'movementCategory', 'departurePoint',
-                           'arrivalPoint', 'transportation', 'surname', 'iban',
-                           'taxRegNum',)
-        search_fields = ('name', 'surname',)
-        ordering = ('project',)
-
-        @staticmethod
-        def get_queryset(request_user):
-            user_groups = request_user.groups.all()
-
-            if user_groups:
-                user_group_name = user_groups[0].name
-
-            if request_user.is_staff or user_group_name == "SECRETARY":
-                return Petition.objects.filter(Q(status__gte=2) |
-                                               Q(user=request_user))
-            else:
-               return Petition.objects.filter(user=request_user)
+    def save(self, **kwargs):
+        if not self.id:
+            for field in self.USER_FIELDS:
+                setattr(self, field, getattr(self.user, field))
+        super(Petition, self).save(**kwargs)
 
     def clean(self):
         """
-        Overrides `clean` method and checks if required fields are specified.
-
-        This extra check is took place when the petition is not on incomplete
-        state or cancelled.
+        Overrides `clean` method and checks if specified dates are valid.
         """
         super(Petition, self).clean()
-        if self.status.id not in [1, 10]:
-            required_validator(
-                self, (Petition.required_fields if self.status.id != 4 else
-                       Petition.required_fields +
-                       Petition.additional_required_fields))
-            self.validate_dates()
+        self.validate_dates()
 
     def validate_dates(self):
         date_validator(self.taskStartDate, self.taskEndDate,
@@ -494,27 +424,6 @@ class Petition(models.Model):
         if self.depart_date and self.return_date:
             date_validator(self.depart_date, self.return_date,
                            ('depart', 'return'))
-
-    def save(self, *args, **kwargs):
-        tsd_changed = self.tracker.has_changed('taskStartDate')
-        ted_changed = self.tracker.has_changed('taskEndDate')
-        dd_changed = self.tracker.has_changed('depart_date')
-        rd_changed = self.tracker.has_changed('return_date')
-
-        super(Petition, self).save(*args, **kwargs)
-        if tsd_changed or ted_changed or dd_changed or rd_changed:
-            print "Updating manual fields simple petition"
-            self.advanced_info.transport_days_manual =\
-                self.transport_days_proposed()
-            self.advanced_info.overnights_num_manual =\
-                self.overnights_num_proposed()
-            self.advanced_info.compensation_days_manual =\
-                self.compensation_days_proposed()
-            self.advanced_info.save()
-
-    def delete(self):
-        self.advanced_info.delete()
-        super(Petition, self).delete()
 
     def compensation_name(self):
 
