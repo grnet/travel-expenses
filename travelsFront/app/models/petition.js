@@ -12,6 +12,9 @@ var Validations=buildValidations({
 });
 
 export default DS.Model.extend(Validations, {
+  __api__: {
+    ns: 'petition',
+  },
   __ui__: {
     "user": {
       layoutMap: {"reason": 100},

@@ -58,6 +58,7 @@
   },
   "dependencies": {
     "ember-cp-validations": "git+https://github.com/offirgolan/ember-cp-validations.git#8c63c3c174ac813d02f6b847b1616f89e844c52b",
+    "ember-django-adapter": "^1.1.2",
     "ember-truth-helpers": "^1.2.0",
     "moment": "^2.13.0"
   }

@@ -1,58 +1,23 @@
 import DS from 'ember-data';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
+import DRFAdapter from 'ember-django-adapter/adapters/drf';
 import ENV from 'travels-front/config/environment'; 
+import {apiFor, urlJoin} from 'travels-front/adapters/util';
 
 
-export default DS.RESTAdapter.extend(DataAdapterMixin,{
+export default DRFAdapter.extend(DataAdapterMixin,{
+  
 	host: ENV.APP.backend_host,
-	namespace: '/petition',
 	contentType: 'application/json',
 	dataType: 'json',
 	authorizer: 'authorizer:token',
-	user_related_models:['category','kind','specialty','tax-office'],
 
-
+  pathForType: function(type) {
+    return apiFor(type, this.container).pathForType(this, type);
+  },
 
 	buildURL: function(modelName, id, snapshot, requestType, query) {
-
 		var url = this._super(modelName, id, snapshot, requestType, query);
-
-
-		if (this.get('user_related_models').contains(modelName))
-			this.set('namespace','/users_related');
-		else
-			this.set('namespace','/petition');
-
-		if (requestType==="findRecord"){
-			url=id;
-		}
-		if (requestType==="findAll"){
-			url = this.get('host') +this.get('namespace')+"/"+modelName+"/";
-		}
-		if (requestType === "updateRecord"){
-
-			url = id;
-		}
-		if (requestType === "createRecord"){
-			url = url + "/";
-		}
-		if (requestType === "deleteRecord"){
-			url = id;
-		}
-		if (requestType==="query"){
-			url = this.get('host') +this.get('namespace')+"/"+modelName+"/";
-		}
-
-		if (modelName === "account" && requestType === "createRecord"){
-			url =this.get('host') +'/auth'+'/register/';
-		}
-
-		return url;
+    return apiFor(modelName, this.container).buildURL(this, url, id, snapshot, requestType, query);
 	}
-
-
-
-
 });
-
-

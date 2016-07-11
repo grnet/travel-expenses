@@ -110,8 +110,13 @@ export default Ember.Component.extend({
 
     mixin(this, {
       rawValue: reads(`object.${key}`),
-      errors: reads(`object.validations.attrs.${key}.errors`),
-      hasErrors: notEmpty(`object.validations.attrs.${key}.errors`),
+      observeErrors: observer(`object.errors.${key}.length`, `object.validations.attrs.${key}.errors.length`, function() {
+        let errors = this.get(`object.errors.${key}`) || [];
+        errors = errors.toArray();
+        errors.concat(this.get(`object.validations.attrs.${key}.errors`) || []);
+        this.set('errors', errors);
+        this.set('hasErrors', errors.length > 0);
+      })
     });
 
     if (this.get('isRelation')) {
@@ -150,7 +155,13 @@ export default Ember.Component.extend({
   
   actions: {
     updateProperty: function(value) {
-      set(this.get('object'), this.get('key'), value);
+      if (value instanceof Ember.ObjectProxy) {
+        value.then(function(model) {
+          set(this.get('object'), this.get('key'), model);
+        })
+      } else {
+        set(this.get('object'), this.get('key'), value);
+      }
     }
   }
 });

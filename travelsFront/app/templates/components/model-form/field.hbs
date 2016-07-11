@@ -97,7 +97,7 @@
     {{/paper-option}}
   {{/each}}
 {{/component}}
-    {{#if (and errors isTouched)}}
+    {{#if (and hasErrors isTouched)}}
         <div class="md-input-messages-animation md-auto-hide" ng-messages>
           {{#each errors as |error index|}}
             <div

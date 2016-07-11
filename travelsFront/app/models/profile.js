@@ -18,13 +18,21 @@ var Validations=buildValidations({
     validator('length', {min: 1})
   ],
   taxRegNum: [
-    validator('presence', true),
-    validator('length', {min: 1}),
-    validator('afm-validator')
+    validator('presence', false),
+    validator('length', {min: 1})
   ]
 });
 
 export default DS.Model.extend(Validations, {
+  __api__: {
+    ns: 'auth',
+    path: 'me/detailed',
+    buildURL: function(adapter, url, id, snap, rtype, query) {
+      // always return my profile endpoint
+      return this.urlJoin(adapter.get('host'), this.ns, this.path) + '/';
+    }
+  },
+
   __ui__: {
     'default': {
       fieldsets: [
@@ -42,6 +50,7 @@ export default DS.Model.extend(Validations, {
       }
     }
   },
+  
 
 	'username': DS.attr({attrs: {readonly: true}}),
 	'email': DS.attr({hint: 'A valid email address'}),
