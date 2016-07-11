@@ -398,8 +398,7 @@ class Petition(UserSnapshot, TravelInfo, SecretarialInfo):
     updateDate = models.DateTimeField(blank=True, null=True)
     project = models.ForeignKey(Project, blank=False, null=False)
     reason = models.CharField(max_length=500, blank=True, null=True)
-    status = models.IntegerField(blank=False, null=False,
-                                 default=SAVED_BY_USER)
+    status = models.IntegerField(blank=True, null=True)
     additional_expenses_initial = models.FloatField(
         blank=False, null=False, default=0.0,
         validators=[MinValueValidator(0.0)])
@@ -407,9 +406,8 @@ class Petition(UserSnapshot, TravelInfo, SecretarialInfo):
         max_length=400, blank=True, null=True)
 
     def save(self, **kwargs):
-        if not self.id:
-            for field in self.USER_FIELDS:
-                setattr(self, field, getattr(self.user, field))
+        for field in self.USER_FIELDS:
+            setattr(self, field, getattr(self.user, field))
         super(Petition, self).save(**kwargs)
 
     def clean(self):
@@ -646,7 +644,7 @@ class Petition(UserSnapshot, TravelInfo, SecretarialInfo):
 class UserPetitionManager(models.Manager):
     def create(self, *args, **kwargs):
         kwargs['status'] = Petition.SAVED_BY_USER
-        return super(UserPetitionSubmissionManager, self).create(
+        return super(UserPetitionManager, self).create(
             *args, **kwargs)
 
     def get_queryset(self):
@@ -677,7 +675,6 @@ class UserPetition(Petition):
                             'category', 'status', 'dse')
 
     def save(self, **kwargs):
-        # Remove temporary saved petition with the corresponding dse.
         self.status = self.SAVED_BY_USER
         super(UserPetition, self).save(**kwargs)
 
@@ -710,7 +707,7 @@ class UserPetitionSubmission(Petition):
                   'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
                   'project', 'reason', 'movementCategory',
                   'departurePoint', 'arrivalPoint',
-                  'additional_expenses_initial',
+                  'additional_expenses_initial', 'compensation_days_proposed',
                   'additional_expenses_initial_description',
                   'transportation', 'recTransport', 'recAccomondation',
                   'recCostParticipation', 'trip_days_before',
@@ -725,6 +722,7 @@ class UserPetitionSubmission(Petition):
 
     def save(self, **kwargs):
         self.status = self.SUBMITTED_BY_USER
+        # Remove temporary saved petition with the corresponding dse.
         try:
             UserPetition.objects.get(dse=self.dse).delete()
         except ObjectDoesNotExist:
