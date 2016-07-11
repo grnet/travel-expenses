@@ -1,5 +1,6 @@
 from datetime import datetime
-from django.core.exceptions import ValidationError, MinValueValidator
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.core.validators import MinValueValidator
 from texpenses.models.services import get_queryset_on_group
 from django.db import models
 from user_related import UserProfile, UserCategory, Specialty, Kind,\
@@ -640,6 +641,207 @@ class Petition(UserSnapshot, TravelInfo, SecretarialInfo):
 
     def __unicode__(self):
         return str(self.id) + "-" + self.project.name
+
+
+class UserPetitionManager(models.Manager):
+    def create(self, *args, **kwargs):
+        kwargs['status'] = Petition.SAVED_BY_USER
+        return super(UserPetitionSubmissionManager, self).create(
+            *args, **kwargs)
+
+    def get_queryset(self):
+        return super(UserPetitionManager, self).get_queryset()\
+            .filter(status=Petition.SAVED_BY_USER)
+
+
+class UserPetition(Petition):
+    """ A proxy model for the temporary saved petition by user. """
+    objects = UserPetitionManager()
+
+    class Meta:
+        proxy = True
+
+    class APITravel:
+        fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
+                  'specialtyID', 'taxOffice', 'taxRegNum', 'category', 'user',
+                  'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
+                  'project', 'reason', 'movementCategory',
+                  'departurePoint', 'arrivalPoint',
+                  'additional_expenses_initial',
+                  'additional_expenses_initial_description',
+                  'transportation', 'recTransport', 'recAccomondation',
+                  'recCostParticipation', 'trip_days_before',
+                  'status', 'url')
+        read_only_fields = ('id', 'user', 'url', 'first_name', 'last_name',
+                            'kind', 'specialtyID', 'taxOffice', 'taxRegNum',
+                            'category', 'status', 'dse')
+
+    def save(self, **kwargs):
+        # Remove temporary saved petition with the corresponding dse.
+        self.status = self.SAVED_BY_USER
+        super(UserPetition, self).save(**kwargs)
+
+
+class UserPetitionSubmissionManager(models.Manager):
+    def create(self, *args, **kwargs):
+        kwargs['status'] = Petition.SUBMITTED_BY_USER
+        return super(UserPetitionSubmissionManager, self).create(
+            *args, **kwargs)
+
+    def get_queryset(self):
+        return super(UserPetitionSubmissionManager, self).get_queryset()\
+            .filter(status=Petition.SUBMITTED_BY_USER)
+
+
+class UserPetitionSubmission(Petition):
+    """ A proxy model for the temporary submitted petitions by user. """
+    objects = UserPetitionSubmissionManager()
+    required_fields = ('taskStartDate', 'taskEndDate',
+                       'project', 'reason', 'movementCategory',
+                       'departurePoint', 'arrivalPoint', 'transportation',
+                       'trip_days_before')
+
+    class Meta:
+        proxy = True
+
+    class APITravel:
+        fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
+                  'specialtyID', 'taxOffice', 'taxRegNum', 'category', 'user',
+                  'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
+                  'project', 'reason', 'movementCategory',
+                  'departurePoint', 'arrivalPoint',
+                  'additional_expenses_initial',
+                  'additional_expenses_initial_description',
+                  'transportation', 'recTransport', 'recAccomondation',
+                  'recCostParticipation', 'trip_days_before',
+                  'status', 'url')
+        read_only_fields = ('id', 'user', 'url', 'first_name', 'last_name',
+                            'kind', 'specialtyID', 'taxOffice', 'taxRegNum',
+                            'category', 'status')
+
+    def clean(self):
+        required_validator(self, self.required_fields)
+        super(UserPetitionSubmission, self).clean()
+
+    def save(self, **kwargs):
+        self.status = self.SUBMITTED_BY_USER
+        try:
+            UserPetition.objects.get(dse=self.dse).delete()
+        except ObjectDoesNotExist:
+            pass
+        super(UserPetitionSubmission, self).save(**kwargs)
+
+
+class SecretaryPetitionManager(models.Manager):
+    def create(self, *args, **kwargs):
+        kwargs['status'] = Petition.SAVED_BY_SECRETARY
+        return super(SecretaryPetitionManager, self).create(
+            *args, **kwargs)
+
+    def get_queryset(self):
+        return super(SecretaryPetitionManager, self).get_queryset()\
+            .filter(status=Petition.SAVED_BY_SECRETARY)
+
+
+class SecretaryPetition(Petition):
+    """ A proxy model for the temporary saved petitions by secretary. """
+    objects = SecretaryPetitionManager()
+
+    class Meta:
+        proxy = True
+
+    class APITravel:
+        fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
+                  'specialtyID', 'taxOffice', 'taxRegNum', 'category', 'user',
+                  'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
+                  'project', 'reason', 'movementCategory',
+                  'departurePoint', 'arrivalPoint',
+                  'additional_expenses_initial',
+                  'additional_expenses_initial_description',
+                  'transportation', 'recTransport', 'recAccomondation',
+                  'recCostParticipation', 'trip_days_before',
+                  'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
+                  'compensation', 'expenditure_protocol',
+                  'expenditure_date_protocol', 'movement_protocol',
+                  'movement_date_protocol', 'compensation_petition_protocol',
+                  'compensation_petition_date',
+                  'compensation_decision_protocol',
+                  'compensation_decision_date', 'status',
+                  'transport_days_manual', 'overnights_num_manual',
+                  'compensation_days_manual', 'url')
+        read_only_fields = ('id', 'url', 'first_name', 'last_name',
+                            'kind', 'specialtyID', 'taxOffice', 'taxRegNum',
+                            'category', 'status')
+
+
+class SecretaryPetitionSubmissionManager(models.Manager):
+    def create(self, *args, **kwargs):
+        kwargs['status'] = Petition.SUBMITTED_BY_SECRETARY
+        return super(SecretaryPetitionSubmissionManager, self).create(
+            *args, **kwargs)
+
+    def get_queryset(self):
+        return super(SecretaryPetitionSubmissionManager, self).get_queryset()\
+            .filter(status=Petition.SUBMITTED_BY_SECRETARY)
+
+
+class SecretaryPetitionSubmission(Petition):
+    """ A proxy model for the temporary submitted petitions by secretary. """
+    objects = SecretaryPetitionSubmissionManager()
+    required_fields = ('name', 'surname', 'iban', 'specialtyID', 'kind',
+                       'taxRegNum', 'taxOffice',
+                       'taskStartDate', 'taskEndDate',
+                       'project', 'reason', 'movementCategory',
+                       'departurePoint', 'arrivalPoint', 'transportation',
+                       'status', 'user_category', 'trip_days_before',
+                       'trip_days_after', 'depart_date', 'return_date',
+                       'additional_expenses_initial_description',
+                       'additional_expenses_initial', 'movement_num',
+                       'accomondation', 'flight', 'feeding', 'non_grnet_quota',
+                       'grnet_quota', 'compensation',
+                       'expenditure_protocol', 'expenditure_date_protocol',
+                       'movement_protocol', 'movement_date_protocol',
+                       'transport_days_manual', 'overnights_num_manual',
+                       'compensation_days_manual')
+
+    class Meta:
+        proxy = True
+
+    class APITravel:
+        fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
+                  'specialtyID', 'taxOffice', 'taxRegNum', 'category', 'user',
+                  'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
+                  'project', 'reason', 'movementCategory',
+                  'departurePoint', 'arrivalPoint',
+                  'additional_expenses_initial',
+                  'additional_expenses_initial_description',
+                  'transportation', 'recTransport', 'recAccomondation',
+                  'recCostParticipation', 'trip_days_before',
+                  'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
+                  'compensation', 'expenditure_protocol',
+                  'expenditure_date_protocol', 'movement_protocol',
+                  'movement_date_protocol', 'compensation_petition_protocol',
+                  'compensation_petition_date',
+                  'compensation_decision_protocol',
+                  'compensation_decision_date', 'status',
+                  'transport_days_manual', 'overnights_num_manual',
+                  'compensation_days_manual', 'url')
+        read_only_fields = ('id', 'url', 'first_name', 'last_name',
+                            'kind', 'specialtyID', 'taxOffice', 'taxRegNum',
+                            'category', 'status', 'reason')
+
+    def clean(self):
+        required_validator(self, self.required_fields)
+        super(SecretaryPetitionSubmission, self).clean()
+
+    def save(self, **kwargs):
+        self.status = self.SUBMITTED_BY_SECRETARY
+        # Remove temporary saved petition with the corresponding dse.
+        try:
+            SecretaryPetition.objects.get(dse=self.dse).delete()
+        except ObjectDoesNotExist:
+            pass
+        super(SecretaryPetitionSubmission, self).save(**kwargs)
 
 
 class AdditionalExpenses(models.Model):

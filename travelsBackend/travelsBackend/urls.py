@@ -8,9 +8,11 @@ from texpenses.factories.views import factory
 from texpenses.models import (Specialty, TaxOffice, Kind, UserCategory,
                               Project, MovementCategories, City, Country,
                               CountryCategory, Transportation, Accomondation,
-                              Compensation, FeedingKind, Flight,
-                              PetitionStatus, AdvancedPetition, Petition,
-                              AdditionalExpenses)
+                              Compensation, FeedingKind, Flight, UserProfile,
+                              PetitionStatus,
+                              AdditionalExpenses, UserPetition,
+                              UserPetitionSubmission, SecretaryPetition,
+                              SecretaryPetitionSubmission)
 from texpenses.custom_permissions import IsOwnerOrAdmin, isAdminOrRead
 from . import auth_urls
 
@@ -19,6 +21,7 @@ router.register(r'specialty', factory(Specialty, isAdminOrRead))
 router.register(r'tax-office', factory(TaxOffice, isAdminOrRead))
 router.register(r'kind', factory(Kind, isAdminOrRead))
 router.register(r'category', factory(UserCategory, isAdminOrRead))
+router.register(r'users', factory(UserProfile, isAdminOrRead))
 
 
 router_petition = routers.DefaultRouter()
@@ -48,9 +51,17 @@ router_petition.register(r'additional-expenses',
                          base_name='additionalexpenses')
 
 router_petition.register(
-    r'user_petition', factory(Petition, IsOwnerOrAdmin), 'petition')
-router_petition.register(
     r'petition-status', factory(PetitionStatus, isAdminOrRead))
+
+router_petition.register(
+    r'user_petition', factory(UserPetition, IsOwnerOrAdmin))
+router_petition.register(
+    r'secretary_petition', factory(SecretaryPetition, IsOwnerOrAdmin))
+router_petition.register(
+    r'submitted', factory(UserPetitionSubmission, IsOwnerOrAdmin))
+router_petition.register(
+    r'secretary_submitted', factory(SecretaryPetitionSubmission,
+                                    IsOwnerOrAdmin))
 
 
 # Wire up our API using automatic URL routing.
