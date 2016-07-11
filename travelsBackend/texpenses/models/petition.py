@@ -22,7 +22,7 @@ class Accomondation(models.Model):
 
     def clean(self):
         super(Accomondation, self).clean()
-        advanced_petitions = AdvancedPetition.objects.filter(
+        advanced_petitions = Petition.objects.filter(
             accomondation__id=self.id)
         for advanced_petition in advanced_petitions:
             petition = advanced_petition.petition
@@ -204,85 +204,6 @@ class Compensation(models.Model):
     def __unicode__(self):
         """TODO: to be defined1. """
         return self.name
-
-
-class AdvancedPetition(models.Model):
-
-    """Docstring for AdvancedPetition. """
-    id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(UserProfile)
-
-    dse = models.IntegerField(blank=True, null=True)
-
-    accomondation = models.ForeignKey(Accomondation, blank=True, null=True)
-    flight = models.ForeignKey(Flight, blank=True, null=True)
-    feeding = models.ForeignKey(FeedingKind, blank=True, null=True)
-    non_grnet_quota = models.FloatField(blank=True, null=True, default=0.0)
-
-    def grnet_quota(self):
-        if self.non_grnet_quota is None:
-            return 100
-        return 100 - self.non_grnet_quota
-    movement_num = models.CharField(max_length=200, null=True, blank=True)
-    compensation = models.ForeignKey(Compensation, blank=True, null=True)
-
-    transport_days_manual = models.IntegerField(blank=True, null=True)
-
-    overnights_num_manual = models.IntegerField(blank=True, null=True)
-
-    compensation_days_manual = models.IntegerField(blank=True, null=True)
-
-    expenditure_protocol = models.CharField(
-        max_length=30, null=True, blank=True)
-    expenditure_date_protocol = models.DateField(blank=True, null=True)
-
-    movement_protocol = models.CharField(
-        max_length=30, null=True, blank=True)
-    movement_date_protocol = models.DateField(blank=True, null=True)
-
-    compensation_petition_protocol = models.CharField(
-        max_length=30, null=True, blank=True)
-    compensation_petition_date = models.DateField(blank=True, null=True)
-
-    compensation_decision_protocol = models.CharField(
-        max_length=30, null=True, blank=True)
-    compensation_decision_date = models.DateField(blank=True, null=True)
-
-    required_fields = ('movement_num', 'dse', 'accomondation',
-                       'flight', 'feeding', 'non_grnet_quota',
-                       'grnet_quota', 'compensation',
-                       'expenditure_protocol', 'expenditure_date_protocol',
-                       'movement_protocol', 'movement_date_protocol',
-                       'transport_days_manual', 'overnights_num_manual',
-                       'compensation_days_manual'
-                       )
-
-    class APITravel(object):
-        fields = ('id', 'petition', 'movement_num', 'dse', 'accomondation',
-                  'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
-                  'compensation', 'expenditure_protocol',
-                  'expenditure_date_protocol', 'movement_protocol',
-                  'movement_date_protocol', 'compensation_petition_protocol',
-                  'compensation_petition_date',
-                  'compensation_decision_protocol',
-                  'compensation_decision_date', 'url',
-                  'transport_days_manual', 'overnights_num_manual',
-                  'compensation_days_manual'
-                  )
-        read_only_fields = ('id', 'url', 'petition')
-
-    def clean(self):
-        super(AdvancedPetition, self).clean()
-        if self.petition.status.id == 4:
-            required_validator(self, AdvancedPetition.required_fields)
-
-    def delete(self):
-        super(AdvancedPetition, self).delete()
-        self.flight.delete()
-        self.accomondation.delete()
-
-    def __unicode__(self):
-        return str(self.id)
 
 
 class UserSnapshot(models.Model):

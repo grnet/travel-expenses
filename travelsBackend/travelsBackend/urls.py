@@ -37,9 +37,6 @@ router_petition.register(r'transportation', factory(
 # router_petition.register(r'user', views.PetitionUserView)
 router_petition.register(r'accommondation', factory(
     Accomondation, IsOwnerOrAdmin), base_name='accomondation')
-router_petition.register(r'advanced_petition',
-                         views.AdvancedPetitionViewSet,
-                         base_name='advancedpetition')
 router_petition.register(r'compensation-categories',
                          factory(Compensation, isAdminOrRead))
 router_petition.register(r'feeding', factory(

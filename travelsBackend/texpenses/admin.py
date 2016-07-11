@@ -13,7 +13,6 @@ from .models import Country
 from .models import City
 from .models import UserCategory
 
-from .models import AdvancedPetition
 from .models import AdditionalExpenses
 from .models import Compensation
 from .models import FeedingKind
@@ -36,7 +35,6 @@ admin.site.register(Transportation)
 admin.site.register(PetitionStatus)
 
 # advanced petition info models
-admin.site.register(AdvancedPetition)
 admin.site.register(AdditionalExpenses)
 admin.site.register(Compensation)
 admin.site.register(FeedingKind)
