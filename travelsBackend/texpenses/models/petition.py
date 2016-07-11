@@ -283,6 +283,91 @@ class AdvancedPetition(models.Model):
         return str(self.id)
 
 
+class UserSnapshot(models.Model):
+    """
+    Abstract model class which gets the information about a user profile at
+    the moment he is making a new petition.
+    """
+    first_name = models.CharField(max_length=200, blank=False, null=False)
+    last_name = models.CharField(max_length=200, blank=False, null=False)
+    iban = models.CharField(max_length=200, blank=False, null=False,
+                            validators=[iban_validation])
+    specialtyID = models.ForeignKey(Specialty, blank=False, null=False)
+    taxRegNum = models.CharField(max_length=9, blank=False, null=False,
+                                 validators=[afm_validator])
+    taxOffice = models.ForeignKey(TaxOffice, blank=False, null=False)
+    kind = models.ForeignKey(Kind, blank=False, null=False)
+    trip_days_before = models.IntegerField(blank=False, null=False,
+                                           validators=[MinValueValidator(0)])
+    category = models.ForeignKey(UserCategory, blank=False, null=False)
+
+    class Meta:
+        abstract = True
+
+
+class TravelInfo(models.Model):
+    """
+    An abstract model class that represents travel information.
+
+    Travel information are associated with the duration, departure and arrival
+    point, transportation, accomondation, etc.
+    """
+    taskStartDate = models.DateTimeField(blank=False, null=False)
+    taskEndDate = models.DateTimeField(blank=False, null=False)
+    depart_date = models.DateTimeField(blank=True, null=True)
+    return_date = models.DateTimeField(blank=True, null=True)
+
+    movementCategory = models.ForeignKey(
+        MovementCategories, blank=False, null=False)
+    departurePoint = models.ForeignKey(
+        City, blank=False, null=False, related_name='travel_departure_point')
+    arrivalPoint = models.ForeignKey(City, blank=False, null=False,
+                                     related_name='travel_arrival_point')
+    transportation = models.ForeignKey(Transportation, blank=True, null=True)
+    recTransport = models.CharField(max_length=200, blank=True, null=True)
+    recAccomondation = models.CharField(max_length=200, blank=True, null=True)
+    recCostParticipation = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+
+class SecretarialInfo(models.Model):
+    """
+    Abstract model which includes information that secretary fills.
+    """
+    accomondation = models.ForeignKey(Accomondation, blank=True, null=True)
+    flight = models.ForeignKey(Flight, blank=True, null=True)
+    feeding = models.ForeignKey(FeedingKind, blank=True, null=True)
+    non_grnet_quota = models.FloatField(blank=True, null=True, default=0.0)
+
+    movement_num = models.CharField(max_length=200, null=True, blank=True)
+    compensation = models.ForeignKey(Compensation, blank=True, null=True)
+    transport_days_manual = models.IntegerField(blank=True, null=True)
+    overnights_num_manual = models.IntegerField(blank=True, null=True)
+    compensation_days_manual = models.IntegerField(blank=True, null=True)
+    expenditure_protocol = models.CharField(
+        max_length=30, null=True, blank=True)
+    expenditure_date_protocol = models.DateField(blank=True, null=True)
+    movement_protocol = models.CharField(
+        max_length=30, null=True, blank=True)
+    movement_date_protocol = models.DateField(blank=True, null=True)
+    compensation_petition_protocol = models.CharField(
+        max_length=30, null=True, blank=True)
+    compensation_petition_date = models.DateField(blank=True, null=True)
+    compensation_decision_protocol = models.CharField(
+        max_length=30, null=True, blank=True)
+    compensation_decision_date = models.DateField(blank=True, null=True)
+
+    def grnet_quota(self):
+        if self.non_grnet_quota is None:
+            return 100
+        return 100 - self.non_grnet_quota
+
+    class Meta:
+        abstract = True
+
+
 class Petition(models.Model):
 
     """Docstring for Travel Application. """
