@@ -14,7 +14,6 @@ var Validations=buildValidations({
 export default DS.Model.extend(Validations, {
   __ui__: {
     "user": {
-      layout: [50],
       layoutMap: {"reason": 100},
       fieldsets: [
         {
@@ -28,7 +27,10 @@ export default DS.Model.extend(Validations, {
           'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
           'transportation', 'recCostParticipation', 'additional_expenses_initial']
         },
-      ]
+      ],
+      layout: {
+        flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+      }
     }
   },
 
@@ -46,22 +48,22 @@ export default DS.Model.extend(Validations, {
 	user_category: DS.belongsTo('category'),
 	taskStartDate: DS.attr({
     fieldAttrs: {
-      type: 'datetime-local'
+      type: 'datetime'
     }
   }),
 	taskEndDate: DS.attr({
     fieldAttrs: {
-      type: 'datetime-local'
+      type: 'datetime'
     }
   }),
 	depart_date: DS.attr({
     fieldAttrs: {
-      type: 'date'
+      type: 'datetime'
     }
   }),
 	return_date: DS.attr({
     fieldAttrs: {
-      type: 'date'
+      type: 'datetime'
     }
   }),
 	creationDate: DS.attr({
