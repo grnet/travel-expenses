@@ -38,42 +38,44 @@ export default DS.Model.extend(Validations, {
     hint: 'Provide your name'
   }),
 	surname: DS.attr(),
-	iban: DS.attr({
+	iban: DS.attr({'label': 'IBAN'}, {
     hint: new Ember.Handlebars.SafeString('This should be your IBAN number. See <a href="lla">here</a> for more details.')
   }),
-	specialtyID: DS.belongsTo('specialty'),
+	specialtyID: DS.belongsTo('specialty', {'label': 'Specialty'}),
 	kind: DS.belongsTo('kind'),
-	taxRegNum: DS.attr(),
+	taxRegNum: DS.attr({'label': 'VAT'}),
 	taxOffice: DS.belongsTo('tax-office'),
 	user_category: DS.belongsTo('category'),
 	taskStartDate: DS.attr({
-    fieldAttrs: {
-      type: 'datetime'
-    }
+    attrs: {
+      type: 'datetime-local'
+    },
+    label: 'Task starts at'
   }),
 	taskEndDate: DS.attr({
-    fieldAttrs: {
-      type: 'datetime'
-    }
+    attrs: {
+      type: 'datetime-local'
+    },
+    label: 'Task ends at'
   }),
 	depart_date: DS.attr({
-    fieldAttrs: {
-      type: 'datetime'
+    attrs: {
+      type: 'datetime-local'
     }
   }),
 	return_date: DS.attr({
-    fieldAttrs: {
-      type: 'datetime'
+    attrs: {
+      type: 'datetime-local'
     }
   }),
 	creationDate: DS.attr({
-    fieldAttrs: {
-      type: 'date'
+    attrs: {
+      type: 'datetime-local'
     }
   }),
 	updateDate: DS.attr({
-    fieldAttrs: {
-      type: 'date'
+    attrs: {
+      type: 'datetime-local'
     }
   }),
 	departurePoint: DS.belongsTo('city'),
@@ -81,15 +83,15 @@ export default DS.Model.extend(Validations, {
 	transportation: DS.belongsTo('transportation'),
 	movementCategory: DS.belongsTo('movement-category'),
 	project: DS.belongsTo('project'),
-	reason: DS.attr({fieldAttrs: {
+	reason: DS.attr({'label': 'Movement Justification'}, {attrs: {
     textarea: true,
     rows: 20
   }}),
 	recTransport: DS.attr(),
 	recAccomondation: DS.attr(),
-	recCostParticipation: DS.attr(),
+	recCostParticipation: DS.attr({'label': 'Registration Cost'}),
 	additional_expenses_sum: DS.attr(),
-	additional_expenses_initial: DS.attr(),
+	additional_expenses_initial: DS.attr({'label': 'Additional Costs'}),
 	additional_expenses_initial_description: DS.attr(),
 	status: DS.belongsTo('petition-status'),
 	overnights_num: DS.attr(),
