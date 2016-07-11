@@ -64,7 +64,7 @@ export default Ember.Controller.extend({
 
 		petitionEdit(id){
 			id=id.substring(id.indexOf('user_petition/')+14,id.lastIndexOf('/'));
-			this.transitionToRoute('editPetition',id);
+			this.transitionToRoute('petition', id);
 		},	
 	}
 

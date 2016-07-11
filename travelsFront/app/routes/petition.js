@@ -3,16 +3,30 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 import ENV from 'travels-front/config/environment'; 
 
 export default Ember.Route.extend(AuthenticatedRouteMixin,{
-	model() {
-		var model = this.store.createRecord('petition');
-		this.store.findAll("petition-status").then(function() {
-			model.set("status", this.store.peekRecord('petition-status',ENV.petition_status_1));
-		}.bind(this));
+  newPetition: true,
+	model(params) {
+    let petitionId = params.petition_id;
+    let model;
+    if (petitionId && petitionId != "new") {
+      // edit petition
+      model = this.store.findRecord('petition', petitionId);
+      this.set('newPetition', false);
+    } else {
+      // create petition
+      model = this.store.createRecord('petition');
+      this.store.findAll("petition-status").then(function() {
+        model.set("status", this.store.peekRecord('petition-status', ENV.petition_status_1));
+      }.bind(this));
+      this.set('newPetition', true);
+    }
 		return model
 	},
 
 	afterModel(petition){
 
+    if (!this.get("newPetition")) { return; }
+    
+    // default profile values for new records
 		this.store.findRecord('profile', 1).then(function(profile) {
 			let pet_name=profile.get('first_name');	
 			let pet_surname=profile.get('last_name');
@@ -47,6 +61,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		controller.set('categories', this.store.findAll('category'));
 		controller.set('petition-statuses', this.store.findAll('petition-status'));
 		controller.set('petitionMessage','');
+    controller.set('newPetition', this.get('newPetition'));
 	},
 
 	actions: {

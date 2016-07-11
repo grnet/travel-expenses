@@ -1,4 +1,9 @@
+{{#if newPetition}}
 {{ page-toolbar pageTitle="Create a petition" }}
+{{else}}
+{{ page-toolbar pageTitle="Edit petition" }}
+{{/if}}
+
 {{#paper-content classNames="md-padding"}}
     {{ model-form/form model ui="user"}}
 {{/paper-content}}

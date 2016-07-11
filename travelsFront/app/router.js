@@ -10,9 +10,8 @@ Router.map(function() {
 	this.route('login');
 	this.route('signup');
 	this.route('profile');
-	this.route('petition');
+	this.route('petition', {path: 'petition/:petition_id'});
 	this.route('petitionList');
-	this.route('editPetition', {path: ':petition_id'});
 	this.route('advancedPetition',{path:':ap_id'});
 	this.route('advancedList');
 });
