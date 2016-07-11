@@ -1,6 +1,5 @@
 from django.conf.urls import url, include
 from rest_framework import routers
-from texpenses import views
 from django.contrib import admin
 from django.conf import settings
 from django.views.generic.base import RedirectView
