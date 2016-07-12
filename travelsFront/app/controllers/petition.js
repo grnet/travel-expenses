@@ -4,6 +4,7 @@ import ENV from 'travels-front/config/environment';
 export default Ember.Controller.extend({
 
 	petitionMessage:'',
+	petitionError: '',
 	country_selected: false,
 	arrivalPoints: null,
 
@@ -57,61 +58,76 @@ export default Ember.Controller.extend({
 
 		},
 
-		petitionSave(){
+		submitToState2(){
+			let model = this.get("model");
+			let state = this.store.peekRecord('petition-status',ENV.petition_status_2);
+			model.set('status', state);
+     	
 
-			let profileIsValid=this.get('model.validations.isValid');
+      model.save().then(() => {
+        this.set('petitionMessage', 'Petition status has changed to submitted');
+      }).catch((err) => {
+        this.set('petitionError', err.message);
+        console.error("model.errors")
+        console.error(err);
+      })
+    }, 
 
-			if (profileIsValid) {
+		// petitionSave(){
 
-				var rec = this.store.peekRecord('petition-status',ENV.petition_status_1);
-				this.get('model').set('status', rec);
+		// 	let profileIsValid=this.get('model.validations.isValid');
 
-				var self=this;
-				this.get('model').save().then(function(value) {
+		// 	if (profileIsValid) {
 
-					self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
-					self.set('petitionNotSaved',false);
-					console.log('petitionNotSaved', self.get('petitionNotSaved'));
-					Ember.$('#messageModal').modal();
-					Ember.$('#styleModal').removeClass('btn-warning');
-					Ember.$('#styleModal').addClass('btn-success');
-					Ember.$('#submit').prop('disabled', false);
+		// 		var rec = this.store.peekRecord('petition-status',ENV.petition_status_1);
+		// 		this.get('model').set('status', rec);
 
-				}, function(reason) {
-					self.set('petitionMessage','Η αποθήκευση των στοιχείων της αίτησης σας απέτυχε...');
-					Ember.$('#messageModal').modal();
-					Ember.$('#styleModal').removeClass('btn-success');
-					Ember.$('#styleModal').addClass('btn-warning');
-				});
-			}
-		},
+		// 		var self=this;
+		// 		this.get('model').save().then(function(value) {
 
-		petitionSubmit(){
+		// 			self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν αποθηκευθεί επιτυχώς !');
+		// 			self.set('petitionNotSaved',false);
+		// 			console.log('petitionNotSaved', self.get('petitionNotSaved'));
+		// 			Ember.$('#messageModal').modal();
+		// 			Ember.$('#styleModal').removeClass('btn-warning');
+		// 			Ember.$('#styleModal').addClass('btn-success');
+		// 			Ember.$('#submit').prop('disabled', false);
 
-			let profileIsValid=this.get('model.validations.isValid');
+		// 		}, function(reason) {
+		// 			self.set('petitionMessage','Η αποθήκευση των στοιχείων της αίτησης σας απέτυχε...');
+		// 			Ember.$('#messageModal').modal();
+		// 			Ember.$('#styleModal').removeClass('btn-success');
+		// 			Ember.$('#styleModal').addClass('btn-warning');
+		// 		});
+		// 	}
+		// },
 
-			if (profileIsValid) {
-				var rec = this.store.peekRecord('petition-status',ENV.petition_status_2);
+		// petitionSubmit(){
 
-				var self=this;
+		// 	let profileIsValid=this.get('model.validations.isValid');
 
-				self.get('model').set('status', rec);
+		// 	if (profileIsValid) {
+		// 		var rec = this.store.peekRecord('petition-status',ENV.petition_status_2);
 
-				self.get('model').save().then(function(value) {
+		// 		var self=this;
 
-					self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
-					self.set('petitionNotSaved',false);
-					self.transitionToRoute('petitionList');
+		// 		self.get('model').set('status', rec);
 
-				}, function(reason) {
+		// 		self.get('model').save().then(function(value) {
 
-					self.set('petitionMessage','Η υποβολή των στοιχείων της αίτησης σας απέτυχε. Παρακαλούμε συμπληρώστε σωστά όλα τα στοιχεία της αίτησης');
-					Ember.$('#messageModal').modal();
-					Ember.$('#styleModal').removeClass('btn-success');
-					Ember.$('#styleModal').addClass('btn-warning');
-				});
-			}
-		},
+		// 			self.set('petitionMessage','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
+		// 			self.set('petitionNotSaved',false);
+		// 			self.transitionToRoute('petitionList');
+
+		// 		}, function(reason) {
+
+		// 			self.set('petitionMessage','Η υποβολή των στοιχείων της αίτησης σας απέτυχε. Παρακαλούμε συμπληρώστε σωστά όλα τα στοιχεία της αίτησης');
+		// 			Ember.$('#messageModal').modal();
+		// 			Ember.$('#styleModal').removeClass('btn-success');
+		// 			Ember.$('#styleModal').addClass('btn-warning');
+		// 		});
+		// 	}
+		// },
 
 		setArrivalPoint(id){
 			var rec = this.store.peekRecord('city', id);
