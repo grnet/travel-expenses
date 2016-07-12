@@ -12,65 +12,6 @@ from model_utils import FieldTracker
 from workdays import networkdays
 
 
-class Accomondation(models.Model):
-
-    """Docstring for Accomondation. """
-    id = models.AutoField(primary_key=True)
-    hotel = models.CharField(max_length=200)
-    hotelPrice = models.FloatField(blank=True, null=True)
-    user = models.ForeignKey(UserProfile)
-
-    def clean(self):
-        super(Accomondation, self).clean()
-        advanced_petitions = AdvancedPetition.objects.filter(
-            accomondation__id=self.id)
-        for advanced_petition in advanced_petitions:
-            petition = advanced_petition.petition
-            if petition.user_category:
-                max_overnight = petition.user_category.max_overnight_cost
-                if self.hotelPrice > max_overnight:
-                    raise ValidationError(
-                        'Hotel cost %.2f exceedes the max hotel allowable'
-                        ' limit' % (self.hotelPrice))
-
-    class APITravel(object):
-        fields = ('id', 'hotel', 'hotelPrice', 'url')
-
-        @staticmethod
-        def get_queryset(request_user):
-            return get_queryset_on_group(request_user, Accomondation)
-
-    def __unicode__(self):
-        """TODO: Docstring for __unicode__.
-        :returns: TODO
-
-        """
-        return self.hotel
-
-
-class Flight(models.Model):
-
-    """Docstring for Accomondation. """
-    id = models.AutoField(primary_key=True)
-    flightName = models.CharField(max_length=200)
-    flightPrice = models.FloatField(blank=True, null=True)
-    user = models.ForeignKey(UserProfile)
-
-    class APITravel(object):
-        fields = ('id', 'flightName', 'flightPrice', 'url')
-
-        @staticmethod
-        def get_queryset(request_user):
-            return get_queryset_on_group(request_user, Flight)
-
-    def __unicode__(self):
-        """TODO: Docstring for __unicode__.
-        :returns: TODO
-
-        """
-        return self.flightName
-
-
 class Project(models.Model):
 
     """Docstring for Project. """
@@ -206,85 +147,6 @@ class Compensation(models.Model):
         return self.name
 
 
-class AdvancedPetition(models.Model):
-
-    """Docstring for AdvancedPetition. """
-    id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(UserProfile)
-
-    dse = models.IntegerField(blank=True, null=True)
-
-    accomondation = models.ForeignKey(Accomondation, blank=True, null=True)
-    flight = models.ForeignKey(Flight, blank=True, null=True)
-    feeding = models.ForeignKey(FeedingKind, blank=True, null=True)
-    non_grnet_quota = models.FloatField(blank=True, null=True, default=0.0)
-
-    def grnet_quota(self):
-        if self.non_grnet_quota is None:
-            return 100
-        return 100 - self.non_grnet_quota
-    movement_num = models.CharField(max_length=200, null=True, blank=True)
-    compensation = models.ForeignKey(Compensation, blank=True, null=True)
-
-    transport_days_manual = models.IntegerField(blank=True, null=True)
-
-    overnights_num_manual = models.IntegerField(blank=True, null=True)
-
-    compensation_days_manual = models.IntegerField(blank=True, null=True)
-
-    expenditure_protocol = models.CharField(
-        max_length=30, null=True, blank=True)
-    expenditure_date_protocol = models.DateField(blank=True, null=True)
-
-    movement_protocol = models.CharField(
-        max_length=30, null=True, blank=True)
-    movement_date_protocol = models.DateField(blank=True, null=True)
-
-    compensation_petition_protocol = models.CharField(
-        max_length=30, null=True, blank=True)
-    compensation_petition_date = models.DateField(blank=True, null=True)
-
-    compensation_decision_protocol = models.CharField(
-        max_length=30, null=True, blank=True)
-    compensation_decision_date = models.DateField(blank=True, null=True)
-
-    required_fields = ('movement_num', 'dse', 'accomondation',
-                       'flight', 'feeding', 'non_grnet_quota',
-                       'grnet_quota', 'compensation',
-                       'expenditure_protocol', 'expenditure_date_protocol',
-                       'movement_protocol', 'movement_date_protocol',
-                       'transport_days_manual', 'overnights_num_manual',
-                       'compensation_days_manual'
-                       )
-
-    class APITravel(object):
-        fields = ('id', 'petition', 'movement_num', 'dse', 'accomondation',
-                  'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
-                  'compensation', 'expenditure_protocol',
-                  'expenditure_date_protocol', 'movement_protocol',
-                  'movement_date_protocol', 'compensation_petition_protocol',
-                  'compensation_petition_date',
-                  'compensation_decision_protocol',
-                  'compensation_decision_date', 'url',
-                  'transport_days_manual', 'overnights_num_manual',
-                  'compensation_days_manual'
-                  )
-        read_only_fields = ('id', 'url', 'petition')
-
-    def clean(self):
-        super(AdvancedPetition, self).clean()
-        if self.petition.status.id == 4:
-            required_validator(self, AdvancedPetition.required_fields)
-
-    def delete(self):
-        super(AdvancedPetition, self).delete()
-        self.flight.delete()
-        self.accomondation.delete()
-
-    def __unicode__(self):
-        return str(self.id)
-
-
 class UserSnapshot(models.Model):
     """
     Abstract model class which gets the information about a user profile at
@@ -314,8 +176,6 @@ class TravelInfo(models.Model):
     Travel information are associated with the duration, departure and arrival
     point, transportation, accomondation, etc.
     """
-    taskStartDate = models.DateTimeField(blank=False, null=False)
-    taskEndDate = models.DateTimeField(blank=False, null=False)
     depart_date = models.DateTimeField(blank=True, null=True)
     return_date = models.DateTimeField(blank=True, null=True)
 
@@ -326,28 +186,33 @@ class TravelInfo(models.Model):
     arrivalPoint = models.ForeignKey(City, blank=False, null=False,
                                      related_name='travel_arrival_point')
     transportation = models.ForeignKey(Transportation, blank=True, null=True)
-    recTransport = models.CharField(max_length=200, blank=True, null=True)
-    recAccomondation = models.CharField(max_length=200, blank=True, null=True)
-    recCostParticipation = models.FloatField(blank=True, null=True)
+    accomondation_name = models.CharField(max_length=200)
+    accomondation_price = models.FloatField(blank=True, null=True)
+    transportation_price = models.FloatField(blank=True, null=True)
+    compensation = models.ForeignKey(Compensation, blank=True, null=True)
+    transport_days_manual = models.IntegerField(blank=True, null=True)
+    overnights_num_manual = models.IntegerField(blank=True, null=True)
+    compensation_days_manual = models.IntegerField(blank=True, null=True)
+    feeding = models.ForeignKey(FeedingKind, blank=True, null=True)
+    movement_num = models.CharField(max_length=200, null=True, blank=True)
 
-    class Meta:
-        abstract = True
+    class APITravel:
+        fields = ('id', 'url', 'depart_date', 'return_date',
+                  'movementCategory', 'departurePoint', 'arrivalPoint',
+                  'Transportation', 'accomondation_name',
+                  'accomondation_price', 'transportation_price',
+                  'compensation', 'transport_days_manual',
+                  'overnights_num_manual', 'compensation_days_manual',
+                  'feeding', 'movement_num')
+        read_only_fields = ('id', 'url')
 
 
 class SecretarialInfo(models.Model):
     """
     Abstract model which includes information that secretary fills.
     """
-    accomondation = models.ForeignKey(Accomondation, blank=True, null=True)
-    flight = models.ForeignKey(Flight, blank=True, null=True)
-    feeding = models.ForeignKey(FeedingKind, blank=True, null=True)
     non_grnet_quota = models.FloatField(blank=True, null=True, default=0.0)
 
-    movement_num = models.CharField(max_length=200, null=True, blank=True)
-    compensation = models.ForeignKey(Compensation, blank=True, null=True)
-    transport_days_manual = models.IntegerField(blank=True, null=True)
-    overnights_num_manual = models.IntegerField(blank=True, null=True)
-    compensation_days_manual = models.IntegerField(blank=True, null=True)
     expenditure_protocol = models.CharField(
         max_length=30, null=True, blank=True)
     expenditure_date_protocol = models.DateField(blank=True, null=True)
@@ -377,7 +242,7 @@ def get_next_dse():
         return 1
 
 
-class Petition(UserSnapshot, TravelInfo, SecretarialInfo):
+class Petition(UserSnapshot, SecretarialInfo):
     SAVED_BY_USER = 1
     SUBMITTED_BY_USER = 2
     SAVED_BY_SECRETARY = 3
@@ -392,7 +257,10 @@ class Petition(UserSnapshot, TravelInfo, SecretarialInfo):
     id = models.AutoField(primary_key=True)
     dse = models.IntegerField(
         default=get_next_dse, blank=False, null=False)
+    travel_info = models.ManyToManyField(TravelInfo, blank=False, null=False)
     user = models.ForeignKey(UserProfile, blank=False, null=False)
+    taskStartDate = models.DateTimeField(blank=False, null=False)
+    taskEndDate = models.DateTimeField(blank=False, null=False)
     creationDate = models.DateTimeField(blank=False, null=False,
                                         default=datetime.now())
     updateDate = models.DateTimeField(blank=True, null=True)
@@ -662,14 +530,11 @@ class UserPetition(Petition):
     class APITravel:
         fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
                   'specialtyID', 'taxOffice', 'taxRegNum', 'category', 'user',
-                  'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
-                  'project', 'reason', 'movementCategory',
-                  'departurePoint', 'arrivalPoint',
+                  'taskStartDate', 'taskEndDate', 'travel_info',
+                  'project', 'reason', 'additional_data',
                   'additional_expenses_initial',
                   'additional_expenses_initial_description',
-                  'transportation', 'recTransport', 'recAccomondation',
-                  'recCostParticipation', 'trip_days_before',
-                  'status', 'url')
+                  'trip_days_before', 'status', 'url')
         read_only_fields = ('id', 'user', 'url', 'first_name', 'last_name',
                             'kind', 'specialtyID', 'taxOffice', 'taxRegNum',
                             'category', 'status', 'dse')
@@ -704,14 +569,11 @@ class UserPetitionSubmission(Petition):
     class APITravel:
         fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
                   'specialtyID', 'taxOffice', 'taxRegNum', 'category', 'user',
-                  'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
-                  'project', 'reason', 'movementCategory',
-                  'departurePoint', 'arrivalPoint',
+                  'taskStartDate', 'taskEndDate',
+                  'project', 'reason',
                   'additional_expenses_initial', 'compensation_days_proposed',
                   'additional_expenses_initial_description',
-                  'transportation', 'recTransport', 'recAccomondation',
-                  'recCostParticipation', 'trip_days_before',
-                  'status', 'url')
+                  'trip_days_before', 'status', 'url')
         read_only_fields = ('id', 'user', 'url', 'first_name', 'last_name',
                             'kind', 'specialtyID', 'taxOffice', 'taxRegNum',
                             'category', 'status')
@@ -751,22 +613,17 @@ class SecretaryPetition(Petition):
     class APITravel:
         fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
                   'specialtyID', 'taxOffice', 'taxRegNum', 'category', 'user',
-                  'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
-                  'project', 'reason', 'movementCategory',
-                  'departurePoint', 'arrivalPoint',
+                  'taskStartDate', 'taskEndDate',
+                  'project', 'reason',
                   'additional_expenses_initial',
                   'additional_expenses_initial_description',
-                  'transportation', 'recTransport', 'recAccomondation',
-                  'recCostParticipation', 'trip_days_before',
-                  'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
-                  'compensation', 'expenditure_protocol',
+                  'trip_days_before', 'non_grnet_quota', 'grnet_quota',
+                  'expenditure_protocol',
                   'expenditure_date_protocol', 'movement_protocol',
                   'movement_date_protocol', 'compensation_petition_protocol',
                   'compensation_petition_date',
                   'compensation_decision_protocol',
-                  'compensation_decision_date', 'status',
-                  'transport_days_manual', 'overnights_num_manual',
-                  'compensation_days_manual', 'url')
+                  'compensation_decision_date', 'status', 'url')
         read_only_fields = ('id', 'url', 'first_name', 'last_name',
                             'kind', 'specialtyID', 'taxOffice', 'taxRegNum',
                             'category', 'status')
@@ -789,18 +646,14 @@ class SecretaryPetitionSubmission(Petition):
     required_fields = ('name', 'surname', 'iban', 'specialtyID', 'kind',
                        'taxRegNum', 'taxOffice',
                        'taskStartDate', 'taskEndDate',
-                       'project', 'reason', 'movementCategory',
-                       'departurePoint', 'arrivalPoint', 'transportation',
+                       'project', 'reason',
                        'status', 'user_category', 'trip_days_before',
-                       'trip_days_after', 'depart_date', 'return_date',
+                       'trip_days_after',
                        'additional_expenses_initial_description',
-                       'additional_expenses_initial', 'movement_num',
-                       'accomondation', 'flight', 'feeding', 'non_grnet_quota',
-                       'grnet_quota', 'compensation',
+                       'additional_expenses_initial', 'non_grnet_quota',
+                       'grnet_quota',
                        'expenditure_protocol', 'expenditure_date_protocol',
-                       'movement_protocol', 'movement_date_protocol',
-                       'transport_days_manual', 'overnights_num_manual',
-                       'compensation_days_manual')
+                       'movement_protocol', 'movement_date_protocol')
 
     class Meta:
         proxy = True
@@ -815,7 +668,7 @@ class SecretaryPetitionSubmission(Petition):
                   'additional_expenses_initial_description',
                   'transportation', 'recTransport', 'recAccomondation',
                   'recCostParticipation', 'trip_days_before',
-                  'flight', 'feeding', 'non_grnet_quota', 'grnet_quota',
+                  'feeding', 'non_grnet_quota', 'grnet_quota',
                   'compensation', 'expenditure_protocol',
                   'expenditure_date_protocol', 'movement_protocol',
                   'movement_date_protocol', 'compensation_petition_protocol',
@@ -823,7 +676,7 @@ class SecretaryPetitionSubmission(Petition):
                   'compensation_decision_protocol',
                   'compensation_decision_date', 'status',
                   'transport_days_manual', 'overnights_num_manual',
-                  'compensation_days_manual', 'url')
+                  'compensation_days_manual', 'additional_data', 'url', 'flight')
         read_only_fields = ('id', 'url', 'first_name', 'last_name',
                             'kind', 'specialtyID', 'taxOffice', 'taxRegNum',
                             'category', 'status', 'reason')
