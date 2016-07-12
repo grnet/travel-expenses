@@ -10,7 +10,7 @@ METHODS_TO_OVERRIDE = ['create', 'update', 'delete', 'validate']
 CUSTOM_SERIALIZERS_CODE = 'texpenses.serializers'
 
 
-def factory(mdl, nested_model=None, api_name='APITravel', hyperlink=True):
+def factory(mdl, nested_model=None, api_name='APITravel'):
     """ Generalized serializer factory to increase DRYness of code.
 
     :param mdl: The model for the HyperLinkedModelSerializer
@@ -24,7 +24,8 @@ def factory(mdl, nested_model=None, api_name='APITravel', hyperlink=True):
     class AbstractSerializer(serializers.HyperlinkedModelSerializer):
         if nested_model:
             additional_data = factory(nested_model)(
-                many=True, source=nested_model.__name__.lower())
+                write_only=True, many=True,
+                source=utils.camel2snake(nested_model.__name__))
 
         class Meta:
             model = mdl
