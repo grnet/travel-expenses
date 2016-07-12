@@ -273,6 +273,18 @@ class Petition(UserSnapshot, SecretarialInfo):
     additional_expenses_initial_description = models.CharField(
         max_length=400, blank=True, null=True)
 
+    class APITravel:
+        fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
+                  'specialtyID', 'taxOffice', 'taxRegNum', 'category', 'user',
+                  'taskStartDate', 'taskEndDate', 'travel_info',
+                  'project', 'reason', 'additional_data',
+                  'additional_expenses_initial',
+                  'additional_expenses_initial_description',
+                  'trip_days_before', 'status', 'url')
+        read_only_fields = ('id', 'user', 'url', 'first_name', 'last_name',
+                            'kind', 'specialtyID', 'taxOffice', 'taxRegNum',
+                            'category', 'status', 'dse')
+
     def save(self, **kwargs):
         for field in self.USER_FIELDS:
             setattr(self, field, getattr(self.user, field))
@@ -528,16 +540,8 @@ class UserPetition(Petition):
         proxy = True
 
     class APITravel:
-        fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
-                  'specialtyID', 'taxOffice', 'taxRegNum', 'category', 'user',
-                  'taskStartDate', 'taskEndDate', 'travel_info',
-                  'project', 'reason', 'additional_data',
-                  'additional_expenses_initial',
-                  'additional_expenses_initial_description',
-                  'trip_days_before', 'status', 'url')
-        read_only_fields = ('id', 'user', 'url', 'first_name', 'last_name',
-                            'kind', 'specialtyID', 'taxOffice', 'taxRegNum',
-                            'category', 'status', 'dse')
+        fields = Petition.APITravel.fields
+        read_only_fields = Petition.APITravel.fields
 
     def save(self, **kwargs):
         self.status = self.SAVED_BY_USER
@@ -567,16 +571,8 @@ class UserPetitionSubmission(Petition):
         proxy = True
 
     class APITravel:
-        fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
-                  'specialtyID', 'taxOffice', 'taxRegNum', 'category', 'user',
-                  'taskStartDate', 'taskEndDate',
-                  'project', 'reason',
-                  'additional_expenses_initial', 'compensation_days_proposed',
-                  'additional_expenses_initial_description',
-                  'trip_days_before', 'status', 'url')
-        read_only_fields = ('id', 'user', 'url', 'first_name', 'last_name',
-                            'kind', 'specialtyID', 'taxOffice', 'taxRegNum',
-                            'category', 'status')
+        fields = Petition.APITravel.fields
+        read_only_fields = Petition.APITravel.read_only_fields
 
     def clean(self):
         required_validator(self, self.required_fields)
@@ -611,22 +607,15 @@ class SecretaryPetition(Petition):
         proxy = True
 
     class APITravel:
-        fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
-                  'specialtyID', 'taxOffice', 'taxRegNum', 'category', 'user',
-                  'taskStartDate', 'taskEndDate',
-                  'project', 'reason',
-                  'additional_expenses_initial',
-                  'additional_expenses_initial_description',
-                  'trip_days_before', 'non_grnet_quota', 'grnet_quota',
-                  'expenditure_protocol',
-                  'expenditure_date_protocol', 'movement_protocol',
-                  'movement_date_protocol', 'compensation_petition_protocol',
-                  'compensation_petition_date',
-                  'compensation_decision_protocol',
-                  'compensation_decision_date', 'status', 'url')
-        read_only_fields = ('id', 'url', 'first_name', 'last_name',
-                            'kind', 'specialtyID', 'taxOffice', 'taxRegNum',
-                            'category', 'status')
+        fields = Petition.APITravel.fields + (
+            'non_grnet_quota', 'grnet_quota',
+            'expenditure_protocol',
+            'expenditure_date_protocol', 'movement_protocol',
+            'movement_date_protocol', 'compensation_petition_protocol',
+            'compensation_petition_date',
+            'compensation_decision_protocol',
+            'compensation_decision_date')
+        read_only_fields = Petition.APITravel.read_only_fields
 
 
 class SecretaryPetitionSubmissionManager(models.Manager):
@@ -659,27 +648,15 @@ class SecretaryPetitionSubmission(Petition):
         proxy = True
 
     class APITravel:
-        fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
-                  'specialtyID', 'taxOffice', 'taxRegNum', 'category', 'user',
-                  'taskStartDate', 'taskEndDate', 'depart_date', 'return_date',
-                  'project', 'reason', 'movementCategory',
-                  'departurePoint', 'arrivalPoint',
-                  'additional_expenses_initial',
-                  'additional_expenses_initial_description',
-                  'transportation', 'recTransport', 'recAccomondation',
-                  'recCostParticipation', 'trip_days_before',
-                  'feeding', 'non_grnet_quota', 'grnet_quota',
-                  'compensation', 'expenditure_protocol',
-                  'expenditure_date_protocol', 'movement_protocol',
-                  'movement_date_protocol', 'compensation_petition_protocol',
-                  'compensation_petition_date',
-                  'compensation_decision_protocol',
-                  'compensation_decision_date', 'status',
-                  'transport_days_manual', 'overnights_num_manual',
-                  'compensation_days_manual', 'additional_data', 'url', 'flight')
-        read_only_fields = ('id', 'url', 'first_name', 'last_name',
-                            'kind', 'specialtyID', 'taxOffice', 'taxRegNum',
-                            'category', 'status', 'reason')
+        fields = Petition.APITravel.fields + (
+            'non_grnet_quota', 'grnet_quota',
+            'expenditure_protocol',
+            'expenditure_date_protocol', 'movement_protocol',
+            'movement_date_protocol', 'compensation_petition_protocol',
+            'compensation_petition_date',
+            'compensation_decision_protocol',
+            'compensation_decision_date')
+        read_only_fields = Petition.APITravel.read_only_fields
 
     def clean(self):
         required_validator(self, self.required_fields)
