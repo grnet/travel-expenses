@@ -7,8 +7,8 @@
 {{#paper-content classNames="md-padding"}}
     {{ model-form/form model ui="user"}}
     {{#paper-button 
-        onClick=submit 
-        warn=true 
+        onClick=(action "submitToState2")
+        warn=true
         raised=true
         disabled=inProgress
     }}SUBMIT{{/paper-button}}
