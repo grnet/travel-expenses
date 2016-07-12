@@ -521,20 +521,24 @@ class Petition(UserSnapshot, SecretarialInfo):
         return str(self.id) + "-" + self.project.name
 
 
-class UserPetitionManager(models.Manager):
+class PetitionManager(models.Manager):
+    def __init__(self, status, *args, **kwargs):
+        self.status = status
+        super(PetitionManager, self).__init__(*args, **kwargs)
+
     def create(self, *args, **kwargs):
         kwargs['status'] = Petition.SAVED_BY_USER
-        return super(UserPetitionManager, self).create(
+        return super(PetitionManager, self).create(
             *args, **kwargs)
 
     def get_queryset(self):
-        return super(UserPetitionManager, self).get_queryset()\
+        return super(PetitionManager, self).get_queryset()\
             .filter(status=Petition.SAVED_BY_USER)
 
 
 class UserPetition(Petition):
     """ A proxy model for the temporary saved petition by user. """
-    objects = UserPetitionManager()
+    objects = PetitionManager(Petition.SAVED_BY_USER)
 
     class Meta:
         proxy = True
@@ -548,20 +552,9 @@ class UserPetition(Petition):
         super(UserPetition, self).save(**kwargs)
 
 
-class UserPetitionSubmissionManager(models.Manager):
-    def create(self, *args, **kwargs):
-        kwargs['status'] = Petition.SUBMITTED_BY_USER
-        return super(UserPetitionSubmissionManager, self).create(
-            *args, **kwargs)
-
-    def get_queryset(self):
-        return super(UserPetitionSubmissionManager, self).get_queryset()\
-            .filter(status=Petition.SUBMITTED_BY_USER)
-
-
 class UserPetitionSubmission(Petition):
     """ A proxy model for the temporary submitted petitions by user. """
-    objects = UserPetitionSubmissionManager()
+    objects = PetitionManager(Petition.SUBMITTED_BY_USER)
     required_fields = ('taskStartDate', 'taskEndDate',
                        'project', 'reason', 'movementCategory',
                        'departurePoint', 'arrivalPoint', 'transportation',
@@ -588,20 +581,9 @@ class UserPetitionSubmission(Petition):
         super(UserPetitionSubmission, self).save(**kwargs)
 
 
-class SecretaryPetitionManager(models.Manager):
-    def create(self, *args, **kwargs):
-        kwargs['status'] = Petition.SAVED_BY_SECRETARY
-        return super(SecretaryPetitionManager, self).create(
-            *args, **kwargs)
-
-    def get_queryset(self):
-        return super(SecretaryPetitionManager, self).get_queryset()\
-            .filter(status=Petition.SAVED_BY_SECRETARY)
-
-
 class SecretaryPetition(Petition):
     """ A proxy model for the temporary saved petitions by secretary. """
-    objects = SecretaryPetitionManager()
+    objects = PetitionManager(Petition.SAVED_BY_SECRETARY)
 
     class Meta:
         proxy = True
@@ -618,20 +600,9 @@ class SecretaryPetition(Petition):
         read_only_fields = Petition.APITravel.read_only_fields
 
 
-class SecretaryPetitionSubmissionManager(models.Manager):
-    def create(self, *args, **kwargs):
-        kwargs['status'] = Petition.SUBMITTED_BY_SECRETARY
-        return super(SecretaryPetitionSubmissionManager, self).create(
-            *args, **kwargs)
-
-    def get_queryset(self):
-        return super(SecretaryPetitionSubmissionManager, self).get_queryset()\
-            .filter(status=Petition.SUBMITTED_BY_SECRETARY)
-
-
 class SecretaryPetitionSubmission(Petition):
     """ A proxy model for the temporary submitted petitions by secretary. """
-    objects = SecretaryPetitionSubmissionManager()
+    objects = PetitionManager(Petition.SUBMITTED_BY_SECRETARY)
     required_fields = ('name', 'surname', 'iban', 'specialtyID', 'kind',
                        'taxRegNum', 'taxOffice',
                        'taskStartDate', 'taskEndDate',
