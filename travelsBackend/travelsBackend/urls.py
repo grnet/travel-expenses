@@ -1,5 +1,6 @@
 from django.conf.urls import url, include
 from rest_framework import routers
+from texpenses import views
 from django.contrib import admin
 from django.conf import settings
 from django.views.generic.base import RedirectView
@@ -36,6 +37,9 @@ router_petition.register(r'transportation', factory(
 # router_petition.register(r'user', views.PetitionUserView)
 router_petition.register(r'accommondation', factory(
     Accomondation, IsOwnerOrAdmin), base_name='accomondation')
+router_petition.register(r'advanced_petition',
+                         views.AdvancedPetitionViewSet,
+                         base_name='advancedpetition')
 router_petition.register(r'compensation-categories',
                          factory(Compensation, isAdminOrRead))
 router_petition.register(r'feeding', factory(

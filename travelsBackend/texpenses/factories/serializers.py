@@ -10,7 +10,7 @@ METHODS_TO_OVERRIDE = ['create', 'update', 'delete', 'validate']
 CUSTOM_SERIALIZERS_CODE = 'texpenses.serializers'
 
 
-def factory(mdl, api_name='APITravel'):
+def factory(mdl, nested_model=None, api_name='APITravel', hyperlink=True):
     """ Generalized serializer factory to increase DRYness of code.
 
     :param mdl: The model for the HyperLinkedModelSerializer
@@ -22,6 +22,9 @@ def factory(mdl, api_name='APITravel'):
     :return: A HyperLinkedModelSerializer
     """
     class AbstractSerializer(serializers.HyperlinkedModelSerializer):
+        if nested_model:
+            additional_data = factory(nested_model)(
+                many=True, source=nested_model.__name__.lower())
 
         class Meta:
             model = mdl
@@ -32,10 +35,10 @@ def factory(mdl, api_name='APITravel'):
             attrs = super(AbstractSerializer, self).validate(attrs)
             if self.instance is not None:
                 attrs['id'] = self.instance.id
+
             model_inst = mdl(**attrs)
             model_inst.clean()
             return attrs
-
     model_meta = getattr(mdl, api_name)
     utils.override_fields(
         AbstractSerializer.Meta, model_meta, FIELDS_TO_OVERRIDE)
