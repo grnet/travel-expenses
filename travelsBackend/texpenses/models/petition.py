@@ -545,7 +545,7 @@ class UserPetition(Petition):
 
     class APITravel:
         fields = Petition.APITravel.fields
-        read_only_fields = Petition.APITravel.fields
+        read_only_fields = Petition.APITravel.read_only_fields
 
     def save(self, **kwargs):
         self.status = self.SAVED_BY_USER
