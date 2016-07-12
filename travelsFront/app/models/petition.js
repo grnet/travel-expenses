@@ -112,7 +112,7 @@ export default DS.Model.extend(Validations, {
     }
   }),
   transportation: DS.belongsTo('transportation'),
-  flight: DS.belongsTo('flight'),
+  flight: DS.belongsTo('flight', {component:'paper-input'}),
   accomondation: DS.belongsTo('accommondation'),
   recCostParticipation: DS.attr({'label': 'Registration Cost'}),
   additional_expenses_initial: DS.attr({'label': 'Additional Costs'}),
