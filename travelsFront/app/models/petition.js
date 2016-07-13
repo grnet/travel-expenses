@@ -167,4 +167,8 @@ export default DS.Model.extend(Validations, {
   compensation_final: DS.attr(),
   total_cost: DS.attr(),
   advanced_info: DS.belongsTo('advanced-petition'),
+  petitionID: Ember.computed('id', function(){
+    // return just the status id
+    return _.last(this.get('id').replace(/\/$/, '').split('/'));
+  })
 });
