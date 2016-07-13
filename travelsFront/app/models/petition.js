@@ -23,9 +23,9 @@ export default DS.Model.extend(Validations, {
         },
         {
           'label': 'Travel Data',
-          'fields': ['dse', 'project', 'reason', 'movementCategory', 'departurePoint', 'arrivalPoint',
-          'taskStartDate', 'taskEndDate', 'depart_date', 'return_date', 'transportation', 'flight',
-          'accomondation', 'recCostParticipation', 'additional_expenses_initial', 'feeding', 'non_grnet_quota']
+          'fields': ['project', 'reason', 'movementCategories',  'departurePoint', 'arrivalPoint',
+          'taskStartDate', 'taskEndDate', 'depart_date', 'return_date', 'transportation', 
+          'recCostParticipation', 'additional_expenses_initial', 'additional_expenses_initial_description']
         },
       ],
       layout: {
@@ -86,7 +86,7 @@ export default DS.Model.extend(Validations, {
     textarea: true,
     rows: 20
   }}),
-  movementCategory: DS.belongsTo('movement-category'),
+  movementCategories: DS.belongsTo('movement-categories'),
   departurePoint: DS.belongsTo('city'),
   arrivalPoint: DS.belongsTo('city'),
 	taskStartDate: DS.attr({
@@ -112,7 +112,7 @@ export default DS.Model.extend(Validations, {
     }
   }),
   transportation: DS.belongsTo('transportation'),
-  flight: DS.belongsTo('flight', {component:'paper-input'}),
+  flight: DS.belongsTo('flight'),
   accomondation: DS.belongsTo('accommondation'),
   recCostParticipation: DS.attr({'label': 'Registration Cost'}),
   additional_expenses_initial: DS.attr({'label': 'Additional Costs'}),
@@ -166,5 +166,5 @@ export default DS.Model.extend(Validations, {
   max_compensation: DS.attr(),
   compensation_final: DS.attr(),
   total_cost: DS.attr(),
-  //advanced_info: DS.belongsTo('advanced-petition'),
+  advanced_info: DS.belongsTo('advanced-petition'),
 });
