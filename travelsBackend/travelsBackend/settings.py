@@ -56,7 +56,7 @@ REST_FRAMEWORK = {
 }
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': 'auth/password/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': API_PREFIX+'/auth/activate/{uid}/{token}',
+    'ACTIVATION_URL': API_PREFIX + '/auth/activate/{uid}/{token}',
     'PASSWORD_VALIDATORS': [],
     'SERIALIZERS': {},
     'SEND_ACTIVATION_EMAIL': True,
@@ -149,7 +149,7 @@ LOGGING = {
     }
 }
 
-
+ENUM_FILE = os.path.join(BASE_DIR, '../resources/common.json')
 # useful trick for custom settings
 try:
     from local_settings import *
