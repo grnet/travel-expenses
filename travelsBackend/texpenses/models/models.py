@@ -30,7 +30,15 @@ class TaxOffice(models.Model):
         return self.name
 
 
-class UserProfile(AbstractUser):
+class TravelUserProfile(models.Model):
+    """
+    An abstract model class which include all fields which describe the user
+    of `Travel Expenses Application`.
+
+    These fields actually are associated with personal info such as IBAN number
+    , Tax Office, etc. as well as, with the kind and specialty of user at
+    GRNET.
+    """
     SPECIALTIES = tuple([(k, v) for k, v in common.SPECIALTY.iteritems()])
     KINDS = tuple([(k, v) for k, v in common.KIND.iteritems()])
     USER_CATEGORIES = tuple([(category, category)
@@ -41,9 +49,25 @@ class UserProfile(AbstractUser):
     taxRegNum = models.CharField(max_length=9, blank=True, null=True,
                                  validators=[afm_validator])
     taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
-    kind = models.CharField(max_length=10, choices=KINDS, blank=True, null=True)
+    kind = models.CharField(max_length=10, choices=KINDS, blank=True,
+                            null=True)
     category = models.CharField(max_length=1, choices=USER_CATEGORIES,
                                 blank=False, null=False, default='B')
+
+    class Meta:
+        abstract = True
+
+
+class UserProfile(AbstractUser, TravelUserProfile):
+    """
+    Model for users of `Travel Expenses Application`.
+
+    It actually inherits from `AbstractUser` class of
+    `django.contib.auth.models` which define common fields such as first name,
+    last name, email, etc and from `TravelUserProfile` which define specific
+    fields for the user of `Travel Expenses Application`.
+    """
+
     trip_days_left = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
 
     class APITravel(object):
@@ -113,35 +137,6 @@ class City(models.Model):
     def __unicode__(self):
         """TODO: to be defined. """
         return self.name
-
-
-class UserSnapshot(models.Model):
-    """
-    Abstract model class which gets the information about a user profile at
-    the moment he is making a new petition.
-    """
-    first_name = models.CharField(max_length=200, blank=False, null=False)
-    last_name = models.CharField(max_length=200, blank=False, null=False)
-    SPECIALTIES = tuple([(k, v) for k, v in common.SPECIALTY.iteritems()])
-    KINDS = tuple([(k, v) for k, v in common.KIND.iteritems()])
-    USER_CATEGORIES = tuple([(category, category)
-                             for category in common.USER_CATEGORIES])
-
-    iban = models.CharField(max_length=200, blank=True, null=True,
-                            validators=[iban_validation])
-    specialtyID = models.CharField(max_length=10, choices=SPECIALTIES)
-    taxRegNum = models.CharField(max_length=9, blank=True, null=True,
-                                 validators=[afm_validator])
-    taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
-    kind = models.CharField(max_length=10, choices=KINDS, blank=True,
-                            null=True)
-    category = models.CharField(max_length=10, choices=USER_CATEGORIES,
-                                blank=True, null=True)
-    trip_days_before = models.IntegerField(blank=False, null=False,
-                                           validators=[MinValueValidator(0)])
-
-    class Meta:
-        abstract = True
 
 
 class TravelInfo(models.Model):
@@ -286,14 +281,8 @@ class SecretarialInfo(models.Model):
         abstract = True
 
 
-def get_next_dse():
-    try:
-        return Petition.objects.latest('dse').dse + 1
-    except:
-        return 1
 
-
-class Petition(UserSnapshot, SecretarialInfo):
+class Petition(TravelUserProfile, SecretarialInfo):
     SAVED_BY_USER = 1
     SUBMITTED_BY_USER = 2
     SAVED_BY_SECRETARY = 3
@@ -307,7 +296,7 @@ class Petition(UserSnapshot, SecretarialInfo):
 
     id = models.AutoField(primary_key=True)
     dse = models.IntegerField(
-        default=get_next_dse, blank=False, null=False)
+        default=1, blank=False, null=False)
     travel_info = models.ManyToManyField(TravelInfo, blank=False, null=False)
     user = models.ForeignKey(UserProfile, blank=False, null=False)
     taskStartDate = models.DateTimeField(blank=False, null=False)
@@ -326,6 +315,10 @@ class Petition(UserSnapshot, SecretarialInfo):
         validators=[MinValueValidator(0.0)])
     additional_expenses_initial_description = models.CharField(
         max_length=400, blank=True, null=True)
+    first_name = models.CharField(max_length=200, blank=False, null=False)
+    last_name = models.CharField(max_length=200, blank=False, null=False)
+    trip_days_before = models.IntegerField(blank=False, null=False, default=0,
+                                           validators=[MinValueValidator(0)])
 
     class APITravel:
         fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
