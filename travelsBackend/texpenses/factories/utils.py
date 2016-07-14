@@ -1,5 +1,4 @@
 import importlib
-import pkgutil
 import re
 
 
