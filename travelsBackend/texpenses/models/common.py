@@ -1,10 +1,9 @@
 import json
-
-DEFAULT_RESOURCE_LOCATION = "../resources/common.json"
+from django.conf import settings
 
 
 def load_resources():
-    with open(DEFAULT_RESOURCE_LOCATION) as json_file:
+    with open(settings.ENUM_FILE) as json_file:
         return json.load(json_file)
 
 
@@ -18,10 +17,10 @@ FEEDING = RESOURCES['FEEDING']
 
 
 COMPENSATION_CATEGORIES = {
-    ('1', '1'): 220.0,
-    ('1', '2'): 220.0,
-    ('1', '3'): 220.0,
-    ('2', '1'): 220.0,
-    ('2', '2'): 220.0,
-    ('2', '3'): 220.0,
+    ('A', 'A'): 220.0,
+    ('A', 'C'): 220.0,
+    ('A', 'B'): 220.0,
+    ('B', 'A'): 220.0,
+    ('B', 'B'): 220.0,
+    ('B', 'C'): 220.0,
 }
