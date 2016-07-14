@@ -31,8 +31,10 @@ def update(self, instance, validated_data):
 
 
 def validate(self, attrs):
-    model = self.Meta.model
     attrs = super(self.__class__, self).validate(attrs)
+    if 'user' not in attrs:
+        attrs['user'] = self.context['request'].user
+    model = self.Meta.model
     nested_attrs = attrs.pop('travel_info', [])
     for nested in nested_attrs:
         nested_inst = TravelInfo(travel_petition=model(**attrs), **nested)

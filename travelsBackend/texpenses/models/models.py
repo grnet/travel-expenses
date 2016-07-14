@@ -291,8 +291,7 @@ class Petition(TravelUserProfile, SecretarialInfo):
     DELETED = 100
 
     USER_FIELDS = ['first_name', 'last_name', 'iban', 'specialtyID', 'kind',
-                   'taxOffice', 'taxRegNum',
-                   'category']
+                   'taxOffice', 'taxRegNum', 'category']
 
     id = models.AutoField(primary_key=True)
     dse = models.IntegerField(
@@ -336,15 +335,18 @@ class Petition(TravelUserProfile, SecretarialInfo):
 
     def __init__(self, *args, **kwargs):
         super(Petition, self).__init__(*args, **kwargs)
-        for field in self.USER_FIELDS:
-            setattr(self, field, getattr(self.user, field))
+        user = kwargs.get('user', None)
+        if user:
+            for field in self.USER_FIELDS:
+                setattr(self, field, getattr(user, field))
 
     def clean(self):
         """
         Overrides `clean` method and checks if specified dates are valid.
         """
         super(Petition, self).clean()
-        self.validate_dates()
+        if self.taskStartDate and self.taskEndDate:
+            self.validate_dates()
 
     def validate_dates(self):
         date_validator(self.taskStartDate, self.taskEndDate,
