@@ -7,9 +7,9 @@ import requests
 from django.http import HttpResponse
 from rest_framework_tracking.mixins import LoggingMixin
 from djoser import views as djoser_views
-from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
+# from rest_framework.permissions import DjangoModelPermissions
 from texpenses.serializers import CustomUserRegistrationSerializer
-from texpenses.factories.serializers import factory
+# from texpenses.factories.serializers import factory
 
 
 logger = logging.getLogger(__name__)
@@ -93,14 +93,14 @@ class CustomRootView(LoggingMixin, djoser_views.RootView):
     pass
 
 
-class CustomUserDetailedView(LoggingMixin, djoser_views.UserView):
+# class CustomUserDetailedView(LoggingMixin, djoser_views.UserView):
 
-    """API endpoint that allows a user to view and edit his personal info"""
-    serializer_class = factory(User)
-    permission_classes = (
-        IsAuthenticated, DjangoModelPermissions,
-    )
-    queryset = User.objects.all()
+    # """API endpoint that allows a user to view and edit his personal info"""
+    # serializer_class = factory(User)
+    # permission_classes = (
+        # IsAuthenticated, DjangoModelPermissions,
+    # )
+    # queryset = User.objects.all()
 
 
 class CustomUserRegistrationView(LoggingMixin, djoser_views.RegistrationView):

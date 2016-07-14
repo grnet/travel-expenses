@@ -21,7 +21,6 @@ router_petition = routers.DefaultRouter()
 router_petition.register(r'project', factory(Project, isAdminOrRead))
 router_petition.register(r'city', factory(City, isAdminOrRead))
 router_petition.register(r'country', factory(Country, isAdminOrRead))
-# router_petition.register(r'user', views.PetitionUserView)
 router_petition.register(r'travel_info', factory(
     TravelInfo, isAdminOrRead))
 router_petition.register(r'additional-expenses',
