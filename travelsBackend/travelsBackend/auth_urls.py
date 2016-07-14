@@ -7,8 +7,6 @@ User = get_user_model()
 
 auth_urlpatterns = (
     url(r'^me/$', views.CustomUserView.as_view(), name='user'),
-    # url(r'^me/detailed/$', views.CustomUserDetailedView.as_view(),
-    # name='user_detailed'),
     url(r'^register/$', views.CustomUserRegistrationView.as_view(),
         name='register'),
     url(r'^activate/(?P<uid>\w{2,3})\/(?P<token>.*)',
