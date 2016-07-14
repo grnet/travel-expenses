@@ -1,5 +1,5 @@
-from datetime import datetime
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.utils import timezone
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Sum
@@ -259,7 +259,7 @@ class Petition(UserSnapshot, SecretarialInfo):
     taskStartDate = models.DateTimeField(blank=False, null=False)
     taskEndDate = models.DateTimeField(blank=False, null=False)
     creationDate = models.DateTimeField(blank=False, null=False,
-                                        default=datetime.now())
+                                        default=timezone.now())
     updateDate = models.DateTimeField(blank=True, null=True)
     project = models.ForeignKey(Project, blank=False, null=False)
     reason = models.CharField(max_length=500, blank=True, null=True)
