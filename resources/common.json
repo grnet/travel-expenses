@@ -23,8 +23,8 @@
     },
 
     "USER_CATEGORY": {
-        "1": 220.0,
-        "2": 160.0
+        "A": 220.0,
+        "B": 160.0
     },
 
     "MOVEMENT_CATEGORIES": {
