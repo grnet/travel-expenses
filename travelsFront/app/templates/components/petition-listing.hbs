@@ -8,8 +8,7 @@
   <td>{{petition.taskStartDate}}</td>
   <td>{{petition.taskEndDate}}</td>
   <td>{{petition.status.statusID}}</td>
-  <!-- <td>{{#paper-button type="submit" raised=true onClick=(action "petitionEdit" petition.id)}}Επεξεργασια{{/paper-button}}</td> -->
   <td>{{#link-to "petition" petition.petitionID}}Επεξεργασια{{/link-to}}</td>
-  <td>{{#paper-button type="submit" raised=true warn=true onClick=(action "petitionDelete" petition.id petition.status.name)}}Διαγραφη{{/paper-button}}</td>
-  <td>{{#paper-button type="submit" raised=true onClick=(action "petitionUndo" petition.id)}}Αναιρεση Υποβολης{{/paper-button}}</td>
+  <td>{{#paper-button type="submit" raised=true warn=true onClick=(action "petitionDelete" petition.petitionID petition.status.statusID)}}Διαγραφη{{/paper-button}}</td>
+  <td>{{#paper-button type="submit" raised=true onClick=(action "petitionUndo" petition.petitionID)}}Αναιρεση Υποβολης{{/paper-button}}</td>
 </tr>

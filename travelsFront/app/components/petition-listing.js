@@ -2,20 +2,19 @@ import Ember from 'ember';
 import ENV from 'travels-front/config/environment'; 
 
 export default Ember.Component.extend({
-
+	
 	deleteMessage: "",
 	statePetitionList: "",
 
 	actions: {
 
 		petitionDelete(id,status){
-
 			var self=this;
 			var model=this.get('model');
+			var store = this.get('targetObject.store');
 
-			if (status === "δημιουργηθείσα από μετακινούμενο"){
-
-				self.store.findRecord('petition', id).then(function(petition) {
+			if (status == 1){
+					store.findRecord('petition', id).then(function(petition) {
 					petition.destroyRecord().then(function() {
 
 						self.set('statePetitionList', true);
@@ -61,10 +60,5 @@ export default Ember.Component.extend({
 
 
 		},
-
-		petitionEdit(id){
-			id=id.substring(id.indexOf('user_petition/')+14,id.lastIndexOf('/'));
-			this.transitionToRoute('petition', id);
-		},	
 	}
 });
