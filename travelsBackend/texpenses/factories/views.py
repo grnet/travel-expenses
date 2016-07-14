@@ -20,7 +20,8 @@ METHODS_TO_OVERRIDE = ['create', 'update', 'delete']
 CUSTOM_VIEWS_CODE = 'texpenses.views'
 
 
-def factory(model_class, custom_permission, api_name='APITravel'):
+def factory(model_class, custom_permission, api_name='APITravel', nested=None,
+            serializer_module=None):
     """TODO: Docstring for viewset_factory.
 
     :model_class: TODO
@@ -35,10 +36,12 @@ def factory(model_class, custom_permission, api_name='APITravel'):
         authentication_classes = (SessionAuthentication, TokenAuthentication)
         permission_classes = (IsAuthenticated,) + (custom_permission,) + (
             DjangoModelPermissions,)
+
         queryset = model_class.objects.all()
         filter_backends = ()
         model_meta = getattr(model_class, api_name)
-        serializer_class = serializer_factory(model_class)
+        serializer_class = serializer_factory(model_class, nested,
+                                              serializer_module)
 
         def get_queryset(self):
             queryset = getattr(self.model_meta, 'get_queryset', None)
