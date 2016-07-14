@@ -2,48 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from texpenses.validators import afm_validator, iban_validation
-
-
-class Specialty(models.Model):
-
-    """Docstring for Specialty . """
-    name = models.CharField(max_length=200)
-    id = models.AutoField(primary_key=True)
-
-    class APITravel(object):
-        fields = ('name', 'id', 'url', )
-
-    def __unicode__(self):
-        return self.name
-
-
-class Kind(models.Model):
-
-    """Docstring for Kind. """
-
-    name = models.CharField(max_length=200)
-    id = models.AutoField(primary_key=True)
-
-    class APITravel(object):
-        fields = ('name', 'id', 'url', )
-
-    def __unicode__(self):
-        return self.name
-
-
-class UserCategory(models.Model):
-
-    """Docstring for User Category. """
-
-    name = models.CharField(max_length=10)
-    id = models.AutoField(primary_key=True)
-    max_overnight_cost = models.FloatField(default=0.0)
-
-    class APITravel(object):
-        fields = ('name', 'id', 'max_overnight_cost', 'url', )
-
-    def __unicode__(self):
-        return self.name
+from texpenses.models import common
 
 
 class TaxOffice(models.Model):
@@ -65,15 +24,19 @@ class TaxOffice(models.Model):
 
 
 class UserProfile(AbstractUser):
+    SPECIALTIES = tuple([(k, v) for k, v in common.SPECIALTY.iteritems()])
+    KINDS = tuple([(k, v) for k, v in common.KIND.iteritems()])
+    USER_CATEGORIES = tuple([(category, category)
+                             for category in common.USER_CATEGORIES])
     iban = models.CharField(max_length=200, blank=True, null=True,
                             validators=[iban_validation])
-    specialtyID = models.ForeignKey(Specialty, blank=True, null=True)
+    specialtyID = models.CharField(max_length=10, choices=SPECIALTIES)
     taxRegNum = models.CharField(max_length=9, blank=True, null=True,
                                  validators=[afm_validator])
     taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
-    kind = models.ForeignKey(Kind, blank=True, null=True)
-    category = models.ForeignKey(
-        UserCategory, blank=True, null=True, default=2)
+    kind = models.CharField(max_length=10, choices=KINDS, blank=True, null=True)
+    category = models.CharField(max_length=1, choices=USER_CATEGORIES,
+                                blank=False, null=False, default='B')
     trip_days_left = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
 
     class APITravel(object):
