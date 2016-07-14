@@ -1,15 +1,11 @@
 from django.conf.urls import url, include
 from rest_framework import routers
-from texpenses import views
 from django.contrib import admin
 from django.conf import settings
 from django.views.generic.base import RedirectView
 from texpenses.factories.views import factory
-from texpenses.models import (Specialty, TaxOffice, Kind, UserCategory,
-                              Project, MovementCategories, City, Country,
-                              CountryCategory, Transportation, Accomondation,
-                              Compensation, FeedingKind, Flight, UserProfile,
-                              PetitionStatus,
+from texpenses.models import (TaxOffice, Project, City, Country,
+                              UserProfile, TravelInfo,
                               AdditionalExpenses, UserPetition,
                               UserPetitionSubmission, SecretaryPetition,
                               SecretaryPetitionSubmission)
@@ -17,51 +13,36 @@ from texpenses.custom_permissions import IsOwnerOrAdmin, isAdminOrRead
 from . import auth_urls
 
 router = routers.DefaultRouter()
-router.register(r'specialty', factory(Specialty, isAdminOrRead))
 router.register(r'tax-office', factory(TaxOffice, isAdminOrRead))
-router.register(r'kind', factory(Kind, isAdminOrRead))
-router.register(r'category', factory(UserCategory, isAdminOrRead))
 router.register(r'users', factory(UserProfile, isAdminOrRead))
 
 
 router_petition = routers.DefaultRouter()
 router_petition.register(r'project', factory(Project, isAdminOrRead))
-router_petition.register(
-    r'movement-categories', factory(MovementCategories, isAdminOrRead))
 router_petition.register(r'city', factory(City, isAdminOrRead))
 router_petition.register(r'country', factory(Country, isAdminOrRead))
-router_petition.register(r'country-categories', factory(
-    CountryCategory, isAdminOrRead))
-router_petition.register(r'transportation', factory(
-    Transportation, isAdminOrRead))
 # router_petition.register(r'user', views.PetitionUserView)
-router_petition.register(r'accommondation', factory(
-    Accomondation, IsOwnerOrAdmin), base_name='accomondation')
-router_petition.register(r'advanced_petition',
-                         views.AdvancedPetitionViewSet,
-                         base_name='advancedpetition')
-router_petition.register(r'compensation-categories',
-                         factory(Compensation, isAdminOrRead))
-router_petition.register(r'feeding', factory(
-    FeedingKind, isAdminOrRead))
-router_petition.register(r'flight', factory(Flight, IsOwnerOrAdmin),
-                         base_name='flight')
+router_petition.register(r'travel_info', factory(
+    TravelInfo, isAdminOrRead))
 router_petition.register(r'additional-expenses',
                          factory(AdditionalExpenses, IsOwnerOrAdmin),
                          base_name='additionalexpenses')
 
-router_petition.register(
-    r'petition-status', factory(PetitionStatus, isAdminOrRead))
 
 router_petition.register(
-    r'user_petition', factory(UserPetition, IsOwnerOrAdmin))
+    r'user_petition', factory(UserPetition, IsOwnerOrAdmin, nested=TravelInfo,
+                              serializer_module='petition'))
 router_petition.register(
-    r'secretary_petition', factory(SecretaryPetition, IsOwnerOrAdmin))
+    r'secretary_petition', factory(SecretaryPetition, IsOwnerOrAdmin,
+                                   nested=TravelInfo,
+                                   serializer_module='petition'))
 router_petition.register(
-    r'submitted', factory(UserPetitionSubmission, IsOwnerOrAdmin))
+    r'submitted', factory(UserPetitionSubmission, IsOwnerOrAdmin,
+                          nested=TravelInfo, serializer_module='petition'))
 router_petition.register(
     r'secretary_submitted', factory(SecretaryPetitionSubmission,
-                                    IsOwnerOrAdmin))
+                                    IsOwnerOrAdmin, nested=TravelInfo,
+                                    serializer_module='petition'))
 
 
 # Wire up our API using automatic URL routing.
