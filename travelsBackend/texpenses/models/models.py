@@ -31,6 +31,7 @@ class TaxOffice(models.Model):
 
 
 class TravelUserProfile(models.Model):
+
     """
     An abstract model class which include all fields which describe the user
     of `Travel Expenses Application`.
@@ -59,6 +60,7 @@ class TravelUserProfile(models.Model):
 
 
 class UserProfile(AbstractUser, TravelUserProfile):
+
     """
     Model for users of `Travel Expenses Application`.
 
@@ -140,6 +142,7 @@ class City(models.Model):
 
 
 class TravelInfo(models.Model):
+
     """
     An abstract model class that represents travel information.
 
@@ -251,6 +254,7 @@ class TravelInfo(models.Model):
 
 
 class SecretarialInfo(models.Model):
+
     """
     Abstract model which includes information that secretary fills.
     """
@@ -279,7 +283,6 @@ class SecretarialInfo(models.Model):
 
     class Meta:
         abstract = True
-
 
 
 class Petition(TravelUserProfile, SecretarialInfo):
@@ -423,7 +426,7 @@ class Petition(TravelUserProfile, SecretarialInfo):
     def overnights_proposed(self):
         return sum(travel.overnights_num_proposed(
             self.taskStartDate, self.taskEndDate)
-                   for travel in self.travel_info.all())
+            for travel in self.travel_info.all())
 
     def overnights_sum_cost(self):
         return sum(travel.overnight_cost()
@@ -458,6 +461,7 @@ class Petition(TravelUserProfile, SecretarialInfo):
 
 
 class PetitionManager(models.Manager):
+
     def __init__(self, status, *args, **kwargs):
         self.status = status
         super(PetitionManager, self).__init__(*args, **kwargs)
@@ -473,6 +477,7 @@ class PetitionManager(models.Manager):
 
 
 class UserPetition(Petition):
+
     """ A proxy model for the temporary saved petition by user. """
     objects = PetitionManager(Petition.SAVED_BY_USER)
 
@@ -489,6 +494,7 @@ class UserPetition(Petition):
 
 
 class UserPetitionSubmission(Petition):
+
     """ A proxy model for the temporary submitted petitions by user. """
     objects = PetitionManager(Petition.SUBMITTED_BY_USER)
     required_fields = ('taskStartDate', 'taskEndDate',
@@ -518,6 +524,7 @@ class UserPetitionSubmission(Petition):
 
 
 class SecretaryPetition(Petition):
+
     """ A proxy model for the temporary saved petitions by secretary. """
     objects = PetitionManager(Petition.SAVED_BY_SECRETARY)
 
@@ -539,10 +546,12 @@ class SecretaryPetition(Petition):
 
     def save(self, *args, **kwargs):
         self.status = self.SAVED_BY_SECRETARY
+        self.updateDate = timezone.now()
         super(SecretaryPetition, self).save(*args, **kwargs)
 
 
 class SecretaryPetitionSubmission(Petition):
+
     """ A proxy model for the temporary submitted petitions by secretary. """
     objects = PetitionManager(Petition.SUBMITTED_BY_SECRETARY)
     required_fields = ('name', 'surname', 'iban', 'specialtyID', 'kind',
