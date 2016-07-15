@@ -47,7 +47,7 @@ class TravelUserProfile(models.Model):
                             validators=[iban_validation])
     specialty = models.CharField(max_length=10, choices=SPECIALTIES)
     tax_reg_num = models.CharField(max_length=9, blank=True, null=True,
-                                 validators=[afm_validator])
+                                   validators=[afm_validator])
     tax_office = models.ForeignKey(TaxOffice, blank=True, null=True)
     kind = models.CharField(max_length=10, choices=KINDS, blank=True,
                             null=True)
