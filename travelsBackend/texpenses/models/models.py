@@ -294,8 +294,7 @@ class Petition(TravelUserProfile, SecretarialInfo):
                    'taxOffice', 'taxRegNum', 'category']
 
     id = models.AutoField(primary_key=True)
-    dse = models.IntegerField(
-        default=1, blank=False, null=False)
+    dse = models.IntegerField(blank=False, null=False)
     travel_info = models.ManyToManyField(TravelInfo, blank=False, null=False)
     user = models.ForeignKey(UserProfile, blank=False, null=False)
     taskStartDate = models.DateTimeField(blank=False, null=False)
@@ -316,8 +315,6 @@ class Petition(TravelUserProfile, SecretarialInfo):
         max_length=400, blank=True, null=True)
     first_name = models.CharField(max_length=200, blank=False, null=False)
     last_name = models.CharField(max_length=200, blank=False, null=False)
-    trip_days_before = models.IntegerField(blank=False, null=False, default=0,
-                                           validators=[MinValueValidator(0)])
 
     class APITravel:
         fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
@@ -326,8 +323,9 @@ class Petition(TravelUserProfile, SecretarialInfo):
                   'project', 'reason', 'additional_data',
                   'additional_expenses_initial', 'additional_data',
                   'additional_expenses_initial_description',
-                  'trip_days_before', 'status', 'participation_cost',
-                  'url', 'overnights_sum_cost', 'compensation_final',
+                  'trip_days_before', 'trip_days_after', 'status',
+                  'participation_cost', 'url', 'overnights_sum_cost',
+                  'compensation_final',
                   'total_cost', 'overnights_proposed')
         read_only_fields = ('id', 'user', 'url', 'first_name', 'last_name',
                             'kind', 'specialtyID', 'taxOffice', 'taxRegNum',
@@ -347,6 +345,14 @@ class Petition(TravelUserProfile, SecretarialInfo):
         super(Petition, self).clean()
         if self.taskStartDate and self.taskEndDate:
             self.validate_dates()
+
+    def save(self, *args, **kwargs):
+        if not self.dse:
+            try:
+                self.dse = Petition.objects.latest('dse').dse + 1
+            except ObjectDoesNotExist:
+                self.dse = 1
+        super(Petition, self).save(*args, **kwargs)
 
     def validate_dates(self):
         date_validator(self.taskStartDate, self.taskEndDate,
@@ -404,8 +410,11 @@ class Petition(TravelUserProfile, SecretarialInfo):
         return sum(travel.transport_days_manual
                    for travel in self.travel_info.all())
 
+    def trip_days_before(self):
+        return self.user.trip_days_left
+
     def trip_days_after(self):
-        return self.trip_days_before - self.transport_days()
+        return self.user.trip_days_left - self.transport_days()
 
     def overnights_num(self):
         return sum(travel.overnights_num_manual
@@ -485,7 +494,7 @@ class UserPetitionSubmission(Petition):
     required_fields = ('taskStartDate', 'taskEndDate',
                        'project', 'reason', 'movementCategory',
                        'departurePoint', 'arrivalPoint', 'transportation',
-                       'trip_days_before')
+                       'trip_days_after')
 
     class Meta:
         proxy = True
@@ -540,8 +549,7 @@ class SecretaryPetitionSubmission(Petition):
                        'taxRegNum', 'taxOffice',
                        'taskStartDate', 'taskEndDate',
                        'project', 'reason',
-                       'status', 'user_category', 'trip_days_before',
-                       'trip_days_after',
+                       'status', 'user_category',
                        'additional_expenses_initial_description',
                        'additional_expenses_initial', 'non_grnet_quota',
                        'grnet_quota',
@@ -567,6 +575,8 @@ class SecretaryPetitionSubmission(Petition):
         super(SecretaryPetitionSubmission, self).clean()
 
     def save(self, **kwargs):
+        self.user.trip_days_left -= self.transport_days()
+        self.user.save()
         self.status = self.SUBMITTED_BY_SECRETARY
         # Remove temporary saved petition with the corresponding dse.
         try:
