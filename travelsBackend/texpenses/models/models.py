@@ -46,10 +46,10 @@ class TravelUserProfile(models.Model):
                              for category in common.USER_CATEGORIES])
     iban = models.CharField(max_length=200, blank=True, null=True,
                             validators=[iban_validation])
-    specialtyID = models.CharField(max_length=10, choices=SPECIALTIES)
-    taxRegNum = models.CharField(max_length=9, blank=True, null=True,
+    specialty = models.CharField(max_length=10, choices=SPECIALTIES)
+    tax_reg_num = models.CharField(max_length=9, blank=True, null=True,
                                  validators=[afm_validator])
-    taxOffice = models.ForeignKey(TaxOffice, blank=True, null=True)
+    tax_office = models.ForeignKey(TaxOffice, blank=True, null=True)
     kind = models.CharField(max_length=10, choices=KINDS, blank=True,
                             null=True)
     category = models.CharField(max_length=1, choices=USER_CATEGORIES,
@@ -75,7 +75,7 @@ class UserProfile(AbstractUser, TravelUserProfile):
     class APITravel(object):
         fields = ('username', 'first_name', 'last_name',
                   'email', 'password',
-                  'iban', 'specialtyID', 'kind', 'taxRegNum', 'taxOffice',
+                  'iban', 'specialty', 'kind', 'tax_reg_num', 'tax_office',
                   'category', 'user_group', 'trip_days_left')
         read_only_fields = (
             'username',
@@ -96,10 +96,10 @@ class Project(models.Model):
     """Docstring for Project. """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, blank=True, null=True)
-    accountingCode = models.CharField(max_length=20)
+    accounting_code = models.CharField(max_length=20)
 
     class APITravel(object):
-        fields = ('id', 'name', 'accountingCode', 'url')
+        fields = ('id', 'name', 'accounting_code', 'url')
 
     def __unicode__(self):
         return self.name
@@ -159,9 +159,9 @@ class TravelInfo(models.Model):
 
     depart_date = models.DateTimeField(blank=True, null=True)
     return_date = models.DateTimeField(blank=True, null=True)
-    departurePoint = models.ForeignKey(
+    departure_point = models.ForeignKey(
         City, blank=False, null=False, related_name='travel_departure_point')
-    arrivalPoint = models.ForeignKey(City, blank=False, null=False,
+    arrival_point = models.ForeignKey(City, blank=False, null=False,
                                      related_name='travel_arrival_point')
     transportation = models.CharField(choices=TRANSPORTATIONS,
                                       max_length=10, blank=True, null=True)
@@ -182,7 +182,7 @@ class TravelInfo(models.Model):
         if self.depart_date and self.return_date:
             date_validator(self.depart_date, self.return_date,
                            ('depart', 'return'))
-            date_validator(self.depart_date, self.petition.taskEndDate,
+            date_validator(self.depart_date, self.petition.task_end_date,
                            ('depart', 'task end'))
         self.validate_overnight_cost()
         super(TravelInfo, self).clean()
@@ -238,13 +238,13 @@ class TravelInfo(models.Model):
         return self.accomondation_price * self.overnights_num_manual
 
     def is_city_ny(self):
-        if self.arrivalPoint is None:
+        if self.arrival_point is None:
             return False
-        return self.arrivalPoint.name == "NEW YORK"
+        return self.arrival_point.name == "NEW YORK"
 
     class APITravel:
         fields = ('id', 'url', 'depart_date', 'return_date',
-                  'departurePoint', 'arrivalPoint',
+                  'departure_point', 'arrival_point',
                   'transportation',
                   'accomondation_price', 'transportation_price',
                   'transport_days_manual',
@@ -293,18 +293,18 @@ class Petition(TravelUserProfile, SecretarialInfo):
     CANCELLED = 10
     DELETED = 100
 
-    USER_FIELDS = ['first_name', 'last_name', 'iban', 'specialtyID', 'kind',
-                   'taxOffice', 'taxRegNum', 'category']
+    USER_FIELDS = ['first_name', 'last_name', 'iban', 'specialty', 'kind',
+                   'tax_office', 'tax_reg_num', 'category']
 
     id = models.AutoField(primary_key=True)
     dse = models.IntegerField(blank=False, null=False)
     travel_info = models.ManyToManyField(TravelInfo, blank=False, null=False)
     user = models.ForeignKey(UserProfile, blank=False, null=False)
-    taskStartDate = models.DateTimeField(blank=False, null=False)
-    taskEndDate = models.DateTimeField(blank=False, null=False)
-    creationDate = models.DateTimeField(blank=False, null=False,
+    task_start_date = models.DateTimeField(blank=False, null=False)
+    task_end_date = models.DateTimeField(blank=False, null=False)
+    created = models.DateTimeField(blank=False, null=False,
                                         default=timezone.now())
-    updateDate = models.DateTimeField(blank=True, null=True)
+    updated = models.DateTimeField(blank=True, null=True)
     project = models.ForeignKey(Project, blank=False, null=False)
     reason = models.CharField(max_length=500, blank=True, null=True)
     status = models.IntegerField(blank=True, null=True)
@@ -321,8 +321,8 @@ class Petition(TravelUserProfile, SecretarialInfo):
 
     class APITravel:
         fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
-                  'specialtyID', 'taxOffice', 'taxRegNum', 'category', 'user',
-                  'taskStartDate', 'taskEndDate', 'travel_info',
+                  'specialty', 'tax_office', 'tax_reg_num', 'category', 'user',
+                  'task_start_date', 'task_end_date', 'travel_info',
                   'project', 'reason', 'additional_data',
                   'additional_expenses_initial', 'additional_data',
                   'additional_expenses_initial_description',
@@ -331,7 +331,7 @@ class Petition(TravelUserProfile, SecretarialInfo):
                   'compensation_final',
                   'total_cost', 'overnights_proposed')
         read_only_fields = ('id', 'user', 'url', 'first_name', 'last_name',
-                            'kind', 'specialtyID', 'taxOffice', 'taxRegNum',
+                            'kind', 'specialty', 'tax_office', 'tax_reg_num',
                             'category', 'status', 'dse', 'travel_info')
 
     def __init__(self, *args, **kwargs):
@@ -346,7 +346,7 @@ class Petition(TravelUserProfile, SecretarialInfo):
         Overrides `clean` method and checks if specified dates are valid.
         """
         super(Petition, self).clean()
-        if self.taskStartDate and self.taskEndDate:
+        if self.task_start_date and self.task_end_date:
             self.validate_dates()
 
     def save(self, *args, **kwargs):
@@ -358,12 +358,12 @@ class Petition(TravelUserProfile, SecretarialInfo):
         super(Petition, self).save(*args, **kwargs)
 
     def validate_dates(self):
-        date_validator(self.taskStartDate, self.taskEndDate,
+        date_validator(self.task_start_date, self.task_end_date,
                        ('task start', 'task end'))
 
     def compensation_days_proposed(self):
-        tsd = self.taskStartDate
-        ted = self.taskEndDate
+        tsd = self.task_start_date
+        ted = self.task_end_date
 
         dd = self.depart_date
         if tsd is None or ted is None or dd is None:
@@ -387,7 +387,7 @@ class Petition(TravelUserProfile, SecretarialInfo):
         except IndexError:
             return 0
         compensation = common.COMPENSATION_CATEGORIES[(
-            self.category, travel_obj.arrivalPoint.country.category)]
+            self.category, travel_obj.arrival_point.country.category)]
         comp_sum = self.compensation_days_manual * compensation\
             + self.additional_expenses_sum()
         if self.same_day_return_task(
@@ -403,11 +403,11 @@ class Petition(TravelUserProfile, SecretarialInfo):
         return comp_sum * decrease_rate * (self.grnet_quota() / 100)
 
     def same_day_return_task(self, depart_date, return_date):
-        if self.taskEndDate is None or return_date is None \
-                or self.taskStartDate is None or depart_date is None:
+        if self.task_end_date is None or return_date is None \
+                or self.task_start_date is None or depart_date is None:
             return False
-        return self.taskEndDate.date() == return_date.date()\
-            == self.taskStartDate.date() == depart_date.date()
+        return self.task_end_date.date() == return_date.date()\
+            == self.task_start_date.date() == depart_date.date()
 
     def transport_days(self):
         return sum(travel.transport_days_manual
@@ -425,7 +425,7 @@ class Petition(TravelUserProfile, SecretarialInfo):
 
     def overnights_proposed(self):
         return sum(travel.overnights_num_proposed(
-            self.taskStartDate, self.taskEndDate)
+            self.task_start_date, self.task_end_date)
             for travel in self.travel_info.all())
 
     def overnights_sum_cost(self):
@@ -433,9 +433,9 @@ class Petition(TravelUserProfile, SecretarialInfo):
                    for travel in self.travel_info.all())
 
     def task_duration(self):
-        if self.taskEndDate is None or self.taskStartDate is None:
+        if self.task_end_date is None or self.task_start_date is None:
             return 0
-        return (self.taskEndDate - self.taskStartDate).days
+        return (self.task_end_date - self.task_start_date).days
 
     def max_overnight_cost(self):
         EXTRA_COST = 100
@@ -497,9 +497,9 @@ class UserPetitionSubmission(Petition):
 
     """ A proxy model for the temporary submitted petitions by user. """
     objects = PetitionManager(Petition.SUBMITTED_BY_USER)
-    required_fields = ('taskStartDate', 'taskEndDate',
+    required_fields = ('task_start_date', 'task_end_date',
                        'project', 'reason', 'movementCategory',
-                       'departurePoint', 'arrivalPoint', 'transportation',
+                       'departure_point', 'arrival_point', 'transportation',
                        'trip_days_after')
 
     class Meta:
@@ -541,12 +541,12 @@ class SecretaryPetition(Petition):
             'compensation_decision_protocol',
             'compensation_decision_date')
         read_only_fields = ('id', 'url', 'first_name', 'last_name',
-                            'kind', 'specialtyID', 'taxOffice', 'taxRegNum',
+                            'kind', 'specialty', 'tax_office', 'tax_reg_num',
                             'category', 'status', 'dse', 'travel_info')
 
     def save(self, *args, **kwargs):
         self.status = self.SAVED_BY_SECRETARY
-        self.updateDate = timezone.now()
+        self.updated = timezone.now()
         super(SecretaryPetition, self).save(*args, **kwargs)
 
 
@@ -554,9 +554,9 @@ class SecretaryPetitionSubmission(Petition):
 
     """ A proxy model for the temporary submitted petitions by secretary. """
     objects = PetitionManager(Petition.SUBMITTED_BY_SECRETARY)
-    required_fields = ('name', 'surname', 'iban', 'specialtyID', 'kind',
-                       'taxRegNum', 'taxOffice',
-                       'taskStartDate', 'taskEndDate',
+    required_fields = ('name', 'surname', 'iban', 'specialty', 'kind',
+                       'tax_reg_num', 'tax_office',
+                       'task_start_date', 'task_end_date',
                        'project', 'reason',
                        'status', 'user_category',
                        'additional_expenses_initial_description',
