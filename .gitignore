@@ -17,6 +17,7 @@ travelsBackend/texpenses/.admin.py.swp
 travelsBackend/texpenses/migrations/
 instructions.txt~
 travelsBackend/texpenses/migrations/*
+../resources/.*.swo
 #backend sqlite testing db
 
 *.sqlite3
