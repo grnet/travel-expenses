@@ -13,6 +13,7 @@ from texpenses.validators import (
 
 
 class TaxOffice(models.Model):
+
     """ Model which contains all tax offices of Greece. """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
@@ -22,8 +23,7 @@ class TaxOffice(models.Model):
     phone = models.CharField(max_length=20)
 
     class APITravel(object):
-        fields = ('name', 'description', 'address',
-                  'email', 'phone', 'id', 'url',)
+        pass
 
     def __unicode__(self):
         return self.name
@@ -96,11 +96,11 @@ class Project(models.Model):
     """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, blank=True, null=True)
-    accounting_code = models.CharField(max_length=20)
-    # TODO Add the owner of a project.
+    accountingCode = models.CharField(max_length=20)
+    manager = models.ForeignKey(UserProfile, blank=True, null=True)
 
     class APITravel(object):
-        fields = ('id', 'name', 'accounting_code', 'url')
+        pass
 
     def __unicode__(self):
         return self.name
@@ -125,7 +125,7 @@ class Country(models.Model):
     category = models.CharField(choices=CATEGORIES, max_length=1, default='A')
 
     class APITravel(object):
-        fields = ('id', 'name', 'category', 'url')
+        pass
 
     def __unicode__(self):
         """TODO: to be defined1. """
@@ -140,7 +140,6 @@ class City(models.Model):
     country = models.ForeignKey(Country, blank=True, null=True)
 
     class APITravel(object):
-        fields = ('id', 'name', 'country', 'url')
         filter_fields = ('country',)
 
     def __unicode__(self):
@@ -224,7 +223,7 @@ class TravelInfo(models.Model):
             return 0
         time_period = (self.depart_date + timedelta(x + 1)
                        for x in xrange(
-                            (self.return_date - self.depart_date).days))
+                       (self.return_date - self.depart_date).days))
         return sum(1 for day in time_period if day.weekday() not in WEEKENDS)
 
     def overnights_num_proposed(self, task_start_date, task_end_date):
@@ -250,7 +249,7 @@ class TravelInfo(models.Model):
             else max(self.depart_date, task_start_date)
         last_day = max(task_end_date, self.return_date) if (
             self.return_date - task_end_date).days == 1 else min(
-                task_end_date, self.return_date)
+            task_end_date, self.return_date)
         return (last_day.date() - first_day.date()).days
 
     def overnight_cost(self):
@@ -268,14 +267,7 @@ class TravelInfo(models.Model):
             return False
 
     class APITravel:
-        fields = ('id', 'url', 'depart_date', 'return_date',
-                  'departure_point', 'arrival_point',
-                  'transportation',
-                  'accomondation_price', 'transportation_price',
-                  'transport_days_manual',
-                  'overnights_num_manual',
-                  'feeding', 'movement_num')
-        read_only_fields = ('id', 'url')
+        pass
 
 
 class SecretarialInfo(models.Model):
@@ -426,7 +418,7 @@ class Petition(TravelUserProfile, SecretarialInfo):
         """
         # TODO fix this in case of multiple destinations.
         if self.task_start_date is None or self.task_end_date is None\
-            or self.depart_date is None:
+                or self.depart_date is None:
             return 0
         result = self.task_end_date.date() - self.task_end_date.date()
         result = result.days
@@ -561,9 +553,9 @@ class UserPetition(Petition):
     class Meta:
         proxy = True
 
-    class APITravel:
-        fields = Petition.APITravel.fields
-        read_only_fields = Petition.APITravel.read_only_fields
+    # class APITravel:
+        # fields = Petition.APITravel.fields
+        # read_only_fields = Petition.APITravel.read_only_fields
 
 
 class UserPetitionSubmission(Petition):
@@ -577,9 +569,9 @@ class UserPetitionSubmission(Petition):
     class Meta:
         proxy = True
 
-    class APITravel:
-        fields = Petition.APITravel.fields
-        read_only_fields = Petition.APITravel.read_only_fields
+    # class APITravel:
+        # fields = Petition.APITravel.fields
+        # read_only_fields = Petition.APITravel.read_only_fields
 
     def clean(self):
         required_validator(self, self.required_fields)
@@ -673,7 +665,8 @@ class AdditionalExpenses(models.Model):
     user = models.ForeignKey(UserProfile)
 
     class APITravel:
-        fields = ('id', 'name', 'cost', 'petition', 'url')
+        # fields = ('id', 'name', 'cost', 'petition', 'url')
+        pass
 
         @staticmethod
         def get_queryset(request_user):
