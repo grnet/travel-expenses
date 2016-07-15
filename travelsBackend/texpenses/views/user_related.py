@@ -8,7 +8,9 @@ from django.http import HttpResponse
 from rest_framework_tracking.mixins import LoggingMixin
 from djoser import views as djoser_views
 from texpenses.serializers import CustomUserRegistrationSerializer
-
+from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
+from texpenses.models import UserProfile
+from texpenses.factories.serializers import factory
 
 logger = logging.getLogger(__name__)
 
@@ -95,3 +97,14 @@ class CustomUserRegistrationView(LoggingMixin, djoser_views.RegistrationView):
 
     """API endpoint for registering a new user"""
     serializer_class = CustomUserRegistrationSerializer
+
+
+class CustomUserDetailedView(LoggingMixin, djoser_views.UserView):
+
+    """API endpoint that allows a user to view and edit his personal info"""
+
+    serializer_class = factory(UserProfile)
+    permission_classes = (
+        IsAuthenticated, DjangoModelPermissions,
+    )
+    queryset = User.objects.all()
