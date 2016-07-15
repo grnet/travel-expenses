@@ -357,6 +357,10 @@ class Petition(TravelUserProfile, SecretarialInfo):
                 self.dse = 1
         super(Petition, self).save(*args, **kwargs)
 
+    def delete(self):
+        self.status = self.DELETED
+        self.save()
+
     def validate_dates(self):
         date_validator(self.task_start_date, self.task_end_date,
                        ('task start', 'task end'))
@@ -488,10 +492,6 @@ class UserPetition(Petition):
         fields = Petition.APITravel.fields
         read_only_fields = Petition.APITravel.read_only_fields
 
-    def save(self, **kwargs):
-        self.status = self.SAVED_BY_USER
-        super(UserPetition, self).save(**kwargs)
-
 
 class UserPetitionSubmission(Petition):
 
@@ -514,7 +514,6 @@ class UserPetitionSubmission(Petition):
         super(UserPetitionSubmission, self).clean()
 
     def save(self, **kwargs):
-        self.status = self.SUBMITTED_BY_USER
         # Remove temporary saved petition with the corresponding dse.
         try:
             UserPetition.objects.get(dse=self.dse).delete()
@@ -545,7 +544,6 @@ class SecretaryPetition(Petition):
                             'category', 'status', 'dse', 'travel_info')
 
     def save(self, *args, **kwargs):
-        self.status = self.SAVED_BY_SECRETARY
         self.updated = timezone.now()
         super(SecretaryPetition, self).save(*args, **kwargs)
 
@@ -586,7 +584,6 @@ class SecretaryPetitionSubmission(Petition):
     def save(self, **kwargs):
         self.user.trip_days_left -= self.transport_days()
         self.user.save()
-        self.status = self.SUBMITTED_BY_SECRETARY
         # Remove temporary saved petition with the corresponding dse.
         try:
             SecretaryPetition.objects.get(dse=self.dse).delete()
