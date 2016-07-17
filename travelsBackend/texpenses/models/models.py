@@ -220,8 +220,7 @@ class TravelInfo(models.Model):
         """
         workdays = networkdays(start_date, end_date, holidays=[])
         delta = end_date.date() - start_date.date()
-        holidays = delta.days - workdays
-        return holidays
+        return delta.days - workdays
 
     def transport_days_proposed(self):
         """
@@ -258,10 +257,10 @@ class TravelInfo(models.Model):
         first_day = min(self.depart_date, task_start_date)\
             if (task_start_date - self.depart_date).days == 1\
             else max(self.depart_date, task_start_date)
-        last_day = max(task_end_date, self.depart_date) if (
+        last_day = max(task_end_date, self.return_date) if (
             self.return_date - task_end_date).days == 1 else min(
-                task_end_date, self.depart_date)
-        return (last_day - first_day).days
+                task_end_date, self.return_date)
+        return (last_day.date() - first_day.date()).days
 
     def overnight_cost(self):
         """ Returns total overnight cost. """
@@ -272,9 +271,10 @@ class TravelInfo(models.Model):
         Checks if city is `New YORK` and returns True if this is the case;
         False otherwise.
         """
-        if self.arrival_point is None:
+        try:
+            return self.arrival_point.name.lower() == "new york"
+        except City.DoesNotExist:
             return False
-        return self.arrival_point.name == "NEW YORK"
 
     class APITravel:
         fields = ('id', 'url', 'depart_date', 'return_date',
