@@ -1,122 +1,56 @@
+from datetime import datetime, timedelta
+from django.core.exceptions import ValidationError
 from django.test import TestCase
-from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
-from .models import UserProfile
-from rest_framework.test import APIClient
-from rest_framework.authtoken.models import Token
-from django.core.urlresolvers import reverse
-from rest_framework import status
-from rest_framework.test import APITestCase
-from validators import iban_validation
-from validators import afm_validator
+from texpenses.models import City, TravelInfo, Petition
 
 
-class UserRESTApiTests(TestCase):
-    password = 'kostas'
-    username = 'kostas'
-    email = 'kostas@gmail.com'
+class TravelInfoTest(TestCase):
+    def setUp(self):
+        travel_petition = Petition(category='A')
+        self.travel_obj = TravelInfo(travel_petition=travel_petition,
+                                     accomondation_price=0.0)
 
-    def create_user(self):
-        print "Creating new user:"
-        return User.objects.create_user(
-            username=self.username, password=self.password, email=self.email)
+    def test_validate_overnight_cost(self):
+        self.travel_obj.validate_overnight_cost()
+        self.travel_obj.accomondation_price = float('inf')
+        self.assertRaises(ValidationError,
+                          self.travel_obj.validate_overnight_cost)
 
-    def test_user_exists(self):
-        user = self.create_user()
-        print "Done."
-        user_profile = UserProfile(user=user)
+    def test_transport_days_proposed(self):
+        date = datetime.now()
+        self.assertEqual(self.travel_obj.transport_days_proposed(), 0)
+        self.travel_obj.depart_date = date
+        self.assertEqual(self.travel_obj.transport_days_proposed(), 0)
+        self.travel_obj.return_date = date + timedelta(days=7)
+        # We remove weekends, that's why five.
+        self.assertEqual(self.travel_obj.transport_days_proposed(), 5)
 
-        print user_profile.user.username
+    def test_overnights_num_proposed(self):
+        end_date = datetime.now()
+        start_date = datetime.now() - timedelta(days=7)
+        self.assertEqual(self.travel_obj.overnights_num_proposed(
+            start_date, end_date), 0)
 
-        user = authenticate(username=self.username, password=self.password)
+        self.travel_obj.return_date = end_date
+        self.assertEqual(self.travel_obj.overnights_num_proposed(
+            start_date, end_date), 0)
 
-        if user is not None:
-            # the password verified for the user
-            if user.is_active:
-                print("User is valid, active and authenticated")
-            else:
-                print(
-                    "The password is valid, but the account has been disabled!")
-        else:
-            # the authentication system was unable to verify the username and
-            # password
-            print("The username and password were incorrect.")
+        self.travel_obj.depart_date = start_date
+        self.assertEqual(self.travel_obj.overnights_num_proposed(
+            start_date, end_date), 7)
 
-    def test_see_urls(self):
-        """TODO: Docstring for test_see_urls.
-        :returns: TODO
+        self.travel_obj.return_date += timedelta(days=1)
+        self.assertEqual(self.travel_obj.overnights_num_proposed(
+            start_date, end_date), 8)
 
-        """
-        from rest_framework import routers
-        router = routers.DefaultRouter()
-        router.urls.append(r'^auth/login/$')
-        print router.urls
+        self.travel_obj.depart_date -= timedelta(days=1)
+        self.assertEqual(self.travel_obj.overnights_num_proposed(
+            start_date, end_date), 9)
 
-    def test_login(self):
-        self.create_user()
-        print "Done"
-        client = APIClient()
-
-        result = client.login(username=self.username, password=self.password)
-        print "Result is:" + str(result)
-        self.assertTrue(
-            result, msg="User:" + self.username + ", does not exist")
-
-    def test_user_credentials(self):
-        self.create_user()
-        print "Done"
-        token = Token.objects.get(user__username=self.username)
-        client = APIClient()
-        result = client.credentials(HTTP_AUTHORIZATION='Token' + token.key)
-        print result
-
-
-class UserProfileTests(APITestCase):
-
-    password = 'kostas'
-    username = 'kostas'
-    email = 'kostas@gmail.com'
-
-    def create_user(self):
-        return User.objects.create_user(
-            username=self.username, password=self.password, email=self.email)
-
-    def test_create_user_profile(self):
-        url = reverse('users/userprofiles')
-        user = self.create_user()
-        data = {'name': 'kostas', 'surname':
-                'vogias', 'user': user}
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(UserProfile.objects.count(), 1)
-        self.assertEqual(UserProfile.objects.get().name, 'kostas')
-
-    def test_user_is_superuser(self):
-        user = self.create_user()
-        print "User: " + self.username + " is superuser:"\
-            + str(user.is_superuser)
-
-
-class UserFormValidation(TestCase):
-
-    def test_iban_validator(self):
-        """TODO: Docstring for test_iban_validator.
-        :returns: TODO
-
-        """
-        print "\nRunning iban validator test"
-        iban = "GR160110125000000001230069a"
-        iban_validation(iban)
-        print "============================="
-
-    def test_afm_validator(self):
-        """TODO: Docstring for test_afm_validator.
-        :returns: TODO
-
-        """
-        print "\nRunning afm validator test"
-        # afm = "002345612"
-        afm = 011111111
-        # afm = 000000000
-        afm_validator(afm)
-        print "============================"
+    def test_is_city_ny(self):
+        self.assertFalse(self.travel_obj.is_city_ny())
+        city = City(name='ATHENS')
+        self.travel_obj.arrival_point = city
+        self.assertFalse(self.travel_obj.is_city_ny())
+        self.travel_obj.arrival_point.name = 'NEW YORK'
+        self.assertTrue(self.travel_obj.is_city_ny())
