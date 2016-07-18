@@ -147,7 +147,7 @@ class City(models.Model):
         return self.name
 
 
-class Accommondation(models.Model):
+class Accommodation(models.Model):
 
     """
     An abstract model that represents the accommondation related info
@@ -155,12 +155,12 @@ class Accommondation(models.Model):
     WAYS_OF_PAYMENT_LOOKUP = tuple([(k, v)
                                    for k, v in
                                    common.WAYS_OF_PAYMENT.iteritems()])
-    accommmondation_price = models.FloatField(
+    accommodation_price = models.FloatField(
         blank=False, null=False, default=0.0)
-    accomondation_payment_way = models.CharField(max_length=30,
+    accommodation_payment_way = models.CharField(max_length=30,
                                                  choices=WAYS_OF_PAYMENT_LOOKUP,
                                                  blank=True, null=True)
-    accomondation_payment_description = models.CharField(
+    accommodation_payment_description = models.CharField(
         max_length=200, blank=True, null=True)
 
     class Meta:
@@ -187,7 +187,7 @@ class Transportation(models.Model):
         abstract = True
 
 
-class TravelInfo(Accommondation, Transportation):
+class TravelInfo(Accommodation, Transportation):
 
     """
     An abstract model class that represents travel information.
@@ -238,11 +238,11 @@ class TravelInfo(Accommondation, Transportation):
         :raises: ValidationError if accomondation price exceeds the allowable
         limit.
         """
-        if self.accommondation_price > common.USER_CATEGORIES[
+        if self.accommodation_price > common.USER_CATEGORIES[
                 self.travel_petition.category]:
             raise ValidationError('Accomondation price %.2f for petition with'
                                   ' DSE %s exceeds the max overnight cost.' % (
-                                      self.accommondation_price,
+                                      self.accommodation_price,
                                       str(self.travel_petition.dse)))
 
     def transport_days_proposed(self):
@@ -290,7 +290,7 @@ class TravelInfo(Accommondation, Transportation):
 
     def overnight_cost(self):
         """ Returns total overnight cost. """
-        return self.accommondation_price * self.overnights_num_manual
+        return self.accommodation_price * self.overnights_num_manual
 
     def is_city_ny(self):
         """
