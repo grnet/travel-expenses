@@ -147,6 +147,24 @@ class City(models.Model):
         return self.name
 
 
+class Accommondation(models.Model):
+
+    """
+    An abstract model that represents the accommondation related info
+    """
+    WAYS_OF_PAYMENT_LOOKUP = tuple([(k, v)
+                                   for k, v in
+                                   common.WAYS_OF_PAYMENT.iteritems()])
+    price = models.FloatField(blank=False, null=False, default=0.0)
+    payment_way = models.CharField(
+        choices=WAYS_OF_PAYMENT_LOOKUP, blank=True, null=True)
+    payment_description = models.CharField(
+        max_length=200, blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+
 class TravelInfo(models.Model):
 
     """
