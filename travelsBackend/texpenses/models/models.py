@@ -280,7 +280,7 @@ class TravelInfo(Accommodation, Transportation):
             else max(self.depart_date, task_start_date)
         last_day = max(task_end_date, self.return_date) if (
             self.return_date - task_end_date).days == 1 else min(
-            task_end_date, self.return_date)
+                task_end_date, self.return_date)
         return (last_day.date() - first_day.date()).days
 
     def overnight_cost(self):
@@ -340,14 +340,13 @@ class ParticipationInfo(models.Model):
     An abstract model that represents the participation cost related info
     """
     WAYS_OF_PAYMENT = tuple([(k, v)
-                             for k, v in
-                             common.WAYS_OF_PAYMENT.iteritems()])
-    participation_cost = models.FloatField(blank=False, null=False, default=0.0,
-                                           validators=[MinValueValidator(0.0)])
+                             for k, v in common.WAYS_OF_PAYMENT.iteritems()])
+    participation_cost = models.FloatField(
+        blank=False, null=False, default=0.0,
+        validators=[MinValueValidator(0.0)])
 
-    participation_payment_way = models.CharField(max_length=30,
-                                                 choices=WAYS_OF_PAYMENT,
-                                                 blank=True, null=True)
+    participation_payment_way = models.CharField(
+        max_length=30, choices=WAYS_OF_PAYMENT, blank=True, null=True)
     participation_payment_description = models.CharField(
         max_length=200, blank=True, null=True)
 
@@ -528,7 +527,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
     def overnights_proposed(self):
         return sum(travel.overnights_num_proposed(
             self.task_start_date, self.task_end_date)
-            for travel in self.travel_info.all())
+                   for travel in self.travel_info.all())
 
     def overnights_sum_cost(self):
         """ Total accommodation for all destinations. """
