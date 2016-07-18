@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.test import APITestCase
+from rest_framework.authtoken.models import Token
 from texpenses.models import (
     City, TravelInfo, Petition, UserPetition, Project, UserProfile, TaxOffice,
     UserPetitionSubmission, SecretaryPetition, SecretaryPetitionSubmission)
@@ -34,20 +35,25 @@ class APIPetitionTest(APITestCase):
         tax_office = TaxOffice.objects.create(
             name='test', description='test', address='test',
             email='test@example.com', phone='2104344444')
-        self.user = UserProfile.objects.create(
-            first_name='Nick', last_name='Jones', email='test@email.com',
-            iban='GR4902603280000910200635494',
+        self.user = UserProfile.objects.create_user(
+            username='admin', first_name='Nick', last_name='Jones',
+            email='test@email.com', is_staff=True,
+            iban='GR4902603280000910200635494', is_superuser=True,
+            password='test',
             specialty='1', tax_reg_num=150260153,
             tax_office=tax_office, category='A',
             trip_days_left=5)
         self.city = City.objects.create(name='Athens')
         self.project = Project.objects.create(name='Test Project',
                                               accounting_code=1)
-        self.client.force_authenticate(user=self.user)
+        token = Token.objects.create(user=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        self.client.force_authenticate(user=self.user, token=token)
         self.project_url = get_url('project-list', str(self.project.id))
         self.user_url = '/api/users_related/users/1/'
 
     def test_create_user_petition(self):
+        self.client.force_authenticate(user=self.user)
         UserPetitionSubmission.required_fields = ()
         SecretaryPetitionSubmission.required_fields = ()
         self.assertRaises(ObjectDoesNotExist,
@@ -87,7 +93,7 @@ class APIPetitionTest(APITestCase):
         city_url = get_url('city-list', str(self.city.id))
         additional_data = [{'arrival_point': city_url,
                             'departure_point': city_url,
-                            'accomondation_price': float('inf')}]
+                            'accommondation_price': float('inf')}]
         data['additional_data'] = additional_data
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -141,10 +147,10 @@ class APIPetitionTest(APITestCase):
                 self.assertTrue(field in TravelInfo.APITravel.fields)
 
             # Check nested updates.
-            accomondation_price = 10
+            accommondation_price = 10
             additional_data = [{'arrival_point': city_url,
                                 'departure_point': city_url,
-                                'accomondation_price': accomondation_price},
+                                'accommondation_price': accommondation_price},
                                {'arrival_point': city_url,
                                 'departure_point': city_url}]
             data['additional_data'] = additional_data
@@ -155,7 +161,7 @@ class APIPetitionTest(APITestCase):
             travel_info = petition['travel_info']
             self.assertEqual(len(travel_info), 2)
             response = self.client.get(travel_info[0])
-            self.assertEqual(response.data['accomondation_price'],
-                             accomondation_price)
+            self.assertEqual(response.data['accommondation_price'],
+                             accommondation_price)
             response = self.client.get(travel_info[1])
-            self.assertEqual(response.data['accomondation_price'], 0.0)
+            self.assertEqual(response.data['accommondation_price'], 0.0)
