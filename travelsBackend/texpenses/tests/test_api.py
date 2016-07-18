@@ -75,13 +75,12 @@ class APIPetitionTest(APITestCase):
 
     def test_status_400_petition(self):
         url = '/api/petition/user_petition/'
-        required_fields = ('project', 'task_start_date', 'task_end_date',
+        required_fields = ('project',
                            'additional_data')
         project_url = get_url('project-list', str(self.project.id))
         self.assertRaises(ObjectDoesNotExist,
                           Petition.objects.get, project=self.project)
-        data = {'project': project_url, 'task_start_date': self.start_date,
-                'task_end_date': self.end_date, 'additional_data': []}
+        data = {'project': project_url, 'additional_data': []}
         for field in required_fields:
             value = data.pop(field)
             response = self.client.post(url, data, format='json')
@@ -98,7 +97,7 @@ class APIPetitionTest(APITestCase):
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         validation_message = 'Accomondation price inf for petition with DSE' +\
-                ' 1 exceeds the max overnight cost.'
+            ' 1 exceeds the max overnight cost.'
         self.assertEqual(response.data,
                          {'non_field_errors': [validation_message]})
 
@@ -119,6 +118,28 @@ class APIPetitionTest(APITestCase):
                 'non_field_errors': [
                     'Field %s is required' % repr('participation_cost')]})
             data['participation_cost'] = participation_cost
+
+    def test_submission_permissions(self):
+            UserPetitionSubmission.required_fields = ()
+            SecretaryPetitionSubmission.required_fields = ()
+            data = {'project': self.project_url,
+                    'task_start_date': self.start_date,
+                    'task_end_date': self.end_date, 'additional_data': []}
+            for model, url in SUBMISSION_APIS.iteritems():
+                response = self.client.post(url, data, format='json')
+                self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+                # test put
+                response = self.client.put(url, data, format='json')
+                self.assertEqual(
+                    response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+                # test patch
+                response = self.client.patch(url, data, format='json')
+                self.assertEqual(
+                    response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+                # test delete
+                response = self.client.delete(url, data, format='json')
+                self.assertEqual(
+                    response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_nested_serialization(self):
         UserPetitionSubmission.required_fields = ()
