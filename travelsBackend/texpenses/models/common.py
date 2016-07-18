@@ -14,13 +14,14 @@ USER_CATEGORIES = RESOURCES['USER_CATEGORY']
 MOVEMENT_CATEGORIES = RESOURCES['MOVEMENT_CATEGORIES']
 TRANSPORTATION = RESOURCES['TRANSPORTATION']
 FEEDING = RESOURCES['FEEDING']
+WAYS_OF_PAYMENT = RESOURCES['WAYS_OF_PAYMENT']
 
 
 COMPENSATION_CATEGORIES = {
-    ('A', 'A'): 220.0,
-    ('A', 'C'): 220.0,
-    ('A', 'B'): 220.0,
-    ('B', 'A'): 220.0,
-    ('B', 'B'): 220.0,
-    ('B', 'C'): 220.0,
+    ('A', 'A'): 100.0,
+    ('A', 'B'): 80.0,
+    ('A', 'C'): 60.0,
+    ('B', 'A'): 80.0,
+    ('B', 'B'): 60.0,
+    ('B', 'C'): 50.0,
 }
