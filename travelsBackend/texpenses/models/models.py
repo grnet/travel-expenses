@@ -378,8 +378,8 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
     dse = models.IntegerField(blank=False, null=False)
     travel_info = models.ManyToManyField(TravelInfo, blank=False, null=False)
     user = models.ForeignKey(UserProfile, blank=False, null=False)
-    task_start_date = models.DateTimeField(blank=False, null=False)
-    task_end_date = models.DateTimeField(blank=False, null=False)
+    task_start_date = models.DateTimeField(blank=True, null=True)
+    task_end_date = models.DateTimeField(blank=True, null=True)
     created = models.DateTimeField(blank=False, null=False,
                                    default=timezone.now())
     updated = models.DateTimeField(blank=True, null=True)
