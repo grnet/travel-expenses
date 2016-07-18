@@ -372,6 +372,8 @@ class Petition(TravelUserProfile, SecretarialInfo):
     def __init__(self, *args, **kwargs):
         super(Petition, self).__init__(*args, **kwargs)
         user = kwargs.get('user', None)
+        if not self.dse:
+            self.set_next_dse()
         if user:
             for field in self.USER_FIELDS:
                 setattr(self, field, getattr(user, field))
@@ -389,11 +391,6 @@ class Petition(TravelUserProfile, SecretarialInfo):
         Overrides the `save` method of models and in case that dse is not
         specified, increases it by one.
         """
-        if not self.dse:
-            try:
-                self.dse = Petition.objects.latest('dse').dse + 1
-            except ObjectDoesNotExist:
-                self.dse = 1
         super(Petition, self).save(*args, **kwargs)
 
     def delete(self):
@@ -405,6 +402,18 @@ class Petition(TravelUserProfile, SecretarialInfo):
         """
         self.status = self.DELETED
         self.save()
+
+    def set_next_dse(self):
+        """
+        This method sets the default value for DSE field.
+
+        This value is serial number according to the existing petitions.
+        If there is no any petition, then `DSE` is set to `1`.
+        """
+        try:
+            self.dse = Petition.objects.latest('dse').dse + 1
+        except ObjectDoesNotExist:
+            self.dse = 1
 
     def validate_dates(self):
         """
@@ -502,22 +511,9 @@ class Petition(TravelUserProfile, SecretarialInfo):
 
     def task_duration(self):
         """ Gets the duration of task. """
-        if self.task_end_date is None or self.task_start_date is None:
+        if not (self.task_start_date and self.task_end_date):
             return 0
         return (self.task_end_date - self.task_start_date).days
-
-    def max_overnight_cost(self):
-        """
-        Gets the maximum amount that is allowable to be spend for accomondation
-        expenses.
-
-        It is defined by user category. However, if arrival point is
-        `New York`, limit is increased by 100.
-        """
-        EXTRA_COST = 100
-        default_max_overnight_cost = self.category.max_overnight_cost
-        return default_max_overnight_cost + EXTRA_COST if self.is_city_ny()\
-            else default_max_overnight_cost
 
     def additional_expenses_sum(self):
         """ Gets the total cost of additional expenses. """
@@ -584,9 +580,8 @@ class UserPetitionSubmission(Petition):
     """ A proxy model for the temporary submitted petitions by user. """
     objects = PetitionManager(Petition.SUBMITTED_BY_USER)
     required_fields = ('task_start_date', 'task_end_date',
-                       'project', 'reason', 'movementCategory',
-                       'departure_point', 'arrival_point', 'transportation',
-                       'trip_days_after')
+                       'project', 'reason', 'departure_point', 'arrival_point',
+                       'transportation')
 
     class Meta:
         proxy = True
@@ -668,9 +663,6 @@ class SecretaryPetitionSubmission(Petition):
         super(SecretaryPetitionSubmission, self).clean()
 
     def save(self, **kwargs):
-        # Update allowable number of trip days.
-        self.user.trip_days_left -= self.transport_days()
-        self.user.save()
         # Remove temporary saved petition with the corresponding dse.
         try:
             SecretaryPetition.objects.get(dse=self.dse).delete()
