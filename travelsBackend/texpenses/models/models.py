@@ -155,17 +155,39 @@ class Accommondation(models.Model):
     WAYS_OF_PAYMENT_LOOKUP = tuple([(k, v)
                                    for k, v in
                                    common.WAYS_OF_PAYMENT.iteritems()])
-    price = models.FloatField(blank=False, null=False, default=0.0)
-    payment_way = models.CharField(
-        choices=WAYS_OF_PAYMENT_LOOKUP, blank=True, null=True)
-    payment_description = models.CharField(
+    accommmondation_price = models.FloatField(
+        blank=False, null=False, default=0.0)
+    accomondation_payment_way = models.CharField(max_length=30,
+                                                 choices=WAYS_OF_PAYMENT_LOOKUP,
+                                                 blank=True, null=True)
+    accomondation_payment_description = models.CharField(
         max_length=200, blank=True, null=True)
 
     class Meta:
         abstract = True
 
 
-class TravelInfo(models.Model):
+class Transportation(models.Model):
+
+    """
+    An abstract model that represents the transportation related info
+    """
+    WAYS_OF_PAYMENT = tuple([(k, v)
+                             for k, v in
+                             common.WAYS_OF_PAYMENT.iteritems()])
+    transportation_price = models.FloatField(
+        blank=False, null=False, default=0.0)
+    transportation_payment_way = models.CharField(max_length=30,
+                                                  choices=WAYS_OF_PAYMENT,
+                                                  blank=True, null=True)
+    transportation_payment_description = models.CharField(
+        max_length=200, blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+
+class TravelInfo(Accommondation, Transportation):
 
     """
     An abstract model class that represents travel information.
@@ -187,12 +209,8 @@ class TravelInfo(models.Model):
         City, blank=False, null=False, related_name='travel_departure_point')
     arrival_point = models.ForeignKey(City, blank=False, null=False,
                                       related_name='travel_arrival_point')
-    transportation = models.CharField(choices=TRANSPORTATIONS,
-                                      max_length=10, blank=True, null=True)
-    accomondation_price = models.FloatField(blank=False, null=False,
-                                            default=0.0)
-    transportation_price = models.FloatField(blank=False, null=False,
-                                             default=0.0)
+    vehicle = models.CharField(choices=TRANSPORTATIONS,
+                               max_length=10, blank=True, null=True)
     transport_days_manual = models.IntegerField(blank=False, null=False,
                                                 default=0)
     overnights_num_manual = models.IntegerField(blank=False, null=False,
@@ -214,17 +232,17 @@ class TravelInfo(models.Model):
 
     def validate_overnight_cost(self):
         """
-        Checks that the accomondation_price does not surpass the maximum
+        Checks that the accommondation_price does not surpass the maximum
         overnight limit based on the category of user.
 
         :raises: ValidationError if accomondation price exceeds the allowable
         limit.
         """
-        if self.accomondation_price > common.USER_CATEGORIES[
+        if self.accommondation_price > common.USER_CATEGORIES[
                 self.travel_petition.category]:
             raise ValidationError('Accomondation price %.2f for petition with'
                                   ' DSE %s exceeds the max overnight cost.' % (
-                                      self.accomondation_price,
+                                      self.accommondation_price,
                                       str(self.travel_petition.dse)))
 
     def transport_days_proposed(self):
@@ -272,7 +290,7 @@ class TravelInfo(models.Model):
 
     def overnight_cost(self):
         """ Returns total overnight cost. """
-        return self.accomondation_price * self.overnights_num_manual
+        return self.accommondation_price * self.overnights_num_manual
 
     def is_city_ny(self):
         """
@@ -320,7 +338,28 @@ class SecretarialInfo(models.Model):
         abstract = True
 
 
-class Petition(TravelUserProfile, SecretarialInfo):
+class ParticipationInfo(models.Model):
+
+    """
+    An abstract model that represents the participation cost related info
+    """
+    WAYS_OF_PAYMENT = tuple([(k, v)
+                             for k, v in
+                             common.WAYS_OF_PAYMENT.iteritems()])
+    participation_cost = models.FloatField(blank=False, null=False, default=0.0,
+                                           validators=[MinValueValidator(0.0)])
+
+    participation_payment_way = models.CharField(max_length=30,
+                                                 choices=WAYS_OF_PAYMENT,
+                                                 blank=True, null=True)
+    participation_payment_description = models.CharField(
+        max_length=200, blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+
+class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
     SAVED_BY_USER = 1
     SUBMITTED_BY_USER = 2
     SAVED_BY_SECRETARY = 3
@@ -344,9 +383,7 @@ class Petition(TravelUserProfile, SecretarialInfo):
     project = models.ForeignKey(Project, blank=False, null=False)
     reason = models.CharField(max_length=500, blank=True, null=True)
     status = models.IntegerField(blank=True, null=True)
-    participation_cost = models.FloatField(
-        blank=False, null=False, default=0.0,
-        validators=[MinValueValidator(0.0)])
+
     additional_expenses_initial = models.FloatField(
         blank=False, null=False, default=0.0,
         validators=[MinValueValidator(0.0)])
@@ -582,7 +619,7 @@ class UserPetitionSubmission(Petition):
     objects = PetitionManager(Petition.SUBMITTED_BY_USER)
     required_fields = ('task_start_date', 'task_end_date',
                        'project', 'reason', 'departure_point', 'arrival_point',
-                       'transportation')
+                       'vehicle')
 
     class Meta:
         proxy = True
