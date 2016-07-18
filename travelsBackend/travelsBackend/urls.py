@@ -9,7 +9,8 @@ from texpenses.models import (TaxOffice, Project, City, Country,
                               AdditionalExpenses, UserPetition,
                               UserPetitionSubmission, SecretaryPetition,
                               SecretaryPetitionSubmission)
-from texpenses.custom_permissions import IsOwnerOrAdmin, isAdminOrRead
+from texpenses.custom_permissions import IsOwnerOrAdmin, isAdminOrRead,\
+    SubmissionPermissions
 from . import auth_urls
 
 router = routers.DefaultRouter()
@@ -36,11 +37,11 @@ router_petition.register(
                                    nested=TravelInfo,
                                    serializer_module='petition'))
 router_petition.register(
-    r'submitted', factory(UserPetitionSubmission, IsOwnerOrAdmin,
+    r'submitted', factory(UserPetitionSubmission, SubmissionPermissions,
                           nested=TravelInfo, serializer_module='petition'))
 router_petition.register(
     r'secretary_submitted', factory(SecretaryPetitionSubmission,
-                                    IsOwnerOrAdmin, nested=TravelInfo,
+                                    SubmissionPermissions, nested=TravelInfo,
                                     serializer_module='petition'))
 
 
