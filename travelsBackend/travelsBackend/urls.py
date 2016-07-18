@@ -14,35 +14,37 @@ from texpenses.custom_permissions import IsOwnerOrAdmin, isAdminOrRead,\
 from . import auth_urls
 
 router = routers.DefaultRouter()
-router.register(r'tax-office', factory(TaxOffice, isAdminOrRead))
 router.register(r'users', factory(UserProfile, isAdminOrRead))
 
-
+router_user = routers.DefaultRouter()
+router_secretary = routers.DefaultRouter()
 router_petition = routers.DefaultRouter()
-router_petition.register(r'project', factory(Project, isAdminOrRead))
-router_petition.register(r'city', factory(City, isAdminOrRead))
-router_petition.register(r'country', factory(Country, isAdminOrRead))
+router_resources = routers.DefaultRouter()
+
+router_resources.register(r'tax-office', factory(TaxOffice, isAdminOrRead))
+router_resources.register(r'project', factory(Project, isAdminOrRead))
+router_resources.register(r'city', factory(City, isAdminOrRead))
+router_resources.register(r'country', factory(Country, isAdminOrRead))
+
 router_petition.register(r'travel_info', factory(
     TravelInfo, isAdminOrRead))
 router_petition.register(r'additional-expenses',
                          factory(AdditionalExpenses, IsOwnerOrAdmin),
                          base_name='additionalexpenses')
 
-
-router_petition.register(
-    r'user_petition', factory(UserPetition, IsOwnerOrAdmin, nested=TravelInfo,
-                              serializer_module='petition'))
-router_petition.register(
-    r'secretary_petition', factory(SecretaryPetition, IsOwnerOrAdmin,
-                                   nested=TravelInfo,
-                                   serializer_module='petition'))
-router_petition.register(
-    r'submitted', factory(UserPetitionSubmission, SubmissionPermissions,
+router_user.register(
+    r'saved', factory(UserPetition, SubmissionPermissions, nested=TravelInfo,
+                      serializer_module='petition'))
+router_secretary.register(
+    r'saved', factory(SecretaryPetition, SubmissionPermissions,
+                      nested=TravelInfo, serializer_module='petition'))
+router_user.register(
+    r'submitted', factory(UserPetitionSubmission, IsOwnerOrAdmin,
                           nested=TravelInfo, serializer_module='petition'))
-router_petition.register(
-    r'secretary_submitted', factory(SecretaryPetitionSubmission,
-                                    SubmissionPermissions, nested=TravelInfo,
-                                    serializer_module='petition'))
+router_secretary.register(
+    r'submitted', factory(SecretaryPetitionSubmission,
+                          SubmissionPermissions, nested=TravelInfo,
+                          serializer_module='petition'))
 
 
 # Wire up our API using automatic URL routing.
@@ -53,7 +55,11 @@ urlpatterns = [
     url(r'^' + api_prefix + '/admin/', include(admin.site.urls)),
     url(r'^' + api_prefix + '/auth/', include(auth_urls)),
     url(r'^' + api_prefix + '/users_related/', include(router.urls)),
+    url(r'^' + api_prefix + '/resources/', include(router_resources.urls)),
     url(r'^' + api_prefix + '/petition/', include(router_petition.urls)),
+    url(r'^' + api_prefix + '/petition/user/', include(router_user.urls)),
+    url(r'^' + api_prefix + '/petition/secretary/',
+        include(router_secretary.urls)),
     url(r'^' + api_prefix + '/docs/', include('rest_framework_docs.urls')),
 
 ]
