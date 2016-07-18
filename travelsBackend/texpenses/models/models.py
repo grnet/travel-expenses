@@ -368,7 +368,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
 
     id = models.AutoField(primary_key=True)
     dse = models.IntegerField(blank=False, null=False)
-    travel_info = models.ManyToManyField(TravelInfo, blank=False, null=False)
+    travel_info = models.ManyToManyField(TravelInfo, blank=False)
     user = models.ForeignKey(UserProfile, blank=False, null=False)
     task_start_date = models.DateTimeField(blank=True, null=True)
     task_end_date = models.DateTimeField(blank=True, null=True)
