@@ -1,3 +1,4 @@
+from datetime import timedelta
 from django.conf import settings
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.utils import timezone
@@ -5,7 +6,6 @@ from django.core.validators import MinValueValidator
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import Sum
-from workdays import networkdays
 from texpenses.models.services import get_queryset_on_group
 from texpenses.models import common
 from texpenses.validators import (
@@ -210,18 +210,6 @@ class TravelInfo(models.Model):
                                       self.accomondation_price,
                                       str(self.travel_petition.dse)))
 
-    def holidays(self, start_date, end_date, holidays=[]):
-        """TODO: Docstring for holidays.
-
-        :start_date: TODO
-        :end_date: TODO
-        :returns: TODO
-
-        """
-        workdays = networkdays(start_date, end_date, holidays=[])
-        delta = end_date.date() - start_date.date()
-        return delta.days - workdays
-
     def transport_days_proposed(self):
         """
         Method which calculates the number of transport days based on the
@@ -231,10 +219,13 @@ class TravelInfo(models.Model):
 
         :returns: Proposed transport_days.
         """
+        WEEKENDS = [5, 6]
         if self.depart_date is None or self.return_date is None:
             return 0
-        delta = self.return_date.date() - self.depart_date.date()
-        return delta.days - self.holidays(self.depart_date, self.return_date)
+        time_period = (self.depart_date + timedelta(x + 1)
+                       for x in xrange(
+                            (self.return_date - self.depart_date).days))
+        return sum(1 for day in time_period if day.weekday() not in WEEKENDS)
 
     def overnights_num_proposed(self, task_start_date, task_end_date):
         """
