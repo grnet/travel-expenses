@@ -5,7 +5,6 @@ export default DS.Model.extend({
     ns: 'users_related'
   },
 	name: DS.attr(),
-	category: DS.belongsTo('country-category'),
+	category: DS.attr(),
 	url: DS.attr()
-
 });
