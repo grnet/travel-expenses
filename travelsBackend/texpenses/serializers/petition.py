@@ -1,4 +1,4 @@
-from texpenses.models import TravelInfo
+from texpenses.models import TravelInfo, SecretaryPetitionSubmission
 
 
 def create(self, validated_data):
@@ -8,6 +8,9 @@ def create(self, validated_data):
         travel_obj = TravelInfo(travel_petition=petition, **travel)
         travel_obj.save()
         petition.travel_info.add(travel_obj)
+        if self.Meta.model is SecretaryPetitionSubmission:
+            petition.user.trip_days_left -= petition.transport_days()
+            petition.user.save()
     return petition
 
 
