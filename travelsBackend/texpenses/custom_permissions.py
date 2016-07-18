@@ -4,7 +4,7 @@ from rest_framework import permissions
 class SubmissionPermissions(permissions.BasePermission):
 
     """Docstring for SubmissionPermissions. """
-    SUBMISSION_SAFE_METHODS = ('GET', 'OPTIONS', 'HEAD', 'POST')
+    SUBMISSION_SAFE_METHODS = permissions.SAFE_METHODS + tuple('POST')
 
     def has_permission(self, request, view):
         return request.user or request.user.is_staff

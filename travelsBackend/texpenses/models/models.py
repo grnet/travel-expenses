@@ -426,13 +426,6 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         if self.task_start_date and self.task_end_date:
             self.validate_dates()
 
-    def save(self, *args, **kwargs):
-        """
-        Overrides the `save` method of models and in case that dse is not
-        specified, increases it by one.
-        """
-        super(Petition, self).save(*args, **kwargs)
-
     def delete(self):
         """
         Overrides the `delete` method of model.
