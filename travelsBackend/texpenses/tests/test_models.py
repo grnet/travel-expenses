@@ -10,11 +10,11 @@ class TravelInfoTest(TestCase):
     def setUp(self):
         travel_petition = Petition(category='A')
         self.travel_obj = TravelInfo(travel_petition=travel_petition,
-                                     accommondation_price=0.0)
+                                     accommodation_price=0.0)
 
     def test_validate_overnight_cost(self):
         self.travel_obj.validate_overnight_cost()
-        self.travel_obj.accommondation_price = float('inf')
+        self.travel_obj.accommodation_price = float('inf')
         self.assertRaises(ValidationError,
                           self.travel_obj.validate_overnight_cost)
 
@@ -81,7 +81,7 @@ class PetitionTest(TestCase):
             status=1, user=self.user, project=self.project)
         self.travel_info = TravelInfo.objects.create(
             return_date=self.end_date, depart_date=self.start_date,
-            accommondation_price=10,
+            accommodation_price=10,
             transport_days_manual=4,
             overnights_num_manual=4,
             arrival_point=city,

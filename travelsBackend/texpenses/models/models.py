@@ -147,19 +147,19 @@ class City(models.Model):
         return self.name
 
 
-class Accommondation(models.Model):
+class Accommodation(models.Model):
 
     """
-    An abstract model that represents the accommondation related info
+    An abstract model that represents the accommodation related info
     """
     WAYS_OF_PAYMENT_LOOKUP = tuple([(k, v)
                                    for k, v in
                                    common.WAYS_OF_PAYMENT.iteritems()])
-    accommondation_price = models.FloatField(
+    accommodation_price = models.FloatField(
         blank=False, null=False, default=0.0)
-    accomondation_payment_way = models.CharField(
+    accommodation_payment_way = models.CharField(
         max_length=30, choices=WAYS_OF_PAYMENT_LOOKUP, blank=True, null=True)
-    accomondation_payment_description = models.CharField(
+    accommodation_payment_description = models.CharField(
         max_length=200, blank=True, null=True)
 
     class Meta:
@@ -185,13 +185,13 @@ class Transportation(models.Model):
         abstract = True
 
 
-class TravelInfo(Accommondation, Transportation):
+class TravelInfo(Accommodation, Transportation):
 
     """
     An abstract model class that represents travel information.
 
     Travel information are associated with the duration, departure and arrival
-    point, transportation, accomondation, etc.
+    point, transportation, accommodation, etc.
     """
     TRANSPORTATIONS = tuple([(k, v)
                              for k, v in common.TRANSPORTATION.iteritems()])
@@ -230,21 +230,21 @@ class TravelInfo(Accommondation, Transportation):
 
     def validate_overnight_cost(self):
         """
-        Checks that the accommondation_price does not surpass the maximum
+        Checks that the accommodation_price does not surpass the maximum
         overnight limit based on the category of user.
 
-        :raises: ValidationError if accomondation price exceeds the allowable
+        :raises: ValidationError if accommodation price exceeds the allowable
         limit.
         """
         EXTRA_COST = 100
         max_overnight_cost = common.USER_CATEGORIES[
             self.travel_petition.category]
         max_overnight_cost += EXTRA_COST if self.is_city_ny() else 0
-        if self.accommondation_price > common.USER_CATEGORIES[
+        if self.accommodation_price > common.USER_CATEGORIES[
                 self.travel_petition.category]:
             raise ValidationError('Accomondation price %.2f for petition with'
                                   ' DSE %s exceeds the max overnight cost.' % (
-                                      self.accommondation_price,
+                                      self.accommodation_price,
                                       str(self.travel_petition.dse)))
 
     def transport_days_proposed(self):
@@ -292,7 +292,7 @@ class TravelInfo(Accommondation, Transportation):
 
     def overnight_cost(self):
         """ Returns total overnight cost. """
-        return self.accommondation_price * self.overnights_num_manual
+        return self.accommodation_price * self.overnights_num_manual
 
     def is_city_ny(self):
         """
@@ -306,7 +306,7 @@ class TravelInfo(Accommondation, Transportation):
 
     class APITravel:
         fields = ('id', 'url', 'arrival_point', 'departure_point',
-                  'accommondation_price', 'return_date', 'depart_date')
+                  'accommodation_price', 'return_date', 'depart_date')
 
 
 class SecretarialInfo(models.Model):
@@ -545,7 +545,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
             for travel in self.travel_info.all())
 
     def overnights_sum_cost(self):
-        """ Total accomondation for all destinations. """
+        """ Total accommodation for all destinations. """
         return sum(travel.overnight_cost()
                    for travel in self.travel_info.all())
 
@@ -568,7 +568,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         Gets the total expenses of trip.
 
         This value is calculated by adding the transportation,
-        compensation, partication and accomondation costs.
+        compensation, partication and accommodation costs.
         """
         transportation_cost = sum(travel.transportation_price
                                   for travel in self.travel_info.all())

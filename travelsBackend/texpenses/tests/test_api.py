@@ -93,7 +93,7 @@ class APIPetitionTest(APITestCase):
         city_url = get_url('city-list', str(self.city.id))
         additional_data = [{'arrival_point': city_url,
                             'departure_point': city_url,
-                            'accommondation_price': float('inf')}]
+                            'accommodation_price': float('inf')}]
         data['additional_data'] = additional_data
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -147,10 +147,10 @@ class APIPetitionTest(APITestCase):
                 self.assertTrue(field in TravelInfo.APITravel.fields)
 
             # Check nested updates.
-            accommondation_price = 10
+            accommodation_price = 10
             additional_data = [{'arrival_point': city_url,
                                 'departure_point': city_url,
-                                'accommondation_price': accommondation_price},
+                                'accommodation_price': accommodation_price},
                                {'arrival_point': city_url,
                                 'departure_point': city_url}]
             data['additional_data'] = additional_data
@@ -161,7 +161,7 @@ class APIPetitionTest(APITestCase):
             travel_info = petition['travel_info']
             self.assertEqual(len(travel_info), 2)
             response = self.client.get(travel_info[0])
-            self.assertEqual(response.data['accommondation_price'],
-                             accommondation_price)
+            self.assertEqual(response.data['accommodation_price'],
+                             accommodation_price)
             response = self.client.get(travel_info[1])
-            self.assertEqual(response.data['accommondation_price'], 0.0)
+            self.assertEqual(response.data['accommodation_price'], 0.0)
