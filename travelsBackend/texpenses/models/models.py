@@ -203,6 +203,10 @@ class TravelInfo(models.Model):
         :raises: ValidationError if accomondation price exceeds the allowable
         limit.
         """
+        EXTRA_COST = 100
+        max_overnight_cost = common.USER_CATEGORIES[
+            self.travel_petition.category]
+        max_overnight_cost += EXTRA_COST if self.is_city_ny() else 0
         if self.accomondation_price > common.USER_CATEGORIES[
                 self.travel_petition.category]:
             raise ValidationError('Accomondation price %.2f for petition with'
@@ -354,8 +358,7 @@ class Petition(TravelUserProfile, SecretarialInfo):
                   'additional_expenses_initial_description',
                   'trip_days_before', 'trip_days_after', 'status',
                   'participation_cost', 'url', 'overnights_sum_cost',
-                  'compensation_final',
-                  'total_cost', 'overnights_proposed')
+                  'overnights_proposed')
         read_only_fields = ('id', 'user', 'url', 'first_name', 'last_name',
                             'kind', 'specialty', 'tax_office', 'tax_reg_num',
                             'category', 'status', 'dse', 'travel_info')
@@ -604,7 +607,7 @@ class SecretaryPetition(Petition):
 
     class APITravel:
         fields = Petition.APITravel.fields + (
-            'non_grnet_quota', 'grnet_quota',
+            'non_grnet_quota', 'grnet_quota', 'user',
             'expenditure_protocol',
             'expenditure_date_protocol', 'movement_protocol',
             'movement_date_protocol', 'compensation_petition_protocol',
