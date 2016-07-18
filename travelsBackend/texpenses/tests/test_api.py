@@ -10,21 +10,16 @@ from texpenses.models import (
 
 
 PETITION_APIS = {
-    UserPetition: '/api/petition/user_petition/',
-    UserPetitionSubmission: '/api/petition/submitted/',
-    SecretaryPetition: '/api/petition/secretary_petition/',
-    SecretaryPetitionSubmission: '/api/petition/secretary_submitted/'
+    UserPetition: reverse('userpetition-list'),
+    UserPetitionSubmission: reverse('userpetitionsubmission-list'),
+    SecretaryPetition: reverse('secretarypetition-list'),
+    SecretaryPetitionSubmission: reverse('secretarypetitionsubmission-list')
 }
 
 SUBMISSION_APIS = {
-    UserPetitionSubmission: '/api/petition/submitted/',
-    SecretaryPetitionSubmission: '/api/petition/secretary_submitted/'
+    UserPetitionSubmission: reverse('userpetitionsubmission-list'),
+    SecretaryPetitionSubmission: reverse('secretarypetitionsubmission-list')
 }
-
-
-def get_url(view, lookup=''):
-    url = reverse(view)
-    return url + lookup + '/' if lookup else url
 
 
 class APIPetitionTest(APITestCase):
@@ -49,8 +44,8 @@ class APIPetitionTest(APITestCase):
         token = Token.objects.create(user=self.user)
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         self.client.force_authenticate(user=self.user, token=token)
-        self.project_url = get_url('project-list', str(self.project.id))
-        self.user_url = '/api/users_related/users/1/'
+        self.project_url = reverse('project-detail', args=[1])
+        self.user_url = reverse('userprofile-detail', args=[1])
 
     def test_create_user_petition(self):
         self.client.force_authenticate(user=self.user)
@@ -74,13 +69,12 @@ class APIPetitionTest(APITestCase):
                 self.assertTrue(field in fields)
 
     def test_status_400_petition(self):
-        url = '/api/petition/user_petition/'
         required_fields = ('project',
                            'additional_data')
-        project_url = get_url('project-list', str(self.project.id))
         self.assertRaises(ObjectDoesNotExist,
                           Petition.objects.get, project=self.project)
-        data = {'project': project_url, 'additional_data': []}
+        data = {'project': self.project_url, 'additional_data': []}
+        url = reverse('userpetition-list')
         for field in required_fields:
             value = data.pop(field)
             response = self.client.post(url, data, format='json')
@@ -89,7 +83,7 @@ class APIPetitionTest(APITestCase):
                              {field: ['This field is required.']})
             data[field] = value
 
-        city_url = get_url('city-list', str(self.city.id))
+        city_url = reverse('city-detail', args=[1])
         additional_data = [{'arrival_point': city_url,
                             'departure_point': city_url,
                             'accommodation_price': float('inf')}]
@@ -102,49 +96,49 @@ class APIPetitionTest(APITestCase):
                          {'non_field_errors': [validation_message]})
 
     def test_submission_apis(self):
-        UserPetitionSubmission.required_fields = ('participation_cost',)
-        SecretaryPetitionSubmission.required_fields = ('participation_cost',)
+        UserPetitionSubmission.required_fields = ('reason',)
+        SecretaryPetitionSubmission.required_fields = ('reason',)
         data = {'project': self.project_url,
                 'task_start_date': self.start_date,
                 'task_end_date': self.end_date, 'additional_data': [],
-                'participation_cost': 10.0}
+                'reason': 'reason'}
         for model, url in SUBMISSION_APIS.iteritems():
             response = self.client.post(url, data, format='json')
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-            participation_cost = data.pop('participation_cost')
+            participation_cost = data.pop('reason')
             response = self.client.post(url, data, format='json')
             self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-            self.assertEqual(response.data,  {
+            self.assertEqual(response.data, {
                 'non_field_errors': [
-                    'Field %s is required' % repr('participation_cost')]})
-            data['participation_cost'] = participation_cost
+                    'Field %s is required' % repr('reason')]})
+            data['reason'] = participation_cost
 
     def test_submission_permissions(self):
-            UserPetitionSubmission.required_fields = ()
-            SecretaryPetitionSubmission.required_fields = ()
-            data = {'project': self.project_url,
-                    'task_start_date': self.start_date,
-                    'task_end_date': self.end_date, 'additional_data': []}
-            for model, url in SUBMISSION_APIS.iteritems():
-                response = self.client.post(url, data, format='json')
-                self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-                # test put
-                response = self.client.put(url, data, format='json')
-                self.assertEqual(
-                    response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-                # test patch
-                response = self.client.patch(url, data, format='json')
-                self.assertEqual(
-                    response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-                # test delete
-                response = self.client.delete(url, data, format='json')
-                self.assertEqual(
-                    response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        UserPetitionSubmission.required_fields = ()
+        SecretaryPetitionSubmission.required_fields = ()
+        data = {'project': self.project_url,
+                'task_start_date': self.start_date,
+                'task_end_date': self.end_date, 'additional_data': []}
+        for _, url in SUBMISSION_APIS.iteritems():
+            response = self.client.post(url, data, format='json')
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+            # test put
+            response = self.client.put(url, data, format='json')
+            self.assertEqual(
+                response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+            # test patch
+            response = self.client.patch(url, data, format='json')
+            self.assertEqual(
+                response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+            # test delete
+            response = self.client.delete(url, data, format='json')
+            self.assertEqual(
+                response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_nested_serialization(self):
         UserPetitionSubmission.required_fields = ()
         SecretaryPetitionSubmission.required_fields = ()
-        city_url = get_url('city-list', str(self.city.id))
+        city_url = reverse('city-detail', args=[1])
         additional_data = [{'arrival_point': city_url,
                             'departure_point': city_url}]
         for model, url in PETITION_APIS.iteritems():
