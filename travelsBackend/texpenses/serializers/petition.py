@@ -2,6 +2,18 @@ from texpenses.models import TravelInfo, SecretaryPetitionSubmission
 
 
 def create(self, validated_data):
+    """
+    Method which overrides the `create` method of `HyperlinkedModelSerializer`
+    class.
+
+    This method sticks to the corresponding serializer classes of petition
+    models and it actually implements the nested serialization for the
+    creation of objects.
+
+    There is an outlier case: When a `SecretaryPetitionSubmission` is created,
+    then the available number user's trip days is updated accordingly, by
+    removing the total transport days of trip.
+    """
     travel_info = validated_data.pop('travel_info', [])
     petition = self.Meta.model.objects.create(**validated_data)
     for travel in travel_info:
@@ -15,6 +27,21 @@ def create(self, validated_data):
 
 
 def update(self, instance, validated_data):
+    """
+    Method which overrides the `update` method of `HyperlinkedModelSerializer`
+    class.
+
+    This method sticks to the corresponding serializer classes of petition
+    models and it actually implements the nested serializationf for the
+    update of objects.
+
+    There are two cases which describe how update of nested objects works.
+    - If data include nested objects that already exist, then this method just
+    updates them.
+    - If data include nested objects that don't alreadt exist (for example,
+    add a new destination to an existing petition), then corresponding
+    nested object is created.
+    """
     travel_info = validated_data.pop('travel_info', [])
     current_travel_info = instance.travel_info.all()
     for k, v in validated_data.iteritems():
@@ -34,6 +61,12 @@ def update(self, instance, validated_data):
 
 
 def validate(self, attrs):
+    """
+    Method which overrides the `validate` method of `HyperlinkedModelSerializer`
+    class.
+
+    It validates both nested and main object.
+    """
     attrs = super(self.__class__, self).validate(attrs)
     if 'user' not in attrs:
         attrs['user'] = self.context['request'].user
