@@ -24,7 +24,9 @@ class TaxOffice(models.Model):
     phone = models.CharField(max_length=20)
 
     class APITravel(object):
-        pass
+        fields = ('id', 'url', 'name', 'description', 'address',
+                  'email', 'phone')
+        read_only_fields = ('id', 'url')
 
     def __unicode__(self):
         return self.name
@@ -126,7 +128,8 @@ class Country(models.Model):
     category = models.CharField(choices=CATEGORIES, max_length=1, default='A')
 
     class APITravel(object):
-        pass
+        fields = ('id', 'url', 'name', 'category')
+        read_only_fields = ('id', 'url')
 
     def __unicode__(self):
         """TODO: to be defined1. """
@@ -141,6 +144,8 @@ class City(models.Model):
     country = models.ForeignKey(Country, blank=True, null=True)
 
     class APITravel(object):
+        fields = ('id', 'url', 'name', 'country')
+        read_only_fields = ('id', 'url')
         filter_fields = ('country',)
 
     def __unicode__(self):
@@ -221,6 +226,13 @@ class TravelInfo(Accommodation, Transportation):
 
     tracked_fields = ['depart_date', 'return_date']
     tracker = FieldTracker(fields=tracked_fields)
+
+    class APITravel:
+        fields = ('id', 'url', 'arrival_point', 'departure_point',
+                  'accommodation_price', 'return_date', 'depart_date',
+                  'transportation_price', 'transport_days_proposed',
+                  'overnights_num_manual', 'transport_days_manual')
+        read_only_fields = ('id', 'url')
 
     def clean(self):
         if self.depart_date and self.return_date:
@@ -369,12 +381,6 @@ class TravelInfo(Accommodation, Transportation):
             if self.feeding else 1
         return max_compensation * decrease_rate * (
             self.travel_petition.grnet_quota() / percentage)
-
-    class APITravel:
-        fields = ('id', 'url', 'arrival_point', 'departure_point',
-                  'accommodation_price', 'return_date', 'depart_date',
-                  'transportation_price', 'transport_days_proposed',
-                  'overnights_num_manual', 'transport_days_manual')
 
 
 class SecretarialInfo(models.Model):
