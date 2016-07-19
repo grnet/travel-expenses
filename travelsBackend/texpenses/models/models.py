@@ -6,6 +6,7 @@ from django.core.validators import MinValueValidator
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import Sum
+from model_utils import FieldTracker
 from texpenses.models.services import get_queryset_on_group
 from texpenses.models import common
 from texpenses.validators import (
@@ -218,6 +219,9 @@ class TravelInfo(Accommodation, Transportation):
     movement_num = models.CharField(max_length=200, null=True, blank=True)
     travel_petition = models.ForeignKey('Petition')
 
+    tracked_fields = ['depart_date', 'return_date']
+    tracker = FieldTracker(fields=tracked_fields)
+
     def clean(self):
         if self.depart_date and self.return_date:
             date_validator(self.depart_date, self.return_date,
@@ -227,6 +231,21 @@ class TravelInfo(Accommodation, Transportation):
                            ('depart', 'task end'))
         self.validate_overnight_cost()
         super(TravelInfo, self).clean()
+
+    def save(self, *args, **kwargs):
+        changed = any(self.tracker.has_changed(field)
+                      for field in self.tracked_fields)
+        petition_dates_changed = any(
+            self.travel_petition.tracker.has_changed(field)
+            for field in self.travel_petition.tracked_fields)
+        if changed or petition_dates_changed:
+            overnight_days = self.overnights_num_proposed(
+                self.travel_petition.task_start_date,
+                self.travel_petition.task_end_date)
+            self.transport_days_manual = self.transport_days_proposed()
+            self.overnights_num_manual = overnight_days
+            self.compensation_days_manual = overnight_days
+        super(TravelInfo, self).save(*args, **kwargs)
 
     def validate_overnight_cost(self):
         """
@@ -355,7 +374,7 @@ class TravelInfo(Accommodation, Transportation):
         fields = ('id', 'url', 'arrival_point', 'departure_point',
                   'accommodation_price', 'return_date', 'depart_date',
                   'transportation_price', 'transport_days_proposed',
-                  'overnights_num_proposed')
+                  'overnights_num_manual', 'transport_days_manual')
 
 
 class SecretarialInfo(models.Model):
@@ -440,6 +459,9 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         max_length=400, blank=True, null=True)
     first_name = models.CharField(max_length=200, blank=False, null=False)
     last_name = models.CharField(max_length=200, blank=False, null=False)
+
+    tracked_fields = ['task_start_date', 'task_end_date']
+    tracker = FieldTracker()
 
     class APITravel:
         fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
