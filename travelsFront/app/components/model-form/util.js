@@ -62,6 +62,7 @@ var Field = Ember.Object.extend({
   layout: alias('options.layout'),
   relType: alias('options.relType'),
   relModel: alias('options.relModel'),
+  choices: alias('options.choices'),
 
   label: computed('options.label', function() {
     return get(this, 'options.label') || titlecase(get(this, 'key'));
@@ -181,7 +182,10 @@ const ResourceMetaFromModel = function(type, nsKey='default', ns='__ui__') {
   type.eachAttribute((k,v) => {
     let opts = _.cloneDeep(v.options);
     opts['key'] = v.name;
-    opts['type'] = v.options.type || v.type || "string";
+    if (!v.options.type && v.options.choices) {
+      v.options.type = 'select';
+    }
+    opts['type'] = v.options.type || v.type || 'string';
     attrs[k] = opts; 
   });
 

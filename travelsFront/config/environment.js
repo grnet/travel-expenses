@@ -1,6 +1,8 @@
 /* jshint node: true */
-var API_EP = 'http://localhost:8000/api'
-var APPLICATION_URL_PREFIX='/app/'
+var API_EP = 'http://localhost:8000/api';
+var APPLICATION_URL_PREFIX='/app/';
+var choices = require('../../resources/common');
+
 
 module.exports = function(environment) {
 	var ENV = {
@@ -17,6 +19,7 @@ module.exports = function(environment) {
 
 		APP: {
 			backend_host: API_EP,
+      resource_choices: choices
 		},
 
 		petition_status_1: API_EP+'/petition/petition-status/1/',

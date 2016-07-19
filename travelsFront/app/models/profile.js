@@ -1,6 +1,9 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import {validator, buildValidations} from 'ember-cp-validations';
+import ENV from 'travels-front/config/environment'; 
+
+const CHOICES = ENV.APP.resource_choices;
 
 
 var Validations=buildValidations({
@@ -42,7 +45,7 @@ export default DS.Model.extend(Validations, {
         },
         {
           'label': 'Personal info',
-          'fields': ['first_name', 'last_name', 'specialtyID', 'kind','taxRegNum', 'taxOffice', 'iban', 'category']
+          'fields': ['first_name', 'last_name', 'specialty', 'kind','taxRegNum', 'taxOffice', 'iban', 'category']
         }
       ],
       layout: {
@@ -57,11 +60,9 @@ export default DS.Model.extend(Validations, {
 	'first_name': DS.attr(),
 	'last_name': DS.attr(), 
 	'iban': DS.attr({'label': 'IBAN'}),
-	'accountID': DS.attr(),
-	'specialtyID': DS.belongsTo('specialty', {'label': 'Specialty'}),
-	'kind': DS.belongsTo('kind'),
+	'specialty': DS.attr({'label': 'Specialty', 'choices': CHOICES.SPECIALTY}),
+	'kind': DS.attr({'choices': CHOICES.KIND}),
 	'taxRegNum': DS.attr({'label': 'VAT'}),
 	'taxOffice': DS.belongsTo('tax-office'),
-	'category': DS.belongsTo('category', {'label': 'User Category'}),
-	'user_group': DS.attr()
+	'category': DS.attr({'label': 'User Category', 'choices': CHOICES.USER_CATEGORY})
 });

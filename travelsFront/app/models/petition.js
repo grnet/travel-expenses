@@ -1,6 +1,9 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import {validator, buildValidations} from 'ember-cp-validations';
+import ENV from 'travels-front/config/environment'; 
+
+const CHOICES = ENV.APP.resource_choices;
 
 var Validations=buildValidations({
 
@@ -14,6 +17,7 @@ var Validations=buildValidations({
 export default DS.Model.extend(Validations, {
   __api__: {
     ns: 'petition',
+    path: 'user'
   },
   __ui__: {
     "user": {
@@ -21,7 +25,7 @@ export default DS.Model.extend(Validations, {
       fieldsets: [
         {
           'label': 'Profile',
-          'fields': ['name', 'surname', 'specialtyID', 
+          'fields': ['name', 'surname', 'specialty', 
           'kind', 'taxRegNum', 'taxOffice', 'iban', 'user_category']
         },
         {
@@ -40,7 +44,7 @@ export default DS.Model.extend(Validations, {
       fieldsets: [
         {
           'label': 'Profile',
-          'fields': ['name', 'surname', 'specialtyID', 
+          'fields': ['name', 'surname', 'specialty', 
           'kind', 'taxRegNum', 'taxOffice', 'iban', 'user_category']
         },
         {
@@ -76,11 +80,11 @@ export default DS.Model.extend(Validations, {
 	iban: DS.attr({'label': 'IBAN'}, {
     hint: new Ember.Handlebars.SafeString('This should be your IBAN number. See <a href="lla">here</a> for more details.')
   }),
-	specialtyID: DS.belongsTo('specialty', {'label': 'Specialty'}),
-	kind: DS.belongsTo('kind'),
+	specialty: DS.attr({'label': 'Specialty', 'choices': CHOICES.SPECIALTY}),
+	kind: DS.attr({'choices': CHOICES.KIND}),
 	taxRegNum: DS.attr({'label': 'VAT'}),
 	taxOffice: DS.belongsTo('tax-office'),
-	user_category: DS.belongsTo('category'),
+	user_category: DS.attr({'choices': CHOICES.USER_CATEGORY}),
 
   //user data
   dse: DS.attr(),
@@ -89,7 +93,7 @@ export default DS.Model.extend(Validations, {
     textarea: true,
     rows: 20
   }}),
-  movementCategories: DS.belongsTo('movement-categories'),
+  movementCategories: DS.attr({'choices': CHOICES.MOVEMENT_CATEGORIES}),
   departurePoint: DS.belongsTo('city'),
   arrivalPoint: DS.belongsTo('city'),
 	taskStartDate: DS.attr({
@@ -114,12 +118,12 @@ export default DS.Model.extend(Validations, {
       type: 'datetime-local'
     }
   }),
-  transportation: DS.belongsTo('transportation'),
+  transportation: DS.attr({'choices': CHOICES.TRANSPORTATION}),
   flight: DS.belongsTo('flight'),
   accomondation: DS.belongsTo('accommondation'),
   recCostParticipation: DS.attr({'label': 'Registration Cost'}),
   additional_expenses_initial: DS.attr({'label': 'Additional Costs'}),
-  feeding: DS.belongsTo('feeding'),
+  feeding: DS.attr({'choices': CHOICES.FEEDING}),
   non_grnet_quota: DS.attr(),
 	creationDate: DS.attr({
     attrs: {

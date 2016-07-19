@@ -88,8 +88,8 @@
     as |options|
 }}
   {{#each options as |option|}}
-    {{#paper-option value=option action=(action 'updateProperty')}}
-      {{option.name}}
+    {{#paper-option value=option.value action=(action 'updateProperty')}}
+      {{option.label}}
     {{/paper-option}}
   {{else}}
     {{#paper-option value='' disabled=true}}

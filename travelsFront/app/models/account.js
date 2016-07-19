@@ -39,6 +39,10 @@ var Validations=buildValidations({
 });
 
 export default DS.Model.extend(Validations, {
+  __api__: {
+    ns: 'auth',
+    path: 'register'
+  },
   __ui__: {
     'signup': SIGNUP_UI,
     'login': LOGIN_UI

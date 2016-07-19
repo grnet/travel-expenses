@@ -8,7 +8,8 @@ const {
   getWithDefault,
   observer,
   get,
-  set
+  set,
+  isArray
 } = Ember;
 
 
@@ -32,8 +33,8 @@ export default Ember.Component.extend({
   classNameBindings: ['flexCls'],
 
   flexCls: computed('flex', 'options.flex', function() {
-    if (this.get('flex')) {
-      return 'flex-' + this.get('flex');
+    if (get(this, 'flex')) {
+      return 'flex-' + get(this, 'flex');
     }
     return 'flex-100';
   }),
@@ -46,59 +47,102 @@ export default Ember.Component.extend({
   store: Ember.inject.service('store'),
 
   canShowHint: computed('hint', 'errors', 'errors.[]', function() {
-    if (this.get('errors.length')) { return false; }
-    if (this.get('hint')) { return true; }
+    if (get(this, 'errors.length')) { return false; }
+    if (get(this, 'hint')) { return true; }
   }),
 
   key: reads('field.key'),
   hint: reads('field.hint'),
   isRelation: equal('field.type', 'relation'),
-  hasOptions: bool('field.selectOptions'),
-  isSelect: or('hasOptions', 'isRelation'),
+  hasChoices: bool('field.choices'),
+  isSelect: or('hasChoices', 'isRelation'),
   isInput: not('isSelect'),
   componentName: alias('field.component'),
   fieldAttrs: alias('field.attrs'),
   passThruAttrs: alias('fieldAttrs'),
 
   label: computed('field', 'field.options.label', function() {
-    return this.get('field.options.label') || titlecase(this.get('key'));
+    return get(this, 'field.options.label') || titlecase(get(this, 'key'));
   }),
 
   placeholder: computed('isSelect', function() {
-    if (this.get('isSelect')) { return this.get('label'); }
+    if (get(this, 'isSelect')) { return get(this, 'label'); }
     return null;
+  }),
+  
+  choicesMap: computed('field.choices', function() {
+    let choices = get(this, 'field.choices');
+    let values = [];
+    if (!isArray(choices)) {
+      return choices || {};
+    }
+    let keys = Object.keys(choices);
+    Object.keys(choices).forEach((k) => values.push(choices[k]));
+    return _.object(keys, values);
+  }),
+
+  choicesValues: computed('field.choices', function() {
+    let choices = get(this, 'field.choices');
+    if (!choices) { return undefined; }
+    if (isArray(choices)) {
+      return choices.map((k) => k[1]);
+    }
+    choices = get(this, 'choicesMap');
+    return Object.keys(choices).map((k) => k);
   }),
 
   // select related method
-  getOptions: computed('options', 'options.getOptions', function() {
-    let getOptions = this.get('options.getOptions');
-    if (Ember.isArray(getOptions)) { 
+  getChoices: computed('options', 'choicesValues.[]', function() {
+    let choices = get(this, 'choicesValues');
+    let labels = get(this, 'choicesMap');
+    if (Ember.isArray(choices)) { 
       return function() {
-        return new Ember.RSVP.Promise(function() {
-          return getOptions;
+        return new Ember.RSVP.Promise(function(resolve) {
+          resolve(choices.map((val) => {
+            return {label: labels[val], value: val}
+          }));
         });
       };
     }
 
-    if (getOptions) { return getOptions; }
-    if (this.get('isRelation')) {
-      let type = this.get('field.relModel');
+    // choices is a function
+    if (_.isFunction(choices)) { return choices; }
+
+    if (get(this, 'isRelation')) {
+      let type = get(this, 'field.relModel');
       return function() {
-        return this.get("store").findAll(type);
+        let arr = get(this, "store").findAll(type);
+        return arr.then(function(results) {
+          return Ember.ArrayProxy.create({
+            content: arr,
+            objectAtContent: function(idx) {
+              let item = get(this, 'content').objectAt(idx);
+              return {
+                value: item,
+                label: item.get('name') //TODO: 'name' should'nt be hardcoded
+              }
+            }
+          });
+        });
       }.bind(this);
     }
   }),
 
   // select related method
-  getOptionLabel: computed('field', function(i) {
-    let key = this.get('options.labelKey') || 'name';
-    let isRel = this.get('isRelation');
+  getChoiceLabel: computed('field', function(i) {
+    let key = get(this, 'options.labelKey') || 'name';
+    let isRelation = get(this, 'isRelation');
+    let choices = get(this, 'choicesMap');
+
     return function(item) {
-      if (isRel) {
+      if (isRelation) {
         return item.get(key);
       } else {
-        if (_.isString(i)) {
-          return i;
+        if (item in choices) { 
+          return choices[item];
+        }
+        if (_.isString(item)) {
+          return item;
         }
         return item.label;
       }
@@ -106,31 +150,31 @@ export default Ember.Component.extend({
   }),
 
   fieldDidChange: observer('field', function() {
-    let key = this.get('key');
+    let key = get(this, 'key');
 
     mixin(this, {
       rawValue: reads(`object.${key}`),
       observeErrors: observer(`object.errors.${key}.length`, `object.validations.attrs.${key}.errors.length`, function() {
-        let errors = this.get(`object.errors.${key}`) || [];
+        let errors = get(this, `object.errors.${key}`) || [];
         errors = errors.toArray();
-        errors.concat(this.get(`object.validations.attrs.${key}.errors`) || []);
+        errors.concat(get(this, `object.validations.attrs.${key}.errors`) || []);
         this.set('errors', errors);
         this.set('hasErrors', errors.length > 0);
       })
     });
 
-    if (this.get('isRelation')) {
+    if (get(this, 'isRelation')) {
       mixin(this, {
         rawValueObserver: observer(`object.${key}.id`, function() {
-          this.set('rawValue', this.get('object.' + this.get('key')));
+          this.set('rawValue', get(this, 'object.' + get(this, 'key')));
         })
       });
     }
 
-    if (this.get('isSelect')) {
+    if (get(this, 'isSelect')) {
       mixin(this, {
-        getItems: reads(`getOptions`),
-        itemLabelCallback: reads(`getOptionLabel`)
+        getItems: reads(`getChoices`),
+        itemLabelCallback: reads(`getChoiceLabel`)
       });
     }
   }),
@@ -138,7 +182,7 @@ export default Ember.Component.extend({
   value: computed('rawValue', function() {
     let serializeValue = getWithDefault(this, 'serializeValue', (value) => value);
     let raw = get(this, 'rawValue');
-    if (raw instanceof Ember.ObjectProxy && this.get('isRelation')) {
+    if (raw instanceof Ember.ObjectProxy && get(this, 'isRelation')) {
       raw.then(function(v) {
         this.set('rawValue', v);
       }.bind(this));
@@ -157,10 +201,10 @@ export default Ember.Component.extend({
     updateProperty: function(value) {
       if (value instanceof Ember.ObjectProxy) {
         value.then(function(model) {
-          set(this.get('object'), this.get('key'), model);
+          set(get(this, 'object'), get(this, 'key'), model);
         })
       } else {
-        set(this.get('object'), this.get('key'), value);
+        set(get(this, 'object'), get(this, 'key'), value);
       }
     }
   }
