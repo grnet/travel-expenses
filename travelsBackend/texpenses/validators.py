@@ -16,52 +16,25 @@ def required_validator(obj, required_fields):
             raise ValidationError('Field %s is required' % repr(field))
 
 
-def afm_validator(afm):
+def afm_validator(value):
+    NUM_DIGITS = 9
+    if not value.isdigit():
+        raise ValidationError(
+            'AFM is not valid; it should include only digits')
 
-    if afm is None:
-        msg = "AFM is empty."
-        logger.error(msg)
-        raise ValidationError(msg)
-    if afm == 0:
-        msg = "AFM should not be zero"
-        logger.error(msg)
-        raise ValidationError(msg)
+    if all(int(v) == 0 for v in value):
+        raise ValidationError(
+            'AFM is not valid; it should not contain zero digits')
 
-    # afmString = str(afm)
-    afmString = afm.strip()
-    print afmString
-    afmString_length = len(afmString)
-    if len(afmString) != 9:
-        msg = "AFM should be a 9 digits number,current length:" + \
-            str(afmString_length)
-        logger.error(msg)
-        raise ValidationError(msg)
-    for digit in afmString:
-        try:
-            int(digit)
-        except ValueError:
-            msg = "AFM should contain only digits."
-            raise ValidationError(msg)
+    if len(value) != NUM_DIGITS:
+        raise ValidationError('AFM is not valid; it should contain 9 digits')
 
-    afm = map(int, list(str(afmString)))
-
-    if sum(afm) == 0:
-        msg = "AFM should not be zero."
-        raise ValidationError(msg)
-
-    afm_sum = 0
-    afm_length_for_calculations = afmString_length - 1
-    for afm_digit in range(0, afm_length_for_calculations, 1):
-        power = afm_length_for_calculations - afm_digit
-        product = afm[afm_digit] * pow(2, power)
-        afm_sum += product
-
-    remainder = afm_sum % 11
-    afm_last_digit = afm[afm_length_for_calculations]
-
-    if remainder != afm_last_digit:
-        msg = "Specific AFM value does not conform to AFM general rules."
-        raise ValidationError(msg)
+    last_digit = value[-1]
+    total = sum(int(digit) * 2 ** ((NUM_DIGITS - 1) - i)
+                for i, digit in enumerate(value[:-1]))
+    if int(last_digit) != total % 11:
+        raise ValidationError(
+            'AFM is not valid; It does not conform to the general rules')
 
 
 def date_validator(start_date, end_date, labels):
