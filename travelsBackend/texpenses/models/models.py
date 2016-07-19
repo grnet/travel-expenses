@@ -211,6 +211,8 @@ class TravelInfo(Accommodation, Transportation):
                                                 default=0)
     overnights_num_manual = models.IntegerField(blank=False, null=False,
                                                 default=0)
+    compensation_days_manual = models.IntegerField(blank=False, null=False,
+                                                   default=0)
     feeding = models.CharField(max_length=10, choices=FEEDINGS,
                                blank=True, null=True)
     movement_num = models.CharField(max_length=200, null=True, blank=True)
@@ -302,9 +304,58 @@ class TravelInfo(Accommodation, Transportation):
         except City.DoesNotExist:
             return False
 
+    def compensation_level(self):
+        """Calculates the compensation level based on country and user category
+        :returns:compensation level
+
+        """
+        compensation = common.COMPENSATION_CATEGORIES[(
+            self.category, self.arrival_point.country.category)]
+        if not compensation:
+            return 0
+
+        return compensation
+
+    def same_day_return_task(self):
+        """
+        This method checks that the t
+        """
+        task_start_date = self.travel_petition.task_start_date
+        task_end_date = self.travel_petition.task_end_date
+        if task_end_date is None or \
+                self.return_date is None\
+                or task_start_date is None\
+                or self.depart_date is None:
+            return False
+        return task_end_date.date() == self.return_date.date()\
+            == task_start_date.date() == self.depart_date.date()
+
+    def get_compensation(self):
+        """Calculates the compensation based on compensation days,
+        compensation level and additional expenses
+        :returns: The maximum possible compensation
+
+        """
+        percentage = 100
+        max_compensation = self.compensation_days_manual * \
+            self.compensation_level()
+        if self.same_day_return_task():
+            max_compensation *= 0.5
+        decrease = {
+            self.FULL_FEEDING: 1,
+            self.SEMI_FEEDING: 0.5,
+            self.NON_FEEDING: 0.25
+        }
+        decrease_rate = decrease[self.feeding]\
+            if self.feeding else 1
+        return max_compensation * decrease_rate * (
+            self.travel_petition.grnet_quota() / percentage)
+
     class APITravel:
         fields = ('id', 'url', 'arrival_point', 'departure_point',
-                  'accommodation_price', 'return_date', 'depart_date')
+                  'accommodation_price', 'return_date', 'depart_date',
+                  'transportation_price', 'transport_days_proposed',
+                  'overnights_num_proposed')
 
 
 class SecretarialInfo(models.Model):
@@ -314,8 +365,6 @@ class SecretarialInfo(models.Model):
     """
     non_grnet_quota = models.FloatField(blank=True, null=True, default=0.0)
 
-    compensation_days_manual = models.IntegerField(blank=False, null=False,
-                                                   default=0)
     expenditure_protocol = models.CharField(
         max_length=30, null=True, blank=True)
     expenditure_date_protocol = models.DateField(blank=True, null=True)
@@ -453,64 +502,6 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         date_validator(self.task_start_date, self.task_end_date,
                        ('task start', 'task end'))
 
-    def compensation_days_proposed(self):
-        """
-        Calculates the proposed number of compensation days.
-
-        This number is based on the difference between dates when task ends
-        and begins. However, if departure date is before the date when task
-        starts then, one day is added.
-
-        :returns: The number of proposed days.
-        """
-        # TODO fix this in case of multiple destinations.
-        if self.task_start_date is None or self.task_end_date is None\
-                or self.depart_date is None:
-            return 0
-        result = self.task_end_date.date() - self.task_end_date.date()
-        result = result.days
-        delta = self.depart_date.date() - self.task_start_date.date()
-        if delta.days < 0:
-            result += 1
-        return result
-
-    def compensation_final(self):
-        # This code is a hack. The compensation is calculated based on the
-        # defined compensation days. However, the number of daily compensation
-        # is calculated based on the feeding type, country category and the
-        # use category. This code does not predict the case where the user
-        # must travel in two destinations with different feeding type and
-        # are located in different countries.
-        try:
-            travel_obj = self.travel_info.all().order_by('-return_date')[0]
-        except IndexError:
-            return 0
-        compensation = common.COMPENSATION_CATEGORIES[(
-            self.category, travel_obj.arrival_point.country.category)]
-        comp_sum = self.compensation_days_manual * compensation\
-            + self.additional_expenses_sum()
-        if self.same_day_return_task(
-                travel_obj.depart_date, travel_obj.return_date):
-            comp_sum *= 0.5
-        decrease = {
-            travel_obj.FULL_FEEDING: 1,
-            travel_obj.SEMI_FEEDING: 0.5,
-            travel_obj.NON_FEEDING: 0.25
-        }
-        decrease_rate = decrease[travel_obj.feeding]\
-            if travel_obj.feeding else 1
-        return comp_sum * decrease_rate * (self.grnet_quota() / 100)
-
-    def same_day_return_task(self, depart_date, return_date):
-        """
-        This method checks that the t
-        """
-        if self.task_end_date is None or return_date is None \
-                or self.task_start_date is None or depart_date is None:
-            return False
-        return self.task_end_date.date() == return_date.date()\
-            == self.task_start_date.date() == depart_date.date()
-
     def transport_days(self):
         """ Gets the total number of transport days for all destinations. """
         return sum(travel.transport_days_manual
@@ -552,6 +543,14 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         if ae['cost__sum'] is None:
             return 0
         return ae['cost__sum']
+
+    def compensation_final(self):
+        """TODO: Docstring for compensation_final.
+        :returns: TODO
+
+        """
+        return sum(travel_obj.get_compensation()
+                   for travel_obj in self.travel_info.all())
 
     def total_cost(self):
         """
