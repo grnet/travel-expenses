@@ -627,9 +627,9 @@ class UserPetition(Petition):
     class Meta:
         proxy = True
 
-    # class APITravel:
-        # fields = Petition.APITravel.fields
-        # read_only_fields = Petition.APITravel.read_only_fields
+    class APITravel:
+        fields = Petition.APITravel.fields
+        read_only_fields = Petition.APITravel.read_only_fields
 
 
 class UserPetitionSubmission(Petition):
@@ -643,9 +643,9 @@ class UserPetitionSubmission(Petition):
     class Meta:
         proxy = True
 
-    # class APITravel:
-        # fields = Petition.APITravel.fields
-        # read_only_fields = Petition.APITravel.read_only_fields
+    class APITravel:
+        fields = Petition.APITravel.fields
+        read_only_fields = Petition.APITravel.read_only_fields
 
     def clean(self):
         required_validator(self, self.required_fields)
