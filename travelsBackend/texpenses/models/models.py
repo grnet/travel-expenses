@@ -103,7 +103,8 @@ class Project(models.Model):
     manager = models.ForeignKey(UserProfile, blank=True, null=True)
 
     class APITravel(object):
-        pass
+        fields = ('id', 'url', 'name', 'accounting_code', 'manager')
+        read_only_fields = ('id', 'url')
 
     def __unicode__(self):
         return self.name
