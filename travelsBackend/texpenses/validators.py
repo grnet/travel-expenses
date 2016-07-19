@@ -58,7 +58,7 @@ def date_validator(start_date, end_date, labels):
         raise ValidationError('%s date should be after today' % (start_label))
 
     if end_date < now:
-        raise ValidationError('%s should be after today' % (end_label))
+        raise ValidationError('%s date should be after today' % (end_label))
 
     if end_date < start_date:
         raise ValidationError(
