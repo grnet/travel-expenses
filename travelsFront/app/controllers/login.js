@@ -14,6 +14,7 @@ export default Ember.Controller.extend({
 			var authenticator = 'authenticator:token';
 			this.get('session').authenticate(authenticator, credentials).then(() => { 
     			this.get("account").loadCurrentUser();
+          this.transitionToRoute('profile');
 			}).catch((err) => {
         if (err.non_field_errors) {
           this.set('submitError', err.non_field_errors[0]);
