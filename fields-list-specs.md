@@ -1,17 +1,6 @@
 
 |  | **Profile Data **  | 
 | # | Field name | Frontend label | Type | Default value | Validation | required | Description |
-| 1 | name | Όνομα | string | - | > 1  | - | filled with the user's first name |
-| 2 | surname | Επώνυμο | string | - | > 1 | - | filled with the user's last name |
-| 3 | specialty | Ειδικότητα | choices | - | - | - | the user selects his specialty from a list of choices |
-| 4 | kind | Ιδιότητα | choices | - | - | - | the user selects his kind from a list of choices |
-| 5 | taxRegNum | ΑΦΜ | number | - | tax registration number validation | - | filled with the user's tax registration number |
-| 6 | taxOffice | ΔΟΥ | choices | - | - | - | the user selects his tax office from a list of choices |
-| 7 | iban | ΙΒΑΝ | string | - | tax registration number validation | - | filled with the user's tax registration number |
-| 8 | userCategory | Κατηγορία Χρήστη | choices (readonly) | B | - | - | the user should not be able to change it |
-
-| | **Traveler - Petition Data** |
-| # | Field name | Frontend label | Type | Default value | Validation | required | Description |
 | 1 | name | Όνομα | string | - | > 1  | {icon check} | filled with the user's first name |
 | 2 | surname | Επώνυμο | string | - | > 1 | {icon check} | filled with the user's last name |
 | 3 | specialty | Ειδικότητα | choices | - | - | {icon check} | the user selects his specialty from a list of choices |
@@ -19,6 +8,17 @@
 | 5 | taxRegNum | ΑΦΜ | number | - | tax registration number validation | {icon check} | filled with the user's tax registration number |
 | 6 | taxOffice | ΔΟΥ | choices | - | - | {icon check} | the user selects his tax office from a list of choices |
 | 7 | iban | ΙΒΑΝ | string | - | tax registration number validation | {icon check} | filled with the user's tax registration number |
+| 8 | userCategory | Κατηγορία Χρήστη | choices (readonly) | B | - | {icon check} | the user should not be able to change it |
+
+| | **Traveler - Petition Data** |
+| # | Field name | Frontend label | Type | Default value | Validation | required | Description |
+| 1 | name | Όνομα | string (readonly) | - | > 1  | {icon check} | filled with the user's first name |
+| 2 | surname | Επώνυμο | string (readonly) | - | > 1 | {icon check} | filled with the user's last name |
+| 3 | specialty | Ειδικότητα | choices (readonly) | - | - | {icon check} | the user selects his specialty from a list of choices |
+| 4 | kind | Ιδιότητα | choices (readonly) | - | - | {icon check} | the user selects his kind from a list of choices |
+| 5 | taxRegNum | ΑΦΜ | number (readonly) | - | tax registration number validation | {icon check} | filled with the user's tax registration number |
+| 6 | taxOffice | ΔΟΥ | choices (readonly) | - | - | {icon check} | the user selects his tax office from a list of choices |
+| 7 | iban | ΙΒΑΝ | string (readonly) | - | tax registration number validation | {icon check} | filled with the user's tax registration number |
 | 8 | userCategory | Κατηγορία Χρήστη | choices (readonly) | B | - | {icon check} | the user should not be able to change it |
 | 9 | dse | ΔΣΕ | number (readonly) | - | - | {icon check} | auto increment value - filled automatically by the system |
 | 10 | project (project manager) | Έργο - Υπεύθυνος Έργου | choices | - | - | {icon check} | the user selects the project related with his trip from a list of choices |
@@ -81,8 +81,8 @@
 | 36 | compensationDaysManual | Ημέρες Αποζημίωσης | number | - | - | {icon check} | equals (taskEndDate - taskStartDate) + departDate. This value is proposed by the system and could be changed by the user |
 | 37 | compensationDaysProposed | Ημέρες Αποζημίωσης (προτεινόμενη τιμή) (readonly) | number | - | - | {icon check} | equals (taskEndDate - taskStartDate) + departDate. This value is proposed by the system |
 | 38 | sameDayReturnTask | Αυθημερόν Επιστροφή | boolean | false | check if departDate == returnDate | {icon check} | automatically filled by the system |
-| 39 | tripDaysBefore | Εναπομείνασες Ημέρες Μετακίνησης Εργασιών: Πριν | number | 60 | < 60 | {icon check} | trip days assigned to the employee before his transportation |
-| 40 | tripDaysAfter | Εναπομ. Ημ. Μετακ. Εργ.: Μετά | number | - | < 60 | {icon check} | trip days remained to the employee after his transportation |
+| 39 | tripDaysBefore | Εναπομείνασες Ημέρες Μετακίνησης Εργασιών: Πριν | number (readonly) | 60 | < 60 | {icon check} | trip days assigned to the employee before his transportation |
+| 40 | tripDaysAfter | Εναπομ. Ημ. Μετακ. Εργ.: Μετά | number (readonly) | - | < 60 | {icon check} | trip days remained to the employee after his transportation |
 | 41 | overnightsSumCost | Σύνολο Διανυκτέρευσης | number (readonly) | - | - | {icon check} | equals  overnightsNumManual * accommodation |
 | 42 | compensationLevel | Αποζημίωση (Ημερήσια) | number (readonly) | - | - | {icon check} | the amount of the daily compensation which is determined by the user's and the country's category (*see table "Daily Compensation" below) |
 | 43 | compensationFinal | Σύνολο Ημερήσιας Αποζημίωσης | number (readonly) | - | - | {icon check} | equals compensationDaysManual * compensationLevel |
