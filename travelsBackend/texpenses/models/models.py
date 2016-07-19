@@ -85,6 +85,7 @@ class UserProfile(AbstractUser, TravelUserProfile):
             return "Unknown"
         return groups[0].name
 
+
 class Project(models.Model):
 
     """
@@ -284,7 +285,7 @@ class TravelInfo(Accommodation, Transportation):
             else max(self.depart_date, task_start_date)
         last_day = max(task_end_date, self.return_date) if (
             self.return_date - task_end_date).days == 1 else min(
-                task_end_date, self.return_date)
+            task_end_date, self.return_date)
         return (last_day.date() - first_day.date()).days
 
     def overnight_cost(self):
@@ -531,7 +532,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
     def overnights_proposed(self):
         return sum(travel.overnights_num_proposed(
             self.task_start_date, self.task_end_date)
-                   for travel in self.travel_info.all())
+            for travel in self.travel_info.all())
 
     def overnights_sum_cost(self):
         """ Total accommodation for all destinations. """
@@ -711,8 +712,7 @@ class AdditionalExpenses(models.Model):
     user = models.ForeignKey(UserProfile)
 
     class APITravel:
-        # fields = ('id', 'name', 'cost', 'petition', 'url')
-        pass
+        fields = ('id', 'name', 'cost', 'url')
 
         @staticmethod
         def get_queryset(request_user):
