@@ -82,11 +82,15 @@ const ModelForm = Ember.Component.extend({
       if (isValid) {
         this.set('inProgress', true);
         model.save().then(() => {
-          this.set('submitMessage', 'Saved');
+          this.set('submitMessage', 'Form saved');
           this.sendAction('onSuccess', model);
         }).catch((err) => {
+          let errMessage = err.message;
           this.sendAction('onError', model);
-          this.set('submitError', err.message);
+          if (err.isAdapterError) {
+            errMessage = "Form submission failed";
+          }
+          this.set('submitError', errMessage);
           this.set('submitFailed', true);
           console.error("model.errors")
           console.error(err);

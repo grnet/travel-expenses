@@ -50,7 +50,7 @@ md-content.md-form-messages {
   }
 
   md-content.md-form-success {
-    background-color: color($link, '800'); 
+    background-color: color('green', '800'); 
     color: #fff;
   }
 }

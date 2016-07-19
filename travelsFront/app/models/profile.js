@@ -22,7 +22,8 @@ var Validations=buildValidations({
   ],
   taxRegNum: [
     validator('presence', false),
-    validator('length', {min: 1})
+    validator('length', {min: 1}),
+    validator('afm-validator')
   ]
 });
 
@@ -45,7 +46,7 @@ export default DS.Model.extend(Validations, {
         },
         {
           'label': 'Personal info',
-          'fields': ['first_name', 'last_name', 'specialty', 'kind','taxRegNum', 'taxOffice', 'iban', 'category']
+          'fields': ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'category']
         }
       ],
       layout: {
@@ -62,7 +63,7 @@ export default DS.Model.extend(Validations, {
 	'iban': DS.attr({'label': 'IBAN'}),
 	'specialty': DS.attr({'label': 'Specialty', 'choices': CHOICES.SPECIALTY}),
 	'kind': DS.attr({'choices': CHOICES.KIND}),
-	'taxRegNum': DS.attr({'label': 'VAT'}),
-	'taxOffice': DS.belongsTo('tax-office'),
+	'tax_reg_num': DS.attr({'label': 'VAT'}),
+	'tax_office': DS.belongsTo('tax-office'),
 	'category': DS.attr({'label': 'User Category', 'choices': CHOICES.USER_CATEGORY})
 });
