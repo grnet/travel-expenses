@@ -145,9 +145,8 @@ class Accommodation(models.Model):
     """
     An abstract model that represents the accommodation related info
     """
-    WAYS_OF_PAYMENT_LOOKUP = tuple([(k, v)
-                                   for k, v in
-                                   common.WAYS_OF_PAYMENT.iteritems()])
+    WAYS_OF_PAYMENT_LOOKUP = tuple(
+        [(k, v) for k, v in common.WAYS_OF_PAYMENT.iteritems()])
     accommodation_price = models.FloatField(
         blank=False, null=False, default=0.0)
     accommodation_payment_way = models.CharField(
@@ -164,9 +163,8 @@ class Transportation(models.Model):
     """
     An abstract model that represents the transportation related info
     """
-    WAYS_OF_PAYMENT = tuple([(k, v)
-                             for k, v in
-                             common.WAYS_OF_PAYMENT.iteritems()])
+    WAYS_OF_PAYMENT = tuple(
+        [(k, v) for k, v in common.WAYS_OF_PAYMENT.iteritems()])
     transportation_price = models.FloatField(
         blank=False, null=False, default=0.0)
     transportation_payment_way = models.CharField(
