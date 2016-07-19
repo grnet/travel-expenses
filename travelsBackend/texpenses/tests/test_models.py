@@ -2,15 +2,26 @@ from datetime import datetime, timedelta
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from texpenses.models import (
+    Country,
     City, TravelInfo, Petition, UserPetition, Project, UserProfile, TaxOffice,
     UserPetitionSubmission, SecretaryPetition, SecretaryPetitionSubmission)
 
 
 class TravelInfoTest(TestCase):
+
     def setUp(self):
         travel_petition = Petition(category='A')
+        arrival_country = Country(name='FRANCE', category='A')
+        self.arrival_point = City(name='PARIS', country=arrival_country)
+
+        departure_country = Country(name='GREECE', category='A')
+        self.departure_point = City(name='ATHENS', country=departure_country)
+
         self.travel_obj = TravelInfo(travel_petition=travel_petition,
-                                     accommodation_price=0.0)
+                                     accommodation_price=0.0,
+                                     arrival_point=self.arrival_point,
+                                     departure_point=self.departure_point,
+                                     feeding='3')
 
     def test_validate_overnight_cost(self):
         self.travel_obj.validate_overnight_cost()
@@ -26,6 +37,28 @@ class TravelInfoTest(TestCase):
         self.travel_obj.return_date = date + timedelta(days=7)
         # We remove weekends, that's why five.
         self.assertEqual(self.travel_obj.transport_days_proposed(), 5)
+
+    def test_compensation_level(self):
+
+        self.assertEqual(self.travel_obj.compensation_level(), 100)
+
+        arrival_country = Country(name='EGYPT', category='C')
+        arrival_point = City(name='CAIRO', country=arrival_country)
+        self.travel_obj.arrival_point = arrival_point
+        self.assertEqual(self.travel_obj.compensation_level(), 60)
+
+        arrival_country = Country(name='RUSSIA', category='B')
+        arrival_point = City(name='MOSCHOW', country=arrival_country)
+        self.travel_obj.arrival_point = arrival_point
+        self.assertEqual(self.travel_obj.compensation_level(), 80)
+
+    def test_same_day_return(self):
+        end_date = datetime.now()
+        start_date = datetime.now() - timedelta(days=7)
+        self.assertTrue(start_date, end_date)
+
+        end_date = end_date + timedelta(days=2)
+        self.assertNotEqual(start_date, end_date)
 
     def test_overnights_num_proposed(self):
         end_date = datetime.now()
