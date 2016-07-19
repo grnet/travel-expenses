@@ -342,7 +342,7 @@ class TravelInfo(Accommodation, Transportation):
 
         """
         compensation = common.COMPENSATION_CATEGORIES[(
-            self.category, self.arrival_point.country.category)]
+            self.travel_petition.category, self.arrival_point.country.category)]
         if not compensation:
             return 0
 
