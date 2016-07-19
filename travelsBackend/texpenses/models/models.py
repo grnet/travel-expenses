@@ -78,6 +78,12 @@ class UserProfile(AbstractUser, TravelUserProfile):
         read_only_fields = ('username', 'trip_days_left')
         write_only_fields = ('password',)
 
+    def user_group(self):
+        groups = self.groups.all()
+        # TODO fix this hack.
+        if not groups:
+            return "Unknown"
+        return groups[0].name
 
 class Project(models.Model):
 
