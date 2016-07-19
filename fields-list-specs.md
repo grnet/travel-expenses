@@ -99,3 +99,19 @@
 | 3 | Καταβάλλεται **μειωμένη κατά 75%** | καλύπτονται τα έξοδα διατροφής και διανυκτέρευσης (food == full board) |
 | 4 | Σε περίπτωση κάλυψης μέρους της αποζημίωσης από άλλον φορέα, καταβάλλεται το υπόλοιπο του ποσού που δικαιούται ο μετακινούμενος (compensationFinal = compensationFinal - compensationFinal*nonGrnetQuota ) |
 
+| Petition States | Label | Description | Petition Status Transitions |
+| 1 | Σε επεξεργασία από τον μετακινούμενο | when the simple user create or edit a petition |
+| 2 | Υποβεβλημένη από τον μετακινούμενο | when the simple user submits a petition |
+|   |  |  |  2 --> 1 : the user can cancel the submission of the petition if the secretary haven't edit the petition yet |
+| 3 | Σε επεξεργασία από τη γραμματεία | when the secretary saves the petition for the 1st time and until she submit it |
+| 4 | Οριστικοποιημένη από τη γραμματεία | when the secretary submits the petition |
+| 5 | Απόφαση Μετακίνησης για ανάρτηση στη ΔΙΑΥΓΕΙΑ |
+| 6 | Απόφαση Μετακίνησης υπογεγραμμένη από τον Πρόεδρο |
+| 7 | Σε επεξεργασία από μετακινούμενο για αποζημίωση |
+| 8 | Υποβεβλημένη από τον μετακινούμενο για αποζημίωση |
+| 9 | Σε επεξεργασία από τον Υπεύθυνο Μετακινήσεων |
+| 10 | Οριστικοποιημένη από τον Υπεύθυνο Μετακινήσεων |
+| 11 | Απόφαση Αποζημίωσης για ανάρτηση στη ΔΙΑΥΓΕΙΑ |
+| 12 | Απόφαση Αποζημίωσης υπογεγραμμένη από τον Πρόεδρο |
+| 13 | Ολοκληρωμένη |
+| 14 | Ακυρωμένη |
