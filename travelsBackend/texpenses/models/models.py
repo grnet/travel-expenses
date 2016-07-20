@@ -309,12 +309,11 @@ class TravelInfo(Accommodation, Transportation):
         """
         if not (self.return_date and self.depart_date):
             return 0
-        first_day = min(self.depart_date, task_start_date)\
-            if (task_start_date - self.depart_date).days == 1\
-            else max(self.depart_date, task_start_date)
-        last_day = max(task_end_date, self.return_date) if (
-            self.return_date - task_end_date).days == 1 else min(
-            task_end_date, self.return_date)
+        first_day = task_start_date - timedelta(days=1)\
+            if (task_start_date - self.depart_date).days >= 1\
+            else self.depart_date
+        last_day = task_end_date + timedelta(days=1) if (
+            self.return_date - task_end_date).days >= 1 else self.return_date
         return (last_day.date() - first_day.date()).days
 
     def overnight_cost(self):
