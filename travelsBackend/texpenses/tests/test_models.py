@@ -61,8 +61,8 @@ class TravelInfoTest(TestCase):
         self.assertNotEqual(start_date, end_date)
 
     def test_overnights_num_proposed(self):
-        end_date = datetime.now()
-        start_date = datetime.now() - timedelta(days=7)
+        start_date = datetime.now()
+        end_date = start_date + timedelta(days=7)
         self.assertEqual(self.travel_obj.overnights_num_proposed(
             start_date, end_date), 0)
 
@@ -75,8 +75,17 @@ class TravelInfoTest(TestCase):
             start_date, end_date), 7)
 
         self.travel_obj.return_date += timedelta(days=1)
+
         self.assertEqual(self.travel_obj.overnights_num_proposed(
             start_date, end_date), 8)
+
+        self.travel_obj.depart_date -= timedelta(days=1)
+        self.assertEqual(self.travel_obj.overnights_num_proposed(
+            start_date, end_date), 9)
+
+        self.travel_obj.return_date += timedelta(days=40)
+        self.assertEqual(self.travel_obj.overnights_num_proposed(
+            start_date, end_date), 9)
 
         self.travel_obj.depart_date -= timedelta(days=1)
         self.assertEqual(self.travel_obj.overnights_num_proposed(
