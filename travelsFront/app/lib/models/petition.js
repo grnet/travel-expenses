@@ -30,6 +30,7 @@ export var Petition = DS.Model.extend({
   travelInfo: DS.hasMany('travel-info'),
   project: DS.belongsTo('project'),
   reason: DS.attr(),
+  status: DS.attr(),
   petitionID: Ember.computed('id', function(){
     // return just the status id
     return _.last(this.get('id').replace(/\/$/, '').split('/'));
