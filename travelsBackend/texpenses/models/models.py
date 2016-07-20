@@ -38,24 +38,25 @@ class TravelUserProfile(models.Model):
     An abstract model class which include all fields which describe the user
     of `Travel Expenses Application`.
 
-    These fields actually are associated with personal info such as IBAN number
-    , Tax Office, etc. as well as, with the kind and specialty of user at
+    These fields actually are associated with personal info such as IBAN number,
+    Tax Office, etc. as well as, with the kind and specialty of user at
     GRNET.
     """
     SPECIALTIES = tuple([(k, v) for k, v in common.SPECIALTY.iteritems()])
     KINDS = tuple([(k, v) for k, v in common.KIND.iteritems()])
     USER_CATEGORIES = tuple([(category, category)
                              for category in common.USER_CATEGORIES])
-    iban = models.CharField(max_length=200, blank=True, null=True,
+    iban = models.CharField(max_length=200,
                             validators=[iban_validation])
-    specialty = models.CharField(max_length=10, choices=SPECIALTIES)
-    tax_reg_num = models.CharField(max_length=9, blank=True, null=True,
+    specialty = models.CharField(
+        max_length=10, choices=SPECIALTIES)
+    tax_reg_num = models.CharField(max_length=9,
                                    validators=[afm_validator])
-    tax_office = models.ForeignKey(TaxOffice, blank=True, null=True)
-    kind = models.CharField(max_length=10, choices=KINDS, blank=True,
-                            null=True)
+    tax_office = models.ForeignKey(TaxOffice)
+    kind = models.CharField(max_length=10, choices=KINDS)
     category = models.CharField(max_length=1, choices=USER_CATEGORIES,
-                                blank=False, null=False, default='B')
+                                blank=False, null=False,
+                                default=USER_CATEGORIES[1][1])
 
     class Meta:
         abstract = True
@@ -75,11 +76,11 @@ class UserProfile(AbstractUser, TravelUserProfile):
     trip_days_left = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
 
     class APITravel(object):
-        fields = ('username', 'first_name', 'last_name', 'email', 'password',
+        fields = ('username', 'first_name', 'last_name', 'email',
                   'iban', 'specialty', 'kind', 'tax_reg_num', 'tax_office',
                   'category', 'user_group', 'trip_days_left')
         read_only_fields = ('username', 'trip_days_left')
-        write_only_fields = ('password',)
+        # write_only_fieds = ('password',)
 
     def user_group(self):
         groups = self.groups.all()
