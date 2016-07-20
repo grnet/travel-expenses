@@ -39,25 +39,20 @@ class TravelUserProfile(models.Model):
     An abstract model class which include all fields which describe the user
     of `Travel Expenses Application`.
 
-    These fields actually are associated with personal info such as IBAN number,
-    Tax Office, etc. as well as, with the kind and specialty of user at
+    These fields actually are associated with personal info such as IBAN
+    number, Tax Office, etc. as well as, with the kind and specialty of user at
     GRNET.
     """
-    SPECIALTIES = tuple([(k, v) for k, v in common.SPECIALTY.iteritems()])
-    KINDS = tuple([(k, v) for k, v in common.KIND.iteritems()])
-    USER_CATEGORIES = tuple([(category, category)
-                             for category in common.USER_CATEGORIES])
     iban = models.CharField(max_length=200,
                             validators=[iban_validation])
     specialty = models.CharField(
-        max_length=10, choices=SPECIALTIES)
+        max_length=5, choices=common.SPECIALTY)
     tax_reg_num = models.CharField(max_length=9,
                                    validators=[afm_validator])
     tax_office = models.ForeignKey(TaxOffice)
-    kind = models.CharField(max_length=10, choices=KINDS)
-    category = models.CharField(max_length=1, choices=USER_CATEGORIES,
-                                blank=False, null=False,
-                                default=USER_CATEGORIES[1][1])
+    kind = models.CharField(max_length=5, choices=common.KIND)
+    category = models.CharField(max_length=1, choices=common.USER_CATEGORIES,
+                                blank=False, null=False, default='B')
 
     class Meta:
         abstract = True
@@ -164,12 +159,11 @@ class Accommodation(models.Model):
     """
     An abstract model that represents the accommodation related info
     """
-    WAYS_OF_PAYMENT_LOOKUP = tuple(
-        [(k, v) for k, v in common.WAYS_OF_PAYMENT.iteritems()])
     accommodation_price = models.FloatField(
         blank=False, null=False, default=0.0)
     accommodation_payment_way = models.CharField(
-        max_length=30, choices=WAYS_OF_PAYMENT_LOOKUP, blank=True, null=True)
+        max_length=30, choices=common.WAYS_OF_PAYMENT, blank=False,
+        null=False, default='NON')
     accommodation_payment_description = models.CharField(
         max_length=200, blank=True, null=True)
 
@@ -182,12 +176,11 @@ class Transportation(models.Model):
     """
     An abstract model that represents the transportation related info
     """
-    WAYS_OF_PAYMENT = tuple(
-        [(k, v) for k, v in common.WAYS_OF_PAYMENT.iteritems()])
     transportation_price = models.FloatField(
         blank=False, null=False, default=0.0)
     transportation_payment_way = models.CharField(
-        max_length=3, choices=WAYS_OF_PAYMENT, blank=True, null=True)
+        max_length=5, choices=common.WAYS_OF_PAYMENT,
+        blank=False, null=False, default='NON')
     transportation_payment_description = models.CharField(
         max_length=200, blank=True, null=True)
 
@@ -203,13 +196,9 @@ class TravelInfo(Accommodation, Transportation):
     Travel information are associated with the duration, departure and arrival
     point, transportation, accommodation, etc.
     """
-    TRANSPORTATIONS = tuple([(k, v)
-                             for k, v in common.TRANSPORTATION.iteritems()])
-    FEEDINGS = tuple([(k, v) for k, v in common.FEEDING.iteritems()])
-
-    FULL_FEEDING = "1"
-    SEMI_FEEDING = "2"
-    NON_FEEDING = "3"
+    FULL_FEEDING = "FULL"
+    SEMI_FEEDING = "SEMI"
+    NON_FEEDING = "NON"
 
     depart_date = models.DateTimeField(blank=True, null=True)
     return_date = models.DateTimeField(blank=True, null=True)
@@ -217,16 +206,17 @@ class TravelInfo(Accommodation, Transportation):
         City, blank=False, null=False, related_name='travel_departure_point')
     arrival_point = models.ForeignKey(City, blank=False, null=False,
                                       related_name='travel_arrival_point')
-    vehicle = models.CharField(choices=TRANSPORTATIONS,
-                               max_length=10, blank=True, null=True)
+    vehicle = models.CharField(choices=common.TRANSPORTATION,
+                               max_length=10, blank=False, null=False,
+                               default='AIR')
     transport_days_manual = models.IntegerField(blank=False, null=False,
                                                 default=0)
     overnights_num_manual = models.IntegerField(blank=False, null=False,
                                                 default=0)
     compensation_days_manual = models.IntegerField(blank=False, null=False,
                                                    default=0)
-    feeding = models.CharField(max_length=10, choices=FEEDINGS,
-                               blank=True, null=True)
+    feeding = models.CharField(max_length=10, choices=common.FEEDING,
+                               blank=False, null=False, default='NON')
     movement_num = models.CharField(max_length=200, null=True, blank=True)
     travel_petition = models.ForeignKey('Petition')
 
@@ -275,11 +265,10 @@ class TravelInfo(Accommodation, Transportation):
         limit.
         """
         EXTRA_COST = 100
-        max_overnight_cost = common.USER_CATEGORIES[
+        max_overnight_cost = common.MAX_OVERNIGHT_COST[
             self.travel_petition.category]
         max_overnight_cost += EXTRA_COST if self.is_city_ny() else 0
-        if self.accommodation_price > common.USER_CATEGORIES[
-                self.travel_petition.category]:
+        if self.accommodation_price > max_overnight_cost:
             raise ValidationError('Accomondation price %.2f for petition with'
                                   ' DSE %s exceeds the max overnight cost.' % (
                                       self.accommodation_price,
@@ -347,12 +336,9 @@ class TravelInfo(Accommodation, Transportation):
         :returns:compensation level
 
         """
-        compensation = common.COMPENSATION_CATEGORIES[(
-            self.travel_petition.category, self.arrival_point.country.category)]
-        if not compensation:
-            return 0
-
-        return compensation
+        return common.COMPENSATION_CATEGORIES[(
+            self.travel_petition.category,
+            self.arrival_point.country.category)]
 
     def same_day_return_task(self):
         """
@@ -425,14 +411,13 @@ class ParticipationInfo(models.Model):
     """
     An abstract model that represents the participation cost related info
     """
-    WAYS_OF_PAYMENT = tuple([(k, v)
-                             for k, v in common.WAYS_OF_PAYMENT.iteritems()])
     participation_cost = models.FloatField(
         blank=False, null=False, default=0.0,
         validators=[MinValueValidator(0.0)])
 
     participation_payment_way = models.CharField(
-        max_length=30, choices=WAYS_OF_PAYMENT, blank=True, null=True)
+        max_length=10, choices=common.WAYS_OF_PAYMENT, blank=False,
+        null=False, default='NON')
     participation_payment_description = models.CharField(
         max_length=200, blank=True, null=True)
 
