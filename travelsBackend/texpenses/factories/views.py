@@ -1,12 +1,11 @@
-from rest_framework import viewsets
-from rest_framework import filters
-
+from rest_framework import viewsets, filters, mixins
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
 from rest_framework_tracking.mixins import LoggingMixin
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from texpenses.factories import utils
 from texpenses.factories.serializers import factory as serializer_factory
+
 
 DEFAULT_QUERYSET = lambda model: model.objects.all()
 FILTERING_BACKENDS = {
@@ -20,6 +19,15 @@ METHODS_TO_OVERRIDE = ['create', 'update', 'delete']
 CUSTOM_VIEWS_CODE = 'texpenses.views'
 
 
+MIXINS = {
+    'create': mixins.CreateModelMixin,
+    'list': mixins.ListModelMixin,
+    'retrieve': mixins.RetrieveModelMixin,
+    'update': mixins.UpdateModelMixin,
+    'delete': mixins.DestroyModelMixin
+}
+
+
 def factory(model_class, custom_permission, api_name='APITravel', nested=None,
             serializer_module=None):
     """TODO: Docstring for viewset_factory.
@@ -28,35 +36,36 @@ def factory(model_class, custom_permission, api_name='APITravel', nested=None,
     :returns: A ModelViewSet viewset
 
     """
-    class AbstractViewSet(LoggingMixin, viewsets.ModelViewSet):
+    if not model_class:
+        raise Exception
 
-        if model_class is None:
-            raise Exception
+    def get_queryset(self):
+        queryset = getattr(self.model_meta, 'get_queryset', None)
+        return queryset(self.request.user) if queryset else\
+            DEFAULT_QUERYSET(model_class)
+    model_meta = getattr(model_class, api_name)
+    assert model_meta is not None
+    class_dict = {
 
-        authentication_classes = (SessionAuthentication, TokenAuthentication)
-        permission_classes = (IsAuthenticated,) + (custom_permission,) + (
-            DjangoModelPermissions,)
-
-        queryset = model_class.objects.all()
-        filter_backends = ()
-        model_meta = getattr(model_class, api_name)
-        serializer_class = serializer_factory(model_class, nested,
-                                              serializer_module)
-
-        def get_queryset(self):
-            queryset = getattr(self.model_meta, 'get_queryset', None)
-            return queryset(self.request.user) if queryset else\
-                DEFAULT_QUERYSET(model_class)
-
-    utils.override_fields(AbstractViewSet, AbstractViewSet.model_meta,
+        'authentication_classes': (SessionAuthentication, TokenAuthentication),
+        'permission_classes': (IsAuthenticated,) + (custom_permission,) + (
+            DjangoModelPermissions,),
+        'queryset': model_class.objects.all(),
+        'filter_backends': (),
+        'model_meta': getattr(model_class, api_name),
+        'serializer_class': serializer_factory(model_class, nested,
+                                               serializer_module),
+    }
+    cls = type('AbstractViewSet', get_bases_classes(model_meta), class_dict)
+    utils.override_fields(cls, cls.model_meta,
                           FIELDS_TO_OVERRIDE)
-    init_filter_backends(AbstractViewSet)
+    init_filter_backends(cls)
     module_name = utils.camel2snake(model_class.__name__)
     module = utils.get_package_module(
         CUSTOM_VIEWS_CODE + '.' + module_name)
-    utils.override_methods(AbstractViewSet, module, METHODS_TO_OVERRIDE)
-    AbstractViewSet.__name__ = model_class.__name__
-    return AbstractViewSet
+    utils.override_methods(cls, module, METHODS_TO_OVERRIDE)
+    cls.__name__ = model_class.__name__
+    return cls
 
 
 def init_filter_backends(cls):
@@ -71,3 +80,23 @@ def init_filter_backends(cls):
         value = getattr(cls, filter_option, None)
         if value:
             cls.filter_backends += (filter_backend,)
+
+
+def get_bases_classes(model_meta):
+    """
+    This function gets the corresponding base classes in order to construct
+    the viewset class.
+
+    A model can specify the allowed operations to it, e.g. update,
+    list, delete, etc. Then, a viewset specify the allowed methods based on
+    model's allowed operations by defining the corresponding bases classes.
+
+    By default, all methods are allowed.
+
+    :param model_meta: API class of model.
+    :returns: A tuple of the corresponding base classes.
+    """
+    operations = getattr(model_meta, 'allowed_operations', None)
+    return (viewsets.ModelViewSet,) if not operations\
+        else tuple([MIXINS[operation] for operation in operations]) + (
+            viewsets.GenericViewSet,)
