@@ -43,6 +43,7 @@
     "ember-data": "^2.4.0",
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
+    "ember-font-awesome": "2.1.1",
     "ember-load-initializers": "^0.5.0",
     "ember-lodash": "0.0.10",
     "ember-paper": "git+https://github.com/miguelcobain/ember-paper.git#c455e2d733c1dff7a7bb5213c42cdf6134a0fcd6",

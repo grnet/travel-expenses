@@ -54,3 +54,36 @@ md-content.md-form-messages {
     color: #fff;
   }
 }
+
+table {
+    margin-bottom: 8px;
+    max-width: 100%;
+    width: 100%;
+    border-spacing: 0;
+    border-radius: 2px;
+    overflow: hidden;
+    th {
+        background: #ff7043;
+        color: white;
+        padding: 12px 8px;
+        text-align: left;
+    }
+    td {
+        padding: 6px 8px;
+        text-align: left;
+    }
+    td.icon-cell, th.icon-cell {
+        padding-left: 1px;
+        padding-right: 1px;
+    }
+    tr:nth-child(2) td {
+        background-color: #fcf1f0;
+    }
+}
+
+p.rt {
+    text-align: right;
+    a {
+        display: inline-block;
+    }
+}

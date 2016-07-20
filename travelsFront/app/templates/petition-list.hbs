@@ -1,38 +1,31 @@
 {{page-toolbar pageTitle="Petition List"}}
 
+<p class="rt">{{#paper-button raised=true primary=true onClick=(transition-to "userPetition") href="/userPetition/new" bubbles=false warn=true}}Νεα Αιτηση{{/paper-button}}</p>
+
 <table class="table"> 
-  {{#paper-content class="md-whiteframe-z1"}}
     <thead>
-      {{#paper-list}}
         <tr>
-          <th>Όνομα</th>
-          <th>Επώνυμο</th>
-          <th>Έργο</th>
-          <th>Προορισμός</th>
-          <th>Ημ/νια Δημιουργίας</th>
-          <th>Τελευταία ανανέωση</th>
-          <th>Ημ/νία Αναχώρησης</th>
-          <th>Ημ/νία Επιστροφής</th>
-          <th>Κατάσταση</th>
-          <th>{{#paper-button raised=true primary=true onClick=(transition-to "userPetition") href="/userPetition/new" bubbles=false}}Νεα Αιτηση{{/paper-button}}</th>
+            <th>Όνομα</th>
+            <th>Επώνυμο</th>
+            <th>Έργο</th>
+            <th>Προορισμός</th>
+            <th>Ημ/νια Δημιουργίας</th>
+            <th>Τελευταία ανανέωση</th>
+            <th>Ημ/νία Αναχώρησης</th>
+            <th>Ημ/νία Επιστροφής</th>
+            <th>Κατάσταση</th>
+            <th class="icon-cell">&nbsp;</th>
+            <th class="icon-cell">&nbsp;</th>
+            <th class="icon-cell">&nbsp;</th>
         </tr>
-      {{/paper-list}} 
     </thead>
-  {{/paper-content}}
-  
-  {{#paper-content class="md-whiteframe-z1"}}
     <tbody>
-      {{#paper-list}}
         {{#each model as |petition|}}
           {{#if petition.project.name}}
-          {{#paper-item}}
             {{petition-listing petition=petition}}
-          {{/paper-item}}
           {{/if}}
         {{/each}}
-      {{/paper-list}}
     </tbody>
-  {{/paper-content}}
 </table>
 
 

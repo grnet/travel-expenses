@@ -5,6 +5,7 @@ export default Ember.Component.extend({
 	
 	deleteMessage: "",
 	statePetitionList: "",
+  tagName: 'tr',
 
 	actions: {
 
