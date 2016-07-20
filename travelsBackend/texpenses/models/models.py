@@ -27,6 +27,7 @@ class TaxOffice(models.Model):
         fields = ('id', 'url', 'name', 'description', 'address',
                   'email', 'phone')
         read_only_fields = ('id', 'url')
+        allowed_operations = ('list', 'retrieve')
 
     def __unicode__(self):
         return self.name
@@ -106,6 +107,7 @@ class Project(models.Model):
     class APITravel(object):
         fields = ('id', 'url', 'name', 'accounting_code', 'manager')
         read_only_fields = ('id', 'url')
+        allowed_operations = ('list', 'retrieve')
 
     def __unicode__(self):
         return self.name
@@ -132,6 +134,7 @@ class Country(models.Model):
     class APITravel(object):
         fields = ('id', 'url', 'name', 'category')
         read_only_fields = ('id', 'url')
+        allowed_operations = ('list', 'retrieve')
 
     def __unicode__(self):
         """TODO: to be defined1. """
@@ -149,6 +152,7 @@ class City(models.Model):
         fields = ('id', 'url', 'name', 'country')
         read_only_fields = ('id', 'url')
         filter_fields = ('country',)
+        allowed_operations = ('list', 'retrieve')
 
     def __unicode__(self):
         """TODO: to be defined. """
