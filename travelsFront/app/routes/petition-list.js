@@ -6,8 +6,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	//entriesSorting: ['creationDate:desc'],
 	//collection: Ember.computed.sort('entries', 'entriesSorting')
 	model() {
-		
-		return this.store.findAll('petition');
+		console.log("list", this.store.findAll('user-petition'));
+		return this.store.findAll('user-petition');
 	},
 	//afterModel(petitions){
 

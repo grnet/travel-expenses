@@ -1,14 +1,14 @@
 <tr>
-  <td>{{petition.name}}</td>
-  <td>{{petition.surname}}</td>
+  <td>{{petition.first_name}}</td>
+  <td>{{petition.last_name}}</td>
   <td>{{petition.project.name}}</td>
   <td>{{petition.arrivalPoint.name}}</td>
   <td>{{petition.creationDate}}</td>
   <td>{{petition.updateDate}}</td>
   <td>{{petition.taskStartDate}}</td>
   <td>{{petition.taskEndDate}}</td>
-  <td>{{petition.status.statusID}}</td>
-  <td>{{#link-to "petition" petition.petitionID}}Επεξεργασια{{/link-to}}</td>
-  <td>{{#paper-button type="submit" raised=true warn=true onClick=(action "petitionDelete" petition.petitionID petition.status.statusID)}}Διαγραφη{{/paper-button}}</td>
+  <td>{{petition.status}}</td>
+  <td>{{#link-to "userPetition" petition.petitionID}}Επεξεργασια{{/link-to}}</td>
+  <td>{{#paper-button type="submit" raised=true warn=true onClick=(action "petitionDelete" petition.petitionID petition.status)}}Διαγραφη{{/paper-button}}</td>
   <td>{{#paper-button type="submit" raised=true onClick=(action "petitionUndo" petition.petitionID)}}Αναιρεση Υποβολης{{/paper-button}}</td>
 </tr>

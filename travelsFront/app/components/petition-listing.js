@@ -10,11 +10,10 @@ export default Ember.Component.extend({
 
 		petitionDelete(id,status){
 			var self=this;
-			var model=this.get('model');
 			var store = this.get('targetObject.store');
 
 			if (status == 1){
-					store.findRecord('petition', id).then(function(petition) {
+					store.findRecord('user-petition', id).then(function(petition) {
 					petition.destroyRecord().then(function() {
 
 						self.set('statePetitionList', true);
@@ -51,7 +50,7 @@ export default Ember.Component.extend({
 			var model=this.get('model');
 
 
-			var petition=self.store.peekRecord('petition',id);
+			var petition=self.store.peekRecord('user-petition',id);
 
 			self.store.findRecord('petition-status',ENV.petition_status_1).then(function(status){
 				petition.set('status',status);
