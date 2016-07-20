@@ -1,14 +1,15 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import ENV from 'travels-front/config/environment'; 
+
 const CHOICES = ENV.APP.resource_choices;
 
 export var Petition = DS.Model.extend({
- 
   dse: DS.attr(),
   first_name: DS.attr({attrs: {readonly: true}}),
   last_name: DS.attr(), 
   kind: DS.attr(),
+  iban: DS.attr(),
 	specialty: DS.attr({'label': 'Specialty', 'choices': CHOICES.SPECIALTY}),
   taxOffice: DS.belongsTo('tax-office'),
   taxRegNum: DS.attr({'label': 'VAT'}),

@@ -1,10 +1,5 @@
-import {Petition, PetitionValidations} from 'travels-front/lib/models/petition';
+import {Petition} from 'travels-front/lib/models/petition';
 
-var SecretaryPetitionValidations=PetitionValidations({
-});
-
-var SecretaryPetition = Petition({
+export var SecretaryPetition = Petition.extend({
   movement_protocol: DS.attr(),
 });
-
-export default {SecretaryPetition, SecretaryPetitionValidations};

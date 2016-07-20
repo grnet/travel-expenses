@@ -1,17 +1,18 @@
 import {Petition} from 'travels-front/lib/models/petition';
-import {UIS} from 'travels-front/lib/form-uis'; 
+import {validator, buildValidations} from 'ember-cp-validations';
 
-export default Petition.extend({
+
+var Validations = buildValidations({
+    iban: validator('iban-validator'),
+});
+
+
+export default Petition.extend(Validations, {
   __api__: {
-    //ns: 'api',
     path: 'petition/user/saved/',
     buildURL: function(adapter, url, id, snap, rtype, query) {
       // always return my profile endpoint
       return this.urlJoin(adapter.get('host'), this.ns, this.path) + '/';
     }
   },
-  __ui__: {
-    'default': UIS['petition_user']
-  }
 });
-

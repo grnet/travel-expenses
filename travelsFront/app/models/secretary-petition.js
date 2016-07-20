@@ -1,12 +1,18 @@
-import {SecretaryPetition, SecretaryPetitionValidations} from 'travels-front/lib/models/secretary-petition';
-import {UIS} from 'travels-front/lib/form-uis';
+import {SecretaryPetition} from 'travels-front/lib/models/petition';
+import {validator, buildValidations} from 'ember-cp-validations';
 
-var Validations=SecretaryPetitionValidations({
+
+var Validations = buildValidations({
+    iban: validator('iban-validator'),
 });
 
-export default Petition(Validations, {
-  __ui__: {
-    "user": UIS['petition_user'],
-    "secretary": UIS['petition_travel']
-  }
+
+export default Petition.extend(Validations, {
+  __api__: {
+    path: 'petition/secretary/saved/',
+    buildURL: function(adapter, url, id, snap, rtype, query) {
+      // always return my profile endpoint
+      return this.urlJoin(adapter.get('host'), this.ns, this.path) + '/';
+    }
+  },
 });
