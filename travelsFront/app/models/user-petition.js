@@ -1,11 +1,17 @@
-import {Petition, PetitionValidations} from 'travels-front/lib/models/petition';
-import {UIS} from 'travels-front/lib/form-uis';
+import {Petition} from 'travels-front/lib/models/petition';
+import {UIS} from 'travels-front/lib/form-uis'; 
 
-var Validations=PetitionValidations({
-});
-
-export default Petition(Validations, {
+export default Petition.extend({
+  __api__: {
+    //ns: 'api',
+    path: 'petition/user/saved/',
+    buildURL: function(adapter, url, id, snap, rtype, query) {
+      // always return my profile endpoint
+      return this.urlJoin(adapter.get('host'), this.ns, this.path) + '/';
+    }
+  },
   __ui__: {
-    "user": UIS['petition_user']
+    'default': UIS['petition_user']
   }
 });
+

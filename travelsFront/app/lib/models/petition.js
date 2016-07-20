@@ -1,22 +1,19 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import {validator, buildValidations} from 'ember-cp-validations';
+import ENV from 'travels-front/config/environment'; 
+const CHOICES = ENV.APP.resource_choices;
 
-var ProfileValidations=buildValidations({
-	taxRegNum: validator('afm-validator'),
-	iban: validator('iban-validator'),
-});
-
-var Petition = DS.Model.extend({
+export var Petition = DS.Model.extend({
+ 
   dse: DS.attr(),
   first_name: DS.attr({attrs: {readonly: true}}),
   last_name: DS.attr(), 
   kind: DS.attr(),
-  specialtyID: DS.attr({'label': 'Specialty'}),
+	specialty: DS.attr({'label': 'Specialty', 'choices': CHOICES.SPECIALTY}),
   taxOffice: DS.belongsTo('tax-office'),
   taxRegNum: DS.attr({'label': 'VAT'}),
   category: DS.attr({'label': 'User Category'}),
-  user: DS.belongs('profile'),
+  user: DS.belongsTo('profile'),
   taskStartDate: DS.attr({
     attrs: {
       type: 'datetime-local'
@@ -38,4 +35,3 @@ var Petition = DS.Model.extend({
   })
 });
 
-export default {Petition, PetitionValidations};
