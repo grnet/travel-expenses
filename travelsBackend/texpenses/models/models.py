@@ -232,7 +232,8 @@ class TravelInfo(Accommodation, Transportation):
         allowed_operations = ('list', 'retrieve', 'delete')
 
     def clean(self):
-        if self.depart_date and self.return_date:
+        if self.depart_date and self.return_date \
+                and self.travel_petition.task_end_date:
             date_validator(self.depart_date, self.return_date,
                            ('depart', 'return'))
             date_validator(self.depart_date,
