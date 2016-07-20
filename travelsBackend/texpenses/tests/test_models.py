@@ -21,7 +21,7 @@ class TravelInfoTest(TestCase):
                                      accommodation_price=0.0,
                                      arrival_point=self.arrival_point,
                                      departure_point=self.departure_point,
-                                     feeding='3')
+                                     feeding='NON')
 
     def test_validate_overnight_cost(self):
         self.travel_obj.validate_overnight_cost()
@@ -90,6 +90,48 @@ class TravelInfoTest(TestCase):
         self.travel_obj.arrival_point.name = 'NEW YORK'
         self.assertTrue(self.travel_obj.is_city_ny())
 
+    def test_clean(self):
+        depart = datetime.now() + timedelta(days=3)
+        self.travel_obj.depart_date = depart
+        self.travel_obj.return_date = depart + timedelta(days=3)
+        self.travel_obj.travel_petition.task_end_date = depart - \
+            timedelta(days=2)
+        self.assertRaises(ValidationError, self.travel_obj.clean)
+
+        self.travel_obj.travel_petition.task_end_date = depart - \
+            timedelta(days=4)
+        self.assertRaises(ValidationError, self.travel_obj.clean)
+
+    def test_get_compensation(self):
+        depart = datetime.now() + timedelta(days=3)
+        return_d = depart + timedelta(days=5)
+        task_start = depart + timedelta(days=1)
+        task_end = return_d - timedelta(days=1)
+
+        # print "Depart date:" + str(depart)
+        # print "Return date:" + str(return_d)
+        # print "Task start date:" + str(task_start)
+        # print "Task end date:" + str(task_end)
+
+        self.travel_obj.depart_date = depart
+        self.travel_obj.return_date = return_d
+        self.travel_obj.travel_petition.task_start_date = task_start
+        self.travel_obj.travel_petition.task_end_date = task_end
+
+        overnights = self.travel_obj.overnights_num_proposed(
+            task_start, task_end)
+        # print "Overnights:" + str(overnights)
+        self.travel_obj.compensation_days_manual = overnights
+        # print "Compensation level:" +
+        # str(self.travel_obj.compensation_level())
+        self.assertEqual(self.travel_obj.get_compensation(), 125)
+
+        self.travel_obj.feeding = 'FULL'
+        self.assertEqual(self.travel_obj.get_compensation(), 500)
+
+        self.travel_obj.feeding = 'SEMI'
+        self.assertEqual(self.travel_obj.get_compensation(), 250)
+
 
 class PetitionTest(TestCase):
 
@@ -100,18 +142,21 @@ class PetitionTest(TestCase):
         tax_office = TaxOffice.objects.create(
             name='test', description='test', address='test',
             email='test@example.com', phone='2104344444')
+
         self.user = UserProfile.objects.create(
             first_name='Nick', last_name='Jones', email='test@email.com',
             iban='GR4902603280000910200635494',
             specialty='1', tax_reg_num=150260153,
             tax_office=tax_office, category='A',
             trip_days_left=5)
+
         city = City.objects.create(name='Athens')
         self.project = Project.objects.create(name='Test Project',
                                               accounting_code=1)
         self.petition = Petition.objects.create(
             task_start_date=self.start_date, task_end_date=self.end_date,
             status=1, user=self.user, project=self.project)
+
         self.travel_info = TravelInfo.objects.create(
             return_date=self.end_date, depart_date=self.start_date,
             accommodation_price=10,
@@ -120,6 +165,7 @@ class PetitionTest(TestCase):
             arrival_point=city,
             departure_point=city,
             travel_petition=self.petition)
+
         self.petition.travel_info.add(self.travel_info)
 
     def test_user_info(self):
