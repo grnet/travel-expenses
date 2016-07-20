@@ -217,7 +217,6 @@ class TravelInfo(Accommodation, Transportation):
                                                    default=0)
     feeding = models.CharField(max_length=10, choices=common.FEEDING,
                                blank=False, null=False, default='NON')
-    movement_num = models.CharField(max_length=200, null=True, blank=True)
     travel_petition = models.ForeignKey('Petition')
 
     tracked_fields = ['depart_date', 'return_date']
@@ -384,6 +383,7 @@ class SecretarialInfo(models.Model):
     """
     non_grnet_quota = models.FloatField(blank=True, null=True, default=0.0)
 
+    movement_num = models.CharField(max_length=200, null=True, blank=True)
     expenditure_protocol = models.CharField(
         max_length=30, null=True, blank=True)
     expenditure_date_protocol = models.DateField(blank=True, null=True)
