@@ -96,7 +96,9 @@ def get_bases_classes(model_meta):
     :param model_meta: API class of model.
     :returns: A tuple of the corresponding base classes.
     """
+    bases = (LoggingMixin,)
     operations = getattr(model_meta, 'allowed_operations', None)
-    return (viewsets.ModelViewSet,) if not operations\
+    bases += (viewsets.ModelViewSet,) if not operations\
         else tuple([MIXINS[operation] for operation in operations]) + (
             viewsets.GenericViewSet,)
+    return bases
