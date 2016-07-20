@@ -117,7 +117,7 @@ export default Ember.Controller.extend({
 
 					self.set('editMessage','Τα στοιχεία της αίτησης σας έχουν υποβληθεί επιτυχώς !');
 					self.set('petitionNotSaved',false);
-					self.transitionToRoute('petitionList');
+					// self.transitionToRoute('petitionList');
 					self.set('country_selected',false);
 					
 					//let endDate=self.get('model.taskEndDate');
