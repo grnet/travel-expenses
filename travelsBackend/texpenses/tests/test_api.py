@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import sys
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
@@ -139,11 +140,23 @@ class APIPetitionTest(APITestCase):
         UserPetitionSubmission.required_fields = ()
         SecretaryPetitionSubmission.required_fields = ()
         city_url = reverse('city-detail', args=[1])
-        additional_data = [{'arrival_point': city_url,
-                            'departure_point': city_url}]
         for model, url in PETITION_APIS.iteritems():
             additional_data = [{'arrival_point': city_url,
-                                'departure_point': city_url}]
+                                'departure_point': city_url,
+                                'transport_days_manual': sys.maxint}]
+            data = {'project': self.project_url,
+                    'task_start_date': self.start_date,
+                    'task_end_date': self.end_date,
+                    'additional_data': additional_data,
+                    'user': self.user_url}
+            response = self.client.post(url, data, format='json')
+            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+            self.assertEqual(response.data, {
+                u'non_field_errors':
+                    [u'You have exceeded the allowable number of trip days']
+            })
+            additional_data[0].pop('transport_days_manual')
+
             # Check nested creation.
             data = {'project': self.project_url,
                     'task_start_date': self.start_date,

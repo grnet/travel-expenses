@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from texpenses.models import TravelInfo, SecretaryPetitionSubmission
 
 
@@ -62,8 +63,8 @@ def update(self, instance, validated_data):
 
 def validate(self, attrs):
     """
-    Method which overrides the `validate` method of `HyperlinkedModelSerializer`
-    class.
+    Method which overrides the `validate` method of
+    `HyperlinkedModelSerializer` class.
 
     It validates both nested and main object.
     """
@@ -72,10 +73,25 @@ def validate(self, attrs):
         attrs['user'] = self.context['request'].user
     model = self.Meta.model
     nested_attrs = attrs.pop('travel_info', [])
+    total_transport_days = 0
     for nested in nested_attrs:
         nested_inst = TravelInfo(travel_petition=model(**attrs), **nested)
         nested_inst.clean()
+        total_transport_days += nested_inst.transport_days_manual\
+            if nested_inst.transport_days_manual\
+            else nested_inst.transport_days_proposed()
     model_inst = model(**attrs)
+    validate_transport_days(attrs['user'], total_transport_days)
     model_inst.clean()
     attrs['travel_info'] = nested_attrs
     return attrs
+
+
+def validate_transport_days(user, transport_days):
+    """
+    Check that total transport days don't surpass the number of user's
+    available trip days.
+    """
+    if user.trip_days_left < transport_days:
+        raise ValidationError(
+            'You have exceeded the allowable number of trip days')
