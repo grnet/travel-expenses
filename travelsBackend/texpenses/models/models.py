@@ -235,6 +235,7 @@ class TravelInfo(Accommodation, Transportation):
                   'transportation_price', 'transport_days_proposed',
                   'overnights_num_manual', 'transport_days_manual')
         read_only_fields = ('id', 'url')
+        allowed_operations = ('list', 'retrieve', 'delete')
 
     def clean(self):
         if self.depart_date and self.return_date:
