@@ -439,6 +439,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
                    'tax_office', 'tax_reg_num', 'category']
 
     id = models.AutoField(primary_key=True)
+
     dse = models.PositiveIntegerField(blank=False)
     travel_info = models.ManyToManyField(TravelInfo, blank=False)
     user = models.ForeignKey(UserProfile, blank=False)

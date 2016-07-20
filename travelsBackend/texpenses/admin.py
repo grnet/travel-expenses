@@ -5,6 +5,7 @@ from .models import Petition
 from .models import Project
 from .models import Country
 from .models import City
+from .models import TravelInfo
 
 
 admin.site.register(UserProfile)
