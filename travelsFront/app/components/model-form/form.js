@@ -1,3 +1,4 @@
+import FlexMixin from 'ember-paper/mixins/flex-mixin';
 import Ember from 'ember';
 import _ from 'lodash/lodash';
 import {ResourceMetaFrom} from './util';
@@ -7,8 +8,8 @@ const {
 } = Ember
 var TypesCache = {};
 
-const ModelForm = Ember.Component.extend({
-
+const ModelForm = Ember.Component.extend(FlexMixin, {
+  
   tagName: 'form',
   isTouched: false,
   classNames: ['model-form'],

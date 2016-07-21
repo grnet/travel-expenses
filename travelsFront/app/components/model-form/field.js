@@ -28,13 +28,14 @@ export const titlecase = (string) =>
 export default Ember.Component.extend({
 
   tagName: 'md-content',
-  classNames: ['layout-column'],
+  classNames: ['layout-column', 'model-form-field'],
 
   classNameBindings: ['flexCls'],
 
-  flexCls: computed('flex', 'options.flex', function() {
-    if (get(this, 'flex')) {
-      return 'flex-' + get(this, 'flex');
+  layout: alias('field.options.layout'),
+  flexCls: computed('layout.flex', function() {
+    if (get(this, 'layout.flex')) {
+      return 'flex-gt-xs-' + get(this, 'layout.flex');
     }
     return 'flex-100';
   }),

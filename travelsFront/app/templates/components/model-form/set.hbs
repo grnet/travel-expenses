@@ -4,12 +4,11 @@
             <h2>{{ label }}</h2>
         {{/paper-content}}
     {{/if}}
-    {{#paper-content classNames="layout-row layout-wrap"}}
+    {{#paper-content classNames="layout-wrap layout-xs-column layout-gt-xs-row" }}
         {{#each fields as |field|}}
             {{model-form/field 
                 field=field
                 object=object
-                flex=field.layout.flex
                 isTouched=isTouched
             }}
         {{/each}}
