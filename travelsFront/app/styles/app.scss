@@ -83,7 +83,7 @@ table {
         padding-left: 1px;
         padding-right: 1px;
     }
-    tr:nth-child(2) td {
+    tr:nth-child(odd) td {
         background-color: #FDF0F8;
     }
 }
