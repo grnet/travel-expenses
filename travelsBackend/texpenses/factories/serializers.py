@@ -10,11 +10,18 @@ METHODS_TO_OVERRIDE = ['create', 'update', 'delete', 'validate']
 CUSTOM_SERIALIZERS_CODE = 'texpenses.serializers'
 
 
-def factory(mdl, nested_model=None, serializer_module=None,
-            api_name='APITravel'):
+class ModelFieldNotFound(Exception):
+    pass
+
+
+class ModelFieldNotRelated(Exception):
+    pass
+
+
+def factory(model_class, serializer_module=None, api_name='APITravel'):
     """ Generalized serializer factory to increase DRYness of code.
 
-    :param mdl: The model for the HyperLinkedModelSerializer
+    :param model_class: The model for the HyperLinkedModelSerializer
     :param fields: The fields that should be exclusively present on the\
         serializer
     :param read_only_fields: The fields that should be read only on the\
@@ -22,30 +29,78 @@ def factory(mdl, nested_model=None, serializer_module=None,
     :param kwargss: Optional additional field specifications
     :return: A HyperLinkedModelSerializer
     """
-    if nested_model:
-        snake_case_nested = utils.camel2snake(nested_model.__name__)
+    class Meta:
+        model = model_class
 
-    class AbstractSerializer(serializers.HyperlinkedModelSerializer):
-        if nested_model:
-            additional_data = factory(nested_model)(
-                write_only=True, many=True, source=snake_case_nested)
+    def validate(self, attrs):
+        attrs = super(AbstractSerializer, self).validate(attrs)
+        model_inst = model_class(**attrs)
+        model_inst.clean()
+        return attrs
 
-        class Meta:
-            model = mdl
-
-        def validate(self, attrs):
-            attrs = super(AbstractSerializer, self).validate(attrs)
-            model_inst = mdl(**attrs)
-            model_inst.clean()
-            return attrs
-
-    model_meta = getattr(mdl, api_name)
+    # Standard serializer class content.
+    class_dict = {
+        'validate': validate,
+        'Meta': Meta,
+    }
+    model_api_class = getattr(model_class, api_name)
+    assert model_api_class is not None
+    nested_serializers = get_nested_serializer(model_class, model_api_class)
+    class_dict.update(nested_serializers)
+    AbstractSerializer = type(
+        model_class.__name__, (serializers.HyperlinkedModelSerializer,),
+        class_dict)
     utils.override_fields(
-        AbstractSerializer.Meta, model_meta, FIELDS_TO_OVERRIDE)
-    module_name = utils.camel2snake(mdl.__name__) if not serializer_module\
-        else serializer_module
+        AbstractSerializer.Meta, model_api_class, FIELDS_TO_OVERRIDE)
+    module_name = utils.camel2snake(model_class.__name__)\
+        if not serializer_module else serializer_module
     module = utils.get_package_module(
         CUSTOM_SERIALIZERS_CODE + '.' + module_name)
     utils.override_methods(AbstractSerializer, module, METHODS_TO_OVERRIDE)
-    AbstractSerializer.__name__ = mdl.__name__
+    AbstractSerializer.__name__ = model_class.__name__
     return AbstractSerializer
+
+
+RELATED_DESCRIPTORS = {
+    'ForwardOneToOneDescriptor': lambda x: x.field.rel.to,
+    'ForwardManyToOneDescriptor': lambda x: x.field.rel.to,
+    'ManyToManyDescriptor': lambda x: x.rel.to,
+}
+
+MANY_TO_MANY_REL = 'ManyToManyDescriptor'
+
+
+def get_nested_serializer(model, model_api_class):
+    """
+    This function constructs nested serializers based on the nested relations
+    defined on the API class of a given model.
+
+    :param model: Model class which supports nested serialization.
+    :param model_api_class: API class of specified model.
+
+    :returns: A dictionary keyed by the api field name which corresponds to
+    the nested serializer and it maps to the corresponding serializer class.
+    """
+    nested_relations = getattr(model_api_class, 'nested_relations', None)
+    if not nested_relations:
+        return {}
+    nested_serializers = {}
+    for api_field_name, model_field_name in nested_relations:
+        model_field = getattr(model, model_field_name, None)
+
+        if model_field is None:
+            raise ModelFieldNotFound('Field %s not found on model %s' % (
+                repr(model_field_name), model.__name__))
+        field_rel_name = model_field.__class__.__name__
+        if field_rel_name not in RELATED_DESCRIPTORS:
+            raise ModelFieldNotRelated(
+                'Field %s is not related with another model' % (
+                    repr(model_field_name)))
+        serializer_class = factory(RELATED_DESCRIPTORS[field_rel_name](
+            model_field))
+        many = field_rel_name == MANY_TO_MANY_REL
+        source = None if api_field_name == model_field_name\
+            else model_field_name
+        nested_serializers[api_field_name] = serializer_class(
+            many=many, source=source)
+    return nested_serializers

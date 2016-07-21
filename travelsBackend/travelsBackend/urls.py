@@ -33,18 +33,17 @@ router_petition.register(r'additional-expenses',
                          base_name='additionalexpenses')
 
 router_user.register(
-    r'saved', factory(UserPetition, SubmissionPermissions, nested=TravelInfo,
+    r'saved', factory(UserPetition, SubmissionPermissions,
                       serializer_module='petition'))
 router_secretary.register(
     r'saved', factory(SecretaryPetition, SubmissionPermissions,
-                      nested=TravelInfo, serializer_module='petition'))
+                      serializer_module='petition'))
 router_user.register(
     r'submitted', factory(UserPetitionSubmission, IsOwnerOrAdmin,
-                          nested=TravelInfo, serializer_module='petition'))
+                          serializer_module='petition'))
 router_secretary.register(
     r'submitted', factory(SecretaryPetitionSubmission,
-                          SubmissionPermissions, nested=TravelInfo,
-                          serializer_module='petition'))
+                          SubmissionPermissions, serializer_module='petition'))
 
 
 # Wire up our API using automatic URL routing.

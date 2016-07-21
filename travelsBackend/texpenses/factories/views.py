@@ -28,7 +28,7 @@ MIXINS = {
 }
 
 
-def factory(model_class, custom_permission, api_name='APITravel', nested=None,
+def factory(model_class, custom_permission, api_name='APITravel',
             serializer_module=None):
     """TODO: Docstring for viewset_factory.
 
@@ -53,8 +53,7 @@ def factory(model_class, custom_permission, api_name='APITravel', nested=None,
         'queryset': model_class.objects.all(),
         'filter_backends': (),
         'model_meta': getattr(model_class, api_name),
-        'serializer_class': serializer_factory(model_class, nested,
-                                               serializer_module),
+        'serializer_class': serializer_factory(model_class, serializer_module),
     }
     cls = type('AbstractViewSet', get_bases_classes(model_meta), class_dict)
     utils.override_fields(cls, cls.model_meta,
