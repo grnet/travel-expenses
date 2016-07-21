@@ -55,7 +55,7 @@ def factory(model_class, custom_permission, api_name='APITravel',
         'model_meta': getattr(model_class, api_name),
         'serializer_class': serializer_factory(model_class, serializer_module),
     }
-    cls = type('AbstractViewSet', get_bases_classes(model_meta), class_dict)
+    cls = type(model_class.__name__, get_bases_classes(model_meta), class_dict)
     utils.override_fields(cls, cls.model_meta,
                           FIELDS_TO_EXPOSE)
     init_filter_backends(cls)
@@ -63,7 +63,6 @@ def factory(model_class, custom_permission, api_name='APITravel',
     module = utils.get_package_module(
         CUSTOM_VIEWS_CODE + '.' + module_name)
     utils.override_methods(cls, module, METHODS_TO_OVERRIDE)
-    cls.__name__ = model_class.__name__
     return cls
 
 
