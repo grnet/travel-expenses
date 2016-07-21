@@ -9,11 +9,11 @@ from texpenses.models import (TaxOffice, Project, City, Country,
                               AdditionalExpenses, UserPetition,
                               UserPetitionSubmission, SecretaryPetition,
                               SecretaryPetitionSubmission)
-from texpenses.custom_permissions import IsOwnerOrAdmin, isAdminOrRead
+from texpenses.custom_permissions import IsOwnerOrAdmin
 from . import auth_urls
 
 router = routers.DefaultRouter()
-router.register(r'users', factory(UserProfile, isAdminOrRead))
+router.register(r'users', factory(UserProfile))
 
 router_user = routers.DefaultRouter()
 router_secretary = routers.DefaultRouter()
@@ -28,22 +28,19 @@ router_resources.register(r'country', factory(Country))
 router_petition.register(r'travel_info', factory(
     TravelInfo))
 router_petition.register(r'additional-expenses',
-                         factory(AdditionalExpenses, IsOwnerOrAdmin),
+                         factory(AdditionalExpenses, (IsOwnerOrAdmin,)),
                          base_name='additionalexpenses')
 
 router_user.register(
-    r'saved', factory(UserPetition, nested=TravelInfo,
-                      serializer_module='petition'))
+    r'saved', factory(UserPetition, serializer_module_name='petition'))
 router_secretary.register(
-    r'saved', factory(SecretaryPetition,
-                      nested=TravelInfo, serializer_module='petition'))
+    r'saved', factory(SecretaryPetition, serializer_module_name='petition'))
 router_user.register(
-    r'submitted', factory(UserPetitionSubmission, IsOwnerOrAdmin,
-                          serializer_module='petition'))
+    r'submitted', factory(UserPetitionSubmission,
+                          serializer_module_name='petition'))
 router_secretary.register(
     r'submitted', factory(SecretaryPetitionSubmission,
-                          nested=TravelInfo,
-                          serializer_module='petition'))
+                          serializer_module_name='petition'))
 
 
 # Wire up our API using automatic URL routing.
