@@ -2,7 +2,7 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   __api__: {
-    ns: 'users_related'
+    ns: 'resources'
   },
 	name: DS.attr(),
 	accountingCode: DS.attr(),
