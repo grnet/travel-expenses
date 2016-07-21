@@ -56,7 +56,7 @@ class APIPetitionTest(APITestCase):
                           Petition.objects.get, project=self.project)
         data = {'project': self.project_url,
                 'task_start_date': self.start_date,
-                'task_end_date': self.end_date, 'additional_data': [],
+                'task_end_date': self.end_date, 'travel_info': [],
                 'user': self.user_url}
         for model, url in PETITION_APIS.iteritems():
             response = self.client.post(url, data, format='json')
@@ -71,10 +71,10 @@ class APIPetitionTest(APITestCase):
 
     def test_status_400_petition(self):
         required_fields = ('project',
-                           'additional_data')
+                           'travel_info')
         self.assertRaises(ObjectDoesNotExist,
                           Petition.objects.get, project=self.project)
-        data = {'project': self.project_url, 'additional_data': []}
+        data = {'project': self.project_url, 'travel_info': []}
         url = reverse('userpetition-list')
         for field in required_fields:
             value = data.pop(field)
@@ -85,10 +85,10 @@ class APIPetitionTest(APITestCase):
             data[field] = value
 
         city_url = reverse('city-detail', args=[1])
-        additional_data = [{'arrival_point': city_url,
-                            'departure_point': city_url,
-                            'accommodation_price': float('inf')}]
-        data['additional_data'] = additional_data
+        travel_info = [{'arrival_point': city_url,
+                        'departure_point': city_url,
+                        'accommodation_price': float('inf')}]
+        data['travel_info'] = travel_info
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         validation_message = 'Accomondation price inf for petition with DSE' +\
@@ -101,7 +101,7 @@ class APIPetitionTest(APITestCase):
         SecretaryPetitionSubmission.required_fields = ('reason',)
         data = {'project': self.project_url,
                 'task_start_date': self.start_date,
-                'task_end_date': self.end_date, 'additional_data': [],
+                'task_end_date': self.end_date, 'travel_info': [],
                 'reason': 'reason'}
         for model, url in SUBMISSION_APIS.iteritems():
             response = self.client.post(url, data, format='json')
@@ -119,7 +119,7 @@ class APIPetitionTest(APITestCase):
         SecretaryPetitionSubmission.required_fields = ()
         data = {'project': self.project_url,
                 'task_start_date': self.start_date,
-                'task_end_date': self.end_date, 'additional_data': []}
+                'task_end_date': self.end_date, 'travel_info': []}
         for _, url in SUBMISSION_APIS.iteritems():
             response = self.client.post(url, data, format='json')
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -141,13 +141,13 @@ class APIPetitionTest(APITestCase):
         SecretaryPetitionSubmission.required_fields = ()
         city_url = reverse('city-detail', args=[1])
         for model, url in PETITION_APIS.iteritems():
-            additional_data = [{'arrival_point': city_url,
-                                'departure_point': city_url,
-                                'transport_days_manual': sys.maxint}]
+            travel_info = [{'arrival_point': city_url,
+                            'departure_point': city_url,
+                            'transport_days_manual': sys.maxint}]
             data = {'project': self.project_url,
                     'task_start_date': self.start_date,
                     'task_end_date': self.end_date,
-                    'additional_data': additional_data,
+                    'travel_info': travel_info,
                     'user': self.user_url}
             response = self.client.post(url, data, format='json')
             self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -155,13 +155,13 @@ class APIPetitionTest(APITestCase):
                 u'non_field_errors':
                     [u'You have exceeded the allowable number of trip days']
             })
-            additional_data[0].pop('transport_days_manual')
+            travel_info[0].pop('transport_days_manual')
 
             # Check nested creation.
             data = {'project': self.project_url,
                     'task_start_date': self.start_date,
                     'task_end_date': self.end_date,
-                    'additional_data': additional_data,
+                    'travel_info': travel_info,
                     'user': self.user_url}
             response = self.client.post(url, data, format='json')
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -169,27 +169,27 @@ class APIPetitionTest(APITestCase):
             petition_url = petition['url']
             travel_info = petition['travel_info']
             self.assertEqual(len(travel_info), 1)
-            response = self.client.get(travel_info[0])
+            response = self.client.get(travel_info[0]['url'])
             self.assertEqual(response.status_code, status.HTTP_200_OK)
             for field in response.data:
                 self.assertTrue(field in TravelInfo.APITravel.fields)
 
             # Check nested updates.
             accommodation_price = 10
-            additional_data = [{'arrival_point': city_url,
-                                'departure_point': city_url,
-                                'accommodation_price': accommodation_price},
-                               {'arrival_point': city_url,
-                                'departure_point': city_url}]
-            data['additional_data'] = additional_data
+            travel_info = [{'arrival_point': city_url,
+                            'departure_point': city_url,
+                            'accommodation_price': accommodation_price},
+                           {'arrival_point': city_url,
+                            'departure_point': city_url}]
+            data['travel_info'] = travel_info
             response = self.client.put(
                 petition_url, data, format='json')
             self.assertEqual(response.status_code, status.HTTP_200_OK)
             petition = response.data
             travel_info = petition['travel_info']
             self.assertEqual(len(travel_info), 2)
-            response = self.client.get(travel_info[0])
+            response = self.client.get(travel_info[0]['url'])
             self.assertEqual(response.data['accommodation_price'],
                              accommodation_price)
-            response = self.client.get(travel_info[1])
+            response = self.client.get(travel_info[1]['url'])
             self.assertEqual(response.data['accommodation_price'], 0.0)
