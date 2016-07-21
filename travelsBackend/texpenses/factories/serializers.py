@@ -29,6 +29,7 @@ def factory(model_class, serializer_module_name=None, api_name='APITravel'):
     :param kwargss: Optional additional field specifications
     :return: A HyperLinkedModelSerializer
     """
+
     class Meta:
         model = model_class
 
