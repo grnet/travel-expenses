@@ -36,7 +36,7 @@
 | 22 | accommodation | Τιμή Διανυκτέρευσης (/ημέρα) | number - currency | - | this value should be > 0 and (< 220 if the user belongs in category A or < 160 if the user belongs in category B) + 100 if the arrival point == New York| - | price of accommodation |
 | 23 | registrationCost | Κόστος Συμμετοχής | number - currency | - | > 0 | - | filled with the cost of participation in conferences etc. |
 | 24 | additionalExpenses | Λοιπά Έξοδα Μετακίνησης | number - currency | - | > 0 | - | filled with the additional expenses that may exist due to train/metro/bus tickets etc. |
-| 25 | food | Κάλυψη Διατροφής | choices | (-) | - | - | the user may choose among half board, full board or none (-) |
+| 25 | meals | Κάλυψη Διατροφής | choices | (-) | - | - | the user may choose among none (-), breakfast, half board or full board |
 | 26 | nonGrnetQuota | Κάλυψη Ημερήσιας Αποζημίωσης από άλλο Φορέα | number | - | > 0 | - | filled with the amount being paid by another carrier |
 | 27 | userRecommendation | Αρχικές Προτάσεις Μετακινούμενου (για κρατήσεις πτήσεων, ξενοδοχείου, κλπ) | textarea | - | - | - | the user should fill this field with his suggestion concerning the type of accommodation (hotel, airbnb etc.) and the transportation(arrival/departure time, airline company etc.) |
 
@@ -66,7 +66,7 @@
 | 22 | accommodation | Τιμή Διανυκτέρευσης (/ημέρα) | number - currency | - | this value should be > 0 and (< 220 if the user belongs in category A or < 160 if the user belongs in category B) + 100 if the arrival point == New York| {icon check} | price of accommodation |
 | 23 | registrationCost | Κόστος Συμμετοχής | number - currency | - | > 0 | - | filled with the cost of participation in conferences etc. |
 | 24 | additionalExpenses | Λοιπά Έξοδα Μετακίνησης | number - currency | - | > 0 | - | filled with the additional expenses that may exist due to train/metro/bus tickets etc. |
-| 25 | food | Κάλυψη Διατροφής | choices | (-) | - | {icon check} | the user may choose among half board, full board or none (-) |
+| 25 | meals | Κάλυψη Διατροφής | choices | (-) | - | - | the user may choose among none (-), breakfast, half board or full board |
 | 26 | nonGrnetQuota | Κάλυψη Ημερήσιας Αποζημίωσης από άλλο Φορέα | number | - | > 0 | - | filled with the amount being paid by another carrier |
 | 27 | travelData | Στοιχεία σχετικά με την μετακίνηση και τη διαμονή | textarea | - | - | - | the user should fill this field with the final infos concerning the type of the accommodation (hotel, airbnb etc.) and the transportation(arrival/departure time, airline company etc.) |
 | 28 | movementId| Αρ.Μετακίνησης | string | - | - | {icon check} | the value of this field is the name of the petition's project + the current year + the serial number of this project's transportation (e.g. PRACE4IP/2016/1) |
@@ -95,23 +95,23 @@
 
 | Daily Compensation - Rules |
 | 1 | Η ημερήσια αποζημίωση καταβάλλεται **ολόκληρη** | Για την ημέρα μετάβασης και επιστροφής, όταν αυτή συμπίπτει με τη λήξη εργασιών | για κάθε ημέρα παραμονής και διανυκτέρευσης |
-| 2 | Καταβάλλεται **μειωμένη κατά 50%** | η επιστροφή πραγματοποιείται αυθημερόν (sameDayReturnTask == true) | στην περίπτωση που παρέχεται ημιδιατροφή (food == half board) |
-| 3 | Καταβάλλεται **μειωμένη κατά 75%** | καλύπτονται τα έξοδα διατροφής και διανυκτέρευσης (food == full board) |
-| 4 | Σε περίπτωση κάλυψης μέρους της αποζημίωσης από άλλον φορέα, καταβάλλεται το υπόλοιπο του ποσού που δικαιούται ο μετακινούμενος (compensationFinal = compensationFinal - compensationFinal*nonGrnetQuota ) |
+| 2 | Καταβάλλεται **μειωμένη κατά 50%** | η επιστροφή πραγματοποιείται αυθημερόν (sameDayReturnTask == true) | στην περίπτωση που παρέχεται ημιδιατροφή (meals == half board) |
+| 3 | Καταβάλλεται **μειωμένη κατά 75%** | καλύπτονται τα έξοδα διατροφής και διανυκτέρευσης (meals == full board) | |
+| 4 | Σε περίπτωση κάλυψης μέρους της αποζημίωσης από άλλον φορέα, καταβάλλεται το υπόλοιπο του ποσού που δικαιούται ο μετακινούμενος (compensationFinal = compensationFinal - compensationFinal*nonGrnetQuota ) | | |
 
 | Petition States | Label | Description | Petition Status Transitions |
-| 1 | Σε επεξεργασία από τον μετακινούμενο | when the simple user create or edit a petition |
-| 2 | Υποβεβλημένη από τον μετακινούμενο | when the simple user submits a petition |
+| 1 | Σε επεξεργασία από τον μετακινούμενο | when the simple user create or edit a petition | |
+| 2 | Υποβεβλημένη από τον μετακινούμενο | when the simple user submits a petition | |
 |   |  |  |  2 --> 1 : the user can cancel the submission of the petition if the secretary haven't edit the petition yet |
-| 3 | Σε επεξεργασία από τη γραμματεία | when the secretary saves the petition for the 1st time and until she submit it |
-| 4 | Οριστικοποιημένη από τη γραμματεία | when the secretary submits the petition |
-| 5 | Απόφαση Μετακίνησης για ανάρτηση στη ΔΙΑΥΓΕΙΑ |
-| 6 | Απόφαση Μετακίνησης υπογεγραμμένη από τον Πρόεδρο |
-| 7 | Σε επεξεργασία από μετακινούμενο για αποζημίωση |
-| 8 | Υποβεβλημένη από τον μετακινούμενο για αποζημίωση |
-| 9 | Σε επεξεργασία από τον Υπεύθυνο Μετακινήσεων |
-| 10 | Οριστικοποιημένη από τον Υπεύθυνο Μετακινήσεων |
-| 11 | Απόφαση Αποζημίωσης για ανάρτηση στη ΔΙΑΥΓΕΙΑ |
-| 12 | Απόφαση Αποζημίωσης υπογεγραμμένη από τον Πρόεδρο |
-| 13 | Ολοκληρωμένη |
-| 14 | Ακυρωμένη |
+| 3 | Σε επεξεργασία από τη γραμματεία | when the secretary saves the petition for the 1st time and until she submit it | |
+| 4 | Οριστικοποιημένη από τη γραμματεία | when the secretary submits the petition | |
+| 5 | Απόφαση Μετακίνησης για ανάρτηση στη ΔΙΑΥΓΕΙΑ | | |
+| 6 | Απόφαση Μετακίνησης υπογεγραμμένη από τον Πρόεδρο | | |
+| 7 | Σε επεξεργασία από μετακινούμενο για αποζημίωση | | |
+| 8 | Υποβεβλημένη από τον μετακινούμενο για αποζημίωση | | |
+| 9 | Σε επεξεργασία από τον Υπεύθυνο Μετακινήσεων | | |
+| 10 | Οριστικοποιημένη από τον Υπεύθυνο Μετακινήσεων | | |
+| 11 | Απόφαση Αποζημίωσης για ανάρτηση στη ΔΙΑΥΓΕΙΑ | | |
+| 12 | Απόφαση Αποζημίωσης υπογεγραμμένη από τον Πρόεδρο | | |
+| 13 | Ολοκληρωμένη | | |
+| 14 | Ακυρωμένη | | |
