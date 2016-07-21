@@ -287,8 +287,8 @@ class TravelInfo(Accommodation, Transportation):
         if self.depart_date is None or self.return_date is None:
             return 0
         time_period = (self.depart_date + timedelta(x + 1)
-                       for x in xrange(
-                       (self.return_date - self.depart_date).days))
+                       for x in xrange((
+                           self.return_date - self.depart_date).days))
         return sum(1 for day in time_period if day.weekday() not in WEEKENDS)
 
     def overnights_num_proposed(self, task_start_date, task_end_date):
