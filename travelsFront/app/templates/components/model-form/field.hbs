@@ -1,119 +1,18 @@
-{{#unless isSelect }}
 {{ component
-    componentName
+  componentName
 
-    onChange=(action 'updateProperty')
-    label=label
-    value=value
-    placeholder=placeholder
-    errors=errors
-    isTouched=isTouched
-    type=fieldAttrs.type
-    
-    passThru=passThruAttrs
-
-    icon=fieldAttrs.icon
-    accesskey=fieldAttrs.accesskey
-    autocomplete=fieldAttrs.autocomplete
-    autofocus=fieldAttrs.autofocus
-    autosave=fieldAttrs.autosave
-    dir=fieldAttrs.dir
-    disabled=fieldAttrs.disabled
-    hidden=fieldAttrs.hidden
-    inputmode=fieldAttrs.inputmode
-    lang=fieldAttrs.lang
-    list=fieldAttrs.list
-    max=fieldAttrs.max
-    maxlength=fieldAttrs.maxlength
-    min=fieldAttrs.min
-    minlength=fieldAttrs.minlength
-    multiple=fieldAttrs.multiple
-    pattern=fieldAttrs.pattern
-    readonly=fieldAttrs.readonly
-    required=fieldAttrs.required
-    size=fieldAttrs.size
-    spellcheck=fieldAttrs.spellcheck
-    step=fieldAttrs.step
-    tabindex=fieldAttrs.tabindex
-    title=fieldAttrs.title
-    textarea=fieldAttrs.textarea
-    rows=fieldAttrs.rows
-    columns=fieldAttrs.columns
+  field=field
+  onChange=(action 'updateProperty')
+  value=value
+  label=label
+  errors=errors
+  isTouched=isTouched
 }}
-{{else}}
-{{# component
-    componentName
-
-    onChange=(action 'updateProperty')
-    label=label
-    value=value
-    placeholder=placeholder
-    isTouched=isTouched
-    errors=errors
-    cache=cache
-    
-    getItems=getItems
-    itemLabelCallback=itemLabelCallback
-
-    passThru=passThruAttrs
-
-    icon=fieldAttrs.icon
-    accesskey=fieldAttrs.accesskey
-    autocomplete=fieldAttrs.autocomplete
-    autofocus=fieldAttrs.autofocus
-    autosave=fieldAttrs.autosave
-    dir=fieldAttrs.dir
-    disabled=fieldAttrs.disabled
-    hidden=fieldAttrs.hidden
-    inputmode=fieldAttrs.inputmode
-    lang=fieldAttrs.lang
-    list=fieldAttrs.list
-    max=fieldAttrs.max
-    maxlength=fieldAttrs.maxlength
-    min=fieldAttrs.min
-    minlength=fieldAttrs.minlength
-    multiple=fieldAttrs.multiple
-    pattern=fieldAttrs.pattern
-    readonly=fieldAttrs.readonly
-    required=fieldAttrs.required
-    size=fieldAttrs.size
-    spellcheck=fieldAttrs.spellcheck
-    step=fieldAttrs.step
-    tabindex=fieldAttrs.tabindex
-    title=fieldAttrs.title
-    textarea=fieldAttrs.textarea
-    rows=fieldAttrs.rows
-    columns=fieldAttrs.columns
-
-    as |options|
-}}
-  {{#each options as |option|}}
-    {{#paper-option value=option.value action=(action 'updateProperty')}}
-      {{option.label}}
-    {{/paper-option}}
-  {{else}}
-    {{#paper-option value='' disabled=true}}
-        No choices available
-    {{/paper-option}}
-  {{/each}}
-{{/component}}
-    {{#if (and hasErrors isTouched)}}
-        <div class="md-input-messages-animation md-auto-hide" ng-messages>
-          {{#each errors as |error index|}}
-            <div
-              id="error-{{index}}"
-              class="md-input-error">
-              {{error.message}}
-            </div>
-          {{/each}}
-        </div>
-    {{/if}}
-{{/unless}}
 
 {{#if canShowHint }}
-    <div class="md-input-hint">
-        <div class="message">
-            {{ hint }}
-        </div>
+  <div class="md-input-hint">
+    <div class="message">
+        {{ hint }}
     </div>
+  </div>
 {{/if}}

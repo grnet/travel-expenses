@@ -13,6 +13,7 @@
     "hammer.js": "^2.0.8",
     "matchMedia": "0.2.0",
     "materialize": "0.97.6",
-    "font-awesome": "~4.5.0"
+    "font-awesome": "~4.5.0",
+    "pikaday": "^1.4.0"
   }
 }

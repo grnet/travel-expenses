@@ -36,13 +36,13 @@ function FuncOrValue(subj, ...args) {
 };
 
 const TYPE_COMPONENT_MAP = {
-  'string': ['paper-input', {type: "text"}],
+  'string': ['model-form/fields/input', {type: "text"}],
   'boolean': ['paper-checkbox', {}],
-  'select': ['paper-select', {}],
+  'select': ['model-form/fields/select', {}],
   'date': ['paper-input', {type: "date"}],
   'datetime': ['paper-input', {type: "datetime-local"}],
-  'select': ['paper-select'],
-  'relation': ['paper-select']
+  'select': ['model-form/fields/select'],
+  'relation': ['model-form/fields/select']
 };
 
 var Field = Ember.Object.extend({
@@ -69,8 +69,8 @@ var Field = Ember.Object.extend({
   }),
 
   _component: computed('options.component', 'type', function() {
-    let component = get(this, 'options.component') || TYPE_COMPONENT_MAP[get(this, 'type')];
     let type = get(this, 'type');
+    let component = get(this, 'options.component') || TYPE_COMPONENT_MAP[type];
     Ember.assert(`Cannot resolve component for type: ${type}`, component);
     if (!isArray(component)) { component = [component, {}]; }
     component = FuncOrValue(component, this);
