@@ -12,13 +12,13 @@ export default DS.Model.extend({
       type: 'datetime-local'
     },
   }),
-  departurePoint: DS.belongsTo('city'),
-  arrivalPoint: DS.belongsTo('city'),
+  departure_point: DS.belongsTo('city'),
+  arrival_point: DS.belongsTo('city'),
   transportation: DS.attr(),
   accomondation_price: DS.attr(),
   transportation_price: DS.attr(),
   transport_days_manual: DS.attr(),
   overnights_num_manual: DS.attr(),
-  feeding: DS.attr(),
+  meals: DS.attr(),
   movement_num: DS.attr()
 });
