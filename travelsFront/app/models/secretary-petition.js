@@ -1,5 +1,6 @@
 import {SecretaryPetition} from 'travels-front/lib/models/petition';
 import {validator, buildValidations} from 'ember-cp-validations';
+import {UIS} from 'travels-front/lib/form-uis';
 
 
 var Validations = buildValidations({
@@ -15,4 +16,8 @@ export default Petition.extend(Validations, {
       return this.urlJoin(adapter.get('host'), this.ns, this.path) + '/';
     }
   },
+  __ui__: {
+   'default': UIS['petition_user'],
+  } 
+
 });

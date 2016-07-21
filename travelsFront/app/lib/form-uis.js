@@ -1,22 +1,15 @@
 export const UIS = {
-    'petition_user': {
-      fieldsets: [
-        {
-          'label': 'Profile',
-          'fields': ['name', 'surname', 'specialtyID', 
-          'kind', 'taxRegNum', 'taxOffice', 'iban', 'user_category']
-        },
-        {
-          'label': 'Travel Data',
-          'fields': ['project', 'reason', 'movementCategories',  'departurePoint', 'arrivalPoint',
-          'taskStartDate', 'taskEndDate', 'depart_date', 'return_date', 'transportation', 
-          'recCostParticipation', 'additional_expenses_initial', 'additional_expenses_initial_description']
-        },
-      ],
-      layout: {
-        flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
-      }
-    },
+  "petition_user": {
+    fieldsets: [
+      {
+        'label': 'User data',
+        'fields': ['first_name', 'specialty']
+      },
+    ],
+    layout: {
+      flex: [50, 50, 50, 50, 50, 50, 50, 50]
+    }
+  },
   "petition_travel": {
     layoutMap: {"reason": 100},
     fieldsets: [
@@ -47,4 +40,4 @@ export const UIS = {
       flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
     }
   }
-}
+};
