@@ -11,10 +11,6 @@ var Validations = buildValidations({
 export default Petition.extend(Validations, {
   __api__: {
     path: 'petition/secretary/saved/',
-    buildURL: function(adapter, url, id, snap, rtype, query) {
-      // always return my profile endpoint
-      return this.urlJoin(adapter.get('host'), this.ns, this.path) + '/';
-    }
   },
   __ui__: {
    'default': UIS['petition_user'],
