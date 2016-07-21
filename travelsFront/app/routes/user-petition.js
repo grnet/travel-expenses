@@ -55,6 +55,11 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
     }
 	},
 
+  setupController(c) {
+    this._super(...arguments);
+    c.set('newPetition', get(this, 'newPetition'));
+  },
+
 	actions: {
 	}
 	
