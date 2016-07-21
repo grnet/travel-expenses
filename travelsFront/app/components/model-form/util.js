@@ -37,12 +37,13 @@ function FuncOrValue(subj, ...args) {
 
 const TYPE_COMPONENT_MAP = {
   'string': ['model-form/fields/input', {type: "text"}],
-  'boolean': ['paper-checkbox', {}],
+  'boolean': ['mode-form/fields/checkbox', {}],
   'select': ['model-form/fields/select', {}],
   'date': ['model-form/fields/date', {time: false}],
   'datetime': ['model-form/fields/date', {time: 'local'}],
   'select': ['model-form/fields/select'],
-  'relation': ['model-form/fields/select']
+  'relation': ['model-form/fields/select'],
+  'autocomplete': ['model-form/fields/autocomplete']
 };
 
 var Field = Ember.Object.extend({
@@ -68,13 +69,21 @@ var Field = Ember.Object.extend({
     return get(this, 'options.label') || titlecase(get(this, 'key'));
   }),
 
-  _component: computed('options.component', 'type', function() {
-    let type = get(this, 'type');
+  resolveComponent: function(type, attrs) {
+    if ((type == 'select' || type == 'relation') && attrs.autocomplete) {
+      type = 'autocomplete';
+    }
     let component = get(this, 'options.component') || TYPE_COMPONENT_MAP[type];
     Ember.assert(`Cannot resolve component for type: ${type}`, component);
     if (!isArray(component)) { component = [component, {}]; }
     component = FuncOrValue(component, this);
     return component
+  },
+
+  _component: computed('options.component', 'type', function() {
+    let type = get(this, 'type');
+    let attrs = get(this, 'options.attrs') || {};
+    return this.resolveComponent(type, attrs);
   }),
 
   component: alias('_component.0'),
