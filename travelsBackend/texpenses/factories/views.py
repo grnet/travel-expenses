@@ -28,8 +28,8 @@ MIXINS = {
 }
 
 
-def factory(model_class, custom_permission, api_name='APITravel',
-            serializer_module=None):
+def factory(model_class, custom_permissions=(), api_name='APITravel',
+            serializer_module_name=None):
     """TODO: Docstring for viewset_factory.
 
     :model_class: TODO
@@ -48,12 +48,12 @@ def factory(model_class, custom_permission, api_name='APITravel',
     class_dict = {
 
         'authentication_classes': (SessionAuthentication, TokenAuthentication),
-        'permission_classes': (IsAuthenticated,) + (custom_permission,) + (
+        'permission_classes': (IsAuthenticated,) + custom_permissions + (
             DjangoModelPermissions,),
         'queryset': model_class.objects.all(),
         'filter_backends': (),
         'model_meta': getattr(model_class, api_name),
-        'serializer_class': serializer_factory(model_class, serializer_module),
+        'serializer_class': serializer_factory(model_class, serializer_module_name),
     }
     cls = type(model_class.__name__, get_bases_classes(model_meta), class_dict)
     utils.override_fields(cls, cls.model_meta,
