@@ -8,11 +8,11 @@
 <td>{{petition.taskEndDate}}</td>
 <td>{{petition.status}}</td>
 <td class="icon-cell">
-    {{#paper-button type="submit" raised=true onClick=(transition-to "userPetition" petition.petitionID) iconButton=true}}{{fa-icon "pencil"}}{{/paper-button}}
+    {{#paper-button type="submit" raised=true onClick=(transition-to "userPetition" petition.petition_id) iconButton=true}}{{fa-icon "pencil"}}{{/paper-button}}
 </td>
 <td class="icon-cell">
-    {{#paper-button type="submit" raised=true onClick=(action "petitionDelete" petition.petitionID petition.status) iconButton=true}}{{fa-icon "trash-o"}}{{/paper-button}}
+    {{#paper-button type="submit" raised=true onClick=(action "petitionDelete" petition.petition_id petition.status) iconButton=true}}{{fa-icon "trash-o"}}{{/paper-button}}
 </td>
 <td class="icon-cell">
-    {{#paper-button type="submit" raised=true onClick=(action "petitionUndo" petition.petitionID) iconButton=true}}{{fa-icon "undo"}}{{/paper-button}}
+    {{#paper-button type="submit" raised=true onClick=(action "petitionUndo" petition.petition_id) iconButton=true}}{{fa-icon "undo"}}{{/paper-button}}
 </td>
