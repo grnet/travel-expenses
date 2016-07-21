@@ -1,7 +1,6 @@
 {{ page-toolbar pageTitle=(if newPetition "Create a petition" "Edit petition") }}
 
 {{#paper-content classNames="md-padding"}}
-{{ newPetition }}
     {{# model-form/form model as |form| }}
         {{ form.messages }}
         {{ form.fields }}
