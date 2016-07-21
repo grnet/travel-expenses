@@ -118,7 +118,7 @@ class MyModel(models.Model):
         ordering_fields = ('name',)
 ```
 
-### Viewset Operations allowed
+### Allowed Viewset Operations
 
 The default allowed viewset operations are ('list', 'retrieve','create','update','delete'). You can customize this behavior by using the `allowed_operations` attribute.
 
@@ -133,6 +133,30 @@ class MyModel(models.Model):
         search_fields=('name',)
         ordering_fields = ('name',)
         allowed_operations = ('list', 'retrieve', 'delete')
+```
+
+### Nested Relations
+
+Nested serialization is also supported. For example, you may want to expose the relations of model to
+one single serializer in order to easily read/create/update objects.
+All you have to do is to specify the attribute `nested_relations` with a list of tuples of your relations by specifying the name of your nested serializer and the name of the corresponding model field. Our mechanism we will find how the given model is related and will initialize nested serializer accordingly.
+
+However, as the django rest framework supports only read only nested serializers, if you want to
+support nested serializer fields you'll need to override `create` and `update` methods of serializer
+class.
+
+```python
+class MyModel(models.Model):
+    # Same code as above.
+
+    class APITravel:
+        fields = ('id', 'url', 'name', 'number') # Fields exposed to API
+        read_only_fields = ('id', 'url')
+        filter_fields = ('name','number')
+        search_fields=('name',)
+        ordering_fields = ('name',)
+        allowed_operations = ('list', 'retrieve', 'delete')
+        nested_relations = [('api_field_name', 'another_model')]
 ```
 
 **Note 1** : If you want to **override the serializer methods** and provide custom implementations for your model then you can simply add your code to a new module with the snake case name of your model inside `serializers` package. Factory function will include them and will override custom implementation.The methods supported are **('create', 'update', 'delete', 'validate')**
@@ -158,7 +182,7 @@ router_petition.register(
     r'my_model', viewset_factory(MyModel, YourCustomPermission))
 ```
 
-**Note** : "YourCustomPermission" is a model level custom permission. This permission is placed between the two default permissions: `IsAuthenticated` and `DjangoModelPermissions` classes. So the permissions order is defined like this: 1. IsAuthenticated, 2. YourCustomPermission, 3. DjangoModelPermissions
+**Note** : "YourCustomPermissions" are model level custom permissions. This permissions are placed between the two default permissions: `IsAuthenticated` and `DjangoModelPermissions` classes. So the permissions order is defined like this: 1. IsAuthenticated, 2. YourCustomPermissions, 3. DjangoModelPermissions
 
 Don't forget to perform the required schema migrations after adding your model by running:
 
