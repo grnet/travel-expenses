@@ -3,7 +3,7 @@ from django.conf import settings
 
 
 def load_resources():
-    with open(settings.ENUM_FILE) as json_file:
+    with open(settings.RESOURCES_FILE) as json_file:
         return json.load(json_file)
 
 

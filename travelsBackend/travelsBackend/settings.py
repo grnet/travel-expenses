@@ -149,8 +149,8 @@ LOGGING = {
     }
 }
 
-ENUM_FILE = os.path.join(BASE_DIR, '../resources/common.json')
-# useful trick for custom settings
+# Path to resources file.
+RESOURCES_FILE = os.path.join(BASE_DIR, '../resources/common.json')
 try:
     from local_settings import *
 except ImportError, e:
