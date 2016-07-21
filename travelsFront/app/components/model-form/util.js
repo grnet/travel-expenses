@@ -39,8 +39,8 @@ const TYPE_COMPONENT_MAP = {
   'string': ['model-form/fields/input', {type: "text"}],
   'boolean': ['paper-checkbox', {}],
   'select': ['model-form/fields/select', {}],
-  'date': ['paper-input', {type: "date"}],
-  'datetime': ['paper-input', {type: "datetime-local"}],
+  'date': ['model-form/fields/date', {time: false}],
+  'datetime': ['model-form/fields/date', {time: 'local'}],
   'select': ['model-form/fields/select'],
   'relation': ['model-form/fields/select']
 };

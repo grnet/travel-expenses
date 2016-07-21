@@ -1,0 +1,21 @@
+{{#if label}}
+  <label for={{inputElementId}} class="{{if required "md-required"}}">{{label}}</label>
+{{/if}}
+
+{{#if icon}}
+  {{paper-icon icon}}
+{{/if}}
+
+{{# if fattrs.time }}
+<div layout>
+{{ pick-a-date placeholder='' classNames="flex-60" date=value on-selected=(action handleDate) }}
+{{ pick-a-time placeholder='' classNames="flex-40" date=value on-selected=(action handleDate) }}
+</div>
+{{ else }}
+{{ pick-a-date placeholder='' date=value on-selected=(action handleDate) }}
+{{/if}}
+
+{{#if iconRight}}
+  {{paper-icon iconRight}}
+{{/if}}
+

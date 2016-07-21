@@ -107,3 +107,13 @@ p.rt {
         text-decoration: none;
     }
 }
+
+.picker__table { 
+  th {
+    background-color: color('blue', '500') !important;
+    color: #fff !important;
+  }
+  tr:nth-child(2) td {
+    background-color: transparent;
+  }
+}
