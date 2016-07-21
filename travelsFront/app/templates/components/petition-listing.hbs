@@ -1,11 +1,11 @@
 <td>{{petition.first_name}}</td>
 <td>{{petition.last_name}}</td>
 <td>{{petition.project.name}}</td>
-<td>{{petition.arrivalPoint.name}}</td>
+<td>{{petition.arrival_point.name}}</td>
 <td>{{petition.creationDate}}</td>
 <td>{{petition.updateDate}}</td>
-<td>{{petition.taskStartDate}}</td>
-<td>{{petition.taskEndDate}}</td>
+<td>{{petition.task_start_date}}</td>
+<td>{{petition.task_end_date}}</td>
 <td>{{petition.status}}</td>
 <td class="icon-cell">
     {{#paper-button type="submit" raised=true onClick=(transition-to "userPetition" petition.petition_id) iconButton=true}}{{fa-icon "pencil"}}{{/paper-button}}
