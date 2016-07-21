@@ -146,7 +146,7 @@ class City(models.Model):
     class APITravel(object):
         fields = ('id', 'url', 'name', 'country')
         read_only_fields = ('id', 'url')
-        filter_fields = ('country',)
+        nested_relations = [('country', 'country')]
         allowed_operations = ('list', 'retrieve')
 
     def __unicode__(self):
@@ -465,15 +465,16 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
                   'specialty', 'tax_office', 'tax_reg_num', 'category', 'user',
                   'task_start_date', 'task_end_date', 'travel_info',
-                  'project', 'reason', 'additional_data',
-                  'additional_expenses_initial', 'additional_data',
+                  'project', 'reason',
+                  'additional_expenses_initial',
                   'additional_expenses_initial_description',
                   'trip_days_before', 'trip_days_after', 'status',
                   'participation_cost', 'url', 'overnights_sum_cost',
                   'overnights_proposed')
         read_only_fields = ('id', 'user', 'url', 'first_name', 'last_name',
                             'kind', 'specialty', 'tax_office', 'tax_reg_num',
-                            'category', 'status', 'dse', 'travel_info')
+                            'category', 'status', 'dse')
+        nested_relations = [('travel_info', 'travel_info')]
 
     def __init__(self, *args, **kwargs):
         super(Petition, self).__init__(*args, **kwargs)
@@ -622,6 +623,7 @@ class UserPetition(Petition):
     class APITravel:
         fields = Petition.APITravel.fields
         read_only_fields = Petition.APITravel.read_only_fields
+        nested_relations = [('travel_info', 'travel_info')]
 
 
 class UserPetitionSubmission(Petition):
@@ -638,6 +640,7 @@ class UserPetitionSubmission(Petition):
     class APITravel:
         fields = Petition.APITravel.fields
         read_only_fields = Petition.APITravel.read_only_fields
+        nested_relations = [('travel_info', 'travel_info')]
 
     def clean(self):
         required_validator(self, self.required_fields)
@@ -672,6 +675,7 @@ class SecretaryPetition(Petition):
         read_only_fields = ('id', 'url', 'first_name', 'last_name',
                             'kind', 'specialty', 'tax_office', 'tax_reg_num',
                             'category', 'status', 'dse', 'travel_info')
+        nested_relations = [('travel_info', 'travel_info')]
 
     def save(self, *args, **kwargs):
         self.updated = timezone.now()
@@ -706,6 +710,7 @@ class SecretaryPetitionSubmission(Petition):
             'compensation_decision_protocol',
             'compensation_decision_date')
         read_only_fields = Petition.APITravel.read_only_fields
+        nested_relations = [('travel_info', 'travel_info')]
 
     def clean(self):
         required_validator(self, self.required_fields)
