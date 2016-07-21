@@ -2,11 +2,16 @@
 
 {{#paper-content classNames="md-padding"}}
 {{ newPetition }}
-    {{ model-form/form model}}
-    {{#paper-button 
-        onClick=(action "submitToState2")
-        warn=true
-        raised=true
-        disabled=inProgress
-    }}SUBMIT{{/paper-button}}
+    {{# model-form/form model as |form| }}
+        {{ form.messages }}
+        {{ form.fields }}
+        {{# form.controls }}
+            {{#paper-button 
+                onClick=(action "submitToState2")
+                warn=true
+                raised=true
+                disabled=inProgress
+            }}SUBMIT{{/paper-button}}
+        {{/ form.controls}}
+    {{/ model-form/form }}
 {{/paper-content}}
