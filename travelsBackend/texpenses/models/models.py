@@ -76,7 +76,7 @@ class UserProfile(AbstractUser, TravelUserProfile):
                   'iban', 'specialty', 'kind', 'tax_reg_num', 'tax_office',
                   'category', 'user_group', 'trip_days_left')
         read_only_fields = ('username', 'trip_days_left')
-        # write_only_fieds = ('password',)
+        allowed_operations = ('list', 'retrieve')
 
     def user_group(self):
         groups = self.groups.all()
