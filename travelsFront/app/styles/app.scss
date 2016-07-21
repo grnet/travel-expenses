@@ -102,4 +102,8 @@ p.rt {
 .logo {
     background: url('images/grnet_logo.png') no-repeat 10px 10px;
     background-size: 100px;
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
 }
