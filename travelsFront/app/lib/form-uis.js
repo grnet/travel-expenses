@@ -3,26 +3,31 @@ export const UIS = {
     fieldsets: [
       {
         'label': 'User data',
-        'fields': ['first_name', 'specialty']
+        'fields': ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'user_category']
+      },
+      {
+        'label': 'Travel Data',
+        'fields': ['dse', 'project', 'reason', 'movement_category', 'departure_point', 'arrival_point',
+        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'mean_of_transport', 'transportation',
+        'accomondation', 'registration_cost', 'additional_expenses', 'meals', 'non_grnet_quota', 'user_recommendation']
       },
     ],
     layout: {
-      flex: [50, 50, 50, 50, 50, 50, 50, 50]
+      flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
     }
   },
   "petition_travel": {
     layoutMap: {"reason": 100},
     fieldsets: [
       {
-        'label': 'Profile',
-        'fields': ['name', 'surname', 'specialtyID', 
-        'kind', 'taxRegNum', 'taxOffice', 'iban', 'user_category']
+        'label': 'User data',
+        'fields': ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'user_category']
       },
       {
         'label': 'Travel Data',
-        'fields': ['dse', 'project', 'reason', 'movementCategory', 'departurePoint', 'arrivalPoint',
-        'taskStartDate', 'taskEndDate', 'depart_date', 'return_date', 'transportation', 'flight',
-        'accomondation', 'recCostParticipation', 'additional_expenses_initial', 'feeding', 'non_grnet_quota']
+        'fields': ['dse', 'project', 'reason', 'movement_category', 'departure_point', 'arrival_point',
+        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'mean_of_transport', 'transportation',
+        'accomondation', 'registration_cost', 'additional_expenses', 'meals', 'non_grnet_quota', 'user_recommendation']
       },
       {
         'label': 'Secretary Data',
