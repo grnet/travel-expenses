@@ -60,7 +60,7 @@ export var Petition = DS.Model.extend({
   additional_expenses: DS.attr({attrs: {required: true}}),
   meals: DS.attr({'label': 'Meals', 'choices': CHOICES.FEEDING}),
   non_grnet_quota: DS.attr({attrs: {required: true}}),
-  user_recommendation: DS.attr()
+  user_recommendation: DS.attr({attrs:{textarea: true}})
 });
 
 
