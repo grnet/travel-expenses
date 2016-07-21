@@ -13,8 +13,8 @@ FILTERING_BACKENDS = {
     'search_fields': filters.SearchFilter,
     'ordering_fields': filters.OrderingFilter
 }
-FIELDS_TO_OVERRIDE = [('filter_fields', None), ('ordering_fields', None),
-                      ('search_fields', None), ('ordering', None)]
+FIELDS_TO_EXPOSE = [('filter_fields', None), ('ordering_fields', None),
+                    ('search_fields', None), ('ordering', None)]
 METHODS_TO_OVERRIDE = ['create', 'update', 'delete']
 CUSTOM_VIEWS_CODE = 'texpenses.views'
 
@@ -57,7 +57,7 @@ def factory(model_class, custom_permission, api_name='APITravel',
     }
     cls = type('AbstractViewSet', get_bases_classes(model_meta), class_dict)
     utils.override_fields(cls, cls.model_meta,
-                          FIELDS_TO_OVERRIDE)
+                          FIELDS_TO_EXPOSE)
     init_filter_backends(cls)
     module_name = utils.camel2snake(model_class.__name__)
     module = utils.get_package_module(

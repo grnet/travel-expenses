@@ -43,7 +43,7 @@ def override_methods(cls, module, methods_to_override):
             setattr(cls, method_name, custom_method)
 
 
-def override_fields(cls, meta_class, fields_to_override):
+def override_fields(cls, meta_class, fields_to_expose):
     """
     This function looks up for specific fields in a specified meta class which
     define how fields will be treated by the REST API classes (serializers,
@@ -51,15 +51,15 @@ def override_fields(cls, meta_class, fields_to_override):
 
     :param cls: Class to override its fields.
     :param module: Class to get its fields.
-    :param fields_to_override: List of tuple with the fields to override and
+    :param fields_to_expose: List of tuple with the fields to override and
     their default values.
     """
     if meta_class is None:
         return
 
-    for field_name, default in fields_to_override:
-        field_value = getattr(meta_class, field_name, None)
+    for serializer_attr_name, default in fields_to_expose:
+        field_value = getattr(meta_class, serializer_attr_name, None)
         if field_value is None and default is None:
             continue
-        setattr(cls, field_name, (
+        setattr(cls, serializer_attr_name, (
             default if field_value is None else field_value))

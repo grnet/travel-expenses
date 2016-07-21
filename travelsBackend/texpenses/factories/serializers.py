@@ -3,9 +3,9 @@ from texpenses.factories import utils
 
 
 READ_ONLY_FIELDS = ('id', 'url')
-FIELDS_TO_OVERRIDE = [('fields', '__all__'),
-                      ('read_only_fields', READ_ONLY_FIELDS),
-                      ('write_only_fields', None)]
+FIELDS_TO_EXPOSE = [('fields', '__all__'),
+                    ('read_only_fields', READ_ONLY_FIELDS),
+                    ('write_only_fields', None)]
 METHODS_TO_OVERRIDE = ['create', 'update', 'delete', 'validate']
 CUSTOM_SERIALIZERS_CODE = 'texpenses.serializers'
 
@@ -18,7 +18,7 @@ class ModelFieldNotRelated(Exception):
     pass
 
 
-def factory(model_class, serializer_module=None, api_name='APITravel'):
+def factory(model_class, serializer_module_name=None, api_name='APITravel'):
     """ Generalized serializer factory to increase DRYness of code.
 
     :param model_class: The model for the HyperLinkedModelSerializer
@@ -33,7 +33,7 @@ def factory(model_class, serializer_module=None, api_name='APITravel'):
         model = model_class
 
     def validate(self, attrs):
-        attrs = super(AbstractSerializer, self).validate(attrs)
+        attrs = super(cls, self).validate(attrs)
         model_inst = model_class(**attrs)
         model_inst.clean()
         return attrs
@@ -47,18 +47,18 @@ def factory(model_class, serializer_module=None, api_name='APITravel'):
     assert model_api_class is not None
     nested_serializers = get_nested_serializer(model_class, model_api_class)
     class_dict.update(nested_serializers)
-    AbstractSerializer = type(
+    cls = type(
         model_class.__name__, (serializers.HyperlinkedModelSerializer,),
         class_dict)
     utils.override_fields(
-        AbstractSerializer.Meta, model_api_class, FIELDS_TO_OVERRIDE)
+        cls.Meta, model_api_class, FIELDS_TO_EXPOSE)
     module_name = utils.camel2snake(model_class.__name__)\
-        if not serializer_module else serializer_module
+        if not serializer_module_name else serializer_module_name
     module = utils.get_package_module(
         CUSTOM_SERIALIZERS_CODE + '.' + module_name)
-    utils.override_methods(AbstractSerializer, module, METHODS_TO_OVERRIDE)
-    AbstractSerializer.__name__ = model_class.__name__
-    return AbstractSerializer
+    utils.override_methods(cls, module, METHODS_TO_OVERRIDE)
+    cls.__name__ = model_class.__name__
+    return cls
 
 
 RELATED_DESCRIPTORS = {
