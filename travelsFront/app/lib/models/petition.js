@@ -5,21 +5,21 @@ import ENV from 'travels-front/config/environment';
 const CHOICES = ENV.APP.resource_choices;
 
 export var Petition = DS.Model.extend({
-  first_name: DS.attr({attrs: {readonly: true}}),
-  last_name: DS.attr(),
-  specialty: DS.attr({'label': 'Specialty', 'choices': CHOICES.SPECIALTY}),
+  first_name: DS.attr({attrs: {readonly: true, required: true}}),
+  last_name: DS.attr({attrs: {readonly: true, required: true}}),
+  specialty: DS.attr({'label': 'Specialty', 'choices': CHOICES.SPECIALTY, 'required': true}),
   kind: DS.attr({'choices': CHOICES.KIND}),
   tax_reg_num: DS.attr({'label': 'VAT'}),
   tax_office: DS.belongsTo('tax-office'),
   iban: DS.attr(),
-  user_category: DS.attr({'label': 'User Category', 'choices': CHOICES.USER_CATEGORY}),
+  user_category: DS.attr({'label': 'User Category', 'choices': CHOICES.USER_CATEGORY, 'required': true}),
   user: DS.belongsTo('profile'),
-  dse: DS.attr(),
-  project: DS.belongsTo('project'),
+  dse: DS.attr('string', {attrs: {required: true}}),
+  project: DS.belongsTo('project', {attrs: {required: true}}),
   reason: DS.attr(),
   movement_category: DS.attr({attrs: {readonly: true}}),
-  departure_point: DS.attr({'label': 'Depart from', 'choices': CHOICES.DEPARTURE_POINT}),
-  arrival_point: DS.attr({'label': 'Arrive at', 'choices': CHOICES.ARRIVAL_POINT}),
+  departure_point: DS.belongsTo('city'),
+  arrival_point: DS.belongsTo('city'),
   task_start_date: DS.attr({
     attrs: {
       type: 'datetime-local'
@@ -54,10 +54,10 @@ export var Petition = DS.Model.extend({
   mean_of_transport: DS.attr({'label': 'Mean of Transport', 'choices': CHOICES.TRANSPORTATION}),
   transportation: DS.attr(),
   accommodation: DS.attr({'label': 'Mean of Transport', 'choices': CHOICES.ACCOMMODATION}),
-  registration_cost: DS.attr(),
-  additional_expenses: DS.attr(),
+  registration_cost: DS.attr({attrs: {required: true}}),
+  additional_expenses: DS.attr({attrs: {required: true}}),
   meals: DS.attr({'label': 'Meals', 'choices': CHOICES.FEEDING}),
-  non_grnet_quota: DS.attr(),
+  non_grnet_quota: DS.attr({attrs: {required: true}}),
   user_recommendation: DS.attr()
 });
 
