@@ -9,8 +9,7 @@ from texpenses.models import (TaxOffice, Project, City, Country,
                               AdditionalExpenses, UserPetition,
                               UserPetitionSubmission, SecretaryPetition,
                               SecretaryPetitionSubmission)
-from texpenses.custom_permissions import IsOwnerOrAdmin, isAdminOrRead,\
-    SubmissionPermissions
+from texpenses.custom_permissions import IsOwnerOrAdmin, isAdminOrRead
 from . import auth_urls
 
 router = routers.DefaultRouter()
@@ -21,29 +20,30 @@ router_secretary = routers.DefaultRouter()
 router_petition = routers.DefaultRouter()
 router_resources = routers.DefaultRouter()
 
-router_resources.register(r'tax-office', factory(TaxOffice, isAdminOrRead))
-router_resources.register(r'project', factory(Project, isAdminOrRead))
-router_resources.register(r'city', factory(City, isAdminOrRead))
-router_resources.register(r'country', factory(Country, isAdminOrRead))
+router_resources.register(r'tax-office', factory(TaxOffice))
+router_resources.register(r'project', factory(Project))
+router_resources.register(r'city', factory(City))
+router_resources.register(r'country', factory(Country))
 
 router_petition.register(r'travel_info', factory(
-    TravelInfo, isAdminOrRead))
+    TravelInfo))
 router_petition.register(r'additional-expenses',
                          factory(AdditionalExpenses, IsOwnerOrAdmin),
                          base_name='additionalexpenses')
 
 router_user.register(
-    r'saved', factory(UserPetition, SubmissionPermissions,
+    r'saved', factory(UserPetition, nested=TravelInfo,
                       serializer_module='petition'))
 router_secretary.register(
-    r'saved', factory(SecretaryPetition, SubmissionPermissions,
-                      serializer_module='petition'))
+    r'saved', factory(SecretaryPetition,
+                      nested=TravelInfo, serializer_module='petition'))
 router_user.register(
     r'submitted', factory(UserPetitionSubmission, IsOwnerOrAdmin,
                           serializer_module='petition'))
 router_secretary.register(
     r'submitted', factory(SecretaryPetitionSubmission,
-                          SubmissionPermissions, serializer_module='petition'))
+                          nested=TravelInfo,
+                          serializer_module='petition'))
 
 
 # Wire up our API using automatic URL routing.
