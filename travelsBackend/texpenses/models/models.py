@@ -73,7 +73,7 @@ class UserProfile(AbstractUser, TravelUserProfile):
         fields = ('username', 'first_name', 'last_name', 'email',
                   'iban', 'specialty', 'kind', 'tax_reg_num', 'tax_office',
                   'category', 'user_group', 'trip_days_left')
-        read_only_fields = ('username', 'trip_days_left')
+        read_only_fields = ('username', 'trip_days_left', 'category')
         allowed_operations = ('list', 'retrieve')
 
     def user_group(self):
@@ -126,7 +126,7 @@ class Country(models.Model):
 
     class APITravel(object):
         fields = ('id', 'url', 'name', 'category')
-        read_only_fields = ('id', 'url')
+        read_only_fields = ('id', 'url', 'category')
         allowed_operations = ('list', 'retrieve')
 
     def __unicode__(self):
@@ -143,7 +143,7 @@ class City(models.Model):
 
     class APITravel(object):
         fields = ('id', 'url', 'name', 'country')
-        read_only_fields = ('id', 'url')
+        read_only_fields = ('id', 'url', 'country')
         nested_relations = [('country', 'country')]
         allowed_operations = ('list', 'retrieve')
 
@@ -200,17 +200,17 @@ class TravelInfo(Accommodation, Transportation):
         City, blank=False, null=False, related_name='travel_departure_point')
     arrival_point = models.ForeignKey(City, blank=False, null=False,
                                       related_name='travel_arrival_point')
-    vehicle = models.CharField(choices=common.TRANSPORTATION,
-                               max_length=10, blank=False, null=False,
-                               default='AIR')
+    mean_of_transport = models.CharField(choices=common.TRANSPORTATION,
+                                         max_length=10, blank=False, null=False,
+                                         default='AIR')
     transport_days_manual = models.IntegerField(blank=False, null=False,
                                                 default=0)
     overnights_num_manual = models.IntegerField(blank=False, null=False,
                                                 default=0)
     compensation_days_manual = models.IntegerField(blank=False, null=False,
                                                    default=0)
-    feeding = models.CharField(max_length=10, choices=common.MEALS,
-                               blank=False, null=False, default='NON')
+    meal = models.CharField(max_length=10, choices=common.MEALS,
+                            blank=False, null=False, default='NON')
     travel_petition = models.ForeignKey('Petition')
 
     tracked_fields = ['depart_date', 'return_date']
@@ -218,9 +218,17 @@ class TravelInfo(Accommodation, Transportation):
 
     class APITravel:
         fields = ('id', 'url', 'arrival_point', 'departure_point',
-                  'accommodation_price', 'return_date', 'depart_date',
-                  'transportation_price', 'transport_days_proposed',
-                  'overnights_num_manual', 'transport_days_manual')
+                  'mean_of_transport'
+                  'accommodation_price', 'accommodation_payment_way',
+                  'accommodation_payment_description',
+                  'return_date', 'depart_date',
+                  'transportation_price', 'transportation_payment_way',
+                  'transportation_payment_description',
+                  'transport_days_proposed', 'overnights_num_proposed',
+                  'overnight_cost', 'compensation_level',
+                  'same_day_return_task', 'get_compensation',
+                  'overnights_num_manual', 'transport_days_manual',
+                  'compensation_days_manual', 'meal')
         read_only_fields = ('id', 'url')
         allowed_operations = ('list', 'retrieve', 'delete')
 
@@ -358,8 +366,8 @@ class TravelInfo(Accommodation, Transportation):
             self.compensation_level()
         if self.same_day_return_task():
             max_compensation *= 0.5
-        compensation_proportion = common.COMPENSATION_PROPORTION[self.feeding]\
-            if self.feeding else 1
+        compensation_proportion = common.COMPENSATION_PROPORTION[self.meal]\
+            if self.meal else 1
         return max_compensation * compensation_proportion * (
             self.travel_petition.grnet_quota() / percentage)
 
@@ -436,7 +444,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
                                    default=timezone.now())
     updated = models.DateTimeField(blank=True, null=True)
     project = models.ForeignKey(Project, blank=False, null=False)
-    reason = models.CharField(max_length=500, blank=True, null=True)
+    reason = models.CharField(max_length=500, blank=False, null=False)
     status = models.IntegerField(blank=True, null=True)
 
     additional_expenses_initial = models.FloatField(
@@ -453,16 +461,21 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
     class APITravel:
         fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
                   'specialty', 'tax_office', 'tax_reg_num', 'category', 'user',
-                  'task_start_date', 'task_end_date', 'travel_info',
-                  'project', 'reason',
+                  'task_start_date', 'task_end_date', 'created', 'updated',
+                  'travel_info', 'project', 'reason',
                   'additional_expenses_initial',
                   'additional_expenses_initial_description',
                   'trip_days_before', 'trip_days_after', 'status',
-                  'participation_cost', 'url', 'overnights_sum_cost',
-                  'overnights_proposed')
+                  'participation_cost', 'participation_payment_way',
+                  'participation_payment_description', 'url',
+                  'overnights_sum_cost',
+                  'overnights_proposed', 'transport_days', 'trip_days_before',
+                  'trip_days_after', 'overnights_num', 'overnights_proposed',
+                  'overnights_sum_cost', 'task_duration', 'compensation_final',
+                  'total_cost')
         read_only_fields = ('id', 'user', 'url', 'first_name', 'last_name',
                             'kind', 'specialty', 'tax_office', 'tax_reg_num',
-                            'category', 'status', 'dse')
+                            'category', 'iban', 'status', 'dse')
         nested_relations = [('travel_info', 'travel_info')]
 
     def __init__(self, *args, **kwargs):
@@ -611,9 +624,11 @@ class UserPetitionSubmission(Petition):
 
     """ A proxy model for the temporary submitted petitions by user. """
     objects = PetitionManager(Petition.SUBMITTED_BY_USER)
-    required_fields = ('task_start_date', 'task_end_date',
-                       'project', 'reason', 'departure_point', 'arrival_point',
-                       'vehicle')
+    required_fields = (
+        'first_name', 'last_name', 'specialty', 'task_start_date',
+        'task_end_date', 'kind', 'tax_reg_num', 'tax_office', 'iban',
+        'project', 'reason', 'departure_point',
+        'arrival_point', 'depart_date', 'return_date', 'mean_of_transport')
 
     class Meta:
         proxy = True
