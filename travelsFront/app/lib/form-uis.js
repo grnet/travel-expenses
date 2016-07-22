@@ -3,6 +3,7 @@ export const UIS = {
     fieldsets: [
       {
         'label': 'User data',
+        'text': 'This is the fieldset help text',
         'fields': ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'user_category']
       },
       {

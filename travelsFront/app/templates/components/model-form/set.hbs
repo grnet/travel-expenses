@@ -1,16 +1,21 @@
 {{#paper-content classNames="md-padding layout-column model-form-fieldset" flex=layout.flex}}
-    {{#if label}}
-        {{#paper-content flex=100}}
-            <h2>{{ label }}</h2>
+{{#paper-card as |card|}}
+    {{#card.title as |title|}}
+        {{#title.text as |ctext|}}
+            {{#ctext.headline}}{{label}}{{/ctext.headline}}
+            {{#ctext.subhead}}{{text}}{{/ctext.subhead}}
+        {{/title.text}}
+    {{/card.title}}
+    {{#card.content}}
+        {{#paper-content classNames="layout-wrap layout-xs-column layout-gt-xs-row" }}
+            {{#each fields as |field|}}
+                {{model-form/field 
+                    field=field
+                    object=object
+                    isTouched=isTouched
+                }}
+            {{/each}}
         {{/paper-content}}
-    {{/if}}
-    {{#paper-content classNames="layout-wrap layout-xs-column layout-gt-xs-row" }}
-        {{#each fields as |field|}}
-            {{model-form/field 
-                field=field
-                object=object
-                isTouched=isTouched
-            }}
-        {{/each}}
-    {{/paper-content}}
+    {{/card.content}}
+{{/paper-card}}
 {{/paper-content}}
