@@ -17,7 +17,7 @@ export default Ember.Component.extend(BaseField, {
   choicesValues: computed('field.choices.[]', 'isRelation', function() {
     let choices = get(this, 'field.choices') || {};
     if (isArray(choices)) {
-      return choices.map((k) => k[1]);
+      return choices.map((k) => k[0]);
     }
     choices = get(this, 'choicesMap');
     return Object.keys(choices).map((k) => k);
@@ -25,12 +25,11 @@ export default Ember.Component.extend(BaseField, {
 
   choicesMap: computed('field.choices.[]', function() {
     let choices = get(this, 'field.choices');
-    let values = [];
     if (!isArray(choices)) {
       return choices || {};
     }
-    let keys = Object.keys(choices);
-    Object.keys(choices).forEach((k) => values.push(choices[k]));
+    let keys = choices.map((k) => k[0]);
+    let values = choices.map((k) => k[1]);
     return _.object(keys, values);
   }),
 
@@ -58,7 +57,9 @@ export default Ember.Component.extend(BaseField, {
     let choices = get(this, 'choicesValues');
     let map = get(this, 'choicesMap');
     return choices.map((val) => {
-      return {label: map[val], value: val};
+      return {
+        label: map[val], value: val
+      };
     });
   }),
 
