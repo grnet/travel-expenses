@@ -5,9 +5,7 @@ from django.utils import timezone
 from django.core.validators import MinValueValidator
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.db.models import Sum
 from model_utils import FieldTracker
-from texpenses.models.services import get_queryset_on_group
 from texpenses.models import common
 from texpenses.validators import (
     afm_validator, iban_validation, required_validator, date_validator)
