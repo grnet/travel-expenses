@@ -196,10 +196,6 @@ class TravelInfo(Accommodation, Transportation):
     Travel information are associated with the duration, departure and arrival
     point, transportation, accommodation, etc.
     """
-    FULL_FEEDING = "FULL"
-    SEMI_FEEDING = "SEMI"
-    NON_FEEDING = "NON"
-
     depart_date = models.DateTimeField(blank=True, null=True)
     return_date = models.DateTimeField(blank=True, null=True)
     departure_point = models.ForeignKey(
@@ -215,7 +211,7 @@ class TravelInfo(Accommodation, Transportation):
                                                 default=0)
     compensation_days_manual = models.IntegerField(blank=False, null=False,
                                                    default=0)
-    feeding = models.CharField(max_length=10, choices=common.FEEDING,
+    feeding = models.CharField(max_length=10, choices=common.MEALS,
                                blank=False, null=False, default='NON')
     travel_petition = models.ForeignKey('Petition')
 
@@ -364,14 +360,9 @@ class TravelInfo(Accommodation, Transportation):
             self.compensation_level()
         if self.same_day_return_task():
             max_compensation *= 0.5
-        decrease = {
-            self.FULL_FEEDING: 1,
-            self.SEMI_FEEDING: 0.5,
-            self.NON_FEEDING: 0.25
-        }
-        decrease_rate = decrease[self.feeding]\
+        compensation_proportion = common.COMPENSATION_PROPORTION[self.feeding]\
             if self.feeding else 1
-        return max_compensation * decrease_rate * (
+        return max_compensation * compensation_proportion * (
             self.travel_petition.grnet_quota() / percentage)
 
 

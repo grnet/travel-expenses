@@ -117,11 +117,6 @@ class TravelInfoTest(TestCase):
         task_start = depart + timedelta(days=1)
         task_end = return_d - timedelta(days=1)
 
-        # print "Depart date:" + str(depart)
-        # print "Return date:" + str(return_d)
-        # print "Task start date:" + str(task_start)
-        # print "Task end date:" + str(task_end)
-
         self.travel_obj.depart_date = depart
         self.travel_obj.return_date = return_d
         self.travel_obj.travel_petition.task_start_date = task_start
@@ -129,14 +124,11 @@ class TravelInfoTest(TestCase):
 
         overnights = self.travel_obj.overnights_num_proposed(
             task_start, task_end)
-        # print "Overnights:" + str(overnights)
         self.travel_obj.compensation_days_manual = overnights
-        # print "Compensation level:" +
-        # str(self.travel_obj.compensation_level())
-        self.assertEqual(self.travel_obj.get_compensation(), 125)
+        self.assertEqual(self.travel_obj.get_compensation(), 500)
 
         self.travel_obj.feeding = 'FULL'
-        self.assertEqual(self.travel_obj.get_compensation(), 500)
+        self.assertEqual(self.travel_obj.get_compensation(), 125)
 
         self.travel_obj.feeding = 'SEMI'
         self.assertEqual(self.travel_obj.get_compensation(), 250)
