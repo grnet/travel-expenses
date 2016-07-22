@@ -557,14 +557,6 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
             return 0
         return (self.task_end_date - self.task_start_date).days
 
-    def additional_expenses_sum(self):
-        """ Gets the total cost of additional expenses. """
-        ae = AdditionalExpenses.objects.filter(petition=self).\
-            aggregate(Sum('cost'))
-        if ae['cost__sum'] is None:
-            return 0
-        return ae['cost__sum']
-
     def compensation_final(self):
         """TODO: Docstring for compensation_final.
         :returns: TODO
@@ -723,24 +715,3 @@ class SecretaryPetitionSubmission(Petition):
         except ObjectDoesNotExist:
             pass
         super(SecretaryPetitionSubmission, self).save(**kwargs)
-
-
-class AdditionalExpenses(models.Model):
-
-    """Docstring for AdditionalWages. """
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    cost = models.FloatField()
-    petition = models.ForeignKey(Petition)
-    # TODO Remove user field.
-    user = models.ForeignKey(UserProfile)
-
-    class APITravel:
-        fields = ('id', 'name', 'cost', 'url')
-
-        @staticmethod
-        def get_queryset(request_user):
-            return get_queryset_on_group(request_user, AdditionalExpenses)
-
-    def __unicode__(self):
-        return self.name + "-" + str(self.id)

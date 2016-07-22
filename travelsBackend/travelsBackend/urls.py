@@ -6,10 +6,8 @@ from django.views.generic.base import RedirectView
 from texpenses.factories.views import factory
 from texpenses.models import (TaxOffice, Project, City, Country,
                               UserProfile, TravelInfo,
-                              AdditionalExpenses, UserPetition,
-                              UserPetitionSubmission, SecretaryPetition,
-                              SecretaryPetitionSubmission)
-from texpenses.custom_permissions import IsOwnerOrAdmin
+                              UserPetition, UserPetitionSubmission,
+                              SecretaryPetition, SecretaryPetitionSubmission)
 from . import auth_urls
 
 router = routers.DefaultRouter()
@@ -27,9 +25,6 @@ router_resources.register(r'country', factory(Country))
 
 router_petition.register(r'travel_info', factory(
     TravelInfo))
-router_petition.register(r'additional-expenses',
-                         factory(AdditionalExpenses, (IsOwnerOrAdmin,)),
-                         base_name='additionalexpenses')
 
 router_user.register(
     r'saved', factory(UserPetition, serializer_module_name='petition'))
