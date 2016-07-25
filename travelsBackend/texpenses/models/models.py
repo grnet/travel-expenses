@@ -636,7 +636,7 @@ class UserPetitionSubmission(Petition):
         mandatory_fields = ('reason',)
 
     def clean(self):
-        required_validator(self, self.required_fields)
+        required_validator(self, self.Meta.mandatory_fields)
         super(UserPetitionSubmission, self).clean()
 
     def save(self, **kwargs):
@@ -701,7 +701,7 @@ class SecretaryPetitionSubmission(Petition):
                             'movement_protocol', 'movement_date_protocol')
 
     def clean(self):
-        required_validator(self, self.required_fields)
+        required_validator(self, self.Meta.mandatory_fields)
         super(SecretaryPetitionSubmission, self).clean()
 
     def save(self, **kwargs):
