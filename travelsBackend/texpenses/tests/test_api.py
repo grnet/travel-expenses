@@ -39,6 +39,9 @@ EXTRA_DATA = {
         'movement_date_protocol': PROTOCOL_DATE}
 }
 
+UserPetitionSubmission.mandatory_fields = ()
+SecretaryPetitionSubmission.mandatory_fields = ()
+
 
 class APIPetitionTest(APITestCase):
     end_date = datetime.now() + timedelta(days=7)
@@ -69,8 +72,6 @@ class APIPetitionTest(APITestCase):
 
     def test_create_user_petition(self):
         self.client.force_authenticate(user=self.user)
-        UserPetitionSubmission.Meta.mandatory_fields = ()
-        SecretaryPetitionSubmission.Meta.mandatory_fields = ()
         self.assertRaises(ObjectDoesNotExist,
                           Petition.objects.get, project=self.project)
         data = {'project': self.project_url,

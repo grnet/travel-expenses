@@ -625,6 +625,7 @@ class UserPetitionSubmission(Petition):
 
     """ A proxy model for the temporary submitted petitions by user. """
     objects = PetitionManager(Petition.SUBMITTED_BY_USER)
+    mandatory_fields = ('reason',)
 
     class Meta:
         proxy = True
@@ -640,7 +641,7 @@ class UserPetitionSubmission(Petition):
         }
 
     def clean(self):
-        required_validator(self, self.Meta.mandatory_fields)
+        required_validator(self, self.mandatory_fields)
         super(UserPetitionSubmission, self).clean()
 
     def save(self, **kwargs):
@@ -683,6 +684,11 @@ class SecretaryPetitionSubmission(Petition):
 
     """ A proxy model for the temporary submitted petitions by secretary. """
     objects = PetitionManager(Petition.SUBMITTED_BY_SECRETARY)
+    mandatory_fields = ('additional_expenses_initial_description',
+                        'additional_expenses_initial',
+                        'non_grnet_quota', 'expenditure_protocol',
+                        'expenditure_date_protocol',
+                        'movement_protocol', 'movement_date_protocol')
 
     class Meta:
         proxy = True
@@ -717,7 +723,7 @@ class SecretaryPetitionSubmission(Petition):
         }
 
     def clean(self):
-        required_validator(self, self.Meta.mandatory_fields)
+        required_validator(self, self.mandatory_fields)
         super(SecretaryPetitionSubmission, self).clean()
 
     def save(self, **kwargs):
