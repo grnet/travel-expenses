@@ -65,5 +65,6 @@ export default DS.Model.extend(Validations, {
 	'kind': DS.attr({'choices': CHOICES.KIND}),
 	'tax_reg_num': DS.attr({'label': 'VAT'}),
 	'tax_office': DS.belongsTo('tax-office'),
-	'category': DS.attr({'label': 'User Category', 'choices': CHOICES.USER_CATEGORY})
+	'category': DS.attr({'label': 'User Category', 'choices': CHOICES.USER_CATEGORY}),
+  'user_group': DS.attr(),
 });
