@@ -3,7 +3,8 @@ import config from './config/environment';
 import ENV from 'travels-front/config/environment'; 
 
 const Router = Ember.Router.extend({
-    location: config.locationType,
+  location: config.locationType,
+  rootURL: config.rootURL
 });
 
 Router.map(function() {
