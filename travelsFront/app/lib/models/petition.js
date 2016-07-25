@@ -51,7 +51,7 @@ export var Petition = DS.Model.extend({
     // return just the status id
     return _.last(this.get('id').replace(/\/$/, '').split('/'));
   }),
-  mean_of_transport: DS.attr({'label': 'Mean of Transport', 'choices': CHOICES.TRANSPORTATION}),
+  means_of_transport: DS.attr({'label': 'Mean of Transport', 'choices': CHOICES.TRANSPORTATION}),
   transportation: DS.attr(),
   accommodation: DS.attr({'label': 'Mean of Transport', 'choices': CHOICES.ACCOMMODATION}),
   registration_cost: DS.attr({attrs: {required: true}}),
