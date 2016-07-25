@@ -15,7 +15,7 @@ var Validations = buildValidations({
 
 export default Petition.extend(Validations, {
   __api__: {
-    path: 'petition/user/saved/',
+    path: 'petition/user/submitted/',
   },
   __ui__: {
    'default': UIS['petition_user'],
