@@ -8,7 +8,8 @@ from django.db import models
 from model_utils import FieldTracker
 from texpenses.models import common
 from texpenses.validators import (
-    afm_validator, iban_validation, required_validator, date_validator)
+    afm_validator, iban_validation, required_validator, date_validator,
+    dates_list_validator)
 
 
 class TaxOffice(models.Model):
@@ -495,6 +496,14 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         super(Petition, self).clean()
         if self.task_start_date and self.task_end_date:
             self.validate_dates()
+
+        secretary_dates = (
+            self.expenditure_date_protocol, self.movement_date_protocol,
+            self.compensation_petition_date, self.compensation_decision_date)
+        secretary_dates_labels = (
+            'expenditure protocol date', 'movement protocol date',
+            'compensation petition date', 'compensation decision date')
+        dates_list_validator(secretary_dates, secretary_dates_labels)
 
     def delete(self):
         """

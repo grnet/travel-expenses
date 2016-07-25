@@ -37,6 +37,23 @@ def afm_validator(value):
             'AFM is not valid; It does not conform to the general rules')
 
 
+def dates_list_validator(dates, labels):
+    """
+    This validator checks whether the input dates are after now
+    :dates: dates tuple
+    :labels: date tuple name list
+    :returns: TODO
+
+    """
+    now = datetime.now()
+
+    for i, secretary_date in enumerate(dates):
+        if secretary_date and secretary_date < now:
+            secretary_date_name = labels[i]
+            raise ValidationError(
+                '%s should be after today' % (secretary_date_name))
+
+
 def date_validator(start_date, end_date, labels):
     """
     This validator checks if two given dates (starting date and ending date)
