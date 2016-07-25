@@ -147,7 +147,7 @@ class PetitionTest(TestCase):
         self.user = UserProfile.objects.create(
             first_name='Nick', last_name='Jones', email='test@email.com',
             iban='GR4902603280000910200635494',
-            specialty='1', tax_reg_num=150260153,
+            specialty='1', tax_reg_num=011111111,
             tax_office=tax_office, category='A',
             trip_days_left=5)
 

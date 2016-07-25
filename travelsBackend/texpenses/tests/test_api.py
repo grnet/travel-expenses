@@ -23,6 +23,22 @@ SUBMISSION_APIS = {
     SecretaryPetitionSubmission: reverse('secretarypetitionsubmission-list')
 }
 
+PROTOCOL_DATE_FORMAT = '%Y-%m-%d'
+PROTOCOL_DATE = (datetime.now() + timedelta(days=1)).strftime(
+    PROTOCOL_DATE_FORMAT)
+
+EXTRA_DATA = {
+    UserPetition: {},
+    UserPetitionSubmission: {'reason': 'reason'},
+    SecretaryPetition: {},
+    SecretaryPetitionSubmission: {
+        'additional_expenses_initial_description': 'test',
+        'expenditure_protocol': 'expenditure protocol',
+        'expenditure_date_protocol': PROTOCOL_DATE,
+        'movement_protocol': 'movement protocol',
+        'movement_date_protocol': PROTOCOL_DATE}
+}
+
 
 class APIPetitionTest(APITestCase):
     end_date = datetime.now() + timedelta(days=7)
@@ -37,7 +53,7 @@ class APIPetitionTest(APITestCase):
             email='test@email.com', is_staff=True,
             iban='GR4902603280000910200635494', is_superuser=True,
             password='test',
-            specialty='1', tax_reg_num=150260153,
+            specialty='1', tax_reg_num=011111111,
             tax_office=tax_office, category='A',
             trip_days_left=5)
         self.city = City.objects.create(
@@ -53,8 +69,8 @@ class APIPetitionTest(APITestCase):
 
     def test_create_user_petition(self):
         self.client.force_authenticate(user=self.user)
-        UserPetitionSubmission.required_fields = ()
-        SecretaryPetitionSubmission.required_fields = ()
+        UserPetitionSubmission.Meta.mandatory_fields = ()
+        SecretaryPetitionSubmission.Meta.mandatory_fields = ()
         self.assertRaises(ObjectDoesNotExist,
                           Petition.objects.get, project=self.project)
         data = {'project': self.project_url,
@@ -62,6 +78,7 @@ class APIPetitionTest(APITestCase):
                 'task_end_date': self.end_date, 'travel_info': [],
                 'user': self.user_url}
         for model, url in PETITION_APIS.iteritems():
+            data.update(EXTRA_DATA[model])
             response = self.client.post(url, data, format='json')
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
             petitions = self.client.get(url)
@@ -73,8 +90,7 @@ class APIPetitionTest(APITestCase):
                 self.assertTrue(field in fields)
 
     def test_status_400_petition(self):
-        required_fields = ('project',
-                           'travel_info')
+        required_fields = ('project', 'travel_info')
         self.assertRaises(ObjectDoesNotExist,
                           Petition.objects.get, project=self.project)
         data = {'project': self.project_url, 'travel_info': [],
@@ -102,30 +118,29 @@ class APIPetitionTest(APITestCase):
                          {'non_field_errors': [validation_message]})
 
     def test_submission_apis(self):
-        UserPetitionSubmission.required_fields = ('reason',)
-        SecretaryPetitionSubmission.required_fields = ('reason',)
         data = {'project': self.project_url,
                 'task_start_date': self.start_date,
                 'task_end_date': self.end_date, 'travel_info': [],
                 'reason': 'reason'}
         for model, url in SUBMISSION_APIS.iteritems():
-            response = self.client.post(url, data, format='json')
-            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-            participation_cost = data.pop('reason')
-            response = self.client.post(url, data, format='json')
-            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-            self.assertEqual(response.data, {
-                'non_field_errors': [
-                    'Field %s is required' % repr('reason')]})
-            data['reason'] = participation_cost
+            data.update(EXTRA_DATA[model])
+            for field in model.APITravel.extra_kwargs:
+                response = self.client.post(url, data, format='json')
+                self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+                value = data.pop(field)
+                response = self.client.post(url, data, format='json')
+                self.assertEqual(response.status_code,
+                                 status.HTTP_400_BAD_REQUEST)
+                self.assertEqual(response.data, {
+                    field: ['This field is required.']})
+                data[field] = value
 
     def test_submission_permissions(self):
-        UserPetitionSubmission.required_fields = ()
-        SecretaryPetitionSubmission.required_fields = ()
         data = {'project': self.project_url,
                 'task_start_date': self.start_date,
                 'task_end_date': self.end_date, 'travel_info': []}
-        for _, url in SUBMISSION_APIS.iteritems():
+        for model, url in SUBMISSION_APIS.iteritems():
+            data.update(EXTRA_DATA[model])
             response = self.client.post(url, data, format='json')
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
             # test put
@@ -142,8 +157,6 @@ class APIPetitionTest(APITestCase):
                 response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_nested_serialization(self):
-        UserPetitionSubmission.required_fields = ()
-        SecretaryPetitionSubmission.required_fields = ()
         city_url = reverse('city-detail', args=[1])
         for model, url in PETITION_APIS.iteritems():
             travel_info = [{'arrival_point': city_url,
@@ -154,6 +167,7 @@ class APIPetitionTest(APITestCase):
                     'task_end_date': self.end_date,
                     'travel_info': travel_info,
                     'user': self.user_url}
+            data.update(EXTRA_DATA[model])
             response = self.client.post(url, data, format='json')
             self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
             self.assertEqual(response.data, {
@@ -168,6 +182,7 @@ class APIPetitionTest(APITestCase):
                     'task_end_date': self.end_date,
                     'travel_info': travel_info,
                     'user': self.user_url}
+            data.update(EXTRA_DATA[model])
             response = self.client.post(url, data, format='json')
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
             petition = response.data
