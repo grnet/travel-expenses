@@ -203,7 +203,7 @@ class TravelInfo(Accommodation, Transportation):
         City, blank=False, related_name='travel_departure_point')
     arrival_point = models.ForeignKey(City, blank=False,
                                       related_name='travel_arrival_point')
-    mean_of_transport = models.CharField(
+    means_of_transport = models.CharField(
         choices=common.TRANSPORTATION, max_length=10, blank=False,
         default='AIR')
     transport_days_manual = models.PositiveSmallIntegerField(
@@ -221,7 +221,7 @@ class TravelInfo(Accommodation, Transportation):
 
     class APITravel:
         fields = ('id', 'url', 'arrival_point', 'departure_point',
-                  'mean_of_transport',
+                  'means_of_transport',
                   'accommodation_price', 'accommodation_payment_way',
                   'accommodation_payment_description',
                   'return_date', 'depart_date',
