@@ -633,7 +633,11 @@ class UserPetitionSubmission(Petition):
         fields = Petition.APITravel.fields
         read_only_fields = Petition.APITravel.read_only_fields
         nested_relations = [('travel_info', 'travel_info')]
-        mandatory_fields = ('reason',)
+        extra_kwargs = {
+            'reason': {
+                'required': True, 'allow_blank': False, 'allow_null': False
+            }
+        }
 
     def clean(self):
         required_validator(self, self.Meta.mandatory_fields)
@@ -694,11 +698,23 @@ class SecretaryPetitionSubmission(Petition):
             'compensation_decision_date')
         read_only_fields = Petition.APITravel.read_only_fields
         nested_relations = [('travel_info', 'travel_info')]
-        mandatory_fields = ('additional_expenses_initial_description',
-                            'additional_expenses_initial',
-                            'non_grnet_quota', 'expenditure_protocol',
-                            'expenditure_date_protocol',
-                            'movement_protocol', 'movement_date_protocol')
+        extra_kwargs = {
+            'additional_expenses_initial_description': {
+                'required': True, 'allow_blank': False, 'allow_null': False
+            },
+            'expenditure_protocol': {
+                'required': True, 'allow_blank': False, 'allow_null': False
+            },
+            'expenditure_date_protocol': {
+                'required': True, 'allow_null': False
+            },
+            'movement_protocol': {
+                'required': True, 'allow_blank': False, 'allow_null': False
+            },
+            "movement_date_protocol": {
+                'required': True, 'allow_null': False
+            }
+        }
 
     def clean(self):
         required_validator(self, self.Meta.mandatory_fields)
