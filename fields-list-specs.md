@@ -31,7 +31,7 @@
 | 17 | task_end_date | Λήξη Εργασιών | date - time | - | should be after taskStartDate | {icon check} | the user chooses the ending date and time of the task that is the reason of his transportation |
 | 18 | depart_date | Αναχώρηση | date - time | - | should be after today | - | the user chooses the departure date and time  of his transportation |
 | 19 | return_date | Επιστροφή | date - time | - | should be after taskStartDate | - | the user chooses the return date and time of his transportation |
-| 20 | mean_of_transport | Μέσο Μετακίνησης | choices | Αεροπλάνο | - | - |  the user chooses the mean of his transportation |
+| 20 | means_of_transport | Μέσο Μετακίνησης | choices | Αεροπλάνο | - | - |  the user chooses the mean of his transportation |
 | 21 | transportation | Τιμή Εισιτηρίου | number | - | > 0 | - | filled with the price of the ticket |
 | 22 | accommodation | Τιμή Διανυκτέρευσης (/ημέρα) | number - currency | - | this value should be > 0 and (< 220 if the user belongs in category A or < 160 if the user belongs in category B) + 100 if the arrival point == New York| - | price of accommodation |
 | 23 | registration_cost | Κόστος Συμμετοχής | number - currency | - | > 0 | - | filled with the cost of participation in conferences etc. |
@@ -61,7 +61,7 @@
 | 17 | task_end_date | Λήξη Εργασιών | date - time | - | should be after taskStartDate | {icon check} | the user chooses the ending date and time of the task that is the reason of his transportation |
 | 18 | depart_date | Αναχώρηση | date - time | - | should be after today | {icon check} | the user chooses the departure date and time  of his transportation |
 | 19 | return_date | Επιστροφή | date - time | - | should be after departDate and taskStartDate | {icon check} | the user chooses the return date and time of his transportation |
-| 20 | mean_of_transport | Μέσο Μετακίνησης | choices | Αεροπλάνο | - | {icon check} |  the user chooses the mean of his transportation |
+| 20 | means_of_transport | Μέσο Μετακίνησης | choices | Αεροπλάνο | - | {icon check} |  the user chooses the mean of his transportation |
 | 21 | transportation | Τιμή Εισιτηρίου | number | - | > 0 | {icon check} | filled with the price of the ticket |
 | 22 | accommodation | Τιμή Διανυκτέρευσης (/ημέρα) | number - currency | - | this value should be > 0 and (< 220 if the user belongs in category A or < 160 if the user belongs in category B) + 100 if the arrival point == New York| {icon check} | price of accommodation |
 | 23 | registration_cost | Κόστος Συμμετοχής | number - currency | - | > 0 | - | filled with the cost of participation in conferences etc. |
