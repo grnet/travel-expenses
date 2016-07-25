@@ -21,7 +21,7 @@ class TravelInfoTest(TestCase):
                                      accommodation_price=0.0,
                                      arrival_point=self.arrival_point,
                                      departure_point=self.departure_point,
-                                     feeding='NON')
+                                     meal='NON')
 
     def test_validate_overnight_cost(self):
         self.travel_obj.validate_overnight_cost()
@@ -127,10 +127,10 @@ class TravelInfoTest(TestCase):
         self.travel_obj.compensation_days_manual = overnights
         self.assertEqual(self.travel_obj.get_compensation(), 500)
 
-        self.travel_obj.feeding = 'FULL'
+        self.travel_obj.meal = 'FULL'
         self.assertEqual(self.travel_obj.get_compensation(), 125)
 
-        self.travel_obj.feeding = 'SEMI'
+        self.travel_obj.meal = 'SEMI'
         self.assertEqual(self.travel_obj.get_compensation(), 250)
 
 
@@ -151,9 +151,11 @@ class PetitionTest(TestCase):
             tax_office=tax_office, category='A',
             trip_days_left=5)
 
-        city = City.objects.create(name='Athens')
+        city = City.objects.create(
+            name='Athens', country=Country.objects.create(name='Greece'))
         self.project = Project.objects.create(name='Test Project',
-                                              accounting_code=1)
+                                              accounting_code=1,
+                                              manager=self.user)
         self.petition = Petition.objects.create(
             task_start_date=self.start_date, task_end_date=self.end_date,
             status=1, user=self.user, project=self.project)

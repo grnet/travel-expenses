@@ -7,7 +7,8 @@ from rest_framework.test import APITestCase
 from rest_framework.authtoken.models import Token
 from texpenses.models import (
     City, TravelInfo, Petition, UserPetition, Project, UserProfile, TaxOffice,
-    UserPetitionSubmission, SecretaryPetition, SecretaryPetitionSubmission)
+    UserPetitionSubmission, SecretaryPetition, SecretaryPetitionSubmission,
+    Country)
 
 
 PETITION_APIS = {
@@ -39,9 +40,11 @@ class APIPetitionTest(APITestCase):
             specialty='1', tax_reg_num=150260153,
             tax_office=tax_office, category='A',
             trip_days_left=5)
-        self.city = City.objects.create(name='Athens')
+        self.city = City.objects.create(
+            name='Athens', country=Country.objects.create(name='Greece'))
         self.project = Project.objects.create(name='Test Project',
-                                              accounting_code=1)
+                                              accounting_code=1,
+                                              manager=self.user)
         token = Token.objects.create(user=self.user)
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         self.client.force_authenticate(user=self.user, token=token)
@@ -74,7 +77,9 @@ class APIPetitionTest(APITestCase):
                            'travel_info')
         self.assertRaises(ObjectDoesNotExist,
                           Petition.objects.get, project=self.project)
-        data = {'project': self.project_url, 'travel_info': []}
+        data = {'project': self.project_url, 'travel_info': [],
+                'task_start_date': self.start_date,
+                'task_end_date': self.end_date}
         url = reverse('userpetition-list')
         for field in required_fields:
             value = data.pop(field)

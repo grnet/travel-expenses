@@ -2,7 +2,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.utils import timezone
-from django.core.validators import MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from model_utils import FieldTracker
@@ -15,11 +15,11 @@ class TaxOffice(models.Model):
 
     """ Model which contains all tax offices of Greece. """
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, blank=False, unique=True)
     description = models.CharField(max_length=300, blank=True)
-    address = models.CharField(max_length=20)
-    email = models.EmailField(blank=True)
-    phone = models.CharField(max_length=20)
+    address = models.CharField(max_length=20, blank=False)
+    email = models.EmailField(blank=False)
+    phone = models.CharField(max_length=20, blank=False)
 
     class APITravel(object):
         fields = ('id', 'url', 'name', 'description', 'address',
@@ -41,16 +41,16 @@ class TravelUserProfile(models.Model):
     number, Tax Office, etc. as well as, with the kind and specialty of user at
     GRNET.
     """
-    iban = models.CharField(max_length=200,
+    iban = models.CharField(max_length=200, blank=False,
                             validators=[iban_validation])
     specialty = models.CharField(
-        max_length=5, choices=common.SPECIALTY)
-    tax_reg_num = models.CharField(max_length=9,
+        max_length=5, choices=common.SPECIALTY, blank=False)
+    tax_reg_num = models.CharField(max_length=9, blank=False,
                                    validators=[afm_validator])
-    tax_office = models.ForeignKey(TaxOffice)
-    kind = models.CharField(max_length=5, choices=common.KIND)
+    tax_office = models.ForeignKey(TaxOffice, blank=False)
+    kind = models.CharField(max_length=5, choices=common.KIND, blank=False)
     category = models.CharField(max_length=1, choices=common.USER_CATEGORIES,
-                                blank=False, null=False, default='B')
+                                blank=False, default='B')
 
     class Meta:
         abstract = True
@@ -67,7 +67,10 @@ class UserProfile(AbstractUser, TravelUserProfile):
     fields for the user of `Travel Expenses Application`.
     """
 
-    trip_days_left = models.IntegerField(default=settings.MAX_HOLIDAY_DAYS)
+    trip_days_left = models.PositiveSmallIntegerField(
+        blank=False, default=settings.MAX_HOLIDAY_DAYS,
+        validators=[MaxValueValidator(settings.MAX_HOLIDAY_DAYS),
+                    MinValueValidator(0)])
 
     class APITravel(object):
         fields = ('username', 'first_name', 'last_name', 'email',
@@ -93,9 +96,9 @@ class Project(models.Model):
     who managed it.
     """
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200, blank=True, null=True)
-    accounting_code = models.CharField(max_length=20)
-    manager = models.ForeignKey(UserProfile, blank=True, null=True)
+    name = models.CharField(max_length=200, blank=False, unique=True)
+    accounting_code = models.CharField(max_length=20, blank=False)
+    manager = models.ForeignKey(UserProfile, blank=False)
 
     class APITravel(object):
         fields = ('id', 'url', 'name', 'accounting_code', 'manager')
@@ -121,7 +124,7 @@ class Country(models.Model):
     )
 
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, blank=False, unique=True)
     category = models.CharField(choices=CATEGORIES, max_length=1, default='A')
 
     class APITravel(object):
@@ -138,8 +141,8 @@ class City(models.Model):
 
     """Model for cities. """
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=20)
-    country = models.ForeignKey(Country, blank=True, null=True)
+    name = models.CharField(max_length=20, blank=False)
+    country = models.ForeignKey(Country, blank=False)
 
     class APITravel(object):
         fields = ('id', 'url', 'name', 'country')
@@ -158,12 +161,12 @@ class Accommodation(models.Model):
     An abstract model that represents the accommodation related info
     """
     accommodation_price = models.FloatField(
-        blank=False, null=False, default=0.0)
+        blank=False, default=0.0, validators=[MinValueValidator(0.0)])
     accommodation_payment_way = models.CharField(
-        max_length=30, choices=common.WAYS_OF_PAYMENT, blank=False,
-        null=False, default='NON')
+        max_length=5, choices=common.WAYS_OF_PAYMENT, blank=False,
+        default='NON')
     accommodation_payment_description = models.CharField(
-        max_length=200, blank=True, null=True)
+        max_length=200, null=True)
 
     class Meta:
         abstract = True
@@ -175,12 +178,12 @@ class Transportation(models.Model):
     An abstract model that represents the transportation related info
     """
     transportation_price = models.FloatField(
-        blank=False, null=False, default=0.0)
+        blank=False, default=0.0, validators=[MinValueValidator(0.0)])
     transportation_payment_way = models.CharField(
         max_length=5, choices=common.WAYS_OF_PAYMENT,
-        blank=False, null=False, default='NON')
+        blank=False, default='NON')
     transportation_payment_description = models.CharField(
-        max_length=200, blank=True, null=True)
+        max_length=200, null=True)
 
     class Meta:
         abstract = True
@@ -194,23 +197,23 @@ class TravelInfo(Accommodation, Transportation):
     Travel information are associated with the duration, departure and arrival
     point, transportation, accommodation, etc.
     """
-    depart_date = models.DateTimeField(blank=True, null=True)
-    return_date = models.DateTimeField(blank=True, null=True)
+    depart_date = models.DateTimeField(null=True)
+    return_date = models.DateTimeField(null=True)
     departure_point = models.ForeignKey(
-        City, blank=False, null=False, related_name='travel_departure_point')
-    arrival_point = models.ForeignKey(City, blank=False, null=False,
+        City, blank=False, related_name='travel_departure_point')
+    arrival_point = models.ForeignKey(City, blank=False,
                                       related_name='travel_arrival_point')
-    mean_of_transport = models.CharField(choices=common.TRANSPORTATION,
-                                         max_length=10, blank=False, null=False,
-                                         default='AIR')
-    transport_days_manual = models.IntegerField(blank=False, null=False,
-                                                default=0)
-    overnights_num_manual = models.IntegerField(blank=False, null=False,
-                                                default=0)
-    compensation_days_manual = models.IntegerField(blank=False, null=False,
-                                                   default=0)
+    mean_of_transport = models.CharField(
+        choices=common.TRANSPORTATION, max_length=10, blank=False,
+        default='AIR')
+    transport_days_manual = models.PositiveSmallIntegerField(
+        blank=False, default=0)
+    overnights_num_manual = models.PositiveSmallIntegerField(
+        blank=False, default=0)
+    compensation_days_manual = models.PositiveSmallIntegerField(
+        blank=False, default=0)
     meal = models.CharField(max_length=10, choices=common.MEALS,
-                            blank=False, null=False, default='NON')
+                            blank=False, default='NON')
     travel_petition = models.ForeignKey('Petition')
 
     tracked_fields = ['depart_date', 'return_date']
@@ -218,13 +221,13 @@ class TravelInfo(Accommodation, Transportation):
 
     class APITravel:
         fields = ('id', 'url', 'arrival_point', 'departure_point',
-                  'mean_of_transport'
+                  'mean_of_transport',
                   'accommodation_price', 'accommodation_payment_way',
                   'accommodation_payment_description',
                   'return_date', 'depart_date',
                   'transportation_price', 'transportation_payment_way',
                   'transportation_payment_description',
-                  'transport_days_proposed', 'overnights_num_proposed',
+                  'transport_days_proposed',
                   'overnight_cost', 'compensation_level',
                   'same_day_return_task', 'get_compensation',
                   'overnights_num_manual', 'transport_days_manual',
@@ -377,7 +380,8 @@ class SecretarialInfo(models.Model):
     """
     Abstract model which includes information that secretary fills.
     """
-    non_grnet_quota = models.FloatField(blank=True, null=True, default=0.0)
+    non_grnet_quota = models.FloatField(
+        blank=False, default=0.0, validators=[MinValueValidator(0.0)])
 
     movement_num = models.CharField(max_length=200, null=True, blank=True)
     expenditure_protocol = models.CharField(
@@ -409,12 +413,11 @@ class ParticipationInfo(models.Model):
     An abstract model that represents the participation cost related info
     """
     participation_cost = models.FloatField(
-        blank=False, null=False, default=0.0,
-        validators=[MinValueValidator(0.0)])
+        blank=False, default=0.0, validators=[MinValueValidator(0.0)])
 
     participation_payment_way = models.CharField(
         max_length=10, choices=common.WAYS_OF_PAYMENT, blank=False,
-        null=False, default='NON')
+        default='NON')
     participation_payment_description = models.CharField(
         max_length=200, blank=True, null=True)
 
@@ -435,25 +438,23 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
                    'tax_office', 'tax_reg_num', 'category']
 
     id = models.AutoField(primary_key=True)
-    dse = models.IntegerField(blank=False, null=False)
+    dse = models.PositiveIntegerField(blank=False, null=False)
     travel_info = models.ManyToManyField(TravelInfo, blank=False)
-    user = models.ForeignKey(UserProfile, blank=False, null=False)
-    task_start_date = models.DateTimeField(blank=True, null=True)
-    task_end_date = models.DateTimeField(blank=True, null=True)
-    created = models.DateTimeField(blank=False, null=False,
-                                   default=timezone.now())
+    user = models.ForeignKey(UserProfile, blank=False)
+    task_start_date = models.DateTimeField(blank=False)
+    task_end_date = models.DateTimeField(blank=False)
+    created = models.DateTimeField(blank=False, default=timezone.now())
     updated = models.DateTimeField(blank=True, null=True)
-    project = models.ForeignKey(Project, blank=False, null=False)
-    reason = models.CharField(max_length=500, blank=False, null=False)
+    project = models.ForeignKey(Project, blank=False)
+    reason = models.CharField(max_length=500, blank=True, null=True)
     status = models.IntegerField(blank=True, null=True)
 
     additional_expenses_initial = models.FloatField(
-        blank=False, null=False, default=0.0,
-        validators=[MinValueValidator(0.0)])
+        blank=False, default=0.0, validators=[MinValueValidator(0.0)])
     additional_expenses_initial_description = models.CharField(
         max_length=400, blank=True, null=True)
-    first_name = models.CharField(max_length=200, blank=False, null=False)
-    last_name = models.CharField(max_length=200, blank=False, null=False)
+    first_name = models.CharField(max_length=200, blank=False)
+    last_name = models.CharField(max_length=200, blank=False)
 
     tracked_fields = ['task_start_date', 'task_end_date']
     tracker = FieldTracker()
