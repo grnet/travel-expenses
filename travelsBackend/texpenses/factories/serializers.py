@@ -5,7 +5,7 @@ from texpenses.factories import utils
 READ_ONLY_FIELDS = ('id', 'url')
 FIELDS_TO_EXPOSE = [('fields', '__all__'),
                     ('read_only_fields', READ_ONLY_FIELDS),
-                    ('write_only_fields', None)]
+                    ('write_only_fields', None), ('extra_kwargs', None)]
 METHODS_TO_OVERRIDE = ['create', 'update', 'delete', 'validate']
 CUSTOM_SERIALIZERS_CODE = 'texpenses.serializers'
 
@@ -47,6 +47,7 @@ def factory(model_class, serializer_module_name=None, api_name='APITravel'):
     assert model_api_class is not None
     nested_serializers = get_nested_serializer(model_class, model_api_class)
     class_dict.update(nested_serializers)
+    define_mandatory_fields(Meta, model_api_class)
     cls = type(
         model_class.__name__, (serializers.HyperlinkedModelSerializer,),
         class_dict)
@@ -104,3 +105,23 @@ def get_nested_serializer(model, model_api_class):
         nested_serializers[api_field_name] = serializer_class(
             many=many, source=source)
     return nested_serializers
+
+
+def define_mandatory_fields(meta_class, api_class):
+    """
+    This function sets specified fields by given api class as mandatory to
+    the meta class of serializer.
+
+    Mandatory are fields which are required and restrict both blank and null
+    values.
+
+    :param meta_class: Meta class of serializer.
+    :param api_class: Api class of model.
+    """
+    required_dict = {'required': True, 'allow_null': False,
+                     'allow_blank': False}
+    required_fields = getattr(api_class, 'mandatory_fields', None)
+    if required_fields:
+        extra_kwargs = {field_name: required_dict
+                        for field_name in required_fields}
+        setattr(meta_class, 'extra_kwargs', extra_kwargs)

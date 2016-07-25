@@ -625,11 +625,6 @@ class UserPetitionSubmission(Petition):
 
     """ A proxy model for the temporary submitted petitions by user. """
     objects = PetitionManager(Petition.SUBMITTED_BY_USER)
-    required_fields = (
-        'first_name', 'last_name', 'specialty', 'task_start_date',
-        'task_end_date', 'kind', 'tax_reg_num', 'tax_office', 'iban',
-        'project', 'reason', 'departure_point',
-        'arrival_point', 'depart_date', 'return_date', 'mean_of_transport')
 
     class Meta:
         proxy = True
@@ -638,6 +633,7 @@ class UserPetitionSubmission(Petition):
         fields = Petition.APITravel.fields
         read_only_fields = Petition.APITravel.read_only_fields
         nested_relations = [('travel_info', 'travel_info')]
+        mandatory_fields = ('reason',)
 
     def clean(self):
         required_validator(self, self.required_fields)
@@ -683,16 +679,6 @@ class SecretaryPetitionSubmission(Petition):
 
     """ A proxy model for the temporary submitted petitions by secretary. """
     objects = PetitionManager(Petition.SUBMITTED_BY_SECRETARY)
-    required_fields = ('name', 'surname', 'iban', 'specialty', 'kind',
-                       'tax_reg_num', 'tax_office',
-                       'task_start_date', 'task_end_date',
-                       'project', 'reason',
-                       'status', 'user_category',
-                       'additional_expenses_initial_description',
-                       'additional_expenses_initial', 'non_grnet_quota',
-                       'grnet_quota',
-                       'expenditure_protocol', 'expenditure_date_protocol',
-                       'movement_protocol', 'movement_date_protocol')
 
     class Meta:
         proxy = True
@@ -708,6 +694,11 @@ class SecretaryPetitionSubmission(Petition):
             'compensation_decision_date')
         read_only_fields = Petition.APITravel.read_only_fields
         nested_relations = [('travel_info', 'travel_info')]
+        mandatory_fields = ('additional_expenses_initial_description',
+                            'additional_expenses_initial',
+                            'non_grnet_quota', 'expenditure_protocol',
+                            'expenditure_date_protocol',
+                            'movement_protocol', 'movement_date_protocol')
 
     def clean(self):
         required_validator(self, self.required_fields)
