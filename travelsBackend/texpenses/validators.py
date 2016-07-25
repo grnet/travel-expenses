@@ -1,7 +1,7 @@
+import logging
 from datetime import datetime
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
-import logging
 
 logger = logging.getLogger(__name__)
 

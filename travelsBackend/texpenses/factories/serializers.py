@@ -3,7 +3,7 @@ from texpenses.factories import utils
 
 
 READ_ONLY_FIELDS = ('id', 'url')
-FIELDS_TO_EXPOSE = [('fields', '__all__'),
+SERIALIZER_ATTRS = [('fields', '__all__'),
                     ('read_only_fields', READ_ONLY_FIELDS),
                     ('write_only_fields', None), ('extra_kwargs', None)]
 METHODS_TO_OVERRIDE = ['create', 'update', 'delete', 'validate']
@@ -32,26 +32,19 @@ def factory(model_class, serializer_module_name=None, api_name='APITravel'):
     class Meta:
         model = model_class
 
-    def validate(self, attrs):
-        attrs = super(cls, self).validate(attrs)
-        model_inst = model_class(**attrs)
-        model_inst.clean()
-        return attrs
-
     # Standard serializer class content.
     class_dict = {
-        'validate': validate,
         'Meta': Meta,
     }
     model_api_class = getattr(model_class, api_name)
     assert model_api_class is not None
+
     nested_serializers = get_nested_serializer(model_class, model_api_class)
     class_dict.update(nested_serializers)
     cls = type(
         model_class.__name__, (serializers.HyperlinkedModelSerializer,),
         class_dict)
-    utils.override_fields(
-        cls.Meta, model_api_class, FIELDS_TO_EXPOSE)
+    utils.set_attrs(cls.Meta, model_api_class, SERIALIZER_ATTRS)
     module_name = utils.camel2snake(model_class.__name__)\
         if not serializer_module_name else serializer_module_name
     module = utils.get_package_module(

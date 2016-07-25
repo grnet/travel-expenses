@@ -43,23 +43,23 @@ def override_methods(cls, module, methods_to_override):
             setattr(cls, method_name, custom_method)
 
 
-def override_fields(cls, meta_class, fields_to_expose):
+def set_attrs(cls, api_class, attrs):
     """
     This function looks up for specific fields in a specified meta class which
     define how fields will be treated by the REST API classes (serializers,
     viewsets).
 
-    :param cls: Class to override its fields.
-    :param module: Class to get its fields.
-    :param fields_to_expose: List of tuple with the fields to override and
+    :param cls: Serializer or Viewset class.
+    :param api_class: API class of model.
+    :param attrs: List of tuple with the attr names and
     their default values.
     """
-    if meta_class is None:
+    if api_class is None:
         return
 
-    for serializer_attr_name, default in fields_to_expose:
-        field_value = getattr(meta_class, serializer_attr_name, None)
+    for attr_name, default in attrs:
+        field_value = getattr(api_class, attr_name, None)
         if field_value is None and default is None:
             continue
-        setattr(cls, serializer_attr_name, (
+        setattr(cls, attr_name, (
             default if field_value is None else field_value))
