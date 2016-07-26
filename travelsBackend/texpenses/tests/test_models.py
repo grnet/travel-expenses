@@ -255,12 +255,12 @@ class ValidatorTest(TestCase):
 
     def test_dates_list_validator(self):
 
-        date1 = datetime.now() + timedelta(1)
+        date1 = datetime.now() + timedelta(days=1)
         date2 = None
 
         date3 = datetime.now() - timedelta(days=2)
 
-        secretary_dates = (date1, date2, date3, )
+        secretary_dates = (date1.date(), date2, date3.date(), )
 
         secretary_dates_labels = ('date1', 'date2', 'date3')
 

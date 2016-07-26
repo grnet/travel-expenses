@@ -39,19 +39,21 @@ def afm_validator(value):
 
 def dates_list_validator(dates, labels):
     """
-    This validator checks whether the input dates are after now
-    :dates: dates tuple
-    :labels: date tuple name list
-    :returns: TODO
+    This validator checks whether the input dates are after now.
 
+    :param dates: An iterable with the input dates to check.
+    :param labels: An iterable which describe each date input, e.g.
+    task start date.
+
+    :raises: ValidationError if at least one of the given dates is not after
+    today.
     """
-    now = datetime.now()
+    now = datetime.now().date()
 
-    for i, secretary_date in enumerate(dates):
-        if secretary_date and secretary_date < now:
-            secretary_date_name = labels[i]
+    for i, date in enumerate(dates):
+        if date and date < now:
             raise ValidationError(
-                '%s should be after today' % (secretary_date_name))
+                '%s should be after today' % (labels[i]))
 
 
 def date_validator(start_date, end_date, labels):
