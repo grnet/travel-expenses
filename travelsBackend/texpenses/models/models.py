@@ -477,7 +477,8 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
                   'total_cost')
         read_only_fields = ('id', 'user', 'url', 'first_name', 'last_name',
                             'kind', 'specialty', 'tax_office', 'tax_reg_num',
-                            'category', 'iban', 'status', 'dse')
+                            'category', 'iban', 'status', 'dse', 'created',
+                            'updated')
         nested_relations = [('travel_info', 'travel_info')]
 
     def __init__(self, *args, **kwargs):
