@@ -25,6 +25,7 @@ const ModelForm = Ember.Component.extend({
     let meta = ResourceMetaFrom(object, null, ui);
     window['meta'] = meta;
     this.setProperties({object, meta});
+    set(this.get('registerForm'), 'modelform', this);
   },
 
   handleErrors: Ember.observer('validationErrors.@each', function() {
@@ -72,10 +73,15 @@ const ModelForm = Ember.Component.extend({
     });
   },
 
+  getModelForSave() {
+    return this.get('model');
+  },
+
   actions: {
-    submit() {
+    submit(event, ...args) {
       if (this.get("submit")) { return this.get("submit")(this); }
-      let model = this.get("model");
+      //let model = this.get("model");
+      let model = this.getModelForSave(...args);
       let isValid = get(this, "isValid");
       this.resetMessages();
       set(this, 'isTouched', true);

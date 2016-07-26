@@ -1,12 +1,12 @@
 {{ page-toolbar pageTitle=(if newPetition "Create a petition" "Edit petition") }}
 
 {{#paper-content classNames="md-padding"}}
-    {{# model-form/form model as |form| }}
+    {{# model-form/form model registerForm=this getModelForSave=getModelForSave as |form| }}
         {{ form.messages }}
         {{ form.fields }}
         {{# form.controls }}
             {{#paper-button 
-                onClick=(action "submitToState2")
+                onClick=(action "handleSubmit")
                 warn=true
                 raised=true
                 disabled=inProgress
