@@ -477,7 +477,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
                   'total_cost')
         read_only_fields = ('id', 'user', 'url', 'first_name', 'last_name',
                             'kind', 'specialty', 'tax_office', 'tax_reg_num',
-                            'category', 'iban', 'status', 'dse', 'created',
+                            'category', 'iban', 'status', 'created',
                             'updated')
         nested_relations = [('travel_info', 'travel_info')]
 
@@ -627,7 +627,7 @@ class UserPetition(Petition):
 
     class APITravel:
         fields = Petition.APITravel.fields
-        read_only_fields = Petition.APITravel.read_only_fields
+        read_only_fields = Petition.APITravel.read_only_fields + ('dse',)
         nested_relations = [('travel_info', 'travel_info')]
 
 
