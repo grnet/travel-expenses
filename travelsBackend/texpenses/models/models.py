@@ -439,13 +439,13 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
                    'tax_office', 'tax_reg_num', 'category']
 
     id = models.AutoField(primary_key=True)
-    dse = models.PositiveIntegerField(blank=False, null=False)
+    dse = models.PositiveIntegerField(blank=False)
     travel_info = models.ManyToManyField(TravelInfo, blank=False)
     user = models.ForeignKey(UserProfile, blank=False)
     task_start_date = models.DateTimeField(blank=False)
     task_end_date = models.DateTimeField(blank=False)
     created = models.DateTimeField(blank=False, default=timezone.now())
-    updated = models.DateTimeField(blank=True, null=True)
+    updated = models.DateTimeField(blank=False, default=timezone.now())
     project = models.ForeignKey(Project, blank=False)
     reason = models.CharField(max_length=500, blank=True, null=True)
     status = models.IntegerField(blank=True, null=True)
@@ -505,6 +505,10 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
             'expenditure protocol date', 'movement protocol date',
             'compensation petition date', 'compensation decision date')
         dates_list_validator(secretary_dates, secretary_dates_labels)
+
+    def save(self, *args, **kwargs):
+        self.updated = timezone.now()
+        super(Petition, self).save(*args, **kwargs)
 
     def delete(self):
         """
@@ -629,6 +633,7 @@ class UserPetition(Petition):
         fields = Petition.APITravel.fields
         read_only_fields = Petition.APITravel.read_only_fields + ('dse',)
         nested_relations = [('travel_info', 'travel_info')]
+        extra_kwargs = {'dse': {'required': False}}
 
 
 class UserPetitionSubmission(Petition):
@@ -647,7 +652,8 @@ class UserPetitionSubmission(Petition):
         extra_kwargs = {
             'reason': {
                 'required': True, 'allow_blank': False, 'allow_null': False
-            }
+            },
+            'dse': {'required': False}
         }
 
     def clean(self):
@@ -684,10 +690,6 @@ class SecretaryPetition(Petition):
                             'kind', 'specialty', 'tax_office', 'tax_reg_num',
                             'category', 'status', 'dse', 'travel_info')
         nested_relations = [('travel_info', 'travel_info')]
-
-    def save(self, *args, **kwargs):
-        self.updated = timezone.now()
-        super(SecretaryPetition, self).save(*args, **kwargs)
 
 
 class SecretaryPetitionSubmission(Petition):
@@ -729,7 +731,8 @@ class SecretaryPetitionSubmission(Petition):
             },
             "movement_date_protocol": {
                 'required': True, 'allow_null': False
-            }
+            },
+            'dse': {'required': False}
         }
 
     def clean(self):
