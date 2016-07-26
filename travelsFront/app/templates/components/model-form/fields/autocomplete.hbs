@@ -1,1 +1,10 @@
-{{ paper-autocomplete source=choices lookupKey='label' model=choiceModel floating=true label=label placeholder=label}}
+{{ paper-autocomplete 
+    source=choices
+    lookupKey='label'
+    model=choiceModel
+    floating=true
+    label=label
+    placeholder=label
+    minLength=(if minLength minLength 0)
+    errors=errors
+    }}
