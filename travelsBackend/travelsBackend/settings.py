@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 import os
-
 # Build paths inside the dir manage commands are run from.
 BASE_DIR = os.path.abspath(os.getcwd())
 
@@ -28,6 +27,8 @@ ALLOWED_HOSTS = []
 TEMPLATE_DIRS = ()
 
 MAX_HOLIDAY_DAYS = 60
+
+DEFAULT_CURRENCY = 'EUR'
 HOST_URL = "http://localhost:8000/"
 API_PREFIX = "api"
 # Application definition

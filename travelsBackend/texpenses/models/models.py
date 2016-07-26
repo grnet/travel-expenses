@@ -99,10 +99,13 @@ class Project(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, blank=False, unique=True)
     accounting_code = models.CharField(max_length=20, blank=False)
-    manager = models.ForeignKey(UserProfile, blank=False)
+    manager_name = models.CharField(max_length=20, blank=False)
+    manager_surname = models.CharField(max_length=40, blank=False)
+    manager = models.ForeignKey(UserProfile, blank=True)
 
     class APITravel(object):
-        fields = ('id', 'url', 'name', 'accounting_code', 'manager')
+        fields = ('id', 'url', 'name', 'accounting_code',
+                  'manager_name', 'manager_surname', 'manager')
         read_only_fields = ('id', 'url')
         allowed_operations = ('list', 'retrieve')
 
@@ -127,10 +130,14 @@ class Country(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20, blank=False, unique=True)
     category = models.CharField(choices=CATEGORIES, max_length=1, default='A')
+    currency = models.CharField(max_length=3,
+                                choices=common.CURRENCIES,
+                                blank=False,
+                                default=settings.DEFAULT_CURRENCY)
 
     class APITravel(object):
-        fields = ('id', 'url', 'name', 'category')
-        read_only_fields = ('id', 'url', 'category')
+        fields = ('id', 'url', 'name', 'category', 'currency')
+        read_only_fields = ('id', 'url', 'category', 'currency')
         allowed_operations = ('list', 'retrieve')
 
     def __unicode__(self):
@@ -156,13 +163,33 @@ class City(models.Model):
         return self.name
 
 
+class Currency(models.Model):
+
+    """Model for currency related models. """
+    local_currency = models.CharField(max_length=3,
+                                      choices=common.CURRENCIES,
+                                      blank=True)
+    local_currency_value = models.FloatField(
+        blank=True, default=0.0, validators=[MinValueValidator(0.0)])
+    default_currency = models.CharField(max_length=3,
+                                        blank=False,
+                                        default=settings.DEFAULT_CURRENCY)
+    default_currency_value = models.FloatField(
+        blank=False, default=0.0, validators=[MinValueValidator(0.0)])
+
+    class Meta:
+        abstract = True
+
+
 class Accommodation(models.Model):
 
     """
     An abstract model that represents the accommodation related info
     """
+
     accommodation_price = models.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
+
     accommodation_payment_way = models.CharField(
         max_length=5, choices=common.WAYS_OF_PAYMENT, blank=False,
         default='NON')
