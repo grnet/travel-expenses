@@ -125,16 +125,17 @@ class APIPetitionTest(APITestCase):
                 'reason': 'reason'}
         for model, url in SUBMISSION_APIS.iteritems():
             data.update(EXTRA_DATA[model])
-            for field in model.APITravel.extra_kwargs:
+            for field, attrs in model.APITravel.extra_kwargs.iteritems():
                 response = self.client.post(url, data, format='json')
                 self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-                value = data.pop(field)
-                response = self.client.post(url, data, format='json')
-                self.assertEqual(response.status_code,
-                                 status.HTTP_400_BAD_REQUEST)
-                self.assertEqual(response.data, {
-                    field: ['This field is required.']})
-                data[field] = value
+                if attrs.get('required', False):
+                    value = data.pop(field)
+                    response = self.client.post(url, data, format='json')
+                    self.assertEqual(response.status_code,
+                                     status.HTTP_400_BAD_REQUEST)
+                    self.assertEqual(response.data, {
+                        field: ['This field is required.']})
+                    data[field] = value
 
     def test_submission_permissions(self):
         data = {'project': self.project_url,
