@@ -63,6 +63,37 @@ RELATED_DESCRIPTORS = {
 MANY_TO_MANY_REL = 'ManyToManyDescriptor'
 
 
+def get_related_model(model, model_field_name):
+    """
+    This function get the related model class.
+
+    Based on the given model class and the model field name which corresponds
+    to a relation with another model, this function extracts the underlying
+    related model class.
+
+    :param model: Model class.
+    :param model_field_name: Model field name which corresponds to relation
+    with another model.
+    :returns: Related model class.
+
+    :raises: ModelFieldNotFound If the given field cannot be found on the given
+    model.
+    :raises: ModelFieldNotRelated If the given field is not related to another
+    model.
+    """
+    model_field = getattr(model, model_field_name, None)
+
+    if model_field is None:
+        raise ModelFieldNotFound('Field %s not found on model %s' % (
+            repr(model_field_name), model.__name__))
+    field_rel_name = model_field.__class__.__name__
+    if field_rel_name not in RELATED_DESCRIPTORS:
+        raise ModelFieldNotRelated(
+            'Field %s is not related with another model' % (
+                repr(model_field_name)))
+    return RELATED_DESCRIPTORS[field_rel_name](model_field)
+
+
 def get_nested_serializer(model, model_api_class):
     """
     This function constructs nested serializers based on the nested relations
@@ -80,18 +111,9 @@ def get_nested_serializer(model, model_api_class):
     nested_serializers = {}
     for api_field_name, model_field_name in nested_relations:
         model_field = getattr(model, model_field_name, None)
-
-        if model_field is None:
-            raise ModelFieldNotFound('Field %s not found on model %s' % (
-                repr(model_field_name), model.__name__))
-        field_rel_name = model_field.__class__.__name__
-        if field_rel_name not in RELATED_DESCRIPTORS:
-            raise ModelFieldNotRelated(
-                'Field %s is not related with another model' % (
-                    repr(model_field_name)))
-        serializer_class = factory(RELATED_DESCRIPTORS[field_rel_name](
-            model_field))
-        many = field_rel_name == MANY_TO_MANY_REL
+        rel_model_class = get_related_model(model, model_field_name)
+        serializer_class = factory(rel_model_class)
+        many = model_field.__class__.__name__ == MANY_TO_MANY_REL
         source = None if api_field_name == model_field_name\
             else model_field_name
         nested_serializers[api_field_name] = serializer_class(
