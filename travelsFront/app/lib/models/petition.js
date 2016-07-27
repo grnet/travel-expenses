@@ -12,7 +12,7 @@ export var Petition = DS.Model.extend({
   tax_reg_num: DS.attr({attrs: {required: true}, label: 'VAT'}),
   tax_office: DS.belongsTo('tax-office', {attrs: {required: true}}),
   iban: DS.attr({attrs: {required: true}}),
-  user_category: DS.attr({'label': 'User Category', 'choices': CHOICES.USER_CATEGORY, 'readonly': true}),
+  category: DS.attr({'label': 'User Category', 'choices': CHOICES.USER_CATEGORY, 'readonly': true}),
   user: DS.belongsTo('profile'),
   dse: DS.attr('string', {attrs: {required: true}}),
   project: DS.belongsTo('project', {attrs: {required: true}}),

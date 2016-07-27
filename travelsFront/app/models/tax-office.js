@@ -5,7 +5,7 @@ export default DS.Model.extend({
     ns: 'resources'
   },
 	name:  DS.attr(),
-	kindDescription:  DS.attr(),
+	description:  DS.attr(),
 	address:  DS.attr(),
 	email:  DS.attr(),
 	phone:  DS.attr(),
