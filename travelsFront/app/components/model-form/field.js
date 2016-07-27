@@ -89,17 +89,24 @@ export default Ember.Component.extend({
     }
   }),
 
-  value: computed('rawValue', function() {
+  observeRawValue: observer('rawValue', function() {
     let serializeValue = getWithDefault(this, 'serializeValue', (value) => value);
     let raw = get(this, 'rawValue');
     if (raw instanceof Ember.ObjectProxy && get(this, 'isRelation')) {
       raw.then(function(v) {
-        this.set('rawValue', v);
+        v = serializeValue(v);
+        this.set('value', v);
       }.bind(this));
-      return null;
+    } else {
+      let v = serializeValue(raw);
+      set(this, 'value', v);
     }
-    let v = serializeValue(raw);
-    return v;
+  }),
+
+  value: computed('rawValue', function() {
+    let raw = get(this, 'rawValue');
+    let serializeValue = getWithDefault(this, 'serializeValue', (value) => value);
+    return serializeValue(raw);
   }),
 
   didReceiveAttrs() {
@@ -112,7 +119,7 @@ export default Ember.Component.extend({
       if (value instanceof Ember.ObjectProxy) {
         value.then(function(model) {
           set(get(this, 'object'), get(this, 'key'), model);
-        })
+        });
       } else {
         set(get(this, 'object'), get(this, 'key'), value);
       }
