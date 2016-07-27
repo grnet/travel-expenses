@@ -286,10 +286,10 @@ class TravelInfo(Accommodation, Transportation):
             self.transport_days_manual = self.transport_days_proposed()
             self.overnights_num_manual = overnight_days
             self.compensation_days_manual = overnight_days
-        if self.arrival_point:
-            currency = self.arrival_point.country.currency
-            self.travel_petition.participation_local_currency = currency
-            self.accommodation_local_currency = currency
+        # if self.arrival_point:
+            # currency = self.arrival_point.country.currency
+            # self.travel_petition.participation_local_currency = currency
+            # self.accommodation_local_currency = currency
 
         super(TravelInfo, self).save(*args, **kwargs)
 
