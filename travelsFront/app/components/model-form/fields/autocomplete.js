@@ -7,9 +7,23 @@ const {
   set,
   isArray,
   computed,
-  computed: { alias, equal } 
+  computed: { alias, equal },
+  observer
 } = Ember;
 
 export default Select.extend({
-  choiceModel: null
+  init() {
+    this._super();
+  },
+  choiceModel: computed('value', function() {
+    let value = get(this, 'value');
+    if (!value) { return null; }
+    return {label: value.get('name'), value: value};
+  }),
+
+  observeChoice: observer('choiceModel', function() {
+    let model = this.get('choiceModel');
+    if (!model) { return; }
+    this.sendAction('onChange', this.get('choiceModel').value);
+  })
 }) 
