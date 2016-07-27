@@ -22,7 +22,7 @@ export const UIS = {
     fieldsets: [
       {
         'label': 'User data',
-        'fields': ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'user_category']
+        'fields': ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'category']
       },
       {
         'label': 'Travel Data',
