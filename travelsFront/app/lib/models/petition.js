@@ -15,34 +15,34 @@ export var Petition = DS.Model.extend({
   category: DS.attr({'label': 'User Category', 'choices': CHOICES.USER_CATEGORY, 'readonly': true}),
   user: DS.belongsTo('profile'),
   dse: DS.attr('string', {attrs: {required: true}}),
-  project: DS.belongsTo('project', {attrs: {required: true}}),
+  project: DS.belongsTo('project', {attrs: {labelKey: "full_label", required: true}}),
   reason: DS.attr({attrs: {required: true}}),
   movement_category: DS.attr({attrs: {readonly: true}}),
   departure_point: DS.belongsTo('city', {attrs: {required: true}}),
   arrival_point: DS.belongsTo('city', {attrs: {required: true}}),
-  task_start_date: DS.attr({
+  task_start_date: DS.attr('date', {
     attrs: {
-      type: 'datetime-local',
-      required: true
+      time: true,
+      required: true    
     },
     label: 'Task starts at'
   }),
-  task_end_date: DS.attr({
+  task_end_date: DS.attr('date', {
     attrs: {
-      type: 'datetime-local',
-      required: true
+      time: true,
+      required: true 
     },
     label: 'Task ends at'
   }),
-  depart_date: DS.attr({
+  depart_date: DS.attr('date', {
     attrs: {
-      type: 'datetime-local'
+      time: true
     },
     label: 'Depart at'
   }),
-  return_date: DS.attr({
+  return_date: DS.attr('date', {
     attrs: {
-      type: 'datetime-local'
+      time: true
     },
     label: 'Return at'
   }),
