@@ -53,7 +53,7 @@ export default Ember.Component.extend({
   }),
 
   key: reads('field.key'),
-  hint: reads('field.hint'),
+  hint: reads('field.options.hint'),
   fieldAttrs: alias('field.attrs'),
   componentName: alias('field.component'),
   isRelation: equal('field.type', 'relation'),
