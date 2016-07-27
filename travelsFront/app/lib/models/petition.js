@@ -14,7 +14,7 @@ export var Petition = DS.Model.extend({
   iban: DS.attr({attrs: {required: true}}),
   category: DS.attr({'label': 'User Category', 'choices': CHOICES.USER_CATEGORY, 'readonly': true}),
   user: DS.belongsTo('profile'),
-  dse: DS.attr('string', {attrs: {readonly: true, required: true}}),
+  dse: DS.attr('string', {attrs: {readonly: true, , required: true}}),
   project: DS.belongsTo('project', {attrs: {labelKey: "full_label", required: true}}),
   reason: DS.attr({attrs: {required: true}}),
   movement_category: DS.attr({attrs: {readonly: true}}),
@@ -53,12 +53,12 @@ export var Petition = DS.Model.extend({
     // return just the status id
     return _.last(this.get('id').replace(/\/$/, '').split('/'));
   }),
-  means_of_transport: DS.attr({'label': 'Mean of Transport', 'choices': CHOICES.TRANSPORTATION}),
+  means_of_transport: DS.attr({'label': 'Means of Transport', 'choices': CHOICES.TRANSPORTATION}),
   transportation: DS.attr(),
-  accommodation: DS.attr({'label': 'Mean of Transport', 'choices': CHOICES.ACCOMMODATION}),
+  accommodation: DS.attr(),
   registration_cost: DS.attr({attrs: {required: true}}),
   additional_expenses: DS.attr({attrs: {required: true}}),
-  meals: DS.attr({'label': 'Meals', 'choices': CHOICES.FEEDING}),
+  meals: DS.attr({'label': 'Meals', 'choices': CHOICES.MEALS}),
   non_grnet_quota: DS.attr({attrs: {required: true}}),
   user_recommendation: DS.attr({attrs:{textarea: true}})
 });
