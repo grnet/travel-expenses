@@ -163,24 +163,6 @@ class City(models.Model):
         return self.name
 
 
-class Currency(models.Model):
-
-    """Model for currency related models. """
-    local_currency = models.CharField(max_length=3,
-                                      choices=common.CURRENCIES,
-                                      blank=True)
-    local_currency_value = models.FloatField(
-        blank=True, default=0.0, validators=[MinValueValidator(0.0)])
-    default_currency = models.CharField(max_length=3,
-                                        blank=False,
-                                        default=settings.DEFAULT_CURRENCY)
-    default_currency_value = models.FloatField(
-        blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-
-    class Meta:
-        abstract = True
-
-
 class Accommodation(models.Model):
 
     """
@@ -304,6 +286,11 @@ class TravelInfo(Accommodation, Transportation):
             self.transport_days_manual = self.transport_days_proposed()
             self.overnights_num_manual = overnight_days
             self.compensation_days_manual = overnight_days
+        if self.arrival_point:
+            currency = self.arrival_point.country.currency
+            self.travel_petition.participation_local_currency = currency
+            self.accommodation_local_currency = currency
+
         super(TravelInfo, self).save(*args, **kwargs)
 
     def validate_overnight_cost(self):
@@ -428,7 +415,7 @@ class SecretarialInfo(models.Model):
     non_grnet_quota = models.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
 
-    movement_num = models.CharField(max_length=200, null=True, blank=True)
+    movement_id = models.CharField(max_length=200, null=True, blank=True)
     expenditure_protocol = models.CharField(
         max_length=30, null=True, blank=True)
     expenditure_date_protocol = models.DateField(blank=True, null=True)
@@ -696,7 +683,7 @@ class UserPetition(Petition):
         read_only_fields = Petition.APITravel.read_only_fields + ('dse',)
         nested_relations = [('travel_info', 'travel_info')]
         extra_kwargs = {
-            'dse': {'required': False},
+            'dse': {'required': False, 'allow_null': True},
             'task_star_date': {'required': False},
             'task_end_date': {'required': False},
         }
@@ -706,7 +693,7 @@ class UserPetitionSubmission(Petition):
 
     """ A proxy model for the temporary submitted petitions by user. """
     objects = PetitionManager(Petition.SUBMITTED_BY_USER)
-    mandatory_fields = ('reason',)
+    mandatory_fields = ('reason', 'task_start_date', 'task_end_date')
 
     class Meta:
         proxy = True
@@ -719,7 +706,7 @@ class UserPetitionSubmission(Petition):
             'reason': {
                 'required': True, 'allow_blank': False, 'allow_null': False
             },
-            'dse': {'required': False},
+            'dse': {'required': False, 'allow_null': True},
             'task_start_date': {
                 'required': True, 'allow_null': False
             },
@@ -757,7 +744,7 @@ class SecretaryPetition(Petition):
             'movement_date_protocol', 'compensation_petition_protocol',
             'compensation_petition_date',
             'compensation_decision_protocol',
-            'compensation_decision_date')
+            'compensation_decision_date', 'movement_id')
         read_only_fields = ('id', 'url', 'first_name', 'last_name',
                             'kind', 'specialty', 'tax_office', 'tax_reg_num',
                             'category', 'status', 'dse', 'travel_info')
@@ -768,30 +755,33 @@ class SecretaryPetitionSubmission(Petition):
 
     """ A proxy model for the temporary submitted petitions by secretary. """
     objects = PetitionManager(Petition.SUBMITTED_BY_SECRETARY)
-    mandatory_fields = ('additional_expenses_initial_description',
-                        'additional_expenses_initial',
-                        'non_grnet_quota', 'expenditure_protocol',
-                        'expenditure_date_protocol',
-                        'movement_protocol', 'movement_date_protocol')
+    mandatory_fields = ('expenditure_protocol', 'expenditure_date_protocol',
+                        'movement_protocol', 'movement_protocol_date',
+                        'movement_id'
+                        )
 
     class Meta:
         proxy = True
 
     class APITravel:
         fields = Petition.APITravel.fields + (
-            'non_grnet_quota', 'grnet_quota', 'user',
+            'non_grnet_quota', 'grnet_quota', 'user', 'movement_id',
+            'additional_expenses_initial_description',
+            'additional_expenses_initial',
             'expenditure_protocol',
-            'expenditure_date_protocol', 'movement_protocol',
-            'movement_date_protocol', 'compensation_petition_protocol',
+            'expenditure_date_protocol',
+            'movement_protocol', 'movement_date_protocol',
+            'compensation_petition_protocol',
             'compensation_petition_date',
             'compensation_decision_protocol',
             'compensation_decision_date')
         read_only_fields = Petition.APITravel.read_only_fields
         nested_relations = [('travel_info', 'travel_info')]
         extra_kwargs = {
-            'additional_expenses_initial_description': {
+            'movement_id': {
                 'required': True, 'allow_blank': False, 'allow_null': False
             },
+
             'expenditure_protocol': {
                 'required': True, 'allow_blank': False, 'allow_null': False
             },
@@ -804,7 +794,7 @@ class SecretaryPetitionSubmission(Petition):
             "movement_date_protocol": {
                 'required': True, 'allow_null': False
             },
-            'dse': {'required': False}
+            'dse': {'required': False, 'allow_null': True}
         }
 
     def clean(self):

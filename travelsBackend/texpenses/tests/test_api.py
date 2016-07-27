@@ -77,7 +77,8 @@ class APIPetitionTest(APITestCase):
         data = {'project': self.project_url,
                 'task_start_date': self.start_date,
                 'task_end_date': self.end_date, 'travel_info': [],
-                'user': self.user_url}
+                'user': self.user_url,
+                'movement_id': 'movement_id'}
         for model, url in PETITION_APIS.iteritems():
             data.update(EXTRA_DATA[model])
             response = self.client.post(url, data, format='json')
@@ -122,7 +123,9 @@ class APIPetitionTest(APITestCase):
         data = {'project': self.project_url,
                 'task_start_date': self.start_date,
                 'task_end_date': self.end_date, 'travel_info': [],
-                'reason': 'reason'}
+                'reason': 'reason',
+                'movement_id': 'movement_id'
+                }
         for model, url in SUBMISSION_APIS.iteritems():
             data.update(EXTRA_DATA[model])
             for field, attrs in model.APITravel.extra_kwargs.iteritems():
@@ -140,7 +143,9 @@ class APIPetitionTest(APITestCase):
     def test_submission_permissions(self):
         data = {'project': self.project_url,
                 'task_start_date': self.start_date,
-                'task_end_date': self.end_date, 'travel_info': []}
+                'task_end_date': self.end_date, 'travel_info': [],
+                'movement_id': 'movement_id'
+                }
         for model, url in SUBMISSION_APIS.iteritems():
             data.update(EXTRA_DATA[model])
             response = self.client.post(url, data, format='json')
@@ -168,13 +173,14 @@ class APIPetitionTest(APITestCase):
                     'task_start_date': self.start_date,
                     'task_end_date': self.end_date,
                     'travel_info': travel_info,
-                    'user': self.user_url}
+                    'user': self.user_url,
+                    'movement_id': 'movement_id'}
             data.update(EXTRA_DATA[model])
             response = self.client.post(url, data, format='json')
             self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
             self.assertEqual(response.data, {
                 u'non_field_errors':
-                    [u'You have exceeded the allowable number of trip days']
+                [u'You have exceeded the allowable number of trip days']
             })
             travel_info[0].pop('transport_days_manual')
 
@@ -183,7 +189,8 @@ class APIPetitionTest(APITestCase):
                     'task_start_date': self.start_date,
                     'task_end_date': self.end_date,
                     'travel_info': travel_info,
-                    'user': self.user_url}
+                    'user': self.user_url,
+                    'movement_id': 'movement_id'}
             data.update(EXTRA_DATA[model])
             response = self.client.post(url, data, format='json')
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)

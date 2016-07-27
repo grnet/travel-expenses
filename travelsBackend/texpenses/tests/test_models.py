@@ -5,14 +5,13 @@ from texpenses.models import (
     Country,
     City, TravelInfo, Petition, UserPetition, Project, UserProfile, TaxOffice,
     UserPetitionSubmission, SecretaryPetition, SecretaryPetitionSubmission)
-from texpenses.validators import dates_list_validator
 
 
 class TravelInfoTest(TestCase):
 
     def setUp(self):
         travel_petition = Petition(category='A')
-        arrival_country = Country(name='FRANCE', category='A')
+        arrival_country = Country(name='FRANCE', category='A', currency='EUR')
         self.arrival_point = City(name='PARIS', country=arrival_country)
 
         departure_country = Country(name='GREECE', category='A')
@@ -249,6 +248,3 @@ class PetitionTest(TestCase):
         petition = Petition.objects.get(id=self.petition.id)
         self.assertIsNotNone(petition)
         self.assertEqual(petition.status, Petition.DELETED)
-
-
-
