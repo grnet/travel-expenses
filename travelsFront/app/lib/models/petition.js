@@ -14,7 +14,7 @@ export var Petition = DS.Model.extend({
   iban: DS.attr({attrs: {required: true}}),
   category: DS.attr({'label': 'User Category', 'choices': CHOICES.USER_CATEGORY, 'readonly': true}),
   user: DS.belongsTo('profile'),
-  dse: DS.attr('string', {attrs: {required: true}}),
+  dse: DS.attr('string', {attrs: {readonly: true, required: true}}),
   project: DS.belongsTo('project', {attrs: {labelKey: "full_label", required: true}}),
   reason: DS.attr({attrs: {required: true}}),
   movement_category: DS.attr({attrs: {readonly: true}}),
