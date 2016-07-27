@@ -21,7 +21,6 @@ var Validations=buildValidations({
     validator('length', {min: 1})
   ],
   taxRegNum: [
-    validator('presence', false),
     validator('length', {min: 1}),
     validator('afm-validator')
   ]
