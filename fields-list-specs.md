@@ -8,7 +8,7 @@
 | 5 | tax_reg_num | ΑΦΜ | number | - | tax registration number validation | {icon check} | filled with the user's tax registration number |
 | 6 | tax_office | ΔΟΥ | choices | - | - | {icon check} | the user selects his tax office from a list of choices |
 | 7 | iban | ΙΒΑΝ | string | - | tax registration number validation | {icon check} | filled with the user's tax registration number |
-| 8 | user_category | Κατηγορία Χρήστη | choices (readonly) | B | - | {icon check} | the user should not be able to change it |
+| 8 | category | Κατηγορία Χρήστη | choices (readonly) | B | - | {icon check} | the user should not be able to change it |
 
 | | **Traveler - Petition Data** |
 | # | Field name | Frontend label | Type | Default value | Validation | required | Description |
@@ -19,7 +19,7 @@
 | 5 | tax_reg_num | ΑΦΜ | number (readonly) | - | tax registration number validation | {icon check} | filled with the user's tax registration number |
 | 6 | tax_office | ΔΟΥ | choices (readonly) | - | - | {icon check} | the user selects his tax office from a list of choices |
 | 7 | iban | ΙΒΑΝ | string (readonly) | - | tax registration number validation | {icon check} | filled with the user's tax registration number |
-| 8 | user_category | Κατηγορία Χρήστη | choices (readonly) | B | - | {icon check} | the user should not be able to change it |
+| 8 | category | Κατηγορία Χρήστη | choices (readonly) | B | - | {icon check} | the user should not be able to change it |
 | 9 | dse | ΔΣΕ | number (readonly) | - | - | {icon check} | auto increment value - filled automatically by the system |
 | 10 | project (project manager) | Έργο - Υπεύθυνος Έργου | choices | - | - | {icon check} | the user selects the project related with his trip from a list of choices |
 | 11 | reason | Αιτιολογία Μετακίνησης | textarea | - | 5 < [min, max] < determined by the pdf generation process | {icon check} | the user should fill in the reason of his transportation |
@@ -49,7 +49,7 @@
 | 5 | tax_reg_num | ΑΦΜ | number | - | tax registration number validation | {icon check} | filled with the user's tax registration number |
 | 6 | tax_office | ΔΟΥ | choices | - | - | {icon check} | the user selects his tax office from a list of choices |
 | 7 | iban | ΙΒΑΝ | string | - | tax registration number validation | {icon check} | filled with the user's tax registration number |
-| 8 | user_category | Κατηγορία Χρήστη | choices | B | - | {icon check} | the user should not be able to change it |
+| 8 | category | Κατηγορία Χρήστη | choices | B | - | {icon check} | the user should not be able to change it |
 | 9 | dse | ΔΣΕ | number (readonly) | - | - | {icon check} | auto increment value - filled automatically by the system |
 | 10 | project (project manager) | Έργο | choices | - | - | {icon check} | the user selects the project related with his trip from a list of choices |
 | 11 | reason | Αιτιολογία Μετακίνησης | textarea | - | 5 < [min, max] < determined by the pdf generation process | {icon check} | the user should fill in the reason of his transportation |
