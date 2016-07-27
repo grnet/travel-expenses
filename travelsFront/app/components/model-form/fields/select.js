@@ -40,6 +40,7 @@ export default Ember.Component.extend(BaseField, {
 
   relatedChoices: computed('field.relModel', function() {
     let arr = get(this, 'store').findAll(get(this, 'field.relModel'));
+    let labelAttr = get(this, 'fattrs.labelKey') || 'name';
 
     // TODO: convert to promise
     return arr.then(function(results) {
@@ -47,7 +48,7 @@ export default Ember.Component.extend(BaseField, {
         content: arr,
         objectAtContent: function(idx) {
           let item = get(this, 'content').objectAt(idx);
-          return { value: item, label: item.get('name') };
+          return { value: item, label: item.get(labelAttr) };
         }
       });
     });
@@ -84,10 +85,11 @@ export default Ember.Component.extend(BaseField, {
   }),
 
   getChoiceLabel: computed(function() {
+    let labelAttr = get(this, 'fattrs.labelKey') || 'name';
     let relation = get(this, 'isRelation');
     if (relation) {
       return function(item) {
-        return item.get('name');
+        return item.get(labelAttr);
       }
     };
 
