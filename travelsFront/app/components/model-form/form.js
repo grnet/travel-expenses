@@ -26,7 +26,10 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
     let meta = ResourceMetaFrom(object, null, ui);
     window['meta'] = meta;
     this.setProperties({object, meta});
-    set(this.get('registerForm'), 'modelform', this);
+    let parent = this.get('registerForm');
+    if (parent){
+      set(parent, 'modelform', this);
+    } 
   },
 
   handleErrors: Ember.observer('validationErrors.@each', function() {
