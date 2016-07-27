@@ -96,7 +96,8 @@ var Field = Ember.Object.extend({
 var FieldSet = Ember.Object.extend({
   fields: [],
   label: null,
-  text: null
+  text: null,
+  flat: null
 });
 
 
@@ -163,12 +164,13 @@ var ResourceMeta = Ember.Object.extend({
 
   fieldsets: computed('fieldsKeys.[]', 'options.fieldsets.[]', function() {
     let sets = get(this, 'options.fieldsets') || [get(this, 'fieldsKeys')];
+    let flat = !get(this, 'options.fieldsets');
     let fields = get(this, 'fields');
     return sets.map((set) => {
       if (isArray(set)) { 
-        set = {label: null, text: null, fields: set};
+        set = {label: null, text: null, fields: set, flat: flat};
       }
-      let options = {label: set.label, text: set.text, fields: []};
+      let options = {label: set.label, text: set.text, fields: [], flat: set.flat || flat};
       set.fields.forEach((key) => { options.fields.push(fields[key]); });
       return new FieldSet(options);
     });
