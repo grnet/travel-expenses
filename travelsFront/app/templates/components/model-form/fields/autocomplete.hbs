@@ -1,11 +1,13 @@
 {{ paper-autocomplete 
     source=choices
-    lookupKey='label'
+    lookupKey=(if fattrs.labelKey fattrs.labelKey 'label')
     model=choiceModel
     value=value
     floating=true
     label=label
     placeholder=label
-    minLength=(if minLength minLength 0)
+    minLength=(if fattrs.minLength fattrs.minLength 0)
+    allowNonExisting=(if fattrs.allowNonExisting fattrs.allowNonExisting false)
+    disabled=fattrs.disabled
     errors=errors
 }}

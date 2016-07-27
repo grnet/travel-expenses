@@ -15,15 +15,18 @@ export default Select.extend({
   init() {
     this._super();
   },
-  choiceModel: computed('value', function() {
+  choiceModel: null,
+  observeValue: observer('value', function() {
     let value = get(this, 'value');
-    if (!value) { return null; }
-    return {label: value.get('name'), value: value};
+    let label = get(this, 'value.' + (get(this, 'fattrs.labelKey') || 'name'));
+    set(this, 'choiceModel', {
+      label,
+      value
+    })
   }),
 
   observeChoice: observer('choiceModel', function() {
     let model = this.get('choiceModel');
-    if (!model) { return; }
-    this.sendAction('onChange', this.get('choiceModel').value);
+    this.sendAction('onChange', model && model.value);
   })
 }) 

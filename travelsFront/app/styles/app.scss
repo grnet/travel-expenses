@@ -117,3 +117,13 @@ p.rt {
     background-color: transparent;
   }
 }
+
+
+.model-form {
+  md-content.model-form-fieldset {
+    md-card-content {
+      padding-bottom: 0;
+    }
+  }
+  md-autocomplete[disabled] { background-color: transparent; }
+}
