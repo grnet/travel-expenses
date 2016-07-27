@@ -189,6 +189,15 @@ class Accommodation(models.Model):
 
     accommodation_price = models.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
+    accommodation_default_currency = models.CharField(max_length=3,
+                                                      blank=False,
+                                                      default=settings.
+                                                      DEFAULT_CURRENCY)
+    accommodation_local_price = models.FloatField(
+        blank=True, default=0.0, validators=[MinValueValidator(0.0)])
+    accommodation_local_currency = models.CharField(max_length=3,
+                                                    blank=True,
+                                                    choices=common.CURRENCIES)
 
     accommodation_payment_way = models.CharField(
         max_length=5, choices=common.WAYS_OF_PAYMENT, blank=False,
@@ -207,6 +216,10 @@ class Transportation(models.Model):
     """
     transportation_price = models.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
+    transportation_default_currency = models.CharField(max_length=3,
+                                                       blank=False,
+                                                       default=settings.
+                                                       DEFAULT_CURRENCY)
     transportation_payment_way = models.CharField(
         max_length=5, choices=common.WAYS_OF_PAYMENT,
         blank=False, default='NON')
@@ -250,17 +263,21 @@ class TravelInfo(Accommodation, Transportation):
     class APITravel:
         fields = ('id', 'url', 'arrival_point', 'departure_point',
                   'means_of_transport',
-                  'accommodation_price', 'accommodation_payment_way',
+                  'accommodation_price', 'accommodation_default_currency',
+                  'accommodation_local_price', 'accommodation_local_currency',
+                  'accommodation_payment_way',
                   'accommodation_payment_description',
                   'return_date', 'depart_date',
-                  'transportation_price', 'transportation_payment_way',
+                  'transportation_price', 'transportation_default_currency',
+                  'transportation_payment_way',
                   'transportation_payment_description',
                   'transport_days_proposed',
                   'overnight_cost', 'compensation_level',
                   'same_day_return_task', 'get_compensation',
                   'overnights_num_manual', 'transport_days_manual',
                   'compensation_days_manual', 'meal')
-        read_only_fields = ('id', 'url')
+        read_only_fields = ('id', 'url', 'transportation_default_currency',
+                            'accommodation_default_currency')
         allowed_operations = ('list', 'retrieve', 'delete')
 
     def clean(self):
@@ -443,6 +460,16 @@ class ParticipationInfo(models.Model):
     participation_cost = models.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
 
+    participation_default_currency = models.CharField(max_length=3,
+                                                      blank=False,
+                                                      default=settings.
+                                                      DEFAULT_CURRENCY)
+    participation_local_price = models.FloatField(
+        blank=True, default=0.0, validators=[MinValueValidator(0.0)])
+    participation_local_currency = models.CharField(max_length=3,
+                                                    blank=True,
+                                                    choices=common.CURRENCIES)
+
     participation_payment_way = models.CharField(
         max_length=10, choices=common.WAYS_OF_PAYMENT, blank=False,
         default='NON')
@@ -470,8 +497,8 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
     dse = models.PositiveIntegerField(blank=False)
     travel_info = models.ManyToManyField(TravelInfo, blank=False)
     user = models.ForeignKey(UserProfile, blank=False)
-    task_start_date = models.DateTimeField(blank=False)
-    task_end_date = models.DateTimeField(blank=False)
+    task_start_date = models.DateTimeField(blank=True, null=True)
+    task_end_date = models.DateTimeField(blank=True, null=True)
     created = models.DateTimeField(blank=False, default=timezone.now())
     updated = models.DateTimeField(blank=False, default=timezone.now())
     project = models.ForeignKey(Project, blank=False)
@@ -480,6 +507,10 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
 
     additional_expenses_initial = models.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
+    additional_expenses_default_currency = models.CharField(max_length=3,
+                                                            blank=False,
+                                                            default=settings.
+                                                            DEFAULT_CURRENCY)
     additional_expenses_initial_description = models.CharField(
         max_length=400, blank=True, null=True)
     first_name = models.CharField(max_length=200, blank=False)
@@ -494,9 +525,12 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
                   'task_start_date', 'task_end_date', 'created', 'updated',
                   'travel_info', 'project', 'reason',
                   'additional_expenses_initial',
+                  'additional_expenses_default_currency',
                   'additional_expenses_initial_description',
                   'trip_days_before', 'trip_days_after', 'status',
-                  'participation_cost', 'participation_payment_way',
+                  'participation_cost', 'participation_default_currency',
+                  'participation_local_price', 'participation_local_currency',
+                  'participation_payment_way',
                   'participation_payment_description', 'url',
                   'overnights_sum_cost',
                   'overnights_proposed', 'transport_days', 'trip_days_before',
@@ -506,7 +540,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         read_only_fields = ('id', 'user', 'url', 'first_name', 'last_name',
                             'kind', 'specialty', 'tax_office', 'tax_reg_num',
                             'category', 'iban', 'status', 'created',
-                            'updated')
+                            'updated', 'participation_default_currency')
         nested_relations = [('travel_info', 'travel_info')]
 
     def __init__(self, *args, **kwargs):
@@ -661,7 +695,11 @@ class UserPetition(Petition):
         fields = Petition.APITravel.fields
         read_only_fields = Petition.APITravel.read_only_fields + ('dse',)
         nested_relations = [('travel_info', 'travel_info')]
-        extra_kwargs = {'dse': {'required': False}}
+        extra_kwargs = {
+            'dse': {'required': False},
+            'task_star_date': {'required': False},
+            'task_end_date': {'required': False},
+        }
 
 
 class UserPetitionSubmission(Petition):
@@ -681,7 +719,13 @@ class UserPetitionSubmission(Petition):
             'reason': {
                 'required': True, 'allow_blank': False, 'allow_null': False
             },
-            'dse': {'required': False}
+            'dse': {'required': False},
+            'task_start_date': {
+                'required': True, 'allow_null': False
+            },
+            'task_end_date': {
+                'required': True, 'allow_null': False
+            }
         }
 
     def clean(self):
