@@ -20,7 +20,7 @@ var Validations=buildValidations({
     validator('presence', true),
     validator('length', {min: 2})
   ],
-  taxRegNum: [
+  tax_reg_num: [
     validator('presence', {presence: true}),
     validator('length', {min: 1}),
     validator('afm-validator')
