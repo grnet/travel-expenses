@@ -99,6 +99,9 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
           this.sendAction('onError', model);
           if (err.isAdapterError) {
             errMessage = "Form submission failed";
+            if (err.errors && err.errors.length && err.errors[0].detail) {
+              errMessage = errMessage + " (" + err.errors[0].detail + ")";
+            }
           }
           this.set('submitError', errMessage);
           this.set('submitFailed', true);
