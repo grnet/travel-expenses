@@ -14,12 +14,10 @@ export var Petition = DS.Model.extend({
   iban: DS.attr({attrs: {required: true}}),
   category: DS.attr({'label': 'User Category', 'choices': CHOICES.USER_CATEGORY, 'readonly': true}),
   user: DS.belongsTo('profile'),
-  dse: DS.attr('string', {attrs: {readonly: true, , required: true}}),
+  dse: DS.attr('string', {attrs: {readonly: true, required: true}}),
   project: DS.belongsTo('project', {attrs: {labelKey: "full_label", required: true}}),
   reason: DS.attr({attrs: {required: true}}),
   movement_category: DS.attr({attrs: {readonly: true}}),
-  departure_point: DS.belongsTo('city', {attrs: {required: true}}),
-  arrival_point: DS.belongsTo('city', {attrs: {required: true}}),
   task_start_date: DS.attr('date', {
     attrs: {
       time: true,
@@ -33,37 +31,35 @@ export var Petition = DS.Model.extend({
       required: true 
     },
     label: 'Task ends at'
-  }),
-  depart_date: DS.attr('date', {
-    attrs: {
-      time: true
-    },
-    label: 'Depart at'
-  }),
-  return_date: DS.attr('date', {
-    attrs: {
-      time: true
-    },
-    label: 'Return at'
-  }),
-  travel_info: DS.hasMany('travel-info'),
-  
+  }),  
   status: DS.attr(),
   petition_id: Ember.computed('id', function(){
     // return just the status id
     return _.last(this.get('id').replace(/\/$/, '').split('/'));
   }),
-  means_of_transport: DS.attr({'label': 'Means of Transport', 'choices': CHOICES.TRANSPORTATION}),
-  transportation: DS.attr(),
-  accommodation: DS.attr(),
   registration_cost: DS.attr({attrs: {required: true}}),
   additional_expenses: DS.attr({attrs: {required: true}}),
-  meals: DS.attr({'label': 'Meals', 'choices': CHOICES.MEALS}),
   non_grnet_quota: DS.attr({attrs: {required: true}}),
-  user_recommendation: DS.attr({attrs:{textarea: true}})
+  user_recommendation: DS.attr({attrs:{textarea: true}}),
+
+  //Travel_info DATA
+  travel_info: DS.attr(),
+  departure_point: DS.belongsTo('city', {attrs: {required: true}}),
+  arrival_point: DS.belongsTo('city', {attrs: {required: true}}),
+  // depart_date: DS.attr('date', {
+  //   attrs: {
+  //     time: true
+  //   },
+  //   label: 'Depart at'
+  // }),
+  // return_date: DS.attr('date', {
+  //   attrs: {
+  //     time: true
+  //   },
+  //   label: 'Return at'
+  // }),
+  // meals: DS.attr({'label': 'Meals', 'choices': CHOICES.MEALS}),
+  // means_of_transport: DS.attr({'label': 'Means of Transport', 'choices': CHOICES.TRANSPORTATION}),
+  // transportation: DS.attr(),
+  // accommodation: DS.attr(),
 });
-
-
-    
-       
-
