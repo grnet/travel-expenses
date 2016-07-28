@@ -24,5 +24,22 @@ export default DRFSerializer.extend({
       })
     }
     return resp;
+  },
+
+  normalize(modelClass, resourceHash, prop) {
+    let api = apiFor(modelClass, this.container);
+    if (api.normalize) {
+      resourceHash = api.normalize(resourceHash, this);
+    }
+    return this._super(modelClass, resourceHash, prop);
+  },
+
+  serialize(snapshot, options) {
+    let api = apiFor(snapshot.modelName, this.container);
+    let json = this._super(snapshot, options);
+    if (api.serialize) {
+       return api.serialize(json, snapshot, this);
+    }
+    return json;
   }
 })
