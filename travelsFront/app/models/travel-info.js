@@ -1,4 +1,8 @@
+import Ember from 'ember';
 import DS from 'ember-data';
+import ENV from 'travels-front/config/environment';
+
+const CHOICES = ENV.APP.resource_choices;
 
 export default DS.Model.extend({
   __api__: {
@@ -19,12 +23,12 @@ export default DS.Model.extend({
   //   },
   //   label: 'Return at'
   // }),
-  // means_of_transport: DS.attr({'label': 'Means of Transport', 'choices': CHOICES.TRANSPORTATION}),
-  // accomondation_price: DS.attr(),
-  // transportation_price: DS.attr(),
+  means_of_transport: DS.attr({'label': 'Means of Transport', 'choices': CHOICES.TRANSPORTATION}),
+  accommodation_price: DS.attr(),
+  transportation_price: DS.attr(),
   // transport_days_manual: DS.attr(),
   // overnights_num_manual: DS.attr(),
-  // meal: DS.attr({'label': 'Meals', 'choices': CHOICES.MEALS}),
+  meal: DS.attr({'label': 'Meals', 'choices': CHOICES.MEALS}),
   // accommodation_default_currency: DS.attr(),
   // accommodation_local_price: DS.attr(),
   // accommodation_local_currency: DS.attr(),

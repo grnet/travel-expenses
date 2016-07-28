@@ -19,7 +19,6 @@ export var Petition = DS.Model.extend({
   user: DS.belongsTo('profile'),
   dse: DS.attr('string', {attrs: {disabled: true, required: true}}),
   project: DS.belongsTo('project', {attrs: {labelKey: "full_label", required: true}}),
-  //project: DS.attr(),
   reason: DS.attr({attrs: {required: true, textarea: true}}),
   movement_category: DS.attr({choices: CHOICES.MOVEMENT_CATEGORIES, attrs: {disabled: true}}),
   departure_point: DS.belongsTo('city', {attrs: {required: true}}),
@@ -63,11 +62,11 @@ export var Petition = DS.Model.extend({
   //   },
   //   label: 'Return at'
   // }),
-  // meals: DS.attr({'label': 'Meals', 'choices': CHOICES.MEALS}),
-  // means_of_transport: DS.attr({'label': 'Means of Transport', 'choices': CHOICES.TRANSPORTATION}),
-  // transportation: DS.attr(),
-  // accommodation: DS.attr(),
-  //
+  meal: DS.attr({'label': 'Meals', 'choices': CHOICES.MEALS}),
+  means_of_transport: DS.attr({'label': 'Means of Transport', 'choices': CHOICES.TRANSPORTATION}),
+  transportation_price: DS.attr(),
+  accommodation_price: DS.attr(),
+  
   observeDeparturePoint: Ember.observer('arrival_point', function() {
     this.get('arrival_point').then((city) => {
       if (!city) {

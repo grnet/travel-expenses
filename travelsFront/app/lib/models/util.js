@@ -1,6 +1,13 @@
 import Ember from 'ember';
 
-const TRAVEL_INFO_FIELDS = ['departure_point', 'arrival_point'];
+const TRAVEL_INFO_FIELDS = [
+  'departure_point', 
+  'arrival_point', 
+  'means_of_transport', 
+  'meal', 
+  'transportation_price', 
+  'accommodation_price'
+];
 
 const normalizePetition = function(hash, serializer) {
   let travel_info = hash['travel_info'];

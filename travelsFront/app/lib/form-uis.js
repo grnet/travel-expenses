@@ -8,8 +8,8 @@ export const UIS = {
       {
         'label': 'Travel Data',
         'fields': ['dse', 'project', 'reason', 'departure_point', 'arrival_point','movement_category', 'country_category',
-        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'means_of_transport', 'transportation',
-        'accomondation', 'registration_cost', 'additional_expenses', 'meals', 'non_grnet_quota', 'user_recommendation']
+        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'means_of_transport', 'transportation_price',
+        'accommodation_price', 'registration_cost', 'additional_expenses', 'meal', 'non_grnet_quota', 'user_recommendation']
       },
     ],
     layout: {
@@ -26,8 +26,8 @@ export const UIS = {
       {
         'label': 'Travel Data',
         'fields': ['dse', 'project', 'reason', 'movement_category', 'departure_point', 'arrival_point',
-        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'means_of_transport', 'transportation',
-        'accomondation', 'registration_cost', 'additional_expenses', 'meals', 'non_grnet_quota', 'user_recommendation']
+        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'means_of_transport', 'transportation_price',
+        'accommodation_price', 'registration_cost', 'additional_expenses', 'meal', 'non_grnet_quota', 'user_recommendation']
       },
       {
         'label': 'Secretary Data',
