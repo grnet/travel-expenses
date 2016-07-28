@@ -5,8 +5,8 @@ import ENV from 'travels-front/config/environment';
 const CHOICES = ENV.APP.resource_choices;
 
 export var Petition = DS.Model.extend({
-  first_name: DS.attr({attrs: {readonly: true, required: true}}),
-  last_name: DS.attr({attrs: {readonly: true, required: true}}),
+  first_name: DS.attr({attrs: {disabled: true, required: true}}),
+  last_name: DS.attr({attrs: {disabled: true, required: true}}),
   specialty: DS.attr({'label': 'Specialty', 'choices': CHOICES.SPECIALTY, 'required': true}),
   kind: DS.attr({'choices': CHOICES.KIND, 'required': true}),
   tax_reg_num: DS.attr({attrs: {required: true}, label: 'VAT'}),
@@ -14,10 +14,10 @@ export var Petition = DS.Model.extend({
   iban: DS.attr({attrs: {required: true}}),
   category: DS.attr({'label': 'User Category', 'choices': CHOICES.USER_CATEGORY, 'readonly': true}),
   user: DS.belongsTo('profile'),
-  dse: DS.attr('string', {attrs: {readonly: true, required: true}}),
+  dse: DS.attr('string', {attrs: {disabled: true, required: true}}),
   project: DS.belongsTo('project', {attrs: {labelKey: "full_label", required: true}}),
   reason: DS.attr({attrs: {required: true}}),
-  movement_category: DS.attr({attrs: {readonly: true}}),
+  movement_category: DS.attr({attrs: {disabled: true}}),
   task_start_date: DS.attr('date', {
     attrs: {
       time: true,
