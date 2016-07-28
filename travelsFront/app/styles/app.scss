@@ -126,4 +126,20 @@ p.rt {
     }
   }
   md-autocomplete[disabled] { background-color: transparent; }
+
+  md-input-container[disabled], md-input-container[disabled].md-focused {
+    
+    md-select-value, md-select-value:focus {
+      border-bottom-color: color('grey', '200') !important;
+      color: color('grey', '500') !important;
+      //background-image: linear-gradient(to right, rgba(0, 0, 0, 0.26) 0%, rgba(0, 0, 0, 0.26) 33%, transparent 0%);
+      // TODO: fixme
+    }
+
+    md-select {
+    }
+  }
+
 }
+
+
