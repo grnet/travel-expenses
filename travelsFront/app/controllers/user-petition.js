@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
       	let model = this.get("model");
       	let submit = this.get('store').createRecord("user-petition-submission", model.toJSON());
 
-      	let petition_fields = ["project", "departure_point", "arrival_point"];
+      	let petition_fields = ["project", "departure_point", "arrival_point", "task_start_date", "task_end_date"];
 
       	for (var field of petition_fields) {
       		submit.set(field, model.get(field));
