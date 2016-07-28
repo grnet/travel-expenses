@@ -286,10 +286,6 @@ class TravelInfo(Accommodation, Transportation):
             self.transport_days_manual = self.transport_days_proposed()
             self.overnights_num_manual = overnight_days
             self.compensation_days_manual = overnight_days
-        # if self.arrival_point:
-            # currency = self.arrival_point.country.currency
-            # self.travel_petition.participation_local_currency = currency
-            # self.accommodation_local_currency = currency
 
         super(TravelInfo, self).save(*args, **kwargs)
 
@@ -482,7 +478,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
     id = models.AutoField(primary_key=True)
 
     dse = models.PositiveIntegerField(blank=False)
-    travel_info = models.ManyToManyField(TravelInfo, blank=False)
+    travel_info = models.ManyToManyField(TravelInfo, blank=True)
     user = models.ForeignKey(UserProfile, blank=False)
     task_start_date = models.DateTimeField(blank=True, null=True)
     task_end_date = models.DateTimeField(blank=True, null=True)
@@ -686,6 +682,7 @@ class UserPetition(Petition):
             'dse': {'required': False, 'allow_null': True},
             'task_star_date': {'required': False},
             'task_end_date': {'required': False},
+            'travel_info': {'required': False}
         }
 
 
@@ -712,7 +709,11 @@ class UserPetitionSubmission(Petition):
             },
             'task_end_date': {
                 'required': True, 'allow_null': False
+            },
+            'travel_info': {
+                'required': True, 'allow_null': False
             }
+
         }
 
     def clean(self):
@@ -747,7 +748,8 @@ class SecretaryPetition(Petition):
             'compensation_decision_date', 'movement_id')
         read_only_fields = ('id', 'url', 'first_name', 'last_name',
                             'kind', 'specialty', 'tax_office', 'tax_reg_num',
-                            'category', 'status', 'dse', 'travel_info')
+                            'category', 'status', 'dse', 'travel_info',
+                            'created', 'updated')
         nested_relations = [('travel_info', 'travel_info')]
 
 
@@ -757,7 +759,7 @@ class SecretaryPetitionSubmission(Petition):
     objects = PetitionManager(Petition.SUBMITTED_BY_SECRETARY)
     mandatory_fields = ('expenditure_protocol', 'expenditure_date_protocol',
                         'movement_protocol', 'movement_protocol_date',
-                        'movement_id'
+                        'movement_id', 'travel_info'
                         )
 
     class Meta:
@@ -792,6 +794,9 @@ class SecretaryPetitionSubmission(Petition):
                 'required': True, 'allow_blank': False, 'allow_null': False
             },
             "movement_date_protocol": {
+                'required': True, 'allow_null': False
+            },
+            'travel_info': {
                 'required': True, 'allow_null': False
             },
             'dse': {'required': False, 'allow_null': True}
