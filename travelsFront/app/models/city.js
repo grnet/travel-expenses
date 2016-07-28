@@ -6,5 +6,6 @@ export default DS.Model.extend({
   },
 
 	name: DS.attr(),
-	url: DS.attr()
+	url: DS.attr(),
+  country: DS.belongsTo('country')
 });

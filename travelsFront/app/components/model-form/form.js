@@ -4,7 +4,7 @@ import _ from 'lodash/lodash';
 import {ResourceMetaFrom} from './util';
 
 const {
-  get, set, computed: { alias }
+  get, getWithDefault, set, computed: { alias }
 } = Ember
 var TypesCache = {};
 
@@ -82,6 +82,7 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
   },
 
   actions: {
+
     submit(event, ...args) {
       if (this.get("submit")) { return this.get("submit")(this); }
       //let model = this.get("model");
@@ -92,11 +93,11 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
       if (isValid) {
         this.set('inProgress', true);
         model.save().then(() => {
-          this.set('submitMessage', 'Form saved');
+          this.set('submitMessage', getWithDefault(this, 'successMessage', 'Form saved'));
           this.sendAction('onSuccess', model);
         }).catch((err) => {
           let errMessage = err.message;
-          this.sendAction('onError', model);
+          this.sendAction('onError', model, err);
           if (err.isAdapterError) {
             errMessage = "Form submission failed";
             if (err.errors && err.errors.length && err.errors[0].detail) {

@@ -1,7 +1,8 @@
 {{ page-toolbar pageTitle=(if newPetition "Create a petition" "Edit petition") }}
 
 {{#paper-content classNames="md-padding"}}
-    {{# model-form/form model registerForm=this getModelForSave=getModelForSave as |form| }}
+    {{# model-form/form model registerForm=this getModelForSave=getModelForSave successMessage="Petition saved" 
+            onError=(action 'onError') onSuccess=(action 'onSuccess') as |form| }}
         {{ form.messages }}
         {{ form.fields }}
         {{# form.controls }}
@@ -9,7 +10,7 @@
                 onClick=(action "handleSubmit")
                 warn=true
                 raised=true
-                disabled=inProgress
+                disabled=modelform.inProgress
             }}SUBMIT{{/paper-button}}
         {{/ form.controls}}
     {{/ model-form/form }}

@@ -31,6 +31,19 @@ export default Ember.Controller.extend({
 
 		handleSubmit(e) {
       this.get('modelform').send('submit', e, true);
+    },
+
+    onSuccess(model) {
+      if (model.constructor.modelName == "user-petition-submission") {
+        return this.transitionToRoute("profile"); // TODO: redirect to submission view
+      }
+      this.transitionToRoute("userPetition", model.get("id"));
+    },
+
+    onError(model) {
+      let errors = model.get("errors");
+      errors = _.groupBy(errors.toArray(), (e) => e.attribute);
+      this.get("modelform.modelErrors").setProperties(errors);
     }
   
   },	

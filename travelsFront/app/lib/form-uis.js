@@ -3,18 +3,17 @@ export const UIS = {
     fieldsets: [
       {
         'label': 'User data',
-        'text': 'This is the fieldset help text',
         'fields': ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'category']
       },
       {
         'label': 'Travel Data',
-        'fields': ['dse', 'project', 'reason', 'movement_category', 'departure_point', 'arrival_point',
+        'fields': ['dse', 'project', 'reason', 'departure_point', 'arrival_point','movement_category', 'country_category',
         'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'means_of_transport', 'transportation',
         'accomondation', 'registration_cost', 'additional_expenses', 'meals', 'non_grnet_quota', 'user_recommendation']
       },
     ],
     layout: {
-      flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+      flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 100, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
     }
   },
   "petition_travel": {

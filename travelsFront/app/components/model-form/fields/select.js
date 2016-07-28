@@ -7,12 +7,12 @@ const {
   set,
   isArray,
   computed,
-  computed: { alias, equal } 
+  computed: { alias, equal, gt } 
 } = Ember;
-
 
 export default Ember.Component.extend(BaseField, {
 
+  hasErrors: gt('errors.length', 0),
   disabled: computed('fattrs.readonly', 'fatrrs.disabled', function() {
     return get(this, 'fattrs.readonly') || get(this, 'fattrs.disabled');
   }),
