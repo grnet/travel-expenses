@@ -223,8 +223,8 @@ class TravelInfo(Accommodation, Transportation):
     depart_date = models.DateTimeField(null=True)
     return_date = models.DateTimeField(null=True)
     departure_point = models.ForeignKey(
-        City, blank=False, related_name='travel_departure_point')
-    arrival_point = models.ForeignKey(City, blank=False,
+        City, blank=True, null=True, related_name='travel_departure_point')
+    arrival_point = models.ForeignKey(City, blank=True, null=True,
                                       related_name='travel_arrival_point')
     means_of_transport = models.CharField(
         choices=common.TRANSPORTATION, max_length=10, blank=False,
@@ -358,9 +358,9 @@ class TravelInfo(Accommodation, Transportation):
         Checks if city is `New YORK` and returns True if this is the case;
         False otherwise.
         """
-        try:
+        if self.arrival_point_id:
             return self.arrival_point.name.lower() == "new york"
-        except City.DoesNotExist:
+        else:
             return False
 
     def compensation_level(self):
@@ -368,6 +368,8 @@ class TravelInfo(Accommodation, Transportation):
         :returns:compensation level
 
         """
+        if not self.arrival_point_id:
+            return 0.0
         return common.COMPENSATION_CATEGORIES[(
             self.travel_petition.category,
             self.arrival_point.country.category)]
@@ -401,6 +403,94 @@ class TravelInfo(Accommodation, Transportation):
             if self.meal else 1
         return max_compensation * compensation_proportion * (
             self.travel_petition.grnet_quota() / percentage)
+
+
+class TravelInfoUserSubmit(TravelInfo):
+
+    mandatory_fields = (
+        'arrival_point', 'departure_point')
+
+    class Meta:
+        proxy = True
+
+    class APITravel:
+        fields = TravelInfo.APITravel.fields
+        read_only_fields = TravelInfo.APITravel.read_only_fields
+        allowed_operations = TravelInfo.APITravel.allowed_operations
+        extra_kwargs = {
+            'arrival_point': {
+                'required': True, 'allow_null': False
+            },
+            'departure_point': {
+                'required': True, 'allow_null': False
+            }
+
+        }
+
+
+class TravelInfoSecretarySubmit(TravelInfo):
+
+    mandatory_fields = (
+        'arrival_point', 'departure_point',
+        'means_of_transport',
+        'accommodation_price', 'accommodation_default_currency',
+        'accommodation_payment_way',
+        'accommodation_payment_description',
+        'return_date', 'depart_date',
+        'transportation_price', 'transportation_default_currency',
+        'transportation_payment_way',
+        'transportation_payment_description',
+        'transport_days_proposed', 'meal')
+
+    class Meta:
+        proxy = True
+
+    class APITravel:
+        fields = TravelInfo.APITravel.fields
+        read_only_fields = TravelInfo.APITravel.read_only_fields
+        allowed_operations = TravelInfo.APITravel.allowed_operations
+        extra_kwargs = {
+            'arrival_point': {
+                'required': True, 'allow_null': False
+            },
+            'departure_point': {
+                'required': True, 'allow_null': False
+            },
+            'means_of_transport': {
+                'required': True, 'allow_blank': False, 'allow_null': False
+            },
+            'accommodation_price': {
+                'required': True, 'allow_null': False
+            },
+            'accommodation_default_currency': {
+                'required': True, 'allow_blank': False, 'allow_null': False
+            },
+            'accommodation_payment_way': {
+                'required': True, 'allow_blank': False, 'allow_null': False
+            },
+            'accommodation_payment_description': {
+                'required': True, 'allow_blank': False, 'allow_null': False
+            },
+            'return_date': {
+                'required': True, 'allow_null': False
+            },
+            'depart_date': {
+                'required': True, 'allow_null': False
+            },
+            'transportation_price': {
+                'required': True, 'allow_null': False
+            },
+            'transportation_default_currency': {
+                'required': True, 'allow_blank': False, 'allow_null': False
+            },
+            'transportation_payment_way': {
+                'required': True, 'allow_blank': False, 'allow_null': False
+            },
+            'transportation_payment_description': {
+                'required': True, 'allow_blank': False, 'allow_null': False
+            },
+
+        }
 
 
 class SecretarialInfo(models.Model):
@@ -699,7 +789,8 @@ class UserPetitionSubmission(Petition):
     class APITravel:
         fields = Petition.APITravel.fields
         read_only_fields = Petition.APITravel.read_only_fields
-        nested_relations = [('travel_info', 'travel_info')]
+        nested_relations = [
+            ('travel_info', 'travel_info', TravelInfoUserSubmit)]
         extra_kwargs = {
             'reason': {
                 'required': True, 'allow_blank': False, 'allow_null': False
@@ -709,9 +800,6 @@ class UserPetitionSubmission(Petition):
                 'required': True, 'allow_null': False
             },
             'task_end_date': {
-                'required': True, 'allow_null': False
-            },
-            'travel_info': {
                 'required': True, 'allow_null': False
             }
 
@@ -779,7 +867,8 @@ class SecretaryPetitionSubmission(Petition):
             'compensation_decision_protocol',
             'compensation_decision_date')
         read_only_fields = Petition.APITravel.read_only_fields
-        nested_relations = [('travel_info', 'travel_info')]
+        nested_relations = [
+            ('travel_info', 'travel_info', TravelInfoSecretarySubmit)]
         extra_kwargs = {
             'movement_id': {
                 'required': True, 'allow_blank': False, 'allow_null': False
@@ -797,9 +886,7 @@ class SecretaryPetitionSubmission(Petition):
             "movement_date_protocol": {
                 'required': True, 'allow_null': False
             },
-            'travel_info': {
-                'required': True, 'allow_null': False
-            },
+
             'dse': {'required': False, 'allow_null': True}
         }
 
