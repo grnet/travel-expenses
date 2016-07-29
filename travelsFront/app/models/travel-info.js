@@ -11,7 +11,7 @@ export default DS.Model.extend({
   url: DS.attr(),
   departure_point: DS.belongsTo('city', {attrs: {required: true}}),
   arrival_point: DS.belongsTo('city', {attrs: {required: true}}),
-  depart_date: DS.attr('date', {
+   depart_date: DS.attr('date', {
     attrs: {
       time: true
     },

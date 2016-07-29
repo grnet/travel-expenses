@@ -6,7 +6,9 @@ const TRAVEL_INFO_FIELDS = [
   'means_of_transport', 
   'meal', 
   'transportation_price', 
-  'accommodation_price'
+  'accommodation_price',
+  'depart_date',
+  'return_date'
 ];
 
 const normalizePetition = function(hash, serializer) {
