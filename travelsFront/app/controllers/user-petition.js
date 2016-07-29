@@ -16,13 +16,6 @@ export default Ember.Controller.extend({
       	};	
         return submit;
       }
-
-      let model = this.get("model");
-      let info_attrs = {"departure_point": model.get("departure_point.url"), "arrival_point": model.get("arrival_point.url")}
-      let tinfo = this.get('store').createRecord("travel-info", info_attrs);
-      let travel_info = [info_attrs]
-      
-      model.set("travel_info", travel_info);
       return this.get('model');
     }.bind(this);
   }),
