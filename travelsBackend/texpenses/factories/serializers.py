@@ -67,8 +67,6 @@ def get_related_model(model, model_field_name):
     with another model.
     :returns: Related model class.
 
-    :raises: ModelFieldNotFound If the given field cannot be found on the given
-    model.
     :raises: ModelFieldNotRelated If the given field is not related to another
     model.
     """
