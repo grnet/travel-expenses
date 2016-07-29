@@ -100,9 +100,10 @@ def get_base_or_proxy(base_model_class, proxy_model_class):
     if not proxy_model_class:
         return base_model_class
     if not (proxy_model_class._meta.proxy and
-            proxy_model_class._meta.concrete_class is base_model_class):
+            proxy_model_class._meta.concrete_model is base_model_class):
         raise InvalidProxyModel('Given proxy model %s is invalid' % (
             proxy_model_class.__class__.__name__))
+    return proxy_model_class
 
 
 def get_nested_serializer(model, model_api_class):
