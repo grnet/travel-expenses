@@ -8,12 +8,12 @@ export const UIS = {
       {
         'label': 'Travel Data',
         'fields': ['dse', 'project', 'reason', 'departure_point', 'arrival_point','movement_category', 'country_category',
-        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'means_of_transport', 'transportation_price',
-        'accommodation_price', 'registration_cost', 'additional_expenses', 'meal', 'non_grnet_quota', 'user_recommendation']
+        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'means_of_transport', 'transportation_price', 'meal',
+        'accommodation_price', 'registration_cost', 'additional_expenses', 'non_grnet_quota', 'user_recommendation']
       },
     ],
     layout: {
-      flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 100, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+      flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 100, 50, 50, 50, 50, 50, 33, 33, 33, 100, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
     }
   },
   "petition_travel": {

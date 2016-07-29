@@ -14,15 +14,12 @@ export var Petition = DS.Model.extend({
   tax_office: DS.belongsTo('tax-office', {attrs: {disabled: true}}),
   iban: DS.attr({attrs: {disabled: true}}),
   category: DS.attr({'label': 'User Category', 'choices': CHOICES.USER_CATEGORY, attrs: {disabled: true}}),
-
-
+  //petition fields
   user: DS.belongsTo('profile'),
   dse: DS.attr('string', {attrs: {disabled: true, required: true}}),
   project: DS.belongsTo('project', {attrs: {labelKey: "full_label", required: true}}),
   reason: DS.attr({attrs: {required: true, textarea: true}}),
   movement_category: DS.attr({choices: CHOICES.MOVEMENT_CATEGORIES, attrs: {disabled: true}}),
-  departure_point: DS.belongsTo('city', {attrs: {required: true}}),
-  arrival_point: DS.belongsTo('city', {attrs: {required: true}}),
   country_category: DS.attr('string', {attrs: {disabled: true}}),
   task_start_date: DS.attr('date', {
     attrs: {
@@ -50,23 +47,25 @@ export var Petition = DS.Model.extend({
 
   //Travel_info DATA
   travel_info: DS.attr(),
-  // depart_date: DS.attr('date', {
-  //   attrs: {
-  //     time: true
-  //   },
-  //   label: 'Depart at'
-  // }),
-  // return_date: DS.attr('date', {
-  //   attrs: {
-  //     time: true
-  //   },
-  //   label: 'Return at'
-  // }),
+  departure_point: DS.belongsTo('city', {attrs: {required: true}}),
+  arrival_point: DS.belongsTo('city', {attrs: {required: true}}),
+  depart_date: DS.attr('date', {
+    attrs: {
+      time: true
+    },
+    label: 'Depart at'
+  }),
+  return_date: DS.attr('date', {
+    attrs: {
+      time: true
+    },
+    label: 'Return at'
+  }),
   meal: DS.attr({'label': 'Meals', 'choices': CHOICES.MEALS}),
   means_of_transport: DS.attr({'label': 'Means of Transport', 'choices': CHOICES.TRANSPORTATION}),
   transportation_price: DS.attr(),
   accommodation_price: DS.attr(),
-  
+  //set movement/country category value
   observeDeparturePoint: Ember.observer('arrival_point', function() {
     this.get('arrival_point').then((city) => {
       if (!city) {

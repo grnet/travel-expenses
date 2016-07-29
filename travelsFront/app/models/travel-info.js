@@ -11,18 +11,18 @@ export default DS.Model.extend({
   url: DS.attr(),
   departure_point: DS.belongsTo('city', {attrs: {required: true}}),
   arrival_point: DS.belongsTo('city', {attrs: {required: true}}),
-  // depart_date: DS.attr('date', {
-  //   attrs: {
-  //     time: true
-  //   },
-  //   label: 'Depart at'
-  // }),
-  // return_date: DS.attr('date', {
-  //   attrs: {
-  //     time: true
-  //   },
-  //   label: 'Return at'
-  // }),
+  depart_date: DS.attr('date', {
+    attrs: {
+      time: true
+    },
+    label: 'Depart at'
+  }),
+  return_date: DS.attr('date', {
+    attrs: {
+      time: true
+    },
+    label: 'Return at'
+  }),
   means_of_transport: DS.attr({'label': 'Means of Transport', 'choices': CHOICES.TRANSPORTATION}),
   accommodation_price: DS.attr(),
   transportation_price: DS.attr(),
