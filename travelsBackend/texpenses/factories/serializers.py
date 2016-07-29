@@ -1,4 +1,3 @@
-from django.core.exceptions import FieldDoesNotExist
 from rest_framework import serializers
 from texpenses.factories import utils
 
@@ -9,10 +8,6 @@ SERIALIZER_ATTRS = [('fields', '__all__'),
                     ('write_only_fields', None), ('extra_kwargs', None)]
 METHODS_TO_OVERRIDE = ['create', 'update', 'delete', 'validate']
 CUSTOM_SERIALIZERS_CODE = 'texpenses.serializers'
-
-
-class ModelFieldNotFound(Exception):
-    pass
 
 
 class ModelFieldNotRelated(Exception):
@@ -77,15 +72,12 @@ def get_related_model(model, model_field_name):
     :raises: ModelFieldNotRelated If the given field is not related to another
     model.
     """
-    try:
-        model_field = model._meta.get_field(model_field_name)
-        if model_field.rel is None:
-            raise ModelFieldNotRelated(
-                'Field %s is not related with another model' % (
-                    repr(model_field_name)))
-        return model_field.rel.to
-    except FieldDoesNotExist as e:
-        raise ModelFieldNotFound(e)
+    model_field = model._meta.get_field(model_field_name)
+    if model_field.rel is None:
+        raise ModelFieldNotRelated(
+            'Field %s is not related with another model' % (
+                repr(model_field_name)))
+    return model_field.rel.to
 
 
 def get_nested_serializer(model, model_api_class):
