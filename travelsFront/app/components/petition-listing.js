@@ -19,46 +19,27 @@ export default Ember.Component.extend({
 
 						self.set('statePetitionList', true);
 						self.set('deleteMessage', "Η αίτηση σας έχει διαγραφεί επιτυχώς !");
-						Ember.$('#messageModal').modal();
-						Ember.$('#styleModal').removeClass('btn-warning');
-						Ember.$('#styleModal').addClass('btn-success');
-						
-
 					}, function(reason) {
 						self.set('statePetitionList', false);
 						self.set('deleteMessage', 'Η διαγραφή της αίτησης σας απέτυχε...');
-						Ember.$('#messageModal').modal();
-						Ember.$('#styleModal').removeClass('btn-success');
-						Ember.$('#styleModal').addClass('btn-warning');
-
 					}); 
-
 				});	
-
 			}
-
 			else{
 				self.set('statePetitionList', false);
 				self.set('deleteMessage', 'Η αίτηση σας έχει υποβληθεί συνεπώς δεν είναι δυνατή η διαγραφή της...');
-				Ember.$('#messageModal').modal();
-				Ember.$('#styleModal').removeClass('btn-success');
-				Ember.$('#styleModal').addClass('btn-warning');
 			}
-
 		},
+
 		petitionUndo(id){
 			var self=this;
 			var model=this.get('model');
-
-
 			var petition=self.store.peekRecord('user-petition',id);
 
 			self.store.findRecord('petition-status',ENV.petition_status_1).then(function(status){
 				petition.set('status',status);
 				petition.save();
 			});
-
-
 		},
 	}
 });
