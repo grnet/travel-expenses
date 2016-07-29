@@ -1,3 +1,4 @@
+from django.core.exceptions import FieldDoesNotExist
 from rest_framework import serializers
 from texpenses.factories import utils
 
@@ -55,13 +56,7 @@ def factory(model_class, serializer_module_name=None, api_name='APITravel'):
     return cls
 
 
-RELATED_DESCRIPTORS = {
-    'ForwardOneToOneDescriptor': lambda x: x.field.rel.to,
-    'ForwardManyToOneDescriptor': lambda x: x.field.rel.to,
-    'ManyToManyDescriptor': lambda x: x.rel.to,
-}
-
-MANY_TO_MANY_REL = 'ManyToManyDescriptor'
+MANY_TO_MANY_REL = 'ManyToManyField'
 
 
 def get_related_model(model, model_field_name):
@@ -82,17 +77,15 @@ def get_related_model(model, model_field_name):
     :raises: ModelFieldNotRelated If the given field is not related to another
     model.
     """
-    model_field = getattr(model, model_field_name, None)
-
-    if model_field is None:
-        raise ModelFieldNotFound('Field %s not found on model %s' % (
-            repr(model_field_name), model.__name__))
-    field_rel_name = model_field.__class__.__name__
-    if field_rel_name not in RELATED_DESCRIPTORS:
-        raise ModelFieldNotRelated(
-            'Field %s is not related with another model' % (
-                repr(model_field_name)))
-    return RELATED_DESCRIPTORS[field_rel_name](model_field)
+    try:
+        model_field = model._meta.get_field(model_field_name)
+        if model_field.rel is None:
+            raise ModelFieldNotRelated(
+                'Field %s is not related with another model' % (
+                    repr(model_field_name)))
+        return model_field.rel.to
+    except FieldDoesNotExist as e:
+        raise ModelFieldNotFound(e)
 
 
 def get_nested_serializer(model, model_api_class):
@@ -111,10 +104,10 @@ def get_nested_serializer(model, model_api_class):
         return {}
     nested_serializers = {}
     for api_field_name, model_field_name in nested_relations:
-        model_field = getattr(model, model_field_name, None)
         rel_model_class = get_related_model(model, model_field_name)
         serializer_class = factory(rel_model_class)
-        many = model_field.__class__.__name__ == MANY_TO_MANY_REL
+        many = model._meta.get_field(
+            model_field_name).get_internal_type() == MANY_TO_MANY_REL
         source = None if api_field_name == model_field_name\
             else model_field_name
         nested_serializers[api_field_name] = serializer_class(
