@@ -14,6 +14,10 @@ class ModelFieldNotRelated(Exception):
     pass
 
 
+class InvalidProxyModel(Exception):
+    pass
+
+
 def factory(model_class, serializer_module_name=None, api_name='APITravel'):
     """ Generalized serializer factory to increase DRYness of code.
 
@@ -78,6 +82,29 @@ def get_related_model(model, model_field_name):
     return model_field.rel.to
 
 
+def get_base_or_proxy(base_model_class, proxy_model_class):
+    """
+    Get model class to construct model serializer.
+
+    If a proxy model has not been specified, then it gets the base model class.
+    If a proxy model has been specified, then it checks that it is actual a
+    proxy model of the given base model class.
+
+    :param base_model_class: Base model class of relation.
+    :param proxy_model_class: Specified proxy model class.
+    :returns: Either the base model class or proxy model class.
+
+    :raises: InvalidProxyModel if the given proxy model is not an actual
+    proxy model of the defined base model.
+    """
+    if not proxy_model_class:
+        return base_model_class
+    if not (proxy_model_class._meta.proxy and
+            proxy_model_class._meta.concrete_class is base_model_class):
+        raise InvalidProxyModel('Given proxy model %s is invalid' % (
+            proxy_model_class.__class__.__name__))
+
+
 def get_nested_serializer(model, model_api_class):
     """
     This function constructs nested serializers based on the nested relations
@@ -93,7 +120,8 @@ def get_nested_serializer(model, model_api_class):
     if not nested_relations:
         return {}
     nested_serializers = {}
-    for api_field_name, model_field_name in nested_relations:
+    for api_field_name, model_field_name, model_proxy_class in map((
+            lambda x: x + (None,) if len(x) == 2 else x), nested_relations):
         rel_model_class = get_related_model(model, model_field_name)
         serializer_class = factory(rel_model_class)
         many = model._meta.get_field(
