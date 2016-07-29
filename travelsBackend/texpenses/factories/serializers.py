@@ -123,7 +123,8 @@ def get_nested_serializer(model, model_api_class):
     for api_field_name, model_field_name, model_proxy_class in map((
             lambda x: x + (None,) if len(x) == 2 else x), nested_relations):
         rel_model_class = get_related_model(model, model_field_name)
-        serializer_class = factory(rel_model_class)
+        serializer_class = factory(get_base_or_proxy(
+            rel_model_class, model_proxy_class))
         many = model._meta.get_field(
             model_field_name).get_internal_type() == MANY_TO_MANY_REL
         source = None if api_field_name == model_field_name\
