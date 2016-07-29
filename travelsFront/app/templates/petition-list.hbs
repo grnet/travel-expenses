@@ -1,8 +1,5 @@
 {{page-toolbar pageTitle="Petition List"}}
 
-<p class="rt">
-    {{#paper-button raised=true primary=true onClick=(transition-to "userPetition" "new") bubbles=false }}Νεα Αιτηση{{/paper-button}}</p>
-
 <table class="table"> 
     <thead>
         <tr>
@@ -15,9 +12,7 @@
             <th>Ημ/νία Αναχώρησης</th>
             <th>Ημ/νία Επιστροφής</th>
             <th>Κατάσταση</th>
-            <th class="icon-cell">&nbsp;</th>
-            <th class="icon-cell">&nbsp;</th>
-            <th class="icon-cell">&nbsp;</th>
+            <th class="link-tab" colspan="3">{{#paper-button raised=true primary=true onClick=(transition-to "userPetition" "new") bubbles=false }}Νεα Αιτηση{{/paper-button}}</th>
         </tr>
     </thead>
     <tbody>
