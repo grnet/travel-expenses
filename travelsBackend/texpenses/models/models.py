@@ -691,7 +691,7 @@ class UserPetitionSubmission(Petition):
     """ A proxy model for the temporary submitted petitions by user. """
     objects = PetitionManager(Petition.SUBMITTED_BY_USER)
     mandatory_fields = (
-        'reason', 'task_start_date', 'task_end_date', 'travel_info')
+        'reason', 'task_start_date', 'task_end_date')
 
     class Meta:
         proxy = True
@@ -760,7 +760,7 @@ class SecretaryPetitionSubmission(Petition):
     objects = PetitionManager(Petition.SUBMITTED_BY_SECRETARY)
     mandatory_fields = ('expenditure_protocol', 'expenditure_date_protocol',
                         'movement_protocol', 'movement_protocol_date',
-                        'movement_id', 'travel_info'
+                        'movement_id'
                         )
 
     class Meta:
