@@ -5,7 +5,7 @@ from django.conf import settings
 from django.views.generic.base import RedirectView
 from texpenses.factories.views import factory
 from texpenses.models import (TaxOffice, Project, City, Country,
-                              UserProfile, TravelInfo,
+                              UserProfile,
                               UserPetition, UserPetitionSubmission,
                               SecretaryPetition, SecretaryPetitionSubmission)
 from texpenses.permissions.custom_permissions import IsOwnerOrAdmin
@@ -24,8 +24,6 @@ router_resources.register(r'project', factory(Project))
 router_resources.register(r'city', factory(City))
 router_resources.register(r'country', factory(Country))
 
-router_petition.register(r'travel_info', factory(
-    TravelInfo))
 
 router_user.register(
     r'saved', factory(UserPetition, custom_permissions=(IsOwnerOrAdmin,),
