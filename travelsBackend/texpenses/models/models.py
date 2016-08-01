@@ -579,6 +579,8 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
     updated = models.DateTimeField(blank=False, default=timezone.now())
     project = models.ForeignKey(Project, blank=False)
     reason = models.CharField(max_length=500, blank=True, null=True)
+    user_recommendation = models.CharField(
+        max_length=500, blank=True, null=True)
     status = models.IntegerField(blank=True, null=True)
 
     additional_expenses_initial = models.FloatField(
@@ -600,7 +602,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
                   'specialty', 'tax_office', 'tax_reg_num', 'user_category',
                   'user', 'iban',
                   'task_start_date', 'task_end_date', 'created', 'updated',
-                  'travel_info', 'project', 'reason',
+                  'travel_info', 'project', 'reason', 'user_recommendation',
                   'additional_expenses_initial',
                   'additional_expenses_default_currency',
                   'additional_expenses_initial_description',
@@ -840,7 +842,8 @@ class SecretaryPetition(Petition):
             'compensation_decision_protocol',
             'compensation_decision_date', 'movement_id')
         read_only_fields = ('id', 'url', 'first_name', 'last_name',
-                            'kind', 'specialty', 'tax_office', 'tax_reg_num',
+                            'kind', 'specialty', 'tax_office', 'iban',
+                            'tax_reg_num',
                             'user_category', 'status', 'dse', 'travel_info',
                             'created', 'updated')
         nested_relations = [('travel_info', 'travel_info')]
