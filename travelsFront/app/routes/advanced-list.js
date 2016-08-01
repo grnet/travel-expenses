@@ -7,7 +7,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 
 	model() {
 		
-		return this.store.findAll('userPetition');
+		return this.store.findAll('user-petition-submission');
 		//return this.store.query('petition',{status:2});
 	},
 	setupController: function(controller, model) {

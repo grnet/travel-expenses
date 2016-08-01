@@ -8,44 +8,45 @@ export default Ember.Controller.extend({
 
 	actions: {
 
-		petitionDelete(id,status){
+		// petitionDelete(id,status){
 
-			var self=this;
+		// 	var self=this;
 
-			if (status === "σε επεξεργασία απο τη γραμματεία" || status === "υποβεβλημένη από μετακινούμενο"){
+		// 	if (status === "σε επεξεργασία απο τη γραμματεία" || status === "υποβεβλημένη από μετακινούμενο"){
 
-				self.store.findRecord('petition', id).then(function(petition) {
+		// 		self.store.findRecord('petition', id).then(function(petition) {
 
-					petition.destroyRecord().then(function(value) {
-						self.set('statePetitionList', true);
-						self.set('deleteMessage', "Η αίτηση σας έχει διαγραφεί επιτυχώς !");
-						Ember.$('#messageModal').modal();
-						Ember.$('#styleModal').removeClass('btn-warning');
-						Ember.$('#styleModal').addClass('btn-success');
+		// 			petition.destroyRecord().then(function(value) {
+		// 				self.set('statePetitionList', true);
+		// 				self.set('deleteMessage', "Η αίτηση σας έχει διαγραφεί επιτυχώς !");
+		// 				Ember.$('#messageModal').modal();
+		// 				Ember.$('#styleModal').removeClass('btn-warning');
+		// 				Ember.$('#styleModal').addClass('btn-success');
 
 
-					}, function(reason) {
-						self.set('statePetitionList', false);
-						self.set('deleteMessage', 'Η διαγραφή της αίτησης σας απέτυχε...');
-						Ember.$('#messageModal').modal();
-						Ember.$('#styleModal').removeClass('btn-success');
-						Ember.$('#styleModal').addClass('btn-warning');
+		// 			}, function(reason) {
+		// 				self.set('statePetitionList', false);
+		// 				self.set('deleteMessage', 'Η διαγραφή της αίτησης σας απέτυχε...');
+		// 				Ember.$('#messageModal').modal();
+		// 				Ember.$('#styleModal').removeClass('btn-success');
+		// 				Ember.$('#styleModal').addClass('btn-warning');
 
-					}); 
+		// 			}); 
 
-				});	
+		// 		});	
 
-			}
+		// 	}
 
-			else{
-				self.set('statePetitionList', false);
-				self.set('deleteMessage', 'Η αίτηση έχει υποβληθεί συνεπώς δεν είναι δυνατή η διαγραφή της...');
-				Ember.$('#messageModal').modal();
-				Ember.$('#styleModal').removeClass('btn-success');
-				Ember.$('#styleModal').addClass('btn-warning');
-			}
+		// 	else{
+		// 		self.set('statePetitionList', false);
+		// 		self.set('deleteMessage', 'Η αίτηση έχει υποβληθεί συνεπώς δεν είναι δυνατή η διαγραφή της...');
+		// 		Ember.$('#messageModal').modal();
+		// 		Ember.$('#styleModal').removeClass('btn-success');
+		// 		Ember.$('#styleModal').addClass('btn-warning');
+		// 	}
 
-		},
+		// },
+		
 		petitionUndo(id){
 			var self=this;
 			var model=this.get('model');
@@ -55,11 +56,6 @@ export default Ember.Controller.extend({
 				petition.set('status',status);
 				petition.save();
 			});
-		},
-		petitionEdit(id){
-			id=id.substring(id.indexOf('user_petition/')+14,id.lastIndexOf('/'));
-			this.transitionToRoute('advancedPetition',id);
 		},	
 	}
-
 });

@@ -21,8 +21,8 @@ export var Petition = DS.Model.extend({
   reason: DS.attr({attrs: {required: true, textarea: true}}),
   movement_category: DS.attr({choices: CHOICES.MOVEMENT_CATEGORIES, attrs: {disabled: true}}),
   country_category: DS.attr('string', {attrs: {disabled: true}}),
-  created: DS.attr(),
-  updated: DS.attr(),
+  created: DS.attr('date', {attrs: {time: true, required: true}}),
+  updated: DS.attr('date', {attrs: {time: true, required: true}}),
   task_start_date: DS.attr('date', {
     attrs: {
       time: true,

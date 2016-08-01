@@ -2,9 +2,10 @@
 
 {{#if (can "approve petition")}}
 	<div>
-		<table class="table table-sm" > 
+		<table class="table" > 
 			<thead>
 				<tr>
+					<th>ΔΣΕ</th>
 					<th>Όνομα</th>
 					<th>Επώνυμο</th>
 					<th>Έργο</th>
@@ -14,17 +15,13 @@
 					<th>Ημ/νία Αναχώρησης</th>
 					<th>Ημ/νία Επιστροφής</th>
 					<th>Κατάσταση</th>
-					<th class="icon-cell">&nbsp;</th>
-          <th class="icon-cell">&nbsp;</th>
-          <th class="icon-cell">&nbsp;</th>
+					<th class="link-tab" colspan="3">{{#paper-button raised=true primary=true onClick=(transition-to "userPetition" "new") bubbles=false }}Νεα Αιτηση{{/paper-button}}</th>
 				</tr>
 			</thead>
 			
 			<tbody>
 				{{#each model as |petition|}}
-					{{#if (gt petition.status 2)}}
 						{{petition-listing petition=petition}}
-					{{/if}}
 				{{/each}}
 			</tbody>
 		</table>
