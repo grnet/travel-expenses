@@ -170,13 +170,13 @@ class Accommodation(models.Model):
     An abstract model that represents the accommodation related info
     """
 
-    accommodation_price = models.FloatField(
+    accommodation_cost = models.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
     accommodation_default_currency = models.CharField(max_length=3,
                                                       blank=False,
                                                       default=settings.
                                                       DEFAULT_CURRENCY)
-    accommodation_local_price = models.FloatField(
+    accommodation_local_cost = models.FloatField(
         blank=True, default=0.0, validators=[MinValueValidator(0.0)])
     accommodation_local_currency = models.CharField(max_length=3,
                                                     blank=True,
@@ -197,7 +197,7 @@ class Transportation(models.Model):
     """
     An abstract model that represents the transportation related info
     """
-    transportation_price = models.FloatField(
+    transportation_cost = models.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
     transportation_default_currency = models.CharField(max_length=3,
                                                        blank=False,
@@ -246,18 +246,18 @@ class TravelInfo(Accommodation, Transportation):
     class APITravel:
         fields = ('id', 'arrival_point', 'departure_point',
                   'means_of_transport',
-                  'accommodation_price', 'accommodation_default_currency',
-                  'accommodation_local_price', 'accommodation_local_currency',
+                  'accommodation_cost', 'accommodation_default_currency',
+                  'accommodation_local_cost', 'accommodation_local_currency',
                   'accommodation_payment_way',
                   'accommodation_payment_description',
                   'return_date', 'depart_date',
-                  'transportation_price', 'transportation_default_currency',
+                  'transportation_cost', 'transportation_default_currency',
                   'transportation_payment_way',
                   'transportation_payment_description',
                   'transport_days_proposed',
                   'overnight_cost', 'overnights_num_proposed',
                   'compensation_level',
-                  'same_day_return_task', 'get_compensation',
+                  'same_day_return_task', 'compensation_days_proposed',
                   'overnights_num_manual', 'transport_days_manual',
                   'compensation_days_manual', 'meals')
         read_only_fields = ('id', 'transportation_default_currency',
@@ -293,20 +293,20 @@ class TravelInfo(Accommodation, Transportation):
 
     def validate_overnight_cost(self):
         """
-        Checks that the accommodation_price does not surpass the maximum
+        Checks that the accommodation_cost does not surpass the maximum
         overnight limit based on the category of user.
 
-        :raises: ValidationError if accommodation price exceeds the allowable
+        :raises: ValidationError if accommodation cost exceeds the allowable
         limit.
         """
         EXTRA_COST = 100
         max_overnight_cost = common.MAX_OVERNIGHT_COST[
             self.travel_petition.user_category]
         max_overnight_cost += EXTRA_COST if self.is_city_ny() else 0
-        if self.accommodation_price > max_overnight_cost:
-            raise ValidationError('Accomondation price %.2f for petition with'
+        if self.accommodation_cost > max_overnight_cost:
+            raise ValidationError('Accomondation cost %.2f for petition with'
                                   ' DSE %s exceeds the max overnight cost.' % (
-                                      self.accommodation_price,
+                                      self.accommodation_cost,
                                       str(self.travel_petition.dse)))
 
     def transport_days_proposed(self):
@@ -353,7 +353,7 @@ class TravelInfo(Accommodation, Transportation):
 
     def overnight_cost(self):
         """ Returns total overnight cost. """
-        return self.accommodation_price * self.overnights_num_manual
+        return self.accommodation_cost * self.overnights_num_manual
 
     def is_city_ny(self):
         """
@@ -390,7 +390,7 @@ class TravelInfo(Accommodation, Transportation):
         return task_end_date.date() == self.return_date.date()\
             == task_start_date.date() == self.depart_date.date()
 
-    def get_compensation(self):
+    def compensation_days_proposed(self):
         """Calculates the compensation based on compensation days,
         compensation level and additional expenses
         :returns: The maximum possible compensation
@@ -435,11 +435,11 @@ class TravelInfoSecretarySubmit(TravelInfo):
     mandatory_fields = (
         'arrival_point', 'departure_point',
         'means_of_transport',
-        'accommodation_price', 'accommodation_default_currency',
+        'accommodation_cost', 'accommodation_default_currency',
         'accommodation_payment_way',
         'accommodation_payment_description',
         'return_date', 'depart_date',
-        'transportation_price', 'transportation_default_currency',
+        'transportation_cost', 'transportation_default_currency',
         'transportation_payment_way',
         'transportation_payment_description',
         'transport_days_proposed', 'meals')
@@ -461,7 +461,7 @@ class TravelInfoSecretarySubmit(TravelInfo):
             'means_of_transport': {
                 'required': True, 'allow_blank': False, 'allow_null': False
             },
-            'accommodation_price': {
+            'accommodation_cost': {
                 'required': True, 'allow_null': False
             },
             'accommodation_default_currency': {
@@ -479,7 +479,7 @@ class TravelInfoSecretarySubmit(TravelInfo):
             'depart_date': {
                 'required': True, 'allow_null': False
             },
-            'transportation_price': {
+            'transportation_cost': {
                 'required': True, 'allow_null': False
             },
             'transportation_default_currency': {
@@ -539,7 +539,7 @@ class ParticipationInfo(models.Model):
                                                       blank=False,
                                                       default=settings.
                                                       DEFAULT_CURRENCY)
-    participation_local_price = models.FloatField(
+    participation_local_cost = models.FloatField(
         blank=True, default=0.0, validators=[MinValueValidator(0.0)])
     participation_local_currency = models.CharField(max_length=3,
                                                     blank=True,
@@ -605,7 +605,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
                   'additional_expenses_initial_description',
                   'trip_days_before', 'trip_days_after', 'status',
                   'participation_cost', 'participation_default_currency',
-                  'participation_local_price', 'participation_local_currency',
+                  'participation_local_cost', 'participation_local_currency',
                   'participation_payment_way',
                   'participation_payment_description', 'url',
                   'overnights_sum_cost',
@@ -717,7 +717,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         :returns: TODO
 
         """
-        return sum(travel_obj.get_compensation()
+        return sum(travel_obj.compensation_days_proposed()
                    for travel_obj in self.travel_info.all())
 
     def total_cost(self):
@@ -727,7 +727,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         This value is calculated by adding the transportation,
         compensation, partication and accommodation costs.
         """
-        transportation_cost = sum(travel.transportation_price
+        transportation_cost = sum(travel.transportation_cost
                                   for travel in self.travel_info.all())
         return sum([transportation_cost, self.participation_cost,
                     self.compensation_final(), self.overnights_sum_cost()])

@@ -57,7 +57,7 @@ class APIPetitionTest(APITestCase):
             iban='GR4902603280000910200635494', is_superuser=True,
             password='test',
             specialty='1', tax_reg_num=011111111,
-            tax_office=tax_office, category='A',
+            tax_office=tax_office, user_category='A',
             trip_days_left=5)
         self.city = City.objects.create(
             name='Athens', country=Country.objects.create(name='Greece'))
@@ -110,11 +110,11 @@ class APIPetitionTest(APITestCase):
         city_url = reverse('city-detail', args=[1])
         travel_info = [{'arrival_point': city_url,
                         'departure_point': city_url,
-                        'accommodation_price': float('inf')}]
+                        'accommodation_cost': float('inf')}]
         data['travel_info'] = travel_info
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        validation_message = 'Accomondation price inf for petition with DSE' +\
+        validation_message = 'Accomondation cost inf for petition with DSE' +\
             ' 1 exceeds the max overnight cost.'
         self.assertEqual(response.data,
                          {'non_field_errors': [validation_message]})
@@ -204,10 +204,10 @@ class APIPetitionTest(APITestCase):
                 self.assertTrue(field in TravelInfo.APITravel.fields)
 
             # Check nested updates.
-            accommodation_price = 10
+            accommodation_cost = 10
             travel_info = [{'arrival_point': city_url,
                             'departure_point': city_url,
-                            'accommodation_price': accommodation_price},
+                            'accommodation_cost': accommodation_cost},
                            {'arrival_point': city_url,
                             'departure_point': city_url}]
             data['travel_info'] = travel_info
@@ -218,7 +218,7 @@ class APIPetitionTest(APITestCase):
             travel_info = petition['travel_info']
             self.assertEqual(len(travel_info), 2)
             response = self.client.get(travel_info[0]['url'])
-            self.assertEqual(response.data['accommodation_price'],
-                             accommodation_price)
+            self.assertEqual(response.data['accommodation_cost'],
+                             accommodation_cost)
             response = self.client.get(travel_info[1]['url'])
-            self.assertEqual(response.data['accommodation_price'], 0.0)
+            self.assertEqual(response.data['accommodation_cost'], 0.0)

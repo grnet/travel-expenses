@@ -18,14 +18,14 @@ class TravelInfoTest(TestCase):
         self.departure_point = City(name='ATHENS', country=departure_country)
 
         self.travel_obj = TravelInfo(travel_petition=travel_petition,
-                                     accommodation_price=0.0,
+                                     accommodation_cost=0.0,
                                      arrival_point=self.arrival_point,
                                      departure_point=self.departure_point,
                                      meals='NON')
 
     def test_validate_overnight_cost(self):
         self.travel_obj.validate_overnight_cost()
-        self.travel_obj.accommodation_price = float('inf')
+        self.travel_obj.accommodation_cost = float('inf')
         self.assertRaises(ValidationError,
                           self.travel_obj.validate_overnight_cost)
 
@@ -112,7 +112,7 @@ class TravelInfoTest(TestCase):
             timedelta(days=4)
         self.assertRaises(ValidationError, self.travel_obj.clean)
 
-    def test_get_compensation(self):
+    def test_compensation_days_proposed(self):
         depart = datetime.now() + timedelta(days=3)
         return_d = depart + timedelta(days=5)
         task_start = depart + timedelta(days=1)
@@ -126,13 +126,13 @@ class TravelInfoTest(TestCase):
         overnights = self.travel_obj.overnights_num_proposed(
             task_start, task_end)
         self.travel_obj.compensation_days_manual = overnights
-        self.assertEqual(self.travel_obj.get_compensation(), 500)
+        self.assertEqual(self.travel_obj.compensation_days_proposed(), 500)
 
         self.travel_obj.meals = 'FULL'
-        self.assertEqual(self.travel_obj.get_compensation(), 125)
+        self.assertEqual(self.travel_obj.compensation_days_proposed(), 125)
 
         self.travel_obj.meals = 'SEMI'
-        self.assertEqual(self.travel_obj.get_compensation(), 250)
+        self.assertEqual(self.travel_obj.compensation_days_proposed(), 250)
 
 
 class PetitionTest(TestCase):
@@ -163,7 +163,7 @@ class PetitionTest(TestCase):
 
         self.travel_info = TravelInfo.objects.create(
             return_date=self.end_date, depart_date=self.start_date,
-            accommodation_price=10,
+            accommodation_cost=10,
             transport_days_manual=4,
             overnights_num_manual=4,
             arrival_point=city,
