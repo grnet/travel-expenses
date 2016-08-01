@@ -35,7 +35,7 @@ const UI_DEFAULT = {
     },
     {
       'label': 'Personal info',
-      'fields': ['specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'category']
+      'fields': ['specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'user_category']
     }
   ],
   layout: {

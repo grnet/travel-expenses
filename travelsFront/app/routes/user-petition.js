@@ -53,7 +53,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
       'kind',
       'tax_reg_num',
       'tax_office',
-      'category'
+      'user_category'
     ];
 
     for (let field of commonFields) {
