@@ -17,7 +17,14 @@
         </tr>
     </thead>
     <tbody>
-        {{#each model as |petition|}}
+        <!-- Fetch petitions with status 1 -->
+        {{#each created as |petition|}}
+          {{#if petition.project.name}}
+            {{petition-listing petition=petition}}
+          {{/if}}
+        {{/each}}
+        <!-- Fetch petitions with status 2 -->
+        {{#each submitted as |petition|}}
           {{#if petition.project.name}}
             {{petition-listing petition=petition}}
           {{/if}}

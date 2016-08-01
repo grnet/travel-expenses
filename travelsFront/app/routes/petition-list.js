@@ -5,10 +5,14 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 
 	//entriesSorting: ['creationDate:desc'],
 	//collection: Ember.computed.sort('entries', 'entriesSorting')
-	model() {
-		console.log("list", this.store.findAll('user-petition'));
-		return this.store.findAll('user-petition');
-	},
+
+  model() {
+	  return Ember.RSVP.hash({
+	    created: this.store.findAll('user-petition'),
+	    submitted: this.store.findAll('user-petition-submission')
+	  });
+  },
+
 	//afterModel(petitions){
 
 		//console.log("Petitions unsorted"+petitions);
@@ -24,5 +28,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	setupController: function(controller, model) {
 		this._super(controller, model);
 		controller.set('deleteMessage','');
+		Ember.set(controller, 'created', model.created);
+    Ember.set(controller, 'submitted', model.submitted);
 	}
 });
