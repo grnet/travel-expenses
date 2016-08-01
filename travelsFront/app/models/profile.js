@@ -86,7 +86,7 @@ export default DS.Model.extend(Validations, {
       autocomplete: true,
     }
   }),
-	'category': DS.attr({
+	'user_category': DS.attr({
     'attrs': { disabled: true, readonly: true},
     'label': 'User Category', 
     'choices': CHOICES.USER_CATEGORY

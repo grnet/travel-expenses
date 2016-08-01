@@ -24,7 +24,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
         model.set('departure_point', athens);
       });
       model.set('means_of_transport', "AIR");
-      model.set('meal', "NON");
+      model.set('meals', "NON");
     }
     
 		return new Ember.RSVP.Promise(function(resolve, reject) {

@@ -4,9 +4,9 @@ const TRAVEL_INFO_FIELDS = [
   'departure_point', 
   'arrival_point', 
   'means_of_transport', 
-  'meal', 
-  'transportation_price', 
-  'accommodation_price',
+  'meals', 
+  'transportation_cost', 
+  'accommodation_local_cost',
   'depart_date',
   'return_date'
 ];

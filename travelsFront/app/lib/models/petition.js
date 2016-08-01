@@ -13,7 +13,7 @@ export var Petition = DS.Model.extend({
   tax_reg_num: DS.attr({attrs: {disabled: true}, label: 'VAT'}),
   tax_office: DS.belongsTo('tax-office', {attrs: {disabled: true}}),
   iban: DS.attr({attrs: {disabled: true}}),
-  category: DS.attr({'label': 'User Category', 'choices': CHOICES.USER_CATEGORY, attrs: {disabled: true}}),
+  user_category: DS.attr({'label': 'User Category', 'choices': CHOICES.USER_CATEGORY, attrs: {disabled: true}}),
   //petition fields
   user: DS.belongsTo('profile'),
   dse: DS.attr('string', {attrs: {disabled: true, required: true}}),
@@ -21,28 +21,30 @@ export var Petition = DS.Model.extend({
   reason: DS.attr({attrs: {required: true, textarea: true}}),
   movement_category: DS.attr({choices: CHOICES.MOVEMENT_CATEGORIES, attrs: {disabled: true}}),
   country_category: DS.attr('string', {attrs: {disabled: true}}),
+  created: DS.attr(),
+  updated: DS.attr(),
   task_start_date: DS.attr('date', {
     attrs: {
       time: true,
-      required: true    
+      required: true
     },
     label: 'Task starts at'
   }),
   task_end_date: DS.attr('date', {
     attrs: {
       time: true,
-      required: true 
+      required: true
     },
     label: 'Task ends at'
-  }),  
+  }),
   status: DS.attr(),
   petition_id: Ember.computed('id', function(){
     // return just the status id
     return _.last(this.get('id').replace(/\/$/, '').split('/'));
   }),
-  registration_cost: DS.attr({attrs: {required: true}}),
-  additional_expenses: DS.attr({attrs: {required: true}}),
-  non_grnet_quota: DS.attr({attrs: {required: true}}),
+  participation_local_cost: DS.attr({label: 'Participation Cost'}, {attrs: {required: true}}),
+  additional_expenses_initial: DS.attr({label: 'Additional Expenses'}, {attrs: {required: true}}),
+  additional_expenses_initial_description: DS.attr({label: 'Additional Expenses Description'}, {attrs:{textarea: true}}),
   user_recommendation: DS.attr({attrs:{textarea: true}}),
 
   //Travel_info DATA
@@ -61,10 +63,10 @@ export var Petition = DS.Model.extend({
     },
     label: 'Return at'
   }),
-  meal: DS.attr({'label': 'Meals', 'choices': CHOICES.MEALS}),
+  meals: DS.attr({'label': 'Meals', 'choices': CHOICES.MEALS}),
   means_of_transport: DS.attr({'label': 'Means of Transport', 'choices': CHOICES.TRANSPORTATION}),
-  transportation_price: DS.attr(),
-  accommodation_price: DS.attr(),
+  transportation_cost: DS.attr(),
+  accommodation_local_cost: DS.attr({label: 'Accommodation Cost'},),
   //set movement/country category value
   observeDeparturePoint: Ember.observer('arrival_point', function() {
     this.get('arrival_point').then((city) => {
