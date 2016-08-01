@@ -3,17 +3,17 @@ export const UIS = {
     fieldsets: [
       {
         'label': 'User data',
-        'fields': ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'category']
+        'fields': ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'user_category']
       },
       {
         'label': 'Travel Data',
         'fields': ['dse', 'project', 'reason', 'departure_point', 'arrival_point','movement_category', 'country_category',
-        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'means_of_transport', 'transportation_price', 'meal',
-        'accommodation_price', 'registration_cost', 'additional_expenses', 'non_grnet_quota', 'user_recommendation']
+        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'means_of_transport', 'transportation_cost', 'meals',
+        'accommodation_local_cost', 'additional_expenses_initial', 'participation_local_cost', 'additional_expenses_initial_description', 'user_recommendation']
       },
     ],
     layout: {
-      flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 100, 50, 50, 50, 50, 50, 33, 33, 33, 100, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+      flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 100, 50, 50, 50, 50, 50, 50, 50, 50, 50, 100, 100, 50, 50, 50, 50, 50, 50, 50, 50, 50]
     }
   },
   "petition_travel": {
@@ -21,18 +21,18 @@ export const UIS = {
     fieldsets: [
       {
         'label': 'User data',
-        'fields': ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'category']
+        'fields': ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'user_category']
       },
-      {
+       {
         'label': 'Travel Data',
-        'fields': ['dse', 'project', 'reason', 'movement_category', 'departure_point', 'arrival_point',
-        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'means_of_transport', 'transportation_price',
-        'accommodation_price', 'registration_cost', 'additional_expenses', 'meal', 'non_grnet_quota', 'user_recommendation']
+        'fields': ['dse', 'project', 'reason', 'departure_point', 'arrival_point','movement_category', 'country_category',
+        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'means_of_transport', 'transportation_cost', 'meals',
+        'accommodation_local_cost', 'participation_local_cost', 'additional_expenses_initial', 'user_recommendation']
       },
       {
         'label': 'Secretary Data',
         'fields': ['movement_num', 'expenditure_date_protocol',
-        'expenditure_protocol', 'movement_date_protocol', 'movement_protocol', 'trip_days_before']
+        'expenditure_protocol', 'movement_date_protocol', 'movement_protocol', 'trip_days_before', 'non_grnet_quota',]
       },
       {
         'label': 'Computed Data',
@@ -42,7 +42,7 @@ export const UIS = {
       },
     ],
     layout: {
-      flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+      flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 100, 50, 50, 50, 50, 50, 50, 50, 50, 100, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
     }
   }
 };
