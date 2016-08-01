@@ -10,7 +10,7 @@ from texpenses.models import (
 class TravelInfoTest(TestCase):
 
     def setUp(self):
-        travel_petition = Petition(category='A')
+        travel_petition = Petition(user_category='A')
         arrival_country = Country(name='FRANCE', category='A', currency='EUR')
         self.arrival_point = City(name='PARIS', country=arrival_country)
 
@@ -21,7 +21,7 @@ class TravelInfoTest(TestCase):
                                      accommodation_price=0.0,
                                      arrival_point=self.arrival_point,
                                      departure_point=self.departure_point,
-                                     meal='NON')
+                                     meals='NON')
 
     def test_validate_overnight_cost(self):
         self.travel_obj.validate_overnight_cost()
@@ -127,10 +127,10 @@ class TravelInfoTest(TestCase):
         self.travel_obj.compensation_days_manual = overnights
         self.assertEqual(self.travel_obj.get_compensation(), 500)
 
-        self.travel_obj.meal = 'FULL'
+        self.travel_obj.meals = 'FULL'
         self.assertEqual(self.travel_obj.get_compensation(), 125)
 
-        self.travel_obj.meal = 'SEMI'
+        self.travel_obj.meals = 'SEMI'
         self.assertEqual(self.travel_obj.get_compensation(), 250)
 
 
@@ -148,7 +148,7 @@ class PetitionTest(TestCase):
             first_name='Nick', last_name='Jones', email='test@email.com',
             iban='GR4902603280000910200635494',
             specialty='1', tax_reg_num=011111111,
-            tax_office=tax_office, category='A',
+            tax_office=tax_office, user_category='A',
             trip_days_left=5)
 
         city = City.objects.create(
