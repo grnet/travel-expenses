@@ -244,7 +244,7 @@ class TravelInfo(Accommodation, Transportation):
     tracker = FieldTracker(fields=tracked_fields)
 
     class APITravel:
-        fields = ('id', 'url', 'arrival_point', 'departure_point',
+        fields = ('id', 'arrival_point', 'departure_point',
                   'means_of_transport',
                   'accommodation_price', 'accommodation_default_currency',
                   'accommodation_local_price', 'accommodation_local_currency',
@@ -255,11 +255,12 @@ class TravelInfo(Accommodation, Transportation):
                   'transportation_payment_way',
                   'transportation_payment_description',
                   'transport_days_proposed',
-                  'overnight_cost', 'compensation_level',
+                  'overnight_cost', 'overnights_num_proposed',
+                  'compensation_level',
                   'same_day_return_task', 'get_compensation',
                   'overnights_num_manual', 'transport_days_manual',
                   'compensation_days_manual', 'meals')
-        read_only_fields = ('id', 'url', 'transportation_default_currency',
+        read_only_fields = ('id', 'transportation_default_currency',
                             'accommodation_default_currency')
         allowed_operations = ('list', 'retrieve', 'delete')
 
@@ -359,7 +360,7 @@ class TravelInfo(Accommodation, Transportation):
         Checks if city is `New YORK` and returns True if this is the case;
         False otherwise.
         """
-        if self.arrival_point_id:
+        if self.arrival_point:
             return self.arrival_point.name.lower() == "new york"
         else:
             return False
@@ -369,7 +370,7 @@ class TravelInfo(Accommodation, Transportation):
         :returns:compensation level
 
         """
-        if not self.arrival_point_id:
+        if not self.arrival_point:
             return 0.0
         return common.COMPENSATION_CATEGORIES[(
             self.travel_petition.user_category,

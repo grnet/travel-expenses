@@ -97,6 +97,7 @@ class TravelInfoTest(TestCase):
         self.travel_obj.arrival_point = city
         self.assertFalse(self.travel_obj.is_city_ny())
         self.travel_obj.arrival_point.name = 'NEW YORK'
+
         self.assertTrue(self.travel_obj.is_city_ny())
 
     def test_clean(self):
