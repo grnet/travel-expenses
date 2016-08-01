@@ -9,6 +9,7 @@ from model_utils import FieldTracker
 from texpenses.models import common
 from texpenses.validators import (
     afm_validator, iban_validation, required_validator, date_validator,
+
     dates_list_validator)
 
 
@@ -255,7 +256,7 @@ class TravelInfo(Accommodation, Transportation):
                   'transportation_payment_way',
                   'transportation_payment_description',
                   'transport_days_proposed',
-                  'overnight_cost', 'overnights_num_proposed',
+                  'overnight_cost',
                   'compensation_level',
                   'same_day_return_task', 'compensation_days_proposed',
                   'overnights_num_manual', 'transport_days_manual',
@@ -597,7 +598,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
     class APITravel:
         fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
                   'specialty', 'tax_office', 'tax_reg_num', 'user_category',
-                  'user',
+                  'user', 'iban',
                   'task_start_date', 'task_end_date', 'created', 'updated',
                   'travel_info', 'project', 'reason',
                   'additional_expenses_initial',
