@@ -20,8 +20,9 @@
             {{/paper-content}}
             {{#menu-item onClick=(transition-to "profile")}}Profile{{/menu-item}}
             {{#unless (can "approve petition")}}
-              {{#menu-item onClick=(transition-to "petitionList")}}Petitions{{/menu-item}}
               {{#menu-item onClick=(transition-to "userPetition" "new")}}New Petition{{/menu-item}}
+              {{#menu-item onClick=(transition-to "petitionList")}}My Petitions{{/menu-item}}
+              {{#menu-item onClick=(transition-to "subPetitionList")}}Submitted Petitions{{/menu-item}}
             {{/unless}}
             {{#if (can "approve petition")}}
               {{#menu-item onClick=(transition-to "advancedList")}}Petitions for Approval{{/menu-item}}
