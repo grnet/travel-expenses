@@ -137,13 +137,9 @@ class MyModel(models.Model):
 
 ### Nested Relations
 
-Nested serialization is also supported. For example, you may want to expose the relations of model to
-one single serializer in order to easily read/create/update objects.
-All you have to do is to specify the attribute `nested_relations` with a list of tuples of your relations by specifying the name of your nested serializer and the name of the corresponding model field. Our mechanism we will find how the given model is related and will initialize nested serializer accordingly.
+Nested serialization is also supported. For example, you may want to expose the relations of a model to one single serializer (i.e one JSON object with nested JSON representations of related models) in order to easily read/create/update objects. All you have to do is to specify the attribute `nested_relations` with a list of tuples of your relations by specifying the name of your nested serializer and the name of the corresponding model field. After that, the given model relations are determined and the nested serializer is initialized accordingly.
 
-However, as the django rest framework supports only read only nested serializers, if you want to
-support nested serializer fields you'll need to override `create` and `update` methods of serializer
-class.
+However, as the django rest framework supports only read only nested serializers, if you want to support nested serializer fields you'll need to override `create` and `update` methods of serializer class.
 
 ```python
 class MyModel(models.Model):
@@ -163,7 +159,9 @@ class MyModel(models.Model):
 
 **Note 2** : If you want to **override the viewset methods** and provide custom implementations for your model then you can simply add your code to a new module with the snake case name of your model inside `views` package. Factory function will include them and will override custom implementation. The methods supported are **('create', 'update', 'delete')**
 
-**Note 3** :In case, you only want to change the Python behavior of a model – perhaps to change the default manager, or add a new method, use a **Proxy model** that extends the current model. You can create, delete and update instances of the proxy model and all the data will be saved as if you were using the original (non-proxied) model. The following is a proxy model example.
+### Customizing model behavior
+
+In case, you only want to change the Python behavior of a model – perhaps to change the default manager, or add a new method, use a **Proxy model** that extends the current model. You can create, delete and update instances of the proxy model and all the data will be saved as if you were using the original (non-proxied) model. The following is a proxy model example.
 
 ```python
 class MyProxyModel(MyModel):
@@ -175,7 +173,60 @@ class MyProxyModel(MyModel):
         pass
 ```
 
-Finally, register your API endpoint which will perform CRUD operations to your newly created model by adding the following line to your `urls.py` file. It calls a factory function for constructing a viewset and serializer for your model.
+You can also define proxy models for related models. In this way, one can customize related model representation, validation etc. After implementing the proxy model you should declare it in `nested_relations` attribute:
+
+```python
+class MyModel(models.Model):
+    # Same code as above.
+
+    class APITravel:
+        fields = ('id', 'url', 'name', 'number') # Fields exposed to API
+        read_only_fields = ('id', 'url')
+        filter_fields = ('name','number')
+        search_fields=('name',)
+        ordering_fields = ('name',)
+        allowed_operations = ('list', 'retrieve', 'delete')
+        nested_relations = [('api_field_name', 'another_model',nested_proxy_model_name)]
+```
+
+#### Defining mandatory elements at DB level.
+
+During proxy model implementation one can define which elements are mandatory in DB level. In order to do so, just define a tuple called `mandatory_fields` which contains the names of the fields to be considered as mandatory:
+
+```python
+class MyProxyModel(MyModel):
+    mandatory_fields = ('name','number')
+    class Meta:
+        proxy = True
+
+    def do_something(self):
+        # ...
+        pass
+```
+
+#### Arbitrary field constraint definition at API level.
+
+Additionally to standard attributes of API configuration `APITravel` inner class, one can define arbitrary extra field constraints using keyword arguments. This couples well with the mandatory element definition at DB level.
+
+```python
+class MyProxyModel(MyModel):
+    mandatory_fields = ('name','number')
+    class Meta:
+        proxy = True
+    class APITravel:
+        extra_kwargs = {
+         'name': { 'required': True, 'allow_blank': False, 'allow_null': False },
+         'number': {'required': True, 'allow_null': False}
+        }
+
+    def do_something(self):
+        # ...
+        pass
+```
+
+### Final steps
+
+Register your API endpoint which will perform CRUD operations to your newly created model by adding the following line to your `urls.py` file. It calls a factory function for constructing a viewset and serializer for your model.
 
 ```python
 router_petition.register(
