@@ -17,29 +17,10 @@
         </tr>
     </thead>
     <tbody>
-        <!-- Fetch petitions with status 1 -->
-        {{#each created as |petition|}}
+        {{#each model as |petition|}}
           {{#if petition.project.name}}
-            {{petition-listing petition=petition}}
-          {{/if}}
-        {{/each}}
-        <!-- Fetch petitions with status 2 -->
-        {{#each submitted as |petition|}}
-          {{#if petition.project.name}}
-            {{petition-listing petition=petition}}
+            {{petition-listing petition=petition del="petitionDelete"}}
           {{/if}}
         {{/each}}
     </tbody>
 </table>
-
-
-<!-- <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header" id="styleModal">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><font>{{deleteMessage}}</font></h4>
-      </div>
-    </div>
-  </div>
-</div> -->

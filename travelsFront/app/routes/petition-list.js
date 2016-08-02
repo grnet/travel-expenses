@@ -7,10 +7,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	//collection: Ember.computed.sort('entries', 'entriesSorting')
 
   model() {
-	  return Ember.RSVP.hash({
-	    created: this.store.findAll('user-petition'),
-	    submitted: this.store.findAll('user-petition-submission')
-	  });
+	  return this.store.findAll('user-petition');  
   },
 
 	//afterModel(petitions){
