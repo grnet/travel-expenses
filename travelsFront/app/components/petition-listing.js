@@ -9,15 +9,21 @@ export default Ember.Component.extend({
 
 	actions: {
 
+		edit(id, status) {
+			if (status == 1){
+				this.sendAction('edit', id);
+			}
+		},
+
 		del(id, status) {
 			if (status == 1){
 				this.sendAction('del', id);
 			}
 		},
 
-		edit(id, status) {
-			if (status == 1){
-				this.sendAction('edit', id);
+		undo(id, status) {
+			if (status == 2){
+				this.sendAction('undo', id);
 			}
 		},
 	}

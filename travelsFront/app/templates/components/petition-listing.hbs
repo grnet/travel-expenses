@@ -13,6 +13,6 @@
     {{#paper-button type="submit" raised=true onClick=(action "edit" petition.petition_id petition.status) iconButton=true}}{{fa-icon "pencil"}}{{/paper-button}}
     {{#paper-button type="submit" raised=true onClick=(action "del" petition.petition_id petition.status) iconButton=true}}{{fa-icon "trash-o"}}{{/paper-button}}
   {{else if (eq petition.status 2)}}
-  	{{#paper-button type="submit" raised=true onClick=(action "petitionUndo" petition.petition_id) iconButton=true}}{{fa-icon "undo"}}{{/paper-button}}   
+  	{{#paper-button type="submit" raised=true onClick=(action "undo" petition.petition_id) iconButton=true}}{{fa-icon "undo"}}{{/paper-button}}   
   {{/if}}
 </td>
