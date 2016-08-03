@@ -49,7 +49,7 @@ def factory(model_class, serializer_module_name=None, api_name='APITravel'):
         if not serializer_module_name else serializer_module_name
     module = utils.get_package_module(
         CUSTOM_SERIALIZERS_CODE + '.' + module_name)
-    utils.override_methods(cls, module)
+    utils.bound_methods(cls, module)
     return cls
 
 

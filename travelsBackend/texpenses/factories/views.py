@@ -60,7 +60,7 @@ def factory(model_class, custom_permissions=(), api_name='APITravel',
     module_name = utils.camel2snake(model_class.__name__)
     module = utils.get_package_module(
         CUSTOM_VIEWS_CODE + '.' + module_name)
-    utils.override_methods(cls, module)
+    utils.bound_methods(cls, module)
     return cls
 
 

@@ -24,11 +24,10 @@ def camel2snake(name_camel_case):
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
 
-def override_methods(cls, module):
+def bound_methods(cls, module):
     """
     This function looks up for specific methods in a specified module and if
-    methods exist, then it overrides the corresponding methods of the given
-    class.
+    methods exist, then it bounds them to the given class.
 
     :param cls: Class to override its methods.
     :param module: Module object to look for implementations of the functions.
