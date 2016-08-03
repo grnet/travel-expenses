@@ -43,6 +43,7 @@ export var Petition = DS.Model.extend({
     return _.last(this.get('id').replace(/\/$/, '').split('/'));
   }),
   participation_local_cost: DS.attr({label: 'Participation Cost'}, {attrs: {required: true}}),
+  participation_local_currency: DS.attr({'label': 'Currency', 'choices': CHOICES.CURRENCIES}),
   additional_expenses_initial: DS.attr({label: 'Additional Expenses'}, {attrs: {required: true}}),
   additional_expenses_initial_description: DS.attr({label: 'Additional Expenses Description'}, {attrs:{textarea: true}}),
   user_recommendation: DS.attr({attrs:{textarea: true}}),
@@ -67,6 +68,7 @@ export var Petition = DS.Model.extend({
   means_of_transport: DS.attr({'label': 'Means of Transport', 'choices': CHOICES.TRANSPORTATION}),
   transportation_cost: DS.attr(),
   accommodation_local_cost: DS.attr({label: 'Accommodation Cost'},),
+  accommodation_local_currency: DS.attr({'label': 'Currency', 'choices': CHOICES.CURRENCIES}),
   //set movement/country category value
   observeDeparturePoint: Ember.observer('arrival_point', function() {
     this.get('arrival_point').then((city) => {
@@ -75,6 +77,8 @@ export var Petition = DS.Model.extend({
         this.set('movement_category', null);
       } else {
         this.set('country_category', city.get('country.category'));
+        this.set('participation_local_currency', city.get('country.currency'));
+        this.set('accommodation_local_currency', city.get('country.currency'));
         if (city.get('country.name') == 'ΕΛΛΑΔΑ') {
           this.set('movement_category', '1');
         } else {

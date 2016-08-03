@@ -33,7 +33,7 @@ export default DS.Model.extend({
   accommodation_local_cost: DS.attr(),
   // accommodation_cost: DS.attr(),
   // accommodation_default_currency: DS.attr(),
-  // accommodation_local_currency: DS.attr(),
+  accommodation_local_currency: DS.attr({'label': 'Currency', 'choices': CHOICES.CURRENCIES}),
   // accommodation_payment_way: DS.attr(),
   // accommodation_payment_description: DS.attr(),
   transportation_cost: DS.attr(),

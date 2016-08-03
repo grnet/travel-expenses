@@ -7,6 +7,7 @@ const TRAVEL_INFO_FIELDS = [
   'meals', 
   'transportation_cost', 
   'accommodation_local_cost',
+  'accommodation_local_currency',
   'depart_date',
   'return_date'
 ];

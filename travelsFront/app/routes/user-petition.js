@@ -25,6 +25,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
       });
       model.set('means_of_transport', "AIR");
       model.set('meals', "NON");
+      model.set('participation_local_currency', "EUR");
+      model.set('accommodation_local_currency', "EUR");
     }
     
 		return new Ember.RSVP.Promise(function(resolve, reject) {

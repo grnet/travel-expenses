@@ -6,5 +6,6 @@ export default DS.Model.extend({
   },
 	name: DS.attr(),
 	category: DS.attr(),
+	currency: DS.attr(),
 	url: DS.attr()
 });
