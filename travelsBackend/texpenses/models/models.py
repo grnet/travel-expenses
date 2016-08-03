@@ -833,7 +833,8 @@ class UserPetitionSubmission(Petition):
         edited or submitted by secretary.
         """
         petitions = Petition.objects.filter(
-            Q(dse=self.dse) & Q(status__gt=self.SUBMITTED_BY_USER)).count()
+            Q(dse=self.dse) & Q(status__gt=self.SUBMITTED_BY_USER) &
+            Q(status__lt=self.DELETED)).count()
         return petitions == 0
 
     def cancel(self):
