@@ -19,5 +19,16 @@ export default DRFAdapter.extend(DataAdapterMixin,{
 	buildURL: function(modelName, id, snapshot, requestType, query) {
 		var url = this._super(modelName, id, snapshot, requestType, query);
     return apiFor(modelName, this.container).buildURL(this, url, id, snapshot, requestType, query);
-	}
+	},
+
+  urlForModel: function(model) {
+    let name = model.constructor.modelName;
+    let id = model.get('id');
+    return this.buildURL(name, id, {}, 'findRecord');
+  },
+
+  action: function(model, action, method='POST') {
+    let actionURL = this.urlForModel(model) + action + '/';
+    return this.ajax(actionURL, method);
+  }
 });
