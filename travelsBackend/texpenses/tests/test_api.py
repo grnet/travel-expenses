@@ -221,11 +221,6 @@ class APIPetitionTest(APITestCase):
             travel_info = petition['travel_info']
             self.assertEqual(len(travel_info), 1)
 
-            # print response.data
-
-            # for field in response.data:
-                # self.assertTrue(field in TravelInfo.APITravel.fields)
-
             # Check nested updates.
             accommodation_cost = 10
             travel_info = [{'arrival_point': city_url,
@@ -245,3 +240,27 @@ class APIPetitionTest(APITestCase):
             petition = response.data
             travel_info = petition['travel_info']
             self.assertEqual(len(travel_info), 2)
+
+    def test_submission_cancellation(self):
+        data = {'project': self.project,
+                'task_start_date': self.start_date,
+                'task_end_date': self.end_date,
+                'status': 2,
+                'dse': 1,
+                'user': self.user}
+        petition = Petition.objects.create(**data)
+        submission_endpoint = reverse('userpetitionsubmission-list')
+        cancel_url = submission_endpoint + str(petition.id) + '/cancel/'
+        response = self.client.post(cancel_url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        petition_url = reverse('userpetition-detail', args=[petition.id])
+        response = self.client.get(petition_url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        petition.status = 3
+        petition.save()
+        petition = Petition.objects.create(**data)
+
+        cancel_url = submission_endpoint + str(petition.id) + '/cancel/'
+        response = self.client.post(cancel_url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
