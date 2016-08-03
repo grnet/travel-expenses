@@ -28,7 +28,7 @@ export default Ember.Controller.extend({
 
     onSuccess(model) {
       if (model.constructor.modelName == "user-petition-submission") {
-        return this.transitionToRoute("profile"); // TODO: redirect to submission view
+        return this.transitionToRoute("subPetitionList");
       }
       this.transitionToRoute("userPetition", model.get("id"));
     },
