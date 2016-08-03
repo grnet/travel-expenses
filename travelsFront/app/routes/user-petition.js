@@ -20,7 +20,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
       model = this.store.createRecord(this.modelName);
       this.set('newPetition', true);
       //set some default values to user petition
-      this.store.findRecord('city', "5").then((athens) => {
+      this.store.findRecord('city', ENV.default_city).then((athens) => {
         model.set('departure_point', athens);
       });
       model.set('means_of_transport', "AIR");

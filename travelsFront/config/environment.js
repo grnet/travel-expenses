@@ -10,6 +10,7 @@ module.exports = function(environment) {
 		environment: environment,
 		baseURL: '/ui/',
 		locationType: 'auto',
+		default_city: "5",
 		EmberENV: {
 			FEATURES: {
 				// Here you can enable experimental features on an ember canary build
