@@ -9,31 +9,15 @@ export default Ember.Component.extend({
 
 	actions: {
 
-		// petitionDelete(id,status){
-		// 	var self=this;
-		// 	var store = this.get('targetObject.store');
-
-		// 	if (status == 1){
-		// 			store.findRecord('user-petition', id).then(function(petition) {
-		// 			petition.destroyRecord().then(function() {
-
-		// 				self.set('statePetitionList', true);
-		// 				self.set('deleteMessage', "Η αίτηση σας έχει διαγραφεί επιτυχώς !");
-		// 			}, function(reason) {
-		// 				self.set('statePetitionList', false);
-		// 				self.set('deleteMessage', 'Η διαγραφή της αίτησης σας απέτυχε...');
-		// 			}); 
-		// 		});	
-		// 	}
-		// 	else{
-		// 		self.set('statePetitionList', false);
-		// 		self.set('deleteMessage', 'Η αίτηση σας έχει υποβληθεί συνεπώς δεν είναι δυνατή η διαγραφή της...');
-		// 	}
-		// },
-
-		del(id,status) {
+		del(id, status) {
 			if (status == 1){
 				this.sendAction('del', id);
+			}
+		},
+
+		edit(id, status) {
+			if (status == 1){
+				this.sendAction('edit', id);
 			}
 		},
 

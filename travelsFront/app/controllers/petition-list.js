@@ -8,6 +8,10 @@ export default Ember.Controller.extend({
 
 	actions: {
 
+		petitionEdit(id,status){
+			this.transitionToRoute('userPetition', id);
+		},
+
 		petitionDelete(id,status){
 
 			var self=this;
