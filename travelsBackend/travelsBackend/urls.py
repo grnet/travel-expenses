@@ -33,7 +33,8 @@ router_secretary.register(
 router_user.register(
     r'submitted', factory(UserPetitionSubmission,
                           custom_permissions=(IsOwnerOrAdmin,),
-                          serializer_module_name='petition'))
+                          serializer_module_name='petition',
+                          custom_methods=['cancel']))
 router_secretary.register(
     r'submitted', factory(SecretaryPetitionSubmission,
                           serializer_module_name='petition'))

@@ -29,7 +29,7 @@ MIXINS = {
 
 
 def factory(model_class, custom_permissions=(), api_name='APITravel',
-            serializer_module_name=None):
+            serializer_module_name=None, custom_methods=[]):
     """TODO: Docstring for viewset_factory.
 
     :model_class: TODO
@@ -46,7 +46,6 @@ def factory(model_class, custom_permissions=(), api_name='APITravel',
     model_meta = getattr(model_class, api_name)
     assert model_meta is not None
     class_dict = {
-
         'authentication_classes': (SessionAuthentication, TokenAuthentication),
         'permission_classes': (IsAuthenticated,) + custom_permissions + (
             DjangoModelPermissions,),
@@ -62,7 +61,7 @@ def factory(model_class, custom_permissions=(), api_name='APITravel',
     module_name = utils.camel2snake(model_class.__name__)
     module = utils.get_package_module(
         CUSTOM_VIEWS_CODE + '.' + module_name)
-    utils.override_methods(cls, module, METHODS_TO_OVERRIDE)
+    utils.override_methods(cls, module, METHODS_TO_OVERRIDE + custom_methods)
     return cls
 
 

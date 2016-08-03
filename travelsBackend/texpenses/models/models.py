@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models import Q
 from model_utils import FieldTracker
 from texpenses.models import common
 from texpenses.validators import (
@@ -822,6 +823,29 @@ class UserPetitionSubmission(Petition):
         except ObjectDoesNotExist:
             pass
         super(UserPetitionSubmission, self).save(**kwargs)
+
+    def calcellation_is_allowed(self):
+        """
+        Check if the cancellation of a petition submitted by user is
+        allowed.
+
+        Calcellation is allowed only if the submitted petition has not been
+        edited or submitted by secretary.
+        """
+        petitions = Petition.objects.filter(
+            Q(dse=self.dse) & Q(status__gt=self.SUBMITTED_BY_USER)).count()
+        return petitions == 0
+
+    def cancel(self):
+        """
+        Cancel a submitted petition.
+
+        This means that petition status goes back to the previous one.
+        """
+        if not self.calcellation_is_allowed():
+            raise ValidationError('Petition calcellation is not allowed.')
+        self.status = self.SAVED_BY_USER
+        self.save()
 
 
 class SecretaryPetition(Petition):
