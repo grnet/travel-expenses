@@ -13,10 +13,7 @@ const {
 export default Ember.Component.extend(BaseField, {
 
   hasErrors: gt('errors.length', 0),
-  disabled: computed('fattrs.readonly', 'fatrrs.disabled', function() {
-    return get(this, 'fattrs.readonly') || get(this, 'fattrs.disabled');
-  }),
-
+  disabled: alias('fattrs.disabled'),
   isRelation: equal('field.type', 'relation'),
 
   choicesValues: computed('field.choices.[]', 'isRelation', function() {

@@ -22,45 +22,6 @@ md-content.login-info {
     }
 }
 
-.md-input-hint {
-  position: relative;
-  top: -38px;
-  padding-left: 4px;
-  color: color($primary, '400');
-  font-size: 12px;
-  .message {
-    @extend .md-input-invalid;
-  }
-  z-index: 1000;
-}
-
-md-content {
-  md-input-container.md-input-invalid {
-    md-select-value.md-select-placeholder {
-      border-bottom-color: color($warn, '800');
-      border-width: 0 0 2px 0;
-    }
-  }
-  .md-input-error {
-    font-size: 12px;
-    color: color($warn, '800');
-    position: relative;
-    top: -14px;
-    padding-left: 4px;
-  }
-}
-
-md-content.md-form-messages {
-  md-content.md-form-error {
-    background-color: color($warn, '800'); 
-    color: #fff;
-  }
-
-  md-content.md-form-success {
-    background-color: color('green', '800'); 
-    color: #fff;
-  }
-}
 
 table {
     margin-bottom: 8px;
@@ -115,27 +76,66 @@ table {
 }
 
 
+md-content.md-form-error {
+  background-color: color($warn, '800'); 
+  color: #fff;
+}
+
+md-content.md-form-success {
+  background-color: color('green', '800'); 
+  color: #fff;
+}
+
 .model-form {
+
   md-content.model-form-fieldset {
     md-card-content {
       padding-bottom: 0;
     }
   }
+
   md-autocomplete[disabled] { background-color: transparent; }
 
   md-input-container[disabled], md-input-container[disabled].md-focused {
-    
     md-select-value, md-select-value:focus {
-      border-bottom-color: color('grey', '200') !important;
-      color: color('grey', '500') !important;
-      //background-image: linear-gradient(to right, rgba(0, 0, 0, 0.26) 0%, rgba(0, 0, 0, 0.26) 33%, transparent 0%);
-      // TODO: fixme
+      border-bottom-color: transparent !important;
+      color: color('grey', '400') !important;
+      border-bottom-color: transparent;
+      background-image: linear-gradient(to right, color('grey', '400') 0%, color('grey', '400') 33%, transparent 0%);
+      background-size: 4px 1px;
+      background-repeat: repeat-x;
+      background-position: 0 bottom;
     }
+  }
 
-    md-select {
+  .md-input-hint {
+    position: relative;
+    top: -38px;
+    padding-left: 4px;
+    color: color($primary, '400');
+    font-size: 12px;
+    z-index: 40;
+  }
+
+  md-input-container[disabled] + .md-input-hint {
+    color: color('grey', '400');
+  }
+
+  md-content {
+    md-input-container.md-input-invalid {
+      md-select-value.md-select-placeholder {
+        border-bottom-color: color($warn, '800');
+        border-width: 0 0 2px 0;
+      }
+    }
+    .md-input-error {
+      font-size: 12px;
+      color: color($warn, '800');
+      position: relative;
+      top: -14px;
+      padding-left: 4px;
     }
   }
 
 }
-
 
