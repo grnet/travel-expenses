@@ -21,10 +21,8 @@ export default Ember.Component.extend({
 			}
 		},
 
-		undo(id, status) {
-			if (status == 2){
-				this.sendAction('undo', id);
-			}
+		undo(petition) {
+      this.sendAction('undo', petition);
 		},
 	}
 });
