@@ -27,17 +27,5 @@ export default Ember.Controller.extend({
 					}); 
 				});	
 		},
-
-		petitionUndo(id){
-			var self=this;
-			var model=this.get('model');
-			var petition=self.store.peekRecord('petition',id);
-
-			self.store.findRecord('petition-status',ENV.petition_status_1).then(function(status){
-				petition.set('status',status);
-				petition.save();
-			});
-		},	
 	}
-
 });
