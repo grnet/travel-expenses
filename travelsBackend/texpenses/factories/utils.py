@@ -24,7 +24,7 @@ def camel2snake(name_camel_case):
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
 
-def override_methods(cls, module, methods_to_override):
+def override_methods(cls, module):
     """
     This function looks up for specific methods in a specified module and if
     methods exist, then it overrides the corresponding methods of the given
@@ -32,12 +32,12 @@ def override_methods(cls, module, methods_to_override):
 
     :param cls: Class to override its methods.
     :param module: Module object to look for implementations of the functions.
-    :param methods_to_override: List with the names of methods to override.
     """
+    exposed_methods = getattr(module, 'EXPOSED_METHODS', [])
     if module is None:
         return
 
-    for method_name in methods_to_override:
+    for method_name in exposed_methods:
         custom_method = getattr(module, method_name, None)
         if custom_method is not None:
             setattr(cls, method_name, custom_method)

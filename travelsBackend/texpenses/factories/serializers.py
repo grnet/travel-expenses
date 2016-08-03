@@ -6,7 +6,6 @@ READ_ONLY_FIELDS = ('id', 'url')
 SERIALIZER_ATTRS = [('fields', '__all__'),
                     ('read_only_fields', READ_ONLY_FIELDS),
                     ('write_only_fields', None), ('extra_kwargs', None)]
-METHODS_TO_OVERRIDE = ['create', 'update', 'delete', 'validate']
 CUSTOM_SERIALIZERS_CODE = 'texpenses.serializers'
 
 
@@ -50,8 +49,7 @@ def factory(model_class, serializer_module_name=None, api_name='APITravel'):
         if not serializer_module_name else serializer_module_name
     module = utils.get_package_module(
         CUSTOM_SERIALIZERS_CODE + '.' + module_name)
-    utils.override_methods(cls, module, METHODS_TO_OVERRIDE)
-    cls.__name__ = model_class.__name__
+    utils.override_methods(cls, module)
     return cls
 
 

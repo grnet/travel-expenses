@@ -3,6 +3,8 @@ from rest_framework import status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 
+EXPOSED_METHODS = ['cancel']
+
 
 @detail_route(methods=['post'])
 def cancel(self, request, pk=None):

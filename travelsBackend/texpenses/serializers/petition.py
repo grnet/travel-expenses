@@ -1,6 +1,12 @@
 from django.core.exceptions import ValidationError
 from texpenses.models import TravelInfo, SecretaryPetitionSubmission
 
+EXPOSED_METHODS = [
+    'create',
+    'update',
+    'validate',
+]
+
 
 def create(self, validated_data):
     """

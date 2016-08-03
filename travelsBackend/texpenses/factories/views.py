@@ -15,7 +15,6 @@ FILTERING_BACKENDS = {
 }
 VIEWSET_ATTRS = [('filter_fields', None), ('ordering_fields', None),
                  ('search_fields', None), ('ordering', None)]
-METHODS_TO_OVERRIDE = ['create', 'update', 'delete']
 CUSTOM_VIEWS_CODE = 'texpenses.views'
 
 
@@ -29,7 +28,7 @@ MIXINS = {
 
 
 def factory(model_class, custom_permissions=(), api_name='APITravel',
-            serializer_module_name=None, custom_methods=[]):
+            serializer_module_name=None):
     """TODO: Docstring for viewset_factory.
 
     :model_class: TODO
@@ -61,7 +60,7 @@ def factory(model_class, custom_permissions=(), api_name='APITravel',
     module_name = utils.camel2snake(model_class.__name__)
     module = utils.get_package_module(
         CUSTOM_VIEWS_CODE + '.' + module_name)
-    utils.override_methods(cls, module, METHODS_TO_OVERRIDE + custom_methods)
+    utils.override_methods(cls, module)
     return cls
 
 
