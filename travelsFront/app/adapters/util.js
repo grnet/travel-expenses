@@ -1,6 +1,8 @@
+import Ember from 'ember';
 import _ from 'lodash/lodash';
 import ENV from 'travels-front/config/environment'; 
 
+const { getOwner, assert } = Ember;
 
 const urlJoin = function(...args) {
   let parts = []
@@ -36,7 +38,11 @@ const ApiParams = Ember.Object.extend({
   }
 });
 
-const apiFor = function(modelOrType, container) {
+const apiFor = function(modelOrType, subject) {
+  let container = getOwner(subject);
+  assert("Cannot resolve container of " + subject.toString(), container);
+  container = container.__container__;
+
   let type = modelOrType;
   if (typeof modelOrType === "string") {
     type = container.lookupFactory(`model:${modelOrType}`);

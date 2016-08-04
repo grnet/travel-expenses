@@ -7,7 +7,7 @@ export default DRFSerializer.extend({
   serializeBelongsTo(snapshot, json, rel) {
     let resp = this._super(snapshot, json, rel);
     let key = this.keyForRelationship(rel.key);
-    let api = apiFor(rel.type, this.container);
+    let api = apiFor(rel.type, this);
     if (json[key]) {
       json[key] = api.relURL(json[key]);
     }
@@ -17,7 +17,7 @@ export default DRFSerializer.extend({
   serializeHasMany(snapshot, json, rel) {
     let resp = this._super(snapshot, json, rel);
     let key = this.keyForRelationship(rel.key);
-    let api = apiFor(rel.type, this.container);
+    let api = apiFor(rel.type, this);
     if (json[key]) {
       json[key] = json[key].map(function(id) {
         return api.relURL(id);
@@ -27,7 +27,7 @@ export default DRFSerializer.extend({
   },
 
   normalize(modelClass, resourceHash, prop) {
-    let api = apiFor(modelClass, this.container);
+    let api = apiFor(modelClass, this);
     if (api.normalize) {
       resourceHash = api.normalize(resourceHash, this);
     }
@@ -35,7 +35,7 @@ export default DRFSerializer.extend({
   },
 
   serialize(snapshot, options) {
-    let api = apiFor(snapshot.modelName, this.container);
+    let api = apiFor(snapshot.modelName, this);
     let json = this._super(snapshot, options);
     if (api.serialize) {
        return api.serialize(json, snapshot, this);

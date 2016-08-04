@@ -13,12 +13,12 @@ export default DRFAdapter.extend(DataAdapterMixin,{
 	authorizer: 'authorizer:token',
 
   pathForType: function(type) {
-    return apiFor(type, this.container).pathForType(this, type);
+    return apiFor(type, this).pathForType(this, type);
   },
 
 	buildURL: function(modelName, id, snapshot, requestType, query) {
 		var url = this._super(modelName, id, snapshot, requestType, query);
-    return apiFor(modelName, this.container).buildURL(this, url, id, snapshot, requestType, query);
+    return apiFor(modelName, this).buildURL(this, url, id, snapshot, requestType, query);
 	},
 
   urlForModel: function(model) {
