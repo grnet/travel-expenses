@@ -776,6 +776,7 @@ class UserPetition(Petition):
         nested_relations = [('travel_info', 'travel_info')]
         extra_kwargs = {
             'dse': {'required': False, 'allow_null': True},
+            'status': {'default': Petition.SAVED_BY_USER},
             'task_star_date': {'required': False},
             'task_end_date': {'required': False},
             'travel_info': {'required': False}
@@ -803,6 +804,9 @@ class UserPetitionSubmission(Petition):
             },
             'dse': {
                 'required': False, 'allow_null': True
+            },
+            'status': {
+                'default': Petition.SUBMITTED_BY_USER
             },
             'task_start_date': {
                 'required': True, 'allow_null': False
@@ -867,12 +871,15 @@ class SecretaryPetition(Petition):
             'compensation_petition_date',
             'compensation_decision_protocol',
             'compensation_decision_date', 'movement_id')
-        read_only_fields = ('id', 'url', 'first_name', 'last_name',
-                            'kind', 'specialty', 'tax_office', 'iban',
-                            'tax_reg_num',
-                            'user_category', 'status', 'dse', 'travel_info',
-                            'created', 'updated')
+        read_only_fields = Petition.APITravel.read_only_fields
         nested_relations = [('travel_info', 'travel_info')]
+        extra_kwargs = {
+            'dse': {'required': False, 'allow_null': True},
+            'status': {'default': Petition.SAVED_BY_USER},
+            'task_star_date': {'required': False},
+            'task_end_date': {'required': False},
+            'travel_info': {'required': False}
+        }
 
 
 class SecretaryPetitionSubmission(Petition):
@@ -920,6 +927,9 @@ class SecretaryPetitionSubmission(Petition):
             'dse': {
                 'required': False, 'allow_null': True
             },
+            'status': {
+                'default': Petition.SUBMITTED_BY_SECRETARY
+            }
         }
 
     def clean(self):
