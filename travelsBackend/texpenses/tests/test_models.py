@@ -184,7 +184,7 @@ class PetitionTest(TestCase):
         self.petition.delete()
         petition = Petition.objects.get(id=self.petition.id)
         self.assertIsNotNone(petition)
-        self.assertEqual(self.petition.status, Petition.DELETED)
+        self.assertTrue(petition.deleted)
 
     def test_set_next_dse(self):
         petition = Petition.objects.get(id=self.petition.id)
@@ -207,7 +207,7 @@ class PetitionTest(TestCase):
             task_start_date=self.start_date, task_end_date=self.end_date,
             user=self.user, project=self.project)
         self.assertEqual(user_petition.status, Petition.SAVED_BY_USER)
-        self.petition.status = Petition.DELETED
+        self.petition.deleted = True
         self.petition.save()
         for petition in UserPetition.objects.all():
             self.assertEqual(petition.status, Petition.SAVED_BY_USER)
@@ -248,4 +248,4 @@ class PetitionTest(TestCase):
 
         petition = Petition.objects.get(id=self.petition.id)
         self.assertIsNotNone(petition)
-        self.assertEqual(petition.status, Petition.DELETED)
+        self.assertTrue(petition.deleted)

@@ -562,8 +562,6 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
     SUBMITTED_BY_USER = 2
     SAVED_BY_SECRETARY = 3
     SUBMITTED_BY_SECRETARY = 4
-    CANCELLED = 10
-    DELETED = 100
 
     # Fields that are copied from user object.
     USER_FIELDS = ['first_name', 'last_name', 'iban', 'specialty', 'kind',
@@ -578,11 +576,12 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
     task_end_date = models.DateTimeField(blank=True, null=True)
     created = models.DateTimeField(blank=False, default=timezone.now())
     updated = models.DateTimeField(blank=False, default=timezone.now())
+    deleted = models.BooleanField(default=False)
     project = models.ForeignKey(Project, blank=False)
     reason = models.CharField(max_length=500, blank=True, null=True)
     user_recommendation = models.CharField(
         max_length=500, blank=True, null=True)
-    status = models.IntegerField(blank=True, null=True)
+    status = models.IntegerField(blank=False)
 
     additional_expenses_initial = models.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
@@ -659,7 +658,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         It doesn't actually delete the object, but it sets its status as
         `DELETED`.
         """
-        self.status = self.DELETED
+        self.deleted = True
         self.save()
 
     def set_next_dse(self):
@@ -760,7 +759,7 @@ class PetitionManager(models.Manager):
         Filters Petition objects by the status specified by this manager.
         """
         return super(PetitionManager, self).get_queryset()\
-            .filter(status=self.status)
+            .filter(status=self.status, deleted=False)
 
 
 class UserPetition(Petition):
@@ -802,7 +801,9 @@ class UserPetitionSubmission(Petition):
             'reason': {
                 'required': True, 'allow_blank': False, 'allow_null': False
             },
-            'dse': {'required': False, 'allow_null': True},
+            'dse': {
+                'required': False, 'allow_null': True
+            },
             'task_start_date': {
                 'required': True, 'allow_null': False
             },
@@ -834,7 +835,7 @@ class UserPetitionSubmission(Petition):
         """
         petitions = Petition.objects.filter(
             Q(dse=self.dse) & Q(status__gt=self.SUBMITTED_BY_USER) &
-            Q(status__lt=self.DELETED)).count()
+            Q(deleted=False)).count()
         return petitions == 0
 
     def cancel(self):
@@ -880,8 +881,7 @@ class SecretaryPetitionSubmission(Petition):
     objects = PetitionManager(Petition.SUBMITTED_BY_SECRETARY)
     mandatory_fields = ('expenditure_protocol', 'expenditure_date_protocol',
                         'movement_protocol', 'movement_protocol_date',
-                        'movement_id'
-                        )
+                        'movement_id')
 
     class Meta:
         proxy = True
@@ -905,7 +905,6 @@ class SecretaryPetitionSubmission(Petition):
             'movement_id': {
                 'required': True, 'allow_blank': False, 'allow_null': False
             },
-
             'expenditure_protocol': {
                 'required': True, 'allow_blank': False, 'allow_null': False
             },
@@ -918,8 +917,9 @@ class SecretaryPetitionSubmission(Petition):
             "movement_date_protocol": {
                 'required': True, 'allow_null': False
             },
-
-            'dse': {'required': False, 'allow_null': True}
+            'dse': {
+                'required': False, 'allow_null': True
+            },
         }
 
     def clean(self):
