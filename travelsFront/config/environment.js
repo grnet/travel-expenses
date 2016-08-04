@@ -11,6 +11,7 @@ module.exports = function(environment) {
 		baseURL: '/ui/',
 		locationType: 'auto',
 		default_city: "5",
+    default_currency: "EUR",
 		EmberENV: {
 			FEATURES: {
 				// Here you can enable experimental features on an ember canary build
@@ -20,7 +21,7 @@ module.exports = function(environment) {
 
 		APP: {
 			backend_host: API_EP,
-      resource_choices: choices
+      resource_choices: choices,
 		},
 
 		petition_status_1: API_EP+'/petition/petition-status/1/',
