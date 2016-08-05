@@ -95,6 +95,7 @@ class APIPetitionTest(APITestCase):
                 'task_start_date': self.start_date,
                 'task_end_date': self.end_date, 'travel_info': [],
                 'user': self.user_url,
+                'dse': None,
                 'movement_id': 'movement_id'}
         for model, url in PETITION_APIS:
             data.update(EXTRA_DATA[model])
@@ -113,6 +114,7 @@ class APIPetitionTest(APITestCase):
         self.assertRaises(ObjectDoesNotExist,
                           Petition.objects.get, project=self.project)
         data = {'project': self.project_url, 'travel_info': [],
+                'dse': None,
                 'task_start_date': self.start_date,
                 'task_end_date': self.end_date}
         url = reverse('userpetition-list')
@@ -141,6 +143,7 @@ class APIPetitionTest(APITestCase):
                 'task_start_date': self.start_date,
                 'task_end_date': self.end_date, 'travel_info': [],
                 'reason': 'reason',
+                'dse': None,
                 'movement_id': 'movement_id'
                 }
         for model, url in SUBMISSION_APIS:
@@ -161,6 +164,7 @@ class APIPetitionTest(APITestCase):
         data = {'project': self.project_url,
                 'task_start_date': self.start_date,
                 'task_end_date': self.end_date, 'travel_info': [],
+                'dse': None,
                 'movement_id': 'movement_id'
                 }
         for model, url in SUBMISSION_APIS:
@@ -190,7 +194,8 @@ class APIPetitionTest(APITestCase):
                             }]
             travel_info[0].update(TRAVEL_INFO_MANDATORY_ELEMENTS)
 
-            data = {'project': self.project_url,
+            data = {'dse': None,
+                    'project': self.project_url,
                     'task_start_date': self.start_date,
                     'task_end_date': self.end_date,
                     'travel_info': travel_info,
@@ -212,6 +217,7 @@ class APIPetitionTest(APITestCase):
                     'task_end_date': self.end_date,
                     'travel_info': travel_info,
                     'user': self.user_url,
+                    'dse': None,
                     'movement_id': 'movement_id'}
             data.update(EXTRA_DATA[model])
             response = self.client.post(url, data, format='json')
@@ -227,7 +233,6 @@ class APIPetitionTest(APITestCase):
                             'departure_point': city_url,
                             'accommodation_cost': accommodation_cost,
                             },
-
                            {'arrival_point': city_url,
                             'departure_point': city_url,
                             }]
@@ -252,9 +257,8 @@ class APIPetitionTest(APITestCase):
         submission_endpoint = reverse('userpetitionsubmission-list')
         cancel_url = submission_endpoint + str(petition.id) + '/cancel/'
         response = self.client.post(cancel_url, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        petition_url = reverse('userpetition-detail', args=[petition.id])
-        response = self.client.get(petition_url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
+        response = self.client.get(response.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         petition.status = 3

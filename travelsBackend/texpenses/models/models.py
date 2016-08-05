@@ -661,6 +661,49 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         self.deleted = True
         self.save()
 
+    def transition_is_allowed(self):
+        """
+        Check if the transition of a petition is  allowed.
+
+        Transition is allowed only if there is not another petition with the
+        same dse but on greater status.
+        """
+        petitions = Petition.objects.filter(
+            Q(dse=self.dse) & Q(status__gt=self.status) &
+            Q(deleted=False)).count()
+        return petitions == 0
+
+    def status_transition(self, new_status):
+        """
+        This method transits a petition to a new status.
+
+        Actually, this method marks current petition as deleted and creates
+        a copied petition that is not marked as deleted and it points to the
+        new status.
+
+        However, a transition is not allowed if another petition with the
+        corresponding dse is on greater status than the current one.
+
+        :param new_status: New status to transit petition.
+        :returns: Id of the created petition.
+        """
+        if not self.transition_is_allowed():
+            raise ValidationError('Petition calcellation is not allowed.')
+        travel_info = self.travel_info.all()
+        self.delete()
+        self.id = None
+        self.status = new_status
+        self.deleted = False
+        self.save()
+        travel_objects = []
+        for travel_obj in travel_info:
+            travel_obj.id = None
+            travel_obj.travel_petition = self
+            travel_obj.save()
+            travel_objects.append(travel_obj)
+        self.travel_info.add(*travel_objects)
+        return self.id
+
     def set_next_dse(self):
         """
         This method sets the default value for DSE field.
@@ -829,29 +872,12 @@ class UserPetitionSubmission(Petition):
             pass
         super(UserPetitionSubmission, self).save(**kwargs)
 
-    def calcellation_is_allowed(self):
+    def status_rollback(self):
         """
-        Check if the cancellation of a petition submitted by user is
-        allowed.
-
-        Calcellation is allowed only if the submitted petition has not been
-        edited or submitted by secretary.
+        Changes status of the petition to the previous one by marking current
+        as deleted and creating new one to the corresponding status.
         """
-        petitions = Petition.objects.filter(
-            Q(dse=self.dse) & Q(status__gt=self.SUBMITTED_BY_USER) &
-            Q(deleted=False)).count()
-        return petitions == 0
-
-    def cancel(self):
-        """
-        Cancel a submitted petition.
-
-        This means that petition status goes back to the previous one.
-        """
-        if not self.calcellation_is_allowed():
-            raise ValidationError('Petition calcellation is not allowed.')
-        self.status = self.SAVED_BY_USER
-        self.save()
+        return self.status_transition(self.SAVED_BY_USER)
 
 
 class SecretaryPetition(Petition):

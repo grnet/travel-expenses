@@ -249,3 +249,36 @@ class PetitionTest(TestCase):
         petition = Petition.objects.get(id=self.petition.id)
         self.assertIsNotNone(petition)
         self.assertTrue(petition.deleted)
+
+    def test_status_transition(self):
+        data = {
+            'project': self.project,
+            'user': self.user,
+            'status': Petition.SUBMITTED_BY_USER,
+        }
+        petition = Petition.objects.create(**data)
+        sub_petition_id = petition.id
+        travel_info = TravelInfo.objects.create(travel_petition=petition)
+        petition.travel_info.add(travel_info)
+        self.assertFalse(petition.deleted)
+        petition_id = petition.status_transition(petition.SAVED_BY_USER)
+        self.assertNotEqual(petition_id, sub_petition_id)
+        self.assertFalse(petition.deleted)
+        self.assertEqual(petition.status, Petition.SAVED_BY_USER)
+
+        previous_petition = Petition.objects.get(id=sub_petition_id)
+        self.assertTrue(previous_petition.deleted)
+        previous_travel_info = previous_petition.travel_info.all()
+        current_travel_info = petition.travel_info.all()
+
+        self.assertEqual(len(previous_travel_info), len(current_travel_info))
+        for i, travel_obj in enumerate(current_travel_info):
+            self.assertNotEqual(travel_obj.id, previous_travel_info[i].id)
+            self.assertNotEqual(travel_obj.travel_petition,
+                                previous_travel_info[i].travel_petition)
+        previous_petition.deleted = False
+        previous_petition.status = Petition.SAVED_BY_SECRETARY
+        previous_petition.save()
+        self.assertRaises(
+            ValidationError,
+            petition.status_transition, Petition.SAVED_BY_USER)
