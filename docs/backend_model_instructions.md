@@ -189,21 +189,6 @@ class MyModel(models.Model):
         nested_relations = [('api_field_name', 'another_model',nested_proxy_model_name)]
 ```
 
-#### Defining mandatory elements at DB level.
-
-During proxy model implementation one can define which elements are mandatory in DB level. In order to do so, just define a tuple called `mandatory_fields` which contains the names of the fields to be considered as mandatory:
-
-```python
-class MyProxyModel(MyModel):
-    mandatory_fields = ('name','number')
-    class Meta:
-        proxy = True
-
-    def do_something(self):
-        # ...
-        pass
-```
-
 #### Arbitrary field constraint definition at API level.
 
 Additionally to standard attributes of API configuration `APITravel` inner class, one can define arbitrary extra field constraints using keyword arguments. This couples well with the mandatory element definition at DB level.
