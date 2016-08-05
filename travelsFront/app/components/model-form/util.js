@@ -37,7 +37,7 @@ function FuncOrValue(subj, ...args) {
 
 const TYPE_COMPONENT_MAP = {
   'string': ['model-form/fields/input', {type: "text"}],
-  'boolean': ['mode-form/fields/checkbox', {}],
+  'boolean': ['model-form/fields/checkbox', {}],
   'select': ['model-form/fields/select', {}],
   'date': ['model-form/fields/date', {time: false}],
   'date-simple': ['model-form/fields/date', {time: false}],
