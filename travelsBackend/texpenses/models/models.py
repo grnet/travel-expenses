@@ -179,7 +179,7 @@ class Accommodation(models.Model):
                                                       default=settings.
                                                       DEFAULT_CURRENCY)
     accommodation_local_cost = models.FloatField(
-        blank=True, default=0.0, validators=[MinValueValidator(0.0)])
+        blank=False, default=0.0, validators=[MinValueValidator(0.0)])
     accommodation_local_currency = models.CharField(max_length=3,
                                                     blank=True,
                                                     choices=common.CURRENCIES)
