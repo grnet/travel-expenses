@@ -50,6 +50,7 @@ def update(self, instance, validated_data):
     nested object is created.
     """
     travel_info = validated_data.pop('travel_info', [])
+    validated_data.pop('dse', None)
     current_travel_info = instance.travel_info.all()
     for k, v in validated_data.iteritems():
         setattr(instance, k, v)
