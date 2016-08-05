@@ -409,7 +409,7 @@ class TravelInfo(Accommodation, Transportation):
             self.travel_petition.grnet_quota() / percentage)
 
 
-class TravelInfoUserSubmit(TravelInfo):
+class TravelInfoUserSubmission(TravelInfo):
 
     mandatory_fields = (
         'arrival_point', 'departure_point')
@@ -432,7 +432,7 @@ class TravelInfoUserSubmit(TravelInfo):
         }
 
 
-class TravelInfoSecretarySubmit(TravelInfo):
+class TravelInfoSecretarySubmission(TravelInfo):
 
     mandatory_fields = (
         'arrival_point', 'departure_point',
@@ -797,7 +797,7 @@ class UserPetitionSubmission(Petition):
         fields = Petition.APITravel.fields
         read_only_fields = Petition.APITravel.read_only_fields
         nested_relations = [
-            ('travel_info', 'travel_info', TravelInfoUserSubmit)]
+            ('travel_info', 'travel_info', TravelInfoUserSubmission)]
         extra_kwargs = {
             'reason': {
                 'required': True, 'allow_blank': False, 'allow_null': False
@@ -900,7 +900,7 @@ class SecretaryPetitionSubmission(Petition):
             'compensation_decision_date')
         read_only_fields = Petition.APITravel.read_only_fields
         nested_relations = [
-            ('travel_info', 'travel_info', TravelInfoSecretarySubmit)]
+            ('travel_info', 'travel_info', TravelInfoSecretarySubmission)]
         extra_kwargs = {
             'movement_id': {
                 'required': True, 'allow_blank': False, 'allow_null': False
