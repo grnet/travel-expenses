@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework.authtoken.models import Token
 from texpenses.models import (
-    City, Petition, UserPetition, Project, UserProfile, TaxOffice,
+    City, TravelInfo, Petition, UserPetition, Project, UserProfile, TaxOffice,
     UserPetitionSubmission, SecretaryPetition, SecretaryPetitionSubmission,
     Country)
 
@@ -108,6 +108,17 @@ class APIPetitionTest(APITestCase):
 
             for field in created_petition:
                 self.assertTrue(field in fields)
+            if model != UserPetition:
+                data['dse'] = response.data['dse']
+                response = self.client.post(url, data, format='json')
+                self.assertEqual(
+                    response.status_code, status.HTTP_403_FORBIDDEN)
+
+                data['dse'] = 100
+                response = self.client.post(url, data, format='json')
+                self.assertEqual(
+                    response.status_code, status.HTTP_403_FORBIDDEN)
+                data['dse'] = None
 
     def test_status_400_petition(self):
         required_fields = ('project', 'travel_info')
@@ -245,7 +256,6 @@ class APIPetitionTest(APITestCase):
             petition = response.data
             travel_info = petition['travel_info']
             self.assertEqual(len(travel_info), 2)
-
             del data['travel_info'][1]
             response = self.client.put(
                 petition_url, data, format='json')

@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
-from texpenses.models import TravelInfo, SecretaryPetitionSubmission
+from rest_framework.exceptions import PermissionDenied
+from texpenses.models import Petition, TravelInfo, SecretaryPetitionSubmission
 
 EXPOSED_METHODS = [
     'create',
@@ -21,6 +22,7 @@ def create(self, validated_data):
     then the available number user's trip days is updated accordingly, by
     removing the total transport days of trip.
     """
+    check_creation_allowed(validated_data)
     travel_info = validated_data.pop('travel_info', [])
     petition = self.Meta.model.objects.create(**validated_data)
     for travel in travel_info:
@@ -31,6 +33,28 @@ def create(self, validated_data):
             petition.user.trip_days_left -= petition.transport_days()
             petition.user.save()
     return petition
+
+
+def check_creation_allowed(data):
+    """
+    This functions checks that the petition can be created with the given
+    dse value.
+
+    Typically, when dse is not specified on request is automatically created
+    by server. However, when dse is specified on request it must be
+    associated with a petition created by the same user and there is not
+    already a petition with the same dse but on greater status than the one
+    defined on request.
+    """
+    dse = data.get('dse', None)
+    if not dse:
+        return
+    exists = Petition.objects.filter(
+        dse=dse, status__lt=data['status'], user=data['user'],
+        deleted=False).exists()
+    if not exists:
+        raise PermissionDenied('Cannot create petition with dse %s' % (
+            dse))
 
 
 def update(self, instance, validated_data):
@@ -72,7 +96,6 @@ def _update_nested_objects(instance, nested_objects):
                 setattr(current_travel_obj, k, v)
             current_travel_obj.save()
         else:
-            travel_obj = TravelInfo(travel_petition=instance, **travel)
             instance.travel_info.create(travel_petition=instance, **travel)
     for travel_obj in model_instances[len(nested_objects):]:
         travel_obj.delete()
