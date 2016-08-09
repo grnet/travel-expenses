@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework.authtoken.models import Token
 from texpenses.models import (
-    City, TravelInfo, Petition, UserPetition, Project, UserProfile, TaxOffice,
+    City, Petition, UserPetition, Project, UserProfile, TaxOffice,
     UserPetitionSubmission, SecretaryPetition, SecretaryPetitionSubmission,
     Country)
 
