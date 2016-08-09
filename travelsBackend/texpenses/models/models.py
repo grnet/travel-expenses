@@ -5,7 +5,6 @@ from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.db.models import Q
 from model_utils import FieldTracker
 from texpenses.models import common
 from texpenses.validators import (
@@ -661,17 +660,19 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         self.deleted = True
         self.save()
 
-    def transition_is_allowed(self):
+    def transition_is_allowed(self, new_status):
         """
         Check if the transition of a petition is  allowed.
 
         Transition is allowed only if there is not another petition with the
-        same dse but on greater status.
+        same dse but on greater status. Moreover, new status must not be
+        equal with the current status.
+
+        :param new_status: New status to transit petition.
         """
-        petitions = Petition.objects.filter(
-            Q(dse=self.dse) & Q(status__gt=self.status) &
-            Q(deleted=False)).count()
-        return petitions == 0
+        return not Petition.objects.filter(
+            dse=self.dse, status__gt=self.status,
+            deleted=False).exists() and not new_status == self.status
 
     def status_transition(self, new_status):
         """
@@ -687,7 +688,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         :param new_status: New status to transit petition.
         :returns: Id of the created petition.
         """
-        if not self.transition_is_allowed():
+        if not self.transition_is_allowed(new_status):
             raise ValidationError('Petition calcellation is not allowed.')
         travel_info = self.travel_info.all()
         self.delete()
@@ -695,13 +696,11 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         self.status = new_status
         self.deleted = False
         self.save()
-        travel_objects = []
         for travel_obj in travel_info:
             travel_obj.id = None
             travel_obj.travel_petition = self
             travel_obj.save()
-            travel_objects.append(travel_obj)
-        self.travel_info.add(*travel_objects)
+        self.travel_info.add(*travel_info)
         return self.id
 
     def set_next_dse(self):
@@ -820,7 +819,7 @@ class UserPetition(Petition):
         extra_kwargs = {
             'dse': {'required': False, 'allow_null': True},
             'status': {'default': Petition.SAVED_BY_USER},
-            'task_star_date': {'required': False},
+            'task_start_date': {'required': False},
             'task_end_date': {'required': False},
             'travel_info': {'required': False}
         }

@@ -261,6 +261,8 @@ class PetitionTest(TestCase):
         travel_info = TravelInfo.objects.create(travel_petition=petition)
         petition.travel_info.add(travel_info)
         self.assertFalse(petition.deleted)
+        self.assertRaises(ValidationError, petition.status_transition,
+                          petition.SUBMITTED_BY_USER)
         petition_id = petition.status_transition(petition.SAVED_BY_USER)
         self.assertNotEqual(petition_id, sub_petition_id)
         self.assertFalse(petition.deleted)
