@@ -16,6 +16,14 @@ export default Ember.Component.extend(BaseField, {
   disabled: alias('fattrs.disabled'),
   isRelation: equal('field.type', 'relation'),
 
+  selectClassNames: computed('hasErrors', 'fattrs.class', function() {
+    let classes = [].concat(get(this, 'fattrs.class') || []);
+    if (get(this, 'hasErrors')) {
+      classes.push("md-input-invalid");
+    }
+    return classes;
+  }),
+
   choicesValues: computed('field.choices.[]', 'isRelation', function() {
     let choices = get(this, 'field.choices') || {};
     if (isArray(choices)) {
