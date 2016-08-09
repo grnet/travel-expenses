@@ -83,41 +83,91 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
     return this.get('model');
   },
 
+  // when POST/PUT requests add new objects to the hasMany array, those models 
+  // appear as duplicates once the request response gets extracted, we cleanup 
+  // relations to avoid this. TODO: fix this in a proper way
+  resetModelRelations(model) {
+    model.eachRelationship((k, r) => {
+      if (r.kind === 'hasMany') {
+        let models = model.get(k);
+        let toRemove = models.filter((m) => {
+          return !m.get("id") && 
+            m.get('currentState.stateName').includes('uncommitted');
+        });
+        toRemove.forEach(models.removeObject.bind(models));
+      }
+    });
+  },
+
+  resolveFormErrors: function(errors, model) {
+    let formErrors = [];
+    for (let error of errors) {
+      if (error.detail && error.detail.non_field_errors) {
+        formErrors = formErrors.concat(error.detail.non_field_errors);
+      }
+      if (typeof error.detail === "string" && error.source.pointer == "/data") {
+        formErrors.push(error.detail);
+      }
+    }
+    console.log("resolved errors", formErrors);
+    return formErrors;
+  },
+
   actions: {
 
     submit(event, ...args) {
       if (this.get("submit")) { return this.get("submit")(this); }
       //let model = this.get("model");
       let model = this.getModelForSave(...args);
-      let isValid = get(this, "isValid");
-      this.resetMessages();
-      set(this, 'isTouched', true);
-      if (isValid) {
-        this.set('inProgress', true);
-        model.save().then(() => {
-          this.set('submitMessage', getWithDefault(this, 'successMessage', 'Form saved'));
-          this.sendAction('onSuccess', model);
-        }).catch((err) => {
-          let errMessage = err.message;
-          this.sendAction('onError', model, err);
-          if (err.isAdapterError) {
-            errMessage = "Form submission failed";
-            if (err.errors && err.errors.length && err.errors[0].detail) {
-              errMessage = errMessage + " (" + err.errors[0].detail + ")";
-            }
-          }
-          this.set('submitError', errMessage);
-          this.set('submitFailed', true);
-          console.error("model.errors")
-          console.error(err);
-        }).finally(() => { this.set('inProgress', false)});
-        return true;
-      } else {
-        this.updateValidationErrors(model);
-        this.set("isInvalid", true);
-        console.error(model.get('errors'));
-        return false;
+      let _model = model;
+      if (!(model instanceof Ember.RSVP.Promise)) {
+        model = new Ember.RSVP.Promise((resolve, reject) => {
+          resolve(_model);
+        });
       }
+      return model.then((model) => {
+        let isValid = get(this, "isValid");
+        this.resetMessages();
+        set(this, 'isTouched', true);
+        if (isValid) {
+          this.set('inProgress', true);
+          model.save().then(() => {
+            this.updateValidationErrors();
+            this.resetModelRelations(model);
+            this.set('submitMessage', getWithDefault(this, 'successMessage', 'Form saved'));
+            this.sendAction('onSuccess', model);
+            if (!this.get('noScroll')) {
+              $("body").animate({
+                scrollTop: 0
+              });
+            }
+          }).catch((err) => {
+            let errMessage = err.message;
+            if (err.isAdapterError) {
+              errMessage = "Form submission failed";
+              let formErrors = this.resolveFormErrors(err.errors, model);
+              if (formErrors.length) {
+                let msg = formErrors.join("\n");
+                errMessage += ` (${msg})`;
+              }
+            }
+            this.set('submitError', errMessage);
+            this.set('submitFailed', true);
+            this.sendAction('onError', model, err);
+            if (!this.get('noScroll')) {
+              $("body").animate({
+                scrollTop: 0
+              });
+            }
+          }).finally(() => { this.set('inProgress', false)});
+          return true;
+        } else {
+          this.updateValidationErrors(model);
+          this.set("isInvalid", true);
+          console.error(model.get('errors'));
+          return false;
+        }
+      });
     },
 
     reset() {
