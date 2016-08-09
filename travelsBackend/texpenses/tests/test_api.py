@@ -246,6 +246,14 @@ class APIPetitionTest(APITestCase):
             travel_info = petition['travel_info']
             self.assertEqual(len(travel_info), 2)
 
+            del data['travel_info'][1]
+            response = self.client.put(
+                petition_url, data, format='json')
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            petition = response.data
+            travel_info = petition['travel_info']
+            self.assertEqual(len(travel_info), 1)
+
     def test_submission_cancellation(self):
         submission_apis = [('userpetitionsubmission',
                             Petition.SUBMITTED_BY_USER),

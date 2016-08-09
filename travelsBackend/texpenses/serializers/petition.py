@@ -41,31 +41,41 @@ def update(self, instance, validated_data):
     This method sticks to the corresponding serializer classes of petition
     models and it actually implements the nested serializationf for the
     update of objects.
-
-    There are two cases which describe how update of nested objects works.
-    - If data include nested objects that already exist, then this method just
-    updates them.
-    - If data include nested objects that don't alreadt exist (for example,
-    add a new destination to an existing petition), then corresponding
-    nested object is created.
     """
     travel_info = validated_data.pop('travel_info', [])
     validated_data.pop('dse', None)
-    current_travel_info = instance.travel_info.all()
     for k, v in validated_data.iteritems():
         setattr(instance, k, v)
     instance.save()
-    for i, travel in enumerate(travel_info):
-        if i < len(current_travel_info) and current_travel_info:
-            current_travel_obj = current_travel_info[i]
+    _update_nested_objects(instance, travel_info)
+    return instance
+
+
+def _update_nested_objects(instance, nested_objects):
+    """
+    This function updates the nested model intances.
+
+    There are three cases which describe how update of nested objects works.
+    - If data include nested objects that already exist, then this method just
+    updates them.
+    - If data include nested objects that don't already exists (for example,
+    add a new destination to an existing petition), then corresponding
+    nested object is created.
+    - If data include less nested objects than the currenly which are stored,
+    then redundant model instances are deleted.
+    """
+    model_instances = instance.travel_info.all()
+    for i, travel in enumerate(nested_objects):
+        if i < len(model_instances) and model_instances:
+            current_travel_obj = model_instances[i]
             for k, v in travel.iteritems():
                 setattr(current_travel_obj, k, v)
             current_travel_obj.save()
         else:
             travel_obj = TravelInfo(travel_petition=instance, **travel)
             instance.travel_info.create(travel_petition=instance, **travel)
-            travel_obj.save()
-    return instance
+    for travel_obj in model_instances[len(nested_objects):]:
+        travel_obj.delete()
 
 
 def validate(self, attrs):
