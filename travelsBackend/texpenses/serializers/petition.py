@@ -6,6 +6,7 @@ EXPOSED_METHODS = [
     'create',
     'update',
     'validate',
+    'validate_user',
 ]
 
 
@@ -108,8 +109,6 @@ def validate(self, attrs):
 
     It validates both nested and main object.
     """
-    if 'user' not in attrs:
-        attrs['user'] = self.context['request'].user
     model = self.Meta.model
     nested_attrs = attrs.pop('travel_info', [])
     total_transport_days = 0
@@ -124,6 +123,15 @@ def validate(self, attrs):
     model_inst.clean()
     attrs['travel_info'] = nested_attrs
     return attrs
+
+
+def validate_user(self, user_value):
+    # Run manually the validators of user field in case it is read only.
+    # Default value is the requesting user.
+    user_field = self.get_fields()['user']
+    if user_field.read_only:
+        assert user_value is not None
+        user_field.run_validators(user_value)
 
 
 def validate_transport_days(user, transport_days):

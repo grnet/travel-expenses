@@ -72,7 +72,7 @@ class APIPetitionTest(APITestCase):
             username='admin', first_name='Nick', last_name='Jones',
             email='test@email.com', is_staff=True,
             iban='GR4902603280000910200635494', is_superuser=True,
-            password='test',
+            password='test', kind='1',
             specialty='1', tax_reg_num=011111111,
             tax_office=self.tax_office, user_category='A',
             trip_days_left=5)
@@ -93,8 +93,8 @@ class APIPetitionTest(APITestCase):
         data = {'project': self.project_url,
                 'task_start_date': self.start_date,
                 'task_end_date': self.end_date, 'travel_info': [],
-                'user': self.user_url,
                 'dse': None,
+                'user': self.user_url,
                 'movement_id': 'movement_id'}
         for model, url in PETITION_APIS:
             data.update(EXTRA_DATA[model])
@@ -155,6 +155,7 @@ class APIPetitionTest(APITestCase):
                 'task_end_date': self.end_date, 'travel_info': [],
                 'reason': 'reason',
                 'dse': None,
+                'user': self.user_url,
                 'movement_id': 'movement_id'
                 }
         for model, url in SUBMISSION_APIS:
@@ -176,6 +177,7 @@ class APIPetitionTest(APITestCase):
                 'task_start_date': self.start_date,
                 'task_end_date': self.end_date, 'travel_info': [],
                 'dse': None,
+                'user': self.user_url,
                 'movement_id': 'movement_id'
                 }
         for model, url in SUBMISSION_APIS:

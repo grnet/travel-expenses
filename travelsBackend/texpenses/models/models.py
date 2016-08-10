@@ -1,4 +1,5 @@
 from datetime import timedelta
+import functools
 from django.conf import settings
 from django.core.exceptions import (
     ValidationError, ObjectDoesNotExist, PermissionDenied)
@@ -11,7 +12,7 @@ from django.db.models import Q
 from model_utils import FieldTracker
 from texpenses.models import common
 from texpenses.validators import (
-    afm_validator, iban_validation,  date_validator,
+    afm_validator, required_validator, iban_validation,  date_validator,
     start_end_date_validator)
 
 
@@ -565,7 +566,10 @@ class Petition(SecretarialInfo, ParticipationInfo):
 
     dse = models.IntegerField(blank=False, validators=[MinValueValidator(1)])
     travel_info = models.ManyToManyField(TravelInfo, blank=True)
-    user = models.ForeignKey(UserProfile, blank=False)
+
+    user = models.ForeignKey(UserProfile, blank=False,
+                             validators=[functools.partial(
+                                 required_validator, fields=USER_FIELDS)])
     task_start_date = models.DateTimeField(
         blank=True, null=True, validators=[date_validator])
     task_end_date = models.DateTimeField(
@@ -610,7 +614,7 @@ class Petition(SecretarialInfo, ParticipationInfo):
                   'trip_days_after', 'overnights_num', 'overnights_proposed',
                   'overnights_sum_cost', 'task_duration', 'compensation_final',
                   'total_cost')
-        read_only_fields = ('id', 'user', 'url', 'first_name', 'last_name',
+        read_only_fields = ('id', 'url', 'first_name', 'last_name',
                             'kind', 'specialty', 'tax_office', 'tax_reg_num',
                             'user_category', 'iban', 'status', 'created',
                             'updated', 'participation_default_currency')
@@ -794,14 +798,17 @@ class UserPetition(Petition):
 
     class APITravel:
         fields = Petition.APITravel.fields
-        read_only_fields = Petition.APITravel.read_only_fields + ('dse',)
+        read_only_fields = Petition.APITravel.read_only_fields + (
+            'dse', 'user')
         nested_relations = [('travel_info', 'travel_info')]
         extra_kwargs = {
             'dse': {'required': False, 'allow_null': True},
             'status': {'default': Petition.SAVED_BY_USER},
             'task_start_date': {'required': False},
             'task_end_date': {'required': False},
-            'travel_info': {'required': False}
+            'travel_info': {'required': False},
+            'user': {'validators': [functools.partial(
+                         required_validator, fields=Petition.USER_FIELDS)]}
         }
 
 
@@ -815,7 +822,7 @@ class UserPetitionSubmission(Petition):
 
     class APITravel:
         fields = Petition.APITravel.fields
-        read_only_fields = Petition.APITravel.read_only_fields
+        read_only_fields = Petition.APITravel.read_only_fields + ('user',)
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoUserSubmission)]
         extra_kwargs = {
@@ -833,8 +840,11 @@ class UserPetitionSubmission(Petition):
             },
             'task_end_date': {
                 'required': True, 'allow_null': False
+            },
+            'user': {
+                'validators': [functools.partial(
+                    required_validator, fields=Petition.USER_FIELDS)]
             }
-
         }
 
     def save(self, **kwargs):
