@@ -126,12 +126,11 @@ def validate(self, attrs):
 
 
 def validate_user(self, user_value):
-    # Run manually the validators of user field in case it is read only.
-    # Default value is the requesting user.
     user_field = self.get_fields()['user']
     if user_field.read_only:
         assert user_value is not None
         user_field.run_validators(user_value)
+    return user_value
 
 
 def validate_transport_days(user, transport_days):

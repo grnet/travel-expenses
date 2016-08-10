@@ -10,6 +10,7 @@ from django.db import models
 from django.db.models import Max
 from django.db.models import Q
 from model_utils import FieldTracker
+from rest_framework import serializers
 from texpenses.models import common
 from texpenses.validators import (
     afm_validator, required_validator, iban_validation,  date_validator,
@@ -807,7 +808,8 @@ class UserPetition(Petition):
             'task_start_date': {'required': False},
             'task_end_date': {'required': False},
             'travel_info': {'required': False},
-            'user': {'validators': [functools.partial(
+            'user': {'default': serializers.CurrentUserDefault(),
+                     'validators': [functools.partial(
                          required_validator, fields=Petition.USER_FIELDS)]}
         }
 
@@ -842,6 +844,7 @@ class UserPetitionSubmission(Petition):
                 'required': True, 'allow_null': False
             },
             'user': {
+                'default': serializers.CurrentUserDefault(),
                 'validators': [functools.partial(
                     required_validator, fields=Petition.USER_FIELDS)]
             }
