@@ -45,14 +45,15 @@ class TravelUserProfile(models.Model):
     number, Tax Office, etc. as well as, with the kind and specialty of user at
     GRNET.
     """
-    iban = models.CharField(max_length=27, blank=False,
+    iban = models.CharField(max_length=27, blank=False, null=True,
                             validators=[iban_validation])
     specialty = models.CharField(
-        max_length=5, choices=common.SPECIALTY, blank=False)
-    tax_reg_num = models.CharField(max_length=9, blank=False,
-                                   validators=[afm_validator], unique=True)
-    tax_office = models.ForeignKey(TaxOffice, blank=False)
-    kind = models.CharField(max_length=5, choices=common.KIND, blank=False)
+        max_length=5, choices=common.SPECIALTY, blank=False, null=True)
+    tax_reg_num = models.CharField(max_length=9, blank=False, null=True,
+                                   unique=True, validators=[afm_validator])
+    tax_office = models.ForeignKey(TaxOffice, blank=False, null=True)
+    kind = models.CharField(max_length=5, choices=common.KIND, blank=False,
+                            null=True)
     user_category = models.CharField(
         max_length=1, choices=common.USER_CATEGORIES,
         blank=False, default='B')
@@ -584,8 +585,8 @@ class Petition(SecretarialInfo, ParticipationInfo):
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
     additional_expenses_initial_description = models.CharField(
         max_length=400, blank=True, null=True)
-    first_name = models.CharField(max_length=200, blank=False)
-    last_name = models.CharField(max_length=200, blank=False)
+    first_name = models.CharField(max_length=200, blank=False, null=True)
+    last_name = models.CharField(max_length=200, blank=False, null=True)
 
     tracked_fields = ['task_start_date', 'task_end_date']
     tracker = FieldTracker()
