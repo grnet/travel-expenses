@@ -85,6 +85,7 @@ First install application's required packages.
 ```
 cd travelsBackend
 pip install -r requirements.txt
+apt-get install python-psycopg2
 ```
 
 Then, we should configure our application e.g. database, static, etc.
