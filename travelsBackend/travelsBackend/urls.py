@@ -44,7 +44,7 @@ router_secretary.register(
 admin.autodiscover()
 api_prefix = settings.API_PREFIX
 urlpatterns = [
-    url(r'^' + api_prefix + '/admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
     url(r'^' + api_prefix + '/auth/', include(auth_urls)),
     url(r'^' + api_prefix + '/users_related/', include(router.urls)),
     url(r'^' + api_prefix + '/resources/', include(router_resources.urls)),
