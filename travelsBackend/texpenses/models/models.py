@@ -343,7 +343,8 @@ class TravelInfo(Accommodation, Transportation):
         :param task_end_date: Date when task ends.
         :returns: The proposed overinight days.
         """
-        if not (self.return_date and self.depart_date):
+        if not (self.return_date and self.depart_date and task_start_date
+                and task_end_date):
             return 0
         first_day = task_start_date - timedelta(days=1)\
             if (task_start_date - self.depart_date).days >= 1\
