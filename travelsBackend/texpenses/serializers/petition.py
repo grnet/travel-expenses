@@ -75,7 +75,6 @@ def validate(self, attrs):
 
     It validates both nested and main object.
     """
-    attrs = super(self.__class__, self).validate(attrs)
     if 'user' not in attrs:
         attrs['user'] = self.context['request'].user
     model = self.Meta.model
