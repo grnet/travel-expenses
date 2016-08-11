@@ -132,10 +132,9 @@ class Country(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20, blank=False, unique=True)
     category = models.CharField(choices=CATEGORIES, max_length=1, default='A')
-    currency = models.CharField(max_length=3,
-                                choices=common.CURRENCIES,
-                                blank=False,
-                                default=settings.DEFAULT_CURRENCY)
+    currency = models.CharField(
+        max_length=3, choices=common.CURRENCIES, blank=False,
+        default=settings.DEFAULT_CURRENCY)
 
     class APITravel(object):
         fields = ('id', 'url', 'name', 'category', 'currency')
@@ -173,16 +172,12 @@ class Accommodation(models.Model):
 
     accommodation_cost = models.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-    accommodation_default_currency = models.CharField(max_length=3,
-                                                      blank=False,
-                                                      default=settings.
-                                                      DEFAULT_CURRENCY)
+    accommodation_default_currency = models.CharField(
+        max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
     accommodation_local_cost = models.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-    accommodation_local_currency = models.CharField(max_length=3,
-                                                    blank=True,
-                                                    choices=common.CURRENCIES)
-
+    accommodation_local_currency = models.CharField(
+        max_length=3, blank=True, choices=common.CURRENCIES)
     accommodation_payment_way = models.CharField(
         max_length=5, choices=common.WAYS_OF_PAYMENT, blank=False,
         default='NON')
@@ -200,10 +195,8 @@ class Transportation(models.Model):
     """
     transportation_cost = models.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-    transportation_default_currency = models.CharField(max_length=3,
-                                                       blank=False,
-                                                       default=settings.
-                                                       DEFAULT_CURRENCY)
+    transportation_default_currency = models.CharField(
+        max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
     transportation_payment_way = models.CharField(
         max_length=5, choices=common.WAYS_OF_PAYMENT,
         blank=False, default='NON')
@@ -537,16 +530,12 @@ class ParticipationInfo(models.Model):
     participation_cost = models.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
 
-    participation_default_currency = models.CharField(max_length=3,
-                                                      blank=False,
-                                                      default=settings.
-                                                      DEFAULT_CURRENCY)
+    participation_default_currency = models.CharField(
+        max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
     participation_local_cost = models.FloatField(
         blank=True, default=0.0, validators=[MinValueValidator(0.0)])
-    participation_local_currency = models.CharField(max_length=3,
-                                                    blank=True,
-                                                    choices=common.CURRENCIES)
-
+    participation_local_currency = models.CharField(
+        max_length=3, blank=True, choices=common.CURRENCIES)
     participation_payment_way = models.CharField(
         max_length=10, choices=common.WAYS_OF_PAYMENT, blank=False,
         default='NON')
@@ -585,10 +574,8 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
 
     additional_expenses_initial = models.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-    additional_expenses_default_currency = models.CharField(max_length=3,
-                                                            blank=False,
-                                                            default=settings.
-                                                            DEFAULT_CURRENCY)
+    additional_expenses_default_currency = models.CharField(
+        max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
     additional_expenses_initial_description = models.CharField(
         max_length=400, blank=True, null=True)
     first_name = models.CharField(max_length=200, blank=False)
