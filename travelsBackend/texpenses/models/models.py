@@ -404,9 +404,6 @@ class TravelInfo(Accommodation, Transportation):
 
 class TravelInfoUserSubmission(TravelInfo):
 
-    mandatory_fields = (
-        'arrival_point', 'departure_point')
-
     class Meta:
         proxy = True
 
@@ -426,18 +423,6 @@ class TravelInfoUserSubmission(TravelInfo):
 
 
 class TravelInfoSecretarySubmission(TravelInfo):
-
-    mandatory_fields = (
-        'arrival_point', 'departure_point',
-        'means_of_transport',
-        'accommodation_cost', 'accommodation_default_currency',
-        'accommodation_payment_way',
-        'accommodation_payment_description',
-        'return_date', 'depart_date',
-        'transportation_cost', 'transportation_default_currency',
-        'transportation_payment_way',
-        'transportation_payment_description',
-        'transport_days_proposed', 'meals')
 
     class Meta:
         proxy = True
@@ -817,8 +802,6 @@ class UserPetitionSubmission(Petition):
 
     """ A proxy model for the temporary submitted petitions by user. """
     objects = PetitionManager(Petition.SUBMITTED_BY_USER)
-    mandatory_fields = (
-        'reason', 'task_start_date', 'task_end_date')
 
     class Meta:
         proxy = True
@@ -846,10 +829,6 @@ class UserPetitionSubmission(Petition):
             }
 
         }
-
-    def clean(self):
-        required_validator(self, self.mandatory_fields)
-        super(UserPetitionSubmission, self).clean()
 
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
@@ -899,9 +878,6 @@ class SecretaryPetitionSubmission(Petition):
 
     """ A proxy model for the temporary submitted petitions by secretary. """
     objects = PetitionManager(Petition.SUBMITTED_BY_SECRETARY)
-    mandatory_fields = ('expenditure_protocol', 'expenditure_date_protocol',
-                        'movement_protocol', 'movement_protocol_date',
-                        'movement_id')
 
     class Meta:
         proxy = True
@@ -944,10 +920,6 @@ class SecretaryPetitionSubmission(Petition):
                 'default': Petition.SUBMITTED_BY_SECRETARY
             }
         }
-
-    def clean(self):
-        required_validator(self, self.mandatory_fields)
-        super(SecretaryPetitionSubmission, self).clean()
 
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
