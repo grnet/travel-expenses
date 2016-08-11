@@ -113,6 +113,23 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
     return formErrors;
   },
 
+  scrollToMessage: function(err) {
+    if (!this.get('noScroll')) {
+      Ember.run.scheduleOnce('render', this, function() {
+        let scrollTo = 0;
+        if (err) {
+          let invalid = this.$(".md-input-invalid");
+          if (invalid.length) {
+            scrollTo = invalid.offset().top;
+          }
+        }
+        $("body").animate({
+          scrollTop: scrollTo
+        });
+      });
+    }
+  },
+
   actions: {
 
     submit(event, ...args) {
@@ -130,17 +147,13 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
         this.resetMessages();
         set(this, 'isTouched', true);
         if (isValid) {
+          this.updateValidationErrors();
           this.set('inProgress', true);
           model.save().then(() => {
-            this.updateValidationErrors();
             this.resetModelRelations(model);
             this.set('submitMessage', getWithDefault(this, 'successMessage', 'Form saved'));
             this.sendAction('onSuccess', model);
-            if (!this.get('noScroll')) {
-              $("body").animate({
-                scrollTop: 0
-              });
-            }
+            this.scrollToMessage();
           }).catch((err) => {
             let errMessage = err.message;
             if (err.isAdapterError) {
@@ -154,11 +167,7 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
             this.set('submitError', errMessage);
             this.set('submitFailed', true);
             this.sendAction('onError', model, err);
-            if (!this.get('noScroll')) {
-              $("body").animate({
-                scrollTop: 0
-              });
-            }
+            this.scrollToMessage(err);
           }).finally(() => { this.set('inProgress', false)});
           return true;
         } else {
