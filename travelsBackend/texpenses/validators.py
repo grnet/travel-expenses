@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+from datetime import datetime, date
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
@@ -37,49 +37,31 @@ def afm_validator(value):
             'AFM is not valid; It does not conform to the general rules')
 
 
-def dates_list_validator(dates, labels):
+def start_end_date_validator(dates, labels):
     """
-    This validator checks whether the input dates are after now.
+    Validates that end dates are after from start dates.
 
-    :param dates: An iterable with the input dates to check.
-    :param labels: An iterable which describe each date input, e.g.
-    task start date.
-
-    :raises: ValidationError if at least one of the given dates is not after
-    today.
+    :param dates: An iterable of pairs (a start date and end date) to be
+    compared.
+    :param labels: An iterable of labels which correspond to the objects.
     """
-    now = datetime.now().date()
+    for i, (start, end) in enumerate(dates):
+        start_label, end_label = labels[i]
+        if end < start:
+            raise ValidationError('%s date should be after %s date.' % (
+                repr(end_label), repr(start_label)))
 
-    for i, date in enumerate(dates):
-        if date and date < now:
-            raise ValidationError(
-                '%s should be after today' % (labels[i]))
 
-
-def date_validator(start_date, end_date, labels):
+def date_validator(value):
     """
-    This validator checks if two given dates (starting date and ending date)
-    are valid.
+    This validator checks if a given object (date or datetime) is after from
+    current date.
 
-    Valid dates are dates which are after today and starting date is before
-    ending date.
+    :param value: Date of Datetime object.
 
-    :param start_date: Starting date.
-    :param end_date: Ending date.
-    :labels: tuple which contains labels for the start_date and end_date
-    fields respectively.
-
-    :raises: VallidationError if two given dates are not valid.
+    :raises: VallidationError if given date or datetime object is not after
+    from current day.
     """
-    now = datetime.now()
-    start_label, end_label = labels
-    if start_date < now:
-        raise ValidationError('%s date should be after today' % (start_label))
-
-    if end_date < now:
-        raise ValidationError('%s date should be after today' % (end_label))
-
-    if end_date < start_date:
-        raise ValidationError(
-            '%s date should be after %s date' % (
-                end_label, start_label))
+    now = datetime.now().date() if type(value) is date else datetime.now()
+    if value and value <= now:
+        raise ValidationError('This date field should be after today.')

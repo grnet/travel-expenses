@@ -10,8 +10,7 @@ from model_utils import FieldTracker
 from texpenses.models import common
 from texpenses.validators import (
     afm_validator, iban_validation, required_validator, date_validator,
-
-    dates_list_validator)
+    start_end_date_validator)
 
 
 class TaxOffice(models.Model):
@@ -216,8 +215,8 @@ class TravelInfo(Accommodation, Transportation):
     Travel information are associated with the duration, departure and arrival
     point, transportation, accommodation, etc.
     """
-    depart_date = models.DateTimeField(null=True)
-    return_date = models.DateTimeField(null=True)
+    depart_date = models.DateTimeField(null=True, validators=[date_validator])
+    return_date = models.DateTimeField(null=True, validators=[date_validator])
     departure_point = models.ForeignKey(
         City, blank=True, null=True, related_name='travel_departure_point')
     arrival_point = models.ForeignKey(City, blank=True, null=True,
@@ -262,11 +261,10 @@ class TravelInfo(Accommodation, Transportation):
     def clean(self):
         if self.depart_date and self.return_date \
                 and self.travel_petition.task_end_date:
-            date_validator(self.depart_date, self.return_date,
-                           ('depart', 'return'))
-            date_validator(self.depart_date,
-                           self.travel_petition.task_end_date,
-                           ('depart', 'task end'))
+            dates = ((self.depart_date, self.return_date),
+                     (self.depart_date, self.travel_petition.task_end_date))
+            labels = (('depart', 'return'), ('depart', 'task end'))
+            start_end_date_validator(dates, labels)
         self.validate_overnight_cost()
         super(TravelInfo, self).clean()
 
@@ -487,16 +485,20 @@ class SecretarialInfo(models.Model):
     movement_id = models.CharField(max_length=200, null=True, blank=True)
     expenditure_protocol = models.CharField(
         max_length=30, null=True, blank=True)
-    expenditure_date_protocol = models.DateField(blank=True, null=True)
+    expenditure_date_protocol = models.DateField(
+        blank=True, null=True, validators=[date_validator])
     movement_protocol = models.CharField(
         max_length=30, null=True, blank=True)
-    movement_date_protocol = models.DateField(blank=True, null=True)
+    movement_date_protocol = models.DateField(
+        blank=True, null=True, validators=[date_validator])
     compensation_petition_protocol = models.CharField(
         max_length=30, null=True, blank=True)
-    compensation_petition_date = models.DateField(blank=True, null=True)
+    compensation_petition_date = models.DateField(
+        blank=True, null=True, validators=[date_validator])
     compensation_decision_protocol = models.CharField(
         max_length=30, null=True, blank=True)
-    compensation_decision_date = models.DateField(blank=True, null=True)
+    compensation_decision_date = models.DateField(
+        blank=True, null=True, validators=[date_validator])
     MAX_GRNET_QUOTA = 100
 
     def grnet_quota(self):
@@ -547,8 +549,10 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
     dse = models.IntegerField(blank=False, validators=[MinValueValidator(1)])
     travel_info = models.ManyToManyField(TravelInfo, blank=True)
     user = models.ForeignKey(UserProfile, blank=False)
-    task_start_date = models.DateTimeField(blank=True, null=True)
-    task_end_date = models.DateTimeField(blank=True, null=True)
+    task_start_date = models.DateTimeField(
+        blank=True, null=True, validators=[date_validator])
+    task_end_date = models.DateTimeField(
+        blank=True, null=True, validators=[date_validator])
     created = models.DateTimeField(blank=False, default=timezone.now())
     updated = models.DateTimeField(blank=False, default=timezone.now())
     deleted = models.BooleanField(default=False)
@@ -610,15 +614,9 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         """
         super(Petition, self).clean()
         if self.task_start_date and self.task_end_date:
-            self.validate_dates()
-
-        secretary_dates = (
-            self.expenditure_date_protocol, self.movement_date_protocol,
-            self.compensation_petition_date, self.compensation_decision_date)
-        secretary_dates_labels = (
-            'expenditure protocol date', 'movement protocol date',
-            'compensation petition date', 'compensation decision date')
-        dates_list_validator(secretary_dates, secretary_dates_labels)
+            start_end_date_validator(
+                ((self.task_start_date, self.task_end_date),),
+                (('task start', 'task end'),))
 
     def save(self, *args, **kwargs):
         self.updated = timezone.now()
@@ -688,14 +686,6 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
             self.dse = Petition.objects.latest('dse').dse + 1
         except ObjectDoesNotExist:
             self.dse = 1
-
-    def validate_dates(self):
-        """
-        Validates that the given date when task starts is before from
-        the date when task ends.
-        """
-        date_validator(self.task_start_date, self.task_end_date,
-                       ('task start', 'task end'))
 
     def transport_days(self):
         """ Gets the total number of transport days for all destinations. """

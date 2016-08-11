@@ -1,37 +1,24 @@
 from datetime import datetime, timedelta
 from django.core.exceptions import ValidationError
 from django.test import TestCase
-from texpenses.validators import dates_list_validator
+from texpenses.validators import date_validator, start_end_date_validator
 
 
 class ValidatorTest(TestCase):
+    def test_date_validaror(self):
+        date = datetime.now()
+        self.assertRaises(ValidationError, date_validator, date)
+        self.assertRaises(ValidationError, date_validator, date.date())
 
-    def test_dates_list_validator(self):
+        date += timedelta(days=1)
+        date_validator(date)
+        date_validator(None)
 
-        # test method when all dates are none
+    def test_start_end_date_validator(self):
+        start = datetime.now()
+        end = datetime.now()
+        start_end_date_validator(((start, end),), (('', ''),))
 
-        date1 = None
-        date2 = None
-        date3 = None
-
-        secretary_dates = (date1, date2, date3, )
-        secretary_dates_labels = ('date1', 'date2', 'date3')
-
-        dates_list_validator(secretary_dates, secretary_dates_labels)
-
-        # test method with empty date tuples
-        secretary_dates = ()
-        secretary_dates_labels = ()
-        dates_list_validator(secretary_dates, secretary_dates_labels)
-
-        # test method with arbitrary data tuples
-        now = datetime.now().date()
-        date1 = now + timedelta(1)
-        date2 = None
-        date3 = now - timedelta(days=2)
-
-        secretary_dates = (date1, date2, date3, )
-        secretary_dates_labels = ('date1', 'date2', 'date3')
-
-        self.assertRaises(ValidationError, dates_list_validator,
-                          secretary_dates, secretary_dates_labels)
+        end -= timedelta(days=1)
+        self.assertRaises(ValidationError, start_end_date_validator,
+                          ((start, end),), (('', ''),))
