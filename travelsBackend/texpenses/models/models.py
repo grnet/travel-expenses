@@ -70,7 +70,7 @@ class UserProfile(AbstractUser, TravelUserProfile):
     fields for the user of `Travel Expenses Application`.
     """
 
-    trip_days_left = models.PositiveSmallIntegerField(
+    trip_days_left = models.IntegerField(
         blank=False, default=settings.MAX_HOLIDAY_DAYS,
         validators=[MaxValueValidator(settings.MAX_HOLIDAY_DAYS),
                     MinValueValidator(0)])
@@ -543,7 +543,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
 
     id = models.AutoField(primary_key=True)
 
-    dse = models.PositiveIntegerField(blank=False)
+    dse = models.IntegerField(blank=False, validators=[MinValueValidator(1)])
     travel_info = models.ManyToManyField(TravelInfo, blank=True)
     user = models.ForeignKey(UserProfile, blank=False)
     task_start_date = models.DateTimeField(blank=True, null=True)
