@@ -105,7 +105,7 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
       if (error.detail && error.detail.non_field_errors) {
         formErrors = formErrors.concat(error.detail.non_field_errors);
       }
-      if (typeof error.detail === "string" && error.source.pointer == "/data") {
+      if (typeof error.detail === "string" && error.source && error.source.pointer == "/data") {
         formErrors.push(error.detail);
       }
     }
@@ -120,10 +120,10 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
         if (err) {
           let invalid = this.$(".md-input-invalid");
           if (invalid.length) {
-            scrollTo = invalid.offset().top;
+            scrollTo = invalid.offset().top || 0;
           }
         }
-        $("body").animate({
+        this.$().parent().animate({
           scrollTop: scrollTo
         });
       });
@@ -176,7 +176,7 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
           console.error(model.get('errors'));
           return false;
         }
-      });
+      }).catch(function(err) { console.error(err); };
     },
 
     reset() {
