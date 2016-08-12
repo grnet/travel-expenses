@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, PermissionDenied
 from django.test import TestCase
 from texpenses.models import (
     Country,
@@ -261,7 +261,7 @@ class PetitionTest(TestCase):
         travel_info = TravelInfo.objects.create(travel_petition=petition)
         petition.travel_info.add(travel_info)
         self.assertFalse(petition.deleted)
-        self.assertRaises(ValidationError, petition.status_transition,
+        self.assertRaises(PermissionDenied, petition.status_transition,
                           petition.SUBMITTED_BY_USER)
         petition_id = petition.status_transition(petition.SAVED_BY_USER)
         self.assertNotEqual(petition_id, sub_petition_id)
@@ -282,5 +282,5 @@ class PetitionTest(TestCase):
         previous_petition.status = Petition.SAVED_BY_SECRETARY
         previous_petition.save()
         self.assertRaises(
-            ValidationError,
+            PermissionDenied,
             petition.status_transition, Petition.SAVED_BY_USER)

@@ -1,6 +1,7 @@
 from datetime import timedelta
 from django.conf import settings
-from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.core.exceptions import (
+    ValidationError, ObjectDoesNotExist, PermissionDenied)
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractUser
@@ -662,7 +663,7 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
         :returns: Id of the created petition.
         """
         if not self.transition_is_allowed(new_status):
-            raise ValidationError('Petition calcellation is not allowed.')
+            raise PermissionDenied('Petition calcellation is not allowed.')
         travel_info = self.travel_info.all()
         self.delete()
         self.id = None

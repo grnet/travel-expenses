@@ -1,4 +1,4 @@
-from django.core.validators import ValidationError
+from django.core.exceptions import PermissionDenied
 from rest_framework import status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
@@ -15,6 +15,6 @@ def cancel(self, request, pk=None):
         headers = {'location': reverse(
             'userpetition-detail', args=[petition_id])}
         return Response(headers=headers, status=status.HTTP_303_SEE_OTHER)
-    except ValidationError as e:
+    except PermissionDenied as e:
         return Response({'detail': e.message},
                         status=status.HTTP_403_FORBIDDEN)
