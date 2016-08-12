@@ -258,7 +258,8 @@ class APIPetitionTest(APITestCase):
         cancel_url = submission_endpoint + str(petition.id) + '/cancel/'
         response = self.client.post(cancel_url, format='json')
         self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
-        response = self.client.get(response.data, format='json')
+        response = self.client.get(dict(response.items())['location'],
+                                   format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         petition.status = 3

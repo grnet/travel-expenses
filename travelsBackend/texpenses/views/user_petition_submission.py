@@ -12,8 +12,9 @@ def cancel(self, request, pk=None):
     submitted = self.get_object()
     try:
         petition_id = submitted.status_rollback()
-        return Response(reverse('userpetition-detail', args=[petition_id]),
-                        status.HTTP_303_SEE_OTHER)
+        headers = {'location': reverse(
+            'userpetition-detail', args=[petition_id])}
+        return Response(headers=headers, status=status.HTTP_303_SEE_OTHER)
     except ValidationError as e:
         return Response({'detail': e.message},
                         status=status.HTTP_403_FORBIDDEN)
