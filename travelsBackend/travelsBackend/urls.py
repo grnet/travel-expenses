@@ -1,8 +1,8 @@
 from django.conf.urls import url, include
-from rest_framework import routers
 from django.contrib import admin
 from django.conf import settings
 from django.views.generic.base import RedirectView
+from rest_framework import routers
 from texpenses.factories.views import factory
 from texpenses.models import (TaxOffice, Project, City, Country,
                               UserProfile,
