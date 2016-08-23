@@ -9,10 +9,19 @@
 <td>{{to-date petition.task_end_date}}</td>
 <td>{{petition.status}}</td>
 <td class="icon-cell">
+{{#if (can "approve petition")}}
+	{{#if (eq petition.status 2)}}
+    {{#paper-button type="submit" raised=true onClick=(action "edit" petition.petition_id petition.status) iconButton=true}}{{fa-icon "pencil"}}{{/paper-button}}
+    {{#paper-button type="submit" raised=true onClick=(action "del" petition.petition_id petition.status) iconButton=true}}{{fa-icon "trash-o"}}{{/paper-button}}
+  {{else if (eq petition.status 3)}}
+  	{{#paper-button type="submit" raised=true onClick=(action "undo" petition) iconButton=true}}{{fa-icon "undo"}}{{/paper-button}}   
+  {{/if}}
+{{else}}
 	{{#if (eq petition.status 1)}}
     {{#paper-button type="submit" raised=true onClick=(action "edit" petition.petition_id petition.status) iconButton=true}}{{fa-icon "pencil"}}{{/paper-button}}
     {{#paper-button type="submit" raised=true onClick=(action "del" petition.petition_id petition.status) iconButton=true}}{{fa-icon "trash-o"}}{{/paper-button}}
   {{else if (eq petition.status 2)}}
   	{{#paper-button type="submit" raised=true onClick=(action "undo" petition) iconButton=true}}{{fa-icon "undo"}}{{/paper-button}}   
   {{/if}}
+{{/if}}  
 </td>
