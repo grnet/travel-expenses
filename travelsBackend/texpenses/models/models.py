@@ -9,7 +9,7 @@ from django.db import models
 from model_utils import FieldTracker
 from texpenses.models import common
 from texpenses.validators import (
-    afm_validator, iban_validation, required_validator, date_validator,
+    afm_validator, iban_validation,  date_validator,
     start_end_date_validator)
 
 
@@ -859,7 +859,7 @@ class SecretaryPetition(Petition):
         extra_kwargs = {
             'dse': {'required': False, 'allow_null': True},
             'status': {'default': Petition.SAVED_BY_USER},
-            'task_star_date': {'required': False},
+            'task_start_date': {'required': False},
             'task_end_date': {'required': False},
             'travel_info': {'required': False}
         }
