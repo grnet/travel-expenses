@@ -43,7 +43,7 @@ class TravelUserProfile(models.Model):
     number, Tax Office, etc. as well as, with the kind and specialty of user at
     GRNET.
     """
-    iban = models.CharField(max_length=16, blank=False,
+    iban = models.CharField(max_length=27, blank=False,
                             validators=[iban_validation])
     specialty = models.CharField(
         max_length=5, choices=common.SPECIALTY, blank=False)
