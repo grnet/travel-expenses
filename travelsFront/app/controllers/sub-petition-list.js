@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
 	actions: {
 		petitionUndo(petition) {
       petition.cancel().then(() => {
-        this.transitionToRoute('userPetition', petition.get('id')).then(function(r) {
+        this.transitionToRoute('petitionList').then(function(r) {
           petition.unloadRecord();
         });
       });
