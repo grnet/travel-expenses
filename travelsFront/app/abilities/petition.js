@@ -5,5 +5,8 @@ export default Ability.extend({
 
 	canApprove: Ember.computed('account.user.user_group', function() {
     	return this.get('account.user.user_group') === "SECRETARY";
-	})
+	}),
+	canSee: Ember.computed('account.user.user_group', function() {
+    	return this.get('account.user.user_group') === "USER";
+	}),
 });
