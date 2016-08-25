@@ -43,6 +43,7 @@
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.5",
     "ember-font-awesome": "2.1.1",
+    "ember-i18n": "4.2.2",
     "ember-load-initializers": "^0.5.1",
     "ember-lodash": "0.0.10",
     "ember-paper": "git+https://github.com/vinilios/ember-paper.git#feature-modelform",
