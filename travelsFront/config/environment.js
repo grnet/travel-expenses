@@ -12,6 +12,9 @@ module.exports = function(environment) {
 		locationType: 'auto',
 		default_city: "5",
     default_currency: "EUR",
+    i18n : {
+        defaultLocale: 'gr'
+    },
 		EmberENV: {
 			FEATURES: {
 				// Here you can enable experimental features on an ember canary build
