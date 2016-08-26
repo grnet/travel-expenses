@@ -1,11 +1,12 @@
 export default {
-  // "some.translation.key": "Text for some.translation.key",
-  //
-  // "a": {
-  //   "nested": {
-  //     "key": "Text for a.nested.key"
-  //   }
-  // },
-  //
-  // "key.with.interpolation": "Text with {{anInterpolation}}"
+	'username': 'Όνομα Χρήστη',
+	'email': 'Email',
+	'first_name': 'Όνομα',
+	'last_name': 'Επώνυμο',
+	'iban': 'IBAN',
+	'specialty': 'Ειδικότητα',
+ 	'kind': 'Ιδιότητα',
+ 	'tax_reg_num': 'ΑΦΜ',
+ 	'tax_office': 'ΔΟΥ',
+ 	'user_category': 'Κατηγορία Χρήστη',
 };

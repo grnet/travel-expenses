@@ -68,27 +68,21 @@ export default DS.Model.extend(Validations, {
   }),
 	'first_name': DS.attr(),
 	'last_name': DS.attr(), 
-	'iban': DS.attr({
-    'label': 'IBAN'
-  }),
+	'iban': DS.attr(),
 	'specialty': DS.attr({
-    'label': 'Specialty',
     'choices': CHOICES.SPECIALTY
   }),
 	'kind': DS.attr({
     'choices': CHOICES.KIND
   }),
-	'tax_reg_num': DS.attr({
-    'label': 'VAT'
-  }),
+	'tax_reg_num': DS.attr(),
 	'tax_office': DS.belongsTo('tax-office', {
     attrs:{
       autocomplete: true,
     }
   }),
 	'user_category': DS.attr({
-    'attrs': { disabled: true, readonly: true},
-    'label': 'User Category', 
+    'attrs': { disabled: true, readonly: true}, 
     'choices': CHOICES.USER_CATEGORY
   }),
   'user_group': DS.attr(),

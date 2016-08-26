@@ -18,6 +18,7 @@ const {
   String: { capitalize, decamelize }
 } = Ember;
 const WORD_SEPERATORS = new RegExp('[-_\. ]', 'g');
+//do we still need titlecase after i18n?
 export const titlecase = (string) =>
   decamelize(string)
     .split(WORD_SEPERATORS)
@@ -26,6 +27,8 @@ export const titlecase = (string) =>
 
 
 export default Ember.Component.extend({
+
+  i18n: Ember.inject.service(),
 
   tagName: 'md-content',
   classNames: ['layout-column', 'model-form-field'],
@@ -59,7 +62,8 @@ export default Ember.Component.extend({
   isRelation: equal('field.type', 'relation'),
 
   label: computed('field', 'field.options.label', function() {
-    return get(this, 'field.options.label') || titlecase(get(this, 'key'));
+    let key = get(this, 'key');
+    return this.get('i18n').t(key);
   }),
 
   placeholder: computed('isSelect', function() {
