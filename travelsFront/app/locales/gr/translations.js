@@ -1,4 +1,7 @@
 export default {
+	//account
+	'login_pass': 'Κωδικός Πρόσβασης',
+	'password': 'Κωδικός Πρόσβασης',
 	//profile
 	'username': 'Όνομα Χρήστη',
 	'email': 'Email',
