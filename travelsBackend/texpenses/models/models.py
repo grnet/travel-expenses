@@ -48,7 +48,7 @@ class TravelUserProfile(models.Model):
     specialty = models.CharField(
         max_length=5, choices=common.SPECIALTY, blank=False)
     tax_reg_num = models.CharField(max_length=9, blank=False,
-                                   validators=[afm_validator])
+                                   validators=[afm_validator], unique=True)
     tax_office = models.ForeignKey(TaxOffice, blank=False)
     kind = models.CharField(max_length=5, choices=common.KIND, blank=False)
     user_category = models.CharField(
