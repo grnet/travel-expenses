@@ -1,4 +1,5 @@
 export default {
+	//profile
 	'username': 'Όνομα Χρήστη',
 	'email': 'Email',
 	'first_name': 'Όνομα',
@@ -9,4 +10,26 @@ export default {
  	'tax_reg_num': 'ΑΦΜ',
  	'tax_office': 'ΔΟΥ',
  	'user_category': 'Κατηγορία Χρήστη',
+ 	//petition
+ 	'dse': 'ΔΣΕ',
+ 	'project': 'Έργο - Υπεύθυνος Έργου',
+ 	'reason': 'Αιτιολογία Μετακίνησης',
+ 	'departure_point': 'Τόπος Μετακίνησης - Από:',
+ 	'arrival_point': 'Τόπος Προορισμού - Προς:',
+ 	'movement_category': 'Κατηγορία Μετακίνησης',
+ 	'country_category': 'Κατηγορία Χώρας',
+ 	'task_start_date': 'Έναρξη Εργασιών',
+ 	'task_end_date': 'Λήξη Εργασιών',
+ 	'depart_date': 'Αναχώρηση',
+ 	'return_date': 'Επιστροφή',
+ 	'means_of_transport': 'Μέσο Μετακίνησης',
+ 	'transportation_cost': 'Τιμή Εισιτηρίου',
+ 	'meals': 'Κάλυψη Διατροφής',
+ 	'accommodation_local_cost': 'Τιμή Διανυκτέρευσης (/ημέρα)',
+ 	'accommodation_local_currency': 'Νόμισμα',
+ 	'additional_expenses_initial': 'Λοιπά Έξοδα Μετακίνησης',
+ 	'participation_local_cost': 'Κόστος Συμμετοχής',
+ 	'participation_local_currency': 'Νόμισμα',
+ 	'additional_expenses_initial_description': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή',
+ 	'user_recommendation': 'Αρχικές Προτάσεις Μετακινούμενου (για κρατήσεις πτήσεων, ξενοδοχείου, κλπ)',
 };
