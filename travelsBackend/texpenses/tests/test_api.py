@@ -65,7 +65,7 @@ class APIPetitionTest(APITestCase):
     start_date = datetime.now() + timedelta(days=5)
 
     def setUp(self):
-        tax_office = TaxOffice.objects.create(
+        self.tax_office = TaxOffice.objects.create(
             name='test', description='test', address='test',
             email='test@example.com', phone='2104344444')
         self.user = UserProfile.objects.create_user(
@@ -74,7 +74,7 @@ class APIPetitionTest(APITestCase):
             iban='GR4902603280000910200635494', is_superuser=True,
             password='test',
             specialty='1', tax_reg_num=011111111,
-            tax_office=tax_office, user_category='A',
+            tax_office=self.tax_office, user_category='A',
             trip_days_left=5)
         self.city = City.objects.create(
             name='Athens', country=Country.objects.create(name='Greece'))
@@ -269,3 +269,60 @@ class APIPetitionTest(APITestCase):
         cancel_url = submission_endpoint + str(petition.id) + '/cancel/'
         response = self.client.post(cancel_url, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_petition_filtering_per_user(self):
+        # create a petition from current user(save endpoint)
+        data = {'project': self.project_url,
+                'task_start_date': self.start_date,
+                'task_end_date': self.end_date, 'travel_info': [],
+                'user': self.user_url,
+                'dse': None,
+                'movement_id': 'movement_id'}
+        url = reverse('userpetition-list')
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        # get petition list
+        response = self.client.get(url, data, format='json')
+
+        # assert petition list contains one object
+        self.assertEqual(len(response.data), 1)
+        self.assertIn(self.user_url, response.data[0]['user'])
+
+        # logout current user
+        self.client.logout()
+
+        # create a new user and login
+        self.user = UserProfile.objects.create_user(
+            username='kostas', first_name='Kostas', last_name='',
+            email='test@email.com', is_staff=True,
+            iban='GR4902603280000910200635494', is_superuser=True,
+            password='test', specialty='1', tax_reg_num=135362340,
+            tax_office=self.tax_office, user_category='A', trip_days_left=5)
+        self.city = City.objects.create(
+            name='Amsterdam', country=Country.objects.create(name='Holland'))
+        self.project = Project.objects.create(name='Test Project 2',
+                                              accounting_code=1,
+                                              manager=self.user)
+        token = Token.objects.create(user=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        self.client.force_authenticate(user=self.user, token=token)
+        self.project_url = reverse('project-detail', args=[2])
+        self.user_url = reverse('userprofile-detail', args=[2])
+
+        # create a new petition from current user(save endpoint)
+        data = {'project': self.project_url,
+                'task_start_date': self.start_date,
+                'task_end_date': self.end_date, 'travel_info': [],
+                'user': self.user_url,
+                'dse': None,
+                'movement_id': 'movement_id'}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        # get petition list
+        response = self.client.get(url, data, format='json')
+
+        # assert petition list contains one object
+        self.assertEqual(len(response.data), 1)
+        self.assertIn(self.user_url, response.data[0]['user'])
