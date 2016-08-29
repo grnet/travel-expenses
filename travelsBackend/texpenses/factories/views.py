@@ -38,11 +38,11 @@ def factory(model_class, custom_permissions=(), api_name='APITravel',
     if not model_class:
         raise Exception
 
-    model_meta = getattr(model_class, api_name)
-    assert model_meta is not None
+    model_api_meta = getattr(model_class, api_name)
+    assert model_api_meta is not None
 
     def get_queryset(self):
-        queryset = getattr(model_meta, 'get_queryset', None)
+        queryset = getattr(model_api_meta, 'get_queryset', None)
         return queryset(self.request.user) if queryset else\
             DEFAULT_QUERYSET(model_class)
 
@@ -52,12 +52,13 @@ def factory(model_class, custom_permissions=(), api_name='APITravel',
             DjangoModelPermissions,),
         'get_queryset': get_queryset,
         'filter_backends': (),
-        'model_meta': getattr(model_class, api_name),
+        'model_api_meta': getattr(model_class, api_name),
         'serializer_class': serializer_factory(
             model_class, serializer_module_name),
     }
-    cls = type(model_class.__name__, get_bases_classes(model_meta), class_dict)
-    utils.set_attrs(cls, cls.model_meta, VIEWSET_ATTRS)
+    cls = type(model_class.__name__, get_bases_classes(model_api_meta),
+               class_dict)
+    utils.set_attrs(cls, cls.model_api_meta, VIEWSET_ATTRS)
     init_filter_backends(cls)
     module_name = utils.camel2snake(model_class.__name__)
     module = utils.get_package_module(
@@ -80,7 +81,7 @@ def init_filter_backends(cls):
             cls.filter_backends += (filter_backend,)
 
 
-def get_bases_classes(model_meta):
+def get_bases_classes(model_api_meta):
     """
     This function gets the corresponding base classes in order to construct
     the viewset class.
@@ -91,11 +92,11 @@ def get_bases_classes(model_meta):
 
     By default, all methods are allowed.
 
-    :param model_meta: API class of model.
+    :param model_api_meta: API class of model.
     :returns: A tuple of the corresponding base classes.
     """
     bases = (LoggingMixin,)
-    operations = getattr(model_meta, 'allowed_operations', None)
+    operations = getattr(model_api_meta, 'allowed_operations', None)
     bases += (viewsets.ModelViewSet,) if not operations\
         else tuple([MIXINS[operation] for operation in operations]) + (
             viewsets.GenericViewSet,)
