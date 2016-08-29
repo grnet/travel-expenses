@@ -47,8 +47,8 @@ export var Petition = DS.Model.extend({
 
   //Travel_info DATA
   travel_info: DS.attr(),
-  departure_point: DS.belongsTo('city', {attrs: {required: true}}),
-  arrival_point: DS.belongsTo('city', {attrs: {required: true}}),
+  departure_point: DS.belongsTo('city', {attrs: {required: true, autocomplete: true}}),
+  arrival_point: DS.belongsTo('city', {attrs: {required: true, autocomplete: true}}),
   depart_date: DS.attr('date', {
     attrs: {
       time: true
