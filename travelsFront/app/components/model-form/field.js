@@ -59,9 +59,8 @@ export default Ember.Component.extend({
   componentName: alias('field.component'),
   isRelation: equal('field.type', 'relation'),
 
-  label: computed('field', 'field.options.label', function() {
-    let key = get(this, 'key');
-    return this.get('i18n').t(key);
+  labelI18NKey: computed('field', 'field.options.label', function() {
+    return get(this, 'field.options.label') || get(this, 'key') + '.label';
   }),
 
   placeholder: computed('isSelect', function() {

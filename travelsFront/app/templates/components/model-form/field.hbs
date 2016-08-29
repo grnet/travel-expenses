@@ -4,7 +4,7 @@
   field=field
   onChange=(action 'updateProperty')
   value=value
-  label=label
+  label=(t labelI18NKey)
   errors=errors
   isTouched=(readonly isTouched)
   object=object
@@ -13,7 +13,7 @@
 {{#if canShowHint }}
   <div class="md-input-hint">
     <div class="message">
-        {{ hint }}
+        {{t hint }}
     </div>
   </div>
 {{/if}}

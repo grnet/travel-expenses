@@ -3,8 +3,10 @@
 {{#paper-card as |card|}}
     {{#card.title as |title|}}
         {{#title.text as |ctext|}}
-            {{#ctext.headline}}{{label}}{{/ctext.headline}}
-            {{#ctext.subhead}}{{text}}{{/ctext.subhead}}
+            {{#ctext.headline}}{{t label}}{{/ctext.headline}}
+            {{#if text}}
+                {{#ctext.subhead}}{{t text}}{{/ctext.subhead}}
+            {{/if}}
         {{/title.text}}
     {{/card.title}}
     {{#card.content}}
