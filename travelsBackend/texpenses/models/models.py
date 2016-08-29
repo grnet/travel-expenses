@@ -789,7 +789,7 @@ class UserPetition(Petition):
         }
 
         @staticmethod
-        def custom_queryset(*args):
+        def get_queryset(*args):
             user = args[0]
             return Petition.objects.filter(user=user)
 
@@ -827,7 +827,7 @@ class UserPetitionSubmission(Petition):
         }
 
         @staticmethod
-        def custom_queryset(*args):
+        def get_queryset(*args):
             user = args[0]
             return Petition.objects.filter(user=user)
 
@@ -875,7 +875,7 @@ class SecretaryPetition(Petition):
         }
 
         @staticmethod
-        def custom_queryset(*args):
+        def get_queryset(*args):
             user = args[0]
             return Petition.objects.filter(user=user)
 
@@ -928,7 +928,7 @@ class SecretaryPetitionSubmission(Petition):
         }
 
         @staticmethod
-        def custom_queryset(*args):
+        def get_queryset(*args):
             user = args[0]
             return Petition.objects.filter(user=user)
 

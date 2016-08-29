@@ -42,7 +42,7 @@ def factory(model_class, custom_permissions=(), api_name='APITravel',
     assert model_meta is not None
 
     def get_queryset(self):
-        queryset = getattr(model_meta, 'custom_queryset', None)
+        queryset = getattr(model_meta, 'get_queryset', None)
         return queryset(self.request.user) if queryset else\
             DEFAULT_QUERYSET(model_class)
 
