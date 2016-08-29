@@ -13,6 +13,8 @@ export default {
  	'tax_reg_num.label': 'ΑΦΜ',
  	'tax_office.label': 'ΔΟΥ',
  	'user_category.label': 'Κατηγορία Χρήστη',
+ 	'my_account.label': 'Στοιχεία Λογαριαμού',
+ 	'personal_info.label': 'Προσωπικά Στοιχεία',
  	//petition
  	'dse.label': 'ΔΣΕ',
  	'project.label': 'Έργο - Υπεύθυνος Έργου',

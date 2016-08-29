@@ -30,11 +30,11 @@ var Validations=buildValidations({
 const UI_DEFAULT = {
   fieldsets: [
     {
-      'label': 'My account',
+      'label': 'my_account.label',
       'fields': ['username', 'email', 'first_name', 'last_name']
     },
     {
-      'label': 'Personal info',
+      'label': 'personal_info.label',
       'fields': ['specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'user_category']
     }
   ],
