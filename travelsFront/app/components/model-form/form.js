@@ -18,7 +18,7 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
   isValid: Ember.computed.alias('model.validations.isValid'),
   modelErrors: Ember.computed.alias('model.errors'),
   submitLabel: Ember.computed('label', function() {
-    return this.get('i18n').t('save');
+    return this.get('i18n').t('b_save');
   }),
 
   didReceiveAttrs() {

@@ -40,8 +40,9 @@ export default {
   'travel_data.label': 'Στοιχεία μετακίνησης',
   'user_data.label': 'Στοιχεία χρήστη',
  	//buttons
- 	'save': 'Αποθηκευση',
- 	'submit': 'Υποβολη',
+ 	'b_save': 'Αποθηκευση',
+ 	'b_submit': 'Υποβολη',
+ 	'b_login': 'Εισοδος',
  	//tabs
  	'profile': 'Προφίλ',
  	'new_petition': 'Νέα Αίτηση',
