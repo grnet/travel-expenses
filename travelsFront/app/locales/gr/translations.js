@@ -46,4 +46,12 @@ export default {
  	'my_petitions': 'Οι Αιτήσεις μου',
  	'submitted_petitions': 'Υποβεβλημένες Αιτήσεις',
  	'petitions_for_approval': 'Αιτήσεις προς Έγκριση',
+ 	//titles
+ 	'login': 'Είσοδος',
+ 	'signup': 'Δημιουργία Λογαριασμού',
+ 	'profile': 'Προφίλ',
+ 	'create': 'Δημιουργια Αιτησης',
+ 	'edit': 'Επεξεργασια Αιτησης',
+ 	'petition_list': 'Λίστα Αιτήσεων',
+
 };

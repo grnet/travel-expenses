@@ -1,4 +1,4 @@
-{{ page-toolbar pageTitle="Login" }}
+{{ page-toolbar pageTitle=(t "login") }}
 {{#paper-content}}
     {{model-form/form model ui='login' submit=(action 'authenticate') submitError=(mut submitError) hideReset=true submitLabel="Login"}}
 {{/paper-content}}
