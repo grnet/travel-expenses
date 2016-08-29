@@ -39,4 +39,5 @@ export default {
   'user_data.label': 'Στοιχεία χρήστη'
  	//buttons
  	'save.label': 'Αποθηκευση',
+ 	'submit.label': 'Υποβολη',
 };
