@@ -8,7 +8,6 @@ const LOGIN_UI = {
     ['login_pass', 
       {
         type: 'string',
-        label: 'Password',
         attrs: {type: 'password', required: true}
       }
     ]
