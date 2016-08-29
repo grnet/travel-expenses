@@ -37,4 +37,6 @@ export default {
  	'user_recommendation.label': 'Αρχικές Προτάσεις Μετακινούμενου (για κρατήσεις πτήσεων, ξενοδοχείου, κλπ)',
   'travel_data.label': 'Στοιχεία μετακίνησης',
   'user_data.label': 'Στοιχεία χρήστη'
+ 	//buttons
+ 	'save.label': 'Αποθηκευση',
 };

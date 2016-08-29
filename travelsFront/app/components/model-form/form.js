@@ -9,6 +9,8 @@ const {
 var TypesCache = {};
 
 const ModelForm = Ember.Component.extend(FlexMixin, {
+
+  i18n: Ember.inject.service(),
   
   tagName: 'form',
   isTouched: false,
@@ -17,7 +19,9 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
   validation: Ember.computed.alias('model.validations.attrs'),
   isValid: Ember.computed.alias('model.validations.isValid'),
   modelErrors: Ember.computed.alias('model.errors'),
-  submitLabel: 'Save',
+  submitLabel: Ember.computed('label', function() {
+    return this.get('i18n').t('save');
+  }),
 
   didReceiveAttrs() {
     this._super(...arguments);
