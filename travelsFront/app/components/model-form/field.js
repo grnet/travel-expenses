@@ -28,8 +28,6 @@ export const titlecase = (string) =>
 
 export default Ember.Component.extend({
 
-  i18n: Ember.inject.service(),
-
   tagName: 'md-content',
   classNames: ['layout-column', 'model-form-field'],
 
