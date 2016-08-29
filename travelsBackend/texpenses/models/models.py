@@ -534,7 +534,7 @@ class ParticipationInfo(models.Model):
         abstract = True
 
 
-class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
+class Petition(SecretarialInfo, ParticipationInfo):
     SAVED_BY_USER = 1
     SUBMITTED_BY_USER = 2
     SAVED_BY_SECRETARY = 3
@@ -545,6 +545,20 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
                    'tax_office', 'tax_reg_num', 'user_category']
 
     id = models.AutoField(primary_key=True)
+
+    # travel user profile fields
+    iban = models.CharField(max_length=27, blank=False,
+                            validators=[iban_validation])
+    specialty = models.CharField(
+        max_length=5, choices=common.SPECIALTY, blank=False)
+    tax_reg_num = models.CharField(max_length=9, blank=False,
+                                   validators=[afm_validator])
+    tax_office = models.ForeignKey(TaxOffice, blank=False)
+    kind = models.CharField(max_length=5, choices=common.KIND, blank=False)
+    user_category = models.CharField(
+        max_length=1, choices=common.USER_CATEGORIES,
+        blank=False, default='B')
+    #
 
     dse = models.IntegerField(blank=False, validators=[MinValueValidator(1)])
     travel_info = models.ManyToManyField(TravelInfo, blank=True)
