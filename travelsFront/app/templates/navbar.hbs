@@ -18,14 +18,14 @@
                 {{#paper-content classNames="user-label" flex="80" padding=1 }}Logged in as: {{ account.user.username }}{{/paper-content}}
                 {{#paper-button flex="20" raised=true onClick=(action 'invalidateSession')}}logout{{/paper-button}}
             {{/paper-content}}
-            {{#menu-item onClick=(transition-to "profile")}}Profile{{/menu-item}}
+            {{#menu-item onClick=(transition-to "profile")}}{{t 'profile'}}{{/menu-item}}
             {{#unless (can "approve petition")}}
-              {{#menu-item onClick=(transition-to "userPetition" "new")}}New Petition{{/menu-item}}
-              {{#menu-item onClick=(transition-to "petitionList")}}My Petitions{{/menu-item}}
-              {{#menu-item onClick=(transition-to "subPetitionList")}}Submitted Petitions{{/menu-item}}
+              {{#menu-item onClick=(transition-to "userPetition" "new")}}{{t 'new_petition'}}{{/menu-item}}
+              {{#menu-item onClick=(transition-to "petitionList")}}{{t 'my_petitions'}}{{/menu-item}}
+              {{#menu-item onClick=(transition-to "subPetitionList")}}{{t 'submitted_petitions'}}{{/menu-item}}
             {{/unless}}
             {{#if (can "approve petition")}}
-              {{#menu-item onClick=(transition-to "advancedList")}}Petitions for Approval{{/menu-item}}
+              {{#menu-item onClick=(transition-to "advancedList")}}{{t 'petitions_for_approval'}}{{/menu-item}}
             {{/if}}
         {{/unless}}
       {{/paper-list}}

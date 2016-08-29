@@ -38,6 +38,12 @@ export default {
   'travel_data.label': 'Στοιχεία μετακίνησης',
   'user_data.label': 'Στοιχεία χρήστη'
  	//buttons
- 	'save.label': 'Αποθηκευση',
- 	'submit.label': 'Υποβολη',
+ 	'save': 'Αποθηκευση',
+ 	'submit': 'Υποβολη',
+ 	//tabs
+ 	'profile': 'Προφίλ',
+ 	'new_petition': 'Νέα Αίτηση',
+ 	'my_petitions': 'Οι Αιτήσεις μου',
+ 	'submitted_petitions': 'Υποβεβλημένες Αιτήσεις',
+ 	'petitions_for_approval': 'Αιτήσεις προς Έγκριση',
 };
