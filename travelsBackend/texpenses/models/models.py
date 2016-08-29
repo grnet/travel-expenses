@@ -788,6 +788,11 @@ class UserPetition(Petition):
             'travel_info': {'required': False}
         }
 
+        @staticmethod
+        def custom_queryset(*args):
+            user = args[0]
+            return Petition.objects.filter(user=user)
+
 
 class UserPetitionSubmission(Petition):
 
@@ -820,6 +825,11 @@ class UserPetitionSubmission(Petition):
             }
 
         }
+
+        @staticmethod
+        def custom_queryset(*args):
+            user = args[0]
+            return Petition.objects.filter(user=user)
 
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
@@ -863,6 +873,11 @@ class SecretaryPetition(Petition):
             'task_end_date': {'required': False},
             'travel_info': {'required': False}
         }
+
+        @staticmethod
+        def custom_queryset(*args):
+            user = args[0]
+            return Petition.objects.filter(user=user)
 
 
 class SecretaryPetitionSubmission(Petition):
@@ -911,6 +926,11 @@ class SecretaryPetitionSubmission(Petition):
                 'default': Petition.SUBMITTED_BY_SECRETARY
             }
         }
+
+        @staticmethod
+        def custom_queryset(*args):
+            user = args[0]
+            return Petition.objects.filter(user=user)
 
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.

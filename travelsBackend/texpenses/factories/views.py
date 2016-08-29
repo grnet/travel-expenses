@@ -38,17 +38,19 @@ def factory(model_class, custom_permissions=(), api_name='APITravel',
     if not model_class:
         raise Exception
 
-    def get_queryset(self):
-        queryset = getattr(self.model_meta, 'get_queryset', None)
-        return queryset(self.request.user) if queryset else\
-            DEFAULT_QUERYSET(model_class)
     model_meta = getattr(model_class, api_name)
     assert model_meta is not None
+
+    def get_queryset(self):
+        queryset = getattr(model_meta, 'custom_queryset', None)
+        return queryset(self.request.user) if queryset else\
+            DEFAULT_QUERYSET(model_class)
+
     class_dict = {
         'authentication_classes': (SessionAuthentication, TokenAuthentication),
         'permission_classes': (IsAuthenticated,) + custom_permissions + (
             DjangoModelPermissions,),
-        'queryset': model_class.objects.all(),
+        'get_queryset': get_queryset,
         'filter_backends': (),
         'model_meta': getattr(model_class, api_name),
         'serializer_class': serializer_factory(
