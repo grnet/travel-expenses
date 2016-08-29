@@ -9,8 +9,6 @@ const {
 var TypesCache = {};
 
 const ModelForm = Ember.Component.extend(FlexMixin, {
-
-  i18n: Ember.inject.service(),
   
   tagName: 'form',
   isTouched: false,
