@@ -36,7 +36,7 @@ export default {
  	'additional_expenses_initial_description.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή',
  	'user_recommendation.label': 'Αρχικές Προτάσεις Μετακινούμενου (για κρατήσεις πτήσεων, ξενοδοχείου, κλπ)',
   'travel_data.label': 'Στοιχεία μετακίνησης',
-  'user_data.label': 'Στοιχεία χρήστη'
+  'user_data.label': 'Στοιχεία χρήστη',
  	//buttons
  	'save': 'Αποθηκευση',
  	'submit': 'Υποβολη',
