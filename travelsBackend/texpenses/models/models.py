@@ -791,7 +791,7 @@ class UserPetition(Petition):
         @staticmethod
         def get_queryset(*args):
             user = args[0]
-            return Petition.objects.filter(user=user)
+            return UserPetition.objects.filter(user=user)
 
 
 class UserPetitionSubmission(Petition):
@@ -829,7 +829,7 @@ class UserPetitionSubmission(Petition):
         @staticmethod
         def get_queryset(*args):
             user = args[0]
-            return Petition.objects.filter(user=user)
+            return UserPetitionSubmission.objects.filter(user=user)
 
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
@@ -877,7 +877,7 @@ class SecretaryPetition(Petition):
         @staticmethod
         def get_queryset(*args):
             user = args[0]
-            return Petition.objects.filter(user=user)
+            return SecretaryPetition.objects.filter(user=user)
 
 
 class SecretaryPetitionSubmission(Petition):
@@ -930,7 +930,7 @@ class SecretaryPetitionSubmission(Petition):
         @staticmethod
         def get_queryset(*args):
             user = args[0]
-            return Petition.objects.filter(user=user)
+            return SecretaryPetitionSubmission.objects.filter(user=user)
 
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
