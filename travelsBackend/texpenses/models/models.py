@@ -6,6 +6,8 @@ from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models import Max
+from django.db.models import Q
 from model_utils import FieldTracker
 from texpenses.models import common
 from texpenses.validators import (
@@ -769,8 +771,15 @@ class PetitionManager(models.Manager):
         """
         Filters Petition objects by the status specified by this manager.
         """
-        return super(PetitionManager, self).get_queryset()\
-            .filter(status__in=self.status_list, deleted=False)
+        queryset = super(PetitionManager, self).get_queryset()
+        status_dse_map = queryset.filter(
+            status__in=self.status_list, deleted=False).values('dse').\
+            annotate(Max('status'))
+        q = Q()
+        for status_dse in status_dse_map:
+            q |= Q(status=status_dse['status__max'],
+                   dse=status_dse['dse'])
+        return queryset.filter(q)
 
 
 class UserPetition(Petition):
