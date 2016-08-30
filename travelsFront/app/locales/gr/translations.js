@@ -44,11 +44,12 @@ export default {
  	'form.button.submit': 'Υποβολη',
  	'form.button.login': 'Εισοδος',
  	//tabs
- 	'profile': 'Προφίλ',
- 	'new_petition': 'Νέα Αίτηση',
- 	'my_petitions': 'Οι Αιτήσεις μου',
- 	'submitted_petitions': 'Υποβεβλημένες Αιτήσεις',
- 	'petitions_for_approval': 'Αιτήσεις προς Έγκριση',
+ 	'logout.tab': 'Eξοδος',
+ 	'profile.tab': 'Προφίλ',
+ 	'new_petition.tab': 'Νέα Αίτηση',
+ 	'my_petitions.tab': 'Οι Αιτήσεις μου',
+ 	'submitted_petitions.tab': 'Υποβεβλημένες Αιτήσεις',
+ 	'petitions_for_approval.tab': 'Αιτήσεις προς Έγκριση',
  	//titles
  	'login': 'Είσοδος',
  	'signup': 'Δημιουργία Λογαριασμού',

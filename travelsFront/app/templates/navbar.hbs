@@ -16,16 +16,16 @@
         {{else}}
             {{#paper-content classNames='login-info layout-padding layout-row'}}
                 {{#paper-content classNames="user-label" flex="80" padding=1 }}Logged in as: {{ account.user.username }}{{/paper-content}}
-                {{#paper-button flex="20" raised=true onClick=(action 'invalidateSession')}}logout{{/paper-button}}
+                {{#paper-button flex="20" raised=true onClick=(action 'invalidateSession')}}{{t 'logout.tab'}}{{/paper-button}}
             {{/paper-content}}
-            {{#menu-item onClick=(transition-to "profile")}}{{t 'profile'}}{{/menu-item}}
+            {{#menu-item onClick=(transition-to "profile")}}{{t 'profile.tab'}}{{/menu-item}}
             {{#unless (can "approve petition")}}
-              {{#menu-item onClick=(transition-to "userPetition" "new")}}{{t 'new_petition'}}{{/menu-item}}
-              {{#menu-item onClick=(transition-to "petitionList")}}{{t 'my_petitions'}}{{/menu-item}}
-              {{#menu-item onClick=(transition-to "subPetitionList")}}{{t 'submitted_petitions'}}{{/menu-item}}
+              {{#menu-item onClick=(transition-to "userPetition" "new")}}{{t 'new_petition.tab'}}{{/menu-item}}
+              {{#menu-item onClick=(transition-to "petitionList")}}{{t 'my_petitions.tab'}}{{/menu-item}}
+              {{#menu-item onClick=(transition-to "subPetitionList")}}{{t 'submitted_petitions.tab'}}{{/menu-item}}
             {{/unless}}
             {{#if (can "approve petition")}}
-              {{#menu-item onClick=(transition-to "advancedList")}}{{t 'petitions_for_approval'}}{{/menu-item}}
+              {{#menu-item onClick=(transition-to "advancedList")}}{{t 'petitions_for_approval.tab'}}{{/menu-item}}
             {{/if}}
         {{/unless}}
       {{/paper-list}}
