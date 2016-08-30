@@ -790,8 +790,7 @@ class UserPetition(Petition):
             'status': {'default': Petition.SAVED_BY_USER},
             'task_start_date': {'required': False},
             'task_end_date': {'required': False},
-            'travel_info': {'required': False},
-            'status': {'default': Petition.SAVED_BY_USER}
+            'travel_info': {'required': False}
         }
 
         @staticmethod
@@ -828,8 +827,7 @@ class UserPetitionSubmission(Petition):
             },
             'task_end_date': {
                 'required': True, 'allow_null': False
-            },
-            'status': {'default': Petition.SUBMITTED_BY_USER}
+            }
 
         }
 
@@ -876,7 +874,6 @@ class SecretaryPetition(Petition):
         nested_relations = [('travel_info', 'travel_info')]
         extra_kwargs = {
             'dse': {'required': False, 'allow_null': True},
-            'status': {'default': Petition.SAVED_BY_USER},
             'task_start_date': {'required': False},
             'task_end_date': {'required': False},
             'travel_info': {'required': False},
