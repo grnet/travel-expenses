@@ -1,43 +1,28 @@
-{{#if (can "see petition")}}
-	{{#if (eq petition.tax_reg_num account.user.tax_reg_num)}}
-		<td>{{petition.dse}}</td>
-		<td>{{petition.first_name}}</td>
-		<td>{{petition.last_name}}</td>
-		<td>{{petition.project.name}}</td>
-		<td>{{petition.arrival_point.name}}</td>
-		<td>{{to-date petition.created}}</td>
-		<td>{{to-date petition.updated}}</td>
-		<td>{{to-date petition.task_start_date}}</td>
-		<td>{{to-date petition.task_end_date}}</td>
-		<td>{{petition.status}}</td>
-		<td class="icon-cell">
-			{{#if (eq petition.status 1)}}
-	    	{{#paper-button type="submit" raised=true onClick=(action "edit" petition.petition_id petition.status) iconButton=true}}{{fa-icon "pencil"}}{{/paper-button}}
-	    	{{#paper-button type="submit" raised=true onClick=(action "del" petition.petition_id petition.status) iconButton=true}}{{fa-icon "trash-o"}}{{/paper-button}}
-	  	{{else if (eq petition.status 2)}}
-	  		{{#paper-button type="submit" raised=true onClick=(action "undo" petition) iconButton=true}}{{fa-icon "undo"}}{{/paper-button}}   
-	  	{{/if}}
-	  </td>	
-	{{/if}}	
-{{/if}}
-
+<td>{{petition.dse}}</td>
+<td>{{petition.first_name}}</td>
+<td>{{petition.last_name}}</td>
+<td>{{petition.project.name}}</td>
+<td>{{petition.arrival_point.name}}</td>
+<td>{{to-date petition.created}}</td>
+<td>{{to-date petition.updated}}</td>
+<td>{{to-date petition.task_start_date}}</td>
+<td>{{to-date petition.task_end_date}}</td>
+<td>{{petition.status}}</td>
+<td class="icon-cell">
 {{#if (can "approve petition")}}
-	<td>{{petition.dse}}</td>
-	<td>{{petition.first_name}}</td>
-	<td>{{petition.last_name}}</td>
-	<td>{{petition.project.name}}</td>
-	<td>{{petition.arrival_point.name}}</td>
-	<td>{{to-date petition.created}}</td>
-	<td>{{to-date petition.updated}}</td>
-	<td>{{to-date petition.task_start_date}}</td>
-	<td>{{to-date petition.task_end_date}}</td>
-	<td>{{petition.status}}</td>
-	<td class="icon-cell">
-		{{#if (eq petition.status 2)}}
-    	{{#paper-button type="submit" raised=true onClick=(action "edit" petition.petition_id petition.status) iconButton=true}}{{fa-icon "pencil"}}{{/paper-button}}
-    	{{#paper-button type="submit" raised=true onClick=(action "del" petition.petition_id petition.status) iconButton=true}}{{fa-icon "trash-o"}}{{/paper-button}}
-  	{{else if (eq petition.status 3)}}
-  		{{#paper-button type="submit" raised=true onClick=(action "undo" petition) iconButton=true}}{{fa-icon "undo"}}{{/paper-button}}   
-  	{{/if}}
-  </td>		
-{{/if}}
+	{{#if (eq petition.status 2)}}
+    {{#paper-button type="submit" raised=true onClick=(action "edit" petition.petition_id petition.status) iconButton=true}}{{fa-icon "pencil"}}{{/paper-button}}
+    {{#paper-button type="submit" raised=true onClick=(action "del" petition.petition_id petition.status) iconButton=true}}{{fa-icon "trash-o"}}{{/paper-button}}
+  {{else if (eq petition.status 3)}}
+  	{{#paper-button type="submit" raised=true onClick=(action "undo" petition) iconButton=true}}{{fa-icon "undo"}}{{/paper-button}}   
+  {{/if}}
+{{else}}
+	{{#if (eq petition.status 1)}}
+    {{#paper-button type="submit" raised=true onClick=(action "edit" petition.petition_id petition.status) iconButton=true}}{{fa-icon "pencil"}}{{/paper-button}}
+    {{#paper-button type="submit" raised=true onClick=(action "del" petition.petition_id petition.status) iconButton=true}}{{fa-icon "trash-o"}}{{/paper-button}}
+  {{else if (eq petition.status 2)}}
+  	{{#paper-button type="submit" raised=true onClick=(action "undo" petition) iconButton=true}}{{fa-icon "undo"}}{{/paper-button}}   
+  {{/if}}
+{{/if}}  
+</td>
+
