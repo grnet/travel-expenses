@@ -1,8 +1,4 @@
-{{#if newPetition}}
-	{{ page-toolbar pageTitle=(t "petition_create.title") }}
-{{else}}
-	{{ page-toolbar pageTitle=(t "petition_edit.title") }}
-{{/if}}
+{{ page-toolbar (if newPetition pageTitle=(t "petition_create.title") (t "petition_edit.title")) }}
 
 {{#paper-content classNames="md-padding"}}
     {{ model-form/form model ui="user"}}
