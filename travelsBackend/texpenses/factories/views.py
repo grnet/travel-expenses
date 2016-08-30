@@ -27,7 +27,7 @@ MIXINS = {
 
 
 def factory(model_class, custom_permissions=(), api_name='APITravel',
-            serializer_module_name=None):
+            view_module_name=None, serializer_module_name=None):
     """TODO: Docstring for viewset_factory.
 
     :model_class: TODO
@@ -55,7 +55,7 @@ def factory(model_class, custom_permissions=(), api_name='APITravel',
     init_filter_backends(cls)
     module_name = utils.camel2snake(model_class.__name__)
     module = utils.get_package_module(
-        CUSTOM_VIEWS_CODE + '.' + module_name)
+        CUSTOM_VIEWS_CODE + '.' + (view_module_name or module_name))
     utils.bound_methods(cls, module)
     return cls
 

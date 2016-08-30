@@ -247,28 +247,33 @@ class APIPetitionTest(APITestCase):
             self.assertEqual(len(travel_info), 2)
 
     def test_submission_cancellation(self):
-        data = {'project': self.project,
-                'task_start_date': self.start_date,
-                'task_end_date': self.end_date,
-                'status': 2,
-                'dse': 1,
-                'user': self.user}
-        petition = Petition.objects.create(**data)
-        submission_endpoint = reverse('userpetitionsubmission-list')
-        cancel_url = submission_endpoint + str(petition.id) + '/cancel/'
-        response = self.client.post(cancel_url, format='json')
-        self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
-        response = self.client.get(dict(response.items())['location'],
-                                   format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        submission_apis = [('userpetitionsubmission',
+                            Petition.SUBMITTED_BY_USER),
+                           ('secretarypetitionsubmission',
+                            Petition.SUBMITTED_BY_SECRETARY)]
+        for base_name, petition_status in submission_apis:
+            data = {'project': self.project,
+                    'task_start_date': self.start_date,
+                    'task_end_date': self.end_date,
+                    'status': petition_status,
+                    'dse': 1,
+                    'user': self.user}
+            petition = Petition.objects.create(**data)
+            submission_endpoint = reverse(base_name + '-list')
+            cancel_url = submission_endpoint + str(petition.id) + '/cancel/'
+            response = self.client.post(cancel_url, format='json')
+            self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
+            response = self.client.get(dict(response.items())['location'],
+                                       format='json')
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        petition.status = 3
-        petition.save()
-        petition = Petition.objects.create(**data)
+            petition.status = petition_status + 1
+            petition.save()
+            petition = Petition.objects.create(**data)
 
-        cancel_url = submission_endpoint + str(petition.id) + '/cancel/'
-        response = self.client.post(cancel_url, format='json')
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+            cancel_url = submission_endpoint + str(petition.id) + '/cancel/'
+            response = self.client.post(cancel_url, format='json')
+            self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_petition_filtering_per_user(self):
         # create a petition from current user(save endpoint)

@@ -42,7 +42,6 @@ router_secretary.register(
                           serializer_module_name='petition'),
     base_name='secretarypetitionsubmission')
 
-
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browseable API.
 admin.autodiscover()

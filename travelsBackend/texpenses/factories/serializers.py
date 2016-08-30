@@ -45,10 +45,10 @@ def factory(model_class, serializer_module_name=None, api_name='APITravel'):
         model_class.__name__, (serializers.HyperlinkedModelSerializer,),
         class_dict)
     utils.set_attrs(cls.Meta, model_api_class, SERIALIZER_ATTRS)
-    module_name = utils.camel2snake(model_class.__name__)\
-        if not serializer_module_name else serializer_module_name
+    module_name = utils.camel2snake(model_class.__name__)
     module = utils.get_package_module(
-        CUSTOM_SERIALIZERS_CODE + '.' + module_name)
+        CUSTOM_SERIALIZERS_CODE + '.' + (
+            serializer_module_name or module_name))
     utils.bound_methods(cls, module)
     return cls
 

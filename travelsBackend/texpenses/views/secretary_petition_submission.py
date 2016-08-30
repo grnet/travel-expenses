@@ -3,10 +3,10 @@ from rest_framework import status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from texpenses.models import UserPetitionSubmission
+from texpenses.models import SecretaryPetitionSubmission
 
 
-EXPOSED_METHODS = ['cancel','get_queryset']
+EXPOSED_METHODS = ['cancel', 'get_queryset']
 
 
 @detail_route(methods=['post'])
@@ -14,7 +14,7 @@ def cancel(self, request, pk=None):
     submitted = self.get_object()
     try:
         petition_id = submitted.status_rollback()
-        headers = {'location': reverse('userpetition-detail',
+        headers = {'location': reverse('secretarypetition-detail',
                                        args=[petition_id])}
         return Response(headers=headers, status=status.HTTP_303_SEE_OTHER)
     except PermissionDenied as e:
@@ -23,4 +23,4 @@ def cancel(self, request, pk=None):
 
 
 def get_queryset(self):
-    return UserPetitionSubmission.objects.filter(user=self.request.user)
+    return SecretaryPetitionSubmission.objects.filter(user=self.request.user)
