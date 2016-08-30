@@ -14,7 +14,7 @@ export default BaseValidator.extend({
 				length=9;
 
 			if (length!=9) {
-				return 'AFM should be 9 digits, current length:'+length;
+				return 'current length:'+length;
 			}
 		}
 
