@@ -44,6 +44,8 @@ export default {
  	'form.button.submit': 'Υποβολη',
  	'form.button.login': 'Εισοδος',
  	//tabs
+ 	'login.tab': 'Είσοδος',
+ 	'signup.tab': 'Εγγραφή',
  	'logout.tab': 'Eξοδος',
  	'profile.tab': 'Προφίλ',
  	'new_petition.tab': 'Νέα Αίτηση',

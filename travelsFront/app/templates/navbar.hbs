@@ -11,8 +11,8 @@
     {{#paper-content}}
       {{#paper-list}}
         {{#unless session.isAuthenticated}}
-            {{#menu-item onClick=(transition-to "login")}}Login{{/menu-item}}
-            {{#menu-item onClick=(transition-to "signup")}}Signup{{/menu-item}}
+            {{#menu-item onClick=(transition-to "login")}}{{t 'login.tab'}}{{/menu-item}}
+            {{#menu-item onClick=(transition-to "signup")}}{{t 'signup.tab'}}{{/menu-item}}
         {{else}}
             {{#paper-content classNames='login-info layout-padding layout-row'}}
                 {{#paper-content classNames="user-label" flex="80" padding=1 }}{{t 'logged_in_as.title'}}{{ account.user.username }}{{/paper-content}}
