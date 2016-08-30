@@ -747,31 +747,31 @@ class Petition(TravelUserProfile, SecretarialInfo, ParticipationInfo):
 
 class PetitionManager(models.Manager):
 
-    def __init__(self, status, *args, **kwargs):
-        self.status = status
+    def __init__(self, status_list, *args, **kwargs):
+        self.status_list = status_list
         super(PetitionManager, self).__init__(*args, **kwargs)
 
-    def create(self, *args, **kwargs):
-        """
-        Add status argument for creating model based on the status specified
-        by this manager.
-        """
-        kwargs['status'] = self.status
-        return super(PetitionManager, self).create(
-            *args, **kwargs)
+    # def create(self, *args, **kwargs):
+        # """
+        # Add status argument for creating model based on the status specified
+        # by this manager.
+        # """
+        # kwargs['status'] = self.status
+        # return super(PetitionManager, self).create(
+            # *args, **kwargs)
 
     def get_queryset(self):
         """
         Filters Petition objects by the status specified by this manager.
         """
         return super(PetitionManager, self).get_queryset()\
-            .filter(status=self.status, deleted=False)
+            .filter(status__in=self.status_list, deleted=False)
 
 
 class UserPetition(Petition):
 
     """ A proxy model for the temporary saved petition by user. """
-    objects = PetitionManager(Petition.SAVED_BY_USER)
+    objects = PetitionManager([Petition.SAVED_BY_USER])
 
     class Meta:
         proxy = True
@@ -785,7 +785,8 @@ class UserPetition(Petition):
             'status': {'default': Petition.SAVED_BY_USER},
             'task_start_date': {'required': False},
             'task_end_date': {'required': False},
-            'travel_info': {'required': False}
+            'travel_info': {'required': False},
+            'status': {'default': Petition.SAVED_BY_USER}
         }
 
         @staticmethod
@@ -797,7 +798,7 @@ class UserPetition(Petition):
 class UserPetitionSubmission(Petition):
 
     """ A proxy model for the temporary submitted petitions by user. """
-    objects = PetitionManager(Petition.SUBMITTED_BY_USER)
+    objects = PetitionManager([Petition.SUBMITTED_BY_USER])
 
     class Meta:
         proxy = True
@@ -822,7 +823,8 @@ class UserPetitionSubmission(Petition):
             },
             'task_end_date': {
                 'required': True, 'allow_null': False
-            }
+            },
+            'status': {'default': Petition.SUBMITTED_BY_USER}
 
         }
 
@@ -850,7 +852,8 @@ class UserPetitionSubmission(Petition):
 class SecretaryPetition(Petition):
 
     """ A proxy model for the temporary saved petitions by secretary. """
-    objects = PetitionManager(Petition.SAVED_BY_SECRETARY)
+    objects = PetitionManager([Petition.SUBMITTED_BY_USER,
+                               Petition.SAVED_BY_SECRETARY])
 
     class Meta:
         proxy = True
@@ -871,19 +874,16 @@ class SecretaryPetition(Petition):
             'status': {'default': Petition.SAVED_BY_USER},
             'task_start_date': {'required': False},
             'task_end_date': {'required': False},
-            'travel_info': {'required': False}
-        }
+            'travel_info': {'required': False},
+            'status': {'default': Petition.SAVED_BY_SECRETARY}
 
-        @staticmethod
-        def get_queryset(*args):
-            user = args[0]
-            return SecretaryPetition.objects.filter(user=user)
+        }
 
 
 class SecretaryPetitionSubmission(Petition):
 
     """ A proxy model for the temporary submitted petitions by secretary. """
-    objects = PetitionManager(Petition.SUBMITTED_BY_SECRETARY)
+    objects = PetitionManager([Petition.SUBMITTED_BY_SECRETARY])
 
     class Meta:
         proxy = True
@@ -926,11 +926,6 @@ class SecretaryPetitionSubmission(Petition):
                 'default': Petition.SUBMITTED_BY_SECRETARY
             }
         }
-
-        @staticmethod
-        def get_queryset(*args):
-            user = args[0]
-            return SecretaryPetitionSubmission.objects.filter(user=user)
 
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.

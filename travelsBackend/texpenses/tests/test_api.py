@@ -103,7 +103,10 @@ class APIPetitionTest(APITestCase):
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
             petitions = self.client.get(url)
             fields = model.APITravel.fields
-            self.assertEqual(len(petitions.data), 1)
+
+            self.assertEqual(len(petitions.data), 1) \
+                if model != SecretaryPetition else self.assertEqual(
+                    len(petitions.data), 2)
             created_petition = petitions.data[0]
 
             for field in created_petition:
