@@ -751,15 +751,6 @@ class PetitionManager(models.Manager):
         self.status_list = status_list
         super(PetitionManager, self).__init__(*args, **kwargs)
 
-    # def create(self, *args, **kwargs):
-        # """
-        # Add status argument for creating model based on the status specified
-        # by this manager.
-        # """
-        # kwargs['status'] = self.status
-        # return super(PetitionManager, self).create(
-            # *args, **kwargs)
-
     def get_queryset(self):
         """
         Filters Petition objects by the status specified by this manager.
