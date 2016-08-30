@@ -1,7 +1,7 @@
 {{#if newPetition}}
-{{ page-toolbar pageTitle="Create a petition" }}
+	{{ page-toolbar pageTitle=(t "petition_create.title") }}
 {{else}}
-{{ page-toolbar pageTitle="Edit petition" }}
+	{{ page-toolbar pageTitle=(t "petition_edit.title") }}
 {{/if}}
 
 {{#paper-content classNames="md-padding"}}

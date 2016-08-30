@@ -51,11 +51,11 @@ export default {
  	'submitted_petitions.tab': 'Υποβεβλημένες Αιτήσεις',
  	'petitions_for_approval.tab': 'Αιτήσεις προς Έγκριση',
  	//titles
- 	'login': 'Είσοδος',
+ 	'login.title': 'Είσοδος',
  	'logged_in_as.title': 'Συνδεθήκατε ως: ',
- 	'signup': 'Δημιουργία Λογαριασμού',
- 	'profile': 'Προφίλ',
- 	'petition_create': 'Δημιουργια Αιτησης',
- 	'petition_edit': 'Επεξεργασια Αιτησης',
- 	'petition_list': 'Λίστα Αιτήσεων',
+ 	'signup.title': 'Δημιουργία Λογαριασμού',
+ 	'profile.title': 'Προφίλ',
+ 	'petition_create.title': 'Δημιουργία Αίτησης',
+ 	'petition_edit.title': 'Επεξεργασία Αίτησης',
+ 	'petition_list.title': 'Λίστα Αιτήσεων',
 };
