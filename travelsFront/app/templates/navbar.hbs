@@ -15,7 +15,7 @@
             {{#menu-item onClick=(transition-to "signup")}}Signup{{/menu-item}}
         {{else}}
             {{#paper-content classNames='login-info layout-padding layout-row'}}
-                {{#paper-content classNames="user-label" flex="80" padding=1 }}{{t 'logged_in_as.titile'}}{{ account.user.username }}{{/paper-content}}
+                {{#paper-content classNames="user-label" flex="80" padding=1 }}{{t 'logged_in_as.title'}}{{ account.user.username }}{{/paper-content}}
                 {{#paper-button flex="20" raised=true onClick=(action 'invalidateSession')}}{{t 'logout.tab'}}{{/paper-button}}
             {{/paper-content}}
             {{#menu-item onClick=(transition-to "profile")}}{{t 'profile.tab'}}{{/menu-item}}

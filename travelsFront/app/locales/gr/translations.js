@@ -52,7 +52,7 @@ export default {
  	'petitions_for_approval.tab': 'Αιτήσεις προς Έγκριση',
  	//titles
  	'login': 'Είσοδος',
- 	'logged_in_as.titile': 'Συνδεθήκατε ως: ',
+ 	'logged_in_as.title': 'Συνδεθήκατε ως: ',
  	'signup': 'Δημιουργία Λογαριασμού',
  	'profile': 'Προφίλ',
  	'petition_create': 'Δημιουργια Αιτησης',
