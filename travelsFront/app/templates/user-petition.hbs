@@ -1,7 +1,7 @@
 {{#if newPetition}}
-    {{ page-toolbar pageTitle=(t "create") }}
+    {{ page-toolbar pageTitle=(t "petition_create") }}
 {{else}}
-    {{ page-toolbar pageTitle=(t "edit") }}    
+    {{ page-toolbar pageTitle=(t "petition_edit") }}    
 {{/if}}
 
 
@@ -16,7 +16,7 @@
                 warn=true
                 raised=true
                 disabled=modelform.inProgress
-            }}{{t 'b_submit'}}{{/paper-button}}
+            }}{{t 'form_button_submit'}}{{/paper-button}}
         {{/ form.controls}}
     {{/ model-form/form }}
 {{/paper-content}}

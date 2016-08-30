@@ -40,9 +40,9 @@ export default {
   'travel_data.label': 'Στοιχεία μετακίνησης',
   'user_data.label': 'Στοιχεία χρήστη',
  	//buttons
- 	'b_save': 'Αποθηκευση',
- 	'b_submit': 'Υποβολη',
- 	'b_login': 'Εισοδος',
+ 	'form_button_save': 'Αποθηκευση',
+ 	'form_button_submit': 'Υποβολη',
+ 	'form_button_login': 'Εισοδος',
  	//tabs
  	'profile': 'Προφίλ',
  	'new_petition': 'Νέα Αίτηση',
@@ -53,8 +53,7 @@ export default {
  	'login': 'Είσοδος',
  	'signup': 'Δημιουργία Λογαριασμού',
  	'profile': 'Προφίλ',
- 	'create': 'Δημιουργια Αιτησης',
- 	'edit': 'Επεξεργασια Αιτησης',
+ 	'petition_create': 'Δημιουργια Αιτησης',
+ 	'petition_edit': 'Επεξεργασια Αιτησης',
  	'petition_list': 'Λίστα Αιτήσεων',
-
 };
