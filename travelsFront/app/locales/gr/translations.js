@@ -49,6 +49,7 @@ export default {
  	'user_category.label': 'Κατηγορία Χρήστη',
  	'my_account.label': 'Στοιχεία Λογαριασμού',
  	'personal_info.label': 'Προσωπικά Στοιχεία',
+    'hint_email.label': 'Μια έγκυρη διεύθυνση email',
  	//petition
  	'dse.label': 'ΔΣΕ',
  	'project.label': 'Έργο - Υπεύθυνος Έργου',

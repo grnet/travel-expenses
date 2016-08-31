@@ -64,7 +64,7 @@ export default DS.Model.extend(Validations, {
     }
   }),
 	'email': DS.attr({
-    hint: 'A valid email address'
+    hint: 'hint_email.label'
   }),
 	'first_name': DS.attr(),
 	'last_name': DS.attr(), 
