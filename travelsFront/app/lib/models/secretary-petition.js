@@ -1,4 +1,10 @@
 import {Petition} from 'travels-front/lib/models/petition';
+import Ember from 'ember';
+import DS from 'ember-data';
+import ENV from 'travels-front/config/environment'; 
+
+const CHOICES = ENV.APP.resource_choices,
+      CURRENCY = [[ENV.default_currency, ENV.default_currency]];
 
 export var SecretaryPetition = Petition.extend({
     // profile fields
