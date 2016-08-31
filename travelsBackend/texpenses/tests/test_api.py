@@ -88,7 +88,6 @@ class APIPetitionTest(APITestCase):
         self.user_url = reverse('userprofile-detail', args=[1])
 
     def test_create_user_petition(self):
-        self.client.force_authenticate(user=self.user)
         self.assertRaises(ObjectDoesNotExist,
                           Petition.objects.get, project=self.project)
         data = {'project': self.project_url,
@@ -103,10 +102,7 @@ class APIPetitionTest(APITestCase):
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
             petitions = self.client.get(url)
             fields = model.APITravel.fields
-
-            self.assertEqual(len(petitions.data), 1) \
-                if model != SecretaryPetition else self.assertEqual(
-                    len(petitions.data), 2)
+            self.assertEqual(len(petitions.data), 1)
             created_petition = petitions.data[0]
 
             for field in created_petition:

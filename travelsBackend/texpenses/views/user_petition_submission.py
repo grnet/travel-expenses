@@ -3,8 +3,8 @@ from rest_framework import status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-
-EXPOSED_METHODS = ['cancel']
+from texpenses.models import UserPetitionSubmission
+EXPOSED_METHODS = ['cancel','get_queryset']
 
 
 @detail_route(methods=['post'])
@@ -18,3 +18,7 @@ def cancel(self, request, pk=None):
     except PermissionDenied as e:
         return Response({'detail': e.message},
                         status=status.HTTP_403_FORBIDDEN)
+
+
+def get_queryset(self):
+   return UserPetitionSubmission.objects.filter(user=self.request.user)

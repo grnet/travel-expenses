@@ -7,7 +7,6 @@ from texpenses.factories import utils
 from texpenses.factories.serializers import factory as serializer_factory
 
 
-DEFAULT_QUERYSET = lambda model: model.objects.all()
 FILTERING_BACKENDS = {
     'filter_fields': filters.DjangoFilterBackend,
     'search_fields': filters.SearchFilter,
@@ -40,17 +39,11 @@ def factory(model_class, custom_permissions=(), api_name='APITravel',
 
     model_api_meta = getattr(model_class, api_name)
     assert model_api_meta is not None
-
-    def get_queryset(self):
-        queryset = getattr(model_api_meta, 'get_queryset', None)
-        return queryset(self.request.user) if queryset else\
-            DEFAULT_QUERYSET(model_class)
-
     class_dict = {
         'authentication_classes': (SessionAuthentication, TokenAuthentication),
         'permission_classes': (IsAuthenticated,) + custom_permissions + (
             DjangoModelPermissions,),
-        'get_queryset': get_queryset,
+        'queryset': model_class.objects.all(),
         'filter_backends': (),
         'model_api_meta': getattr(model_class, api_name),
         'serializer_class': serializer_factory(
