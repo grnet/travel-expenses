@@ -22,8 +22,8 @@ var Validations=buildValidations({
   ],
   tax_reg_num: [
     validator('presence', {presence: true}),
+    validator('number', {allowString: true, integer: true}),
     validator('length', {is: 9}),
-    validator('afm-validator')
   ]
 });
 
