@@ -205,7 +205,7 @@ class PetitionTest(TestCase):
     def test_user_petition_manager(self):
         user_petition = UserPetition.objects.create(
             task_start_date=self.start_date, task_end_date=self.end_date,
-            user=self.user, project=self.project)
+            user=self.user, project=self.project,status=1)
         self.assertEqual(user_petition.status, Petition.SAVED_BY_USER)
         self.petition.deleted = True
         self.petition.save()
@@ -215,7 +215,7 @@ class PetitionTest(TestCase):
     def test_user_submission_manager(self):
         user_petition = UserPetitionSubmission.objects.create(
             task_start_date=self.start_date, task_end_date=self.end_date,
-            user=self.user, project=self.project)
+            user=self.user, project=self.project,status=2)
         self.assertEqual(user_petition.status, Petition.SUBMITTED_BY_USER)
         for petition in UserPetitionSubmission.objects.all():
             self.assertEqual(petition.status, Petition.SUBMITTED_BY_USER)
@@ -223,7 +223,7 @@ class PetitionTest(TestCase):
     def test_secretary_petition_manager(self):
         user_petition = SecretaryPetition.objects.create(
             task_start_date=self.start_date, task_end_date=self.end_date,
-            user=self.user, project=self.project)
+            user=self.user, project=self.project,status=3)
         self.assertEqual(user_petition.status, Petition.SAVED_BY_SECRETARY)
         for petition in SecretaryPetition.objects.all():
             self.assertEqual(petition.status, Petition.SAVED_BY_SECRETARY)
@@ -231,7 +231,7 @@ class PetitionTest(TestCase):
     def test_secretary_petition_submission_manager(self):
         user_petition = SecretaryPetitionSubmission.objects.create(
             task_start_date=self.start_date, task_end_date=self.end_date,
-            user=self.user, project=self.project)
+            user=self.user, project=self.project,status=4)
         self.assertEqual(user_petition.status, Petition.SUBMITTED_BY_SECRETARY)
         for petition in SecretaryPetitionSubmission.objects.all():
             self.assertEqual(petition.status, Petition.SUBMITTED_BY_SECRETARY)
@@ -244,7 +244,7 @@ class PetitionTest(TestCase):
         UserPetitionSubmission.objects.create(
             dse=petition.dse,
             task_start_date=self.start_date, task_end_date=self.end_date,
-            user=self.user, project=self.project)
+            user=self.user, project=self.project,status='2')
 
         petition = Petition.objects.get(id=self.petition.id)
         self.assertIsNotNone(petition)
