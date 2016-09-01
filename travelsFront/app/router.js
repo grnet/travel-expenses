@@ -8,14 +8,14 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('login');
   this.route('signup');
+  this.route('login');  
   this.route('profile');
   this.route('petitionList');
-  this.route('userPetition', {path: 'userPetition/:petition_id'});
-  this.route('advancedList');
   this.route('subPetitionList');
-  this.route('secretaryPetition');
+  this.route('userPetition', {path: 'userPetition/:petition_id'});
+  this.route('advancedList');  
+  this.route('secretaryPetition', {path: 'secretaryPetition/:petition_id'});
 });
 
 export default Router;
