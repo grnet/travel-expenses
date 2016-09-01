@@ -100,10 +100,11 @@ class APIPetitionTest(APITestCase):
             data.update(EXTRA_DATA[model])
             response = self.client.post(url, data, format='json')
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-            petitions = self.client.get(url)
+            petition_url = response.data['url']
+            response = self.client.get(petition_url)
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
             fields = model.APITravel.fields
-            self.assertEqual(len(petitions.data), 1)
-            created_petition = petitions.data[0]
+            created_petition = response.data
 
             for field in created_petition:
                 self.assertTrue(field in fields)
