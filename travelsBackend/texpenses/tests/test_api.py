@@ -319,8 +319,9 @@ class APIPetitionTest(APITestCase):
 
         # create a new user and login
         self.user = UserProfile.objects.create_user(
-            username='kostas', first_name='Kostas', last_name='',
+            username='kostas', first_name='Kostas', last_name='Nikolaou',
             email='test@email.com', is_staff=True,
+            kind='1',
             iban='GR4902603280000910200635494', is_superuser=True,
             password='test', specialty='1', tax_reg_num=135362340,
             tax_office=self.tax_office, user_category='A', trip_days_left=5)
