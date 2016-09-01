@@ -10,7 +10,7 @@ export default Ember.Component.extend({
 	actions: {
 
 		edit(id, status) {
-			if (status == 1){
+			if (status == 1 || this.get('account.user.user_group') === "SECRETARY"){
 				this.sendAction('edit', id);
 			}
 		},
