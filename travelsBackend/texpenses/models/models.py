@@ -773,14 +773,14 @@ class PetitionManager(models.Manager):
         """
         base_queryset = super(PetitionManager, self).get_queryset()
         status_dse_map = base_queryset.filter(
-            status__in=self.status_list).values('dse').\
+            status__in=self.status_list, deleted=False).values('dse').\
             annotate(Max('status'))
         q = Q()
         for status_dse in status_dse_map:
             q |= Q(status=status_dse['status__max'],
                    dse=status_dse['dse'])
         return base_queryset.filter(q) if status_dse_map else \
-            base_queryset.filter(status__in=self.status_list)
+            base_queryset.filter(status__in=self.status_list, deleted=False)
 
 
 class UserPetition(Petition):
@@ -855,7 +855,7 @@ class UserPetitionSubmission(Petition):
 class SecretaryPetition(Petition):
 
     """ A proxy model for the temporary saved petitions by secretary. """
-    objects = PetitionManager([Petition.SUBMITTED_BY_USER,\
+    objects = PetitionManager([Petition.SUBMITTED_BY_USER,
                                Petition.SAVED_BY_SECRETARY])
 
     class Meta:
