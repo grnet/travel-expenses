@@ -26,7 +26,10 @@ MIXINS = {
 }
 
 
-def factory(model_class, custom_permissions=(), api_name='APITravel',
+API_CLS_NAME = 'API'
+
+
+def factory(model_class, custom_permissions=(),
             view_module_name=None, serializer_module_name=None):
     """TODO: Docstring for viewset_factory.
 
@@ -37,7 +40,7 @@ def factory(model_class, custom_permissions=(), api_name='APITravel',
     if not model_class:
         raise Exception
 
-    model_api_meta = getattr(model_class, api_name)
+    model_api_meta = getattr(model_class, API_CLS_NAME)
     assert model_api_meta is not None
 
     def get_queryset(self):
@@ -49,7 +52,7 @@ def factory(model_class, custom_permissions=(), api_name='APITravel',
             DjangoModelPermissions,),
         'get_queryset': get_queryset,
         'filter_backends': (),
-        'model_api_meta': getattr(model_class, api_name),
+        'model_api_meta': getattr(model_class, API_CLS_NAME),
         'serializer_class': serializer_factory(
             model_class, serializer_module_name),
     }

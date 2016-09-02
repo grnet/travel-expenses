@@ -17,7 +17,10 @@ class InvalidProxyModel(Exception):
     pass
 
 
-def factory(model_class, serializer_module_name=None, api_name='APITravel'):
+API_CLS_NAME = 'API'
+
+
+def factory(model_class, serializer_module_name=None):
     """ Generalized serializer factory to increase DRYness of code.
 
     :param model_class: The model for the HyperLinkedModelSerializer
@@ -36,7 +39,7 @@ def factory(model_class, serializer_module_name=None, api_name='APITravel'):
     class_dict = {
         'Meta': Meta,
     }
-    model_api_class = getattr(model_class, api_name)
+    model_api_class = getattr(model_class, API_CLS_NAME)
     assert model_api_class is not None
 
     nested_serializers = get_nested_serializer(model_class, model_api_class)

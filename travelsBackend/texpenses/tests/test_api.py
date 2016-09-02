@@ -124,7 +124,7 @@ class APIPetitionTest(APITestCase):
             petition_url = response.data['url']
             response = self.client.get(petition_url)
             self.assertEqual(response.status_code, status.HTTP_200_OK)
-            fields = model.APITravel.fields
+            fields = model.API.fields
             created_petition = response.data
 
             for field in created_petition:
@@ -207,7 +207,7 @@ class APIPetitionTest(APITestCase):
                 }
         for model, url in COMPENSATION_APIS:
             data.update(EXTRA_DATA[model])
-            for field, attrs in model.APITravel.extra_kwargs.iteritems():
+            for field, attrs in model.API.extra_kwargs.iteritems():
                 response = self.client.post(url, data, format='json')
                 self.assertEqual(response.status_code, status.HTTP_201_CREATED)
                 if attrs.get('required', False):

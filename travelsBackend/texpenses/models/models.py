@@ -27,7 +27,7 @@ class TaxOffice(models.Model):
     email = models.EmailField(blank=False)
     phone = models.CharField(max_length=20, blank=False)
 
-    class APITravel(object):
+    class API(object):
         fields = ('id', 'url', 'name', 'description', 'address',
                   'email', 'phone')
         read_only_fields = ('id', 'url')
@@ -80,7 +80,7 @@ class UserProfile(AbstractUser, TravelUserProfile):
         validators=[MaxValueValidator(settings.MAX_HOLIDAY_DAYS),
                     MinValueValidator(0)])
 
-    class APITravel(object):
+    class API(object):
         fields = ('username', 'first_name', 'last_name', 'email',
                   'iban', 'specialty', 'kind', 'tax_reg_num', 'tax_office',
                   'user_category', 'user_group', 'trip_days_left')
@@ -111,7 +111,7 @@ class Project(models.Model):
     manager_email = models.EmailField(max_length=256, blank=False, null=True)
     manager = models.ForeignKey(UserProfile, blank=True)
 
-    class APITravel(object):
+    class API(object):
         fields = ('id', 'url', 'name', 'accounting_code',
                   'manager_name', 'manager_surname', 'manager_email',
                   'manager')
@@ -143,7 +143,7 @@ class Country(models.Model):
         max_length=3, choices=common.CURRENCIES, blank=False,
         default=settings.DEFAULT_CURRENCY)
 
-    class APITravel(object):
+    class API(object):
         fields = ('id', 'url', 'name', 'category', 'currency')
         read_only_fields = ('id', 'url', 'category', 'currency')
         allowed_operations = ('list', 'retrieve')
@@ -160,7 +160,7 @@ class City(models.Model):
     name = models.CharField(max_length=100, blank=False)
     country = models.ForeignKey(Country, blank=False)
 
-    class APITravel(object):
+    class API(object):
         fields = ('id', 'url', 'name', 'country')
         read_only_fields = ('id', 'url', 'country')
         nested_relations = [('country', 'country')]
@@ -244,7 +244,7 @@ class TravelInfo(Accommodation, Transportation):
     tracked_fields = ['depart_date', 'return_date']
     tracker = FieldTracker(fields=tracked_fields)
 
-    class APITravel:
+    class API:
         fields = ('id', 'arrival_point', 'departure_point',
                   'means_of_transport',
                   'accommodation_cost', 'accommodation_default_currency',
@@ -419,10 +419,10 @@ class TravelInfoUserSubmission(TravelInfo):
     class Meta:
         proxy = True
 
-    class APITravel:
-        fields = TravelInfo.APITravel.fields
-        read_only_fields = TravelInfo.APITravel.read_only_fields
-        allowed_operations = TravelInfo.APITravel.allowed_operations
+    class API:
+        fields = TravelInfo.API.fields
+        read_only_fields = TravelInfo.API.read_only_fields
+        allowed_operations = TravelInfo.API.allowed_operations
         extra_kwargs = {
             'arrival_point': {
                 'required': True, 'allow_null': False
@@ -439,10 +439,10 @@ class TravelInfoSecretarySubmission(TravelInfo):
     class Meta:
         proxy = True
 
-    class APITravel:
-        fields = TravelInfo.APITravel.fields
-        read_only_fields = TravelInfo.APITravel.read_only_fields
-        allowed_operations = TravelInfo.APITravel.allowed_operations
+    class API:
+        fields = TravelInfo.API.fields
+        read_only_fields = TravelInfo.API.read_only_fields
+        allowed_operations = TravelInfo.API.allowed_operations
         extra_kwargs = {
             'arrival_point': {
                 'required': True, 'allow_null': False
@@ -617,7 +617,7 @@ class Petition(SecretarialInfo, ParticipationInfo):
     tracked_fields = ['task_start_date', 'task_end_date']
     tracker = FieldTracker()
 
-    class APITravel:
+    class API:
         fields = ('id', 'dse', 'first_name', 'last_name', 'kind',
                   'specialty', 'tax_office', 'tax_reg_num', 'user_category',
                   'user', 'iban',
@@ -823,11 +823,9 @@ class UserPetition(Petition):
     class Meta:
         proxy = True
 
-    class APITravel:
-        fields = Petition.APITravel.fields
-        filter_fields = Petition.APITravel.filter_fields
-        search_fields = Petition.APITravel.search_fields
-        read_only_fields = Petition.APITravel.read_only_fields + (
+    class API:
+        fields = Petition.API.fields
+        read_only_fields = Petition.API.read_only_fields + (
             'dse', 'user')
         nested_relations = [('travel_info', 'travel_info')]
         extra_kwargs = {
@@ -850,11 +848,9 @@ class UserPetitionSubmission(Petition):
     class Meta:
         proxy = True
 
-    class APITravel:
-        fields = Petition.APITravel.fields
-        filter_fields = Petition.APITravel.filter_fields
-        search_fields = Petition.APITravel.search_fields
-        read_only_fields = Petition.APITravel.read_only_fields + ('user',)
+    class API:
+        fields = Petition.API.fields
+        read_only_fields = Petition.API.read_only_fields + ('user',)
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoUserSubmission)]
         extra_kwargs = {
@@ -905,8 +901,8 @@ class SecretaryPetition(Petition):
     class Meta:
         proxy = True
 
-    class APITravel:
-        fields = Petition.APITravel.fields + (
+    class API:
+        fields = Petition.API.fields + (
             'non_grnet_quota', 'grnet_quota', 'user',
             'expenditure_protocol',
             'expenditure_date_protocol', 'movement_protocol',
@@ -915,10 +911,7 @@ class SecretaryPetition(Petition):
             'compensation_decision_protocol',
             'compensation_decision_date', 'movement_id',
             'manager_travel_approval', 'manager_final_approval')
-
-        filter_fields = Petition.APITravel.filter_fields
-        search_fields = Petition.APITravel.search_fields
-        read_only_fields = Petition.APITravel.read_only_fields
+        read_only_fields = Petition.API.read_only_fields
         nested_relations = [('travel_info', 'travel_info')]
         extra_kwargs = {
             'dse': {'required': False, 'allow_null': True},
@@ -941,8 +934,8 @@ class SecretaryPetitionSubmission(Petition):
     class Meta:
         proxy = True
 
-    class APITravel:
-        fields = Petition.APITravel.fields + (
+    class API:
+        fields = Petition.API.fields + (
             'non_grnet_quota', 'grnet_quota', 'user', 'movement_id',
             'expenditure_protocol',
             'expenditure_date_protocol',
@@ -952,10 +945,7 @@ class SecretaryPetitionSubmission(Petition):
             'compensation_decision_protocol',
             'compensation_decision_date', 'manager_travel_approval',
             'manager_final_approval')
-
-        filter_fields = Petition.APITravel.filter_fields
-        search_fields = Petition.APITravel.search_fields
-        read_only_fields = Petition.APITravel.read_only_fields
+        read_only_fields = Petition.API.read_only_fields
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoSecretarySubmission)]
         extra_kwargs = {
