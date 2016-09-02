@@ -8,8 +8,8 @@ SERIALIZER_ATTRS = [('fields', '__all__'),
                     ('write_only_fields', None), ('extra_kwargs', None)]
 
 
-PACKAGE_LOOKUP = 'serializer_code'
-MODULE_LOOKUP = 'serializer_module_name'
+PACKAGE_LOOKUP_FIELD = 'serializer_code'
+MODULE_LOOKUP_FIELD = 'serializer_module_name'
 API_CLS_NAME = 'API'
 
 
@@ -41,8 +41,9 @@ def generate(model_class):
         model_class.__name__, (serializers.HyperlinkedModelSerializer,),
         class_dict)
     utils.set_attrs(cls.Meta, model_api_class, SERIALIZER_ATTRS)
-    module = utils.get_module(model_class, model_api_class, PACKAGE_LOOKUP,
-                              MODULE_LOOKUP)
+    module = utils.get_module(
+        model_class, model_api_class, PACKAGE_LOOKUP_FIELD,
+        MODULE_LOOKUP_FIELD)
     if module:
         utils.bound_methods(cls, module)
     return cls

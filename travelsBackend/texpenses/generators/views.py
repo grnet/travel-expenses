@@ -25,8 +25,8 @@ MIXINS = {
 }
 
 
-PACKAGE_LOOKUP = 'viewset_code'
-MODULE_LOOKUP = 'viewset_module_name'
+PACKAGE_LOOKUP_FIELD = 'viewset_code'
+MODULE_LOOKUP_FIELD = 'viewset_module_name'
 API_CLS_NAME = 'API'
 
 
@@ -57,8 +57,9 @@ def generate(model_class):
                class_dict)
     utils.set_attrs(cls, model_api_meta, VIEWSET_ATTRS)
     init_filter_backends(cls)
-    module = utils.get_module(model_class, model_api_meta, PACKAGE_LOOKUP,
-                              MODULE_LOOKUP)
+    module = utils.get_module(
+        model_class, model_api_meta, PACKAGE_LOOKUP_FIELD,
+        MODULE_LOOKUP_FIELD)
     if module:
         utils.bound_methods(cls, module)
     return cls
