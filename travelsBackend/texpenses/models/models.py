@@ -568,9 +568,7 @@ class Petition(SecretarialInfo, ParticipationInfo):
     dse = models.IntegerField(blank=False, validators=[MinValueValidator(1)])
     travel_info = models.ManyToManyField(TravelInfo, blank=True)
 
-    user = models.ForeignKey(UserProfile, blank=False,
-                             validators=[functools.partial(
-                                 required_validator, fields=USER_FIELDS)])
+    user = models.ForeignKey(UserProfile, blank=False)
     task_start_date = models.DateTimeField(
         blank=True, null=True, validators=[date_validator])
     task_end_date = models.DateTimeField(
@@ -891,8 +889,11 @@ class SecretaryPetition(Petition):
             'task_start_date': {'required': False},
             'task_end_date': {'required': False},
             'travel_info': {'required': False},
-            'status': {'default': Petition.SAVED_BY_SECRETARY}
-
+            'status': {'default': Petition.SAVED_BY_SECRETARY},
+            'user': {
+                'validators': [functools.partial(
+                    required_validator, fields=Petition.USER_FIELDS)]
+            },
         }
 
 
@@ -940,7 +941,11 @@ class SecretaryPetitionSubmission(Petition):
             },
             'status': {
                 'default': Petition.SUBMITTED_BY_SECRETARY
-            }
+            },
+            'user': {
+                'validators': [functools.partial(
+                    required_validator, fields=Petition.USER_FIELDS)]
+            },
         }
 
     def save(self, **kwargs):
