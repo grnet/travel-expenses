@@ -18,6 +18,33 @@ def get_package_module(module_name):
         return None
 
 
+def get_module(model_class, api_class, package_lookup, module_lookup):
+    """
+    This functions gets the module object which contains custom implementation
+    which should be bounded to a dynamically generated class (Serializer or
+    ViewSet).
+
+    API meta classes should specify the package where custom code is located.
+    Moreover, it looks a module whose name is equal to the snake_case name
+    of the model class in order to retrieve code specific to the corresponding
+    model class. However, it is possible to override its name.
+
+    :param model_class: Model class.
+    :param api_class: API class which corresponds to the model.
+    :param package_lookup: Field name of API class which stores the location
+    of custom code.
+    :param module_lookup: Field name of API class which stores the name of
+    module inside the aforementioned package.
+    """
+    package = getattr(api_class, package_lookup, None)
+    if not package:
+        return
+    default_module_name = camel2snake(model_class.__name__)
+    module_name = getattr(api_class, module_lookup, None)
+    return get_package_module(package + '.' + (
+        module_name or default_module_name))
+
+
 def camel2snake(name_camel_case):
     """ Converts a CamelCase string to snake_case. """
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name_camel_case)
