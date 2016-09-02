@@ -84,6 +84,12 @@ export default {
   'movement_date_protocol.label': 'Ημ. Πρ. Απόφασης Μετακίνησης',
   'movement_protocol.label': 'Αρ. Πρ. Απόφασης Μετακίνησης',
   'trip_days_before.label': 'Εναπομείνασες Ημέρες Μετακίνησης Εργασιών: Πριν',
+  'transportation_payment_way.label': 'Πληρωμή με:',
+  'transportation_payment_description.label': 'Περιγραφή',
+  'accommodation_payment_way.label': 'Πληρωμή με:',
+  'accommodation_payment_description.label': 'Περιγραφή',
+  'participation_payment_way.label': 'Πληρωμή με:',
+  'participation_payment_description.label': 'Περιγραφή',
   //computational data
   'transport_days_manual.label': 'Ημέρες Μετακίνησης Εργασιών',
   'transport_days_proposed.label': 'Ημέρες Μετακίνησης Εργασιών (προτεινόμενη τιμή)',
