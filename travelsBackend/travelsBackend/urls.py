@@ -28,8 +28,7 @@ router_resources.register(r'country', factory(Country), base_name='country')
 
 
 router_user.register(
-    r'saved', factory(UserPetition),
-    base_name='userpetition')
+    r'saved', factory(UserPetition), base_name='userpetition')
 router_secretary.register(
     r'saved', factory(SecretaryPetition))
 router_user.register(

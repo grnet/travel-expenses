@@ -30,7 +30,7 @@ MODULE_LOOKUP = 'viewset_module_name'
 API_CLS_NAME = 'API'
 
 
-def factory(model_class, custom_permissions=()):
+def factory(model_class):
     """TODO: Docstring for viewset_factory.
 
     :model_class: TODO
@@ -48,8 +48,7 @@ def factory(model_class, custom_permissions=()):
 
     class_dict = {
         'authentication_classes': (SessionAuthentication, TokenAuthentication),
-        'permission_classes': (IsAuthenticated,) + custom_permissions + (
-            DjangoModelPermissions,),
+        'permission_classes': (IsAuthenticated, DjangoModelPermissions),
         'get_queryset': get_queryset,
         'filter_backends': (),
         'model_api_meta': getattr(model_class, API_CLS_NAME),
