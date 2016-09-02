@@ -2,6 +2,14 @@ import importlib
 import re
 
 
+class ModelFieldNotRelated(Exception):
+    pass
+
+
+class InvalidProxyModel(Exception):
+    pass
+
+
 def get_package_module(module_name):
     """
     This function loads programtically the desired module which is located in

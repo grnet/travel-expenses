@@ -8,14 +8,6 @@ SERIALIZER_ATTRS = [('fields', '__all__'),
                     ('write_only_fields', None), ('extra_kwargs', None)]
 
 
-class ModelFieldNotRelated(Exception):
-    pass
-
-
-class InvalidProxyModel(Exception):
-    pass
-
-
 PACKAGE_LOOKUP = 'serializer_code'
 MODULE_LOOKUP = 'serializer_module_name'
 API_CLS_NAME = 'API'
@@ -77,7 +69,7 @@ def get_related_model(model, model_field_name):
     """
     model_field = model._meta.get_field(model_field_name)
     if model_field.rel is None:
-        raise ModelFieldNotRelated(
+        raise utils.ModelFieldNotRelated(
             'Field %s is not related with another model' % (
                 repr(model_field_name)))
     return model_field.rel.to
@@ -102,7 +94,7 @@ def get_base_or_proxy(base_model_class, proxy_model_class):
         return base_model_class
     if not (proxy_model_class._meta.proxy and
             proxy_model_class._meta.concrete_model is base_model_class):
-        raise InvalidProxyModel('Given proxy model %s is invalid' % (
+        raise utils.InvalidProxyModel('Given proxy model %s is invalid' % (
             proxy_model_class.__class__.__name__))
     return proxy_model_class
 
