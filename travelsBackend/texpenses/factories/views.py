@@ -14,7 +14,6 @@ FILTERING_BACKENDS = {
 }
 VIEWSET_ATTRS = [('filter_fields', None), ('ordering_fields', None),
                  ('search_fields', None), ('ordering', None)]
-CUSTOM_VIEWS_CODE = 'texpenses.views'
 
 
 MIXINS = {
@@ -26,11 +25,12 @@ MIXINS = {
 }
 
 
+PACKAGE_LOOKUP = 'viewset_code'
+MODULE_LOOKUP = 'viewset_module_name'
 API_CLS_NAME = 'API'
 
 
-def factory(model_class, custom_permissions=(),
-            view_module_name=None, serializer_module_name=None):
+def factory(model_class, custom_permissions=()):
     """TODO: Docstring for viewset_factory.
 
     :model_class: TODO
@@ -53,17 +53,16 @@ def factory(model_class, custom_permissions=(),
         'get_queryset': get_queryset,
         'filter_backends': (),
         'model_api_meta': getattr(model_class, API_CLS_NAME),
-        'serializer_class': serializer_factory(
-            model_class, serializer_module_name),
+        'serializer_class': serializer_factory(model_class),
     }
     cls = type(model_class.__name__, get_bases_classes(model_api_meta),
                class_dict)
     utils.set_attrs(cls, cls.model_api_meta, VIEWSET_ATTRS)
     init_filter_backends(cls)
-    module_name = utils.camel2snake(model_class.__name__)
-    module = utils.get_package_module(
-        CUSTOM_VIEWS_CODE + '.' + (view_module_name or module_name))
-    utils.bound_methods(cls, module)
+    module = utils.get_module(model_class, model_api_meta, PACKAGE_LOOKUP,
+                              MODULE_LOOKUP)
+    if module:
+        utils.bound_methods(cls, module)
     return cls
 
 

@@ -838,6 +838,9 @@ class UserPetition(Petition):
                      'validators': [functools.partial(
                          required_validator, fields=Petition.USER_FIELDS)]}
         }
+        serializer_code = 'texpenses.serializers'
+        serializer_module_name = 'petition'
+        viewset_code = 'texpenses.views'
 
 
 class UserPetitionSubmission(Petition):
@@ -875,6 +878,10 @@ class UserPetitionSubmission(Petition):
                     required_validator, fields=Petition.USER_FIELDS)]
             }
         }
+        serializer_code = 'texpenses.serializers'
+        serializer_module_name = 'petition'
+        viewset_code = 'texpenses.views'
+
 
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
@@ -924,6 +931,9 @@ class SecretaryPetition(Petition):
                     required_validator, fields=Petition.USER_FIELDS)]
             },
         }
+        serializer_code = 'texpenses.serializers'
+        serializer_module_name = 'petition'
+        viewset_code = 'texpenses.views'
 
 
 class SecretaryPetitionSubmission(Petition):
@@ -975,6 +985,9 @@ class SecretaryPetitionSubmission(Petition):
                     required_validator, fields=Petition.USER_FIELDS)]
             },
         }
+        serializer_code = 'texpenses.serializers'
+        serializer_module_name = 'petition'
+        viewset_code = 'texpenses.views'
 
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.

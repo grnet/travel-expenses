@@ -28,27 +28,21 @@ router_resources.register(r'country', factory(Country), base_name='country')
 
 
 router_user.register(
-    r'saved', factory(UserPetition, serializer_module_name='petition'),
+    r'saved', factory(UserPetition),
     base_name='userpetition')
 router_secretary.register(
-    r'saved', factory(SecretaryPetition, serializer_module_name='petition'),
-    base_name='secretarypetition')
+    r'saved', factory(SecretaryPetition))
 router_user.register(
-    r'compensation/saved', factory(UserCompensation,
-                      serializer_module_name='petition'),
+    r'compensation/saved', factory(UserCompensation),
     base_name='usercompensation')
-
 router_user.register(
-    r'submitted', factory(UserPetitionSubmission,
-                          serializer_module_name='petition'),
+    r'submitted', factory(UserPetitionSubmission),
     base_name='userpetitionsubmission')
 router_secretary.register(
-    r'submitted', factory(SecretaryPetitionSubmission,
-                          serializer_module_name='petition'),
+    r'submitted', factory(SecretaryPetitionSubmission),
     base_name='secretarypetitionsubmission')
 router_user.register(
-    r'compensation/submitted', factory(UserCompensationSubmission,
-                      serializer_module_name='petition'),
+    r'compensation/submitted', factory(UserCompensationSubmission),
     base_name='usercompensationsubmission')
 
 # Wire up our API using automatic URL routing.

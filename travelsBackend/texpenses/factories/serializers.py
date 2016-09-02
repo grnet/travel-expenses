@@ -6,7 +6,6 @@ READ_ONLY_FIELDS = ('id', 'url')
 SERIALIZER_ATTRS = [('fields', '__all__'),
                     ('read_only_fields', READ_ONLY_FIELDS),
                     ('write_only_fields', None), ('extra_kwargs', None)]
-CUSTOM_SERIALIZERS_CODE = 'texpenses.serializers'
 
 
 class ModelFieldNotRelated(Exception):
@@ -17,10 +16,12 @@ class InvalidProxyModel(Exception):
     pass
 
 
+PACKAGE_LOOKUP = 'serializer_code'
+MODULE_LOOKUP = 'serializer_module_name'
 API_CLS_NAME = 'API'
 
 
-def factory(model_class, serializer_module_name=None):
+def factory(model_class):
     """ Generalized serializer factory to increase DRYness of code.
 
     :param model_class: The model for the HyperLinkedModelSerializer
@@ -48,11 +49,10 @@ def factory(model_class, serializer_module_name=None):
         model_class.__name__, (serializers.HyperlinkedModelSerializer,),
         class_dict)
     utils.set_attrs(cls.Meta, model_api_class, SERIALIZER_ATTRS)
-    module_name = utils.camel2snake(model_class.__name__)
-    module = utils.get_package_module(
-        CUSTOM_SERIALIZERS_CODE + '.' + (
-            serializer_module_name or module_name))
-    utils.bound_methods(cls, module)
+    module = utils.get_module(model_class, model_api_class, PACKAGE_LOOKUP,
+                              MODULE_LOOKUP)
+    if module:
+        utils.bound_methods(cls, module)
     return cls
 
 
