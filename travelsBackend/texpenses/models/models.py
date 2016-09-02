@@ -31,7 +31,7 @@ class TaxOffice(models.Model):
         fields = ('id', 'url', 'name', 'description', 'address',
                   'email', 'phone')
         read_only_fields = ('id', 'url')
-        allowed_operations = ('list', 'retrieve')
+        allowable_operations = ('list', 'retrieve')
 
     def __unicode__(self):
         return self.name
@@ -85,7 +85,7 @@ class UserProfile(AbstractUser, TravelUserProfile):
                   'iban', 'specialty', 'kind', 'tax_reg_num', 'tax_office',
                   'user_category', 'user_group', 'trip_days_left')
         read_only_fields = ('username', 'trip_days_left', 'user_category')
-        allowed_operations = ('list', 'retrieve')
+        allowable_operations = ('list', 'retrieve')
 
     def user_group(self):
         groups = self.groups.all()
@@ -116,7 +116,7 @@ class Project(models.Model):
                   'manager_name', 'manager_surname', 'manager_email',
                   'manager')
         read_only_fields = ('id', 'url')
-        allowed_operations = ('list', 'retrieve')
+        allowable_operations = ('list', 'retrieve')
 
     def __unicode__(self):
         return self.name
@@ -146,7 +146,7 @@ class Country(models.Model):
     class API(object):
         fields = ('id', 'url', 'name', 'category', 'currency')
         read_only_fields = ('id', 'url', 'category', 'currency')
-        allowed_operations = ('list', 'retrieve')
+        allowable_operations = ('list', 'retrieve')
 
     def __unicode__(self):
         """TODO: to be defined1. """
@@ -164,7 +164,7 @@ class City(models.Model):
         fields = ('id', 'url', 'name', 'country')
         read_only_fields = ('id', 'url', 'country')
         nested_relations = [('country', 'country')]
-        allowed_operations = ('list', 'retrieve')
+        allowable_operations = ('list', 'retrieve')
 
     def __unicode__(self):
         """TODO: to be defined. """
@@ -264,7 +264,7 @@ class TravelInfo(Accommodation, Transportation):
                   'compensation_days_manual', 'meals')
         read_only_fields = ('id', 'transportation_default_currency',
                             'accommodation_default_currency')
-        allowed_operations = ('list', 'retrieve', 'delete')
+        allowable_operations = ('list', 'retrieve', 'delete')
 
     def clean(self):
         if self.depart_date and self.return_date \
@@ -422,7 +422,7 @@ class TravelInfoUserSubmission(TravelInfo):
     class API:
         fields = TravelInfo.API.fields
         read_only_fields = TravelInfo.API.read_only_fields
-        allowed_operations = TravelInfo.API.allowed_operations
+        allowable_operations = TravelInfo.API.allowable_operations
         extra_kwargs = {
             'arrival_point': {
                 'required': True, 'allow_null': False
@@ -442,7 +442,7 @@ class TravelInfoSecretarySubmission(TravelInfo):
     class API:
         fields = TravelInfo.API.fields
         read_only_fields = TravelInfo.API.read_only_fields
-        allowed_operations = TravelInfo.API.allowed_operations
+        allowable_operations = TravelInfo.API.allowable_operations
         extra_kwargs = {
             'arrival_point': {
                 'required': True, 'allow_null': False

@@ -104,7 +104,7 @@ def get_bases_classes(model_api_meta):
     :returns: A tuple of the corresponding base classes.
     """
     bases = (LoggingMixin,)
-    operations = getattr(model_api_meta, 'allowed_operations', None)
+    operations = getattr(model_api_meta, 'allowable_operations', None)
     bases += (viewsets.ModelViewSet,) if not operations\
         else tuple([MIXINS[operation] for operation in operations]) + (
             viewsets.GenericViewSet,)
