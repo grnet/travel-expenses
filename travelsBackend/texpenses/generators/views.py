@@ -3,8 +3,8 @@ from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
 from rest_framework_tracking.mixins import LoggingMixin
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
-from texpenses.factories import utils
-from texpenses.factories.serializers import factory as serializer_factory
+from texpenses.generators import utils
+from texpenses.generators.serializers import generate as generate_serializer
 
 
 FILTERING_BACKENDS = {
@@ -30,8 +30,8 @@ MODULE_LOOKUP = 'viewset_module_name'
 API_CLS_NAME = 'API'
 
 
-def factory(model_class):
-    """TODO: Docstring for viewset_factory.
+def generate(model_class):
+    """TODO: Docstring for viewset generator.
 
     :model_class: TODO
     :returns: A ModelViewSet viewset
@@ -51,7 +51,7 @@ def factory(model_class):
         'permission_classes': (IsAuthenticated, DjangoModelPermissions),
         'get_queryset': get_queryset,
         'filter_backends': (),
-        'serializer_class': serializer_factory(model_class),
+        'serializer_class': generate_serializer(model_class),
     }
     cls = type(model_class.__name__, get_bases_classes(model_api_meta),
                class_dict)

@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.views.generic.base import RedirectView
 from rest_framework import routers
-from texpenses.factories.views import factory
+from texpenses.generators.views import generate
 from texpenses.models import (TaxOffice, Project, City, Country,
                               UserProfile,
                               UserPetition, UserPetitionSubmission,
@@ -13,35 +13,35 @@ from texpenses.models import (TaxOffice, Project, City, Country,
 from . import auth_urls
 
 router = routers.DefaultRouter()
-router.register(r'users', factory(UserProfile), base_name='userprofile')
+router.register(r'users', generate(UserProfile), base_name='userprofile')
 
 router_user = routers.DefaultRouter()
 router_secretary = routers.DefaultRouter()
 router_petition = routers.DefaultRouter()
 router_resources = routers.DefaultRouter()
 
-router_resources.register(r'tax-office', factory(TaxOffice),
+router_resources.register(r'tax-office', generate(TaxOffice),
                           base_name='taxoffice')
-router_resources.register(r'project', factory(Project), base_name='project')
-router_resources.register(r'city', factory(City), base_name='city')
-router_resources.register(r'country', factory(Country), base_name='country')
+router_resources.register(r'project', generate(Project), base_name='project')
+router_resources.register(r'city', generate(City), base_name='city')
+router_resources.register(r'country', generate(Country), base_name='country')
 
 
 router_user.register(
-    r'saved', factory(UserPetition), base_name='userpetition')
+    r'saved', generate(UserPetition), base_name='userpetition')
 router_secretary.register(
-    r'saved', factory(SecretaryPetition))
+    r'saved', generate(SecretaryPetition))
 router_user.register(
-    r'compensation/saved', factory(UserCompensation),
+    r'compensation/saved', generate(UserCompensation),
     base_name='usercompensation')
 router_user.register(
-    r'submitted', factory(UserPetitionSubmission),
+    r'submitted', generate(UserPetitionSubmission),
     base_name='userpetitionsubmission')
 router_secretary.register(
-    r'submitted', factory(SecretaryPetitionSubmission),
+    r'submitted', generate(SecretaryPetitionSubmission),
     base_name='secretarypetitionsubmission')
 router_user.register(
-    r'compensation/submitted', factory(UserCompensationSubmission),
+    r'compensation/submitted', generate(UserCompensationSubmission),
     base_name='usercompensationsubmission')
 
 # Wire up our API using automatic URL routing.

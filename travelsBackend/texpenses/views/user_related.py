@@ -10,7 +10,7 @@ from djoser import views as djoser_views
 from texpenses.serializers import CustomUserRegistrationSerializer
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from texpenses.models import UserProfile
-from texpenses.factories.serializers import factory
+from texpenses.generators.serializers import generate
 
 logger = logging.getLogger(__name__)
 
@@ -103,7 +103,7 @@ class CustomUserDetailedView(LoggingMixin, djoser_views.UserView):
 
     """API endpoint that allows a user to view and edit his personal info"""
 
-    serializer_class = factory(UserProfile)
+    serializer_class = generate(UserProfile)
     permission_classes = (
         IsAuthenticated, DjangoModelPermissions,
     )
