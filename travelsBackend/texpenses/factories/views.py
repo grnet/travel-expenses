@@ -51,12 +51,11 @@ def factory(model_class):
         'permission_classes': (IsAuthenticated, DjangoModelPermissions),
         'get_queryset': get_queryset,
         'filter_backends': (),
-        'model_api_meta': getattr(model_class, API_CLS_NAME),
         'serializer_class': serializer_factory(model_class),
     }
     cls = type(model_class.__name__, get_bases_classes(model_api_meta),
                class_dict)
-    utils.set_attrs(cls, cls.model_api_meta, VIEWSET_ATTRS)
+    utils.set_attrs(cls, model_api_meta, VIEWSET_ATTRS)
     init_filter_backends(cls)
     module = utils.get_module(model_class, model_api_meta, PACKAGE_LOOKUP,
                               MODULE_LOOKUP)
