@@ -31,11 +31,21 @@ API_CLS_NAME = 'API'
 
 
 def generate(model_class):
-    """TODO: Docstring for viewset generator.
+    """
+    A function to generate a viewset according to the model given as
+    parameter.
 
-    :model_class: TODO
-    :returns: A ModelViewSet viewset
+    It constructs a serializer class according to this model and configuration
+    of viewset (which methods are allowable, queryset, possible
+    filtering/ordering/search fields) is defined inside `API`
+    inner class of the specified model.
 
+    `API` class may also define package or module where custom implementation
+    is located and should be bound to the generated class.
+
+    :param model_class: The model class required to generate a
+    `ViewSet` based on it.
+    :return: A `ViewSet` class.
     """
     if not model_class:
         raise Exception

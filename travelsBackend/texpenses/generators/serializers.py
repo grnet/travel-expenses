@@ -14,24 +14,25 @@ API_CLS_NAME = 'API'
 
 
 def generate(model_class):
-    """ Generalized serializer generator to increase DRYness of code.
-
-    :param model_class: The model for the HyperLinkedModelSerializer
-    :param fields: The fields that should be exclusively present on the\
-        serializer
-    :param read_only_fields: The fields that should be read only on the\
-        serialzer
-    :param kwargss: Optional additional field specifications
-    :return: A HyperLinkedModelSerializer
     """
+    A function to generate a serializer according to the model given as
+    parameter.
 
+    Configuration of serializer (which fields will be exposed and how will be
+    treated) is defined inside `API` inner class of the specified model.
+
+    `API` class may also define package or module where custom implementation
+    is located and should be bound to the generated class.
+
+    :param model_class: The model class required to generate a
+    `ModelSerializer` or `HyperlinkedModelSerializer` based on it.
+    :return: A `ModelSerializer` or `HyperLinkedModelSerializer` class.
+    """
     class Meta:
         model = model_class
 
     # Standard serializer class content.
-    class_dict = {
-        'Meta': Meta,
-    }
+    class_dict = {'Meta': Meta}
     model_api_class = getattr(model_class, API_CLS_NAME)
     assert model_api_class is not None
 
