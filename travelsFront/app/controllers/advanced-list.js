@@ -17,15 +17,23 @@ export default Ember.Controller.extend({
 			var self=this;
 			var model=this.get('model');
 				
-				self.store.findRecord('secretary-petition', id).then(function(petition) {
-					petition.destroyRecord().then(function() {
-						self.set('statePetitionList', true);
-						self.set('deleteMessage', "Η αίτηση σας έχει διαγραφεί επιτυχώς !");	
-					}, function(reason) {
-						self.set('statePetitionList', false);
-						self.set('deleteMessage', 'Η διαγραφή της αίτησης σας απέτυχε...');
-					}); 
-				});	
+			self.store.findRecord('secretary-petition', id).then(function(petition) {
+				petition.destroyRecord().then(function() {
+					self.set('statePetitionList', true);
+					self.set('deleteMessage', "Η αίτηση σας έχει διαγραφεί επιτυχώς !");	
+				}, function(reason) {
+					self.set('statePetitionList', false);
+					self.set('deleteMessage', 'Η διαγραφή της αίτησης σας απέτυχε...');
+				}); 
+			});	
+		},
+
+		petitionUndo(petition) {
+      petition.cancel().then(() => {
+        this.transitionToRoute('advancedList').then(function(r) {
+          petition.unloadRecord();
+        });
+      });
 		},
 	}
 });
