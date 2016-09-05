@@ -14,7 +14,7 @@ export var SecretaryPetition = Petition.extend({
   participation_payment_way: DS.attr({'choices': CHOICES.WAYS_OF_PAYMENT}),
   participation_payment_description: DS.attr(),
   additional_expenses_default_currency: DS.attr({'choices': CHOICES.CURRENCIES}),
-  travel_data: DS.attr({attrs:{textarea: true}}),
+  secretary_recommendation: DS.attr({attrs:{textarea: true}}),
   movement_id: DS.attr(),
   expenditure_date_protocol: DS.attr('date'),
   expenditure_protocol: DS.attr(),

@@ -25,13 +25,13 @@ export const UIS = {
         'fields': ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'user_category']
       },
       {
-        'label': 'travel_info.label',
+        'label': 'travel_data.label',
         'fields': ['dse', 'project', 'reason', 'departure_point', 'arrival_point','movement_category', 'country_category',
         'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'means_of_transport', 'transportation_cost',
         'transportation_payment_way', 'transportation_payment_description', 'meals', 'accommodation_local_cost', 
         'accommodation_local_currency', 'accommodation_payment_way', 'accommodation_payment_description', 
         'participation_local_cost', 'participation_local_currency', '', 'participation_payment_way', 'participation_payment_description',
-        'additional_expenses_initial', 'additional_expenses_initial_description', 'user_recommendation', 'travel_data']
+        'additional_expenses_initial', 'additional_expenses_initial_description', 'user_recommendation', 'secretary_recommendation']
       },
       {
         'label': 'secretary_data.label',

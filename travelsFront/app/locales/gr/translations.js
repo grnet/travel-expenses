@@ -72,8 +72,8 @@ export default {
  	'participation_local_currency.label': 'Νόμισμα',
  	'additional_expenses_initial_description.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή',
  	'user_recommendation.label': 'Αρχικές Προτάσεις Μετακινούμενου (για κρατήσεις πτήσεων, ξενοδοχείου, κλπ)',
-  'travel_data.label': 'Στοιχεία σχετικά με την μετακίνηση και τη διαμονή',
-  'travel_info.label': 'Στοιχεία μετακίνησης',
+  'secretary_recommendation.label': 'Στοιχεία σχετικά με την μετακίνηση και τη διαμονή',
+  'travel_data.label': 'Στοιχεία μετακίνησης',
   'user_data.label': 'Στοιχεία χρήστη',
   //secretary petition
   'secretary_data.label': 'Στοιχεία Αίτησης που καταχωρεί η Γραμματεία',
