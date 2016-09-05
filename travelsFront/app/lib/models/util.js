@@ -1,15 +1,30 @@
 import Ember from 'ember';
 
 const TRAVEL_INFO_FIELDS = [
-  'departure_point', 
-  'arrival_point', 
-  'means_of_transport', 
-  'meals', 
-  'transportation_cost', 
+  'departure_point',
+  'arrival_point',
+  'depart_date',
+  'return_date',
+  'meals',
+  'means_of_transport',
+  'transportation_cost',
   'accommodation_local_cost',
   'accommodation_local_currency',
-  'depart_date',
-  'return_date'
+  'transport_days_manual',
+  'transport_days_proposed',
+  'compensation_days_manual',
+  'compensation_days_proposed', 
+  'accommodation_cost',
+  'accommodation_default_currency',
+  'accommodation_payment_way',
+  'accommodation_payment_description',
+  'transportation_default_currency',
+  'transportation_payment_way',
+  'transportation_payment_description',
+  'overnights_num_manual',
+  'overnight_cost',
+  'compensation_level',
+  'same_day_return_task',
 ];
 
 const normalizePetition = function(hash, serializer) {
