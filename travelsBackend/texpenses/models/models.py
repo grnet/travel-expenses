@@ -580,6 +580,9 @@ class Petition(SecretarialInfo, ParticipationInfo):
     reason = models.CharField(max_length=500, blank=True, null=True)
     user_recommendation = models.CharField(
         max_length=500, blank=True, null=True)
+    secretary_recommendation = models.CharField(
+        max_length=500, blank=True, null=True)
+
     status = models.IntegerField(blank=False)
 
     additional_expenses_initial = models.FloatField(
@@ -599,7 +602,8 @@ class Petition(SecretarialInfo, ParticipationInfo):
                   'specialty', 'tax_office', 'tax_reg_num', 'user_category',
                   'user', 'iban',
                   'task_start_date', 'task_end_date', 'created', 'updated',
-                  'travel_info', 'project', 'reason', 'user_recommendation',
+                  'travel_info', 'project', 'reason',
+                  'secretary_recommendation', 'user_recommendation',
                   'additional_expenses_initial',
                   'additional_expenses_default_currency',
                   'additional_expenses_initial_description',
