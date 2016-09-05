@@ -256,7 +256,8 @@ class TravelInfo(Accommodation, Transportation):
                   'transport_days_proposed',
                   'overnight_cost',
                   'compensation_level',
-                  'same_day_return_task', 'compensation_days_proposed',
+                  'same_day_return_task', 'compensation_cost',
+                  'compensation_days_proposed',
                   'overnights_num_manual', 'transport_days_manual',
                   'compensation_days_manual', 'meals')
         read_only_fields = ('id', 'transportation_default_currency',
@@ -390,6 +391,11 @@ class TravelInfo(Accommodation, Transportation):
             == task_start_date.date() == self.depart_date.date()
 
     def compensation_days_proposed(self):
+        return self.overnights_num_proposed(self.travel_petition.
+                                            task_start_date,
+                                            self.travel_petition.task_end_date)
+
+    def compensation_cost(self):
         """Calculates the compensation based on compensation days,
         compensation level and additional expenses
         :returns: The maximum possible compensation
@@ -750,7 +756,7 @@ class Petition(SecretarialInfo, ParticipationInfo):
         :returns: TODO
 
         """
-        return sum(travel_obj.compensation_days_proposed()
+        return sum(travel_obj.compensation_cost()
                    for travel_obj in self.travel_info.all())
 
     def total_cost(self):
