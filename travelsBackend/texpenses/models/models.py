@@ -108,11 +108,13 @@ class Project(models.Model):
     accounting_code = models.CharField(max_length=20, blank=False)
     manager_name = models.CharField(max_length=20, blank=False)
     manager_surname = models.CharField(max_length=40, blank=False)
+    manager_email = models.EmailField(max_length=256, blank=False, null=True)
     manager = models.ForeignKey(UserProfile, blank=True)
 
     class APITravel(object):
         fields = ('id', 'url', 'name', 'accounting_code',
-                  'manager_name', 'manager_surname', 'manager')
+                  'manager_name', 'manager_surname', 'manager_email',
+                  'manager')
         read_only_fields = ('id', 'url')
         allowed_operations = ('list', 'retrieve')
 
