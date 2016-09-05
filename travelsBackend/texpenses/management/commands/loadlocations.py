@@ -15,12 +15,15 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('locations')
 
+    def preprocess(self, input):
+        return input.strip().split(';')
+
     def handle(self, *args, **options):
         location_file_path = options['locations']
         with open(location_file_path) as countries_csv_file:
             for country_record in countries_csv_file:
-                country_name, city_name, category_name = country_record.\
-                    split(';')
+                country_name, city_name, category_name = self.\
+                    preprocess(country_record)
 
                 country_obj, country_created = Country.objects.\
                     get_or_create(name=country_name,
