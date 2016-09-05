@@ -1,6 +1,7 @@
 {{ paper-autocomplete 
     source=choices
-    lookupKey=(if fattrs.labelKey fattrs.labelKey 'label')
+    lookupKey='label'
+    filterArray=filterArray
     model=choiceModel
     value=value
     floating=true
