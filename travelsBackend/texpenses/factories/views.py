@@ -39,11 +39,15 @@ def factory(model_class, custom_permissions=(), api_name='APITravel',
 
     model_api_meta = getattr(model_class, api_name)
     assert model_api_meta is not None
+
+    def get_queryset(self):
+        return model_class.objects.all()
+
     class_dict = {
         'authentication_classes': (SessionAuthentication, TokenAuthentication),
         'permission_classes': (IsAuthenticated,) + custom_permissions + (
             DjangoModelPermissions,),
-        'queryset': model_class.objects.all(),
+        'get_queryset': get_queryset,
         'filter_backends': (),
         'model_api_meta': getattr(model_class, api_name),
         'serializer_class': serializer_factory(

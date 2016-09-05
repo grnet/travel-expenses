@@ -31,7 +31,8 @@ router_user.register(
                       serializer_module_name='petition'),
     base_name='userpetition')
 router_secretary.register(
-    r'saved', factory(SecretaryPetition, serializer_module_name='petition'))
+    r'saved', factory(SecretaryPetition, serializer_module_name='petition'),
+    base_name='secretarypetition')
 router_user.register(
     r'submitted', factory(UserPetitionSubmission,
                           custom_permissions=(IsOwnerOrAdmin,),
