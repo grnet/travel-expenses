@@ -629,6 +629,13 @@ class Petition(SecretarialInfo, ParticipationInfo):
                             'kind', 'specialty', 'tax_office', 'tax_reg_num',
                             'user_category', 'iban', 'status', 'created',
                             'updated', 'participation_default_currency')
+        filter_fields = ('first_name', 'last_name', 'project',
+                         'task_start_date', 'task_end_date', 'created',
+                         'update')
+
+        search_fields = ('first_name', 'last_name', 'project',
+                         'task_start_date', 'task_end_date', 'created',
+                         'update')
         nested_relations = [('travel_info', 'travel_info')]
 
     def __init__(self, *args, **kwargs):
