@@ -19,14 +19,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
       // create petition
       model = this.store.createRecord(this.modelName);
       this.set('newPetition', true);
-      //set some default values to user petition
-      this.store.findRecord('city', ENV.default_city).then((athens) => {
-        model.set('departure_point', athens);
-      });
-      model.set('means_of_transport', "AIR");
-      model.set('meals', "NON");
-      model.set('participation_local_currency', "EUR");
-      model.set('accommodation_local_currency', "EUR");
     }
     
 		return new Ember.RSVP.Promise(function(resolve, reject) {
@@ -34,8 +26,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
       this.store.findRecord('profile', 1).then(function(profile) {
         // if petition is new initialize it with user profile info
         if (this.get('newPetition')) {
-          this.initializePetition(model, profile)
-          resolve(model);
+          this.initializePetition(model, profile).then(resolve);
         } else {
           // delegate stuff to model promise
           return model.then(resolve).catch(reject);
@@ -61,6 +52,19 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
     for (let field of commonFields) {
       petition.set(field, get(profile, field));
     }
+
+    let self = this;
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      petition.set('means_of_transport', "AIR");
+      petition.set('meals', "NON");
+      petition.set('participation_local_currency', "EUR");
+      petition.set('accommodation_local_currency', "EUR");
+      //set some default values to user petition
+      self.store.findRecord('city', ENV.default_city).then((defaultCity) => {
+        petition.set('departure_point', defaultCity);
+        resolve(petition);
+      }).catch(reject);
+    })
 	},
 
   setupController(c) {
