@@ -1,5 +1,9 @@
 import Ember from 'ember';
 
+const {
+  get
+} = Ember;
+
 const TRAVEL_INFO_FIELDS = [
   'departure_point',
   'arrival_point',
@@ -56,4 +60,20 @@ const serializePetition = function(json) {
   return json;
 }
 
-export {normalizePetition, serializePetition}
+const preloadPetitions = function(petitionModel, store) {
+  return new Ember.RSVP.Promise((resolve, reject) => {
+    return store.findAll('city').then(() => {
+      return store.findAll('project').then(() => {
+        store.findAll(petitionModel).then(resolve, reject);
+      }, reject)
+    }, reject);
+  });
+}
+
+const PetitionListRoute = Ember.Route.extend({
+  petitionModel: null,
+  model() {
+    return preloadPetitions(get(this, 'petitionModel'), get(this, 'store'));
+  }
+})
+export {normalizePetition, serializePetition, PetitionListRoute}
