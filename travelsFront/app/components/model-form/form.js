@@ -115,17 +115,15 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
 
   scrollToMessage: function(err) {
     if (!this.get('noScroll')) {
-      Ember.run.scheduleOnce('render', this, function() {
-        let scrollTo = 0;
-        if (err) {
-          let invalid = this.$(".md-input-invalid");
-          if (invalid.length) {
-            scrollTo = invalid.offset().top || 0;
-          }
+      let scrollTo = 0;
+      if (err) {
+        let invalid = this.$(".md-input-invalid");
+        if (invalid.length) {
+          scrollTo = invalid.offset().top || 0;
         }
-        this.$().parent().animate({
-          scrollTop: scrollTo
-        });
+      }
+      this.$().parent().animate({
+        scrollTop: scrollTo
       });
     }
   },
