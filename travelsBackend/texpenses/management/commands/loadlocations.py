@@ -14,6 +14,14 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('locations')
+        parser.add_argument(
+            '--delete',
+            action='store_true',
+            dest='delete',
+            default=False,
+            help="Delete all inserted locations prior to loading the data "
+            "from CSV",
+        )
 
     def preprocess(self, input):
         return input.strip().split(';')
@@ -21,6 +29,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         location_file_path = options['locations']
         with open(location_file_path) as countries_csv_file:
+
+            if options['delete']:
+                Country.objects.all().delete()
+
             for country_record in countries_csv_file:
                 country_name, city_name, category_name = self.\
                     preprocess(country_record)
