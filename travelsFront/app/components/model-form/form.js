@@ -176,7 +176,7 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
           console.error(model.get('errors'));
           return false;
         }
-      }).catch(function(err) { console.error(err); };
+      }).catch(function(err) { console.error(err); });
     },
 
     reset() {

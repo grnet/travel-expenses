@@ -77,5 +77,20 @@ export var Petition = DS.Model.extend({
         }
       }
     })
+  }),
+
+  // propagate travel_info errors to the related travel info local model fields
+  observeTravelInfoErrors: Ember.observer('errors.travel_info', function() {
+    let errors = this.get('errors.travel_info');
+    if (!errors) { return; }
+    errors.forEach((err) => {
+      Object.keys(err.message).forEach((key) => {
+        let msgs = err.message[key];
+        this.set('errors.' + key, Ember.A([Ember.Object.create({
+          attribute: key,
+          message: msgs[0]
+        })]));
+      });
+    })
   })
 });
