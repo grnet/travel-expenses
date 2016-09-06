@@ -92,5 +92,17 @@ export var Petition = DS.Model.extend({
         })]));
       });
     })
-  })
+  }),
+
+  cloneAs(modelName) {
+    let clone = this.store.createRecord(modelName);
+    let type = clone.constructor;
+    type.eachAttribute((name) => {
+      clone.set(name, this.get(name));
+    });
+    type.eachRelationship((name) => {
+      clone.set(name, this.get(name));
+    });
+    return clone;
+  }
 });
