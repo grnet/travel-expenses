@@ -40,6 +40,7 @@ const TYPE_COMPONENT_MAP = {
   'boolean': ['mode-form/fields/checkbox', {}],
   'select': ['model-form/fields/select', {}],
   'date': ['model-form/fields/date', {time: false}],
+  'date-simple': ['model-form/fields/date', {time: false}],
   'datetime': ['model-form/fields/date', {time: 'local'}],
   'select': ['model-form/fields/select'],
   'relation': ['model-form/fields/select'],
