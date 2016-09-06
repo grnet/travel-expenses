@@ -24,7 +24,18 @@ class Command(BaseCommand):
         )
 
     def preprocess(self, input):
-        return input.strip().split(';')
+        return input.strip().split(',')
+
+    def get_or_create_extended(self, model, **kwargs):
+        try:
+            obj = model.objects.get(**kwargs)
+            created = False
+        except model.DoesNotExist:
+            obj = model(**kwargs)
+            obj.clean_fields()
+            obj.save()
+            created = True
+        return (obj, created)
 
     def handle(self, *args, **options):
         location_file_path = options['locations']
@@ -37,10 +48,18 @@ class Command(BaseCommand):
                 country_name, city_name, category_name = self.\
                     preprocess(country_record)
 
-                country_obj, country_created = Country.objects.\
-                    get_or_create(name=country_name,
-                                  category=category_name,
-                                  currency=CURRENCY)
+                # country_obj, country_created = Country.objects.\
+                    # get_or_create(name=country_name,
+                                  # category=category_name,
+                                  # currency=CURRENCY)
+                country_data = {'name': country_name, 'category': category_name,
+                                'currency': CURRENCY}
+                country_obj, country_created = self.\
+                    get_or_create_extended(Country, **country_data)
+
+                self.stdout.write("Country:{0} is created.".
+                                  format(country_name))
+
                 if country_created:
                     self.stdout.write("Country:{0} is created.".
                                       format(country_name))
