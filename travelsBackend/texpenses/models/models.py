@@ -157,7 +157,7 @@ class City(models.Model):
 
     """Model for cities. """
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=20, blank=False)
+    name = models.CharField(max_length=100, blank=False)
     country = models.ForeignKey(Country, blank=False)
 
     class APITravel(object):

@@ -48,25 +48,26 @@ class Command(BaseCommand):
                 country_name, city_name, category_name = self.\
                     preprocess(country_record)
 
-                # country_obj, country_created = Country.objects.\
-                    # get_or_create(name=country_name,
-                                  # category=category_name,
-                                  # currency=CURRENCY)
                 country_data = {'name': country_name, 'category': category_name,
                                 'currency': CURRENCY}
                 country_obj, country_created = self.\
                     get_or_create_extended(Country, **country_data)
 
-                self.stdout.write("Country:{0} is created.".
-                                  format(country_name))
-
                 if country_created:
                     self.stdout.write("Country:{0} is created.".
                                       format(country_name))
 
-                city_obj, city_created = City.objects.\
-                    get_or_create(name=city_name,
-                                  country=country_obj)
+                city_data = {'name': city_name, 'country': country_obj}
+                city_obj, city_created = self.\
+                    get_or_create_extended(City, **city_data)
+
                 if city_created:
-                    self.stdout.write("\tCity:{0}, is created.".
+                    self.stdout.write("\tCity:{0} is created.".
                                       format(city_name))
+
+                # city_obj, city_created = City.objects.\
+                    # get_or_create(name=city_name,
+                                  # country=country_obj)
+                # if city_created:
+                    # self.stdout.write("\tCity:{0}, is created.".
+                                      # format(city_name))
