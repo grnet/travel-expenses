@@ -139,3 +139,10 @@ md-content.md-form-success {
 
 }
 
+
+// overrides
+md-input-container 
+  label:not(.md-no-float):not(.md-container-ignore), 
+  md-input-container .md-placeholder {
+  color: lighten(#3f51b5, 30%);  
+}
