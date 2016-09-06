@@ -63,7 +63,9 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
       self.store.findRecord('city', ENV.default_city).then((defaultCity) => {
         petition.set('departure_point', defaultCity);
         resolve(petition);
-      }).catch(reject);
+      }).catch(function() {
+        resolve(petition);
+      });
     })
 	},
 
