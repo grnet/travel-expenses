@@ -512,6 +512,11 @@ class SecretarialInfo(models.Model):
         max_length=30, null=True, blank=True)
     compensation_decision_date = models.DateField(
         blank=True, null=True, validators=[date_validator])
+    manager_travel_approval = models.CharField(max_length=200, null=True,
+                                               blank=True)
+
+    manager_final_approval = models.CharField(max_length=200, null=True,
+                                              blank=True)
     MAX_GRNET_QUOTA = 100
 
     def grnet_quota(self):
@@ -900,7 +905,8 @@ class SecretaryPetition(Petition):
             'movement_date_protocol', 'compensation_petition_protocol',
             'compensation_petition_date',
             'compensation_decision_protocol',
-            'compensation_decision_date', 'movement_id')
+            'compensation_decision_date', 'movement_id',
+            'manager_travel_approval', 'manager_final_approval')
         read_only_fields = Petition.APITravel.read_only_fields
         nested_relations = [('travel_info', 'travel_info')]
         extra_kwargs = {
@@ -935,7 +941,8 @@ class SecretaryPetitionSubmission(Petition):
             'compensation_petition_protocol',
             'compensation_petition_date',
             'compensation_decision_protocol',
-            'compensation_decision_date')
+            'compensation_decision_date', 'manager_travel_approval',
+            'manager_final_approval')
         read_only_fields = Petition.APITravel.read_only_fields
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoSecretarySubmission)]
