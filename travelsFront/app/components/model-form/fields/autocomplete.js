@@ -21,16 +21,22 @@ function isString(item) {
 export default Select.extend({
   init() {
     this._super();
+    this.updateValue();
   },
   choiceModel: null,
   observeValue: observer('value', function() {
+    this.updateValue();
+  }),
+
+  updateValue() {
     let value = get(this, 'value');
+    if (!value) { return; }
     let label = get(this, 'value.' + (get(this, 'fattrs.labelKey') || 'name'));
     set(this, 'choiceModel', {
       label,
       value
     })
-  }),
+  },
 
   filterArray(array, searchText, lookupKey) {
     return array.filter(function(item) {
