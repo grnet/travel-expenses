@@ -15,5 +15,5 @@ class CustomUserRegistrationSerializer(
 
         if settings.get('SEND_ACTIVATION_EMAIL'):
             user.is_active = False
-            user.save(update_fields=['is_active', 'category'])
+            user.save(update_fields=['is_active', 'user_category'])
         return user
