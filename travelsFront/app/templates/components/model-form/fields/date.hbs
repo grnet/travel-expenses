@@ -43,3 +43,15 @@
   {{paper-icon iconRight}}
 {{/if}}
 
+{{#if errors.length }}
+<div class="md-input-messages-animation md-auto-hide" ng-messages>
+  {{#each errors as |error index|}}
+
+    <div
+      id="error-{{index}}"
+      class="md-input-error">
+      {{error.message}}
+    </div>
+  {{/each}}
+</div>
+{{/if}}

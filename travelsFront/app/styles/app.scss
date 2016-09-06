@@ -139,15 +139,12 @@ md-content.md-form-success {
 
 }
 
-
-md-input-container.md-input-invalid {
-  label:not(.md-no-float):not(.md-container-ignore), 
-  .md-placeholder,
-  md-select .md-select-value.md-select-placeholder,
-  md-select.md-default-theme .md-select-value.md-select-placeholder {
-    color: lighten(#f00, 30%);
-  }
+.md-date-input [ng-messages] {
+  overflow: visible;
+  top: 18px;
+  padding-left: 0;
 }
+
 // overrides
 md-input-container 
   label:not(.md-no-float):not(.md-container-ignore), 
@@ -162,4 +159,13 @@ md-input-container[disabled]
   label:not(.md-no-float):not(.md-container-ignore), 
   md-input-container[disabled] .md-placeholder {
   color: #bbb;  
+}
+
+md-input-container.md-input-invalid {
+  label:not(.md-no-float):not(.md-container-ignore), 
+  .md-placeholder,
+  md-select .md-select-value.md-select-placeholder,
+  md-select.md-default-theme .md-select-value.md-select-placeholder {
+    color: lighten(#f00, 30%);
+  }
 }

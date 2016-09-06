@@ -8,6 +8,7 @@ export default PaperInput.extend(BaseField, {
   tagName: 'md-input-container',
 
   dateValue: alias('value'),
+  classNames: ['md-date-input'],
 
   handleDate(val) {
     this.sendAction('onChange', val);
