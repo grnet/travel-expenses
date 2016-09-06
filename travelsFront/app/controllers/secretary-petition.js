@@ -21,7 +21,7 @@ export default Ember.Controller.extend({
 
     onSuccess(model) {
       if (model.constructor.modelName == "secretary-petition-submission") {
-        return this.transitionToRoute("profile");
+        return this.transitionToRoute("advancedList");
       }
       this.transitionToRoute("secretaryPetition", model.get("id"));
     },
