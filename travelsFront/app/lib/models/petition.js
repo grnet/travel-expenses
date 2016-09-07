@@ -105,5 +105,14 @@ export var Petition = DS.Model.extend({
       clone.set(name, this.get(name));
     });
     return clone;
+  },
+
+  cancel: function() {
+    let adapter = this.store.adapterFor(this.constructor.modelName);
+    let model = this;
+    return adapter.action(this, 'cancel').then(function() {
+      model.unloadRecord();
+      return model;
+    });
   }
 });

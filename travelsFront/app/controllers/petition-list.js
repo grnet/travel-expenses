@@ -19,15 +19,15 @@ export default Ember.Controller.extend({
 		petitionUndo(petition) {
       petition.cancel().then(() => {
         set(this, 'actionMessage', 'petition.undo.success');
+        get(this, 'model').reload();
       });
 		},	
 
-		petitionEdit(id, status){
-			this.transitionToRoute(get(this, 'editRoute'), id);
+		petitionEdit(model){
+			this.transitionToRoute(get(this, 'editRoute'), model.get('id'));
 		},
 
-		petitionDelete(id, status){
-      let model = this.store.peekRecord('user-petition', id);
+		petitionDelete(model){
       if (model.get("currentState.stateName") == "root.deleted.inFlight") { return; }
       model.destroyRecord().then(() => {
         set(this, 'actionMessage', 'petition.delete.success');

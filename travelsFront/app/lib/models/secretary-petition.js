@@ -47,22 +47,4 @@ export var SecretaryPetition = Petition.extend({
   overnight_cost: DS.attr(),
   compensation_level: DS.attr(),
   same_day_return_task: DS.attr('boolean'),
-  
-  
-  //set movement/country category value
-  observeDeparturePoint: Ember.observer('arrival_point', function() {
-    this.get('arrival_point').then((city) => {
-      if (!city) {
-        this.set('country_category', null);
-        this.set('movement_category', null);
-      } else {
-        this.set('country_category', city.get('country.category'));
-        if (city.get('country.name') == 'ΕΛΛΑΔΑ') {
-          this.set('movement_category', '1');
-        } else {
-          this.set('movement_category', '2');
-        }
-      }
-    })
-  })
 });

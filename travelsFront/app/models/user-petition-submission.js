@@ -22,15 +22,6 @@ export default Petition.extend(Validations, {
   },
   __ui__: {
    'default': UIS['petition_user'],
-  } ,
-
-  cancel: function() {
-    let adapter = this.store.adapterFor('user-petition-submission');
-    let model = this;
-    return adapter.action(this, 'cancel').then(function() {
-      model.unloadRecord();
-      return model;
-    });
   }
 
 });

@@ -9,20 +9,18 @@ export default Ember.Component.extend({
 
 	actions: {
 
-		edit(id, status) {
-			if (status == 1 || this.get('account.user.user_group') === "SECRETARY"){
-				this.sendAction('edit', id);
+		edit(model) {
+			if (model.get('status') == 1 || this.get('account.user.user_group') === "SECRETARY"){
+				this.sendAction('edit', model);
 			}
 		},
 
-		del(id, status) {
-			if (status == 1){
-				this.sendAction('del', id);
-			}
+		del(model) {
+      this.sendAction('del', model);
 		},
 
-		undo(petition) {
-      this.sendAction('undo', petition);
+		undo(model) {
+      this.sendAction('undo', model);
 		},
 	}
 });

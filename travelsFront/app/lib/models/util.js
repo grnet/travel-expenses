@@ -72,6 +72,11 @@ const preloadPetitions = function(petitionModel, store) {
         let petitions = Promise.all(petitionModel.map((m) => { return store.query(m, {})}));
         petitions.then((results) => {
           let model = results.reduce((prev, cur) => { return prev.concat(cur.toArray()); }, []);
+          model.reload = function() {
+            preloadPetitions(petitionModel, store).then(function(newModels) {
+              model.setObjects(newModels);
+            });
+          }
           resolve(model);
         }, reject);
 
