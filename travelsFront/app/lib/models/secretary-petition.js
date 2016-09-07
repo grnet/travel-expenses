@@ -46,7 +46,7 @@ export var SecretaryPetition = Petition.extend({
   overnights_num_manual: DS.attr(),
   overnight_cost: DS.attr(),
   compensation_level: DS.attr(),
-  same_day_return_task: DS.attr(),
+  same_day_return_task: DS.attr('boolean'),
   
   
   //set movement/country category value
