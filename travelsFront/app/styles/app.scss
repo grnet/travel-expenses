@@ -151,9 +151,12 @@ md-input-container
   md-select .md-select-value.md-select-placeholder,
   md-select.md-default-theme .md-select-value.md-select-placeholder,
   {
-  color: lighten(#3f51b5, 30%);  
+  color: color('blue', '400');  
 }
 
+md-input-container[disabled] md-icon {
+  color: color('grey', '300');
+}
 md-input-container[disabled]
   label:not(.md-no-float):not(.md-container-ignore), 
   md-input-container[disabled] .md-placeholder {
