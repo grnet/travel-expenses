@@ -17,6 +17,7 @@ const {
   computed,
   computed: { alias },
   observer,
+  assert,
   set,
   get,
   merge,
@@ -163,16 +164,42 @@ var ResourceMeta = Ember.Object.extend({
     return fieldsMap;
   }),
 
-  fieldsets: computed('fieldsKeys.[]', 'options.fieldsets.[]', function() {
-    let sets = get(this, 'options.fieldsets') || [get(this, 'fieldsKeys')];
+  fieldsets: computed('fields.[]', 'options.fieldsets.[]', function() {
+    let sets = get(this, 'options.fieldsets') || [{fields: get(this, 'fieldsKeys')}];
     let flat = !get(this, 'options.fieldsets');
     let fields = get(this, 'fields');
     return sets.map((set) => {
+      let layout = merge({}, set.layout || {});
       if (isArray(set)) { 
         set = {label: null, text: null, fields: set, flat: flat};
       }
-      let options = {label: set.label, text: set.text, fields: [], flat: set.flat || flat};
-      set.fields.forEach((key) => { options.fields.push(fields[key]); });
+      let options = {
+        label: set.label, text: set.text, fields: [], flat: set.flat || flat
+      };
+      set.fields.forEach((key, i) => {
+        if (!key) { return; }
+        let field;
+        let r = key;
+        if (isArray(key)) {
+          field = fields[key[0]];
+          field.options = merge({}, merge(field.options, key[1]));
+          key = key[0];
+        } else {
+          field = fields[key];
+        }
+        assert(`Cannot resolve field ${key}`, field);
+        field.options.layout = field.options.layout || {};
+        Object.keys(layout).forEach((lk) => {
+          let layoutObject = layout[lk];
+          if (isArray(layoutObject)) {
+            if (layoutObject[i] !== undefined) {
+              field.options.layout[lk] = layoutObject[i]
+            }
+          }
+        });
+        options.fields.push(field);
+      });
+
       return new FieldSet(options);
     });
   })
@@ -186,9 +213,11 @@ const ResourceMetaFromModel = function(type, nsKey='default', ns='__ui__') {
   let extra = ui.extra_fields || [];
   let fieldsets = ui.fieldsets || null;
   let layout = ui.layout || {};
-  let exclude = ui.exclude;
+  let exclude = ui.exclude || [];
 
   let _typeFields = get(type, 'fields');
+  let fields = ui.fields || [];
+  fields = fields.concat();
   let attrs = {};
 
   type.eachAttribute((k,v) => {
@@ -210,9 +239,27 @@ const ResourceMetaFromModel = function(type, nsKey='default', ns='__ui__') {
     attrs[k] = opts;
   });
 
-  let fields = _typeFields._keys.list.map((key) => {
-    let options = attrs[key];
-    return [key, options]
+  if (!fields.length) {
+    fields = _typeFields._keys.list.concat();
+    if (exclude.length) {
+      exclude.forEach((f) => {
+        fields.removeObject(f);
+      })
+    }
+  }
+
+  fields.forEach((field, i) => {
+    let _key = field;
+    if (isArray(field)) {
+      _key = field[0]
+      if (attrs[_key]) {
+        field[1] = merge({}, merge(attrs[_key], field[1]));
+      }
+    } else {
+      fields[i] = [field, merge({}, attrs[field] || {
+        type: 'virtual'
+      })];
+    }
   });
 
   fields = fields.concat(extra);
