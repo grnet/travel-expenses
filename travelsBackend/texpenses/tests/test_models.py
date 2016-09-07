@@ -126,13 +126,7 @@ class TravelInfoTest(TestCase):
         overnights = self.travel_obj.overnights_num_proposed(
             task_start, task_end)
         self.travel_obj.compensation_days_manual = overnights
-        self.assertEqual(self.travel_obj.compensation_days_proposed(), 500)
-
-        self.travel_obj.meals = 'FULL'
-        self.assertEqual(self.travel_obj.compensation_days_proposed(), 125)
-
-        self.travel_obj.meals = 'SEMI'
-        self.assertEqual(self.travel_obj.compensation_days_proposed(), 250)
+        self.assertEqual(self.travel_obj.compensation_days_proposed(), 5)
 
 
 class PetitionTest(TestCase):

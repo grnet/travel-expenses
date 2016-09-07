@@ -306,9 +306,8 @@ class APIPetitionTest(APITestCase):
         url = reverse('userpetition-list')
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
         # get petition list
-        response = self.client.get(url, data, format='json')
+        response = self.client.get(url, format='json')
 
         # assert petition list contains one object
         self.assertEqual(len(response.data), 1)
@@ -347,7 +346,7 @@ class APIPetitionTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         # get petition list
-        response = self.client.get(url, data, format='json')
+        response = self.client.get(url, format='json')
 
         # assert petition list contains one object
         self.assertEqual(len(response.data), 1)
