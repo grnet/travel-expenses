@@ -16,7 +16,7 @@ export var Petition = DS.Model.extend({
   iban: DS.attr({attrs: {disabled: true}}),
   user_category: DS.attr({'choices': CHOICES.USER_CATEGORY, attrs: {disabled: true}}),
   //petition fields
-  user: DS.belongsTo('profile'),
+  user: DS.attr('string'),
   dse: DS.attr('string', {attrs: {disabled: true, required: true}}),
   project: DS.belongsTo('project', {attrs: {labelKey: "full_label", required: true}}),
   reason: DS.attr({attrs: {required: true, textarea: true}}),
