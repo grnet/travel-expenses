@@ -65,6 +65,7 @@ export var Petition = DS.Model.extend({
   //set movement/country category value
   observeDeparturePoint: Ember.observer('arrival_point', function() {
     this.get('arrival_point').then((city) => {
+      if (this.get('isDeleted')) { return; }
       if (!city) {
         this.set('country_category', null);
         this.set('movement_category', null);

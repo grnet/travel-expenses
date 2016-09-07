@@ -26,7 +26,11 @@ export default Petition.extend(Validations, {
 
   cancel: function() {
     let adapter = this.store.adapterFor('user-petition-submission');
-    return adapter.action(this, 'cancel');
+    let model = this;
+    return adapter.action(this, 'cancel').then(function() {
+      model.unloadRecord();
+      return model;
+    });
   }
 
 });

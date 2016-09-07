@@ -24,14 +24,13 @@ md-content.login-info {
 
 
 table {
-    margin-bottom: 8px;
     max-width: 100%;
     width: 100%;
     border-spacing: 0;
-    border-radius: 2px;
     overflow: hidden;
+    height: 100%;
     th {
-        background: #C74286;
+        background-color: color('blue', '500');
         color: white;
         padding: 12px 8px;
         text-align: center;
@@ -48,7 +47,7 @@ table {
         padding-right: 1px;
     }
     tr:nth-child(even) td {
-        background-color: #FDF0F8;
+        background-color: color('blue', '100');
     }
 }
 
@@ -172,4 +171,10 @@ md-input-container.md-input-invalid {
   .checkbox-container {
     padding-left: 0.8rem;
   }
+}
+
+
+table.responsive {
+  overflow-x: auto;
+  display: block;
 }

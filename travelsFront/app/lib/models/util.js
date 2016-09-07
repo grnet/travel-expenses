@@ -1,7 +1,9 @@
 import Ember from 'ember';
 
 const {
-  get
+  get,
+  isArray,
+  RSVP: { Promise }
 } = Ember;
 
 const TRAVEL_INFO_FIELDS = [
@@ -62,18 +64,29 @@ const serializePetition = function(json) {
 
 const preloadPetitions = function(petitionModel, store) {
   return new Ember.RSVP.Promise((resolve, reject) => {
-    return store.findAll('city').then(() => {
-      return store.findAll('project').then(() => {
-        store.findAll(petitionModel).then(resolve, reject);
+    store.findAll('city').then(() => {
+      store.findAll('project').then(() => {
+        if (!isArray(petitionModel)) {
+          petitionModel = [petitionModel];
+        }
+        let petitions = Promise.all(petitionModel.map((m) => { return store.query(m, {})}));
+        petitions.then((results) => {
+          let model = results.reduce((prev, cur) => { return prev.concat(cur.toArray()); }, []);
+          resolve(model);
+        }, reject);
+
+        petitions.then((p) => {
+          resolve(petitions);
+        }, reject);
       }, reject)
     }, reject);
   });
-}
+};
 
 const PetitionListRoute = Ember.Route.extend({
   petitionModel: null,
   model() {
     return preloadPetitions(get(this, 'petitionModel'), get(this, 'store'));
   }
-})
-export {normalizePetition, serializePetition, PetitionListRoute}
+});
+export {normalizePetition, serializePetition, PetitionListRoute, preloadPetitions}
