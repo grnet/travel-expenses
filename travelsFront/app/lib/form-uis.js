@@ -35,7 +35,7 @@ export const UIS = {
         'transportation_payment_way', 'transportation_payment_description', 'accommodation_cost', 'accommodation_local_cost', 
         'accommodation_local_currency', 'accommodation_payment_way', 'accommodation_payment_description', 'participation_cost',
         'participation_local_cost', 'participation_local_currency', 'participation_payment_way', 'participation_payment_description',
-        'additional_expenses_initial', 'additional_expenses_initial_description',  'meals', '', 'non_grnet_quota', 'user_recommendation', 
+        'additional_expenses_initial', 'additional_expenses_initial_description',  'meals', '', 'non_grnet_quota', ['user_recommendation',{attrs:{readonly: true}}], 
         'secretary_recommendation']
       },
       {
