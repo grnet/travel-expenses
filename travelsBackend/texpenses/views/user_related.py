@@ -28,7 +28,7 @@ def custom_activation_view(request, uid=None, token=None):
         url = settings.HOST_URL + settings.API_PREFIX + '/auth/activate/'
         headers = {'content-type': 'application/x-www-form-urlencoded'}
         response = requests.post(url, data=enc, headers=headers)
-        if response.status_code == 200:
+        if response.status_code == 200 or response.status_code == 204:
             return HttpResponse("ACTIVATED")
         elif response.status_code == 403:
             return HttpResponse("ALREADY ACTIVATED")
