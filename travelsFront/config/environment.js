@@ -10,7 +10,7 @@ module.exports = function(environment) {
 		environment: environment,
 		baseURL: '/ui/',
 		locationType: 'auto',
-		default_city: "5",
+		default_city: "3",
     default_currency: "EUR",
     i18n : {
         defaultLocale: 'gr'
