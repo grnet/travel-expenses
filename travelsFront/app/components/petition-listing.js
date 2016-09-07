@@ -6,6 +6,7 @@ export default Ember.Component.extend({
 	deleteMessage: "",
 	statePetitionList: "",
   tagName: 'tr',
+  promptService: Ember.inject.service('prompt'),
 
 	actions: {
 
@@ -13,6 +14,7 @@ export default Ember.Component.extend({
 			if (model.get('status') == 1 || this.get('account.user.user_group') === "SECRETARY"){
 				this.sendAction('edit', model);
 			}
+
 		},
 
 		del(model) {
