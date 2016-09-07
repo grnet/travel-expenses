@@ -7,7 +7,11 @@ const CHOICES = ENV.APP.resource_choices,
       CURRENCY = [[ENV.default_currency, ENV.default_currency]];
 
 export var CompensationPetition = SecretaryPetition.extend({
-     
+
+  //compensation - user fields
+  report_upload: DS.attr(),
+  report: DS.attr({attrs:{textarea: true}}),
+
   //secretary fields
   non_grnet_quota: DS.attr(),
   manager_travel_approval: DS.attr({attrs:{textarea: true}}),
