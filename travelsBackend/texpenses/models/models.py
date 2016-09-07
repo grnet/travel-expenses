@@ -806,7 +806,7 @@ class PetitionManager(models.Manager):
         q = Q()
         for status_dse in status_dse_map:
             q |= Q(status=status_dse['status__max'],
-                   dse=status_dse['dse'])
+                   dse=status_dse['dse'], deleted=False)
         return base_queryset.filter(q) if status_dse_map else \
             base_queryset.filter(status__in=self.status_list, deleted=False)
 
