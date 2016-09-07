@@ -22,7 +22,6 @@
             {{#unless (can "approve petition")}}
               {{#menu-item onClick=(transition-to "userPetition" "new")}}{{t 'new_petition.tab'}}{{/menu-item}}
               {{#menu-item onClick=(transition-to "petitionList")}}{{t 'my_petitions.tab'}}{{/menu-item}}
-              {{#menu-item onClick=(transition-to "subPetitionList")}}{{t 'submitted_petitions.tab'}}{{/menu-item}}
             {{/unless}}
             {{#if (can "approve petition")}}
               {{#menu-item onClick=(transition-to "advancedList")}}{{t 'petitions_for_approval.tab'}}{{/menu-item}}

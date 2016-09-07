@@ -2,11 +2,13 @@ import Ember from 'ember';
 import ENV from 'travels-front/config/environment'; 
 
 const {
-  set
+  set,
+  get
 } = Ember;
 
 export default Ember.Controller.extend({
 
+  editRoute: 'userPetition',
 	deleteMessage: "",
 	statePetitionList: "",
   sortByDse: ['status:desc', 'dse:asc'],
@@ -21,7 +23,7 @@ export default Ember.Controller.extend({
 		},	
 
 		petitionEdit(id, status){
-			this.transitionToRoute('userPetition', id);
+			this.transitionToRoute(get(this, 'editRoute'), id);
 		},
 
 		petitionDelete(id, status){
@@ -33,6 +35,7 @@ export default Ember.Controller.extend({
         console.error(err);
         set(this, 'actionMessage', 'petition.delete.fail')
       })
-		},
+		}
+
 	}
 });
