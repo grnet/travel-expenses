@@ -636,11 +636,11 @@ class Petition(SecretarialInfo, ParticipationInfo):
                             'updated', 'participation_default_currency')
         filter_fields = ('first_name', 'last_name', 'project',
                          'task_start_date', 'task_end_date', 'created',
-                         'update')
+                         'updated')
 
         search_fields = ('first_name', 'last_name', 'project',
                          'task_start_date', 'task_end_date', 'created',
-                         'update')
+                         'updated')
         nested_relations = [('travel_info', 'travel_info')]
 
     def __init__(self, *args, **kwargs):
@@ -821,6 +821,8 @@ class UserPetition(Petition):
 
     class APITravel:
         fields = Petition.APITravel.fields
+        filter_fields = Petition.APITravel.filter_fields
+        search_fields = Petition.APITravel.search_fields
         read_only_fields = Petition.APITravel.read_only_fields + (
             'dse', 'user')
         nested_relations = [('travel_info', 'travel_info')]
@@ -846,6 +848,8 @@ class UserPetitionSubmission(Petition):
 
     class APITravel:
         fields = Petition.APITravel.fields
+        filter_fields = Petition.APITravel.filter_fields
+        search_fields = Petition.APITravel.search_fields
         read_only_fields = Petition.APITravel.read_only_fields + ('user',)
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoUserSubmission)]
@@ -907,6 +911,9 @@ class SecretaryPetition(Petition):
             'compensation_decision_protocol',
             'compensation_decision_date', 'movement_id',
             'manager_travel_approval', 'manager_final_approval')
+
+        filter_fields = Petition.APITravel.filter_fields
+        search_fields = Petition.APITravel.search_fields
         read_only_fields = Petition.APITravel.read_only_fields
         nested_relations = [('travel_info', 'travel_info')]
         extra_kwargs = {
@@ -943,6 +950,9 @@ class SecretaryPetitionSubmission(Petition):
             'compensation_decision_protocol',
             'compensation_decision_date', 'manager_travel_approval',
             'manager_final_approval')
+
+        filter_fields = Petition.APITravel.filter_fields
+        search_fields = Petition.APITravel.search_fields
         read_only_fields = Petition.APITravel.read_only_fields
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoSecretarySubmission)]
