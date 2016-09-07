@@ -1,4 +1,4 @@
-import {SecretaryPetition} from 'travels-front/lib/models/secretary-petition';
+import {Compensation} from 'travels-front/lib/models/compensation';
 import Ember from 'ember';
 import DS from 'ember-data';
 import ENV from 'travels-front/config/environment'; 
@@ -6,12 +6,8 @@ import ENV from 'travels-front/config/environment';
 const CHOICES = ENV.APP.resource_choices,
       CURRENCY = [[ENV.default_currency, ENV.default_currency]];
 
-export var CompensationPetition = SecretaryPetition.extend({
-
-  //compensation - user fields
-  report_upload: DS.attr(),
-  report: DS.attr({attrs:{textarea: true}}),
-
+export var SecretaryCompensation = Compensation.extend({
+     
   //secretary fields
   non_grnet_quota: DS.attr(),
   manager_travel_approval: DS.attr({attrs:{textarea: true}}),
