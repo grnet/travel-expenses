@@ -38,7 +38,7 @@ const normalizePetition = function(hash, serializer) {
   if (travel_info.length) {
     travel_info = travel_info[0];
     for (let field of TRAVEL_INFO_FIELDS) {
-      if (travel_info[field]) {
+      if (field in travel_info) {
         hash[field] = travel_info[field];
       }
     }
@@ -50,7 +50,7 @@ const normalizePetition = function(hash, serializer) {
 const serializePetition = function(json) {
   let travel_info = {};
   for (let field of TRAVEL_INFO_FIELDS) {
-    if (json[field]) {
+    if (field in json) {
       travel_info[field] = json[field];
       delete json[field];
     }
