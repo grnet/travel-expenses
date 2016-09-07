@@ -21,8 +21,10 @@ function isString(item) {
 export default Select.extend({
   init() {
     this._super();
-    this.updateValue();
   },
+  setInitialValue: Ember.on('init', function() {
+    this.updateValue();
+  }),
   choiceModel: null,
   observeValue: observer('value', function() {
     this.updateValue();
@@ -30,7 +32,10 @@ export default Select.extend({
 
   updateValue() {
     let value = get(this, 'value');
-    if (!value) { return; }
+    if (!value) {
+      set(this, 'choiceModel', null);
+      return;
+    }
     let label = get(this, 'value.' + (get(this, 'fattrs.labelKey') || 'name'));
     set(this, 'choiceModel', {
       label,

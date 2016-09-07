@@ -118,7 +118,7 @@ export default Ember.Component.extend({
   actions: {
     updateProperty: function(value) {
       if (value instanceof Ember.ObjectProxy) {
-        value.then(function(model) {
+        value.then((model) => {
           set(get(this, 'object'), get(this, 'key'), model);
         });
       } else {
