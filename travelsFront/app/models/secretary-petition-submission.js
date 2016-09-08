@@ -23,10 +23,10 @@ export default SecretaryPetition.extend(Validations, {
    'default': UIS['petition_travel'],
   },
 
-  cancel: function() {
-    let adapter = this.store.adapterFor('secretary-petition-submission');
-    return adapter.action(this, 'cancel');
-  }
+  // cancel: function() {
+  //   let adapter = this.store.adapterFor('secretary-petition-submission');
+  //   return adapter.action(this, 'cancel');
+  // }
 
 });
 

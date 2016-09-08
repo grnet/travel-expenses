@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import {PetitionListRoute} from 'travels-front/lib/models/util';
+import {PetitionListRoute, preloadPetitions} from 'travels-front/lib/models/util';
 
 export default PetitionListRoute.extend(AuthenticatedRouteMixin,{
-  petitionModel: 'secretary-petition'
+  petitionModel: ['secretary-petition-submission', 'secretary-petition']
 });

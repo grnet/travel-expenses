@@ -13,7 +13,6 @@
 	{{#if (lte petition.status 3)}}
     {{list-action action=(action "edit" petition) icon='pencil' confirm=false}}
     {{list-action action=(action "del" petition) icon='trash-o' confirm=true}}
-    {{list-action action=(action "undo" petition) icon='undo' confirm=true}}
   {{else if (eq petition.status 4)}}
     {{list-action action=(action "undo" petition) icon='undo' confirm=true}}
   {{/if}}
