@@ -124,7 +124,7 @@ class APIPetitionTest(APITestCase):
             petition_url = response.data['url']
             response = self.client.get(petition_url)
             self.assertEqual(response.status_code, status.HTTP_200_OK)
-            fields = model.API.fields
+            fields = model.Api.fields
             created_petition = response.data
 
             for field in created_petition:
@@ -166,7 +166,7 @@ class APIPetitionTest(APITestCase):
     def test_submission_apis(self):
         for model, url in SUBMISSION_APIS:
             self.data.update(EXTRA_DATA[model])
-            for field, attrs in model.APITravel.extra_kwargs.iteritems():
+            for field, attrs in model.Api.extra_kwargs.iteritems():
                 response = self.client.post(url, self.data, format='json')
                 self.assertEqual(response.status_code, status.HTTP_201_CREATED)
                 if attrs.get('required', False):
@@ -207,7 +207,7 @@ class APIPetitionTest(APITestCase):
                 }
         for model, url in COMPENSATION_APIS:
             data.update(EXTRA_DATA[model])
-            for field, attrs in model.API.extra_kwargs.iteritems():
+            for field, attrs in model.Api.extra_kwargs.iteritems():
                 response = self.client.post(url, data, format='json')
                 self.assertEqual(response.status_code, status.HTTP_201_CREATED)
                 if attrs.get('required', False):
@@ -336,7 +336,7 @@ class APIPetitionTest(APITestCase):
             cancel_url = submission_endpoint + str(petition.id) + '/cancel/'
             response = self.client.post(cancel_url, format='json')
             self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
-            response = self.client.get(dict(response.items())['Location'],
+            response = self.client.get(dict(response.items())['location'],
                                        format='json')
             self.assertEqual(response.status_code, status.HTTP_200_OK)
 
