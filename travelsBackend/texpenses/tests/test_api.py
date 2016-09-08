@@ -337,7 +337,7 @@ class APIPetitionTest(APITestCase):
                            ('secretarypetitionsubmission',
                             Petition.SUBMITTED_BY_SECRETARY),
                            ('userpetitioncompensationsubmission',
-                            Petition.USER_PETITION_FOR_COMPENSATION_SUBMISSION)]
+                            Petition.USER_COMPENSATION_SUBMISSION)]
         for base_name, petition_status in submission_apis:
             data = {'project': self.project,
                     'task_start_date': self.start_date,

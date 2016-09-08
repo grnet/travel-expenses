@@ -557,8 +557,8 @@ class Petition(SecretarialInfo, ParticipationInfo):
     SUBMITTED_BY_USER = 2
     SAVED_BY_SECRETARY = 3
     SUBMITTED_BY_SECRETARY = 4
-    USER_PETITION_FOR_COMPENSATION = 6
-    USER_PETITION_FOR_COMPENSATION_SUBMISSION = 7
+    USER_COMPENSATION = 6
+    USER_COMPENSATION_SUBMISSION = 7
 
     # Fields that are copied from user object.
     USER_FIELDS = ['first_name', 'last_name', 'iban', 'specialty', 'kind',
@@ -1005,7 +1005,7 @@ class SecretaryPetitionSubmission(Petition):
 class UserPetitionCompensation(Petition):
 
     """ A proxy model for the user petitions to be compensated. """
-    objects = PetitionManager([Petition.USER_PETITION_FOR_COMPENSATION])
+    objects = PetitionManager([Petition.USER_COMPENSATION])
 
     class Meta:
         proxy = True
@@ -1019,15 +1019,15 @@ class UserPetitionCompensation(Petition):
         filter_fields = Petition.APITravel.filter_fields
         search_fields = Petition.APITravel.search_fields
         read_only_fields = Petition.APITravel.read_only_fields +\
-            ('user',) + ('task_start_date',
-                         'task_end_date', 'travel_info', 'reason',
-                         'secretary_recommendation', 'user_recommendation',
-                         'status',
-                         'participation_cost', 'participation_default_currency',
-                         'participation_local_cost',
-                         'participation_local_currency',
-                         'participation_payment_way',
-                         'participation_payment_description', 'url',)
+            ('user', 'task_start_date',
+             'task_end_date', 'travel_info', 'reason',
+             'secretary_recommendation', 'user_recommendation',
+             'status',
+             'participation_cost', 'participation_default_currency',
+             'participation_local_cost',
+             'participation_local_currency',
+             'participation_payment_way',
+             'participation_payment_description', 'url',)
 
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoUserSubmission)]
@@ -1035,7 +1035,7 @@ class UserPetitionCompensation(Petition):
             'dse': {
                 'required': False, 'allow_null': True
             },
-            'status': {'default': Petition.USER_PETITION_FOR_COMPENSATION},
+            'status': {'default': Petition.USER_COMPENSATION},
 
             'user': {
                 'default': serializers.CurrentUserDefault(),
@@ -1044,27 +1044,12 @@ class UserPetitionCompensation(Petition):
             }
         }
 
-    def save(self, **kwargs):
-        # Remove temporary saved petition with the corresponding dse.
-        try:
-            SecretaryPetitionSubmission.objects.get(dse=self.dse).delete()
-        except ObjectDoesNotExist:
-            pass
-        super(UserPetitionCompensation, self).save(**kwargs)
-
-    def status_rollback(self):
-        """
-        Changes status of the petition to the previous one by marking current
-        as deleted and creating new one to the corresponding status.
-        """
-        return self.status_transition(self.SUBMITTED_BY_SECRETARY)
-
 
 class UserPetitionCompensationSubmission(Petition):
 
     """ A proxy model for the user petitions to be compensated. """
     objects = PetitionManager([Petition.
-                               USER_PETITION_FOR_COMPENSATION_SUBMISSION])
+                               USER_COMPENSATION_SUBMISSION])
 
     class Meta:
         proxy = True
@@ -1078,15 +1063,15 @@ class UserPetitionCompensationSubmission(Petition):
         filter_fields = Petition.APITravel.filter_fields
         search_fields = Petition.APITravel.search_fields
         read_only_fields = Petition.APITravel.read_only_fields +\
-            ('user',) + ('task_start_date',
-                         'task_end_date', 'travel_info', 'reason',
-                         'secretary_recommendation', 'user_recommendation',
-                         'status',
-                         'participation_cost', 'participation_default_currency',
-                         'participation_local_cost',
-                         'participation_local_currency',
-                         'participation_payment_way',
-                         'participation_payment_description', 'url',)
+            ('user', 'task_start_date',
+             'task_end_date', 'travel_info', 'reason',
+             'secretary_recommendation', 'user_recommendation',
+             'status',
+             'participation_cost', 'participation_default_currency',
+             'participation_local_cost',
+             'participation_local_currency',
+             'participation_payment_way',
+             'participation_payment_description', 'url',)
 
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoUserSubmission)]
@@ -1094,7 +1079,6 @@ class UserPetitionCompensationSubmission(Petition):
             'dse': {
                 'required': False, 'allow_null': True
             },
-
             'additional_expenses_initial': {
                 'required': True, 'allow_null': False
             },
@@ -1110,8 +1094,7 @@ class UserPetitionCompensationSubmission(Petition):
                 'required': True, 'allow_blank': False, 'allow_null': False
             },
             'status': {'default':
-                       Petition.USER_PETITION_FOR_COMPENSATION_SUBMISSION},
-
+                       Petition.USER_COMPENSATION_SUBMISSION},
             'user': {
                 'default': serializers.CurrentUserDefault(),
                 'validators': [functools.partial(
@@ -1132,4 +1115,4 @@ class UserPetitionCompensationSubmission(Petition):
         Changes status of the petition to the previous one by marking current
         as deleted and creating new one to the corresponding status.
         """
-        return self.status_transition(self.USER_PETITION_FOR_COMPENSATION)
+        return self.status_transition(self.USER_COMPENSATION)
