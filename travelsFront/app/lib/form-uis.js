@@ -53,7 +53,7 @@ export const UIS = {
       {
         'label': 'computed_data.label',
         'fields': ['transport_days_manual', 'transport_days_proposed', 'overnights_num_manual', 'overnights_proposed', 
-        'compensation_days_manual', 'compensation_days_proposed', 'trip_days_before', 'trip_days_after', 
+        'compensation_days_manual', 'compensation_days_proposed', 'trip_days_before', ['trip_days_after',{attrs:{disabled: true}}], 
         'same_day_return_task', 'overnights_sum_cost', 'compensation_final', 'compensation_level', 'total_cost']
       },
     ],
