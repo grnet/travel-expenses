@@ -1,5 +1,14 @@
 <md-input-container class="checkbox-container">
-{{#paper-checkbox value=value onChange=(action 'handleChange') class="md-primary" }}
+{{#paper-checkbox
+	label=label
+	value=value 
+	onChange=(action 'handleChange') 
+	class="md-primary"
+	classNames=fattrs.class
+	autofocus=fattrs.autofocus
+	disabled=fattrs.disabled
+	icon=(if fattrs.disabled 'lock' (if fattrs.icon fattrs.icon null))
+}}
 {{ label }}
 {{/paper-checkbox}}
 </md-input-container>
