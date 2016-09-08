@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework import viewsets, filters, mixins
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
@@ -27,7 +28,7 @@ MIXINS = {
 
 PACKAGE_LOOKUP_FIELD = 'viewset_code'
 MODULE_LOOKUP_FIELD = 'viewset_module_name'
-API_CLS_NAME = 'API'
+API_CLS_NAME = getattr(settings, 'API_PREFIX', 'api').capitalize()
 
 
 def generate(model_class):
