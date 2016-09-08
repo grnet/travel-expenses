@@ -43,5 +43,5 @@ export default DS.Model.extend({
   overnights_num_manual: DS.attr(),
   overnight_cost: DS.attr(),
   compensation_level: DS.attr(),
-  same_day_return_task: DS.attr('boolean'),
+  same_day_return_task: DS.attr('boolean', {attrs: {disabled: true}}),
 });
