@@ -12,3 +12,4 @@ pytz==2016.3
 requests==2.9.1
 six==1.10.0
 workdays==1.4
+inflection==0.3.1
