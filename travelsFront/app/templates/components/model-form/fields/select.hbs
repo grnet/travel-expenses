@@ -38,7 +38,7 @@
     textarea=fattrs.textarea
     rows=fattrs.rows
     columns=fattrs.columns
-    icon=(if fattrs.disabled 'lock' null)
+    icon=(if fattrs.disabled 'lock' (if fattrs.icon fattrs.icon null))
 
     as |options|}}
 
