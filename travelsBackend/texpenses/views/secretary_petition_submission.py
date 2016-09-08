@@ -23,4 +23,4 @@ def cancel(self, request, pk=None):
 
 
 def get_queryset(self):
-    return SecretaryPetitionSubmission.objects.filter(user=self.request.user)
+    return SecretaryPetitionSubmission.objects.all()
