@@ -128,6 +128,9 @@ def get_nested_serializer(model, model_api_class):
             model_field_name).get_internal_type() == MANY_TO_MANY_REL
         source = None if api_field_name == model_field_name\
             else model_field_name
+        extra_kwargs = getattr(model_api_class, 'extra_kwargs', None)
+        field_kwargs = extra_kwargs.get(api_field_name, {})\
+            if extra_kwargs else {}
         nested_serializers[api_field_name] = serializer_class(
-            many=many, source=source)
+            many=many, source=source, **field_kwargs)
     return nested_serializers
