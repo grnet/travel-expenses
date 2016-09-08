@@ -8,19 +8,27 @@ from rest_framework.authtoken.models import Token
 from texpenses.models import (
     City, TravelInfo, Petition, UserPetition, Project, UserProfile, TaxOffice,
     UserPetitionSubmission, SecretaryPetition, SecretaryPetitionSubmission,
-    Country)
-
+    Country, UserPetitionCompensation, UserPetitionCompensationSubmission)
 
 PETITION_APIS = [
     (UserPetition, reverse('userpetition-list')),
     (UserPetitionSubmission, reverse('userpetitionsubmission-list')),
     (SecretaryPetition, reverse('secretarypetition-list')),
-    (SecretaryPetitionSubmission, reverse('secretarypetitionsubmission-list'))
+    (SecretaryPetitionSubmission, reverse('secretarypetitionsubmission-list')),
+    (UserPetitionCompensation, reverse('userpetitioncompensation-list')),
+    (UserPetitionCompensationSubmission,
+     reverse('userpetitioncompensationsubmission-list')),
 ]
 
 SUBMISSION_APIS = [
     (UserPetitionSubmission, reverse('userpetitionsubmission-list')),
     (SecretaryPetitionSubmission, reverse('secretarypetitionsubmission-list'))
+]
+
+COMPENSATION_APIS = [
+    (UserPetitionCompensation, reverse('userpetitioncompensation-list')),
+    (UserPetitionCompensationSubmission,
+     reverse('userpetitioncompensationsubmission-list')),
 ]
 
 PROTOCOL_DATE_FORMAT = '%Y-%m-%d'
@@ -34,6 +42,7 @@ TRAVEL_DATE = (datetime.now() + timedelta(days=1)).strftime(
 EXTRA_DATA = {
     UserPetition: {},
     UserPetitionSubmission: {'reason': 'reason'},
+
     SecretaryPetition: {},
     SecretaryPetitionSubmission: {
         'additional_expenses_initial_description': 'test',
@@ -42,7 +51,14 @@ EXTRA_DATA = {
         'movement_protocol': 'movement protocol',
         'movement_date_protocol': PROTOCOL_DATE
 
-    }
+    },
+    UserPetitionCompensation: {},
+
+    UserPetitionCompensationSubmission:
+    {'additional_expenses_initial': 100,
+     'additional_expenses_initial_description': 'test',
+     'travel_report': 'travel report',
+     'additional_expenses_default_currency': 'EUR'}
 }
 TRAVEL_INFO_MANDATORY_ELEMENTS = {
     'means_of_transport': 'AIR',
@@ -68,14 +84,15 @@ class APIPetitionTest(APITestCase):
         self.tax_office = TaxOffice.objects.create(
             name='test', description='test', address='test',
             email='test@example.com', phone='2104344444')
-        self.user = UserProfile.objects.create_user(
-            username='admin', first_name='Nick', last_name='Jones',
-            email='test@email.com', is_staff=True,
-            iban='GR4902603280000910200635494', is_superuser=True,
+        self.user = UserProfile.objects.create_superuser(
+            username='nick', first_name='Nick', last_name='Jones',
+            email='test@email.com',
+            iban='GR4902603280000910200635494',
             password='test', kind='1',
             specialty='1', tax_reg_num=011111111,
             tax_office=self.tax_office, user_category='A',
             trip_days_left=5)
+
         self.city = City.objects.create(
             name='Athens', country=Country.objects.create(name='Greece'))
         self.project = Project.objects.create(name='Test Project',
@@ -197,6 +214,54 @@ class APIPetitionTest(APITestCase):
             self.assertEqual(
                 response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
+    def test_compensation_apis(self):
+        data = {'project': self.project_url,
+                'task_start_date': self.start_date,
+                'task_end_date': self.end_date, 'travel_info': [],
+                'reason': 'reason',
+                'dse': None,
+                'user': self.user_url,
+                'movement_id': 'movement_id'
+                }
+        for model, url in COMPENSATION_APIS:
+            data.update(EXTRA_DATA[model])
+            for field, attrs in model.APITravel.extra_kwargs.iteritems():
+                response = self.client.post(url, data, format='json')
+                self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+                if attrs.get('required', False):
+                    value = data.pop(field)
+                    response = self.client.post(url, data, format='json')
+                    self.assertEqual(response.status_code,
+                                     status.HTTP_400_BAD_REQUEST)
+                    self.assertEqual(response.data, {
+                        field: ['This field is required.']})
+                    data[field] = value
+
+    def test_compensation_permissions(self):
+        data = {'project': self.project_url,
+                'task_start_date': self.start_date,
+                'task_end_date': self.end_date, 'travel_info': [],
+                'dse': None,
+                'user': self.user_url,
+                'movement_id': 'movement_id'
+                }
+        for model, url in COMPENSATION_APIS:
+            data.update(EXTRA_DATA[model])
+            response = self.client.post(url, data, format='json')
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+            # test put
+            response = self.client.put(url, data, format='json')
+            self.assertEqual(
+                response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+            # test patch
+            response = self.client.patch(url, data, format='json')
+            self.assertEqual(
+                response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+            # test delete
+            response = self.client.delete(url, data, format='json')
+            self.assertEqual(
+                response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
     def test_nested_serialization(self):
         city_url = reverse('city-detail', args=[1])
 
@@ -270,7 +335,9 @@ class APIPetitionTest(APITestCase):
         submission_apis = [('userpetitionsubmission',
                             Petition.SUBMITTED_BY_USER),
                            ('secretarypetitionsubmission',
-                            Petition.SUBMITTED_BY_SECRETARY)]
+                            Petition.SUBMITTED_BY_SECRETARY),
+                           ('userpetitioncompensationsubmission',
+                            Petition.USER_PETITION_FOR_COMPENSATION_SUBMISSION)]
         for base_name, petition_status in submission_apis:
             data = {'project': self.project,
                     'task_start_date': self.start_date,
@@ -283,7 +350,7 @@ class APIPetitionTest(APITestCase):
             cancel_url = submission_endpoint + str(petition.id) + '/cancel/'
             response = self.client.post(cancel_url, format='json')
             self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
-            response = self.client.get(dict(response.items())['location'],
+            response = self.client.get(dict(response.items())['Location'],
                                        format='json')
             self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -317,11 +384,11 @@ class APIPetitionTest(APITestCase):
         self.client.logout()
 
         # create a new user and login
-        self.user = UserProfile.objects.create_user(
+        self.user = UserProfile.objects.create_superuser(
             username='kostas', first_name='Kostas', last_name='Nikolaou',
-            email='test@email.com', is_staff=True,
+            email='test@email.com',
             kind='1',
-            iban='GR4902603280000910200635494', is_superuser=True,
+            iban='GR4902603280000910200635494',
             password='test', specialty='1', tax_reg_num=135362340,
             tax_office=self.tax_office, user_category='A', trip_days_left=5)
         self.city = City.objects.create(

@@ -557,6 +557,8 @@ class Petition(SecretarialInfo, ParticipationInfo):
     SUBMITTED_BY_USER = 2
     SAVED_BY_SECRETARY = 3
     SUBMITTED_BY_SECRETARY = 4
+    USER_PETITION_FOR_COMPENSATION = 6
+    USER_PETITION_FOR_COMPENSATION_SUBMISSION = 7
 
     # Fields that are copied from user object.
     USER_FIELDS = ['first_name', 'last_name', 'iban', 'specialty', 'kind',
@@ -598,14 +600,16 @@ class Petition(SecretarialInfo, ParticipationInfo):
 
     status = models.IntegerField(blank=False)
 
+    first_name = models.CharField(max_length=200, blank=False, null=True)
+    last_name = models.CharField(max_length=200, blank=False, null=True)
+
+    travel_report = models.CharField(max_length=1000, blank=True, null=True)
     additional_expenses_initial = models.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
     additional_expenses_default_currency = models.CharField(
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
     additional_expenses_initial_description = models.CharField(
         max_length=400, blank=True, null=True)
-    first_name = models.CharField(max_length=200, blank=False, null=True)
-    last_name = models.CharField(max_length=200, blank=False, null=True)
 
     tracked_fields = ['task_start_date', 'task_end_date']
     tracker = FieldTracker()
@@ -617,9 +621,7 @@ class Petition(SecretarialInfo, ParticipationInfo):
                   'task_start_date', 'task_end_date', 'created', 'updated',
                   'travel_info', 'project', 'reason',
                   'secretary_recommendation', 'user_recommendation',
-                  'additional_expenses_initial',
-                  'additional_expenses_default_currency',
-                  'additional_expenses_initial_description',
+
                   'trip_days_before', 'trip_days_after', 'status',
                   'participation_cost', 'participation_default_currency',
                   'participation_local_cost', 'participation_local_currency',
@@ -998,3 +1000,136 @@ class SecretaryPetitionSubmission(Petition):
         as deleted and creating new one to the corresponding status.
         """
         return self.status_transition(self.SAVED_BY_SECRETARY)
+
+
+class UserPetitionCompensation(Petition):
+
+    """ A proxy model for the user petitions to be compensated. """
+    objects = PetitionManager([Petition.USER_PETITION_FOR_COMPENSATION])
+
+    class Meta:
+        proxy = True
+
+    class APITravel:
+        fields = Petition.APITravel.\
+            fields + ('additional_expenses_initial',
+                      'additional_expenses_default_currency',
+                      'additional_expenses_initial_description',
+                      'travel_report',)
+        filter_fields = Petition.APITravel.filter_fields
+        search_fields = Petition.APITravel.search_fields
+        read_only_fields = Petition.APITravel.read_only_fields +\
+            ('user',) + ('task_start_date',
+                         'task_end_date', 'travel_info', 'reason',
+                         'secretary_recommendation', 'user_recommendation',
+                         'status',
+                         'participation_cost', 'participation_default_currency',
+                         'participation_local_cost',
+                         'participation_local_currency',
+                         'participation_payment_way',
+                         'participation_payment_description', 'url',)
+
+        nested_relations = [
+            ('travel_info', 'travel_info', TravelInfoUserSubmission)]
+        extra_kwargs = {
+            'dse': {
+                'required': False, 'allow_null': True
+            },
+            'status': {'default': Petition.USER_PETITION_FOR_COMPENSATION},
+
+            'user': {
+                'default': serializers.CurrentUserDefault(),
+                'validators': [functools.partial(
+                    required_validator, fields=Petition.USER_FIELDS)]
+            }
+        }
+
+    def save(self, **kwargs):
+        # Remove temporary saved petition with the corresponding dse.
+        try:
+            SecretaryPetitionSubmission.objects.get(dse=self.dse).delete()
+        except ObjectDoesNotExist:
+            pass
+        super(UserPetitionCompensation, self).save(**kwargs)
+
+    def status_rollback(self):
+        """
+        Changes status of the petition to the previous one by marking current
+        as deleted and creating new one to the corresponding status.
+        """
+        return self.status_transition(self.SUBMITTED_BY_SECRETARY)
+
+
+class UserPetitionCompensationSubmission(Petition):
+
+    """ A proxy model for the user petitions to be compensated. """
+    objects = PetitionManager([Petition.
+                               USER_PETITION_FOR_COMPENSATION_SUBMISSION])
+
+    class Meta:
+        proxy = True
+
+    class APITravel:
+        fields = Petition.APITravel.\
+            fields + ('additional_expenses_initial',
+                      'additional_expenses_default_currency',
+                      'additional_expenses_initial_description',
+                      'travel_report',)
+        filter_fields = Petition.APITravel.filter_fields
+        search_fields = Petition.APITravel.search_fields
+        read_only_fields = Petition.APITravel.read_only_fields +\
+            ('user',) + ('task_start_date',
+                         'task_end_date', 'travel_info', 'reason',
+                         'secretary_recommendation', 'user_recommendation',
+                         'status',
+                         'participation_cost', 'participation_default_currency',
+                         'participation_local_cost',
+                         'participation_local_currency',
+                         'participation_payment_way',
+                         'participation_payment_description', 'url',)
+
+        nested_relations = [
+            ('travel_info', 'travel_info', TravelInfoUserSubmission)]
+        extra_kwargs = {
+            'dse': {
+                'required': False, 'allow_null': True
+            },
+
+            'additional_expenses_initial': {
+                'required': True, 'allow_null': False
+            },
+            'additional_expenses_default_currency': {
+                'required': True, 'allow_blank': False, 'allow_null': False
+            },
+
+            'additional_expenses_initial_description': {
+                'required': True, 'allow_blank': False, 'allow_null': False
+            },
+
+            'travel_report': {
+                'required': True, 'allow_blank': False, 'allow_null': False
+            },
+            'status': {'default':
+                       Petition.USER_PETITION_FOR_COMPENSATION_SUBMISSION},
+
+            'user': {
+                'default': serializers.CurrentUserDefault(),
+                'validators': [functools.partial(
+                    required_validator, fields=Petition.USER_FIELDS)]
+            }
+        }
+
+    def save(self, **kwargs):
+        # Remove temporary saved petition with the corresponding dse.
+        try:
+            UserPetitionCompensation.objects.get(dse=self.dse).delete()
+        except ObjectDoesNotExist:
+            pass
+        super(UserPetitionCompensationSubmission, self).save(**kwargs)
+
+    def status_rollback(self):
+        """
+        Changes status of the petition to the previous one by marking current
+        as deleted and creating new one to the corresponding status.
+        """
+        return self.status_transition(self.USER_PETITION_FOR_COMPENSATION)

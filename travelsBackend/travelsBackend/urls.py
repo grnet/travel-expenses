@@ -7,8 +7,9 @@ from texpenses.factories.views import factory
 from texpenses.models import (TaxOffice, Project, City, Country,
                               UserProfile,
                               UserPetition, UserPetitionSubmission,
+                              UserPetitionCompensationSubmission,
+                              UserPetitionCompensation,
                               SecretaryPetition, SecretaryPetitionSubmission)
-from texpenses.permissions.custom_permissions import IsOwnerOrAdmin
 from . import auth_urls
 
 router = routers.DefaultRouter()
@@ -27,21 +28,28 @@ router_resources.register(r'country', factory(Country), base_name='country')
 
 
 router_user.register(
-    r'saved', factory(UserPetition, custom_permissions=(IsOwnerOrAdmin,),
-                      serializer_module_name='petition'),
+    r'saved', factory(UserPetition, serializer_module_name='petition'),
     base_name='userpetition')
 router_secretary.register(
     r'saved', factory(SecretaryPetition, serializer_module_name='petition'),
     base_name='secretarypetition')
 router_user.register(
+    r'compensation/saved', factory(UserPetitionCompensation,
+                      serializer_module_name='petition'),
+    base_name='userpetitioncompensation')
+
+router_user.register(
     r'submitted', factory(UserPetitionSubmission,
-                          custom_permissions=(IsOwnerOrAdmin,),
                           serializer_module_name='petition'),
     base_name='userpetitionsubmission')
 router_secretary.register(
     r'submitted', factory(SecretaryPetitionSubmission,
                           serializer_module_name='petition'),
     base_name='secretarypetitionsubmission')
+router_user.register(
+    r'compensation/submitted', factory(UserPetitionCompensationSubmission,
+                      serializer_module_name='petition'),
+    base_name='userpetitioncompensationsubmission')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browseable API.
