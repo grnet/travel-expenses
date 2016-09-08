@@ -7,6 +7,7 @@ EXPOSED_METHODS = [
     'update',
     'validate',
     'validate_user',
+    'validate_travel_info',
 ]
 
 
@@ -123,6 +124,15 @@ def validate(self, attrs):
     model_inst.clean()
     attrs['travel_info'] = nested_attrs
     return attrs
+
+
+def validate_travel_info(self, value):
+    travel_info_field = self.get_fields()['travel_info']
+    if not travel_info_field.required:
+        return value
+    if not value or any(not obj for obj in value):
+        raise ValidationError('This field must not include empty objects')
+    return value
 
 
 def validate_user(self, user_value):
