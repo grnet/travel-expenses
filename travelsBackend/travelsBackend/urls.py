@@ -7,8 +7,8 @@ from texpenses.factories.views import factory
 from texpenses.models import (TaxOffice, Project, City, Country,
                               UserProfile,
                               UserPetition, UserPetitionSubmission,
-                              UserPetitionCompensationSubmission,
-                              UserPetitionCompensation,
+                              UserCompensationSubmission,
+                              UserCompensation,
                               SecretaryPetition, SecretaryPetitionSubmission)
 from . import auth_urls
 
@@ -34,9 +34,9 @@ router_secretary.register(
     r'saved', factory(SecretaryPetition, serializer_module_name='petition'),
     base_name='secretarypetition')
 router_user.register(
-    r'compensation/saved', factory(UserPetitionCompensation,
+    r'compensation/saved', factory(UserCompensation,
                       serializer_module_name='petition'),
-    base_name='userpetitioncompensation')
+    base_name='usercompensation')
 
 router_user.register(
     r'submitted', factory(UserPetitionSubmission,
@@ -47,9 +47,9 @@ router_secretary.register(
                           serializer_module_name='petition'),
     base_name='secretarypetitionsubmission')
 router_user.register(
-    r'compensation/submitted', factory(UserPetitionCompensationSubmission,
+    r'compensation/submitted', factory(UserCompensationSubmission,
                       serializer_module_name='petition'),
-    base_name='userpetitioncompensationsubmission')
+    base_name='usercompensationsubmission')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browseable API.

@@ -8,16 +8,16 @@ from rest_framework.authtoken.models import Token
 from texpenses.models import (
     City, TravelInfo, Petition, UserPetition, Project, UserProfile, TaxOffice,
     UserPetitionSubmission, SecretaryPetition, SecretaryPetitionSubmission,
-    Country, UserPetitionCompensation, UserPetitionCompensationSubmission)
+    Country, UserCompensation, UserCompensationSubmission)
 
 PETITION_APIS = [
     (UserPetition, reverse('userpetition-list')),
     (UserPetitionSubmission, reverse('userpetitionsubmission-list')),
     (SecretaryPetition, reverse('secretarypetition-list')),
     (SecretaryPetitionSubmission, reverse('secretarypetitionsubmission-list')),
-    (UserPetitionCompensation, reverse('userpetitioncompensation-list')),
-    (UserPetitionCompensationSubmission,
-     reverse('userpetitioncompensationsubmission-list')),
+    (UserCompensation, reverse('usercompensation-list')),
+    (UserCompensationSubmission,
+     reverse('usercompensationsubmission-list')),
 ]
 
 SUBMISSION_APIS = [
@@ -26,9 +26,9 @@ SUBMISSION_APIS = [
 ]
 
 COMPENSATION_APIS = [
-    (UserPetitionCompensation, reverse('userpetitioncompensation-list')),
-    (UserPetitionCompensationSubmission,
-     reverse('userpetitioncompensationsubmission-list')),
+    (UserCompensation, reverse('usercompensation-list')),
+    (UserCompensationSubmission,
+     reverse('usercompensationsubmission-list')),
 ]
 
 PROTOCOL_DATE_FORMAT = '%Y-%m-%d'
@@ -52,9 +52,9 @@ EXTRA_DATA = {
         'movement_date_protocol': PROTOCOL_DATE
 
     },
-    UserPetitionCompensation: {},
+    UserCompensation: {},
 
-    UserPetitionCompensationSubmission:
+    UserCompensationSubmission:
     {'additional_expenses_initial': 100,
      'additional_expenses_initial_description': 'test',
      'travel_report': 'travel report',
@@ -336,7 +336,7 @@ class APIPetitionTest(APITestCase):
                             Petition.SUBMITTED_BY_USER),
                            ('secretarypetitionsubmission',
                             Petition.SUBMITTED_BY_SECRETARY),
-                           ('userpetitioncompensationsubmission',
+                           ('usercompensationsubmission',
                             Petition.USER_COMPENSATION_SUBMISSION)]
         for base_name, petition_status in submission_apis:
             data = {'project': self.project,

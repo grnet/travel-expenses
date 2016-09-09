@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from texpenses.models import UserPetitionCompensationSubmission
+from texpenses.models import UserCompensationSubmission
 
 
 EXPOSED_METHODS = ['cancel', 'get_queryset']
@@ -15,7 +15,7 @@ def cancel(self, request, pk=None):
     try:
         petition_id = submitted.status_rollback()
         headers = {'location':
-                   reverse('userpetitioncompensation-detail',
+                   reverse('usercompensation-detail',
                            args=[petition_id])}
         return Response(headers=headers, status=status.HTTP_303_SEE_OTHER)
     except PermissionDenied as e:
@@ -24,5 +24,5 @@ def cancel(self, request, pk=None):
 
 
 def get_queryset(self):
-    return UserPetitionCompensationSubmission.objects.\
+    return UserCompensationSubmission.objects.\
         filter(user=self.request.user)

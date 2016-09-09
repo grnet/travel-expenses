@@ -1002,7 +1002,7 @@ class SecretaryPetitionSubmission(Petition):
         return self.status_transition(self.SAVED_BY_SECRETARY)
 
 
-class UserPetitionCompensation(Petition):
+class UserCompensation(Petition):
 
     """ A proxy model for the user petitions to be compensated. """
     objects = PetitionManager([Petition.USER_COMPENSATION])
@@ -1045,7 +1045,7 @@ class UserPetitionCompensation(Petition):
         }
 
 
-class UserPetitionCompensationSubmission(Petition):
+class UserCompensationSubmission(Petition):
 
     """ A proxy model for the user petitions to be compensated. """
     objects = PetitionManager([Petition.
@@ -1105,10 +1105,10 @@ class UserPetitionCompensationSubmission(Petition):
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
         try:
-            UserPetitionCompensation.objects.get(dse=self.dse).delete()
+            UserCompensation.objects.get(dse=self.dse).delete()
         except ObjectDoesNotExist:
             pass
-        super(UserPetitionCompensationSubmission, self).save(**kwargs)
+        super(UserCompensationSubmission, self).save(**kwargs)
 
     def status_rollback(self):
         """
