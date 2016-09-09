@@ -54,11 +54,7 @@ EXTRA_DATA = {
     },
     UserCompensation: {},
 
-    UserCompensationSubmission:
-    {'additional_expenses_initial': 100,
-     'additional_expenses_initial_description': 'test',
-     'travel_report': 'travel report',
-     'additional_expenses_default_currency': 'EUR'}
+    UserCompensationSubmission: {'travel_report': 'travel report'}
 }
 TRAVEL_INFO_MANDATORY_ELEMENTS = {
     'means_of_transport': 'AIR',

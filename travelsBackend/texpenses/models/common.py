@@ -7,6 +7,12 @@ def load_resources():
         return json.load(json_file)
 
 
+def user_directory_path(instance, filename):
+    # file will be uploaded to
+    # MEDIA_ROOT/<username>(<email>)/<filename>
+    return '{0}({1})/{2}'.format(instance.user.username,
+                                 instance.user.email, filename)
+
 RESOURCES = load_resources()
 SPECIALTY = RESOURCES['SPECIALTY']
 KIND = RESOURCES['KIND']

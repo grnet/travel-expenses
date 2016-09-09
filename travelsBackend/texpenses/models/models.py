@@ -611,6 +611,9 @@ class Petition(SecretarialInfo, ParticipationInfo):
     additional_expenses_initial_description = models.CharField(
         max_length=400, blank=True, null=True)
 
+    travel_files = models.FileField(upload_to=common.user_directory_path,
+                                    null=True, blank=True)
+
     tracked_fields = ['task_start_date', 'task_end_date']
     tracker = FieldTracker()
 
@@ -621,7 +624,6 @@ class Petition(SecretarialInfo, ParticipationInfo):
                   'task_start_date', 'task_end_date', 'created', 'updated',
                   'travel_info', 'project', 'reason',
                   'secretary_recommendation', 'user_recommendation',
-
                   'trip_days_before', 'trip_days_after', 'status',
                   'participation_cost', 'participation_default_currency',
                   'participation_local_cost', 'participation_local_currency',
@@ -942,8 +944,6 @@ class SecretaryPetitionSubmission(Petition):
     class APITravel:
         fields = Petition.APITravel.fields + (
             'non_grnet_quota', 'grnet_quota', 'user', 'movement_id',
-            'additional_expenses_initial_description',
-            'additional_expenses_initial',
             'expenditure_protocol',
             'expenditure_date_protocol',
             'movement_protocol', 'movement_date_protocol',
@@ -1015,7 +1015,7 @@ class UserCompensation(Petition):
             fields + ('additional_expenses_initial',
                       'additional_expenses_default_currency',
                       'additional_expenses_initial_description',
-                      'travel_report',)
+                      'travel_report', 'travel_files',)
         filter_fields = Petition.APITravel.filter_fields
         search_fields = Petition.APITravel.search_fields
         read_only_fields = Petition.APITravel.read_only_fields +\
@@ -1059,7 +1059,7 @@ class UserCompensationSubmission(Petition):
             fields + ('additional_expenses_initial',
                       'additional_expenses_default_currency',
                       'additional_expenses_initial_description',
-                      'travel_report',)
+                      'travel_report', 'travel_files',)
         filter_fields = Petition.APITravel.filter_fields
         search_fields = Petition.APITravel.search_fields
         read_only_fields = Petition.APITravel.read_only_fields +\
@@ -1079,17 +1079,6 @@ class UserCompensationSubmission(Petition):
             'dse': {
                 'required': False, 'allow_null': True
             },
-            'additional_expenses_initial': {
-                'required': True, 'allow_null': False
-            },
-            'additional_expenses_default_currency': {
-                'required': True, 'allow_blank': False, 'allow_null': False
-            },
-
-            'additional_expenses_initial_description': {
-                'required': True, 'allow_blank': False, 'allow_null': False
-            },
-
             'travel_report': {
                 'required': True, 'allow_blank': False, 'allow_null': False
             },
