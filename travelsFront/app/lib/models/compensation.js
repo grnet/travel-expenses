@@ -9,8 +9,11 @@ const CHOICES = ENV.APP.resource_choices,
 export var Compensation = SecretaryPetition.extend({
 
   //compensation - user fields
-  report_upload: DS.attr(),
-  report: DS.attr({attrs:{textarea: true}}),
+  additional_expenses: DS.attr({attrs: {required: true}}),
+  additional_expenses_local_currency: DS.attr({'choices': CHOICES.CURRENCIES}),
+  additional_expenses__description: DS.attr({attrs:{textarea: true}}),
+  travel_files: DS.attr(),
+  travel_report: DS.attr({attrs:{textarea: true}}),
 
   //secretary fields
   non_grnet_quota: DS.attr(),

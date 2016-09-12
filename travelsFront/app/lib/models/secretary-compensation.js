@@ -9,6 +9,10 @@ const CHOICES = ENV.APP.resource_choices,
 export var SecretaryCompensation = Compensation.extend({
      
   //secretary fields
+  compensation_petition_date: DS.attr('date'),
+  compensation_petition_protocol: DS.attr(),
+  compensation_decision_date: DS.attr('date'),
+  compensation_decision_protocol: DS.attr(),
   non_grnet_quota: DS.attr(),
   manager_travel_approval: DS.attr({attrs:{textarea: true}}),
   manager_final_approval: DS.attr({attrs:{textarea: true}}),
