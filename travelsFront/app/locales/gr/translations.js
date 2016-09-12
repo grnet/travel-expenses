@@ -133,4 +133,11 @@ export default {
  	'petition_create.title': 'Δημιουργία Αίτησης',
  	'petition_edit.title': 'Επεξεργασία Αίτησης',
  	'petition_list.title': 'Λίστα Αιτήσεων',
+  //travel_report
+  'travel_report.label': 'Απολογισμός Ταξιδιού',
+  'travel_files': 'Ανέβασμα αρχείων',
+  'travel_report': 'Ατζέντα',
+  'additional_expenses': 'Λοιπά Έξοδα Μετακίνησης',
+  'additional_expenses_local_currency': 'Νόμισμα',
+  'additional_expenses__description': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή',
 };
