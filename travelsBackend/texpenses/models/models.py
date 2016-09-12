@@ -845,6 +845,7 @@ class UserPetition(Petition):
         serializer_code = 'texpenses.serializers'
         serializer_module_name = 'petition'
         viewset_code = 'texpenses.views'
+        resource_name = 'petition/user/saved'
 
 
 class UserPetitionSubmission(Petition):
@@ -885,6 +886,7 @@ class UserPetitionSubmission(Petition):
         serializer_code = 'texpenses.serializers'
         serializer_module_name = 'petition'
         viewset_code = 'texpenses.views'
+        resource_name = 'petition/user/submitted'
 
 
     def save(self, **kwargs):
@@ -938,6 +940,7 @@ class SecretaryPetition(Petition):
         serializer_code = 'texpenses.serializers'
         serializer_module_name = 'petition'
         viewset_code = 'texpenses.views'
+        resource_name = 'petition/secretary/saved'
 
 
 class SecretaryPetitionSubmission(Petition):
@@ -992,6 +995,7 @@ class SecretaryPetitionSubmission(Petition):
         serializer_code = 'texpenses.serializers'
         serializer_module_name = 'petition'
         viewset_code = 'texpenses.views'
+        resource_name = 'petition/secretary/submitted'
 
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
@@ -1053,6 +1057,7 @@ class UserCompensation(Petition):
         serializer_code = 'texpenses.serializers'
         serializer_module_name = 'petition'
         viewset_code = 'texpenses.views'
+        resource_name = 'petition/user/compensation/saved'
 
 
 class UserCompensationSubmission(Petition):
@@ -1103,6 +1108,7 @@ class UserCompensationSubmission(Petition):
         serializer_code = 'texpenses.serializers'
         serializer_module_name = 'petition'
         viewset_code = 'texpenses.views'
+        resource_name = 'petition/user/compensation/submitted'
 
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
