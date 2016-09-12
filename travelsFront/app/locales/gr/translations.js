@@ -140,4 +140,8 @@ export default {
   'additional_expenses': 'Λοιπά Έξοδα Μετακίνησης',
   'additional_expenses_local_currency': 'Νόμισμα',
   'additional_expenses__description': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή',
+  'compensation_petition_date': 'Ημ. Πρ. Αίτησης Αποζημίωσης Μετακίνησης', 
+  'compensation_petition_protocol': 'Αρ. Πρ. Αίτησης Αποζημίωσης Μετακίνησης', 
+  'compensation_decision_date': 'Ημ. Πρ. Απόφασης Αποζημίωσης Μετακίνησης', 
+  'compensation_decision_protocol': 'Αρ. Πρ. Απόφασης Αποζημίωσης Μετακίνησης',
 };
