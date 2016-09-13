@@ -17,6 +17,7 @@ Router.map(function() {
   this.route('advancedList');
   this.route('secretaryPetition', {path: 'secretaryPetition/:petition_id'});
   this.route('userCompensation', {path: 'userCompensation/:petition_id'});
+  this.route('secretaryCompensation', {path: 'secretaryCompensation/:petition_id'});
 });
 
 export default Router;
