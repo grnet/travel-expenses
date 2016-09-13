@@ -1048,7 +1048,7 @@ class UserCompensation(Petition):
             ('user', 'task_start_date',
              'task_end_date', 'travel_info', 'reason',
              'secretary_recommendation', 'user_recommendation',
-             'status',
+             'status', 'dse', 'project',
              'participation_cost', 'participation_default_currency',
              'participation_local_cost',
              'participation_local_currency',
@@ -1058,21 +1058,21 @@ class UserCompensation(Petition):
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoUserSubmission)]
         extra_kwargs = {
-            'dse': {
-                'required': False, 'allow_null': True
-            },
             'status': {'default': Petition.USER_COMPENSATION},
 
             'user': {
                 'default': serializers.CurrentUserDefault(),
                 'validators': [functools.partial(
                     required_validator, fields=Petition.USER_FIELDS)]
-            }
+            },
+            'travel_info': {
+                'read_only': True
+            },
         }
         serializer_code = 'texpenses.serializers'
-        serializer_module_name = 'petition'
+        serializer_module_name = 'compensation'
         viewset_code = 'texpenses.views'
-        resource_name = 'petition/user/compensation/saved'
+        resource_name = 'petition/user/compensations'
 
 
 class UserCompensationSubmission(Petition):
@@ -1096,7 +1096,7 @@ class UserCompensationSubmission(Petition):
             ('user', 'task_start_date',
              'task_end_date', 'travel_info', 'reason',
              'secretary_recommendation', 'user_recommendation',
-             'status',
+             'status', 'project', 'dse',
              'participation_cost', 'participation_default_currency',
              'participation_local_cost',
              'participation_local_currency',
@@ -1118,12 +1118,14 @@ class UserCompensationSubmission(Petition):
                 'default': serializers.CurrentUserDefault(),
                 'validators': [functools.partial(
                     required_validator, fields=Petition.USER_FIELDS)]
+            },
+            'travel_info': {
+                'read_only': True,
             }
         }
         serializer_code = 'texpenses.serializers'
-        serializer_module_name = 'petition'
-        viewset_code = 'texpenses.views'
-        resource_name = 'petition/user/compensation/submitted'
+        serializer_module_name = 'compensation'
+        expose = False
 
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
