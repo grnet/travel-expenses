@@ -1031,7 +1031,9 @@ class SecretaryPetitionSubmission(Petition):
 class UserCompensation(Petition):
 
     """ A proxy model for the user petitions to be compensated. """
-    objects = PetitionManager([Petition.USER_COMPENSATION])
+    objects = PetitionManager([
+        Petition.SUBMITTED_BY_SECRETARY, Petition.USER_COMPENSATION,
+        Petition.USER_COMPENSATION_SUBMISSION])
 
     class Meta:
         proxy = True
