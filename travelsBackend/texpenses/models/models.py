@@ -1079,6 +1079,15 @@ class UserCompensation(Petition):
         viewset_code = 'texpenses.views'
         resource_name = 'petition/user/compensations'
 
+    def proceed_next_status(self, next_status):
+        """
+        Method for proceeding current petition to the next status by creating
+        a new copied of it.
+
+        :params next_status: Next status for petition to be transmitted.
+        """
+        self.status_transition(next_status, delete=False)
+
 
 class UserCompensationSubmission(Petition):
 
