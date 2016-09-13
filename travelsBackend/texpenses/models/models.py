@@ -704,11 +704,12 @@ class Petition(SecretarialInfo, ParticipationInfo):
             dse=self.dse, status__gt=self.status,
             deleted=False).exists() and not new_status == self.status
 
-    def status_transition(self, new_status):
+    def status_transition(self, new_status, delete=True):
         """
         This method transits a petition to a new status.
 
-        Actually, this method marks current petition as deleted and creates
+        Actually, this method marks current petition as deleted (only if it
+        specified by `delete` parameter) and creates
         a copied petition that is not marked as deleted and it points to the
         new status.
 
@@ -716,12 +717,15 @@ class Petition(SecretarialInfo, ParticipationInfo):
         corresponding dse is on greater status than the current one.
 
         :param new_status: New status to transit petition.
+        :param delete: If true then deletes the petition which is transitted to
+        a new status.
         :returns: Id of the created petition.
         """
         if not self.transition_is_allowed(new_status):
             raise PermissionDenied('Petition calcellation is not allowed.')
         travel_info = self.travel_info.all()
-        self.delete()
+        if delete:
+            self.delete()
         self.id = None
         self.status = new_status
         self.deleted = False
