@@ -898,7 +898,6 @@ class UserPetitionSubmission(Petition):
         viewset_code = 'texpenses.views'
         resource_name = 'petition/user/submitted'
 
-
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
         try:
