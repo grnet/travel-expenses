@@ -5,28 +5,27 @@ from texpenses.generators.serializers import generate
 
 
 EXPOSED_METHODS = ['get_queryset', 'save', 'submit', 'get_serializer_class',
-                   'procceed']
+                   'proceed']
 
 
 SUBMISSION_SERIALIZER = generate(UserCompensationSubmission)
 
 
-@detail_route(methods=['post', 'get'])
+@detail_route(methods=['post'])
 def save(self, request, pk=None):
-    return self.procceed(request, pk)
+    return self.proceed(request, pk)
 
 
-@detail_route(methods=['post', 'get'])
+@detail_route(methods=['post'])
 def submit(self, request, pk=None):
-    return self.procceed(request, pk)
+    return self.proceed(request, pk)
 
 
-def procceed(self, request, pk=None):
+def proceed(self, request, pk=None):
     instance = self.get_object()
     serializer = self.get_serializer(instance, data=request.data)
     serializer.is_valid(raise_exception=True)
-    if request.data.keys():
-        serializer.proceed(instance)
+    serializer.proceed(instance)
     headers = self.get_success_headers(serializer.data)
     return Response(serializer.data, headers=headers)
 
