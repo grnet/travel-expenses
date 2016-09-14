@@ -6,7 +6,7 @@ import {normalizePetition, serializePetition} from 'travels-front/lib/models/uti
 
 export default Compensation.extend({
   __api__: {
-    path: '',
+    path: 'petition/user/compensations/',
     normalize: normalizePetition, 
     serialize: serializePetition
   },
