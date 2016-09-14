@@ -8,7 +8,8 @@ const {
 
 export default Ember.Controller.extend({
 
-  editRoute: 'userPetition',
+  editPetitionRoute: 'userPetition',
+  editCompensationRoute: 'userCompensation',
 	deleteMessage: "",
 	statePetitionList: "",
   sortByDse: ['status:desc', 'dse:asc'],
@@ -24,7 +25,12 @@ export default Ember.Controller.extend({
 		},	
 
 		petitionEdit(model){
-			this.transitionToRoute(get(this, 'editRoute'), model.get('id'));
+      if (model.get('status') == 4) {
+        this.transitionToRoute(get(this, 'editCompensationRoute'), model.get('id'));
+      }
+      else {
+        this.transitionToRoute(get(this, 'editPetitionRoute'), model.get('id'));
+      }
 		},
 
 		petitionDelete(model){
