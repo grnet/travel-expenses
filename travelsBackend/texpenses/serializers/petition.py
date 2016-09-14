@@ -73,7 +73,8 @@ def update(self, instance, validated_data):
     for k, v in validated_data.iteritems():
         setattr(instance, k, v)
     instance.save()
-    _update_nested_objects(instance, travel_info)
+    if not (self.partial and not travel_info):
+        _update_nested_objects(instance, travel_info)
     return instance
 
 
