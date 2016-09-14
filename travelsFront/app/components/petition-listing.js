@@ -11,10 +11,7 @@ export default Ember.Component.extend({
 	actions: {
 
 		edit(model) {
-			if (model.get('status') == 1 || this.get('account.user.user_group') === "SECRETARY"){
-				this.sendAction('edit', model);
-			}
-
+			this.sendAction('edit', model);
 		},
 
 		del(model) {
