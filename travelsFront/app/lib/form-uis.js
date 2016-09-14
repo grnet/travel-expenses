@@ -91,17 +91,17 @@ export const UIS = {
         ['return_date', {attrs:{disabled: true}}], ['means_of_transport', {attrs:{disabled: true}}], ['transportation_cost', {attrs:{disabled: true}}],
         ['transportation_payment_way', {attrs:{disabled: true}}], ['transportation_payment_description', {attrs:{disabled: true}}], 
         ['accommodation_cost', {attrs:{disabled: true}}], 
-        ['accommodation_local_cost', {label:'accommodation_local_cost_user.label'}], 
+        ['accommodation_local_cost', {attrs:{disabled: true, label:'accommodation_local_cost_user.label'}}], 
         ['accommodation_local_currency', {attrs:{disabled: true}}], 
         ['accommodation_payment_way', {attrs:{disabled: true}}], ['accommodation_payment_description', {attrs:{disabled: true}}], 
         ['participation_cost', {attrs:{disabled: true}}],
-        ['participation_local_cost', {label:'participation_local_cost_user.label'}], 
+        ['participation_local_cost', {attrs:{disabled: true, label:'participation_local_cost_user.label'}}], 
         ['participation_local_currency', {attrs:{disabled: true}}], 
         ['participation_payment_way', {attrs:{disabled: true}}], ['participation_payment_description', {attrs:{disabled: true}}], 
-        ['additional_expenses_initial',{attrs:{readonly: true}}], 
+        ['additional_expenses_initial',{attrs:{disabled: true}}], 
         ['additional_expenses_initial_description', {attrs:{disabled: true}}], ['meals', {attrs:{disabled: true}}], 
         ['non_grnet_quota', {attrs:{disabled: true}}], 
-        ['user_recommendation',{attrs:{readonly: true}}], ['secretary_recommendation', {attrs:{disabled: true}}]]
+        ['user_recommendation',{attrs:{disabled: true}}], ['secretary_recommendation', {attrs:{disabled: true}}]]
       },
       {
         'label': 'secretary_data.label',
@@ -122,13 +122,14 @@ export const UIS = {
     ],
     layout: {
       flex: [
-        100, 100, 100, 50, 50, 50, 50, 50, 100, 50,  //10
-        50, 50, 50, 50, 50, 50, 100, 50, 50, 100,    //20
-        100, 50, 50, 50, 50, 50, 50, 50, 50, 50,     //30
-        50, 50, 50, 50, 100, 100, 50, 50, 50, 50,    //40
-        50, 50, 50, 50, 50, 50, 50, 100, 50, 50,     //50 
-        50, 50, 50, 50, 50, 40, 10, 50, 50, 100,     //60 
-        50, 50, 50, 50, 50, 100, 100, 100, 40, 10    //70 
+        50, 50, 100, 50, 50, 50, 100, 100, 50, 50,  //10 
+        50, 50, 100, 100, 50, 50, 50, 50, 50, 50,   //20
+        50, 50, 50, 50, 50, 50, 50, 50, 50, 50,     //30
+        50, 50, 50, 50, 50, 50, 50, 50, 50, 50,     //40
+        50, 50, 50, 50, 50, 50, 50, 50, 50, 50,     //50
+        50, 50, 100, 50, 50, 50, 50, 50, 50, 50,    //60
+        40, 10, 50, 50, 100, 40, 50, 50, 50, 50,    //70
+        50, 50, 50, 40, 10,                         //80   
       ] 
     }
   },
