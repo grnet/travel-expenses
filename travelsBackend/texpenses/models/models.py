@@ -1233,6 +1233,7 @@ class SecretaryCompensation(Petition):
                     required_validator, fields=Petition.USER_FIELDS)]
             }
         }
+        resource_name = 'secretary/compensation/saved'
 
 
 class SecretaryCompensationSubmission(Petition):
@@ -1310,6 +1311,7 @@ class SecretaryCompensationSubmission(Petition):
                     required_validator, fields=Petition.USER_FIELDS)]
             }
         }
+        expose = False
 
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
