@@ -2,7 +2,7 @@ from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from texpenses.models import UserCompensation, UserCompensationSubmission
 from texpenses.generators.serializers import generate
-
+from texpenses.views import utils
 
 EXPOSED_METHODS = ['get_queryset', 'save', 'submit', 'get_serializer_class',
                    'proceed']
@@ -13,21 +13,12 @@ SUBMISSION_SERIALIZER = generate(UserCompensationSubmission)
 
 @detail_route(methods=['post'])
 def save(self, request, pk=None):
-    return self.proceed(request, pk)
+    return utils.proceed(self, request, pk)
 
 
 @detail_route(methods=['post'])
 def submit(self, request, pk=None):
-    return self.proceed(request, pk)
-
-
-def proceed(self, request, pk=None):
-    instance = self.get_object()
-    serializer = self.get_serializer(instance, data=request.data)
-    serializer.is_valid(raise_exception=True)
-    serializer.proceed(instance)
-    headers = self.get_success_headers(serializer.data)
-    return Response(serializer.data, headers=headers)
+    return utils.proceed(self, request, pk)
 
 
 def get_serializer_class(self):
