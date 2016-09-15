@@ -18,6 +18,6 @@ def submit(self, request, pk=None):
     instance = self.get_object()
     petition_id = instance.proceed_next_status(
         Petition.SECRETARY_COMPENSATION_SUBMISSION, delete=True)
-    headers = {'location': reverse('secretarycompensation-detail',
-               args=[petition_id])}
+    headers = {'location': reverse(
+        'secretarycompensation-detail', args=[petition_id])}
     return Response(status=status.HTTP_303_SEE_OTHER, headers=headers)
