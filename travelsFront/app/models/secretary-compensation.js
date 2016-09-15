@@ -4,9 +4,9 @@ import {UIS} from 'travels-front/lib/form-uis';
 import {normalizePetition, serializePetition} from 'travels-front/lib/models/util';
 
 
-export default SecretaryCompensation.extend(Validations, {
+export default SecretaryCompensation.extend({
   __api__: {
-    path: '',
+    path: 'secretary/compensation/saved',
     normalize: normalizePetition, 
     serialize: serializePetition
   },
