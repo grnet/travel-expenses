@@ -636,6 +636,9 @@ class Petition(SecretarialInfo, ParticipationInfo):
                   'participation_local_cost', 'participation_local_currency',
                   'participation_payment_way',
                   'participation_payment_description', 'url',
+                  'additional_expenses_initial',
+                  'additional_expenses_initial_description',
+                  'additional_expenses_default_currency',
                   'overnights_sum_cost',
                   'overnights_proposed', 'transport_days', 'trip_days_before',
                   'trip_days_after', 'overnights_num', 'overnights_proposed',
@@ -983,6 +986,15 @@ class SecretaryPetitionSubmission(Petition):
             },
             "movement_date_protocol": {
                 'required': True, 'allow_null': False
+            },
+            'additional_expenses_initial': {
+                'required': True, 'allow_null': False
+            },
+            'additional_expenses_initial_description': {
+                'required': True, 'allow_blank': False, 'allow_null': False
+            },
+            'additional_expenses_default_currency': {
+                'required': True, 'allow_blank': False, 'allow_null': False,
             },
             'dse': {
                 'required': False, 'allow_null': True
