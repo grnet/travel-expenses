@@ -38,9 +38,9 @@ export const UIS = {
         'fields': ['dse', 'project', 'reason', 'departure_point', 'arrival_point','movement_category', 'country_category',
         'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'means_of_transport', 'transportation_cost',
         'transportation_payment_way', 'transportation_payment_description', 'accommodation_cost', 
-        ['accommodation_local_cost', {label:'accommodation_local_cost_user.label'}], 'accommodation_local_currency', 
+        ['accommodation_local_cost', {label:'accommodation_local_cost_user.label', attrs:{readonly: true}}], 'accommodation_local_currency', 
         'accommodation_payment_way', 'accommodation_payment_description', 'participation_cost',
-        ['participation_local_cost', {label:'participation_local_cost_user.label'}], 'participation_local_currency', 
+        ['participation_local_cost', {label:'participation_local_cost_user.label', attrs:{readonly: true}}], 'participation_local_currency', 
         'participation_payment_way', 'participation_payment_description', 'additional_expenses_initial', 
         'additional_expenses_initial_description', 'meals', 'non_grnet_quota', 
         ['user_recommendation',{attrs:{readonly: true}}], 'secretary_recommendation']
