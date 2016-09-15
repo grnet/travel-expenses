@@ -18,6 +18,7 @@ travelsBackend/texpenses/migrations/
 instructions.txt~
 travelsBackend/texpenses/migrations/*
 resources/.*.swo
+uploads/
 #backend sqlite testing db
 
 *.sqlite3

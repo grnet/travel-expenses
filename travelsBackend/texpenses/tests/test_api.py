@@ -8,16 +8,20 @@ from rest_framework.authtoken.models import Token
 from texpenses.models import (
     City, TravelInfo, Petition, UserPetition, Project, UserProfile, TaxOffice,
     UserPetitionSubmission, SecretaryPetition, SecretaryPetitionSubmission,
-    Country, UserCompensation, UserCompensationSubmission)
+    Country, UserCompensation, UserCompensationSubmission,
+    SecretaryCompensation, SecretaryCompensationSubmission)
 
 PETITION_APIS = [
     (UserPetition, reverse('userpetition-list')),
     (UserPetitionSubmission, reverse('userpetitionsubmission-list')),
-    (SecretaryPetition, reverse('secretarypetition-list')),
-    (SecretaryPetitionSubmission, reverse('secretarypetitionsubmission-list')),
     (UserCompensation, reverse('usercompensation-list')),
     (UserCompensationSubmission,
      reverse('usercompensationsubmission-list')),
+    (SecretaryPetition, reverse('secretarypetition-list')),
+    (SecretaryPetitionSubmission, reverse('secretarypetitionsubmission-list')),
+    (SecretaryCompensation, reverse('secretarycompensation-list')),
+    (SecretaryCompensationSubmission,
+     reverse('secretarycompensationsubmission-list')),
 ]
 
 SUBMISSION_APIS = [
@@ -29,6 +33,10 @@ COMPENSATION_APIS = [
     (UserCompensation, reverse('usercompensation-list')),
     (UserCompensationSubmission,
      reverse('usercompensationsubmission-list')),
+    (SecretaryCompensation, reverse('secretarycompensation-list')),
+    (SecretaryCompensationSubmission,
+     reverse('secretarycompensationsubmission-list')),
+
 ]
 
 PROTOCOL_DATE_FORMAT = '%Y-%m-%d'
@@ -49,12 +57,29 @@ EXTRA_DATA = {
         'expenditure_protocol': 'expenditure protocol',
         'expenditure_date_protocol': PROTOCOL_DATE,
         'movement_protocol': 'movement protocol',
-        'movement_date_protocol': PROTOCOL_DATE
+        'movement_date_protocol': PROTOCOL_DATE,
+        'additional_expenses_initial': 100,
+        'additional_expenses_initial_description': 'Test',
+        'additional_expenses_default_currency': 'EUR',
 
     },
     UserCompensation: {},
+    UserCompensationSubmission: {'travel_report': 'travel report'},
+    SecretaryCompensation: {},
+    SecretaryCompensationSubmission: {'travel_report': 'travel report',
+                                      'compensation_petition_protocol': 'cpp',
+                                      'compensation_petition_date':
+                                      PROTOCOL_DATE,
+                                      'compensation_decision_protocol': 'cdp',
+                                      'compensation_decision_date':
+                                      PROTOCOL_DATE,
+                                      'additional_expenses': 100,
+                                      'additional_expenses_local_currency':
+                                      'EUR',
+                                      'additional_expenses_description': 'tEST'
 
-    UserCompensationSubmission: {'travel_report': 'travel report'}
+                                      }
+
 }
 TRAVEL_INFO_MANDATORY_ELEMENTS = {
     'means_of_transport': 'AIR',
