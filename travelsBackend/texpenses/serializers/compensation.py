@@ -7,8 +7,11 @@ def proceed(self, instance):
 
     :param instance: Current petition object.
     """
+    kwargs = {}
     status = self.validated_data.pop('status')
-    for attr, value in self.validated_data.items():
-        setattr(instance, attr, value)
-    instance.proceed_next_status(status)
+    travel_info = self.validated_data.pop('travel_info', [])
+    kwargs['petition_data'] = self.validated_data
+    if travel_info:
+        kwargs['travel_info_data'] = travel_info
+    instance.proceed_next_status(status, **kwargs)
     return instance
