@@ -1209,7 +1209,7 @@ class SecretaryCompensation(Petition):
         search_fields = Petition.Api.search_fields
         read_only_fields = Petition.Api.read_only_fields +\
             ('user', 'task_start_date',
-             'task_end_date', 'travel_info', 'reason',
+             'task_end_date', 'dse', 'project', 'travel_files', 'reason',
              'secretary_recommendation', 'user_recommendation',
              'status', 'additional_expenses_initial',
              'additional_expenses_default_currency',
@@ -1227,7 +1227,6 @@ class SecretaryCompensation(Petition):
                 'required': False, 'allow_null': True
             },
             'status': {'default': Petition.SECRETARY_COMPENSATION},
-
             'user': {
                 'default': serializers.CurrentUserDefault(),
                 'validators': [functools.partial(
@@ -1262,7 +1261,7 @@ class SecretaryCompensationSubmission(Petition):
         search_fields = Petition.Api.search_fields
         read_only_fields = Petition.Api.read_only_fields +\
             ('user', 'task_start_date',
-             'task_end_date', 'travel_info', 'reason',
+             'task_end_date', 'dse', 'project', 'travel_files', 'reason',
              'secretary_recommendation', 'user_recommendation',
              'status', 'additional_expenses_initial',
              'additional_expenses_default_currency',
