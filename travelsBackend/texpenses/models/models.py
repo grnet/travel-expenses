@@ -17,6 +17,11 @@ from texpenses.validators import (
     start_end_date_validator)
 
 
+def update_instance(instance, updated_fields):
+    for field, value in updated_fields.iteritems():
+        setattr(instance, field, value)
+
+
 class TaxOffice(models.Model):
 
     """ Model which contains all tax offices of Greece. """
@@ -723,7 +728,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             dse=self.dse, status__gt=self.status,
             deleted=False).exists() and not new_status == self.status
 
-    def status_transition(self, new_status, delete=True):
+    def status_transition(self, new_status, delete=True, **kwargs):
         """
         This method transits a petition to a new status.
 
@@ -745,16 +750,30 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         travel_info = self.travel_info.all()
         if delete:
             self.delete()
+        petition_modifications = kwargs.pop('petition_data', {})
+        travel_info_modifications = kwargs.pop(
+            'travel_info_data', [{}] * len(travel_info))
         self.id = None
         self.status = new_status
         self.deleted = False
+        update_instance(self, petition_modifications)
         self.save()
-        for travel_obj in travel_info:
+        for i, travel_obj in enumerate(travel_info):
             travel_obj.id = None
+            update_instance(travel_obj, travel_info_modifications[i])
             travel_obj.travel_petition = self
             travel_obj.save()
         self.travel_info.add(*travel_info)
         return self.id
+
+    def proceed_next_status(self, next_status, **kwargs):
+        """
+        Method for proceeding current petition to the next status by creating
+        a new copied of it.
+
+        :params next_status: Next status for petition to be transmitted.
+        """
+        return self.status_transition(next_status, **kwargs)
 
     def set_next_dse(self):
         """
@@ -1099,14 +1118,6 @@ class UserCompensation(Petition):
         viewset_code = 'texpenses.views'
         resource_name = 'petition/user/compensations'
 
-    def proceed_next_status(self, next_status):
-        """
-        Method for proceeding current petition to the next status by creating
-        a new copied of it.
-
-        :params next_status: Next status for petition to be transmitted.
-        """
-        self.status_transition(next_status, delete=False)
 
 
 class UserCompensationSubmission(Petition):
@@ -1185,8 +1196,10 @@ class UserCompensationSubmission(Petition):
 class SecretaryCompensation(Petition):
 
     """ A proxy model for the secretary petitions to be compensated. """
-    objects = PetitionManager([Petition.USER_COMPENSATION_SUBMISSION,
-                               Petition.SECRETARY_COMPENSATION])
+    objects = PetitionManager([
+        Petition.USER_COMPENSATION_SUBMISSION,
+        Petition.SECRETARY_COMPENSATION,
+        Petition.SECRETARY_COMPENSATION_SUBMISSION])
 
     class Meta:
         proxy = True
@@ -1233,7 +1246,10 @@ class SecretaryCompensation(Petition):
                     required_validator, fields=Petition.USER_FIELDS)]
             }
         }
-        resource_name = 'secretary/compensation/saved'
+        serializer_code = 'texpenses.serializers'
+        serializer_module_name = 'compensation'
+        viewset_code = 'texpenses.views'
+        resource_name = 'petition/secretary/compensations'
 
 
 class SecretaryCompensationSubmission(Petition):
