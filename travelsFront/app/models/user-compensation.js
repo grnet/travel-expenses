@@ -4,7 +4,11 @@ import {UIS} from 'travels-front/lib/form-uis';
 import {normalizePetition, serializePetition} from 'travels-front/lib/models/util';
 
 
-export default Compensation.extend({
+var Validations = buildValidations({
+    iban: validator('iban-validator'),
+});
+
+export default Compensation.extend(Validations, {
   __api__: {
     path: 'petition/user/compensations/',
     normalize: normalizePetition, 
