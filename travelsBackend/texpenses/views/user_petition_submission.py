@@ -10,7 +10,7 @@ from texpenses.actions import inform
 EXPOSED_METHODS = ['create', 'cancel', 'get_queryset']
 
 
-@detail_route(methods=['post', 'get'])
+@detail_route(methods=['post'])
 def cancel(self, request, pk=None):
     submitted = self.get_object()
     try:
