@@ -32,6 +32,7 @@ class TaxOffice(models.Model):
                   'email', 'phone')
         read_only_fields = ('id', 'url')
         allowable_operations = ('list', 'retrieve')
+        resource_name = 'resources/tax-office'
 
     def __unicode__(self):
         return self.name
@@ -117,6 +118,7 @@ class Project(models.Model):
                   'manager')
         read_only_fields = ('id', 'url')
         allowable_operations = ('list', 'retrieve')
+        resource_name = 'resources/project'
 
     def __unicode__(self):
         return self.name
@@ -165,6 +167,7 @@ class City(models.Model):
         read_only_fields = ('id', 'url', 'country')
         nested_relations = [('country', 'country')]
         allowable_operations = ('list', 'retrieve')
+        resource_name = 'resources/city'
 
     def __unicode__(self):
         """TODO: to be defined. """
