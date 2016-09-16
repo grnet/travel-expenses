@@ -1050,6 +1050,7 @@ class SecretaryPetitionSubmission(Petition):
             "movement_date_protocol": {
                 'required': True, 'allow_null': False
             },
+<<<<<<< HEAD
             
             'additional_expenses_initial': {
                 'required': True, 'allow_null': False
@@ -1060,6 +1061,17 @@ class SecretaryPetitionSubmission(Petition):
             'additional_expenses_default_currency': {
                 'required': True, 'allow_blank': False, 'allow_null': False,
             },
+
+            'additional_expenses_initial': {
+                'required': True, 'allow_null': False
+            },
+            'additional_expenses_initial_description': {
+                'required': True, 'allow_blank': False, 'allow_null': False
+            },
+            'additional_expenses_default_currency': {
+                'required': True, 'allow_null': False, 'allow_blank': False
+            },
+            
             'dse': {
                 'required': False, 'allow_null': True
             },
