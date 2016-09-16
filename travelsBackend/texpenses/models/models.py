@@ -807,6 +807,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         """
         Proceed petition to the next status.
 
+
         If next status is one of the submission statuses, then a checker
         is triggered and tests if the petition is completed.
         """
@@ -822,7 +823,27 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         """
         Check if all fields of petition along with the fields of many to many
         related objects have been initialized.
+||||||| merged common ancestors
+        :params next_status: Next status for petition to be transmitted.
+=======
+        If next status is one of the submission statuses, then a checker
+        is triggered and tests if the petition is completed.
         """
+        next_status = self.status + 1
+        delete = next_status in Petition.SUBMISSION_STATUSES
+        if next_status in Petition.SUBMISSION_STATUSES and\
+                not self.is_completed():
+            raise PermissionDenied(
+                'Petition with status dse %s cannot be submitted')
+        return self.status_transition(self.status + 1, delete=delete, **kwargs)
+
+    def is_completed(self):
+        """
+
+        Check if all fields of petition along with the fields of many to many
+        related objects have been initialized.
+        """
+
         petition_is_completed = is_completed(
             self, excluded=getattr(self, 'excluded', []))
         travel_info = self.travel_info.all()
