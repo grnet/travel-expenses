@@ -1,18 +1,22 @@
+from rest_framework import status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
-from texpenses.generators.serializers import generate
+from rest_framework.reverse import reverse
 from texpenses.views import utils
-from texpenses.models import Petition
+
 
 EXPOSED_METHODS = ['get_queryset', 'save', 'submit', 'proceed']
 
 
 @detail_route(methods=['post'])
 def save(self, request, pk=None):
-    return utils.proceed(self, request, Petition.USER_COMPENSATION, pk)
+    return utils.proceed(self, request, pk)
 
 
 @detail_route(methods=['post'])
 def submit(self, request, pk=None):
-    return utils.proceed(self, request, Petition.USER_COMPENSATION_SUBMISSION,
-                         pk)
+    instance = self.get_object()
+    petition_id = instance.proceed()
+    headers = {'location': reverse(
+        'usercompensation-detail', args=[petition_id])}
+    return Response(status=status.HTTP_303_SEE_OTHER, headers=headers)
