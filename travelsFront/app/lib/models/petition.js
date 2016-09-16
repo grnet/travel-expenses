@@ -107,6 +107,14 @@ export var Petition = DS.Model.extend({
     return clone;
   },
 
+  compensationSubmit: function(){
+    let adapter = this.store.adapterFor(this.constructor.modelName);
+    let model = this;
+    return adapter.action(this, 'submit').then(function() {
+      return model;
+    });
+  },
+
   cancel: function() {
     let adapter = this.store.adapterFor(this.constructor.modelName);
     let model = this;
