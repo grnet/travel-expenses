@@ -25,7 +25,7 @@ export default Ember.Controller.extend({
 		},	
 
 		petitionEdit(model){
-      if (model.get('status') == 4) {
+      if (model.get('status') >= 4) {
         this.transitionToRoute(get(this, 'editCompensationRoute'), model.get('id'));
       }
       else {
