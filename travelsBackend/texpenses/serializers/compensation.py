@@ -1,7 +1,7 @@
 EXPOSED_METHODS = ['proceed']
 
 
-def proceed(self, instance, status):
+def proceed(self, instance):
     """
     Method for proceeding a petition to next status by extending it.
 
@@ -13,5 +13,5 @@ def proceed(self, instance, status):
     kwargs['petition_data'] = self.validated_data
     if travel_info:
         kwargs['travel_info_data'] = travel_info
-    instance.proceed_next_status(status, **kwargs)
+    instance.proceed(**kwargs)
     return instance
