@@ -139,7 +139,7 @@ export default {
   'travel_report.label': 'Ατζέντα',
   'additional_expenses.label': 'Λοιπά Έξοδα Μετακίνησης',
   'additional_expenses_local_currency.label': 'Νόμισμα',
-  'additional_expenses__description.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή',
+  'additional_expenses_description.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή',
   'compensation_petition_date.label': 'Ημ. Πρ. Αίτησης Αποζημίωσης Μετακίνησης', 
   'compensation_petition_protocol.label': 'Αρ. Πρ. Αίτησης Αποζημίωσης Μετακίνησης', 
   'compensation_decision_date.label': 'Ημ. Πρ. Απόφασης Αποζημίωσης Μετακίνησης', 

@@ -73,7 +73,7 @@ export const UIS = {
     fieldsets: [
       {
         'label': 'travel_report.label',
-        'fields': ['travel_files', 'travel_report', 'additional_expenses', 'additional_expenses_local_currency', 'additional_expenses__description']
+        'fields': ['travel_files', 'travel_report', 'additional_expenses', 'additional_expenses_local_currency', 'additional_expenses_description']
       },
       {
         'label': 'manager_approval.label',
@@ -137,7 +137,7 @@ export const UIS = {
     fieldsets: [
       {
         'label': 'travel_report.label',
-        'fields': ['travel_files', 'travel_report', 'additional_expenses', 'additional_expenses_local_currency', 'additional_expenses__description']
+        'fields': ['travel_files', 'travel_report', 'additional_expenses', 'additional_expenses_local_currency', 'additional_expenses_description']
       },
       {
         'label': 'manager_approval.label',
