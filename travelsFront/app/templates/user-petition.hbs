@@ -6,12 +6,12 @@
         {{ form.messages }}
         {{ form.fields }}
         {{# form.controls }}
-            {{list-action 
-                action=(action "handleSubmit")
-                disabled=modelform.inProgress
-                confirm=true
-                value=(t 'form.button.submit')
-            }}
+        {{#paper-button
+          onClick=(action "handleSubmit")
+          warn=true
+          raised=true
+          disabled=modelform.inProgress
+        }}{{t 'form.button.submit'}}{{/paper-button}}
         {{/ form.controls}}
     {{/ model-form/form }}
 {{/paper-content}}
