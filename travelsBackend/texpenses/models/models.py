@@ -1110,7 +1110,12 @@ class UserCompensation(Petition):
                       'additional_expenses',
                       'additional_expenses_local_currency',
                       'additional_expenses_description',
-                      'travel_report', 'travel_files',)
+                      'travel_report', 'travel_files',
+                      'movement_protocol', 'movement_date_protocol',
+                      'expenditure_protocol', 'expenditure_date_protocol',
+                      'movement_id', 'manager_final_approval',
+                      'manager_travel_approval',
+                      )
         filter_fields = Petition.Api.filter_fields
         search_fields = Petition.Api.search_fields
         read_only_fields = Petition.Api.read_only_fields +\
@@ -1124,7 +1129,12 @@ class UserCompensation(Petition):
              'participation_local_cost',
              'participation_local_currency',
              'participation_payment_way',
-             'participation_payment_description', 'url',)
+             'participation_payment_description', 'url',
+             'movement_protocol', 'movement_date_protocol',
+             'expenditure_protocol', 'expenditure_date_protocol',
+             'movement_id', 'manager_final_approval',
+             'manager_travel_approval',
+             )
 
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoUserSubmission)]
@@ -1244,6 +1254,11 @@ class SecretaryCompensation(Petition):
                       'compensation_petition_date',
                       'compensation_decision_protocol',
                       'compensation_decision_date',
+                      'manager_travel_approval',
+                      'manager_final_approval',
+                      'movement_id', 'expenditure_protocol',
+                      'expenditure_date_protocol', 'movement_date_protocol',
+                      'movement_protocol',
                       )
         filter_fields = Petition.Api.filter_fields
         search_fields = Petition.Api.search_fields
@@ -1258,7 +1273,13 @@ class SecretaryCompensation(Petition):
              'participation_local_cost',
              'participation_local_currency',
              'participation_payment_way',
-             'participation_payment_description', 'url',)
+             'participation_payment_description', 'url',
+             'manager_final_approval',
+             'manager_travel_approval',
+             'movement_id', 'expenditure_protocol',
+             'expenditure_date_protocol', 'movement_protocol',
+             'movement_date_protocol',
+             )
 
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoCompensation)]
