@@ -16,7 +16,7 @@ var Validations = buildValidations({
 
 export default Compensation.extend(Validations, {
   __api__: {
-    path: 'petition/user/compensations/' + 37 + '/submit/',
+    path: 'petition/user/compensations/',
     normalize: normalizePetition, 
     serialize: serializePetition
   },
