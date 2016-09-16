@@ -3,20 +3,12 @@ import ENV from 'travels-front/config/environment';
 
 export default Ember.Controller.extend({
 
-	getModelForSave: Ember.computed(function() {
-    return function(isSubmit) {
-      if (isSubmit) {
-      	let submit = this.get('model').cloneAs("user-compensation-submission");
-        return submit;
-      }
-      return this.get('model');
-    }.bind(this);
-  }),
-
 	actions: {
 
 		handleSubmit(e) {
-      this.get('modelform').send('submit', e, true);
+      this.get('model').compensationSubmit().then(() => {
+        this.transitionToRoute("petitionList");
+      })
     },
 
     onSuccess(model) {
