@@ -4,4 +4,5 @@ import BaseController from './petition-list';
 
 export default BaseController.extend({
   editPetitionRoute: 'secretaryPetition',
+  editCompensationRoute: 'secretaryCompensation',
 });
