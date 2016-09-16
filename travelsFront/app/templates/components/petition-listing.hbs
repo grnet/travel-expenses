@@ -10,7 +10,7 @@
 <td>{{petition.status}}</td>
 <td class="icon-cell">
 {{#if (can "approve petition")}}
-	{{#if if (or (eq petition.status 2) (eq petition.status 3))}}
+	{{#if (or (eq petition.status 2) (eq petition.status 3) (eq petition.status 7))}}
     {{list-action action=(action "edit" petition) icon='pencil' iconButton=true confirm=false}}
     {{list-action action=(action "del" petition) icon='trash-o' iconButton=true confirm=true}}
   {{else if (eq petition.status 4)}}
