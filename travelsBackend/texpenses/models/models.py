@@ -13,13 +13,19 @@ from model_utils import FieldTracker
 from rest_framework import serializers
 from texpenses.models import common
 from texpenses.validators import (
-    afm_validator, required_validator, iban_validation,  date_validator,
+    afm_validator, required_validator, iban_validation, date_validator,
     start_end_date_validator)
 
 
 def update_instance(instance, updated_fields):
     for field, value in updated_fields.iteritems():
         setattr(instance, field, value)
+
+
+def is_completed(instance, excluded=()):
+    return all(bool(getattr(instance, field.name))
+               for field in instance._meta.fields
+               if field.name not in excluded)
 
 
 class TaxOffice(models.Model):
@@ -623,6 +629,10 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     SECRETARY_COMPENSATION = 8
     SECRETARY_COMPENSATION_SUBMISSION = 9
 
+    SUBMISSION_STATUSES = [SUBMITTED_BY_USER, SUBMITTED_BY_SECRETARY,
+                           USER_COMPENSATION_SUBMISSION,
+                           SECRETARY_COMPENSATION_SUBMISSION]
+
     # Fields that are copied from user object.
     USER_FIELDS = ['first_name', 'last_name', 'iban', 'specialty', 'kind',
                    'tax_office', 'tax_reg_num', 'user_category']
@@ -793,14 +803,35 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         self.travel_info.add(*travel_info)
         return self.id
 
-    def proceed_next_status(self, next_status, **kwargs):
+    def proceed(self, **kwargs):
         """
-        Method for proceeding current petition to the next status by creating
-        a new copied of it.
+        Proceed petition to the next status.
 
-        :params next_status: Next status for petition to be transmitted.
+        If next status is one of the submission statuses, then a checker
+        is triggered and tests if the petition is completed.
         """
-        self.status_transition(next_status, **kwargs)
+        next_status = self.status + 1
+        delete = next_status in Petition.SUBMISSION_STATUSES
+        if next_status in Petition.SUBMISSION_STATUSES and\
+                not self.is_completed():
+            raise PermissionDenied(
+                'Petition with status dse %s cannot be submitted')
+        return self.status_transition(self.status + 1, delete=delete, **kwargs)
+
+    def is_completed(self):
+        """
+        Check if all fields of petition along with the fields of many to many
+        related objects have been initialized.
+        """
+        petition_is_completed = is_completed(
+            self, excluded=getattr(self, 'excluded', []))
+        travel_info = self.travel_info.all()
+        return petition_is_completed and travel_info and\
+            all(is_completed(travel_obj) for travel_obj in travel_info)
+
+    def revoke(self, **kwargs):
+        """ Revoke a petition the previous status. """
+        return self.status_transition(self.status - 1, **kwargs)
 
     def set_next_dse(self):
         """
@@ -1110,6 +1141,11 @@ class UserCompensation(Petition):
     objects = PetitionManager([
         Petition.SUBMITTED_BY_SECRETARY, Petition.USER_COMPENSATION,
         Petition.USER_COMPENSATION_SUBMISSION])
+    excluded = ['non_grnet_quota', 'participation_cost',
+                'compensation_petition_protocol',
+                'compensation_petition_date', 'compensation_decision_protocol',
+                'compensation_decision_date',
+                'participation_payment_description', 'deleted']
 
     class Meta:
         proxy = True
@@ -1175,6 +1211,9 @@ class SecretaryCompensation(Petition):
         Petition.USER_COMPENSATION_SUBMISSION,
         Petition.SECRETARY_COMPENSATION,
         Petition.SECRETARY_COMPENSATION_SUBMISSION])
+
+    excluded = ['non_grnet_quota', 'participation_cost',
+                'participation_payment_description', 'deleted']
 
     class Meta:
         proxy = True
