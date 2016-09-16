@@ -9,8 +9,8 @@ const CHOICES = ENV.APP.resource_choices,
 export var SecretaryCompensation = Compensation.extend({
      
   //compensation - secretary fields
-  compensation_petition_date: DS.attr('date'),
+  compensation_petition_date: DS.attr('date-simple'),
   compensation_petition_protocol: DS.attr(),
-  compensation_decision_date: DS.attr('date'),
+  compensation_decision_date: DS.attr('date-simple'),
   compensation_decision_protocol: DS.attr(),
 });
