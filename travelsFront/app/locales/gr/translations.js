@@ -144,4 +144,7 @@ export default {
   'compensation_petition_protocol.label': 'Αρ. Πρ. Αίτησης Αποζημίωσης Μετακίνησης', 
   'compensation_decision_date.label': 'Ημ. Πρ. Απόφασης Αποζημίωσης Μετακίνησης', 
   'compensation_decision_protocol.label': 'Αρ. Πρ. Απόφασης Αποζημίωσης Μετακίνησης',
+  //compensation
+  'additional_expenses_description_user.label': 'Λοιπά Έξοδα Μετακίνησης - Καταχώρηση Χρήστη',
+  'additional_expenses_user.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή - Καταχώρηση Χρήστη',
 };
