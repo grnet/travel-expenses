@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 from django.conf import settings
 from django.core.mail import EmailMessage, get_connection
 from django.template.loader import render_to_string
@@ -12,13 +13,18 @@ EMAIL_TEMPLATES = {
                      'Αναίρεση υποβολής αίτησης μετακίνησης')
 }
 
+logger = logging.getLogger(__name__)
+
 
 def send_email(subject, template, params, sender, to, bcc=(), cc=(),
                fail_silently=True):
     content = render_to_string(template, params)
-    EmailMessage(
-        subject, content, sender, to=to, bcc=bcc, cc=cc,
-        connection=get_connection()).send(fail_silently)
+    try:
+        EmailMessage(
+            subject, content, sender, to=to, bcc=bcc, cc=cc,
+            connection=get_connection()).send(fail_silently)
+    except Exception as e:
+        logger.error(e)
 
 
 def inform(petition, action):
