@@ -1165,7 +1165,7 @@ class UserCompensation(Petition):
                 'compensation_petition_protocol',
                 'compensation_petition_date', 'compensation_decision_protocol',
                 'compensation_decision_date',
-                'participation_payment_description', 'deleted']
+                'participation_payment_description', 'deleted', 'travel_files']
 
     class Meta:
         proxy = True
