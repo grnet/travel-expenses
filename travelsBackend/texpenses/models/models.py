@@ -1199,7 +1199,7 @@ class UserCompensation(Petition):
             },
         }
         serializer_code = 'texpenses.serializers'
-        serializer_module_name = 'compensation'
+        serializer_module_name = 'petition'
         viewset_code = 'texpenses.views'
         resource_name = 'petition/user/compensations'
 
@@ -1272,6 +1272,6 @@ class SecretaryCompensation(Petition):
             }
         }
         serializer_code = 'texpenses.serializers'
-        serializer_module_name = 'compensation'
+        serializer_module_name = 'petition'
         viewset_code = 'texpenses.views'
         resource_name = 'petition/secretary/compensations'
