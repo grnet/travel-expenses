@@ -459,22 +459,22 @@ class TravelInfoCompensation(TravelInfo):
         expose = False
         fields = TravelInfo.Api.fields
         read_only_fields = (
-                'id', 'arrival_point', 'departure_point',
-                'means_of_transport',
-                'accommodation_default_currency',
-                'accommodation_local_cost', 'accommodation_local_currency',
-                'accommodation_payment_way',
-                'accommodation_payment_description',
-                'return_date', 'depart_date',
-                'transportation_default_currency',
-                'transportation_payment_way',
-                'transportation_payment_description',
-                'transport_days_proposed',
-                'overnight_cost',
-                'compensation_level',
-                'same_day_return_task', 'compensation_cost',
-                'compensation_days_proposed',
-                'transport_days_manual')
+            'id', 'arrival_point', 'departure_point',
+            'means_of_transport',
+            'accommodation_default_currency',
+            'accommodation_local_cost', 'accommodation_local_currency',
+            'accommodation_payment_way',
+            'accommodation_payment_description',
+            'return_date', 'depart_date',
+            'transportation_default_currency',
+            'transportation_payment_way',
+            'transportation_payment_description',
+            'transport_days_proposed',
+            'overnight_cost',
+            'compensation_level',
+            'same_day_return_task', 'compensation_cost',
+            'compensation_days_proposed',
+            'transport_days_manual')
 
 
 class TravelInfoSecretarySubmission(TravelInfo):
