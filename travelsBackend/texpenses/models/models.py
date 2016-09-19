@@ -783,7 +783,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         :returns: Id of the created petition.
         """
         if not self.transition_is_allowed(new_status):
-            raise PermissionDenied('Petition calcellation is not allowed.')
+            raise PermissionDenied('Petition transition is not allowed.')
         travel_info = self.travel_info.all()
         if delete:
             self.delete()
