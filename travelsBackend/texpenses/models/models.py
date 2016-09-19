@@ -1234,7 +1234,7 @@ class SecretaryCompensation(Petition):
         Petition.SECRETARY_COMPENSATION_SUBMISSION])
 
     excluded = ['non_grnet_quota', 'participation_cost',
-                'participation_payment_description', 'deleted']
+                'participation_payment_description', 'deleted','travel_files']
 
     class Meta:
         proxy = True
