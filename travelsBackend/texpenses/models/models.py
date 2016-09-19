@@ -1081,7 +1081,6 @@ class SecretaryPetitionSubmission(Petition):
             "movement_date_protocol": {
                 'required': True, 'allow_null': False
             },
-<<<<<<< HEAD
             
             'additional_expenses_initial': {
                 'required': True, 'allow_null': False
