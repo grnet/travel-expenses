@@ -8,6 +8,7 @@ EXPOSED_METHODS = [
     'validate',
     'validate_user',
     'validate_travel_info',
+    'proceed',
 ]
 
 
@@ -125,6 +126,22 @@ def validate(self, attrs):
     model_inst.clean()
     attrs['travel_info'] = nested_attrs
     return attrs
+
+
+def proceed(self, instance):
+    """
+    Method for proceeding a petition to next status by extending it.
+
+    :param instance: Current petition object.
+    """
+    kwargs = {}
+    self.validated_data.pop('status')
+    travel_info = self.validated_data.pop('travel_info', [])
+    kwargs['petition_data'] = self.validated_data
+    if travel_info:
+        kwargs['travel_info_data'] = travel_info
+    instance.proceed(**kwargs)
+    return instance
 
 
 def validate_travel_info(self, value):
