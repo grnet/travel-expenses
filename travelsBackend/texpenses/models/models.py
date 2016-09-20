@@ -1200,6 +1200,7 @@ class UserCompensation(Petition):
         serializer_code = 'texpenses.serializers'
         serializer_module_name = 'petition'
         viewset_code = 'texpenses.views'
+        viewset_module_name = 'compensation'
         resource_name = 'petition/user/compensations'
 
 
@@ -1273,4 +1274,5 @@ class SecretaryCompensation(Petition):
         serializer_code = 'texpenses.serializers'
         serializer_module_name = 'petition'
         viewset_code = 'texpenses.views'
+        viewset_module_name = 'compensation'
         resource_name = 'petition/secretary/compensations'
