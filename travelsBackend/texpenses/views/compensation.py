@@ -4,8 +4,10 @@ from rest_framework.decorators import detail_route
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from texpenses.models import Petition
+from texpenses.actions import inform
 
-EXPOSED_METHODS = ['submit', 'save']
+
+EXPOSED_METHODS = ['submit', 'save', 'cancel']
 
 
 VIEW_NAMES = {
@@ -38,6 +40,20 @@ def submit(self, request, pk=None):
         headers = {'location': reverse(
             VIEW_NAMES[instance.status], args=[petition_id])}
         return Response(status=status.HTTP_303_SEE_OTHER, headers=headers)
+    except PermissionDenied as e:
+        return Response({'detail': e.message},
+                        status=status.HTTP_403_FORBIDDEN)
+
+
+@detail_route(methods=['post'])
+def cancel(self, request, pk=None):
+    submitted = self.get_object()
+    try:
+        petition_id = submitted.revoke()
+        headers = {'location': reverse(VIEW_NAMES[submitted.status],
+                                       args=[petition_id])}
+        inform(submitted, 'CANCELLATION')
+        return Response(headers=headers, status=status.HTTP_303_SEE_OTHER)
     except PermissionDenied as e:
         return Response({'detail': e.message},
                         status=status.HTTP_403_FORBIDDEN)
