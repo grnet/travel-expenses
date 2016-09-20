@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.mail import EmailMessage, get_connection
 from django.template.loader import render_to_string
 from rest_framework import status
+from texpenses.models import Petition
 
 
 SENDER = settings.SERVER_EMAIL
@@ -60,10 +61,14 @@ def inform(petition, action):
 def inform_on_action(action):
     def inform_action(func):
         def wrapper(*args, **kwargs):
-            instance = args[0].get_object()
+            obj = args[0]
+            if obj.kwargs:
+                instance = obj.get_object()
             response = func(*args, **kwargs)
             if response.status_code in [status.HTTP_303_SEE_OTHER,
                                         status.HTTP_201_CREATED]:
+                if not obj.kwargs:
+                    instance = Petition.objects.get(id=response.data['id'])
                 inform(instance, action)
             return response
         return wrapper

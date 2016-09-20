@@ -4,36 +4,29 @@ from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from texpenses.models import SecretaryPetitionSubmission
-from texpenses.actions import inform
+from texpenses.actions import inform_on_action
 
 
 EXPOSED_METHODS = ['cancel', 'get_queryset']
 
 
 @detail_route(methods=['post'])
+@inform_on_action('CANCELLATION')
 def cancel(self, request, pk=None):
     submitted = self.get_object()
     try:
         petition_id = submitted.status_rollback()
         headers = {'location': reverse('secretarypetition-detail',
                                        args=[petition_id])}
-        inform(submitted, 'CANCELLATION')
         return Response(headers=headers, status=status.HTTP_303_SEE_OTHER)
     except PermissionDenied as e:
         return Response({'detail': e.message},
                         status=status.HTTP_403_FORBIDDEN)
 
 
+@inform_on_action('SUBMISSION')
 def create(self, request, *args, **kwargs):
-    # FIXME The code below is duplicated. This is going to be removed after
-    # APIMAS supports custom mixins.
-    response = super(self.__class__, self).create(request, *args, **kwargs)
-    self.lookup_field = 'pk'
-    petition_id = response.data['url'].rsplit('/', 2)[1]
-    self.kwargs = {self.lookup_field: petition_id}
-    instance = self.get_object()
-    inform(instance, 'SUBMISSION')
-    return response
+    return super(self.__class__, self).create(request, *args, **kwargs)
 
 
 def get_queryset(self):
