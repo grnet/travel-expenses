@@ -4,7 +4,7 @@ from rest_framework.decorators import detail_route
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from texpenses.models import Petition
-from texpenses.actions import inform
+from texpenses.actions import inform_on_action
 
 
 EXPOSED_METHODS = ['submit', 'save', 'cancel']
@@ -33,6 +33,7 @@ def save(self, request, pk=None):
 
 
 @detail_route(methods=['post'])
+@inform_on_action('SUBMISSION')
 def submit(self, request, pk=None):
     instance = self.get_object()
     try:
@@ -46,13 +47,13 @@ def submit(self, request, pk=None):
 
 
 @detail_route(methods=['post'])
+@inform_on_action('CANCELLATION')
 def cancel(self, request, pk=None):
     submitted = self.get_object()
     try:
         petition_id = submitted.revoke()
         headers = {'location': reverse(VIEW_NAMES[submitted.status],
                                        args=[petition_id])}
-        inform(submitted, 'CANCELLATION')
         return Response(headers=headers, status=status.HTTP_303_SEE_OTHER)
     except PermissionDenied as e:
         return Response({'detail': e.message},

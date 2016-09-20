@@ -3,6 +3,7 @@ import logging
 from django.conf import settings
 from django.core.mail import EmailMessage, get_connection
 from django.template.loader import render_to_string
+from rest_framework import status
 
 
 SENDER = settings.SERVER_EMAIL
@@ -54,3 +55,16 @@ def inform(petition, action):
     cc = (petition.user.email,)
     to = (petition.project.manager_email, SECRETARY_EMAIL)
     send_email(subject, template, params, SENDER, to=to, cc=cc)
+
+
+def inform_on_action(action):
+    def inform_action(func):
+        def wrapper(*args, **kwargs):
+            instance = args[0].get_object()
+            response = func(*args, **kwargs)
+            if response.status_code in [status.HTTP_303_SEE_OTHER,
+                                        status.HTTP_201_CREATED]:
+                inform(instance, action)
+            return response
+        return wrapper
+    return inform_action
