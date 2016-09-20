@@ -41,6 +41,8 @@ def inform(petition, action):
     assert template is not None and subject is not None
     # TODO alert in case of invalid action?
     # TODO Add more parameters and template wording.
+    # We take the first `travel_info` object, because multiple destinations
+    # are not supported at the moment.
     travel_info = petition.travel_info.all()[0]
     params = {
         'first_name': petition.first_name,
