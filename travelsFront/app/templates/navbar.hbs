@@ -19,14 +19,19 @@
                 {{#paper-button flex="20" raised=true onClick=(action 'invalidateSession')}}{{t 'logout.tab'}}{{/paper-button}}
             {{/paper-content}}
             {{#menu-item onClick=(transition-to "profile")}}{{t 'profile.tab'}}{{/menu-item}}
-            {{#unless (can "approve petition")}}
+            {{#unless (or (can "approve petition") (can "compensate petition"))}}
               {{#menu-item onClick=(transition-to "userPetition" "new")}}{{t 'new_petition.tab'}}{{/menu-item}}
               {{#menu-item onClick=(transition-to "petitionList")}}{{t 'my_petitions.tab'}}{{/menu-item}}
             {{/unless}}
             {{#if (can "approve petition")}}
               {{#menu-item onClick=(transition-to "advancedList")}}{{t 'petitions_for_approval.tab'}}{{/menu-item}}
             {{/if}}
+            {{#if (can "compensate petition")}}
+              {{#menu-item onClick=(transition-to "advancedList")}}{{t 'petitions_for_approval.tab'}}{{/menu-item}}
+            {{/if}}
         {{/unless}}
       {{/paper-list}}
       {{/paper-content}}
 {{/paper-sidenav}}
+
+
