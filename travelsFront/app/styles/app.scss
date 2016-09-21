@@ -1,5 +1,11 @@
+$accent: "brown";
+
+@import "color-palette";
+$color-brown: map-merge($color-brown, ('contrast':  $light-contrast-color));
+
 @charset "utf-8";
 @import 'ember-paper';
+
 
 body, body div.app, body div.app > div { height: 100%; }
 
