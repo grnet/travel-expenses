@@ -9,4 +9,7 @@ export default Ability.extend({
 	canSee: Ember.computed('account.user.user_group', function() {
     	return this.get('account.user.user_group') === "USER";
 	}),
+	canCompensate: Ember.computed('account.user.user_group', function() {
+    	return this.get('account.user.user_group') === "CONTROLLER";
+	}),
 });
