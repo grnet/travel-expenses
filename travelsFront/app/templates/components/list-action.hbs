@@ -1,5 +1,5 @@
 {{#if iconButton}}
 	{{#paper-button raised=true onClick=(action "handleClick") iconButton=iconButton }}{{fa-icon icon}}{{/paper-button}}
 {{else}}
-	{{#paper-button raised=true primary=true onClick=(action "handleClick") iconButton=iconButton }}{{value}}{{/paper-button}}
+	{{#paper-button raised=true accent=true onClick=(action "handleClick") iconButton=iconButton }}{{value}}{{/paper-button}}
 {{/if}}

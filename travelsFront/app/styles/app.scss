@@ -1,7 +1,7 @@
-$accent: "brown";
+$accent: "blue";
 
 @import "color-palette";
-$color-brown: map-merge($color-brown, ('contrast':  $light-contrast-color));
+$color-blue: map-merge($color-blue, ('contrast':  $light-contrast-color));
 
 @charset "utf-8";
 @import 'ember-paper';
