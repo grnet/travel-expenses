@@ -1,5 +1,10 @@
 {{#if iconButton}}
-	{{#paper-button raised=true onClick=(action "handleClick") iconButton=iconButton }}{{fa-icon icon}}{{/paper-button}}
+	{{#paper-button raised=true onClick=(action "handleClick") iconButton=iconButton }}
+	{{fa-icon icon}}
+	{{#tooltip-on-element}}
+      {{tooltip-message}}
+  {{/tooltip-on-element}}{{/paper-button}}
+	
 {{else}}
 	{{#paper-button raised=true accent=true onClick=(action "handleClick") iconButton=iconButton }}{{value}}{{/paper-button}}
 {{/if}}

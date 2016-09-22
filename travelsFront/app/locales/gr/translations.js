@@ -147,4 +147,8 @@ export default {
   //compensation
   'additional_expenses_description_user.label': 'Λοιπά Έξοδα Μετακίνησης - Καταχώρηση Χρήστη',
   'additional_expenses_user.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή - Καταχώρηση Χρήστη',
+  //tooltips
+  'tooltip_edit':'Επεξεργασία Αίτησης',
+  'tooltip_delete':'Διαγραφή Αίτησης',
+  'tooltip_undo':'Αναίρεση Υποβολής',
 };
