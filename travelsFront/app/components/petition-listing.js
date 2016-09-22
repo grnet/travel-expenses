@@ -21,5 +21,9 @@ export default Ember.Component.extend({
 		undo(model) {
       this.sendAction('undo', model);
 		},
+
+		view(model) {
+      this.sendAction('view', model);
+		},
 	}
 });

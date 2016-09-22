@@ -151,4 +151,5 @@ export default {
   'tooltip_edit':'Επεξεργασία Αίτησης',
   'tooltip_delete':'Διαγραφή Αίτησης',
   'tooltip_undo':'Αναίρεση Υποβολής',
+  'tooltip_view':'Επισκόπηση Αίτησης',
 };

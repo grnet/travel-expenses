@@ -15,6 +15,8 @@
     {{list-action action=(action "del" petition) icon='trash-o' tooltip-message=(t 'tooltip_delete') iconButton=true confirm=true}}
   {{else if (eq petition.status 4)}}
     {{list-action action=(action "undo" petition) icon='undo' tooltip-message=(t 'tooltip_undo') iconButton=true confirm=true}}
+  {{else if (eq petition.status 9)}}
+    {{list-action action=(action "view" petition) icon='eye' tooltip-message=(t 'tooltip_view') iconButton=true confirm=false}}
   {{/if}}
 {{else if (can "compensate petition")}}
   {{#if (or (eq petition.status 7) (eq petition.status 8))}}

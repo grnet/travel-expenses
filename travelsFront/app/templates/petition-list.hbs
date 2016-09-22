@@ -20,7 +20,7 @@
     <tbody>
         {{#each sortedModel as |petition|}}
           {{#if petition.project.name}}
-            {{petition-listing petition=petition del="petitionDelete" edit="petitionEdit" undo="petitionUndo"}}
+            {{petition-listing petition=petition del="petitionDelete" edit="petitionEdit" undo="petitionUndo" view="petitionView"}}
           {{/if}}
         {{/each}}
     </tbody>
