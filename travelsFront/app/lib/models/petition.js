@@ -115,6 +115,14 @@ export var Petition = DS.Model.extend({
     });
   },
 
+  pdfExport: function(){
+    let adapter = this.store.adapterFor(this.constructor.modelName);
+    let model = this;
+    return adapter.get_action(this, 'pdf').then(function() {
+      return model;
+    });
+ },
+
   cancel: function() {
     let adapter = this.store.adapterFor(this.constructor.modelName);
     let model = this;

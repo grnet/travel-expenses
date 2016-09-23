@@ -30,5 +30,11 @@ export default DRFAdapter.extend(DataAdapterMixin,{
   action: function(model, action, method='POST') {
     let actionURL = this.urlForModel(model) + action + '/';
     return this.ajax(actionURL, method);
+  },
+
+  get_action: function(model, action, method='GET') {
+    let actionURL = this.urlForModel(model) + action + '/';
+    return this.ajax(actionURL, method);
   }
+
 });
