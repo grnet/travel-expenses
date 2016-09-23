@@ -33,6 +33,11 @@ export default Ember.Controller.extend({
       }
 		},
 
+    //TO DO: Fix this to redirect to a view mode route
+    petitionView(model){
+      this.transitionToRoute(get(this, 'editCompensationRoute'), model.get('id'));
+    },
+
 		petitionDelete(model){
       if (model.get("currentState.stateName") == "root.deleted.inFlight") { return; }
       model.destroyRecord().then(() => {
