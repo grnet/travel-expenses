@@ -22,7 +22,13 @@ export default Ember.Controller.extend({
         set(this, 'actionMessage', 'petition.undo.success');
         get(this, 'model').reload();
       });
-		},	
+		},
+
+    pdfExport(petition) {
+      petition.pdfExport().then(() => {
+        //TO DO show pdf here
+      });
+    },
 
 		petitionEdit(model){
       if (model.get('status') >= 4) {

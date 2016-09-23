@@ -25,5 +25,9 @@ export default Ember.Component.extend({
 		view(model) {
       this.sendAction('view', model);
 		},
+
+		pdf(model) {
+      this.sendAction('pdf', model);
+		},
 	}
 });
