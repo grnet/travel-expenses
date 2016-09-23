@@ -148,8 +148,13 @@ export default {
   'additional_expenses_description_user.label': 'Λοιπά Έξοδα Μετακίνησης - Καταχώρηση Χρήστη',
   'additional_expenses_user.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή - Καταχώρηση Χρήστη',
   //tooltips
-  'tooltip_edit':'Επεξεργασία Αίτησης',
-  'tooltip_delete':'Διαγραφή Αίτησης',
-  'tooltip_undo':'Αναίρεση Υποβολής',
-  'tooltip_view':'Επισκόπηση Αίτησης',
+  'tooltip_edit': 'Επεξεργασία Αίτησης',
+  'tooltip_delete': 'Διαγραφή Αίτησης',
+  'tooltip_undo': 'Αναίρεση Υποβολής',
+  'tooltip_view': 'Επισκόπηση Αίτησης',
+  //prompt messages
+  'prompt_delete_title': 'Διαγραφή Αίτησης',
+  'prompt_delete_message': 'Είστε βέβαιοι ότι θέλετε να διαγράψετε την αίτηση σας;',
+  'prompt_undo_title': 'Αναίρεση Υποβολής',
+  'prompt_undo_message': 'Είστε βέβαιοι ότι θέλετε να αναιρέσετε την υποβολή την αίτηση σας;',
 };
