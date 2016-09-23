@@ -2,8 +2,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.views.generic.base import RedirectView
-from rest_framework import routers
 from texpenses.generators.urls import generate_api_urls
+from texpenses.views.test_view import pdf
 from . import auth_urls
 
 # Wire up our API using automatic URL routing.
@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^' + api_prefix + '/auth/', include(auth_urls)),
     generate_api_urls(),
+    url(r'^print/', pdf),
     url(r'^' + api_prefix + '/docs/', include('rest_framework_docs.urls')),
 
 ]

@@ -2,7 +2,6 @@ from django.conf import settings
 from rest_framework import viewsets, filters, mixins
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
-from rest_framework_tracking.mixins import LoggingMixin
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from texpenses.generators import utils
 from texpenses.generators.serializers import generate as generate_serializer
@@ -104,7 +103,7 @@ def get_bases_classes(model_api_meta):
     :param model_api_meta: API class of model.
     :returns: A tuple of the corresponding base classes.
     """
-    bases = (LoggingMixin,)
+    bases = ()
     operations = getattr(model_api_meta, 'allowable_operations', None)
     bases += (viewsets.ModelViewSet,) if not operations\
         else tuple([MIXINS[operation] for operation in operations]) + (

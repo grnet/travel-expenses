@@ -6,12 +6,6 @@ from django.template.loader import render_to_string
 from rest_framework import status
 from texpenses.models import Petition
 
-import cStringIO as StringIO
-from xhtml2pdf import pisa
-from django.template.loader import get_template
-from django.template import Context
-from django.http import HttpResponse
-from cgi import escape
 
 SENDER = settings.SERVER_EMAIL
 SECRETARY_EMAIL = settings.SECRETARY_EMAIL
@@ -82,17 +76,17 @@ def inform_on_action(action):
         return wrapper
     return inform_action
 
-def render_to_pdf(template_src, context_dict):
-    template = get_template(template_src)
-    context = Context(context_dict)
-    html = template.render(context)
-    result = StringIO.StringIO()
+# def render_to_pdf(template_src, context_dict):
+# template = get_template(template_src)
+# context = Context(context_dict)
+# html = template.render(context)
+# result = StringIO.StringIO()
 
-    # pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("ISO-8859-1")),
-    # result)
+    # # pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("ISO-8859-1")),
+    # # result)
 
-    pdf = pisa.pisaDocument(StringIO.StringIO(html), result)
+    # pdf = pisa.pisaDocument(StringIO.StringIO(html), result)
 
-    if not pdf.err:
-        return HttpResponse(result.getvalue(), content_type='application/pdf')
-    return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))
+    # if not pdf.err:
+    # return HttpResponse(result.getvalue(), content_type='application/pdf')
+    # return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))

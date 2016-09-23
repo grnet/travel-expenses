@@ -6,8 +6,14 @@ from rest_framework.reverse import reverse
 from texpenses.models import SecretaryPetitionSubmission
 from texpenses.actions import inform_on_action
 
+from django.template.loader import get_template
+from django.template import RequestContext
+from django.http import HttpResponse
 
-EXPOSED_METHODS = ['cancel', 'get_queryset']
+
+from weasyprint import HTML
+
+EXPOSED_METHODS = ['cancel', 'pdf', 'get_queryset']
 
 
 @detail_route(methods=['post'])
@@ -24,7 +30,29 @@ def cancel(self, request, pk=None):
                         status=status.HTTP_403_FORBIDDEN)
 
 
+<<<<<<< 2e9c7e2e3f48c2079e96cd5b6667979c20d0c255
 @inform_on_action('SUBMISSION')
+=======
+@detail_route(methods=['get'])
+def pdf(self, request, pk=None):
+    submitted = self.get_object()
+
+    html_template = get_template('texpenses/base.html')
+
+    rendered_html = html_template.render(
+        RequestContext(request, {'petition': submitted})).\
+        encode(encoding="UTF-8")
+
+    pdf_file = HTML(string=rendered_html,
+                    base_url=request.build_absolute_uri()).write_pdf()
+
+    http_response = HttpResponse(pdf_file, content_type='application/pdf')
+    http_response['Content-Disposition'] = 'filename="report.pdf"'
+
+    return http_response
+
+
+>>>>>>> Implement pdf generation for status 4 petitions (api/petition/secretary/submitted/<id>/pdf/)
 def create(self, request, *args, **kwargs):
     return super(self.__class__, self).create(request, *args, **kwargs)
 
