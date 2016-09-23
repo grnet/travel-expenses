@@ -6,12 +6,6 @@ from django.template.loader import render_to_string
 from rest_framework import status
 from texpenses.models import Petition
 
-import cStringIO as StringIO
-from xhtml2pdf import pisa
-from django.template.loader import get_template
-from django.template import Context
-from django.http import HttpResponse
-from cgi import escape
 
 SENDER = settings.SERVER_EMAIL
 SECRETARY_EMAIL = settings.SECRETARY_EMAIL
@@ -64,6 +58,7 @@ def inform(petition, action):
     cc = (petition.user.email,)
     to = (petition.project.manager_email, SECRETARY_EMAIL)
     send_email(subject, template, params, SENDER, to=to, cc=cc)
+
     
 
 

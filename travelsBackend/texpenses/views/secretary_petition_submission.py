@@ -13,9 +13,11 @@ from django.http import HttpResponse
 
 from weasyprint import HTML
 
+
 EXPOSED_METHODS = ['cancel', 'application_report', 'decision_report',
                    'get_queryset', '_extract_application_info',
                    '_render_template2pdf', 'president_approval']
+
 
 
 @detail_route(methods=['post'])
@@ -30,6 +32,7 @@ def cancel(self, request, pk=None):
     except PermissionDenied as e:
         return Response({'detail': e.message},
                         status=status.HTTP_403_FORBIDDEN)
+
 
 
 @detail_route(methods=['post'])
