@@ -6,6 +6,7 @@ const CHOICES = ENV.APP.resource_choices,
       CURRENCY = [[ENV.default_currency, ENV.default_currency]];
 
 export var Petition = DS.Model.extend({
+  session: Ember.inject.service('session'),
   // profile fields
   first_name: DS.attr({attrs: {disabled: true, required: true}}),
   last_name: DS.attr({attrs: {disabled: true, required: true}}),
@@ -116,10 +117,22 @@ export var Petition = DS.Model.extend({
   },
 
   pdfExport: function(){
-    let adapter = this.store.adapterFor(this.constructor.modelName);
-    let model = this;
-    return adapter.get_action(this, 'pdf').then(function() {
-      return model;
+    var token = this.get("session.data.authenticated.auth_token");
+    $.ajax({
+      headers:{
+        Authorization: 'Token ' + token
+      },
+      xhrFields : {
+        responseType : 'arraybuffer'
+      },
+      url: ENV.APP.backend_host +'/petition/secretary/submitted/'+'110'+'/pdf/',
+      success: function(data) {
+          var blob=new Blob([data], { type: "application/pdf" });
+          var link=document.createElement('a');
+          link.href=window.URL.createObjectURL(blob);
+          link.download="App1_"+new Date()+".pdf";
+          link.click();
+      }
     });
  },
 
