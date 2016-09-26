@@ -8,20 +8,12 @@ from rest_framework.authtoken.models import Token
 from texpenses.models import (
     City, TravelInfo, Petition, UserPetition, Project, UserProfile, TaxOffice,
     UserPetitionSubmission, SecretaryPetition, SecretaryPetitionSubmission,
-    Country, UserCompensation, UserCompensationSubmission,
-    SecretaryCompensation, SecretaryCompensationSubmission)
+    Country, UserCompensation, SecretaryCompensation)
 
 PETITION_APIS = [
     (UserPetition, reverse('userpetition-list')),
     (UserPetitionSubmission, reverse('userpetitionsubmission-list')),
-    (UserCompensation, reverse('usercompensation-list')),
-    (UserCompensationSubmission,
-     reverse('usercompensationsubmission-list')),
     (SecretaryPetition, reverse('secretarypetition-list')),
-    (SecretaryPetitionSubmission, reverse('secretarypetitionsubmission-list')),
-    (SecretaryCompensation, reverse('secretarycompensation-list')),
-    (SecretaryCompensationSubmission,
-     reverse('secretarycompensationsubmission-list')),
 ]
 
 SUBMISSION_APIS = [
@@ -31,12 +23,7 @@ SUBMISSION_APIS = [
 
 COMPENSATION_APIS = [
     (UserCompensation, reverse('usercompensation-list')),
-    (UserCompensationSubmission,
-     reverse('usercompensationsubmission-list')),
     (SecretaryCompensation, reverse('secretarycompensation-list')),
-    (SecretaryCompensationSubmission,
-     reverse('secretarycompensationsubmission-list')),
-
 ]
 
 PROTOCOL_DATE_FORMAT = '%Y-%m-%d'
@@ -64,21 +51,7 @@ EXTRA_DATA = {
 
     },
     UserCompensation: {},
-    UserCompensationSubmission: {'travel_report': 'travel report'},
     SecretaryCompensation: {},
-    SecretaryCompensationSubmission: {'travel_report': 'travel report',
-                                      'compensation_petition_protocol': 'cpp',
-                                      'compensation_petition_date':
-                                      PROTOCOL_DATE,
-                                      'compensation_decision_protocol': 'cdp',
-                                      'compensation_decision_date':
-                                      PROTOCOL_DATE,
-                                      'additional_expenses': 100,
-                                      'additional_expenses_local_currency':
-                                      'EUR',
-                                      'additional_expenses_description': 'tEST'
-
-                                      }
 
 }
 TRAVEL_INFO_MANDATORY_ELEMENTS = {
@@ -95,7 +68,6 @@ TRAVEL_INFO_MANDATORY_ELEMENTS = {
 
 UserPetitionSubmission.mandatory_fields = ()
 SecretaryPetitionSubmission.mandatory_fields = ()
-
 
 
 class APIPetitionTest(APITestCase):
@@ -188,86 +160,6 @@ class APIPetitionTest(APITestCase):
         self.assertEqual(response.data,
                          {'non_field_errors': [validation_message]})
 
-    def test_submission_apis(self):
-        for model, url in SUBMISSION_APIS:
-            self.data.update(EXTRA_DATA[model])
-            for field, attrs in model.Api.extra_kwargs.iteritems():
-                response = self.client.post(url, self.data, format='json')
-                self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-                if attrs.get('required', False):
-                    value = self.data.pop(field)
-                    response = self.client.post(url, self.data, format='json')
-                    self.assertEqual(response.status_code,
-                                     status.HTTP_400_BAD_REQUEST)
-                    self.assertEqual(response.data, {
-                        field: ['This field is required.']})
-                    self.data[field] = value
-
-    def test_submission_permissions(self):
-        for model, url in SUBMISSION_APIS:
-            self.data.update(EXTRA_DATA[model])
-            response = self.client.post(url, self.data, format='json')
-            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-            # test put
-            response = self.client.put(url, self.data, format='json')
-            self.assertEqual(
-                response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-            # test patch
-            response = self.client.patch(url, self.data, format='json')
-            self.assertEqual(
-                response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-            # test delete
-            response = self.client.delete(url, self.data, format='json')
-            self.assertEqual(
-                response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-
-    def test_compensation_apis(self):
-        data = {'project': self.project_url,
-                'task_start_date': self.start_date,
-                'task_end_date': self.end_date, 'travel_info': [],
-                'reason': 'reason',
-                'dse': None,
-                'user': self.user_url,
-                'movement_id': 'movement_id'
-                }
-        for model, url in COMPENSATION_APIS:
-            data.update(EXTRA_DATA[model])
-            for field, attrs in model.Api.extra_kwargs.iteritems():
-                response = self.client.post(url, data, format='json')
-                self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-                if attrs.get('required', False):
-                    value = data.pop(field)
-                    response = self.client.post(url, data, format='json')
-                    self.assertEqual(response.status_code,
-                                     status.HTTP_400_BAD_REQUEST)
-                    self.assertEqual(response.data, {
-                        field: ['This field is required.']})
-                    data[field] = value
-
-    def test_compensation_permissions(self):
-        data = {'project': self.project_url,
-                'task_start_date': self.start_date,
-                'task_end_date': self.end_date, 'travel_info': [],
-                'dse': None,
-                'user': self.user_url,
-                'movement_id': 'movement_id'
-                }
-        for model, url in COMPENSATION_APIS:
-            data.update(EXTRA_DATA[model])
-            response = self.client.post(url, data, format='json')
-            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-            # test put
-            response = self.client.put(url, data, format='json')
-            self.assertEqual(
-                response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-            # test patch
-            response = self.client.patch(url, data, format='json')
-            self.assertEqual(
-                response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-            # test delete
-            response = self.client.delete(url, data, format='json')
-            self.assertEqual(
-                response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_nested_serialization(self):
         city_url = reverse('city-detail', args=[1])
@@ -342,9 +234,7 @@ class APIPetitionTest(APITestCase):
         submission_apis = [('userpetitionsubmission',
                             Petition.SUBMITTED_BY_USER),
                            ('secretarypetitionsubmission',
-                            Petition.SUBMITTED_BY_SECRETARY),
-                           ('usercompensationsubmission',
-                            Petition.USER_COMPENSATION_SUBMISSION)]
+                            Petition.SUBMITTED_BY_SECRETARY)]
         for base_name, petition_status in submission_apis:
             data = {'project': self.project,
                     'task_start_date': self.start_date,
