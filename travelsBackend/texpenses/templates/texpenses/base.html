@@ -10,6 +10,10 @@ caption {
 	font-size:90%;
 	padding: 20px;
 }
+p,ol {
+	font-size:90%;
+
+}
 .top {
 	border-bottom: 0px solid #ddd;
 }
@@ -20,9 +24,9 @@ caption {
 	</head>
 	<body>
 		{% include 'texpenses/top.html' %}
-		{% include 'texpenses/protocol.html' %}
-		{% include 'texpenses/content.html' %}
-		{% include 'texpenses/signatures.html' %}
+		{% block protocol %}{% include 'texpenses/protocol.html' %}{% endblock %}
+		{% block content %}{% include 'texpenses/content.html' %}{% endblock %}
+		{% block signatures %}{% include 'texpenses/signatures.html' %}{% endblock %}
 		<footer style="position: absolute;right: 0;bottom: 0;left: 0;text-align: right;" >
 			{% include 'texpenses/footer.html' %}
 		</footer>

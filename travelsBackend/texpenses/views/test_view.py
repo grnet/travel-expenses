@@ -1,11 +1,11 @@
 from django.template.loader import get_template
 from django.template import RequestContext
 from django.http import HttpResponse
-from weasyprint import HTML
 
 
 def pdf(request):
-    html_template = get_template('texpenses/base.html')
+    html_template = get_template(
+        'texpenses/movement_compensation_decision/movement_compensation_decision.html')
 
     mylist = {'shit1', 'shit2', 'shit3'}
 

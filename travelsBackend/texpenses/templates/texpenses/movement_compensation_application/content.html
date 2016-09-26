@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+{% extends "texpenses/content.html" %}
+
+{% block content_data %}
+<table style="width:100%">
+	<caption style='text-align: center;'><b>Αίτηση Δαπάνης Μετακίνησης</b></caption>
+	<tr>
+		<td>Μετακινούμενος</td>
+		<td>{{first_name}} {{last_name}}</td>
+	</tr>
+
+	<tr>
+		<td>Ιδιότητα</td>
+		<td>{{kind}}</td>
+	</tr>
+
+	<tr>
+		<td>Ειδικότητα</td>
+		<td>{{specialty}}</td>
+	</tr>
+
+	<tr>
+		<td>Τραπεζικός Λογιαριασμός IBAN</td>
+		<td>{{iban}}</td>
+	</tr>
+	<tr>
+		<td>Ημερομηνία μετακίνησης</td>
+		<td>Αναχώρηση</td>
+		<td>{{depart_date}}</td>
+		<td>Επιστροφή</td>
+		<td>{{return_date}}</td>
+	</tr>
+
+	<tr>
+		<td>Ημερομηνία εργασιών</td>
+		<td>Έναρξη</td>
+		<td>{{task_start_date}}</td>
+		<td>Λήξη</td>
+		<td>{{task_end_date}}</td>
+	</tr>
+
+	<tr>
+		<td>Εναπομείνασες ημέρες μετακίνησης εργασιών</td>
+		<td>Πριν</td>
+		<td>{{trip_days_before}}</td>
+		<td>Μετά</td>
+		<td>{{trip_days_after}}</td>
+	</tr>
+
+	<tr>
+		<td>Ημέρες μετακίνησης εργασιών</td>
+		<td>{{transport_days}}</td>
+	</tr>
+
+	<tr>
+		<td>Διανυκτερεύσεις</td>
+		<td>{{overnights_num}}</td>
+	</tr>
+
+	<tr>
+		<td>Αιτιολογία μετακίνησης</td>
+		<td>{{reason}}</td>
+	</tr>
+
+	<tr>
+		<td>Τόπος μετακίνησης</td>
+		<td>Από:</td>
+		<td>{{departure_point}}</td>
+		<td>Προς:</td>
+		<td>{{arrival_point}}</td>
+	</tr>
+
+	<tr>
+		<td>Μέσο μετακίνησης</td>
+		<td>{{means_of_transport}}</td>
+	</tr>
+
+</table>
+<br>
+<table style="width:100%">
+	<caption style='text-align: center;'><b>Βεβαιώνουμε την ακόλουθη δέσμευση πίστωσης:</b></caption>
+	<tr>
+		<td>ΚΑΤΗΓΟΡΙΑ ΔΑΠΑΝΗΣ</td>
+		<td>ΠΡΟΥΠΟΛΟΓΙΣΜΟΣ</td>
+	</tr>
+	<tr>
+		<td>Αεροπορικό εισιτήριο</td>
+		<td>{{transportation_cost}} {{transportation_default_currency}} </td>
+	</tr>
+
+	<tr>
+		<td>Διανυκτέρευση</td>
+		<td>{{overnights_num_manual}} ημέρες x {{accommodation_cost}} = {{overnights_sum_cost}} {{accommodation_default_currency}}  </td>
+	</tr>
+
+	<tr>
+		<td>Ημερήσια αποζημίωση</td>
+		<td>{{overnights_num}} ημέρες x {{accommodation_cost}} = {{overnights_sum_cost}} {{accommodation_default_currency}}  </td>
+	</tr>
+
+	<tr>
+		<td>Κόστος συμμετοχής</td>
+		<td>{{participation_cost}} {{participation_default_currency}}  </td>
+	</tr>
+
+	<tr>
+		<td>Λοιπά έξοδα μετακίνησης</td>
+		<td>{{additional_expenses_initial}} {{additional_expenses_default_currency}}  </td>
+	</tr>
+
+	<tr>
+		<td><b>Σύνολο</td>
+		<td>{{total_cost}} ευρώ</td>
+	</tr>
+
+</table>
+{% endblock %}

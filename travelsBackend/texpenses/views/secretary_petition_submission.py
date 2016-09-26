@@ -13,7 +13,9 @@ from django.http import HttpResponse
 
 from weasyprint import HTML
 
-EXPOSED_METHODS = ['cancel', 'pdf', 'get_queryset']
+EXPOSED_METHODS = ['cancel', 'application_report', 'decision_report',
+                   'get_queryset', '_extract_application_info',
+                   '_render_template2pdf']
 
 
 @detail_route(methods=['post'])
@@ -30,29 +32,100 @@ def cancel(self, request, pk=None):
                         status=status.HTTP_403_FORBIDDEN)
 
 
-<<<<<<< 2e9c7e2e3f48c2079e96cd5b6667979c20d0c255
-@inform_on_action('SUBMISSION')
-=======
-@detail_route(methods=['get'])
-def pdf(self, request, pk=None):
-    submitted = self.get_object()
+def _extract_info(petition_object):
+    data = {}
 
-    html_template = get_template('texpenses/base.html')
+    # protocol info
+    data.update(
+        {'dse': petition_object.dse,
+         'movement_id': petition_object.movement_id,
+         'movement_date_protocol': petition_object.movement_date_protocol,
+         'movement_protocol': petition_object.movement_protocol
+         }
+    )
+
+    # user info
+    data.update({'first_name': petition_object.first_name,
+                 'last_name': petition_object.last_name,
+                 'kind': petition_object.get_kind_display(),
+                 'specialty': petition_object.get_specialty_display(),
+                 'iban': petition_object.iban,
+                 'tax_reg_num': petition_object.tax_reg_num
+                 })
+    # petition info
+    travel_info = petition_object.travel_info.all()[0]
+    data.update({'depart_date': travel_info.depart_date,
+                 'return_date': travel_info.return_date,
+                 'task_start_date': petition_object.task_start_date,
+                 'task_end_date': petition_object.task_end_date,
+                 'trip_days_before': petition_object.trip_days_before,
+                 'trip_days_after': petition_object.trip_days_after,
+                 'transport_days': petition_object.transport_days,
+                 'overnights_num': petition_object.overnights_num,
+                 'reason': petition_object.reason,
+                 'departure_point': travel_info.departure_point.name,
+                 'arrival_point': travel_info.arrival_point.name,
+                 'means_of_transport': travel_info.
+                 get_means_of_transport_display(),
+                 'transportation_cost': travel_info.transportation_cost,
+                 'transportation_default_currency': travel_info.
+                 transportation_default_currency,
+                 'overnights_num_manual': travel_info.overnights_num_manual,
+                 'accommodation_cost': travel_info.accommodation_cost,
+                 'overnights_sum_cost': petition_object.overnights_sum_cost,
+                 'accommodation_default_currency': travel_info.
+                 accommodation_default_currency,
+                 'participation_cost': petition_object.participation_cost,
+                 'participation_default_currency': petition_object.
+                 participation_local_currency,
+                 'additional_expenses_initial': petition_object.
+                 additional_expenses_initial,
+                 'additional_expenses_default_currency': petition_object.
+                 additional_expenses_default_currency,
+                 'total_cost': petition_object.total_cost,
+                 'project': petition_object.project.name
+                 })
+    return data
+
+
+def _render_template2pdf(self, request, template_path,
+                         default_report_name='report.pdf'):
+    petition = self.get_object()
+
+    html_template = get_template(template_path)
 
     rendered_html = html_template.render(
-        RequestContext(request, {'petition': submitted})).\
+        RequestContext(request, _extract_info(petition))).\
         encode(encoding="UTF-8")
-
     pdf_file = HTML(string=rendered_html,
                     base_url=request.build_absolute_uri()).write_pdf()
 
     http_response = HttpResponse(pdf_file, content_type='application/pdf')
-    http_response['Content-Disposition'] = 'filename="report.pdf"'
-
+    http_response['Content-Disposition'] = 'filename="' +\
+        default_report_name + '"'
     return http_response
 
 
->>>>>>> Implement pdf generation for status 4 petitions (api/petition/secretary/submitted/<id>/pdf/)
+@detail_route(methods=['get'])
+def application_report(self, request, pk=None):
+    template_path = "texpenses/movement_compensation_application/" +\
+        "movement_compensation_application.html"
+    report_name = 'application_report.pdf'
+
+    return self._render_template2pdf(
+        request, template_path, report_name)
+
+
+@detail_route(methods=['get'])
+def decision_report(self, request, pk=None):
+    template_path = "texpenses/movement_compensation_decision/" +\
+        "movement_compensation_decision.html"
+    report_name = 'decision_report.pdf'
+
+    return self._render_template2pdf(
+        request, template_path, report_name)
+
+
 def create(self, request, *args, **kwargs):
     return super(self.__class__, self).create(request, *args, **kwargs)
 
