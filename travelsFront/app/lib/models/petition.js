@@ -118,7 +118,7 @@ export var Petition = DS.Model.extend({
 
   pdfExport: function(petition){
     var token = this.get("session.data.authenticated.auth_token");
-    $.ajax({
+    return $.ajax({
       headers:{
         Authorization: 'Token ' + token
       },
