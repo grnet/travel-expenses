@@ -109,7 +109,7 @@ class APIPetitionTest(APITestCase):
                      'user': self.user_url,
                      'movement_id': 'movement_id',
                      'travel_info': travel_info,
-                    }
+                     }
 
     def test_create_user_petition(self):
         self.assertRaises(ObjectDoesNotExist,
@@ -152,14 +152,13 @@ class APIPetitionTest(APITestCase):
             self.data[field] = value
 
         self.data['travel_info'][0].update(
-                {'accommodation_cost': float('inf')})
+            {'accommodation_cost': float('inf')})
         response = self.client.post(url, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         validation_message = 'Accomondation cost inf for petition with DSE' +\
             ' 1 exceeds the max overnight cost.'
         self.assertEqual(response.data,
                          {'non_field_errors': [validation_message]})
-
 
     def test_nested_serialization(self):
         city_url = reverse('city-detail', args=[1])
@@ -251,7 +250,7 @@ class APIPetitionTest(APITestCase):
             cancel_url = submission_endpoint + str(petition.id) + '/cancel/'
             response = self.client.post(cancel_url, format='json')
             self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
-            response = self.client.get(dict(response.items())['location'],
+            response = self.client.get(dict(response.items())['Location'],
                                        format='json')
             self.assertEqual(response.status_code, status.HTTP_200_OK)
 
