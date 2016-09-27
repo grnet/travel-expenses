@@ -25,8 +25,8 @@ export default Ember.Controller.extend({
 		},
 
     pdfExport(petition) {
-      petition.pdfExport().then(() => {
-        //TO DO show pdf here
+      petition.pdfExport(petition).then(() => {
+        get(this, 'model').reload();
       });
     },
 
