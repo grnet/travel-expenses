@@ -2,7 +2,7 @@
 {% extends "texpenses/content.html" %}
 
 {% block content_data %}
-<div style='text-align:center;'><h4><b>ΑΠΟΦΑΣΗ ΑΠΟΖΗΜΙΩΣΗΣ<br>
+<div style='text-align:center;'><h4><b>ΑΠΟΦΑΣΗ ΜΕΤΑΚΙΝΗΣΗΣ<br>
 			Ο ΠΡΟΕΔΡΟΣ ΚΑΙ ΔΙΕΥΘΥΝΩΝ ΣΥΜΒΟΥΛΟΣ ΤΗΣ ΕΔΕΤ ΑΕ</b><br></h4>
 
 </div>
@@ -12,11 +12,11 @@
 	<ol><li>Της υποπαραγράφου Δ.9 του Νόμου 4336/2015 (ΦΕΚ Α 94/14.08.2015) «Συνταξιοδοτικές διατάξεις - Κύρωση του Σχεδίου Σύμβασης Οικονομικής Ενίσχυσης από τον Ευρωπαϊκό Μηχανισμό Σταθερότητας και ρυθμίσεις για την υλοποίηση της Συμφωνίας Χρηματοδότησης».</li>
 		<li>Του Π.Δ. 29/98 περί σύστασης Ανωνύμου Εταιρείας με την επωνυμία «Εθνικό Δίκτυο Έρευνας Τεχνολογίας Α.Ε.» (ΦΕΚ 34/Α/98) όπως τροποποιήθηκε από το Π.Δ. 308/2001 (ΦΕΚ 209/Α/2001), το Π.Δ. 145/2003 (ΦΕΚ 121/Α/2003), το ν. 2919/2001 (ΦΕΚ128/Α/2001) και το ν. 3438/2006 (ΦΕΚ 33/Α/2006) και από τον ν. 4115/2013 (ΦΕΚ 24/Α/2013)</li></ol>
 	<p>Β. Την απόφαση της από 06/11/2015, 367ης Συνεδρίας του ΔΣ της ΕΔΕΤ Α.Ε (Θέμα 2) περί εκπροσωπήσεως της ΕΔΕΤ Α.Ε.</p>
-	<p>Γ. Την ανάγκη κάλυψης της κάτωθι αποζημίωσης.</p>
-	<p>Δ. Το γεγονός ότι η κάτωθι αποζημίωση είναι εντός του εγκεκριμένου με την απόφαση μετακίνησης ποσού.</p>
+	<p>Γ. Την ανάγκη κάλυψης των δαπανών μετακίνησης.</p>
+	<p>Δ. Το γεγονός ότι το ποσό της δεσμευόμενης, με την παρούσα, πίστωσης είναι εντός του εγκεκριμένου ποσού διάθεσης.</p>
 </div>
-<h4 style='text-align:center;'><b>ΒΕΒΑΙΩΝΟΥΜΕ</b></h4>
-<div style='text-align:left;'>Ότι ο απολογισμός της μετακίνησης με ΔΣΕ: {{dse}} Αρ. Μετ {{movement_id}} έχει ως εξής:</div><br>
+<h4 style='text-align:center;'><b>ΑΠΟΦΑΣΙΖΟΥΜΕ</b></h4>
+<div style='text-align:left;'>Εγκρίνουμε την παρακάτω μετακίνηση:</div><br>
 
 
 <table style="width:100%">
@@ -94,10 +94,10 @@
 </table>
 <br>
 <table style="width:100%">
-	<caption style='text-align: center;'><b>Οι πραγματοποιηθείσες δαπάνες έχουν ως εξής:</b></caption>
+	<caption style='text-align: center;'><b>Βεβαιώνουμε την ακόλουθη δέσμευση πίστωσης:</b></caption>
 	<tr>
 		<td><b>ΚΑΤΗΓΟΡΙΑ ΔΑΠΑΝΗΣ</b></td>
-		<td><b>ΠΟΣΟ</b></td>
+		<td><b>ΠΡΟΥΠΟΛΟΓΙΣΜΟΣ</b></td>
 	</tr>
 	<tr>
 		<td>Αεροπορικό εισιτήριο</td>
@@ -105,16 +105,14 @@
 	</tr>
 
 	<tr>
-		<td>Ημερήσια Αποζημίωση</td>
-		<td>{{compensation_days_manual}} ημέρες x {{compensation_level}} = {{compensation_cost}} ευρώ </td>
-	</tr>
-
-
-	<tr>
 		<td>Διανυκτέρευση</td>
 		<td>{{overnights_num_manual}} ημέρες x {{accommodation_cost}} = {{overnights_sum_cost}} {{accommodation_default_currency}}  </td>
 	</tr>
 
+	<tr>
+		<td>Ημερήσια Αποζημίωση</td>
+		<td>{{compensation_days_manual}} ημέρες x {{compensation_level}} = {{compensation_cost}} ευρώ </td>
+	</tr>
 
 	<tr>
 		<td>Κόστος συμμετοχής</td>
@@ -123,32 +121,12 @@
 
 	<tr>
 		<td>Λοιπά έξοδα μετακίνησης</td>
-		<td>{{additional_expenses}} {{additional_expenses_default_currency}}  </td>
+		<td>{{additional_expenses_initial}} {{additional_expenses_default_currency}}  </td>
 	</tr>
 
 	<tr>
 		<td><b>Σύνολο</td>
-		<td><b>{{total_cost}} ευρώ </b></td>
-	</tr>
-
-</table>
-<br>
-<table style="width:100%">
-	<caption style='text-align: center;'><b>ΕΓΚΡΙΝΟΥΜΕ
-			Την κάτωθι αποζημίωση για τον μετακινούμενο:</b></caption>
-	<tr>
-		<td>Ημερήσια Αποζημίωση</td>
-		<td>{{compensation_days_manual}} ημέρες x {{compensation_level}} = {{compensation_cost}} ευρώ </td>
-	</tr>
-
-	<tr>
-		<td>Λοιπά έξοδα μετακίνησης</td>
-		<td>{{additional_expenses}} ευρώ</td>
-	</tr>
-
-	<tr>
-		<td><b>Σύνολο Αποζημίωσης</td>
-		<td><b>{{compensation_final}} ευρώ</b></td>
+		<td><b>{{total_cost}} ευρώ</b></td>
 	</tr>
 
 </table>

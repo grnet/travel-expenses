@@ -3,7 +3,7 @@
 
 {% block content_data %}
 <table style="width:100%">
-	<caption style='text-align: center;'><b>Αίτηση Αποζημίωσης Μετακίνησης</b></caption>
+	<caption style='text-align: center;'><b>Αίτηση Δαπάνης Μετακίνησης</b></caption>
 	<tr>
 		<td>Μετακινούμενος</td>
 		<td>{{first_name}} {{last_name}}</td>
@@ -18,11 +18,6 @@
 		<td>Ειδικότητα</td>
 		<td>{{specialty}}</td>
 	</tr>
-	<tr>
-		<td>ΑΦΜ</td>
-		<td>{{tax_reg_num}}</td>
-	</tr>
-
 
 	<tr>
 		<td>Τραπεζικός Λογιαριασμός IBAN</td>
@@ -83,10 +78,10 @@
 </table>
 <br>
 <table style="width:100%">
-	<caption style='text-align: center;'><b>Οι πραγματοποιηθείσες δαπάνες έχουν ως εξής:</b></caption>
+	<caption style='text-align: center;'><b>Βεβαιώνουμε την ακόλουθη δέσμευση πίστωσης:</b></caption>
 	<tr>
-		<td><b>ΚΑΤΗΓΟΡΙΑ ΔΑΠΑΝΗΣ</b></td>
-		<td><b>ΠΟΣΟ</b></td>
+		<td>ΚΑΤΗΓΟΡΙΑ ΔΑΠΑΝΗΣ</td>
+		<td>ΠΡΟΥΠΟΛΟΓΙΣΜΟΣ</td>
 	</tr>
 	<tr>
 		<td>Αεροπορικό εισιτήριο</td>
@@ -94,16 +89,13 @@
 	</tr>
 
 	<tr>
-		<td>Ημερήσια Αποζημίωση</td>
-		<td>{{compensation_days_manual}} ημέρες x {{compensation_level}} = {{compensation_cost}} ευρώ </td>
-	</tr>
-
-
-	<tr>
 		<td>Διανυκτέρευση</td>
 		<td>{{overnights_num_manual}} ημέρες x {{accommodation_cost}} = {{overnights_sum_cost}} {{accommodation_default_currency}}  </td>
 	</tr>
-
+	<tr>
+		<td>Ημερήσια Αποζημίωση</td>
+		<td>{{compensation_days_manual}} ημέρες x {{compensation_level}} = {{compensation_cost}} ευρώ </td>
+	</tr>
 
 	<tr>
 		<td>Κόστος συμμετοχής</td>
@@ -112,31 +104,12 @@
 
 	<tr>
 		<td>Λοιπά έξοδα μετακίνησης</td>
-		<td>{{additional_expenses}} {{additional_expenses_default_currency}}  </td>
+		<td>{{additional_expenses_initial}} {{additional_expenses_default_currency}}  </td>
 	</tr>
 
 	<tr>
 		<td><b>Σύνολο</td>
-		<td><b>{{total_cost}} ευρώ </b></td>
-	</tr>
-
-</table>
-<br>
-<table style="width:100%">
-	<caption style='text-align: center;'><b>Ο μετακινούμενος αιτείται την ακόλουθη αποζημίωση:</b></caption>
-	<tr>
-		<td>Ημερήσια Αποζημίωση</td>
-		<td>{{compensation_days_manual}} ημέρες x {{compensation_level}} = {{compensation_cost}} ευρώ </td>
-	</tr>
-
-	<tr>
-		<td>Λοιπά έξοδα μετακίνησης</td>
-		<td>{{additional_expenses}} ευρώ</td>
-	</tr>
-
-	<tr>
-		<td><b>Σύνολο Αποζημίωσης</td>
-		<td><b>{{compensation_final}} ευρώ</b></td>
+		<td>{{total_cost}} ευρώ</td>
 	</tr>
 
 </table>

@@ -1102,7 +1102,7 @@ class SecretaryPetitionSubmission(Petition):
             "movement_date_protocol": {
                 'required': True, 'allow_null': False
             },
-            
+
             'additional_expenses_initial': {
                 'required': True, 'allow_null': False
             },
@@ -1122,7 +1122,7 @@ class SecretaryPetitionSubmission(Petition):
             'additional_expenses_default_currency': {
                 'required': True, 'allow_null': False, 'allow_blank': False
             },
-            
+
             'dse': {
                 'required': False, 'allow_null': True
             },
@@ -1162,7 +1162,7 @@ class UserCompensation(Petition):
         Petition.SUBMITTED_BY_SECRETARY, Petition.USER_COMPENSATION,
         Petition.USER_COMPENSATION_SUBMISSION])
     excluded = ['non_grnet_quota', 'participation_cost',
-                'compensation_petition_protocol',
+                'compensation_petition_protocol', 'user_recommendation', 'secretary_recommendation',
                 'compensation_petition_date', 'compensation_decision_protocol',
                 'compensation_decision_date',
                 'participation_payment_description', 'deleted', 'travel_files']

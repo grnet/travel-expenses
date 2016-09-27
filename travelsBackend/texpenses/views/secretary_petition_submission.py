@@ -83,7 +83,11 @@ def _extract_info(petition_object):
                  'additional_expenses_default_currency': petition_object.
                  additional_expenses_default_currency,
                  'total_cost': petition_object.total_cost,
-                 'project': petition_object.project.name
+                 'project': petition_object.project.name,
+                 'compensation_days_manual': travel_info.
+                 compensation_days_manual,
+                 'compensation_level': travel_info.compensation_level(),
+                 'compensation_cost': travel_info.compensation_cost()
                  })
     return data
 
@@ -108,9 +112,9 @@ def _render_template2pdf(self, request, template_path,
 
 @detail_route(methods=['get'])
 def application_report(self, request, pk=None):
-    template_path = "texpenses/movement_compensation_application/" +\
-        "movement_compensation_application.html"
-    report_name = 'application_report.pdf'
+    template_path = "texpenses/movement_petition_application/" +\
+        "movement_petition_application.html"
+    report_name = 'petition_application_report.pdf'
 
     return self._render_template2pdf(
         request, template_path, report_name)
@@ -118,9 +122,9 @@ def application_report(self, request, pk=None):
 
 @detail_route(methods=['get'])
 def decision_report(self, request, pk=None):
-    template_path = "texpenses/movement_compensation_decision/" +\
-        "movement_compensation_decision.html"
-    report_name = 'decision_report.pdf'
+    template_path = "texpenses/movement_petition_decision/" +\
+        "movement_petition_decision.html"
+    report_name = 'petition_decision_report.pdf'
 
     return self._render_template2pdf(
         request, template_path, report_name)
