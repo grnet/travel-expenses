@@ -116,7 +116,7 @@ export var Petition = DS.Model.extend({
     });
   },
 
-  pdfExport: function(){
+  pdfExport: function(petition){
     var token = this.get("session.data.authenticated.auth_token");
     $.ajax({
       headers:{
@@ -125,7 +125,7 @@ export var Petition = DS.Model.extend({
       xhrFields : {
         responseType : 'arraybuffer'
       },
-      url: ENV.APP.backend_host +'/petition/secretary/submitted/'+'110'+'/pdf/',
+      url: ENV.APP.backend_host +'/petition/secretary/submitted/'+petition.id+'/pdf/',
       success: function(data) {
           var blob=new Blob([data], { type: "application/pdf" });
           var link=document.createElement('a');
