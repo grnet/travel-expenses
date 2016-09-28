@@ -116,8 +116,26 @@ export var Petition = DS.Model.extend({
     });
   },
 
-  pdfExport: function(petition){
+  pdfExport: function(petition, pdf_id){
     var token = this.get("session.data.authenticated.auth_token");
+    var base_url = this.store.adapterFor(petition.constructor.modelName).urlForModel(petition);
+    var extension_url = '';
+    var pdf_name = '';
+    var dse = petition.get('dse');
+
+    switch(pdf_id){
+      case "1":
+      case "3":
+        extension_url = 'application_report/';
+        pdf_name = 'application';
+        break;
+      case "2":
+      case "4": 
+        extension_url = 'decision_report/';
+        pdf_name = 'decision';
+        break;
+    };
+
     return $.ajax({
       headers:{
         Authorization: 'Token ' + token
@@ -125,12 +143,12 @@ export var Petition = DS.Model.extend({
       xhrFields : {
         responseType : 'arraybuffer'
       },
-      url: ENV.APP.backend_host +'/petition/secretary/submitted/'+petition.id+'/pdf/',
+      url: base_url + extension_url,
       success: function(data) {
           var blob=new Blob([data], { type: "application/pdf" });
           var link=document.createElement('a');
           link.href=window.URL.createObjectURL(blob);
-          link.download="App1_"+new Date()+".pdf";
+          link.download=pdf_name+"_dse["+dse+"]"+".pdf";
           link.click();
       }
     });
