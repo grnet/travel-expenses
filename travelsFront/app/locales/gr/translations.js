@@ -152,6 +152,10 @@ export default {
   'tooltip_delete': 'Διαγραφή Αίτησης',
   'tooltip_undo': 'Αναίρεση Υποβολής',
   'tooltip_view': 'Επισκόπηση Αίτησης',
+  'pdf_travel_application': 'Εξαγωγή Αίτησης Δαπάνης Μετακίνησης',
+  'pdf_travel_decision': 'Εξαγωγή Απόφασης Μετακίνησης',
+  'pdf_compensation_application': 'Εξαγωγή Αίτησης Αποζημίωσης Μετακίνησης',
+  'pdf_compensation_decision': 'Εξαγωγή Απόφασης Αποζημίωσης',
   //prompt messages
   'prompt_delete_title': 'Διαγραφή Αίτησης',
   'prompt_delete_message': 'Είστε βέβαιοι ότι θέλετε να διαγράψετε την αίτηση σας;',
