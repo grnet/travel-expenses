@@ -29,5 +29,9 @@ export default Ember.Component.extend({
 		pdf(model, pdf_id) {
       this.sendAction('pdf', model, pdf_id);
 		},
+
+		approve(model) {
+      this.sendAction('approve', model);
+		},
 	}
 });

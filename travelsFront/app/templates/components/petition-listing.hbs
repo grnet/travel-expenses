@@ -17,6 +17,7 @@
     {{list-action action=(action "undo" petition) icon='undo' tooltip-message=(t 'tooltip_undo') iconButton=true confirm=true promptTitle=(t 'prompt_undo_title') promptMessage=(t 'prompt_undo_message')}}
     {{list-action action=(action "pdf" petition "1") icon='file-text-o' tooltip-message=(t 'pdf_travel_application') iconButton=true confirm=false}}
     {{list-action action=(action "pdf" petition "2") icon='file-text-o' tooltip-message=(t 'pdf_travel_decision') iconButton=true confirm=false}}
+    {{list-action action=(action "approve" petition) icon='fa-check-square-o' tooltip-message=(t 'presidentApproval') iconButton=true confirm=false}}
   {{else if (eq petition.status 9)}}
     {{list-action action=(action "view" petition) icon='eye' tooltip-message=(t 'tooltip_view') iconButton=true confirm=false}}
   {{/if}}
