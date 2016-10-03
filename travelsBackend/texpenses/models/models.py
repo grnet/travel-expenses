@@ -1054,7 +1054,8 @@ class SecretaryPetition(Petition):
 class SecretaryPetitionSubmission(Petition):
 
     """ A proxy model for the temporary submitted petitions by secretary. """
-    objects = PetitionManager([Petition.SUBMITTED_BY_SECRETARY])
+    objects = PetitionManager([Petition.SUBMITTED_BY_SECRETARY,
+                               Petition.APPROVED_BY_PRESIDENT])
 
     class Meta:
         proxy = True

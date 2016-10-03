@@ -34,12 +34,14 @@ def cancel(self, request, pk=None):
 
 @detail_route(methods=['post'])
 def president_approval(self, request, pk=None):
+
     petition = self.get_object()
+    ACCEPTED_STATUS = 4
     try:
-        petition_id = petition.proceed(delete=True)
-        # headers = {'location': reverse('secretarypetitionsubmission-detail')}
-        # return Response(headers=headers, status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_201_CREATED)
+        if petition.status is ACCEPTED_STATUS:
+            petition.proceed(delete=True)
+
+        return Response(status=status.HTTP_200_CREATED)
     except PermissionDenied as e:
         return Response({'detail': e.message}, status=status.HTTP_403_FORBIDDEN)
 
