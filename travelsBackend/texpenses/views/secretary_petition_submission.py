@@ -37,8 +37,9 @@ def president_approval(self, request, pk=None):
     petition = self.get_object()
     try:
         petition_id = petition.proceed(delete=True)
-        headers = {'location': reverse('secretarypetitionsubmission-detail')}
-        return Response(headers=headers, status=status.HTTP_201_CREATED)
+        # headers = {'location': reverse('secretarypetitionsubmission-detail')}
+        # return Response(headers=headers, status=status.HTTP_201_CREATED)
+        return Responnse(status=status.HTTP_201_CREATED)
     except PermissionDenied as e:
         return Response({'detail': e.message}, status=status.HTTP_403_FORBIDDEN)
 
