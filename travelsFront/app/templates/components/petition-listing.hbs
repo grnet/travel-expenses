@@ -31,7 +31,7 @@
     {{list-action action=(action "pdf" petition "4") icon='file-text-o' tooltip-message=(t 'pdf_compensation_decision') iconButton=true confirm=false}}
   {{/if}}
 {{else}}
-	{{#if (or (eq petition.status 1) (eq petition.status 4) (eq petition.status 6))}}
+	{{#if (or (eq petition.status 1) (eq petition.status 5) (eq petition.status 6))}}
     {{list-action action=(action "edit" petition) icon='pencil' tooltip-message=(t 'tooltip_edit')  iconButton= true confirm=false}}
   {{else if (eq petition.status 1)}}
     {{list-action action=(action "del" petition) icon='trash-o' tooltip-message=(t 'tooltip_delete') iconButton=true confirm=true promptTitle=(t 'prompt_delete_title') promptMessage=(t 'prompt_delete_message')}}
