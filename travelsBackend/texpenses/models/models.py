@@ -624,6 +624,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     SUBMITTED_BY_USER = 2
     SAVED_BY_SECRETARY = 3
     SUBMITTED_BY_SECRETARY = 4
+    APPROVED_BY_PRESIDENT = 5
     USER_COMPENSATION = 6
     USER_COMPENSATION_SUBMISSION = 7
     SECRETARY_COMPENSATION = 8
@@ -812,12 +813,13 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         is triggered and tests if the petition is completed.
         """
         next_status = self.status + 1
-        delete = next_status in Petition.SUBMISSION_STATUSES
-        if next_status in Petition.SUBMISSION_STATUSES and\
-                not self.is_completed():
+        submit = next_status in Petition.SUBMISSION_STATUSES or\
+            kwargs.pop('delete', False)
+        if next_status in Petition.SUBMISSION_STATUSES \
+                and not self.is_completed():
             raise PermissionDenied(
                 'Petition with status dse %s cannot be submitted')
-        return self.status_transition(self.status + 1, delete=delete, **kwargs)
+        return self.status_transition(self.status + 1, delete=submit, **kwargs)
 
     def is_completed(self):
         """
@@ -1141,12 +1143,12 @@ class UserCompensation(Petition):
 
     """ A proxy model for the user petitions to be compensated. """
     objects = PetitionManager([
-        Petition.SUBMITTED_BY_SECRETARY, Petition.USER_COMPENSATION,
+        Petition.APPROVED_BY_PRESIDENT, Petition.USER_COMPENSATION,
         Petition.USER_COMPENSATION_SUBMISSION])
     excluded = ['non_grnet_quota', 'participation_cost',
-                'compensation_petition_protocol', 'user_recommendation', 'secretary_recommendation',
-                'compensation_petition_date', 'compensation_decision_protocol',
-                'compensation_decision_date',
+                'compensation_petition_protocol', 'user_recommendation',
+                'secretary_recommendation', 'compensation_petition_date',
+                'compensation_decision_protocol', 'compensation_decision_date',
                 'participation_payment_description', 'deleted', 'travel_files']
 
     class Meta:
@@ -1216,7 +1218,7 @@ class SecretaryCompensation(Petition):
         Petition.SECRETARY_COMPENSATION_SUBMISSION])
 
     excluded = ['non_grnet_quota', 'participation_cost',
-                'participation_payment_description', 'deleted','travel_files']
+                'participation_payment_description', 'deleted', 'travel_files']
 
     class Meta:
         proxy = True
