@@ -23,6 +23,13 @@ def update_instance(instance, updated_fields):
 
 
 def is_completed(instance, excluded=()):
+    fields_to_be_ecluded = []
+
+    for field in instance._meta.fields:
+        if field.name not in excluded:
+            if not bool(getattr(instance, field.name)):
+                fields_to_be_ecluded.append(field.name)
+    print fields_to_be_ecluded
     return all(bool(getattr(instance, field.name))
                for field in instance._meta.fields
                if field.name not in excluded)
@@ -1091,18 +1098,12 @@ class SecretaryPetitionSubmission(Petition):
             'additional_expenses_initial': {
                 'required': True, 'allow_null': False
             },
-            'additional_expenses_initial_description': {
-                'required': True, 'allow_blank': False, 'allow_null': False
-            },
             'additional_expenses_default_currency': {
                 'required': True, 'allow_blank': False, 'allow_null': False,
             },
 
             'additional_expenses_initial': {
                 'required': True, 'allow_null': False
-            },
-            'additional_expenses_initial_description': {
-                'required': True, 'allow_blank': False, 'allow_null': False
             },
             'additional_expenses_default_currency': {
                 'required': True, 'allow_null': False, 'allow_blank': False
