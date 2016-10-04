@@ -44,6 +44,7 @@ const TYPE_COMPONENT_MAP = {
   'date-simple': ['model-form/fields/date', {time: false}],
   'datetime': ['model-form/fields/date', {time: 'local'}],
   'select': ['model-form/fields/select'],
+  'file': ['model-form/fields/file'],
   'relation': ['model-form/fields/select'],
   'autocomplete': ['model-form/fields/autocomplete']
 };

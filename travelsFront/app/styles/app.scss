@@ -192,3 +192,17 @@ table.responsive {
   overflow-x: auto;
   display: block;
 }
+
+
+.file-input {
+  overflow: hidden;
+  div.file {
+    padding-bottom: 45px;
+  }
+  div.delete button {
+    margin-bottom: 11px;
+  }
+  .should-delete md-icon {
+    color: #f00;
+  }
+}

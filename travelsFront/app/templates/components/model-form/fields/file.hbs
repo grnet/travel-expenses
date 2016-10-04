@@ -1,0 +1,35 @@
+{{paper-input
+    label=label
+    value=fileInputValue
+    onChange=(action 'handleChange')
+    errors=errors
+    isTouched=isTouched
+
+    classNames=(concat "flex-grow " (if shouldDelete "should-delete" ""))
+    type="text"
+    textarea=fattrs.textarea
+    
+    autofocus=fattrs.autofocus
+    readonly=true
+    disabled=fattrs.disabled
+    passThru=inputAttrs
+    icon=(if fattrs.disabled 'lock' (if shouldDelete 'delete_forever' (if fattrs.icon fattrs.icon null)))    
+}}
+
+{{#if fileURL}}
+<div flex class="file" layout-gt-xs="row" layout-align="center end">
+    <div class="icon">
+        {{#paper-button href=fileURL raised=true primary=true}}
+            {{paper-icon 'file_download' primary=true}}
+            download
+        {{/paper-button}}
+    </div>
+    <div class="delete">
+        {{#paper-button raised=shouldDelete warn=shouldDelete onClick=(action 'toggleShouldDelete')}}
+            {{paper-icon (if shouldDelete 'done' 'crop_din') warn=shouldDelete}}
+            delete
+        {{/paper-button}}
+    </div>
+</div>
+{{/if}}
+<input type="file" style="display: none" class="file-input"/>
