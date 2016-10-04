@@ -44,6 +44,12 @@ export default Ember.Controller.extend({
       this.transitionToRoute(get(this, 'editCompensationRoute'), model.get('id'));
     },
 
+    presidentApproval(petition){
+      petition.approve().then(() => {
+        get(this, 'model').reload();
+      });
+    },
+
 		petitionDelete(model){
       if (model.get("currentState.stateName") == "root.deleted.inFlight") { return; }
       model.destroyRecord().then(() => {
@@ -52,7 +58,7 @@ export default Ember.Controller.extend({
         console.error(err);
         set(this, 'actionMessage', 'petition.delete.fail')
       })
-		}
+    }
 
 	}
 });

@@ -154,6 +154,15 @@ export var Petition = DS.Model.extend({
     });
  },
 
+ approve: function(){
+    let adapter = this.store.adapterFor(this.constructor.modelName);
+    let model = this;
+    return adapter.action(this, 'president_approval').then(function() {
+      model.unloadRecord();
+      return model;
+    });
+  },
+
   cancel: function() {
     let adapter = this.store.adapterFor(this.constructor.modelName);
     let model = this;
