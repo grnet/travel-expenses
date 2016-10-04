@@ -33,6 +33,10 @@ const TRAVEL_INFO_FIELDS = [
   'same_day_return_task',
 ];
 
+let FILE_FIELDS = [
+  'travel_files'
+]
+
 const normalizePetition = function(hash, serializer) {
   let travel_info = hash['travel_info'];
   if (travel_info.length) {
@@ -54,7 +58,31 @@ const serializePetition = function(json) {
       travel_info[field] = json[field];
       delete json[field];
     }
+    if (field === 'travel_files') {
+      debugger;
+    }
   }
+
+  // File fields values are set as
+  //
+  // - `File object` in case the user requested to upload a new file. we 
+  //   keep the File object as value of the field payload. Adapter will 
+  //   recognize file upload and do a FormData request.
+  //
+  // - `URL string` which means that user didn't request to change the field 
+  //   and thus we remove the field from the json payload as server  
+  //   reject string (non-file) values and retain the associated file
+  //   
+  // - `null` which should result the server to clear the value of the field
+  //
+  for (let field of FILE_FIELDS) {
+    let val = json[field];
+    if (val && typeof val === 'string') {
+      delete json[field];
+    }
+    if (!val) { json[field] = null; }
+  }
+
   json['travel_info'] = [];
   if (Object.keys(travel_info).length) {
     json['travel_info'].push(travel_info);

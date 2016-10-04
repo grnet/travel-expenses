@@ -50,12 +50,14 @@ export default BaseField.extend({
   observeValue: observer('value', function() {
     let value = get(this, 'value');
     if (value === null) {
+      // this is a server side null
       set(this, 'shouldDelete', false);
       set(this, 'fileValue', null);
       this.updateURL();
     } else if (typeof value === 'string') {
       set(this, 'fileValue', null);
       if (value != '') {
+        // a url is set as value
         set(this, 'shouldDelete', false);
         set(this, 'initialVal', value);
         this.updateURL();
@@ -78,6 +80,8 @@ export default BaseField.extend({
     let initial = get(this, 'initialVal');
 
     if (del) {
+      // '' is the local null, this is to identify server-side null values 
+      // and clear the input field
       this.sendAction('onChange', '');
       this.setFileInputValue(initial);
     } else {
