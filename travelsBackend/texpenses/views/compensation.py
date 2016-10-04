@@ -1,4 +1,5 @@
 from django.core.exceptions import PermissionDenied
+
 from rest_framework import status
 from rest_framework.decorators import detail_route
 from rest_framework.reverse import reverse
@@ -43,14 +44,10 @@ def save(self, request, pk=None):
 @inform_on_action('SUBMISSION')
 def submit(self, request, pk=None):
     instance = self.get_object()
-    try:
-        petition_id = instance.proceed()
-        headers = {'location': reverse(
-            VIEW_NAMES[instance.status], args=[petition_id])}
-        return Response(status=status.HTTP_303_SEE_OTHER, headers=headers)
-    except PermissionDenied as e:
-        return Response({'detail': e.message},
-                        status=status.HTTP_403_FORBIDDEN)
+    petition_id = instance.proceed()
+    headers = {'location': reverse(
+        VIEW_NAMES[instance.status], args=[petition_id])}
+    return Response(status=status.HTTP_303_SEE_OTHER, headers=headers)
 
 
 @detail_route(methods=['post'])

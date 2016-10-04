@@ -22,17 +22,14 @@ def update_instance(instance, updated_fields):
         setattr(instance, field, value)
 
 
-def is_completed(instance, excluded=()):
-    fields_to_be_ecluded = []
+def get_model_missing_fields(instance, excluded=()):
+    missing_fields = []
 
     for field in instance._meta.fields:
         if field.name not in excluded:
             if not bool(getattr(instance, field.name)):
-                fields_to_be_ecluded.append(field.name)
-    print fields_to_be_ecluded
-    return all(bool(getattr(instance, field.name))
-               for field in instance._meta.fields
-               if field.name not in excluded)
+                missing_fields.append(field.name)
+    return missing_fields
 
 
 class TaxOffice(models.Model):
@@ -811,6 +808,15 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         self.travel_info.add(*travel_info)
         return self.id
 
+    def _construct_validation_message(self, fields):
+        response = {}
+        message = ['This field is required']
+
+        for field in fields:
+            response[field] = message
+        print response
+        return response
+
     def proceed(self, **kwargs):
         """
         Proceed petition to the next status.
@@ -822,26 +828,35 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         next_status = self.status + 1
         submit = next_status in Petition.SUBMISSION_STATUSES or\
             kwargs.pop('delete', False)
+        missing_fields = self.get_missing_fields()
         if next_status in Petition.SUBMISSION_STATUSES \
-                and not self.is_completed():
-            raise PermissionDenied(
-                'Petition with status dse %s cannot be submitted')
+                and missing_fields:
+            raise serializers.ValidationError(
+                self._construct_validation_message(missing_fields))
         return self.status_transition(self.status + 1, delete=submit, **kwargs)
 
-    def is_completed(self):
+    def get_missing_fields(self):
         """
 
         Check if all fields of petition along with the fields of many to many
         related objects have been initialized.
         """
-
-        petition_is_completed = is_completed(
+        missing_fields = []
+        petition_missing_fields = get_model_missing_fields(
             self, excluded=getattr(self, 'excluded', []))
+        missing_fields.extend(petition_missing_fields)
+
         travel_info = self.travel_info.all()
-        return petition_is_completed and travel_info and\
-            all(is_completed(travel_obj, excluded=getattr(
-                self, 'excluded_travel_info', []))
-                for travel_obj in travel_info)
+
+        if travel_info:
+            for travel_obj in travel_info:
+                travel_info_missing_fields = []
+                travel_info_missing_fields.extend(get_model_missing_fields(
+                    travel_obj,
+                    excluded=getattr(self, 'excluded_travel_info', [])))
+                missing_fields.extend(travel_info_missing_fields)
+
+        return missing_fields
 
     def revoke(self, **kwargs):
         """ Revoke a petition the previous status. """
