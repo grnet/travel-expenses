@@ -41,7 +41,7 @@ def president_approval(self, request, pk=None):
         if petition.status is ACCEPTED_STATUS:
             petition.proceed(delete=True)
 
-        return Response(status=status.HTTP_200_CREATED)
+        return Response(status=status.HTTP_200_OK)
     except PermissionDenied as e:
         return Response({'detail': e.message}, status=status.HTTP_403_FORBIDDEN)
 
