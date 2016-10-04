@@ -33,10 +33,10 @@ export default {
     phone: "{{description}} θα πρέπει να είναι ένας έγκυρος αριθμός τηλεφώνου",
     url: "{{description}} θα πρέπει να είναι ένα έγκυρο url", 
  	},
-	//account
+	//account labels
 	'login_pass.label': 'Κωδικός Πρόσβασης',
 	'password.label': 'Κωδικός Πρόσβασης',
-	//profile
+	//profile labels
 	'username.label': 'Όνομα Χρήστη',
 	'email.label': 'Email',
 	'first_name.label': 'Όνομα',
@@ -50,7 +50,7 @@ export default {
  	'my_account.label': 'Στοιχεία Λογαριασμού',
  	'personal_info.label': 'Προσωπικά Στοιχεία',
     'hint_email.label': 'Μια έγκυρη διεύθυνση email',
- 	//petition
+ 	//petition labels
  	'dse.label': 'ΔΣΕ',
  	'project.label': 'Έργο - Υπεύθυνος Έργου',
  	'reason.label': 'Αιτιολογία Μετακίνησης',
@@ -79,7 +79,7 @@ export default {
   'secretary_recommendation.label': 'Στοιχεία σχετικά με την μετακίνηση και τη διαμονή',
   'travel_data.label': 'Στοιχεία μετακίνησης',
   'user_data.label': 'Στοιχεία χρήστη',
-  //secretary petition
+  //secretary petition labels
   'non_grnet_quota.label': 'Κάλυψη ημερήσιας αποζημίωσης από άλλο φορέα',
   'manager_approval.label': 'Έγκριση της Μετακίνησης από τον Υπεύθυνο Έργου',
   'manager_travel_approval.label': 'Έγκριση Αίτησης Μετακίνησης από τον Υπεύθυνο Έργου',
@@ -98,7 +98,7 @@ export default {
   'accommodation_payment_description.label': 'Στοιχεία Πληρωμής',
   'participation_payment_way.label': 'Τρόπος Πληρωμής',
   'participation_payment_description.label': 'Στοιχεία Πληρωμής',
-  //computational data
+  //computational data labels
   'transport_days_manual.label': 'Ημέρες Μετακίνησης Εργασιών',
   'transport_days_proposed.label': 'Ημέρες Μετακίνησης Εργασιών (προτεινόμενη τιμή)',
   'overnights_num_manual.label': 'Διανυκτερεύσεις',
@@ -133,7 +133,7 @@ export default {
  	'petition_create.title': 'Δημιουργία Αίτησης',
  	'petition_edit.title': 'Επεξεργασία Αίτησης',
  	'petition_list.title': 'Λίστα Αιτήσεων',
-  //travel_report
+  //travel_report labels
   'travel_report.label': 'Απολογισμός Ταξιδιού',
   'travel_files.label': 'Ανέβασμα αρχείων',
   'travel_report.label': 'Ατζέντα',
@@ -144,7 +144,7 @@ export default {
   'compensation_petition_protocol.label': 'Αρ. Πρ. Αίτησης Αποζημίωσης Μετακίνησης', 
   'compensation_decision_date.label': 'Ημ. Πρ. Απόφασης Αποζημίωσης Μετακίνησης', 
   'compensation_decision_protocol.label': 'Αρ. Πρ. Απόφασης Αποζημίωσης Μετακίνησης',
-  //compensation
+  //compensation labels
   'additional_expenses_description_user.label': 'Λοιπά Έξοδα Μετακίνησης - Καταχώρηση Χρήστη',
   'additional_expenses_user.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή - Καταχώρηση Χρήστη',
   //tooltips
@@ -164,4 +164,10 @@ export default {
   'prompt_undo_message': 'Είστε βέβαιοι ότι θέλετε να αναιρέσετε την υποβολή την αίτηση σας;',
   'prompt_submit_title': 'Υποβολή Αίτησης',
   'prompt_submit_message': 'Είστε βέβαιοι ότι θέλετε να υποβάλετε την αίτηση σας;',
+  'prompt_secretary_submit_message': 'Επισημαίνουμε ότι κατά την υποβολή της αίτησης, οι υπολογισμοί πραγματοποιούνται με βάση τις τιμές των πεδίων:'+'<br>'
+  +'(α)Ημέρες Μετακίνησης Εργασιών,'+'<br>'
+  +'(β)Διανυκτερεύσεις,'+'<br>'
+  +'(γ)Ημέρες Αποζημίωσης',
+  //success messages
+  'petition_saved': 'Η αίτηση σας έχει αποθηκευτεί επιτυχώς',
 };

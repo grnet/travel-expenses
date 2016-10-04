@@ -1,7 +1,7 @@
 {{ page-toolbar pageTitle=(if newPetition (t "petition_create.title") (t "petition_edit.title")) }}
 
 {{#paper-content classNames="md-padding"}}
-    {{# model-form/form model registerForm=this getModelForSave=getModelForSave successMessage="Petition saved" 
+    {{# model-form/form model registerForm=this getModelForSave=getModelForSave successMessage=(t 'petition_saved') 
             onError=(action 'onError') onSuccess=(action 'onSuccess') as |form| }}
         {{ form.messages }}
         {{ form.fields }}
