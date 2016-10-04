@@ -839,7 +839,9 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             self, excluded=getattr(self, 'excluded', []))
         travel_info = self.travel_info.all()
         return petition_is_completed and travel_info and\
-            all(is_completed(travel_obj) for travel_obj in travel_info)
+            all(is_completed(travel_obj, excluded=getattr(
+                self, 'excluded_travel_info', []))
+                for travel_obj in travel_info)
 
     def revoke(self, **kwargs):
         """ Revoke a petition the previous status. """
@@ -1151,7 +1153,11 @@ class UserCompensation(Petition):
                 'compensation_petition_protocol', 'user_recommendation',
                 'secretary_recommendation', 'compensation_petition_date',
                 'compensation_decision_protocol', 'compensation_decision_date',
-                'participation_payment_description', 'deleted', 'travel_files']
+                'participation_payment_description', 'deleted', 'travel_files',
+                'participation_local_cost', 'additional_expenses_initial',
+                'additional_expenses_initial_description',
+                'additional_expenses', 'additional_expenses_description']
+    excluded_travel_info = ['accommodation_local_cost', ]
 
     class Meta:
         proxy = True
@@ -1220,7 +1226,12 @@ class SecretaryCompensation(Petition):
         Petition.SECRETARY_COMPENSATION_SUBMISSION])
 
     excluded = ['non_grnet_quota', 'participation_cost',
-                'participation_payment_description', 'deleted', 'travel_files']
+                'participation_payment_description', 'deleted', 'travel_files',
+                'participation_local_cost', 'additional_expenses_initial',
+                'additional_expenses_initial_description',
+                'additional_expenses', 'additional_expenses_description',
+                'user_recommendation', 'secretary_recommendation']
+    excluded_travel_info = ['accommodation_local_cost', ]
 
     class Meta:
         proxy = True
