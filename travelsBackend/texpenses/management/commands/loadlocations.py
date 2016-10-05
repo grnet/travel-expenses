@@ -64,10 +64,3 @@ class Command(BaseCommand):
                 if city_created:
                     self.stdout.write("\tCity:{0} is created.".
                                       format(city_name))
-
-                # city_obj, city_created = City.objects.\
-                    # get_or_create(name=city_name,
-                                  # country=country_obj)
-                # if city_created:
-                    # self.stdout.write("\tCity:{0}, is created.".
-                                      # format(city_name))

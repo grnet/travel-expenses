@@ -38,9 +38,9 @@ class TaxOffice(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, blank=False, unique=True)
     description = models.CharField(max_length=300, blank=True)
-    address = models.CharField(max_length=20, blank=False)
-    email = models.EmailField(blank=False)
-    phone = models.CharField(max_length=20, blank=False)
+    address = models.CharField(max_length=20, blank=True)
+    email = models.EmailField(blank=True)
+    phone = models.CharField(max_length=20, blank=True)
 
     class Api(object):
         fields = ('id', 'url', 'name', 'description', 'address',
@@ -120,17 +120,15 @@ class Project(models.Model):
     who managed it.
     """
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200, blank=False, unique=True)
+    name = models.CharField(max_length=500, blank=False, unique=True)
     accounting_code = models.CharField(max_length=20, blank=False)
-    manager_name = models.CharField(max_length=20, blank=False)
+    manager_name = models.CharField(max_length=40, blank=False)
     manager_surname = models.CharField(max_length=40, blank=False)
     manager_email = models.EmailField(max_length=256, blank=False, null=True)
-    manager = models.ForeignKey(UserProfile, blank=True)
 
     class Api(object):
         fields = ('id', 'url', 'name', 'accounting_code',
-                  'manager_name', 'manager_surname', 'manager_email',
-                  'manager')
+                  'manager_name', 'manager_surname', 'manager_email')
         read_only_fields = ('id', 'url')
         allowable_operations = ('list', 'retrieve')
         resource_name = 'resources/project'
