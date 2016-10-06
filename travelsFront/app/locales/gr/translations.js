@@ -171,4 +171,6 @@ export default {
   //success messages
   'petition_saved': 'Η αίτησή σας έχει αποθηκευτεί επιτυχώς',
   'profile_saved': 'Τα στοιχεία του προφίλ σας έχουν ενημερωθεί επιτυχώς',
+  //placeholders
+  'time_placeholder': 'Ώρα',
 };
