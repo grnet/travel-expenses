@@ -116,6 +116,8 @@ export default {
  	'form.button.save': 'Αποθηκευση',
  	'form.button.submit': 'Υποβολη',
  	'form.button.login': 'Εισοδος',
+  'file.button.delete': 'Διαγραφη',
+  'file.button.download': 'Ληψη',
  	//tabs
  	'login.tab': 'Είσοδος',
  	'signup.tab': 'Εγγραφή',
@@ -157,6 +159,7 @@ export default {
   'pdf_compensation_application': 'Εξαγωγή Αίτησης Αποζημίωσης Μετακίνησης',
   'pdf_compensation_decision': 'Εξαγωγή Απόφασης Αποζημίωσης',
   'presidentApproval': 'Η μετακίνηση έχει λάβει την έγκριση του Προέδρου',
+  'del_action_info_message': 'Αφού επιλέξετε την "ΔΙΑΓΡΑΦΗ" του αρχείου, στη συνέχεια πατήστε το κουμπί "ΑΠΟΘΗΚΕΥΣΗ" προκειμένου να πραγματοποιηθεί η ενέργεια της διαγραφής',
   //prompt messages
   'prompt_delete_title': 'Διαγραφή Αίτησης',
   'prompt_delete_message': 'Είστε βέβαιοι ότι θέλετε να διαγράψετε την αίτηση σας;',

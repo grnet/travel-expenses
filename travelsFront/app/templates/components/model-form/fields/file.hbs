@@ -21,13 +21,16 @@
     <div class="icon">
         {{#paper-button href=fileURL raised=true primary=true}}
             {{paper-icon 'file_download' primary=true}}
-            download
+            {{t 'file.button.download'}}
         {{/paper-button}}
     </div>
     <div class="delete">
         {{#paper-button raised=shouldDelete warn=shouldDelete onClick=(action 'toggleShouldDelete')}}
             {{paper-icon (if shouldDelete 'done' 'crop_din') warn=shouldDelete}}
-            delete
+            {{t 'file.button.delete'}}
+            {{#tooltip-on-element}}
+                {{t 'del_action_info_message'}}
+            {{/tooltip-on-element}}
         {{/paper-button}}
     </div>
 </div>
