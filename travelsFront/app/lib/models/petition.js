@@ -72,7 +72,7 @@ export var Petition = DS.Model.extend({
         this.set('movement_category', null);
       } else {
         this.set('country_category', city.get('country.category'));
-        if (city.get('country.name') == 'ΕΛΛΑΔΑ') {
+        if (city.get('country.name') == 'Ελλάδα') {
           this.set('movement_category', '1');
         } else {
           this.set('movement_category', '2');
