@@ -32,6 +32,7 @@ SECRETARY_EMAIL = 'test@email.com'
 
 DEFAULT_CURRENCY = 'EUR'
 HOST_URL = "http://localhost:8000/"
+MEDIA_URL = HOST_URL + MEDIA_ROOT + '/'
 API_PREFIX = "api"
 # Application definition
 

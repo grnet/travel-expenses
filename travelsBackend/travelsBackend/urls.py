@@ -9,6 +9,7 @@ from . import auth_urls
 # Additionally, we include login URLs for the browseable API.
 admin.autodiscover()
 api_prefix = settings.API_PREFIX
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^' + api_prefix + '/auth/', include(auth_urls)),

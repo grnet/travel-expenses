@@ -8,10 +8,16 @@ def load_resources():
 
 
 def user_directory_path(instance, filename):
-    # file will be uploaded to
-    # MEDIA_ROOT/<username>(<email>)/<filename>
-    return '{0}({1})/{2}'.format(instance.user.username,
-                                 instance.user.email, filename)
+    travel_info = instance.travel_info.all()[0]
+    arrival_point = travel_info.arrival_point.name.encode('utf8')
+    depart_date = travel_info.depart_date
+    year = depart_date.year
+    month = depart_date.month
+
+    str_repr = '{0}/{1}/{2}_{3}/{4}'.format(instance.user.username,
+                                            arrival_point, year,
+                                            month, filename)
+    return str_repr
 
 RESOURCES = load_resources()
 SPECIALTY = RESOURCES['SPECIALTY']
