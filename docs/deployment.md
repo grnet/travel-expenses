@@ -19,7 +19,8 @@ These instructions were tested on Debian Jessie.
 export LC_ALL="en_US.UTF-8" # Postgres installation failed.
 apt-get update
 apt-get install python-pip python-dev libpq-dev postgresql postgresql-contrib nginx\
-    git gunicorn
+    git gunicorn curl python-lxml python-cffi libcairo2 libpango1.0-0 libgdk-pixbuf2.0-0 shared-mime-info
+
 ```
 
 
@@ -84,6 +85,7 @@ git checkout <your branch>
 First install application's required packages.
 ```
 cd travelsBackend
+pip install -U pip
 pip install -r requirements.txt
 apt-get install python-psycopg2
 ```
@@ -136,7 +138,10 @@ where all static files are stored ..
 
 ```
 python manage.py migrate
-python manage.py loaddata texpenses/fixtures/dbdump.json
+python manage.py loaddata texpenses/fixtures/data.json
+python manage.py loadlocations --delete texpenses/data/countries.csv
+python manage.py loadprojects --delete texpenses/data/ListProjects.csv
+python manage.py loadtaxoffices texpenses/data/ListEfories.csv
 python manage.py collectstatic
 ```
 
@@ -147,16 +152,19 @@ In order to run our project (WSGI application) through gunicorn, we will create 
 ```python
 CONFIG = {
     'mode': 'wsgi',
-    'working_dir': '/var/travel-expenses-repo/travelsBackend/',
+    'environment': {
+        'PYTHONPATH':'/srv/travel-expenses-repo/travelsBackend/'
+    },
+    'working_dir': '/srv/test/',
     'args': (
-    '--log-level=debug',
-       '--log-file=/var/log/gunicorn/texpenses.log',
-     '--bind=127.0.0.1:8001',
-     '--workers=2',
-       '--reload',
-       'travelsBackend.wsgi:application',
+        '--log-level=debug',
+        '--log-file=/var/log/gunicorn/texpenses.log',
+        '--bind=127.0.0.1:8001',
+        '--workers=2',
+        '--reload',
+        'travelsBackend.wsgi:application',
     ),
-}
+
 ```
 
 In the script above, we set the gunicorn `working_dir` where the backend code is located.
