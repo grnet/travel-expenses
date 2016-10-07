@@ -158,7 +158,8 @@ export default {
   'pdf_travel_decision': 'Εξαγωγή Απόφασης Μετακίνησης',
   'pdf_compensation_application': 'Εξαγωγή Αίτησης Αποζημίωσης Μετακίνησης',
   'pdf_compensation_decision': 'Εξαγωγή Απόφασης Αποζημίωσης',
-  'presidentApproval': 'Η μετακίνηση έχει λάβει την έγκριση του Προέδρου',
+  'travel_presidentApproval': 'Η μετακίνηση έχει λάβει την έγκριση του Προέδρου',
+  'compensation_presidentApproval': 'Η αποζημίωση έχει λάβει την έγκριση του Προέδρου',
   'del_action_info_message': 'Αφού επιλέξετε την "ΔΙΑΓΡΑΦΗ" του αρχείου, στη συνέχεια πατήστε το κουμπί "ΑΠΟΘΗΚΕΥΣΗ" προκειμένου να πραγματοποιηθεί η ενέργεια της διαγραφής',
   //prompt messages
   'prompt_delete_title': 'Διαγραφή Αίτησης',
