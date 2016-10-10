@@ -4,6 +4,7 @@ from django.conf import settings
 from django.views.generic.base import RedirectView
 from texpenses.generators.urls import generate_api_urls
 from . import auth_urls
+from django.conf.urls.static import static
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browseable API.
@@ -16,7 +17,7 @@ urlpatterns = [
     generate_api_urls(),
     url(r'^' + api_prefix + '/docs/', include('rest_framework_docs.urls')),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 ui_prefix = getattr(settings, 'UI_PREFIX', 'ui/')
 if ui_prefix and ui_prefix != '/':
@@ -45,5 +46,5 @@ if getattr(settings, 'SERVE_UI', True):
         url('^%s.*' % ui_prefix, serve, {
             'path': 'index.html',
             'document_root': ui_root
-            }),
+    }),
     ]
