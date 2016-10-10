@@ -13,6 +13,7 @@ def user_directory_path(instance, filename):
     depart_date = travel_info.depart_date
     year = depart_date.year
     month = depart_date.month
+    filename = filename.encode('utf8')
 
     str_repr = '{0}/{1}/{2}_{3}/{4}'.format(instance.user.username,
                                             arrival_point_id, year,
