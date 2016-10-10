@@ -1237,7 +1237,8 @@ class SecretaryCompensation(Petition):
     objects = PetitionManager([
         Petition.USER_COMPENSATION_SUBMISSION,
         Petition.SECRETARY_COMPENSATION,
-        Petition.SECRETARY_COMPENSATION_SUBMISSION])
+        Petition.SECRETARY_COMPENSATION_SUBMISSION,
+        Petition.PETITION_FINAL_APPOVAL])
 
     excluded = ['non_grnet_quota', 'participation_cost',
                 'participation_payment_description', 'deleted', 'travel_files',
