@@ -19,7 +19,6 @@ EXPOSED_METHODS = ['cancel', 'application_report', 'decision_report',
                    '_render_template2pdf', 'president_approval']
 
 
-
 @detail_route(methods=['post'])
 @inform_on_action('CANCELLATION')
 def cancel(self, request, pk=None):
@@ -34,19 +33,19 @@ def cancel(self, request, pk=None):
                         status=status.HTTP_403_FORBIDDEN)
 
 
-
 @detail_route(methods=['post'])
 def president_approval(self, request, pk=None):
 
     petition = self.get_object()
-    ACCEPTED_STATUS = 4
+    ACCEPTED_STATUS = petition.SUBMITTED_BY_SECRETARY
     try:
         if petition.status is ACCEPTED_STATUS:
             petition.proceed(delete=True)
+            return Response({'message':
+                             'The petition is approved by the president'},
+                            status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
 
-        return Response({'message':
-                         'The petition is approved by the president'},
-                        status=status.HTTP_200_OK)
     except PermissionDenied as e:
         return Response({'detail': e.message}, status=status.HTTP_403_FORBIDDEN)
 

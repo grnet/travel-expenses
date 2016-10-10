@@ -15,7 +15,7 @@ from weasyprint import HTML
 
 EXPOSED_METHODS = ['submit', 'save', 'cancel', 'application_report',
                    'decision_report', '_extract_application_info',
-                   '_render_template2pdf']
+                   '_render_template2pdf', 'president_approval']
 
 
 VIEW_NAMES = {
@@ -48,6 +48,23 @@ def submit(self, request, pk=None):
     headers = {'location': reverse(
         VIEW_NAMES[instance.status], args=[petition_id])}
     return Response(status=status.HTTP_303_SEE_OTHER, headers=headers)
+
+
+@detail_route(methods=['post'])
+def president_approval(self, request, pk=None):
+
+    petition = self.get_object()
+    ACCEPTED_STATUS = petition.SECRETARY_COMPENSATION_SUBMISSION
+    try:
+        if petition.status is ACCEPTED_STATUS:
+            petition.proceed(delete=True)
+            return Response({'message':
+                             'The petition is approved by the president'},
+                            status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
+
+    except PermissionDenied as e:
+        return Response({'detail': e.message}, status=status.HTTP_403_FORBIDDEN)
 
 
 @detail_route(methods=['post'])
