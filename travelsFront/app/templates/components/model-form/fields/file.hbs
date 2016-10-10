@@ -16,7 +16,7 @@
     icon=(if fattrs.disabled 'lock' (if shouldDelete 'delete_forever' (if fattrs.icon fattrs.icon null)))    
 }}
 
-{{#if fileURL}}
+{{#if  (and fileURL (can "see petition"))}}
 <div flex class="file" layout-gt-xs="row" layout-align="center end">
     <div class="icon">
         {{#paper-button href=fileURL raised=true primary=true}}
@@ -31,6 +31,15 @@
             {{#tooltip-on-element}}
                 {{t 'del_action_info_message'}}
             {{/tooltip-on-element}}
+        {{/paper-button}}
+    </div>
+</div>
+{{else if fileURL}}
+<div flex class="file" layout-gt-xs="row" layout-align="center end">
+    <div class="icon">
+        {{#paper-button href=fileURL raised=true primary=true}}
+            {{paper-icon 'file_download' primary=true}}
+            {{t 'file.button.download'}}
         {{/paper-button}}
     </div>
 </div>
