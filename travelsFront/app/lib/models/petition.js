@@ -35,7 +35,7 @@ export var Petition = DS.Model.extend({
       time: true,
       required: true
     }}),
-  status: DS.attr(),
+  status: DS.attr({'choices': CHOICES.STATUS, attrs: {disabled: true}}),
   petition_id: Ember.computed('id', function(){
     // return just the status id
     return _.last(this.get('id').replace(/\/$/, '').split('/'));
