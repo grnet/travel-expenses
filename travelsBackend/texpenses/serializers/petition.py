@@ -33,7 +33,6 @@ def create(self, validated_data):
         travel_obj.save()
         petition.travel_info.add(travel_obj)
         if self.Meta.model is SecretaryPetitionSubmission:
-            petition.user.trip_days_left -= petition.transport_days()
             petition.user.save()
     return petition
 
@@ -114,15 +113,7 @@ def validate(self, attrs):
     """
     model = self.Meta.model
     nested_attrs = attrs.pop('travel_info', [])
-    total_transport_days = 0
-    for nested in nested_attrs:
-        nested_inst = TravelInfo(travel_petition=model(**attrs), **nested)
-        nested_inst.clean()
-        total_transport_days += nested_inst.transport_days_manual\
-            if nested_inst.transport_days_manual\
-            else nested_inst.transport_days_proposed()
     model_inst = model(**attrs)
-    validate_transport_days(attrs['user'], total_transport_days)
     model_inst.clean()
     attrs['travel_info'] = nested_attrs
     return attrs
@@ -159,13 +150,3 @@ def validate_user(self, user_value):
         assert user_value is not None
         user_field.run_validators(user_value)
     return user_value
-
-
-def validate_transport_days(user, transport_days):
-    """
-    Check that total transport days don't surpass the number of user's
-    available trip days.
-    """
-    if user.trip_days_left < transport_days:
-        raise ValidationError(
-            'You have exceeded the allowable number of trip days')
