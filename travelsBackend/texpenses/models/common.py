@@ -9,13 +9,13 @@ def load_resources():
 
 def user_directory_path(instance, filename):
     travel_info = instance.travel_info.all()[0]
-    arrival_point = travel_info.arrival_point.name.encode('utf8')
+    arrival_point_id = travel_info.arrival_point.id
     depart_date = travel_info.depart_date
     year = depart_date.year
     month = depart_date.month
 
     str_repr = '{0}/{1}/{2}_{3}/{4}'.format(instance.user.username,
-                                            arrival_point, year,
+                                            arrival_point_id, year,
                                             month, filename)
     return str_repr
 
