@@ -1256,6 +1256,7 @@ class SecretaryCompensation(Petition):
                       'additional_expenses_default_currency',
                       'additional_expenses_initial_description',
                       'additional_expenses',
+                      'non_grnet_quota',
                       'additional_expenses_local_currency',
                       'additional_expenses_description',
                       'travel_report', 'travel_files',
