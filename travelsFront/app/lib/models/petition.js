@@ -81,6 +81,15 @@ export var Petition = DS.Model.extend({
     })
   }),
 
+  // set status label value
+  status_label: Ember.computed('status',function(){
+    var status =this.get('status');
+    var label=CHOICES.STATUS[status-1];
+    console.log("Status no. ", label[0]);
+    return label[1] || status;
+  }),
+
+  
   // propagate travel_info errors to the related travel info local model fields
   observeTravelInfoErrors: Ember.observer('errors.travel_info', function() {
     let errors = this.get('errors.travel_info');
