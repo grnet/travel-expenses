@@ -736,7 +736,6 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         Overrides `clean` method and checks if specified dates are valid.
         """
         super(Petition, self).clean()
-
         if self.task_start_date and self.task_end_date:
             start_end_date_validator(
                 ((self.task_start_date, self.task_end_date),),
@@ -770,17 +769,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             dse=self.dse, status__gt=self.status,
             deleted=False).exists() and not new_status == self.status
 
-    def validate_transport_days(self, user, transport_days):
-        """
-        Check that total transport days don't surpass the number of user's
-        available trip days.
-        """
-        if user.trip_days_left < transport_days:
-            raise serializers.ValidationError(
-                'You have exceeded the allowable number of trip days')
-
-    def status_transition(self, new_status, delete=True,
-                          compute_trip_days_left=False, **kwargs):
+    def status_transition(self, new_status, delete=True, **kwargs):
         """
         This method transits a petition to a new status.
 
@@ -799,15 +788,9 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         """
         if not self.transition_is_allowed(new_status):
             raise PermissionDenied('Petition transition is not allowed.')
-        self.validate_transport_days(self.user, self.transport_days())
-
-        if compute_trip_days_left:
-            self.user.trip_days_left -= self.transport_days()
-            self.user.save()
         travel_info = self.travel_info.all()
         if delete:
             self.delete()
-
         petition_modifications = kwargs.pop('petition_data', {})
         travel_info_modifications = kwargs.pop(
             'travel_info_data', [{}] * len(travel_info))
@@ -1234,7 +1217,11 @@ class UserCompensation(Petition):
         extra_kwargs = {
             'status': {'default': Petition.USER_COMPENSATION},
 
-
+            'user': {
+                'default': serializers.CurrentUserDefault(),
+                'validators': [functools.partial(
+                    required_validator, fields=Petition.USER_FIELDS)]
+            },
             'travel_info': {
                 'read_only': True
             },
@@ -1314,6 +1301,11 @@ class SecretaryCompensation(Petition):
                 'required': False, 'allow_null': True
             },
             'status': {'default': Petition.SECRETARY_COMPENSATION},
+            'user': {
+                'default': serializers.CurrentUserDefault(),
+                'validators': [functools.partial(
+                    required_validator, fields=Petition.USER_FIELDS)]
+            }
         }
         serializer_code = 'texpenses.serializers'
         serializer_module_name = 'petition'

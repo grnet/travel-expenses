@@ -57,7 +57,7 @@ def president_approval(self, request, pk=None):
     ACCEPTED_STATUS = petition.SECRETARY_COMPENSATION_SUBMISSION
     try:
         if petition.status is ACCEPTED_STATUS:
-            petition.proceed(delete=True, compute_trip_days_left=True)
+            petition.proceed(delete=True)
             return Response({'message':
                              'The petition is approved by the president'},
                             status=status.HTTP_200_OK)
