@@ -769,6 +769,10 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             dse=self.dse, status__gt=self.status,
             deleted=False).exists() and not new_status == self.status
 
+    def set_trip_days_left(self):
+        self.user.trip_days_left -= self.transport_days()
+        self.user.save()
+
     def status_transition(self, new_status, delete=True, **kwargs):
         """
         This method transits a petition to a new status.
@@ -813,7 +817,6 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
         for field in fields:
             response[field] = message
-        print response
         return response
 
     def proceed(self, **kwargs):
@@ -1229,7 +1232,7 @@ class UserCompensation(Petition):
         serializer_code = 'texpenses.serializers'
         serializer_module_name = 'petition'
         viewset_code = 'texpenses.views'
-        viewset_module_name = 'compensation'
+        viewset_module_name = 'user_compensation'
         resource_name = 'petition/user/compensations'
 
 
@@ -1301,14 +1304,9 @@ class SecretaryCompensation(Petition):
                 'required': False, 'allow_null': True
             },
             'status': {'default': Petition.SECRETARY_COMPENSATION},
-            'user': {
-                'default': serializers.CurrentUserDefault(),
-                'validators': [functools.partial(
-                    required_validator, fields=Petition.USER_FIELDS)]
-            }
         }
         serializer_code = 'texpenses.serializers'
         serializer_module_name = 'petition'
         viewset_code = 'texpenses.views'
-        viewset_module_name = 'compensation'
+        viewset_module_name = 'secretary_compensation'
         resource_name = 'petition/secretary/compensations'

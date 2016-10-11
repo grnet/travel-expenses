@@ -19,8 +19,6 @@ EXPOSED_METHODS = ['submit', 'save', 'cancel', 'application_report',
 
 
 VIEW_NAMES = {
-    Petition.USER_COMPENSATION: 'usercompensation-detail',
-    Petition.USER_COMPENSATION_SUBMISSION: 'usercompensation-detail',
     Petition.SECRETARY_COMPENSATION: 'secretarycompensation-detail',
     Petition.SECRETARY_COMPENSATION_SUBMISSION: 'secretarycompensation-detail',
 }
@@ -58,6 +56,7 @@ def president_approval(self, request, pk=None):
     try:
         if petition.status is ACCEPTED_STATUS:
             petition.proceed(delete=True)
+            petition.set_trip_days_left()
             return Response({'message':
                              'The petition is approved by the president'},
                             status=status.HTTP_200_OK)
