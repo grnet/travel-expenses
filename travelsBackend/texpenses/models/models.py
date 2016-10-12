@@ -715,7 +715,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
                             'updated', 'participation_default_currency')
         filter_fields = ('first_name', 'last_name', 'project',
                          'task_start_date', 'task_end_date', 'created',
-                         'updated')
+                         'updated', 'project', 'travel_info__depart_date',
+                         'travel_info__return_date')
 
         search_fields = ('first_name', 'last_name', 'project',
                          'task_start_date', 'task_end_date', 'created',
