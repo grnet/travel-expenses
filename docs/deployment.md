@@ -220,7 +220,10 @@ server {
     location = /favicon.ico { access_log off; log_not_found off; }
 
     location /static_production/ {
-            root /var/travel-expenses-repo/travelsBackend;
+            root /srv/travel-expenses-repo/travelsBackend;
+     }
+    location /uploads/ {
+            root /srv/test/;
      }
 
     location /api {
