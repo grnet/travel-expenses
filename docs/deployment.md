@@ -69,11 +69,11 @@ Exit out of the postgres user's shell session to get back to your regular user's
 
 
 ## Get Application code
-We first decide where application will be located, in our example at `/var/`
+We first decide where application will be located, in our example at `/srv/`
 Then, we have to get code of our application from the corresponding phab repo.
 
 ```
-cd /var/
+cd /srv/
 git clone ssh://phab-vcs-user@phab.dev.grnet.gr:222/diffusion/TRAVEL/travel-expenses-repo.git
 cd travel-expenses-repo
 git checkout <your branch>
@@ -126,10 +126,28 @@ DATABASES = {
 and secondly add the following lines of code:
 
 ```
-ALLOWED_HOSTS = ['127.0.0.1','localhost','travel.admin.grnet.gr']
+SECRETARY_EMAIL = 'secretary@admin.grnet.gr'
+MAX_HOLIDAY_DAYS = 60
 HOST_URL = "https://travel.admin.grnet.gr/"
 API_PREFIX = "api"
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+DEBUG = False
+TEMPLATE_DEBUG = DEBUG
+ENUM_FILE='/srv/travel-expenses-repo/resources/common.json'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'grnet.travel.expenses@gmail.com'
+EMAIL_HOST_PASSWORD = 'd\\M^mp2\\[4~UX\'"Y'
+EMAIL_PORT = 587
+SERVER_EMAIL = 'grnet.travel.expenses@gmail.com'
+DEFAULT_FROM_EMAIL = SERVER_EMAIL
+
+STATIC_URL = '/static_production/'
+STATIC_ROOT='/srv/travel-expenses-repo/travelsBackend/static_production/'
+
+MEDIA_ROOT = 'uploads'
+MEDIA_URL = HOST_URL + MEDIA_ROOT + '/'
 ```
 
 The last thing we have to do is to migrate the initial database schema and data
@@ -155,7 +173,7 @@ CONFIG = {
     'environment': {
         'PYTHONPATH':'/srv/travel-expenses-repo/travelsBackend/'
     },
-    'working_dir': '/srv/test/',
+    'working_dir': '/srv/data/',
     'args': (
         '--log-level=debug',
         '--log-file=/var/log/gunicorn/texpenses.log',
@@ -223,7 +241,7 @@ server {
             root /srv/travel-expenses-repo/travelsBackend;
      }
     location /uploads/ {
-            root /srv/test/;
+            root /srv/data/;
      }
 
     location /api {
@@ -233,7 +251,22 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
+    location /admin {
+		proxy_pass http://127.0.0.1:8001/admin;
+                proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-Proto $scheme;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			
+		include /etc/nginx/travel_whitelist.conf;
+		
+		deny all;	
+		
+	}
 ```
+
+The `include /etc/nginx/travel_whitelist.conf` declaration defines a white list configuration file. Inside there you just
+have to insert the IP address of the client that is permitted to access the Travel Expenses Admin page.
 
 Create a symbolic link:
 ```
