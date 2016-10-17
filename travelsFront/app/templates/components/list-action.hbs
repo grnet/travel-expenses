@@ -6,5 +6,9 @@
   {{/tooltip-on-element}}{{/paper-button}}
 	
 {{else}}
-	{{#paper-button raised=true accent=true onClick=(action "handleClick") iconButton=iconButton }}{{value}}{{/paper-button}}
+	{{#paper-button raised=true accent=true onClick=(action "handleClick") iconButton=iconButton }}
+	{{value}}
+	{{#tooltip-on-element}}
+      {{tooltip-message}}
+  {{/tooltip-on-element}}{{/paper-button}}
 {{/if}}
