@@ -28,7 +28,6 @@ var Validations=buildValidations({
 		validator('presence', true),
 		validator('length', {
 			min: 4,
-			max: 8
 		})
 	],
 	email: [
