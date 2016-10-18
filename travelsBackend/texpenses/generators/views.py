@@ -3,6 +3,8 @@ from rest_framework import viewsets, filters, mixins
 from rest_framework.authentication import SessionAuthentication,\
     TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
+from rest_framework_extensions.cache.mixins import CacheResponseMixin
+
 from texpenses.generators import utils
 from texpenses.generators.serializers import generate as generate_serializer
 
@@ -21,8 +23,9 @@ MIXINS = {
     'list': mixins.ListModelMixin,
     'retrieve': mixins.RetrieveModelMixin,
     'update': mixins.UpdateModelMixin,
-    'delete': mixins.DestroyModelMixin
+    'delete': mixins.DestroyModelMixin,
 }
+CACHING_MIXIN = CacheResponseMixin
 
 
 PACKAGE_LOOKUP_FIELD = 'viewset_code'
@@ -104,7 +107,13 @@ def get_bases_classes(model_api_meta):
     :returns: A tuple of the corresponding base classes.
     """
     bases = ()
+
     operations = getattr(model_api_meta, 'allowable_operations', None)
+
+    caching = getattr(model_api_meta, 'caching', False)
+    if caching:
+        bases += (CACHING_MIXIN,)
+
     bases += (viewsets.ModelViewSet,) if not operations\
         else tuple([MIXINS[operation] for operation in operations]) + (
             viewsets.GenericViewSet,)
