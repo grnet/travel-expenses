@@ -47,6 +47,7 @@ class TaxOffice(models.Model):
                   'email', 'phone')
         read_only_fields = ('id', 'url')
         allowable_operations = ('list', 'retrieve')
+        caching = True
         resource_name = 'resources/tax-office'
 
     def __unicode__(self):
@@ -102,6 +103,7 @@ class UserProfile(AbstractUser, TravelUserProfile):
                   'user_category', 'user_group', 'trip_days_left')
         read_only_fields = ('username', 'trip_days_left', 'user_category')
         allowable_operations = ('list', 'retrieve')
+        caching = True
 
     def user_group(self):
         groups = self.groups.all()
@@ -131,6 +133,7 @@ class Project(models.Model):
                   'manager_name', 'manager_surname', 'manager_email')
         read_only_fields = ('id', 'url')
         allowable_operations = ('list', 'retrieve')
+        caching = True
         resource_name = 'resources/project'
 
     def __unicode__(self):
@@ -162,6 +165,7 @@ class Country(models.Model):
         fields = ('id', 'url', 'name', 'category', 'currency')
         read_only_fields = ('id', 'url', 'category', 'currency')
         allowable_operations = ('list', 'retrieve')
+        caching = True
 
     def __unicode__(self):
         """TODO: to be defined1. """
@@ -180,6 +184,7 @@ class City(models.Model):
         read_only_fields = ('id', 'url', 'country')
         nested_relations = [('country', 'country')]
         allowable_operations = ('list', 'retrieve')
+        caching = True
         resource_name = 'resources/city'
 
     def __unicode__(self):
