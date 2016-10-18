@@ -57,4 +57,6 @@ def cancel(self, request, pk=None):
 
 
 def get_queryset(self):
-    return UserCompensation.objects.filter(user=self.request.user)
+    return UserCompensation.objects.select_related('tax_office', 'user',
+                                                   'project').\
+        prefetch_related('travel_info').filter(user=self.request.user)

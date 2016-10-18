@@ -153,4 +153,6 @@ def create(self, request, *args, **kwargs):
 
 
 def get_queryset(self):
-    return SecretaryPetitionSubmission.objects.all()
+    return SecretaryPetitionSubmission.objects.\
+        select_related('tax_office', 'user', 'project').\
+        prefetch_related('travel_info').all()

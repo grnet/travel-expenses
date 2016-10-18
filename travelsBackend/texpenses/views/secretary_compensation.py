@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.decorators import detail_route
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
-from texpenses.models import Petition
+from texpenses.models import Petition, SecretaryCompensation
 from texpenses.actions import inform_on_action
 
 from django.template.loader import get_template
@@ -15,13 +15,20 @@ from weasyprint import HTML
 
 EXPOSED_METHODS = ['submit', 'save', 'cancel', 'application_report',
                    'decision_report', '_extract_application_info',
-                   '_render_template2pdf', 'president_approval']
+                   '_render_template2pdf', 'president_approval',
+                   'get_queryset']
 
 
 VIEW_NAMES = {
     Petition.SECRETARY_COMPENSATION: 'secretarycompensation-detail',
     Petition.SECRETARY_COMPENSATION_SUBMISSION: 'secretarycompensation-detail',
 }
+
+
+def get_queryset(self):
+    return SecretaryCompensation.objects.select_related('tax_office', 'user',
+                                                        'project').\
+        prefetch_related('travel_info').all()
 
 
 @detail_route(methods=['post'])

@@ -30,4 +30,6 @@ def create(self, request, *args, **kwargs):
 
 
 def get_queryset(self):
-    return UserPetitionSubmission.objects.filter(user=self.request.user)
+    return UserPetitionSubmission.objects.select_related('tax_office', 'user',
+                                                         'project').\
+        prefetch_related('travel_info').filter(user=self.request.user)

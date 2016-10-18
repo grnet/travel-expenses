@@ -107,4 +107,4 @@ class CustomUserDetailedView(LoggingMixin, djoser_views.UserView):
     permission_classes = (
         IsAuthenticated, DjangoModelPermissions,
     )
-    queryset = User.objects.all()
+    queryset = User.objects.select_related('tax_office').all()

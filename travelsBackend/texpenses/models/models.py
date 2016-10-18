@@ -185,6 +185,8 @@ class City(models.Model):
         nested_relations = [('country', 'country')]
         allowable_operations = ('list', 'retrieve')
         caching = True
+        viewset_code = 'texpenses.views'
+        viewset_module_name = 'city'
         resource_name = 'resources/city'
 
     def __unicode__(self):

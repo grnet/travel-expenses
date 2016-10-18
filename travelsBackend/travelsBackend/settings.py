@@ -158,7 +158,12 @@ LOGGING = {
         'texpenses': {
             'handlers': ['console', 'mail_admins', 'file'],
             'level': 'INFO'
+        },
+        'django.db': {
+            'handlers': ['console', 'mail_admins', 'file'],
+            'level': 'DEBUG'
         }
+
     }
 }
 
