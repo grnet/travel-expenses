@@ -78,7 +78,15 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
-
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+REST_FRAMEWORK_EXTENSIONS = {
+    'DEFAULT_CACHE_ERRORS': False
+}
 ROOT_URLCONF = 'travelsBackend.urls'
 
 WSGI_APPLICATION = 'travelsBackend.wsgi.application'
