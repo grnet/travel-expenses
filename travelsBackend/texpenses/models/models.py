@@ -46,6 +46,8 @@ class TaxOffice(models.Model):
         fields = ('id', 'url', 'name', 'description', 'address',
                   'email', 'phone')
         read_only_fields = ('id', 'url')
+        enable_authentication = False
+        enable_permissions = False
         allowable_operations = ('list', 'retrieve')
         caching = True
         resource_name = 'resources/tax-office'
@@ -134,6 +136,8 @@ class Project(models.Model):
         read_only_fields = ('id', 'url')
         allowable_operations = ('list', 'retrieve')
         caching = True
+        enable_authentication = False
+        enable_permissions = False
         resource_name = 'resources/project'
 
     def __unicode__(self):
@@ -166,6 +170,8 @@ class Country(models.Model):
         read_only_fields = ('id', 'url', 'category', 'currency')
         allowable_operations = ('list', 'retrieve')
         caching = True
+        enable_authentication = False
+        enable_permissions = False
 
     def __unicode__(self):
         """TODO: to be defined1. """
@@ -185,6 +191,8 @@ class City(models.Model):
         nested_relations = [('country', 'country')]
         allowable_operations = ('list', 'retrieve')
         caching = True
+        enable_authentication = False
+        enable_permissions = False
         viewset_code = 'texpenses.views'
         viewset_module_name = 'city'
         resource_name = 'resources/city'

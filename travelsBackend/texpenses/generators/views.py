@@ -26,6 +26,8 @@ MIXINS = {
     'delete': mixins.DestroyModelMixin,
 }
 CACHING_MIXIN = CacheResponseMixin
+DEFAULT_AUTHENTICATION_CLASSES = (SessionAuthentication, TokenAuthentication)
+DEFAULT_PERMISSION_CLASSES = (IsAuthenticated, DjangoModelPermissions)
 
 
 PACKAGE_LOOKUP_FIELD = 'viewset_code'
@@ -59,9 +61,17 @@ def generate(model_class):
     def get_queryset(self):
         return model_class.objects.all()
 
+    enable_authentication = getattr(
+        model_api_meta, "enable_authentication", True)
+
+    enable_permissions = getattr(
+        model_api_meta, "enable_permissions", True)
+
     class_dict = {
-        'authentication_classes': (SessionAuthentication, TokenAuthentication),
-        'permission_classes': (IsAuthenticated, DjangoModelPermissions),
+        'authentication_classes': DEFAULT_AUTHENTICATION_CLASSES
+        if enable_authentication else (),
+        'permission_classes': DEFAULT_PERMISSION_CLASSES if
+        enable_permissions else (),
         'get_queryset': get_queryset,
         'filter_backends': (),
         'serializer_class': generate_serializer(model_class),
