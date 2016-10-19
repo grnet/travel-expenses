@@ -5,7 +5,6 @@ import urllib
 from django.conf import settings
 import requests
 from django.http import HttpResponse
-from rest_framework_tracking.mixins import LoggingMixin
 from djoser import views as djoser_views
 from texpenses.serializers import CustomUserRegistrationSerializer
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
@@ -37,69 +36,68 @@ def custom_activation_view(request, uid=None, token=None):
                                 uid + " and token:" + token)
 
 
-class CustomUserView(LoggingMixin, djoser_views.UserView):
+class CustomUserView(djoser_views.UserView):
 
     """API endpoint that lets a user view and edit some basic\
         user related info"""
     pass
 
 
-class CustomActivationView(LoggingMixin, djoser_views.ActivationView):
+class CustomActivationView(djoser_views.ActivationView):
 
     """API endpoint that activates a new user account"""
     pass
 
 
-class CustomSetUsernameView(LoggingMixin, djoser_views.SetUsernameView):
+class CustomSetUsernameView(djoser_views.SetUsernameView):
 
     """API endpoint that lets a user change his/her username"""
     pass
 
 
-class CustomSetPasswordView(LoggingMixin, djoser_views.SetPasswordView):
+class CustomSetPasswordView(djoser_views.SetPasswordView):
 
     """API endpoint that lets a user change his/her password"""
     pass
 
 
-class CustomPasswordResetView(LoggingMixin, djoser_views.PasswordResetView):
+class CustomPasswordResetView(djoser_views.PasswordResetView):
 
     """API endpoint that sends email to user with password reset link"""
     pass
 
 
-class CustomPasswordResetConfirmView(LoggingMixin,
-                                     djoser_views.PasswordResetConfirmView):
+class CustomPasswordResetConfirmView(djoser_views.PasswordResetConfirmView):
 
     """Use this endpoint to finish reset password process"""
     pass
 
 
-class CustomLoginView(LoggingMixin, djoser_views.LoginView):
+class CustomLoginView(djoser_views.LoginView):
 
     """Use this endpoint to obtain user authentication toke"""
     pass
 
 
-class CustomLogoutView(LoggingMixin, djoser_views.LogoutView):
+class CustomLogoutView(djoser_views.LogoutView):
 
     """API endpoint for logging out a user"""
     pass
 
 
-class CustomRootView(LoggingMixin, djoser_views.RootView):
+class CustomRootView(djoser_views.RootView):
 
     """API endpoint that lists all user related API endpoints"""
     pass
 
 
-class CustomUserRegistrationView(LoggingMixin, djoser_views.RegistrationView):
+class CustomUserRegistrationView(djoser_views.RegistrationView):
 
     """API endpoint for registering a new user"""
     serializer_class = CustomUserRegistrationSerializer
 
 
-class CustomUserDetailedView(LoggingMixin, djoser_views.UserView):
+class CustomUserDetailedView(djoser_views.UserView):
 
     """API endpoint that allows a user to view and edit his personal info"""
 
