@@ -1039,7 +1039,8 @@ class UserPetitionSubmission(Petition):
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
         try:
-            UserPetition.objects.get(dse=self.dse).delete()
+            UserPetition.objects.select_for_update(nowait=True).\
+                get(dse=self.dse).delete()
         except ObjectDoesNotExist:
             pass
         super(UserPetitionSubmission, self).save(**kwargs)
@@ -1159,7 +1160,8 @@ class SecretaryPetitionSubmission(Petition):
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
         try:
-            SecretaryPetition.objects.get(dse=self.dse).delete()
+            SecretaryPetition.objects.select_for_update(nowait=True).\
+                get(dse=self.dse).delete()
         except ObjectDoesNotExist:
             pass
         super(SecretaryPetitionSubmission, self).save(**kwargs)

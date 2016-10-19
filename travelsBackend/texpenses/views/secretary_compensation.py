@@ -26,8 +26,8 @@ VIEW_NAMES = {
 
 
 def get_queryset(self):
-    return SecretaryCompensation.objects.select_related('tax_office', 'user',
-                                                        'project').\
+    return SecretaryCompensation.objects.select_for_update(nowait=True).\
+        select_related('tax_office', 'user', 'project').\
         prefetch_related('travel_info').all()
 
 
