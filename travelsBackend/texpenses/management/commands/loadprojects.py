@@ -41,7 +41,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         location_file_path = args[0]
         with open(location_file_path) as projects_csv_file:
+
+            load_in_bulk = False
+            bulk_data = []
+
             if options['delete']:
+                self.stdout.write("Data insertion in bulk is activated...")
+                load_in_bulk = True
                 Project.objects.all().delete()
 
             for project_record in projects_csv_file:
@@ -54,9 +60,19 @@ class Command(BaseCommand):
                                 'manager_name': manager_name,
                                 'manager_email': manager_email
                                 }
-                project_obj, project_created = self.\
-                    get_or_create_extended(Project, **project_data)
+                if not load_in_bulk:
+                    project_obj, project_created = self.\
+                        get_or_create_extended(Project, **project_data)
 
-                if project_created:
-                    self.stdout.write("Project:{0} is created.".
+                    if project_created:
+                        self.stdout.write("Project:{0} is created.".
+                                          format(name))
+                else:
+                    self.stdout.write("Appending new project:{0}"
+                                      "to project list.".
                                       format(name))
+                    bulk_data.append(Project(**project_data))
+
+            if load_in_bulk:
+                self.stdout.write("Inserting data in bulk.")
+                Project.objects.bulk_create(bulk_data)
