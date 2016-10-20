@@ -124,6 +124,14 @@ export default {
   'file.button.delete': 'Διαγραφη',
   'file.button.download': 'Ληψη',
   'password.button.change': 'Αλλαγη',
+  'list.button.search': 'Αναζητηση',
+  'list.button.clear': 'Καθαρισμος Φιλτρων',
+  //placeholders
+  'placeholder.filterByProject': 'Έργο',
+  'placeholder.filterByName': 'Επώνυμο',
+  'placeholder.filterByStartDate': 'Ημ/νία Αναχώρησης',
+  'placeholder.filterByEndDate': 'Ημ/νία Επιστροφής',
+
  	//tabs
  	'login.tab': 'Είσοδος',
  	'signup.tab': 'Εγγραφή',
