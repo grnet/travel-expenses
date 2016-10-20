@@ -90,14 +90,20 @@ const serializePetition = function(json) {
   return json;
 }
 
-const preloadPetitions = function(petitionModel, store) {
+const preloadPetitions = function(petitionModel, store, param_name) {
   return new Ember.RSVP.Promise((resolve, reject) => {
     store.findAll('city').then(() => {
       store.findAll('project').then(() => {
         if (!isArray(petitionModel)) {
           petitionModel = [petitionModel];
         }
-        let petitions = Promise.all(petitionModel.map((m) => { return store.query(m, {})}));
+        let petitions = Promise.all(petitionModel.map((m) => {
+          if (param_name !== '') {            
+            return store.query(m, {last_name: param_name});
+          } else {            
+            return store.query(m, {})
+          }          
+        }));
         petitions.then((results) => {
           let model = results.reduce((prev, cur) => { return prev.concat(cur.toArray()); }, []);
           model.reload = function() {
@@ -120,6 +126,11 @@ const PetitionListRoute = Ember.Route.extend({
   petitionModel: null,
   model() {
     return preloadPetitions(get(this, 'petitionModel'), get(this, 'store'));
+  },
+  setupController(controller,model){
+    this._super(controller, model);
+    controller.set('petitionModel', this.petitionModel);
   }
 });
 export {normalizePetition, serializePetition, PetitionListRoute, preloadPetitions}
+

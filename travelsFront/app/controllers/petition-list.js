@@ -1,5 +1,6 @@
 import Ember from 'ember';
-import ENV from 'travels-front/config/environment'; 
+import ENV from 'travels-front/config/environment';
+import {PetitionListRoute, preloadPetitions} from 'travels-front/lib/models/util';
 
 const {
   set,
@@ -58,6 +59,11 @@ export default Ember.Controller.extend({
         console.error(err);
         set(this, 'actionMessage', 'petition.delete.fail')
       })
+    },
+
+    filterList(param_name) {
+      
+      return preloadPetitions(get(this, 'petitionModel'), get(this, 'store'), param_name);
     }
 
 	}
