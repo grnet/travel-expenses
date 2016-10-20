@@ -672,7 +672,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         blank=False, default='B')
     #
 
-    dse = models.IntegerField(blank=False, validators=[MinValueValidator(1)])
+    dse = models.IntegerField(
+        blank=False, db_index=True, validators=[MinValueValidator(1)])
     travel_info = models.ManyToManyField(TravelInfo, blank=True)
 
     user = models.ForeignKey(UserProfile, blank=False)
@@ -682,7 +683,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         blank=True, null=True, validators=[date_validator])
     created = models.DateTimeField(blank=False, default=timezone.now())
     updated = models.DateTimeField(blank=False, default=timezone.now())
-    deleted = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False, db_index=True)
     project = models.ForeignKey(Project, blank=False)
     reason = models.CharField(max_length=500, blank=True, null=True)
     user_recommendation = models.CharField(
@@ -690,7 +691,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     secretary_recommendation = models.CharField(
         max_length=500, blank=True, null=True)
 
-    status = models.IntegerField(blank=False)
+    status = models.IntegerField(blank=False, db_index=True)
 
     first_name = models.CharField(max_length=200, blank=False, null=True)
     last_name = models.CharField(max_length=200, blank=False, null=True)
