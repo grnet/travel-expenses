@@ -673,7 +673,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     #
 
     dse = models.IntegerField(
-        blank=False, db_index=True, validators=[MinValueValidator(1)])
+        blank=False, validators=[MinValueValidator(1)])
     travel_info = models.ManyToManyField(TravelInfo, blank=True)
 
     user = models.ForeignKey(UserProfile, blank=False)
