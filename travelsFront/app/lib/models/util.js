@@ -90,7 +90,7 @@ const serializePetition = function(json) {
   return json;
 }
 
-const preloadPetitions = function(petitionModel, store, param_name) {
+const preloadPetitions = function(petitionModel, store, param_name, param_project, param_startDate, param_endDate) {
   return new Ember.RSVP.Promise((resolve, reject) => {
     store.findAll('city').then(() => {
       store.findAll('project').then(() => {
@@ -99,7 +99,7 @@ const preloadPetitions = function(petitionModel, store, param_name) {
         }
         let petitions = Promise.all(petitionModel.map((m) => {
           if (param_name !== '') {            
-            return store.query(m, {last_name: param_name});
+            return store.query(m, {last_name: param_name, project: param_project, depart_date: param_startDate, return_date: param_endDate});
           } else {            
             return store.query(m, {})
           }          

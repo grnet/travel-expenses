@@ -61,9 +61,9 @@ export default Ember.Controller.extend({
       })
     },
 
-    filterList(param_name) {
+    filterList(param_name, param_project, param_startDate, param_endDate) {
       
-      return preloadPetitions(get(this, 'petitionModel'), get(this, 'store'), param_name);
+      return preloadPetitions(get(this, 'petitionModel'), get(this, 'store'), param_name, param_project, param_startDate, param_endDate);
     }
 
 	}
