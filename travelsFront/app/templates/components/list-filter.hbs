@@ -1,7 +1,16 @@
 <div>
-	{{#paper-button raised=true bubbles=false onClick=(action "handleFilterEntry" value_name )}}Αναζήτηση{{/paper-button}}
-	{{input value=value_name  placeholder="Filter By Last Name"}}	
-	{{#paper-button raised=true bubbles=false onClick=(action "clearFilters")}}Clear{{/paper-button}}		
+	{{#paper-button bubbles=false onClick=(action "handleFilterEntry" value_name )}}{{t 'list.button.search'}}{{/paper-button}}
+	{{#paper-select id="filter" value=value_project.name onChange=(action "handleChange") placeholder=placeholder_message }}
+		{{#each projects as |project|}}
+  		{{#paper-option value=project }}
+    		{{project.name}}
+  		{{/paper-option}}
+		{{/each}}
+	{{/paper-select}}
+	{{input value=value_name  placeholder=(t 'paceholder.filterByName')}}
+	{{input value=value_startDate placeholder=(t 'paceholder.filterByStartDate')}}
+	{{input value=value_endDate placeholder=(t 'paceholder.filterByEndDate')}}	
+	{{#paper-button bubbles=false onClick=(action "clearFilters")}}{{t 'list.button.clear'}}{{/paper-button}}		
 </div>
 {{yield results}}
 
