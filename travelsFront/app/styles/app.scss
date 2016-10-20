@@ -206,3 +206,17 @@ table.responsive {
     color: #f00;
   }
 }
+
+#filter {
+  .md-select-value {
+    border: 1px #A5A5A5 solid;
+    min-width: 200px;
+    min-height: 22px;
+    padding: 1px 0px 0px 1px;
+    align-items: baseline;
+    color: #000000;
+  },
+  .md-select-value.md-select-placeholder {
+    color: #A5A5A5;
+  }  
+}
