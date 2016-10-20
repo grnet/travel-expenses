@@ -1,2 +1,7 @@
-{{input value=value key-up=(action 'handleFilterEntry') placeholder="Filter By Last Name"}} 
+<div>
+	{{#paper-button raised=true bubbles=false onClick=(action "handleFilterEntry" value_name )}}Αναζήτηση{{/paper-button}}
+	{{input value=value_name  placeholder="Filter By Last Name"}}	
+	{{#paper-button raised=true bubbles=false onClick=(action "clearFilters")}}Clear{{/paper-button}}		
+</div>
 {{yield results}}
+

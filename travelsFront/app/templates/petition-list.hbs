@@ -1,7 +1,12 @@
 {{page-toolbar pageTitle=(t "petition_list.title")}}
 
 <div class="container">
-<table class="table responsive"> 
+<table class="table responsive">
+
+  {{#list-filter
+     filter=(action 'filterList') model=sortedModel
+     as |results|}}  
+   
     <thead>
         <tr>
           <th>ΔΣΕ</th> 
@@ -19,7 +24,7 @@
         </tr>
     </thead>
     <tbody>
-        {{#each sortedModel as |petition|}}
+        {{#each results as |petition|}}
           {{#if petition.project.name}}
             {{petition-listing petition=petition 
               del="petitionDelete" 
@@ -32,6 +37,8 @@
           {{/if}}
         {{/each}}
     </tbody>
+  {{/list-filter}}
+  
 </table>
 </div>
 
