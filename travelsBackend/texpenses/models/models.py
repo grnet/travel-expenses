@@ -970,6 +970,7 @@ class UserPetition(Petition):
         fields = Petition.Api.fields
         read_only_fields = Petition.Api.read_only_fields + (
             'dse', 'user')
+        filter_fields = Petition.Api.filter_fields
         nested_relations = [('travel_info', 'travel_info')]
         extra_kwargs = {
             'dse': {'required': False, 'allow_null': True},
@@ -997,6 +998,7 @@ class UserPetitionSubmission(Petition):
 
     class Api:
         fields = Petition.Api.fields
+        filter_fields = Petition.Api.filter_fields
         read_only_fields = Petition.Api.read_only_fields + ('user',)
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoUserSubmission)]
@@ -1060,6 +1062,7 @@ class SecretaryPetition(Petition):
             'movement_date_protocol',  'movement_id',
             'manager_travel_approval', 'manager_final_approval')
         read_only_fields = Petition.Api.read_only_fields
+        filter_fields = Petition.Api.filter_fields
         nested_relations = [('travel_info', 'travel_info')]
         extra_kwargs = {
             'dse': {'required': False, 'allow_null': True},
@@ -1095,6 +1098,7 @@ class SecretaryPetitionSubmission(Petition):
             'movement_protocol', 'movement_date_protocol',
             'manager_travel_approval',
             'manager_final_approval')
+        filter_fields = Petition.Api.filter_fields
         read_only_fields = Petition.Api.read_only_fields
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoSecretarySubmission)]
