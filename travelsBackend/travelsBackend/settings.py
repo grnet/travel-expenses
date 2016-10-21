@@ -47,7 +47,6 @@ INSTALLED_APPS = (
     'texpenses',
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_framework_tracking',
     'djoser',
     'crispy_forms',
     'rest_framework_docs',
