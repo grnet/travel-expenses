@@ -1,7 +1,7 @@
 backports.shutil-get-terminal-size==1.0.0
 cairocffi==0.6
 CairoSVG==1.0.22
-cffi==1.8.3
+cffi==1.2.1
 cssselect==0.9.2
 decorator==4.0.10
 Django==1.7
