@@ -91,7 +91,10 @@ class APIPetitionTest(APITestCase):
             name='Athens', country=Country.objects.create(name='Greece'))
         self.project = Project.objects.create(name='Test Project',
                                               accounting_code=1,
-                                              manager=self.user)
+                                              manager_name=self.user.first_name,
+                                              manager_surname=self.user.
+                                              last_name,
+                                              manager_email=self.user.email)
         token = Token.objects.create(user=self.user)
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         self.client.force_authenticate(user=self.user, token=token)
@@ -219,6 +222,7 @@ class APIPetitionTest(APITestCase):
                 petition_url, data, format='json')
             self.assertEqual(response.status_code, status.HTTP_200_OK)
             petition = response.data
+
             travel_info = petition['travel_info']
             self.assertEqual(len(travel_info), 2)
             del data['travel_info'][1]
@@ -254,12 +258,13 @@ class APIPetitionTest(APITestCase):
                                        format='json')
             self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-            petition.status = petition_status + 1
+            petition.status = petition_status + 2
             petition.save()
             petition = Petition.objects.create(**data)
 
             cancel_url = submission_endpoint + str(petition.id) + '/cancel/'
             response = self.client.post(cancel_url, format='json')
+
             self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_petition_filtering_per_user(self):
@@ -289,7 +294,10 @@ class APIPetitionTest(APITestCase):
             name='Amsterdam', country=Country.objects.create(name='Holland'))
         self.project = Project.objects.create(name='Test Project 2',
                                               accounting_code=1,
-                                              manager=self.user)
+                                              manager_name=self.user.first_name,
+                                              manager_surname=self.user.
+                                              last_name,
+                                              manager_email=self.user.email)
         token = Token.objects.create(user=self.user)
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         self.client.force_authenticate(user=self.user, token=token)

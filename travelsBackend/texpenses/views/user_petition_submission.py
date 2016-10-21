@@ -32,4 +32,4 @@ def create(self, request, *args, **kwargs):
 def get_queryset(self):
     return UserPetitionSubmission.objects.select_for_update(nowait=True).\
         select_related('tax_office', 'user', 'project').\
-        prefetch_related('travel_info').filter(user=self.request.user)
+        filter(user=self.request.user)
