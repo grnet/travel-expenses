@@ -1,16 +1,16 @@
 import Ember from 'ember';
+import { translationMacro as t } from "ember-i18n";
 
 export default Ember.Component.extend({
 
 	store: Ember.inject.service(),
-	i18n: Ember.inject.service(),
 	
   classNames: ['list-filter'],
   valueName: '',
   valueProject: '',
   valueStartDate: '',
   valueEndDate: '',
-  placeholderLabel: '',
+  placeholderLabel: t('paceholder.filterByProject'),
   projects: Ember.computed('project', function(){
   	var store = this.get('store');
   	return store.findAll('project');
@@ -19,13 +19,11 @@ export default Ember.Component.extend({
   init() {
     this._super(...arguments);
     this.set('results', this.get('model'));
-    this.set('placeholderLabel', this.get('i18n').t('paceholder.filterByProject'));
   },
 
   actions: {
   	handleChange(project){
   		this.set('valueProject', project);
-  		this.set('placeholderLabel', '');
   	},
 
     handleFilterEntry() {
@@ -44,7 +42,6 @@ export default Ember.Component.extend({
     	let filterInputValueProject = this.set('valueProject', '');
     	let filterInputValueStartDate = this.set('valueStartDate', '');
       let filterInputValueEndDate = this.set('valueEndDate', '');
-      this.set('placeholderLabel', this.get('i18n').t('paceholder.filterByProject'));
     	let filterAction = this.get('filter');
     	filterAction(filterInputValueName).then((filterResults) => this.set('results', filterResults));
     }
