@@ -7,6 +7,7 @@ from rest_framework_extensions.cache.mixins import CacheResponseMixin
 
 from texpenses.generators import utils
 from texpenses.generators.serializers import generate as generate_serializer
+from texpenses.mixins import AtomicModelMixins
 
 
 FILTERING_BACKENDS = {
@@ -22,8 +23,8 @@ MIXINS = {
     'create': mixins.CreateModelMixin,
     'list': mixins.ListModelMixin,
     'retrieve': mixins.RetrieveModelMixin,
-    'update': mixins.UpdateModelMixin,
-    'delete': mixins.DestroyModelMixin,
+    'update': AtomicModelMixins.UpdateModelMixinAtomic,
+    'delete': AtomicModelMixins.DestroyModelMixinAtomic,
 }
 CACHING_MIXIN = CacheResponseMixin
 DEFAULT_AUTHENTICATION_CLASSES = (SessionAuthentication, TokenAuthentication)
@@ -124,7 +125,7 @@ def get_bases_classes(model_api_meta):
     if caching:
         bases += (CACHING_MIXIN,)
 
-    bases += (viewsets.ModelViewSet,) if not operations\
+    bases += (AtomicModelMixins.ModelViewSetAtomic,) if not operations\
         else tuple([MIXINS[operation] for operation in operations]) + (
             viewsets.GenericViewSet,)
     return bases
