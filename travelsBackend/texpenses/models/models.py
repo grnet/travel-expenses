@@ -135,7 +135,6 @@ class Project(models.Model):
                   'manager_name', 'manager_surname', 'manager_email')
         read_only_fields = ('id', 'url')
         allowable_operations = ('list', 'retrieve')
-        caching = True
         enable_authentication = False
         enable_permissions = False
         resource_name = 'resources/project'
