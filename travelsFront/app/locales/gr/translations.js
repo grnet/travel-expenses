@@ -36,6 +36,10 @@ export default {
 	//account labels
 	'login_pass.label': 'Κωδικός Πρόσβασης',
 	'password.label': 'Κωδικός Πρόσβασης',
+  //password labels
+  'new_password.label': 'Νέος Κωδικός Πρόσβασης', 
+  're_new_password.label': 'Επιβεβαίωση νέου Κωδικού Πρόσβασης', 
+  'current_password.label': 'Τρέχων Κωδικός Πρόσβασης',
 	//profile labels
 	'username.label': 'Όνομα Χρήστη',
 	'email.label': 'Email',
@@ -49,7 +53,7 @@ export default {
  	'user_category.label': 'Κατηγορία Χρήστη',
  	'my_account.label': 'Στοιχεία Λογαριασμού',
  	'personal_info.label': 'Προσωπικά Στοιχεία',
-    'hint_email.label': 'Μια έγκυρη διεύθυνση email',
+  'hint_email.label': 'Μια έγκυρη διεύθυνση email',
  	//petition labels
  	'dse.label': 'ΔΣΕ',
  	'project.label': 'Έργο - Υπεύθυνος Έργου',
@@ -118,11 +122,13 @@ export default {
  	'form.button.login': 'Εισοδος',
   'file.button.delete': 'Διαγραφη',
   'file.button.download': 'Ληψη',
+  'password.button.change': 'Αλλαγη',
  	//tabs
  	'login.tab': 'Είσοδος',
  	'signup.tab': 'Εγγραφή',
  	'logout.tab': 'Eξοδος',
  	'profile.tab': 'Προφίλ',
+  'password.change.tab': 'Αλλαγή Κωδικού Πρόσβασης',
  	'new_petition.tab': 'Νέα Αίτηση',
  	'my_petitions.tab': 'Οι Αιτήσεις μου',
  	'submitted_petitions.tab': 'Υποβεβλημένες Αιτήσεις',
@@ -132,6 +138,7 @@ export default {
  	'logged_in_as.title': 'Συνδεθήκατε ως: ',
  	'signup.title': 'Δημιουργία Λογαριασμού',
  	'profile.title': 'Προφίλ',
+  'password_change.title': 'Αλλαγή Κωδικού Πρόσβασης',
  	'petition_create.title': 'Δημιουργία Αίτησης',
  	'petition_edit.title': 'Επεξεργασία Αίτησης',
  	'petition_list.title': 'Λίστα Αιτήσεων',
