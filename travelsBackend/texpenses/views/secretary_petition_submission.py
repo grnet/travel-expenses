@@ -1,4 +1,5 @@
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from rest_framework import status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
@@ -21,6 +22,7 @@ EXPOSED_METHODS = ['cancel', 'application_report', 'decision_report',
 
 @detail_route(methods=['post'])
 @inform_on_action('CANCELLATION')
+@transaction.atomic
 def cancel(self, request, pk=None):
     submitted = self.get_object()
     try:
@@ -34,6 +36,7 @@ def cancel(self, request, pk=None):
 
 
 @detail_route(methods=['post'])
+@transaction.atomic
 def president_approval(self, request, pk=None):
 
     petition = self.get_object()

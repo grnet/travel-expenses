@@ -1,4 +1,5 @@
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 
 from rest_framework import status
 from rest_framework.decorators import detail_route
@@ -32,6 +33,7 @@ def get_queryset(self):
 
 
 @detail_route(methods=['post'])
+@transaction.atomic
 def save(self, request, pk=None):
     instance = self.get_object()
     serializer = self.get_serializer(instance, data=request.data)
@@ -47,6 +49,7 @@ def save(self, request, pk=None):
 
 @detail_route(methods=['post'])
 @inform_on_action('SUBMISSION')
+@transaction.atomic
 def submit(self, request, pk=None):
     instance = self.get_object()
     petition_id = instance.proceed()
@@ -56,6 +59,7 @@ def submit(self, request, pk=None):
 
 
 @detail_route(methods=['post'])
+@transaction.atomic
 def president_approval(self, request, pk=None):
 
     petition = self.get_object()
@@ -75,6 +79,7 @@ def president_approval(self, request, pk=None):
 
 @detail_route(methods=['post'])
 @inform_on_action('CANCELLATION')
+@transaction.atomic
 def cancel(self, request, pk=None):
     submitted = self.get_object()
     try:

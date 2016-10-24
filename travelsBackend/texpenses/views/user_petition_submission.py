@@ -1,4 +1,6 @@
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
+
 from rest_framework import status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
@@ -12,6 +14,7 @@ EXPOSED_METHODS = ['create', 'cancel', 'get_queryset']
 
 @detail_route(methods=['post'])
 @inform_on_action('CANCELLATION')
+@transaction.atomic
 def cancel(self, request, pk=None):
     submitted = self.get_object()
     try:
