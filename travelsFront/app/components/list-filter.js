@@ -15,11 +15,7 @@ export default Ember.Component.extend({
   	var store = this.get('store');
   	return store.findAll('project');
   }),
-
-  init() {
-    this._super(...arguments);
-    this.set('results', this.get('model'));
-  },
+  
 
   actions: {
   	handleChange(project){

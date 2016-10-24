@@ -4,7 +4,7 @@
 <table class="table responsive">
 
   {{#list-filter
-     filter=(action 'filterList') model=sortedModel
+     filter=(action 'filterList') results=(readonly model) model=sortedModel
      as |results|}}  
    
     <thead>
