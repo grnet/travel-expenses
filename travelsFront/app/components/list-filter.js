@@ -6,11 +6,11 @@ export default Ember.Component.extend({
 	i18n: Ember.inject.service(),
 	
   classNames: ['list-filter'],
-  value_name: '',
-  value_project: '',
-  value_startDate: '',
-  value_endDate: '',
-  placeholder_message: '',
+  valueName: '',
+  valueProject: '',
+  valueStartDate: '',
+  valueEndDate: '',
+  placeholderLabel: '',
   projects: Ember.computed('project', function(){
   	var store = this.get('store');
   	return store.findAll('project');
@@ -19,20 +19,20 @@ export default Ember.Component.extend({
   init() {
     this._super(...arguments);
     this.set('results', this.get('model'));
-    this.set('placeholder_message', this.get('i18n').t('paceholder.filterByProject'));
+    this.set('placeholderLabel', this.get('i18n').t('paceholder.filterByProject'));
   },
 
   actions: {
   	handleChange(project){
-  		this.set('value_project', project);
-  		this.set('placeholder_message', '');
+  		this.set('valueProject', project);
+  		this.set('placeholderLabel', '');
   	},
 
     handleFilterEntry() {
-      let filterInputValueName = this.get('value_name');
-      let filterInputValueProject = this.get('value_project.id');
-      let filterInputValueStartDate = this.get('value_startDate');
-      let filterInputValueEndDate = this.get('value_endDate');
+      let filterInputValueName = this.get('valueName');
+      let filterInputValueProject = this.get('valueProject.id');
+      let filterInputValueStartDate = this.get('valueStartDate');
+      let filterInputValueEndDate = this.get('valueEndDate');
       console.log("This is project id ", filterInputValueProject);
       let filterAction = this.get('filter');
 
@@ -40,11 +40,11 @@ export default Ember.Component.extend({
     },
 
     clearFilters() {
-    	let filterInputValueName = this.set('value_name', '');
-    	let filterInputValueProject = this.set('value_project', '');
-    	let filterInputValueStartDate = this.set('value_startDate', '');
-      let filterInputValueEndDate = this.set('value_endDate', '');
-      this.set('placeholder_message', this.get('i18n').t('paceholder.filterByProject'));
+    	let filterInputValueName = this.set('valueName', '');
+    	let filterInputValueProject = this.set('valueProject', '');
+    	let filterInputValueStartDate = this.set('valueStartDate', '');
+      let filterInputValueEndDate = this.set('valueEndDate', '');
+      this.set('placeholderLabel', this.get('i18n').t('paceholder.filterByProject'));
     	let filterAction = this.get('filter');
     	filterAction(filterInputValueName).then((filterResults) => this.set('results', filterResults));
     }
