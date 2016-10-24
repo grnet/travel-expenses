@@ -21,8 +21,8 @@ EXPOSED_METHODS = ['cancel', 'application_report', 'decision_report',
 
 
 @detail_route(methods=['post'])
-@inform_on_action('CANCELLATION')
 @transaction.atomic
+@inform_on_action('CANCELLATION')
 def cancel(self, request, pk=None):
     submitted = self.get_object()
     try:
@@ -36,7 +36,6 @@ def cancel(self, request, pk=None):
 
 
 @detail_route(methods=['post'])
-@transaction.atomic
 def president_approval(self, request, pk=None):
 
     petition = self.get_object()
@@ -151,11 +150,14 @@ def decision_report(self, request, pk=None):
         request, template_path, report_name)
 
 
-def create(self, request, *args, **kwargs):
-    return super(self.__class__, self).create(request, *args, **kwargs)
-
-
 def get_queryset(self):
-    return SecretaryPetitionSubmission.objects.select_for_update(nowait=True).\
-        select_related('tax_office', 'user', 'project').\
-        prefetch_related('travel_info').all()
+    non_atomic_requests = ('GET', 'HEAD', 'OPTIONS', 'POST')
+    if self.request.method in non_atomic_requests:
+        return SecretaryPetitionSubmission.objects.\
+            select_related('tax_office', 'user', 'project').\
+            prefetch_related('travel_info').all()
+    else:
+        return SecretaryPetitionSubmission.objects.\
+            select_for_update(nowait=True).\
+            select_related('tax_office', 'user', 'project').\
+            prefetch_related('travel_info').all()

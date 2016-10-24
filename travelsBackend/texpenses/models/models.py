@@ -1013,8 +1013,8 @@ class UserPetitionSubmission(Petition):
 
     class Api:
         fields = Petition.Api.fields
-        filter_fields = Petition.Api.filter_fields
         read_only_fields = Petition.Api.read_only_fields + ('user',)
+        filter_fields = Petition.Api.filter_fields
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoUserSubmission)]
         extra_kwargs = {
@@ -1047,8 +1047,7 @@ class UserPetitionSubmission(Petition):
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
         try:
-            UserPetition.objects.select_for_update(nowait=True).\
-                get(dse=self.dse).delete()
+            UserPetition.objects.get(dse=self.dse).delete()
         except ObjectDoesNotExist:
             pass
         super(UserPetitionSubmission, self).save(**kwargs)
@@ -1114,8 +1113,8 @@ class SecretaryPetitionSubmission(Petition):
             'movement_protocol', 'movement_date_protocol',
             'manager_travel_approval',
             'manager_final_approval')
-        filter_fields = Petition.Api.filter_fields
         read_only_fields = Petition.Api.read_only_fields
+        filter_fields = Petition.Api.filter_fields
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoSecretarySubmission)]
         extra_kwargs = {
@@ -1168,8 +1167,7 @@ class SecretaryPetitionSubmission(Petition):
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
         try:
-            SecretaryPetition.objects.select_for_update(nowait=True).\
-                get(dse=self.dse).delete()
+            SecretaryPetition.objects.get(dse=self.dse).delete()
         except ObjectDoesNotExist:
             pass
         super(SecretaryPetitionSubmission, self).save(**kwargs)

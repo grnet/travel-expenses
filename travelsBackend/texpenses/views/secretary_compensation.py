@@ -27,9 +27,15 @@ VIEW_NAMES = {
 
 
 def get_queryset(self):
-    return SecretaryCompensation.objects.select_for_update(nowait=True).\
-        select_related('tax_office', 'user', 'project').\
-        prefetch_related('travel_info').all()
+    non_atomic_requests = ('GET', 'HEAD', 'OPTIONS', 'POST')
+    if self.request.method in non_atomic_requests:
+        return SecretaryCompensation.objects.\
+            select_related('tax_office', 'user', 'project').\
+            prefetch_related('travel_info').all()
+    else:
+        return SecretaryCompensation.objects.select_for_update(nowait=True).\
+            select_related('tax_office', 'user', 'project').\
+            prefetch_related('travel_info').all()
 
 
 @detail_route(methods=['post'])
@@ -49,7 +55,6 @@ def save(self, request, pk=None):
 
 @detail_route(methods=['post'])
 @inform_on_action('SUBMISSION')
-@transaction.atomic
 def submit(self, request, pk=None):
     instance = self.get_object()
     petition_id = instance.proceed()
@@ -59,7 +64,6 @@ def submit(self, request, pk=None):
 
 
 @detail_route(methods=['post'])
-@transaction.atomic
 def president_approval(self, request, pk=None):
 
     petition = self.get_object()

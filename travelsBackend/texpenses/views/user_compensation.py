@@ -35,7 +35,6 @@ def save(self, request, pk=None):
 
 @detail_route(methods=['post'])
 @inform_on_action('SUBMISSION')
-@transaction.atomic
 def submit(self, request, pk=None):
     instance = self.get_object()
     petition_id = instance.proceed()
@@ -60,6 +59,13 @@ def cancel(self, request, pk=None):
 
 
 def get_queryset(self):
-    return UserCompensation.objects.select_for_update(nowait=True).\
-        select_related('tax_office', 'user', 'project').\
-        filter(user=self.request.user)
+    non_atomic_requests = ('GET', 'HEAD', 'OPTIONS', 'POST')
+    if self.request.method in non_atomic_requests:
+        return UserCompensation.objects.select_related('tax_office',
+                                                       'user',
+                                                       'project').\
+            filter(user=self.request.user)
+    else:
+        return UserCompensation.objects.select_for_update(nowait=True).\
+            select_related('tax_office', 'user', 'project').\
+            filter(user=self.request.user)

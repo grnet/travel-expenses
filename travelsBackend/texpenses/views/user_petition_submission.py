@@ -13,8 +13,8 @@ EXPOSED_METHODS = ['create', 'cancel', 'get_queryset']
 
 
 @detail_route(methods=['post'])
-@inform_on_action('CANCELLATION')
 @transaction.atomic
+@inform_on_action('CANCELLATION')
 def cancel(self, request, pk=None):
     submitted = self.get_object()
     try:
@@ -33,6 +33,13 @@ def create(self, request, *args, **kwargs):
 
 
 def get_queryset(self):
-    return UserPetitionSubmission.objects.select_for_update(nowait=True).\
-        select_related('tax_office', 'user', 'project').\
-        filter(user=self.request.user)
+    non_atomic_requests = ('GET','HEAD', 'OPTIONS', 'POST',)
+    if self.request.method in non_atomic_requests:
+        return UserPetitionSubmission.objects.select_related('tax_office',
+                                                             'user',
+                                                             'project').\
+            filter(user=self.request.user)
+    else:
+        return UserPetitionSubmission.objects.select_for_update(nowait=True).\
+            select_related('tax_office', 'user', 'project').\
+            filter(user=self.request.user)
