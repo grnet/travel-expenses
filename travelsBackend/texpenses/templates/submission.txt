@@ -1,3 +1,3 @@
-Ο {{ first_name }} {{ last_name }} υπέβαλε Αίτηση Μετακίνησης με κωδικό {{ dse }} στο
+Ο χρήστης {{ first_name }} {{ last_name }} υπέβαλε Αίτηση Μετακίνησης με κωδικό {{ dse }} στο
 πλαίσιο του έργου {{ project_name }} από {{ departure_point }} σε {{ arrival_point }}
 από {{ start_date }} έως {{ end_date }} με σκοπό '{{ reason }}'.

@@ -12,7 +12,20 @@ SECRETARY_EMAIL = settings.SECRETARY_EMAIL
 EMAIL_TEMPLATES = {
     'SUBMISSION': ('submission.txt', 'Υποβολή αίτησης μετακίνησης'),
     'CANCELLATION': ('cancellation.txt',
-                     'Αναίρεση υποβολής αίτησης μετακίνησης')
+                     'Αναίρεση υποβολής αίτησης μετακίνησης'),
+    'PETITION_PRESIDENT_APPROVAL': ('petition_president_approval.txt',
+                                    'Έγκριση μετακίνησης απο τον πρόεδρο.'),
+
+    'USER_COMPENSATION_SUBMISSION': ('user_compensation_submission.txt',
+                                    "Υποβολή αίτησης αποζημίωσης"
+                                     " από μετακινούμενο."),
+
+    'USER_COMPENSATION_CANCELLATION': ('user_compensation_cancellation.txt',
+                                    "Αναίρεση υποβολής αίτησης αποζημίωσης"
+                                     " από μετακινούμενο."),
+
+    'COMPENSATION_PRESIDENT_APPROVAL': ('compensation_president_approval.txt',
+                                    'Έγκριση αποζημίωσης απο τον πρόεδρο.'),
 }
 
 logger = logging.getLogger(__name__)
@@ -29,7 +42,7 @@ def send_email(subject, template, params, sender, to, bcc=(), cc=(),
         logger.error(e)
 
 
-def inform(petition, action):
+def inform(petition, action, target_user):
     """
     Inform about action applied to a specific petition with an informative
     email.
@@ -57,12 +70,13 @@ def inform(petition, action):
     }
     cc = (petition.user.email,)
     to = (petition.project.manager_email, SECRETARY_EMAIL)
+    if target_user:
+        cc = to
+        to = (petition.user.email,)
     send_email(subject, template, params, SENDER, to=to, cc=cc)
 
-    
 
-
-def inform_on_action(action):
+def inform_on_action(action, target_user=False):
     def inform_action(func):
         def wrapper(*args, **kwargs):
             obj = args[0]
@@ -70,10 +84,11 @@ def inform_on_action(action):
                 instance = obj.get_object()
             response = func(*args, **kwargs)
             if response.status_code in [status.HTTP_303_SEE_OTHER,
-                                        status.HTTP_201_CREATED]:
+                                        status.HTTP_201_CREATED,
+                                        status.HTTP_200_OK]:
                 if not obj.kwargs:
                     instance = Petition.objects.get(id=response.data['id'])
-                    inform(instance, action)
+                inform(instance, action, target_user)
             return response
         return wrapper
     return inform_action

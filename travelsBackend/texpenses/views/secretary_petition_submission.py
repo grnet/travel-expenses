@@ -22,7 +22,6 @@ EXPOSED_METHODS = ['cancel', 'application_report', 'decision_report',
 
 @detail_route(methods=['post'])
 @transaction.atomic
-@inform_on_action('CANCELLATION')
 def cancel(self, request, pk=None):
     submitted = self.get_object()
     try:
@@ -36,6 +35,7 @@ def cancel(self, request, pk=None):
 
 
 @detail_route(methods=['post'])
+@inform_on_action('PETITION_PRESIDENT_APPROVAL', target_user=True)
 def president_approval(self, request, pk=None):
 
     petition = self.get_object()

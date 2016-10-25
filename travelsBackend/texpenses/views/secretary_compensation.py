@@ -54,7 +54,6 @@ def save(self, request, pk=None):
 
 
 @detail_route(methods=['post'])
-@inform_on_action('SUBMISSION')
 def submit(self, request, pk=None):
     instance = self.get_object()
     petition_id = instance.proceed()
@@ -64,6 +63,7 @@ def submit(self, request, pk=None):
 
 
 @detail_route(methods=['post'])
+@inform_on_action('COMPENSATION_PRESIDENT_APPROVAL', target_user=True)
 def president_approval(self, request, pk=None):
 
     petition = self.get_object()
