@@ -90,7 +90,7 @@ const serializePetition = function(json) {
   return json;
 }
 
-const preloadPetitions = function(petitionModel, store, paramName, paramProject, paramStartDate, paramEndDate) {
+const preloadPetitions = function(petitionModel, store, filterInputValue) {
   return new Ember.RSVP.Promise((resolve, reject) => {
     store.findAll('city').then(() => {
       store.findAll('project').then(() => {
@@ -98,8 +98,8 @@ const preloadPetitions = function(petitionModel, store, paramName, paramProject,
           petitionModel = [petitionModel];
         }
         let petitions = Promise.all(petitionModel.map((m) => {
-          if (paramName !== '') {       
-            return store.query(m, {last_name: paramName, project: paramProject, depart_date: paramStartDate, return_date: paramEndDate});
+          if (filterInputValue !== undefined) {
+            return store.query(m, {last_name: filterInputValue.name, project: filterInputValue.project, depart_date: filterInputValue.startDate, return_date: filterInputValue.endDate});
           } else {            
             return store.query(m, {})
           }          

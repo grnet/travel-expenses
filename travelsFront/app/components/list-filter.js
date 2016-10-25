@@ -6,42 +6,45 @@ export default Ember.Component.extend({
 	store: Ember.inject.service(),
 	
   classNames: ['list-filter'],
-  valueName: '',
-  valueProject: '',
-  valueStartDate: '',
-  valueEndDate: '',
+  filters: {name: '', project: '', startDate: '', endDate: ''},
   placeholderLabel: t('paceholder.filterByProject'),
-  projects: Ember.computed('project', function(){
+  projects: Ember.computed(function(){
   	var store = this.get('store');
   	return store.findAll('project');
   }),
   
 
   actions: {
+
   	handleChange(project){
-  		this.set('valueProject', project);
+      this.set('filters.project', project);
   	},
 
     handleFilterEntry() {
-      let filterInputValueName = this.get('valueName');
-      let filterInputValueProject = this.get('valueProject.id');
-      let filterInputValueStartDate = this.get('valueStartDate');
-      let filterInputValueEndDate = this.get('valueEndDate');
-      console.log("This is project id ", filterInputValueProject);
-      let filterAction = this.get('filter');
 
-      filterAction(filterInputValueName, filterInputValueProject, filterInputValueStartDate, filterInputValueEndDate).then((filterResults) => this.set('results', filterResults));
+      let filterInputValue = {
+        name: this.get('filters.name'),
+        project: this.get('filters.project.id'),
+        startDate: this.get('filters.startDate'),
+        endDate: this.get('filters.endDate')
+      };
+
+      let filterAction = this.get('filter');
+      filterAction(filterInputValue).then((filterResults) => this.set('results', filterResults));
     },
 
     clearFilters() {
-    	let filterInputValueName = this.set('valueName', '');
-    	let filterInputValueProject = this.set('valueProject', '');
-    	let filterInputValueStartDate = this.set('valueStartDate', '');
-      let filterInputValueEndDate = this.set('valueEndDate', '');
+
+      let filterInputValue = {
+        name: this.set('filters.name', ''),
+        project: this.set('filters.project', ''),
+        startDate: this.set('filters.startDate', ''),
+        endDate: this.set('filters.endDate', '')
+      };
+
     	let filterAction = this.get('filter');
-    	filterAction(filterInputValueName).then((filterResults) => this.set('results', filterResults));
+      filterAction(filterInputValue).then((filterResults) => this.set('results', filterResults));
     }
   }
-
 });
 

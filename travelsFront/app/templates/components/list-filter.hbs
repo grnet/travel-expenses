@@ -1,15 +1,15 @@
 <div>
-	{{#paper-button bubbles=false onClick=(action "handleFilterEntry" valueName )}}{{t 'list.button.search'}}{{/paper-button}}
-	{{#paper-select id="filter" value=valueProject.name onChange=(action "handleChange") placeholder=placeholderLabel }}
+	{{#paper-button bubbles=false onClick=(action "handleFilterEntry" filters.name )}}{{t 'list.button.search'}}{{/paper-button}}
+	{{#paper-select id="filter" value=filters.project.name onChange=(action "handleChange") placeholder=placeholderLabel }}
 		{{#each projects as |project|}}
   		{{#paper-option value=project }}
     		{{project.name}}
   		{{/paper-option}}
 		{{/each}}
 	{{/paper-select}}
-	{{input value=valueName  placeholder=(t 'paceholder.filterByName')}}
-	{{input value=valueStartDate placeholder=(t 'paceholder.filterByStartDate')}}
-	{{input value=valueEndDate placeholder=(t 'paceholder.filterByEndDate')}}
+	{{input value=filters.name  placeholder=(t 'paceholder.filterByName')}}
+	{{input value=filters.startDate placeholder=(t 'paceholder.filterByStartDate')}}
+	{{input value=filters.endDate placeholder=(t 'paceholder.filterByEndDate')}}
 	{{#paper-button bubbles=false onClick=(action "clearFilters")}}{{t 'list.button.clear'}}{{/paper-button}}
 </div>
 {{yield results}}
