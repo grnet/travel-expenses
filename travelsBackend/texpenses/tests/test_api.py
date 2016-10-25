@@ -31,7 +31,10 @@ PROTOCOL_DATE = (datetime.now() + timedelta(days=1)).strftime(
     PROTOCOL_DATE_FORMAT)
 
 TRAVEL_DATE_FORMAT = '%Y-%m-%dT%H:%M'
-TRAVEL_DATE = (datetime.now() + timedelta(days=1)).strftime(
+TRAVEL_DEPART_DATE = (datetime.now() + timedelta(days=1)).strftime(
+    TRAVEL_DATE_FORMAT)
+
+TRAVEL_RETURN_DATE = (datetime.now() + timedelta(days=4)).strftime(
     TRAVEL_DATE_FORMAT)
 
 EXTRA_DATA = {
@@ -59,11 +62,11 @@ TRAVEL_INFO_MANDATORY_ELEMENTS = {
     'accommodation_cost': 80,
     'accommodation_payment_way': 'AGNT',
     'accommodation_payment_description': 'MPLAMPLA',
-    'return_date': TRAVEL_DATE,
-    'depart_date': TRAVEL_DATE,
+    'return_date': TRAVEL_RETURN_DATE,
+    'depart_date': TRAVEL_DEPART_DATE,
     'transportation_cost': 300,
     'transportation_payment_way': 'AGNT',
-    'transportation_payment_description': 'mplampla'
+    'transportation_payment_description': 'mplampla',
 }
 
 UserPetitionSubmission.mandatory_fields = ()
@@ -71,8 +74,8 @@ SecretaryPetitionSubmission.mandatory_fields = ()
 
 
 class APIPetitionTest(APITestCase):
-    end_date = datetime.now() + timedelta(days=7)
-    start_date = datetime.now() + timedelta(days=5)
+    task_end_date = datetime.now() + timedelta(days=3)
+    task_start_date = datetime.now() + timedelta(days=2)
 
     def setUp(self):
         self.tax_office = TaxOffice.objects.create(
@@ -86,7 +89,6 @@ class APIPetitionTest(APITestCase):
             specialty='1', tax_reg_num=011111111,
             tax_office=self.tax_office, user_category='A',
             trip_days_left=5)
-
         self.city = City.objects.create(
             name='Athens', country=Country.objects.create(name='Greece'))
         self.project = Project.objects.create(name='Test Project',
@@ -98,16 +100,16 @@ class APIPetitionTest(APITestCase):
         token = Token.objects.create(user=self.user)
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         self.client.force_authenticate(user=self.user, token=token)
-        self.project_url = reverse('project-detail', args=[1])
-        self.user_url = reverse('userprofile-detail', args=[1])
-        city_url = reverse('city-detail', args=[1])
+        self.project_url = reverse('project-detail', args=[self.project.id])
+        self.user_url = reverse('userprofile-detail', args=[self.user.id])
+        city_url = reverse('city-detail', args=[self.city.id])
         travel_info = [{'arrival_point': city_url,
                         'departure_point': city_url,
                         }]
         travel_info[0].update(TRAVEL_INFO_MANDATORY_ELEMENTS)
         self.data = {'project': self.project_url,
-                     'task_start_date': self.start_date,
-                     'task_end_date': self.end_date, 'travel_info': [],
+                     'task_start_date': self.task_start_date,
+                     'task_end_date': self.task_end_date, 'travel_info': [],
                      'dse': None,
                      'user': self.user_url,
                      'movement_id': 'movement_id',
@@ -164,19 +166,20 @@ class APIPetitionTest(APITestCase):
                          {'non_field_errors': [validation_message]})
 
     def test_nested_serialization(self):
-        city_url = reverse('city-detail', args=[1])
+        city_url = reverse('city-detail', args=[self.city.id])
+        POSITIVE_SMALL_INTEGER = 32767
 
         for model, url in PETITION_APIS:
             travel_info = [{'arrival_point': city_url,
                             'departure_point': city_url,
-                            'transport_days_manual': sys.maxint,
+                            'transport_days_manual': POSITIVE_SMALL_INTEGER,
                             }]
             travel_info[0].update(TRAVEL_INFO_MANDATORY_ELEMENTS)
 
             data = {'dse': None,
                     'project': self.project_url,
-                    'task_start_date': self.start_date,
-                    'task_end_date': self.end_date,
+                    'task_start_date': self.task_start_date,
+                    'task_end_date': self.task_end_date,
                     'travel_info': travel_info,
                     'user': self.user_url,
                     'movement_id': 'movement_id'}
@@ -192,8 +195,8 @@ class APIPetitionTest(APITestCase):
 
             # Check nested creation.
             data = {'project': self.project_url,
-                    'task_start_date': self.start_date,
-                    'task_end_date': self.end_date,
+                    'task_start_date': self.task_start_date,
+                    'task_end_date': self.task_end_date,
                     'travel_info': travel_info,
                     'user': self.user_url,
                     'dse': None,
@@ -240,8 +243,8 @@ class APIPetitionTest(APITestCase):
                             Petition.SUBMITTED_BY_SECRETARY)]
         for base_name, petition_status in submission_apis:
             data = {'project': self.project,
-                    'task_start_date': self.start_date,
-                    'task_end_date': self.end_date,
+                    'task_start_date': self.task_start_date,
+                    'task_end_date': self.task_end_date,
                     'status': petition_status,
                     'dse': 1,
                     'user': self.user}
@@ -301,8 +304,8 @@ class APIPetitionTest(APITestCase):
         token = Token.objects.create(user=self.user)
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         self.client.force_authenticate(user=self.user, token=token)
-        self.project_url = reverse('project-detail', args=[2])
-        self.user_url = reverse('userprofile-detail', args=[2])
+        self.project_url = reverse('project-detail', args=[self.project.id])
+        self.user_url = reverse('userprofile-detail', args=[self.user.id])
 
         # create a new petition from current user(save endpoint)
         response = self.client.post(url, self.data, format='json')
