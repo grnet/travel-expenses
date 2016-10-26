@@ -3,11 +3,12 @@
 <div class="container">
 <table class="table responsive">
 
-  {{#list-filter
+  {{#if (can "approve petition")}}
+    {{#list-filter
      filter=(action 'filterList') results=(readonly model) model=sortedModel
      as |results|}}  
    
-    <thead>
+      <thead>
         <tr>
           <th>ΔΣΕ</th> 
           <th>Όνομα</th>
@@ -22,8 +23,8 @@
           <th>Συνολικό Κόστος</th>
           <th class="link-tab">{{#paper-button raised=true primary=true onClick=(transition-to "userPetition" "new") bubbles=false }}Νεα Αιτηση{{/paper-button}}</th>
         </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
         {{#each results as |petition|}}
           {{#if petition.project.name}}
             {{petition-listing petition=petition 
@@ -36,9 +37,40 @@
             }}
           {{/if}}
         {{/each}}
+      </tbody>
+    {{/list-filter}}
+
+  {{else}}  
+      <thead>
+        <tr>
+          <th>ΔΣΕ</th> 
+          <th>Όνομα</th>
+          <th>Επώνυμο</th>
+          <th>Έργο</th>
+          <th>Προορισμός</th>
+          <th>Ημ/νία Δημιουργίας</th>
+          <th>Τελευταία ανανέωση</th>
+          <th>Ημ/νία Αναχώρησης</th>
+          <th>Ημ/νία Επιστροφής</th>
+          <th>Κατάσταση</th>
+          <th class="link-tab">{{#paper-button raised=true primary=true onClick=(transition-to "userPetition" "new") bubbles=false }}Νεα Αιτηση{{/paper-button}}</th>
+        </tr>
+    </thead>
+    <tbody>
+      {{#each sortedModel as |petition|}}
+        {{#if petition.project.name}}
+          {{petition-listing petition=petition 
+            del="petitionDelete" 
+            edit="petitionEdit" 
+            undo="petitionUndo" 
+            view="petitionView" 
+            pdf="pdfExport" 
+            approve="presidentApproval"
+          }}
+        {{/if}}
+      {{/each}}
     </tbody>
-  {{/list-filter}}
-  
+  {{/if}}  
 </table>
 </div>
 
