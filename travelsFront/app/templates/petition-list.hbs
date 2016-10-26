@@ -3,7 +3,7 @@
 <div class="container">
 <table class="table responsive">
 
-  {{#if (can "approve petition")}}
+  {{#if (or (can "approve petition") (can "compensate petition"))}}
     {{#list-filter
      filter=(action 'filterList') results=(readonly model) model=sortedModel
      as |results|}}  
