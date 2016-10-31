@@ -25,10 +25,10 @@
               {{#menu-item onClick=(transition-to "petitionList")}}{{t 'my_petitions.tab'}}{{/menu-item}}
             {{/unless}}
             {{#if (can "approve petition")}}
-              {{#menu-item onClick=(transition-to "advancedList")}}{{t 'petitions_for_approval.tab'}}{{/menu-item}}
+              {{#menu-item onClick=(transition-to "advancedList")}}{{t 'petitions_list.tab'}}{{/menu-item}}
             {{/if}}
             {{#if (can "compensate petition")}}
-              {{#menu-item onClick=(transition-to "advancedList")}}{{t 'petitions_for_approval.tab'}}{{/menu-item}}
+              {{#menu-item onClick=(transition-to "advancedList")}}{{t 'petitions_list.tab'}}{{/menu-item}}
             {{/if}}
             {{#menu-item onClick=(transition-to "help")}}{{t 'help.tab'}}{{/menu-item}}
         {{/unless}}

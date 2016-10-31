@@ -131,7 +131,6 @@ export default {
   'placeholder.filterByName': 'Επώνυμο',
   'placeholder.filterByStartDate': 'Ημ/νία Αναχώρησης',
   'placeholder.filterByEndDate': 'Ημ/νία Επιστροφής',
-
  	//tabs
  	'login.tab': 'Είσοδος',
  	'signup.tab': 'Εγγραφή',
@@ -141,8 +140,8 @@ export default {
  	'new_petition.tab': 'Νέα Αίτηση',
  	'my_petitions.tab': 'Οι Αιτήσεις μου',
  	'submitted_petitions.tab': 'Υποβεβλημένες Αιτήσεις',
- 	'petitions_for_approval.tab': 'Αιτήσεις προς Έγκριση',
   'help.tab': 'Οδηγίες Χρήσης',
+ 	'petitions_list.tab': 'Λίστα Αιτήσεων',
  	//titles
  	'login.title': 'Είσοδος',
  	'logged_in_as.title': 'Συνδεθήκατε ως: ',
