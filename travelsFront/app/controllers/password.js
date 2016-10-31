@@ -19,7 +19,7 @@ export default Ember.Controller.extend({
 	        Authorization: 'Token ' + token
 	      },
 	      url: ENV.APP.backend_host+"/auth/password/",
-	      data: {current_password: current_password, new_password: new_password, re_new_password: re_new_password},
+	      data: {current_password, new_password, re_new_password},
 	    }).then(() => {
 	    	this.transitionToRoute('profile');
 	    });
