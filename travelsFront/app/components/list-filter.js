@@ -7,7 +7,7 @@ export default Ember.Component.extend({
 	
   classNames: ['list-filter'],
   filters: {name: '', project: '', startDate: '', endDate: ''},
-  placeholderLabel: t('paceholder.filterByProject'),
+  placeholderLabel: t('placeholder.filterByProject'),
   projects: Ember.computed(function(){
   	var store = this.get('store');
   	return store.findAll('project');
