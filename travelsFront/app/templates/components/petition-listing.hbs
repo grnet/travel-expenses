@@ -13,7 +13,6 @@
 {{#if (can "approve petition")}}
 	{{#if (or (eq petition.status 2) (eq petition.status 3))}}
     {{list-action action=(action "edit" petition) icon='create' tooltip-message=(t 'tooltip_edit')  iconButton=true confirm=false}}
-    {{list-action action=(action "del" petition) icon='delete_forever' warn=true tooltip-message=(t 'tooltip_delete') iconButton=true confirm=true promptTitle=(t 'prompt_delete_title') promptMessage=(t 'prompt_delete_message')}}
   {{else if (eq petition.status 4)}}
     {{list-action action=(action "undo" petition) icon='undo' tooltip-message=(t 'tooltip_undo') iconButton=true confirm=true promptTitle=(t 'prompt_undo_title') promptMessage=(t 'prompt_undo_message')}}
     {{list-action action=(action "pdf" petition "1") icon='file_download' tooltip-message=(t 'pdf_travel_application') iconButton=true confirm=false}}
@@ -23,7 +22,6 @@
 {{else if (can "compensate petition")}}
   {{#if (or (eq petition.status 7) (eq petition.status 8))}}
     {{list-action action=(action "edit" petition) icon='create' tooltip-message=(t 'tooltip_edit')  iconButton=true confirm=false}}
-    {{list-action action=(action "del" petition) icon='delete_forever' warn=true tooltip-message=(t 'tooltip_delete') iconButton=true confirm=true promptTitle=(t 'prompt_delete_title') promptMessage=(t 'prompt_delete_message')}}
   {{else if (eq petition.status 9)}}
     {{list-action action=(action "undo" petition) icon='undo' tooltip-message=(t 'tooltip_undo') iconButton=true confirm=true promptTitle=(t 'prompt_undo_title') promptMessage=(t 'prompt_undo_message')}}
     {{list-action action=(action "pdf" petition "3") icon='file_download' tooltip-message=(t 'pdf_compensation_application') iconButton=true confirm=false}}
