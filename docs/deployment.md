@@ -1,30 +1,32 @@
 Deployment instructions
 =======================
 
-This guide demonstrates instructions on how to deploy Travel Expenses application.
-These instructions were tested on Debian Jessie.
+This guide demonstrates instructions on how to deploy Travel Expenses application. These instructions were tested on Debian Jessie.
 
-## Requirements
- - nginx
- - postgresql
- - gunicorn
- - git
- - django
- - ember-cli
- - certificates to establish TLS connection
- - nodejs and npm
+Requirements
+------------
+
+-	nginx
+-	postgresql
+-	gunicorn
+-	git
+-	django
+-	ember-cli
+-	certificates to establish TLS connection
+-	nodejs and npm
 
 ### Install all required packages:
+
 ```
 export LC_ALL="en_US.UTF-8" # Postgres installation failed.
 apt-get update
 apt-get install python-pip python-dev libpq-dev postgresql postgresql-contrib nginx\
-    git gunicorn curl python-lxml python-cffi libcairo2 libpango1.0-0 libgdk-pixbuf2.0-0 shared-mime-info
-
+    git gunicorn curl python-lxml python-cffi libcairo2 libpango1.0-0 libgdk-pixbuf2.0-0 shared-mime-info memecached
 ```
 
+Configure Postgres
+------------------
 
-## Configure Postgres
 To work with Postgres in its default configuration, it is best to change to the postgres system user temporarily. Do that now by typing:
 
 `sudo su - postgres`
@@ -67,10 +69,10 @@ Exit out of the postgres user's shell session to get back to your regular user's
 
 `exit`
 
+Get Application code
+--------------------
 
-## Get Application code
-We first decide where application will be located, in our example at `/srv/`
-Then, we have to get code of our application from the corresponding phab repo.
+We first decide where application will be located, in our example at `/srv/` Then, we have to get code of our application from the corresponding phab repo.
 
 ```
 cd /srv/
@@ -79,10 +81,13 @@ cd travel-expenses-repo
 git checkout <your branch>
 ```
 
-## Deploy Backend
+Deploy Backend
+--------------
 
 ### Configure application
+
 First install application's required packages.
+
 ```
 cd travelsBackend
 pip install -U pip
@@ -90,11 +95,9 @@ pip install -r requirements.txt
 apt-get install python-psycopg2
 ```
 
-Then, we should configure our application e.g. database, static, etc.
-We create a file called `local_settings.py`.
+Then, we should configure our application e.g. database, static, etc. We create a file called `local_settings.py`.
 
 Firstly,
-
 
 Replace block:
 
@@ -120,7 +123,6 @@ DATABASES = {
         'PORT': '',
     }
 }
-
 ```
 
 and secondly add the following lines of code:
@@ -150,9 +152,30 @@ MEDIA_ROOT = 'uploads'
 MEDIA_URL = HOST_URL + MEDIA_ROOT + '/'
 ```
 
-The last thing we have to do is to migrate the initial database schema and data
-to our PostgreSQL database, as well as to create `static_(parent_folder)`
-where all static files are stored ..
+### Caching configuration
+
+In order to customize the caching configuration change the following attributes located at `setting.py` file:
+
+```
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+REST_FRAMEWORK_EXTENSIONS = {
+    'DEFAULT_CACHE_ERRORS': False,
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 60
+}
+```
+
+`LOCATION`: is the IP and PORT where the MemcachedCache is running. The common values are the one already used (`127.0.0.1:11`\)
+
+`DEFAULT_CACHE_ERRORS`: Disable REST Framework error responses caching.
+
+`DEFAULT_CACHE_RESPONSE_TIMEOUT`: Use this attribute to define caching time.
+
+The last thing we have to do is to migrate the initial database schema and data to our PostgreSQL database, as well as to create `static_(parent_folder)` where all static files are stored ..
 
 ```
 python manage.py migrate
@@ -182,11 +205,9 @@ CONFIG = {
         '--reload',
         'travelsBackend.wsgi:application',
     ),
-
 ```
 
-In the script above, we set the gunicorn `working_dir` where the backend code is located.
-At the `args` section we define the `--log-level`, the location (`--log-file`) where the log files will be stored, the URL binding (in our case at localhost see next section), number of worker threads ( `workers` ), option to reload every time th e backend code changes and the WSGI application file.
+In the script above, we set the gunicorn `working_dir` where the backend code is located. At the `args` section we define the `--log-level`, the location (`--log-file`) where the log files will be stored, the URL binding (in our case at localhost see next section), number of worker threads ( `workers` ), option to reload every time th e backend code changes and the WSGI application file.
 
 The script above will also run automatically after host restarts.
 
@@ -202,14 +223,9 @@ Check whether everything went well:
 tail -f /var/log/gunicorn/texpenses.log
 ```
 
-
 ### Configure Nginx
 
-If we are done with gunicorn we are ready to configure Nginx proxy server.
-As mentioned at the previous section, gunicorn serves the Travel Expenses Backend
-at localhost level, meaning that it is not accessible to the outer world. In order to do so in a safe manner, we will use [nginx](https://nginx.org/en/) , an HTTP and
-reverse proxy server, a mail proxy server, and a generic TCP/UDP proxy server.
- Nginx is already installed so we will just configure it in order to serve our application.
+If we are done with gunicorn we are ready to configure Nginx proxy server. As mentioned at the previous section, gunicorn serves the Travel Expenses Backend at localhost level, meaning that it is not accessible to the outer world. In order to do so in a safe manner, we will use [nginx](https://nginx.org/en/) , an HTTP and reverse proxy server, a mail proxy server, and a generic TCP/UDP proxy server. Nginx is already installed so we will just configure it in order to serve our application.
 
 Create a configuration file at: `/etc/nginx/sites-available/travel`
 
@@ -252,23 +268,23 @@ server {
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
     location /admin {
-		proxy_pass http://127.0.0.1:8001/admin;
+        proxy_pass http://127.0.0.1:8001/admin;
                 proxy_set_header Host $host;
-		proxy_set_header X-Real-IP $remote_addr;
-		proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-			
-		include /etc/nginx/travel_whitelist.conf;
-		
-		deny all;	
-		
-	}
+
+        include /etc/nginx/travel_whitelist.conf;
+
+        deny all;    
+
+    }
 ```
 
-The `include /etc/nginx/travel_whitelist.conf` declaration defines a white list configuration file. Inside there you just
-have to insert the IP address of the client that is permitted to access the Travel Expenses Admin page.
+The `include /etc/nginx/travel_whitelist.conf` declaration defines a white list configuration file. Inside there you just have to insert the IP address of the client that is permitted to access the Travel Expenses Admin page.
 
 Create a symbolic link:
+
 ```
 ln /etc/nginx/sites-available/travel /etc/nginx/sites-enabled/
 ```
@@ -281,10 +297,11 @@ ln /etc/nginx/sites-available/travel /etc/nginx/sites-enabled/
 
 For more info on nginx configuration options please check the [nginx documentation wiki](https://www.nginx.com/resources/wiki/)
 
-
-## Deploy frontend
+Deploy frontend
+---------------
 
 ### Install npm
+
 ```
 apt-get install apt-transport-https lsb-release curl
 curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
@@ -301,25 +318,25 @@ npm install -g bower ember-cli
 npm install && bower install
 ```
 
-
 ### Configure frontend
+
 In `config/environment.js` use the correct value for:
+
 ```
 var API_EP = "https://travel.admin.grnet.gr/api";
 ```
 
-
 ### Build frontend code
+
 Run the following command:
+
 ```
 ember build -prod
 ```
 
-
 ### Configure ngnix
 
-Add the following to the existing configuration to server frontend application,
-so that the `/etc/nginx/sites-available/travel` looks like:
+Add the following to the existing configuration to server frontend application, so that the `/etc/nginx/sites-available/travel` looks like:
 
 ```
 # Redirect to https.
