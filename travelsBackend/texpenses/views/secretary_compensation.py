@@ -1,7 +1,7 @@
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.decorators import detail_route
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
@@ -27,15 +27,14 @@ VIEW_NAMES = {
 
 
 def get_queryset(self):
-    non_atomic_requests = ('GET', 'HEAD', 'OPTIONS', 'POST')
+    non_atomic_requests = permissions.SAFE_METHODS
+    query = SecretaryCompensation.objects.\
+        select_related('tax_office', 'user', 'project').\
+        prefetch_related('travel_info').all()
     if self.request.method in non_atomic_requests:
-        return SecretaryCompensation.objects.\
-            select_related('tax_office', 'user', 'project').\
-            prefetch_related('travel_info').all()
+        return query
     else:
-        return SecretaryCompensation.objects.select_for_update(nowait=True).\
-            select_related('tax_office', 'user', 'project').\
-            prefetch_related('travel_info').all()
+        return query.select_for_update(nowait=True)
 
 
 @detail_route(methods=['post'])
@@ -54,6 +53,7 @@ def save(self, request, pk=None):
 
 
 @detail_route(methods=['post'])
+@transaction.atomic
 def submit(self, request, pk=None):
     instance = self.get_object()
     petition_id = instance.proceed()
@@ -63,6 +63,7 @@ def submit(self, request, pk=None):
 
 
 @detail_route(methods=['post'])
+@transaction.atomic
 @inform_on_action('COMPENSATION_PRESIDENT_APPROVAL', target_user=True)
 def president_approval(self, request, pk=None):
 
@@ -82,8 +83,8 @@ def president_approval(self, request, pk=None):
 
 
 @detail_route(methods=['post'])
-@inform_on_action('CANCELLATION')
 @transaction.atomic
+@inform_on_action('CANCELLATION')
 def cancel(self, request, pk=None):
     submitted = self.get_object()
     try:

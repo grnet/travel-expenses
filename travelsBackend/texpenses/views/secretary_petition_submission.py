@@ -1,6 +1,6 @@
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -35,6 +35,7 @@ def cancel(self, request, pk=None):
 
 
 @detail_route(methods=['post'])
+@transaction.atomic
 @inform_on_action('PETITION_PRESIDENT_APPROVAL', target_user=True)
 def president_approval(self, request, pk=None):
 
@@ -151,13 +152,11 @@ def decision_report(self, request, pk=None):
 
 
 def get_queryset(self):
-    non_atomic_requests = ('GET', 'HEAD', 'OPTIONS', 'POST')
+    non_atomic_requests = permissions.SAFE_METHODS
+    query = SecretaryPetitionSubmission.objects.\
+        select_related('tax_office', 'user', 'project').\
+        prefetch_related('travel_info').all()
     if self.request.method in non_atomic_requests:
-        return SecretaryPetitionSubmission.objects.\
-            select_related('tax_office', 'user', 'project').\
-            prefetch_related('travel_info').all()
+        return query
     else:
-        return SecretaryPetitionSubmission.objects.\
-            select_for_update(nowait=True).\
-            select_related('tax_office', 'user', 'project').\
-            prefetch_related('travel_info').all()
+        return query.select_for_update(nowait=True)

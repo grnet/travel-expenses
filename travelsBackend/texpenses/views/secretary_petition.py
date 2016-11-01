@@ -1,3 +1,4 @@
+from rest_framework import permissions
 from texpenses.models import SecretaryPetition
 
 
@@ -5,10 +6,10 @@ EXPOSED_METHODS = ['get_queryset']
 
 
 def get_queryset(self):
-    non_atomic_requests = ('GET', 'HEAD', 'OPTIONS', 'POST')
+    non_atomic_requests = permissions.SAFE_METHODS
+    query = SecretaryPetition.objects.select_related('tax_office', 'user',
+                                                     'project').all()
     if self.request.method in non_atomic_requests:
-        return SecretaryPetition.objects.select_related('tax_office', 'user',
-                                                        'project').all()
+        return query
     else:
-        return SecretaryPetition.objects.select_for_update(nowait=True).\
-            select_related('tax_office', 'user', 'project').all()
+        return query.select_for_update(nowait=True)

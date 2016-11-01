@@ -1,7 +1,7 @@
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -13,8 +13,8 @@ EXPOSED_METHODS = ['create', 'cancel', 'get_queryset']
 
 
 @detail_route(methods=['post'])
-@inform_on_action('CANCELLATION')
 @transaction.atomic
+@inform_on_action('CANCELLATION')
 def cancel(self, request, pk=None):
     submitted = self.get_object()
     try:
@@ -33,13 +33,12 @@ def create(self, request, *args, **kwargs):
 
 
 def get_queryset(self):
-    non_atomic_requests = ('GET', 'HEAD', 'OPTIONS', 'POST',)
+    non_atomic_requests = permissions.SAFE_METHODS
+    query = UserPetitionSubmission.objects.select_related('tax_office',
+                                                          'user',
+                                                          'project').\
+        filter(user=self.request.user)
     if self.request.method in non_atomic_requests:
-        return UserPetitionSubmission.objects.select_related('tax_office',
-                                                             'user',
-                                                             'project').\
-            filter(user=self.request.user)
+        return query
     else:
-        return UserPetitionSubmission.objects.select_for_update(nowait=True).\
-            select_related('tax_office', 'user', 'project').\
-            filter(user=self.request.user)
+        return query.select_for_update(nowait=True)
