@@ -730,10 +730,11 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
                             'kind', 'specialty', 'tax_office', 'tax_reg_num',
                             'user_category', 'iban', 'status', 'created',
                             'updated', 'participation_default_currency')
-        filter_fields = ('first_name', 'last_name', 'project',
+        filter_fields = ('id', 'first_name', 'last_name', 'project',
                          'task_start_date', 'task_end_date', 'created',
                          'updated', 'project', 'travel_info__depart_date',
-                         'travel_info__return_date')
+                         'travel_info__return_date',)
+        # filter_class = 'texpenses.filters.PetitionFilter'
 
         search_fields = ('first_name', 'last_name', 'project',
                          'task_start_date', 'task_end_date', 'created',

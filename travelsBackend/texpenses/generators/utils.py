@@ -10,6 +10,23 @@ class InvalidProxyModel(Exception):
     pass
 
 
+class ObjectImportException(Exception):
+    pass
+
+
+def import_object(obj_path):
+    try:
+        module_name, obj_name = obj_path.rsplit('.', 1)
+        mod = importlib.import_module(module_name)
+    except (ValueError, ImportError) as e:
+        raise ObjectImportException(e)
+    obj = getattr(mod, obj_name, None)
+    if not obj:
+        raise ObjectImportException('Cannot import object %s from %s' % (
+            obj_name, module_name))
+    return obj
+
+
 def get_package_module(module_name):
     """
     This function loads programtically the desired module which is located in
@@ -95,5 +112,7 @@ def set_attrs(cls, api_class, attrs):
         field_value = getattr(api_class, attr_name, None)
         if field_value is None and default is None:
             continue
+        if type(field_value) is str:
+            field_value = import_object(field_value)
         setattr(cls, attr_name, (
             default if field_value is None else field_value))
