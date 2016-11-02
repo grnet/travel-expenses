@@ -1,1 +1,24 @@
-{{outlet}}
+{{ page-toolbar pageTitle=(t "help.tab") }}
+
+{{#paper-content classNames="md-padding"}}
+  {{#if (can "see petition")}}
+    {{partial 'user-manual'}}      
+  {{else if (can "approve petition")}}
+    {{partial 'secretary-manual'}}
+  {{else if (can "compensate petition")}}
+    {{partial 'controller-manual'}}
+  {{else}}
+    {{partial 'user-manual'}}  
+  {{/if}}     
+{{/paper-content}}
+
+
+
+
+
+
+
+
+
+
+      
