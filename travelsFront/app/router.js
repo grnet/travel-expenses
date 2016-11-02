@@ -19,6 +19,7 @@ Router.map(function() {
   this.route('userCompensation', {path: 'userCompensation/:petition_id'});
   this.route('secretaryCompensation', {path: 'secretaryCompensation/:petition_id'});
   this.route('password');
+  this.route('help');
 });
 
 export default Router;

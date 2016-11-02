@@ -134,6 +134,7 @@ export default {
  	'my_petitions.tab': 'Οι Αιτήσεις μου',
  	'submitted_petitions.tab': 'Υποβεβλημένες Αιτήσεις',
  	'petitions_for_approval.tab': 'Αιτήσεις προς Έγκριση',
+  'help.tab': 'Οδηγίες Χρήσης',
  	//titles
  	'login.title': 'Είσοδος',
  	'logged_in_as.title': 'Συνδεθήκατε ως: ',

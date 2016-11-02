@@ -13,6 +13,7 @@
         {{#unless session.isAuthenticated}}
             {{#menu-item onClick=(transition-to "login")}}{{t 'login.tab'}}{{/menu-item}}
             {{#menu-item onClick=(transition-to "signup")}}{{t 'signup.tab'}}{{/menu-item}}
+            {{#menu-item onClick=(transition-to "help")}}{{t 'help.tab'}}{{/menu-item}}
         {{else}}
             {{#paper-content classNames='login-info layout-padding layout-row'}}
                 {{#paper-content classNames="user-label" flex="80" padding=1 }}{{t 'logged_in_as.title'}}{{ account.user.username }}{{/paper-content}}
@@ -29,6 +30,7 @@
             {{#if (can "compensate petition")}}
               {{#menu-item onClick=(transition-to "advancedList")}}{{t 'petitions_for_approval.tab'}}{{/menu-item}}
             {{/if}}
+            {{#menu-item onClick=(transition-to "help")}}{{t 'help.tab'}}{{/menu-item}}
         {{/unless}}
       {{/paper-list}}
       {{/paper-content}}
