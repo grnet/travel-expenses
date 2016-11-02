@@ -17,6 +17,10 @@ travelsBackend/texpenses/.admin.py.swp
 travelsBackend/uploads/
 *.swo
 *.swn
+*.swm
+travelsBackend/.cache/*
+travelsBackend/.coverage
+travelsBackend/htmlcov/*
 
 instructions.txt~
 travelsBackend/texpenses/migrations/
