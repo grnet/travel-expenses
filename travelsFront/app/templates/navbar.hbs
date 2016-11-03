@@ -19,7 +19,6 @@
                 {{#paper-button flex="20" raised=true onClick=(action 'invalidateSession')}}{{t 'logout.tab'}}{{/paper-button}}
             {{/paper-content}}
             {{#menu-item onClick=(transition-to "profile")}}{{t 'profile.tab'}}{{/menu-item}}
-            {{#menu-item onClick=(transition-to "password")}}{{t 'password.change.tab'}}{{/menu-item}}
             {{#unless (or (can "approve petition") (can "compensate petition"))}}
               {{#menu-item onClick=(transition-to "userPetition" "new")}}{{t 'new_petition.tab'}}{{/menu-item}}
               {{#menu-item onClick=(transition-to "petitionList")}}{{t 'my_petitions.tab'}}{{/menu-item}}
