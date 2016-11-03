@@ -120,6 +120,7 @@ export default {
  	'form.button.save': 'Αποθηκευση',
  	'form.button.submit': 'Υποβολη',
  	'form.button.login': 'Εισοδος',
+  'form.button.signup': 'Εγγραφη',
   'file.button.delete': 'Διαγραφη',
   'file.button.download': 'Ληψη',
   'password.button.change': 'Αλλαγη',
