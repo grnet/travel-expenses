@@ -41,7 +41,7 @@ export default {
   're_new_password.label': 'Επιβεβαίωση νέου Κωδικού Πρόσβασης', 
   'current_password.label': 'Τρέχων Κωδικός Πρόσβασης',
 	//profile labels
-	'username.label': 'Όνομα Χρήστη',
+	'username.label': 'Όνομα Χρήστη (username)',
 	'email.label': 'Email',
 	'first_name.label': 'Όνομα',
 	'last_name.label': 'Επώνυμο',
