@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from texpenses.validators import date_validator, start_end_date_validator,\
-    iban_validation
+    iban_validation, afm_validator
 
 
 class ValidatorTest(TestCase):
@@ -41,3 +41,21 @@ class ValidatorTest(TestCase):
 
         iban = ''
         self.assertRaises(ValidationError, iban_validation, iban)
+
+    def test_afm_validator(self):
+        """Test afm validator"""
+
+        afm = 'sdasdadsa'
+        self.assertRaises(ValidationError, afm_validator, afm)
+
+        afm = '123456'
+        self.assertRaises(ValidationError, afm_validator, afm)
+
+        afm = '132436710'
+        try:
+            afm_validator(afm)
+        except ValidationError:
+            self.fail('AFM validation raised ValidationError!')
+
+        afm = '012345678'
+        self.assertRaises(ValidationError, afm_validator, afm)
