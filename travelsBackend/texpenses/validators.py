@@ -32,7 +32,7 @@ def afm_validator(value):
     last_digit = value[-1]
     total = sum(int(digit) * 2 ** ((NUM_DIGITS - 1) - i)
                 for i, digit in enumerate(value[:-1]))
-    if int(last_digit) != total % 11:
+    if int(last_digit) != (total % 11) % 10:
         raise ValidationError(
             'AFM is not valid; It does not conform to the general rules')
 
