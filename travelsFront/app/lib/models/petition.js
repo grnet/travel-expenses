@@ -19,7 +19,7 @@ export var Petition = DS.Model.extend({
   //petition fields
   user: DS.attr('string'),
   dse: DS.attr('string', {attrs: {disabled: true, required: true}}),
-  project: DS.belongsTo('project', {attrs: {labelKey: "full_label", required: true}}),
+  project: DS.belongsTo('project', {attrs: {labelKey: "full_label", required: true}, component: 'sort-model'}),
   reason: DS.attr({attrs: {required: true, textarea: true}}),
   movement_category: DS.attr({choices: CHOICES.MOVEMENT_CATEGORIES, attrs: {disabled: true}}),
   country_category: DS.attr('string', {attrs: {disabled: true}}),
