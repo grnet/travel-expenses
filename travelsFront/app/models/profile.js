@@ -31,11 +31,11 @@ const UI_DEFAULT = {
   fieldsets: [
     {
       'label': 'my_account.label',
-      'fields': ['username', 'email', 'first_name', 'last_name']
+      'fields': ['username', 'email']
     },
     {
       'label': 'personal_info.label',
-      'fields': ['specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'user_category']
+      'fields': ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'user_category']
     }
   ],
   layout: {
