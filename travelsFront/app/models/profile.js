@@ -13,15 +13,12 @@ var Validations=buildValidations({
   ],
   iban: validator('iban-validator'),
   first_name: [
-    validator('presence', {presence: true}),
     validator('length', {min: 2})
   ],
   last_name: [
-    validator('presence', true),
     validator('length', {min: 2})
   ],
   tax_reg_num: [
-    validator('presence', {presence: true}),
     validator('number', {allowString: true, integer: true}),
     validator('length', {is: 9}),
   ]
