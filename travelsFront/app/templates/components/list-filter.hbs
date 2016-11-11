@@ -1,5 +1,5 @@
 <div>
-	{{#paper-button bubbles=false onClick=(action "handleFilterEntry" filters.name )}}{{t 'list.button.search'}}{{/paper-button}}
+	{{#paper-button bubbles=false onClick=(action "handleFilterEntry")}}{{t 'list.button.search'}}{{/paper-button}}
 	{{#paper-select id="filter" value=filters.project.name onChange=(action "handleChange") placeholder=placeholderLabel }}
 		{{#each projects as |project|}}
   		{{#paper-option value=project }}
