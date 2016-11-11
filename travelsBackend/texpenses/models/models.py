@@ -730,11 +730,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
                             'kind', 'specialty', 'tax_office', 'tax_reg_num',
                             'user_category', 'iban', 'status', 'created',
                             'updated', 'participation_default_currency')
-        filter_fields = ('id', 'first_name', 'last_name', 'project',
-                         'task_start_date', 'task_end_date', 'created',
-                         'updated', 'project', 'travel_info__depart_date',
-                         'travel_info__return_date',)
-        # filter_class = 'texpenses.filters.PetitionFilter'
+        filter_class = 'texpenses.filters.PetitionFilter'
 
         search_fields = ('first_name', 'last_name', 'project',
                          'task_start_date', 'task_end_date', 'created',
@@ -988,7 +984,7 @@ class UserPetition(Petition):
         fields = Petition.Api.fields
         read_only_fields = Petition.Api.read_only_fields + (
             'dse', 'user')
-        filter_fields = Petition.Api.filter_fields
+        filter_class = Petition.Api.filter_class
         nested_relations = [('travel_info', 'travel_info')]
         extra_kwargs = {
             'dse': {'required': False, 'allow_null': True},
@@ -1017,7 +1013,7 @@ class UserPetitionSubmission(Petition):
     class Api:
         fields = Petition.Api.fields
         read_only_fields = Petition.Api.read_only_fields + ('user',)
-        filter_fields = Petition.Api.filter_fields
+        filter_class = Petition.Api.filter_class
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoUserSubmission)]
         extra_kwargs = {
@@ -1080,7 +1076,7 @@ class SecretaryPetition(Petition):
             'movement_date_protocol',  'movement_id',
             'manager_travel_approval', 'manager_final_approval')
         read_only_fields = Petition.Api.read_only_fields
-        filter_fields = Petition.Api.filter_fields
+        filter_class = Petition.Api.filter_class
         nested_relations = [('travel_info', 'travel_info')]
         extra_kwargs = {
             'dse': {'required': False, 'allow_null': True},
@@ -1117,7 +1113,7 @@ class SecretaryPetitionSubmission(Petition):
             'manager_travel_approval',
             'manager_final_approval')
         read_only_fields = Petition.Api.read_only_fields
-        filter_fields = Petition.Api.filter_fields
+        filter_class = Petition.Api.filter_class
         nested_relations = [
             ('travel_info', 'travel_info', TravelInfoSecretarySubmission)]
         extra_kwargs = {
@@ -1217,7 +1213,7 @@ class UserCompensation(Petition):
                       'movement_id', 'manager_final_approval',
                       'manager_travel_approval',
                       )
-        filter_fields = Petition.Api.filter_fields
+        filter_class = Petition.Api.filter_class
         search_fields = Petition.Api.search_fields
         read_only_fields = Petition.Api.read_only_fields +\
             ('user', 'task_start_date',
@@ -1299,7 +1295,7 @@ class SecretaryCompensation(Petition):
                       'expenditure_date_protocol', 'movement_date_protocol',
                       'movement_protocol',
                       )
-        filter_fields = Petition.Api.filter_fields
+        filter_class = Petition.Api.filter_class
         search_fields = Petition.Api.search_fields
         read_only_fields = Petition.Api.read_only_fields +\
             ('user', 'task_start_date',

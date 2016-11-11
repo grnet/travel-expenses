@@ -11,11 +11,11 @@ from texpenses.mixins import AtomicModelMixins
 
 
 FILTERING_BACKENDS = {
-    'filter_fields': filters.DjangoFilterBackend,
+    'filter_class': filters.DjangoFilterBackend,
     'search_fields': filters.SearchFilter,
     'ordering_fields': filters.OrderingFilter
 }
-VIEWSET_ATTRS = [('filter_fields', None), ('ordering_fields', None),
+VIEWSET_ATTRS = [('filter_class', None), ('ordering_fields', None),
                  ('search_fields', None), ('ordering', None)]
 
 
