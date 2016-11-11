@@ -14,7 +14,7 @@ export var Petition = DS.Model.extend({
   kind: DS.attr({'choices': CHOICES.KIND, attrs: {disabled: true}}),
   tax_reg_num: DS.attr({attrs: {disabled: true}}),
   tax_office: DS.belongsTo('tax-office', {attrs: {disabled: true}}),
-  iban: DS.attr({attrs: {disabled: true}}),
+  iban: DS.attr({attrs: {disabled: true, required: true}}),
   user_category: DS.attr({'choices': CHOICES.USER_CATEGORY, attrs: {disabled: true}}),
   //petition fields
   user: DS.attr('string'),
