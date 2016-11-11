@@ -8,7 +8,7 @@
 		{{/each}}
 	{{/paper-select}}
 	{{input value=filters.name  placeholder=(t 'placeholder.filterByName')}}
-	{{input value=filters.startDate placeholder=(t 'placeholder.filterByStartDate')}}
+	{{input value=filters.startDate placeholder=(t 'placeholder.filterByStartDate')}}	
 	{{input value=filters.endDate placeholder=(t 'placeholder.filterByEndDate')}}
 	{{#paper-button bubbles=false onClick=(action "clearFilters")}}{{t 'list.button.clear'}}{{/paper-button}}
 </div>

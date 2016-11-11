@@ -99,7 +99,7 @@ const preloadPetitions = function(petitionModel, store, filterInputValue) {
         }
         let petitions = Promise.all(petitionModel.map((m) => {
           if (filterInputValue !== undefined) {
-            return store.query(m, {last_name: filterInputValue.name, project: filterInputValue.project, depart_date: filterInputValue.startDate, return_date: filterInputValue.endDate});
+            return store.query(m, {last_name: filterInputValue.name, project: filterInputValue.project, depart_date__gte: filterInputValue.startDate, return_date__lte: filterInputValue.endDate});
           } else {            
             return store.query(m, {})
           }          

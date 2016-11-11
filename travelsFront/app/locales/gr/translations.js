@@ -129,8 +129,8 @@ export default {
   //placeholders
   'placeholder.filterByProject': 'Έργο',
   'placeholder.filterByName': 'Επώνυμο',
-  'placeholder.filterByStartDate': 'Ημ/νία Αναχώρησης',
-  'placeholder.filterByEndDate': 'Ημ/νία Επιστροφής',
+  'placeholder.filterByStartDate': 'Αναχώρηση YYYY-MM-dd',
+  'placeholder.filterByEndDate': 'Επιστροφή YYYY-MM-dd',
  	//tabs
  	'login.tab': 'Είσοδος',
  	'signup.tab': 'Εγγραφή',
