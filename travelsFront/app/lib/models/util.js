@@ -99,7 +99,15 @@ const preloadPetitions = function(petitionModel, store, filterInputValue) {
         }
         let petitions = Promise.all(petitionModel.map((m) => {
           if (filterInputValue !== undefined) {
-            return store.query(m, {last_name: filterInputValue.name, project: filterInputValue.project, depart_date__gte: filterInputValue.startDate, return_date__lte: filterInputValue.endDate});
+            var startDate = '';
+            var endDate = '';
+            if (filterInputValue.startDate) {
+              startDate=moment(filterInputValue.startDate).format("YYYY-MM-DD");
+            };
+            if (filterInputValue.endDate) {
+              endDate=moment(filterInputValue.endDate).format("YYYY-MM-DD");
+            }
+            return store.query(m, {last_name: filterInputValue.name, project: filterInputValue.project, depart_date__gte: startDate, return_date__lte: endDate});
           } else {            
             return store.query(m, {})
           }          
