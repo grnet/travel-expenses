@@ -38,8 +38,8 @@ export default Ember.Component.extend({
       let filterInputValue = {
         name: this.set('filters.name', ''),
         project: this.set('filters.project', ''),
-        startDate: this.set('filters.startDate', ''),
-        endDate: this.set('filters.endDate', '')
+        startDate: this.set('date', null),
+        endDate: this.set('date', null)
       };
 
     	let filterAction = this.get('filter');
