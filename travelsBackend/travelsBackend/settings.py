@@ -53,7 +53,7 @@ INSTALLED_APPS = (
     'django_crontab',
 )
 CRONJOBS = [
-    ('*/1 * * * *', 'texpenses.actions.compensation_alert',
+    ('0 0 * * *', 'texpenses.actions.compensation_alert',
      '>> /home/kostas/travelRepo/travelsBackend/logs/scheduled_job.log')
 ]
 REST_FRAMEWORK = {
