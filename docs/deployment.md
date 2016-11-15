@@ -222,6 +222,32 @@ Check whether everything went well:
 ```
 tail -f /var/log/gunicorn/texpenses.log
 ```
+### Configure Crontabbed jobs
+In local `local_settings.py` file insert the following in case you want to override the system defaults.
+
+```python
+CRONJOBS = [
+    ('*/1 * * * *', 'texpenses.actions.compensation_alert',
+     '>> /path_to_save/scheduled_job.log')
+]
+```
+For more info on how to setup crontab check [this wiki](https://en.wikipedia.org/wiki/Cron#Format).
+After configuration just run on terminal:
+
+```bash
+python manage.py crontab add
+```
+
+for removing Travel Expenses jobs from crontab run on the following on terminal:
+
+```bash
+python manage.py crontab remove
+```
+Finally in order to show all Travel Expenses jobs run the following on terminal:
+
+```bash
+python manage.py crontab show
+```
 
 ### Configure Nginx
 
