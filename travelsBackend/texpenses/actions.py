@@ -5,8 +5,10 @@ from django.core.mail import EmailMessage, get_connection
 from django.template.loader import render_to_string
 from rest_framework import status
 from texpenses.models import Petition
+from datetime import datetime
 
 
+DATE_FORMAT = '%Y-%m-%d'
 SENDER = settings.SERVER_EMAIL
 SECRETARY_EMAIL = settings.SECRETARY_EMAIL
 EMAIL_TEMPLATES = {
@@ -26,6 +28,8 @@ EMAIL_TEMPLATES = {
 
     'COMPENSATION_PRESIDENT_APPROVAL': ('compensation_president_approval.txt',
                                     'Έγκριση αποζημίωσης απο τον πρόεδρο.'),
+    'COMPENSATION_ALERT': ('compensation_alert.txt',
+                           'Ενημέρωση σύνταξης αίτησης αποζημίωσης.')
 }
 
 logger = logging.getLogger(__name__)
@@ -92,3 +96,20 @@ def inform_on_action(action, target_user=False):
             return response
         return wrapper
     return inform_action
+
+
+def compensation_alert():
+
+    now = datetime.now().strftime(DATE_FORMAT)
+
+    approved_petitions=Petition.objects.filter(status=\
+                                               Petition.APPROVED_BY_PRESIDENT)
+
+    for petition in approved_petitions:
+        travel_info = petition.travel_info.all()[0]
+        return_date = travel_info.return_date.strftime(DATE_FORMAT)
+        if return_date == now:
+            if not petition.compensation_alert:
+                inform(petition, action='COMPENSATION_ALERT', target_user=True)
+                petition.compensation_alert = True
+                petition.save()

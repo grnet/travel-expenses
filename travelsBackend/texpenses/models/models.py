@@ -711,6 +711,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     travel_report = models.CharField(max_length=1000, blank=True, null=True)
 
+    compensation_alert = models.BooleanField(default=False, db_index=True)
+
     travel_files = models.FileField(upload_to=common.user_directory_path,
                                     null=True, blank=True)
 

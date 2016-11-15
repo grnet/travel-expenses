@@ -50,7 +50,12 @@ INSTALLED_APPS = (
     'djoser',
     'crispy_forms',
     'rest_framework_docs',
+    'django_crontab',
 )
+CRONJOBS = [
+    ('*/1 * * * *', 'texpenses.actions.compensation_alert',
+     '>> /home/kostas/travelRepo/travelsBackend/logs/scheduled_job.log')
+]
 REST_FRAMEWORK = {
     # 'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S",
     'DATETIME_FORMAT': "%Y-%m-%dT%H:%M",
@@ -159,6 +164,10 @@ LOGGING = {
             'handlers': ['console', 'mail_admins', 'file'],
             'level': 'INFO'
         },
+        'django_crontab': {
+            'handlers': ['console', 'mail_admins', 'file'],
+            'level': 'DEBUG'
+        },
         # 'django.db': {
             # 'handlers': ['console', 'mail_admins', 'file'],
             # 'level': 'DEBUG'
@@ -168,7 +177,8 @@ LOGGING = {
 }
 
 # Path to resources file.
-RESOURCES_FILE = os.path.join(BASE_DIR, '../resources/common.json')
+RESOURCES_FILE = os.path.join(BASE_DIR,
+                              '/home/kostas/travelRepo/resources/common.json')
 try:
     from local_settings import *
 except ImportError, e:
