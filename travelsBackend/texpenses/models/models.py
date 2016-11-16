@@ -561,19 +561,19 @@ class SecretarialInfo(models.Model):
     expenditure_protocol = models.CharField(
         max_length=30, null=True, blank=True)
     expenditure_date_protocol = models.DateField(
-        blank=True, null=True, validators=[date_validator])
+        blank=True, null=True)
     movement_protocol = models.CharField(
         max_length=30, null=True, blank=True)
     movement_date_protocol = models.DateField(
-        blank=True, null=True, validators=[date_validator])
+        blank=True, null=True)
     compensation_petition_protocol = models.CharField(
         max_length=30, null=True, blank=True)
     compensation_petition_date = models.DateField(
-        blank=True, null=True, validators=[date_validator])
+        blank=True, null=True)
     compensation_decision_protocol = models.CharField(
         max_length=30, null=True, blank=True)
     compensation_decision_date = models.DateField(
-        blank=True, null=True, validators=[date_validator])
+        blank=True, null=True)
     manager_travel_approval = models.CharField(max_length=200, null=True,
                                                blank=True)
 
