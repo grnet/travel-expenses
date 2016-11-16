@@ -742,6 +742,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         user = kwargs.get('user', None)
         if not self.dse:
             self.set_next_dse()
+
         if user:
             for field in self.USER_FIELDS:
                 setattr(self, field, getattr(user, field))
@@ -758,6 +759,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     def save(self, *args, **kwargs):
         self.updated = timezone.now()
+        self._set_movement_id()
         super(Petition, self).save(*args, **kwargs)
 
     def delete(self):
@@ -890,6 +892,12 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             self.dse = Petition.objects.latest('dse').dse + 1
         except ObjectDoesNotExist:
             self.dse = 1
+
+    def _set_movement_id(self):
+        """
+        This method sets the movement_id value to be equal to dse's one
+        """
+        self.movement_id = str(self.dse)
 
     def transport_days(self):
         """ Gets the total number of transport days for all destinations. """
