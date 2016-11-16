@@ -17,3 +17,8 @@ class CustomUserRegistrationSerializer(
             user.is_active = False
             user.save(update_fields=['is_active', 'user_category'])
         return user
+
+
+class PasswordResetConfirmRetypeSerializer(djoser_serializers.
+                                           PasswordRetypeSerializer):
+    pass

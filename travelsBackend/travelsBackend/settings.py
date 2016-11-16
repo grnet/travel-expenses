@@ -59,7 +59,7 @@ REST_FRAMEWORK = {
     ),
 }
 DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': 'auth/password/reset/confirm/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': API_PREFIX + '/auth/password/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': API_PREFIX + '/auth/activate/{uid}/{token}',
     'PASSWORD_VALIDATORS': [],
     'SERIALIZERS': {},
