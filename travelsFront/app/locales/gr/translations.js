@@ -151,6 +151,7 @@ export default {
  	'petition_create.title': 'Δημιουργία Αίτησης',
  	'petition_edit.title': 'Επεξεργασία Αίτησης',
  	'petition_list.title': 'Λίστα Αιτήσεων',
+  'filters.title': 'Φίλτρα Αναζήτησης',
   //travel_report labels
   'travel_report.label': 'Απολογισμός Ταξιδιού',
   'travel_files.label': 'Ανέβασμα αρχείων',

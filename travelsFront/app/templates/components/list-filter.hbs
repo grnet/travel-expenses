@@ -1,5 +1,7 @@
 <div>
-	{{#paper-button bubbles=false onClick=(action "handleFilterEntry")}}{{t 'list.button.search'}}{{/paper-button}}
+	<span style="margin-left:1%;">
+		{{t 'filters.title'}}
+	</span>
 	{{#paper-select id="filter" value=filters.project.name onChange=(action "handleChange") placeholder=placeholderLabel }}
 		{{#each projects as |project|}}
   		{{#paper-option value=project }}
@@ -10,7 +12,8 @@
 	{{input value=filters.name  placeholder=(t 'placeholder.filterByName')}}
 	{{pick-a-date date=date on-selected=(action (mut filters.startDate)) placeholder=(t 'placeholder.filterByStartDate')}}
 	{{pick-a-date date=date on-selected=(action (mut filters.endDate)) placeholder=(t 'placeholder.filterByEndDate')}}
-	{{#paper-button bubbles=false onClick=(action "clearFilters")}}{{t 'list.button.clear'}}{{/paper-button}}
+	{{#paper-button bubbles=false raised=true onClick=(action "handleFilterEntry")}}{{t 'list.button.search'}}{{/paper-button}}
+	{{#paper-button bubbles=false raised=true onClick=(action "clearFilters")}}{{t 'list.button.clear'}}{{/paper-button}}
 </div>
 {{yield results}}
 
