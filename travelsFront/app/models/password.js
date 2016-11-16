@@ -5,12 +5,18 @@ import {validator, buildValidations} from 'ember-cp-validations';
 
 var Validations=buildValidations({
 
+	current_password: [
+		validator('presence', true),
+		validator('length', {min: 4})
+	],
 	new_password: [
 		validator('presence', true),
-		validator('length', {
-			min: 4
-		})
-	]
+		validator('length', {min: 4})
+	],
+	re_new_password: [		
+		validator('presence', true),
+		validator('length', {min: 4}),
+	],
 });
 
 const PASSWORD = {
@@ -35,7 +41,7 @@ export default DS.Model.extend(Validations, {
     'password': PASSWORD,
   },
 
-	'current_password': DS.attr('string', {attrs: {type: 'password'}}), 
-	'new_password': DS.attr('string', {attrs: {type: 'password'}}), 
-	're_new_password': DS.attr('string', {attrs: {type: 'password'}}), 
+	'current_password': DS.attr('string', {attrs: {type: 'password', required:true}}), 
+	'new_password': DS.attr('string', {attrs: {type: 'password', required:true}}), 
+	're_new_password': DS.attr('string', {attrs: {type: 'password', required:true}}), 
 });
