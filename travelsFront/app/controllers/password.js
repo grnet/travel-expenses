@@ -2,11 +2,11 @@ import Ember from 'ember';
 import ENV from 'travels-front/config/environment';
 
 export default Ember.Controller.extend({
-		session: Ember.inject.service('session'),
+	session: Ember.inject.service('session'),
 
 	actions: {
 
-		 changePassword() {
+		changePassword() {
       
   		var token = this.get('session.data.authenticated.auth_token');
   		var current_password = this.get('model.current_password');
@@ -15,14 +15,26 @@ export default Ember.Controller.extend({
   
 	    return $.ajax({
 	    	method: "POST",
-	      headers:{
-	        Authorization: 'Token ' + token
-	      },
+	      headers:{Authorization: 'Token ' + token},
 	      url: ENV.APP.backend_host+"/auth/password/",
 	      data: {current_password, new_password, re_new_password},
+      	error: ((err) => {
+      		let messageObject = JSON.parse(err.responseText);
+      		var message = '';
+      		for (var key in messageObject) {
+      			if (key == "non_field_errors") {
+      				message = message + "\n" + messageObject[key];
+      			} else {
+      				message = message + "\n" + key + ": " + messageObject[key];
+      			}      			
+      		};
+        	this.set('submitError', message);       					
+				}),
 	    }).then(() => {
-	    	this.transitionToRoute('profile');
-	    });
+        this.transitionToRoute('profile');
+ 			});
     },
 	}
 });
+
+
