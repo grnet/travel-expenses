@@ -6,7 +6,7 @@ export default Ember.Component.extend({
 	store: Ember.inject.service(),
 	
   classNames: ['list-filter'],
-  filters: {name: '', project: '', startDate: '', endDate: ''},
+  filters: {dse: '', name: '', project: '', startDate: '', endDate: ''},
   placeholderLabel: t('placeholder.filterByProject'),
   projects: Ember.computed(function(){
   	var store = this.get('store');
@@ -23,6 +23,7 @@ export default Ember.Component.extend({
     handleFilterEntry() {
 
       let filterInputValue = {
+        dse: this.get('filters.dse'),
         name: this.get('filters.name'),
         project: this.get('filters.project.id'),
         startDate: this.get('filters.startDate'),
@@ -36,6 +37,7 @@ export default Ember.Component.extend({
     clearFilters() {
 
       let filterInputValue = {
+        dse: this.set('filters.dse', ''),
         name: this.set('filters.name', ''),
         project: this.set('filters.project', ''),
         startDate: this.set('date', null),

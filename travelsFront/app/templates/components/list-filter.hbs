@@ -2,6 +2,7 @@
 	<span style="margin-left:1%;">
 		{{t 'filters.title'}}
 	</span>
+	{{input value=filters.dse type="number" placeholder=(t 'placeholder.filterByDSE')}}
 	{{#paper-select id="filter" value=filters.project.name onChange=(action "handleChange") placeholder=placeholderLabel }}
 		{{#each projects as |project|}}
   		{{#paper-option value=project }}
