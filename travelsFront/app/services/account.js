@@ -6,15 +6,15 @@ export default Ember.Service.extend({
 	store: Ember.inject.service('store'),
 
   loadCurrentUser() {
+
 	    const accountId = this.get('session.data.authenticated.auth_token');
 	    
 	    if (!Ember.isEmpty(accountId)) {
-	      	this.get('store').findRecord('profile', accountId).then((profile) => {
-	        	this.set('user', profile);
-	        	console.log("account_group",this.get('user.user_group'));
-	        	console.log("account_username",this.get('user.username'));
-	      	}); 
+	    	return this.get('store').findRecord('profile', accountId).then((profile) => {
+	      	this.set('user', profile);
+	      	return profile;
+	    	});
 	    }
-	    return this.get('user')              
+ 			return Ember.RSVP.resolve(this.get('user'));	    	                
   	}
 });  
