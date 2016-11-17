@@ -1,5 +1,6 @@
 import Ember from 'ember';
 
+
 export default Ember.Controller.extend({
 
 	session: Ember.inject.service('session'),
@@ -13,8 +14,17 @@ export default Ember.Controller.extend({
 
 			var authenticator = 'authenticator:token';
 			this.get('session').authenticate(authenticator, credentials).then(() => { 
-    			this.get("account").loadCurrentUser();
-          this.transitionToRoute('profile');
+    			this.get("account").loadCurrentUser().then((profile) => {
+            
+            let group = profile.get('user_group');
+
+            if (group === "SECRETARY" || group === "CONTROLLER") {
+              this.transitionToRoute('advancedList');
+            } 
+            else if (group === "USER") {
+              this.transitionToRoute('petitionList');
+            }            
+          });          
 			}).catch((err) => {
         if (err.non_field_errors) {
           this.set('submitError', err.non_field_errors[0]);
