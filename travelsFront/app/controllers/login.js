@@ -17,12 +17,17 @@ export default Ember.Controller.extend({
     			this.get("account").loadCurrentUser().then((profile) => {
             
             let group = profile.get('user_group');
-
-            if (group === "SECRETARY" || group === "CONTROLLER") {
-              this.transitionToRoute('advancedList');
+            let profileFilled = profile.get('profileIsFilled');
+            
+            if (profileFilled) {
+              if (group === "SECRETARY" || group === "CONTROLLER") {
+                this.transitionToRoute('advancedList');
+              } else if (group === "USER") {
+                this.transitionToRoute('petitionList');
+              }              
             } 
-            else if (group === "USER") {
-              this.transitionToRoute('petitionList');
+            else {
+              this.transitionToRoute('profile');
             }            
           });          
 			}).catch((err) => {
@@ -36,3 +41,4 @@ export default Ember.Controller.extend({
 		}
 	}
 });
+
