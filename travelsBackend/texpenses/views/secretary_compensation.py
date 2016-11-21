@@ -104,8 +104,14 @@ def _extract_info(petition_object):
     data.update(
         {'dse': petition_object.dse,
          'movement_id': petition_object.movement_id,
-         'movement_date_protocol': petition_object.movement_date_protocol,
-         'movement_protocol': petition_object.movement_protocol
+         'compensation_petition_protocol':
+         petition_object.compensation_petition_protocol,
+         'compensation_petition_date':
+         petition_object.compensation_petition_date,
+         'compensation_decision_protocol':
+         petition_object.compensation_decision_protocol,
+         'compensation_decision_date':
+         petition_object.compensation_decision_date
          }
     )
 

@@ -1,0 +1,9 @@
+{% extends "texpenses/protocol.html" %}
+{% block protocol_content%}
+<h5 style="text-align: right;">
+	ΔΣΕ:{{dse}} Αρ.Μετ:{{movement_id}}<br>
+	Αθήνα,{{expenditure_date_protocol|date:"d/m/Y"}}<br>
+	Αρ.Πρωτ.:{{expenditure_protocol}}
+</h5>
+
+{% endblock %}

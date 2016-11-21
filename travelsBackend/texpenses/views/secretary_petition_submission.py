@@ -61,7 +61,10 @@ def _extract_info(petition_object):
         {'dse': petition_object.dse,
          'movement_id': petition_object.movement_id,
          'movement_date_protocol': petition_object.movement_date_protocol,
-         'movement_protocol': petition_object.movement_protocol
+         'movement_protocol': petition_object.movement_protocol,
+         'expenditure_protocol': petition_object.expenditure_protocol,
+         'expenditure_date_protocol': petition_object.expenditure_date_protocol,
+
          }
     )
 
