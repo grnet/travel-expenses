@@ -32,5 +32,5 @@ class PetitionFilter(filters.FilterSet):
                   'depart_date', 'depart_date__gt', 'depart_date__gte',
                   'depart_date__lt', 'depart_date__lte',  'project',
                   'return_date', 'return_date__gt', 'return_date__lt',
-                  'return_date__gte', 'return_date__lte'
+                  'return_date__gte', 'return_date__lte', 'dse'
                   ]
