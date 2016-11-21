@@ -107,7 +107,7 @@ const preloadPetitions = function(petitionModel, store, filterInputValue) {
             if (filterInputValue.endDate) {
               endDate=moment(filterInputValue.endDate).format("YYYY-MM-DD");
             }
-            return store.query(m, {id: filterInputValue.dse, last_name: filterInputValue.name, project: filterInputValue.project, depart_date__gte: startDate, return_date__lte: endDate});
+            return store.query(m, {dse: filterInputValue.dse, last_name: filterInputValue.name, project: filterInputValue.project, depart_date__gte: startDate, return_date__lte: endDate});
           } else {            
             return store.query(m, {})
           }          
