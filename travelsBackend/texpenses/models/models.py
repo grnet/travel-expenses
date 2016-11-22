@@ -307,20 +307,32 @@ class TravelInfo(Accommodation, Transportation):
         self.validate_overnight_cost()
         super(TravelInfo, self).clean()
 
+    def _set_travel_manual_fields(self):
+        overnight_days = self.overnights_num_proposed(
+            self.travel_petition.task_start_date,
+            self.travel_petition.task_end_date)
+        self.transport_days_manual = self.transport_days_proposed()
+        self.overnights_num_manual = overnight_days
+        self.compensation_days_manual = overnight_days
+
+    def _set_travel_manual_field_defaults(self):
+
+        if sum([self.transport_days_manual, self.overnights_num_manual,
+                self.compensation_days_manual]) == 0:
+            self._set_travel_manual_fields()
+
     def save(self, *args, **kwargs):
+        new_object = kwargs.pop('new_object', False)
+
         changed = any(self.tracker.has_changed(field)
                       for field in self.tracked_fields)
         petition_dates_changed = any(
             self.travel_petition.tracker.has_changed(field)
             for field in self.travel_petition.tracked_fields)
-        if changed or petition_dates_changed:
-            overnight_days = self.overnights_num_proposed(
-                self.travel_petition.task_start_date,
-                self.travel_petition.task_end_date)
-            self.transport_days_manual = self.transport_days_proposed()
-            self.overnights_num_manual = overnight_days
-            self.compensation_days_manual = overnight_days
+        if changed and not new_object or petition_dates_changed:
+            self._set_travel_manual_fields()
 
+        self._set_travel_manual_field_defaults()
         super(TravelInfo, self).save(*args, **kwargs)
 
     def validate_overnight_cost(self):

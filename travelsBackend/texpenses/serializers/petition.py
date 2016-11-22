@@ -30,7 +30,7 @@ def create(self, validated_data):
     petition = self.Meta.model.objects.create(**validated_data)
     for travel in travel_info:
         travel_obj = TravelInfo(travel_petition=petition, **travel)
-        travel_obj.save()
+        travel_obj.save(new_object=True)
         petition.travel_info.add(travel_obj)
         # if self.Meta.model is SecretaryPetitionSubmission:
             # petition.user.trip_days_left -= petition.transport_days()
