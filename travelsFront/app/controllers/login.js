@@ -14,21 +14,22 @@ export default Ember.Controller.extend({
 
 			var authenticator = 'authenticator:token';
 			this.get('session').authenticate(authenticator, credentials).then(() => { 
-    			this.get("account").loadCurrentUser().then((profile) => {
+    			this.get("account").loadCurrentUser().then((profile) => {            
             
             let group = profile.get('user_group');
-            let profileFilled = profile.get('profileIsFilled');
-            
-            if (profileFilled) {
-              if (group === "SECRETARY" || group === "CONTROLLER") {
-                this.transitionToRoute('advancedList');
-              } else if (group === "USER") {
-                this.transitionToRoute('petitionList');
+            return profile.get('profileIsFilled').then((profileFilled) => {
+              console.log("profile is filled", profileFilled);
+              if (profileFilled) {
+                if (group === "SECRETARY" || group === "CONTROLLER") {
+                  this.transitionToRoute('advancedList');
+                } else if (group === "USER") {
+                  this.transitionToRoute('petitionList');
+                }              
+              } 
+              else {
+                this.transitionToRoute('profile');
               }              
-            } 
-            else {
-              this.transitionToRoute('profile');
-            }            
+            });
           });          
 			}).catch((err) => {
         if (err.non_field_errors) {
