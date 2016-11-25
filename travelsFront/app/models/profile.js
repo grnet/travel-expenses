@@ -84,21 +84,21 @@ export default DS.Model.extend(Validations, {
   }),
   'user_group': DS.attr(),
 
-  profileIsFilled: Ember.computed('first_name', 'last_name', 'iban', 'specialty', 'kind', 'tax_reg_num', function(){
-    var profile = {
-      first_name: this.get('first_name'), 
-      last_name: this.get('last_name'), 
-      iban: this.get('iban'), 
-      specialty: this.get('specialty'), 
-      kind: this.get('kind'),
-      tax_reg_num: this.get('tax_reg_num'),
-    }
-   
-    for (var key in profile) {      
-      if (profile[key] == null) {
-        return false;
-      };
-    }
-    return true;   
+  'FILLED_PARAMS': ['first_name', 'last_name', 'iban', 'specialty', 'kind', 'tax_reg_num'],
+
+  profileIsFilled: Ember.computed('FILLED_PARAMS', function(){
+
+    var profile = this.getProperties(this.get('FILLED_PARAMS'));
+
+    return this.get('tax_office').then((value) => {
+
+      for (var key in profile) {     
+        if (profile[key] == null || value == null) {
+          return false;
+        };
+      }
+      return true;  
+    }); 
+     
   }),
 });
