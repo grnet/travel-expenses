@@ -5,6 +5,21 @@ import ENV from 'travels-front/config/environment';
 const { get } = Ember;
 
 export default Ember.Route.extend(AuthenticatedRouteMixin,{
+
+  beforeModel: function() {
+
+    this.store.findRecord('profile', 1).then((profile) => {
+      return profile.get('profileIsFilled').then((profileFilled) => {
+        if (profileFilled) {
+          this.transitionTo('userPetition');             
+        } 
+        else {
+          this.transitionTo('profile');
+        }              
+      });
+    });
+  },
+
 	newPetition: true,
   modelName: 'user-petition',
 
