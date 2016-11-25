@@ -178,7 +178,7 @@ LOGGING = {
 
 # Path to resources file.
 RESOURCES_FILE = os.path.join(BASE_DIR,
-                              '/home/kostas/travelRepo/resources/common.json')
+                              '../resources/common.json')
 try:
     from local_settings import *
 except ImportError, e:
