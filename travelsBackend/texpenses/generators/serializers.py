@@ -71,11 +71,11 @@ def get_related_model(model, model_field_name):
     model.
     """
     model_field = model._meta.get_field(model_field_name)
-    if model_field.rel is None:
+    if model_field.related_model is None:
         raise utils.ModelFieldNotRelated(
             'Field %s is not related with another model' % (
                 repr(model_field_name)))
-    return model_field.rel.to
+    return model_field.related_model
 
 
 def get_base_or_proxy(base_model_class, proxy_model_class):
@@ -122,8 +122,8 @@ def get_nested_serializer(model, model_api_class):
         rel_model_class = get_related_model(model, model_field_name)
         serializer_class = generate(get_base_or_proxy(
             rel_model_class, model_proxy_class))
-        many = model._meta.get_field(
-            model_field_name).get_internal_type() == MANY_TO_MANY_REL
+        field = model._meta.get_field(model_field_name)
+        many = field.many_to_many or field.one_to_many
         source = None if api_field_name == model_field_name\
             else model_field_name
         extra_kwargs = getattr(model_api_class, 'extra_kwargs', None)
