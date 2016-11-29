@@ -11,11 +11,17 @@ class TravelInfoTest(TestCase):
 
     def setUp(self):
         travel_petition = Petition(user_category='A')
-        arrival_country = Country(name='FRANCE', category='A', currency='EUR')
-        self.arrival_point = City(name='PARIS', country=arrival_country)
+        self.arrival_country = Country(name='FRANCE', category='A',
+                                       currency='EUR')
+        self.arrival_country.save()
+        self.arrival_point = City(name='PARIS', country=self.arrival_country)
+        self.arrival_point.save()
 
-        departure_country = Country(name='GREECE', category='A')
-        self.departure_point = City(name='ATHENS', country=departure_country)
+        self.departure_country = Country(name='GREECE', category='A')
+        self.departure_country.save()
+        self.departure_point = City(name='ATHENS',
+                                    country=self.departure_country)
+        self.departure_point.save()
 
         self.travel_obj = TravelInfo(travel_petition=travel_petition,
                                      accommodation_cost=0.0,
@@ -43,12 +49,16 @@ class TravelInfoTest(TestCase):
         self.assertEqual(self.travel_obj.compensation_level(), 100)
 
         arrival_country = Country(name='EGYPT', category='C')
+        arrival_country.save()
         arrival_point = City(name='CAIRO', country=arrival_country)
+        arrival_point.save()
         self.travel_obj.arrival_point = arrival_point
         self.assertEqual(self.travel_obj.compensation_level(), 60)
 
         arrival_country = Country(name='RUSSIA', category='B')
+        arrival_country.save()
         arrival_point = City(name='MOSCHOW', country=arrival_country)
+        arrival_point.save()
         self.travel_obj.arrival_point = arrival_point
         self.assertEqual(self.travel_obj.compensation_level(), 80)
 
@@ -93,7 +103,8 @@ class TravelInfoTest(TestCase):
 
     def test_is_city_ny(self):
         self.assertFalse(self.travel_obj.is_city_ny())
-        city = City(name='ATHENS')
+        city = City(name='ATHENS', country=self.departure_country)
+        city.save()
         self.travel_obj.arrival_point = city
         self.assertFalse(self.travel_obj.is_city_ny())
         self.travel_obj.arrival_point.name = 'NEW YORK'
@@ -104,11 +115,11 @@ class TravelInfoTest(TestCase):
         depart = datetime.now() + timedelta(days=3)
         self.travel_obj.depart_date = depart
         self.travel_obj.return_date = depart + timedelta(days=3)
-        self.travel_obj.travel_petition.task_end_date = depart - \
+        self.travel_obj.travel_petition_buffer.task_end_date = depart - \
             timedelta(days=2)
         self.assertRaises(ValidationError, self.travel_obj.clean)
 
-        self.travel_obj.travel_petition.task_end_date = depart - \
+        self.travel_obj.travel_petition_buffer.task_end_date = depart - \
             timedelta(days=4)
         self.assertRaises(ValidationError, self.travel_obj.clean)
 
@@ -120,8 +131,8 @@ class TravelInfoTest(TestCase):
 
         self.travel_obj.depart_date = depart
         self.travel_obj.return_date = return_d
-        self.travel_obj.travel_petition.task_start_date = task_start
-        self.travel_obj.travel_petition.task_end_date = task_end
+        self.travel_obj.travel_petition_buffer.task_start_date = task_start
+        self.travel_obj.travel_petition_buffer.task_end_date = task_end
 
         overnights = self.travel_obj.overnights_num_proposed(
             task_start, task_end)
