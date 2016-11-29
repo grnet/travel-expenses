@@ -273,10 +273,7 @@ class TravelInfo(Accommodation, Transportation):
 
     tracked_fields = ['depart_date', 'return_date']
     tracker = FieldTracker(fields=tracked_fields)
-
-    def __init__(self, *args, **kwargs):
-        self.travel_petition_buffer = kwargs.pop('travel_petition', [])
-        super(TravelInfo, self).__init__(*args, **kwargs)
+    travel_petition_buffer = None
 
     class Api:
         expose = False
@@ -301,13 +298,22 @@ class TravelInfo(Accommodation, Transportation):
                             'accommodation_default_currency')
         allowable_operations = ('list', 'retrieve', 'delete')
 
+    def __get_travel_petition(self):
+        return  self.travel_petition if getattr(self, 'travel_petition', None) \
+            else self.travel_petition_buffer
+
+    def __init__(self, *args, **kwargs):
+        self.travel_petition_buffer = kwargs.pop('travel_petition', [])
+        super(TravelInfo, self).__init__(*args, **kwargs)
+
     def clean(self):
+        travel_petition = self.__get_travel_petition()
 
         if self.depart_date and self.return_date \
-                and self.travel_petition_buffer.task_end_date:
+                and travel_petition.task_end_date:
             dates = ((self.depart_date, self.return_date),
                      (self.depart_date,
-                      self.travel_petition_buffer.task_end_date))
+                      travel_petition.task_end_date))
             labels = (('depart', 'return'), ('depart', 'task end'))
             start_end_date_validator(dates, labels)
         self.validate_overnight_cost()
@@ -325,9 +331,11 @@ class TravelInfo(Accommodation, Transportation):
         self.validate_overnight_cost()
 
     def _set_travel_manual_fields(self):
+        travel_petition = self.__get_travel_petition()
+
         overnight_days = self.overnights_num_proposed(
-            self.travel_petition.task_start_date,
-            self.travel_petition.task_end_date)
+            travel_petition.task_start_date,
+            travel_petition.task_end_date)
         self.transport_days_manual = self.transport_days_proposed()
         self.overnights_num_manual = overnight_days
         self.compensation_days_manual = overnight_days
@@ -355,6 +363,7 @@ class TravelInfo(Accommodation, Transportation):
 
         self._set_travel_manual_field_defaults()
         super(TravelInfo, self).save(*args, **kwargs)
+        self.travel_petition_buffer = None
 
     def validate_overnight_cost(self):
         """
@@ -364,15 +373,18 @@ class TravelInfo(Accommodation, Transportation):
         :raises: ValidationError if accommodation cost exceeds the allowable
         limit.
         """
+
+        travel_petition = self.__get_travel_petition()
+
         EXTRA_COST = 100
         max_overnight_cost = common.MAX_OVERNIGHT_COST[
-            self.travel_petition_buffer.user_category]
+            travel_petition.user_category]
         max_overnight_cost += EXTRA_COST if self.is_city_ny() else 0
         if self.accommodation_cost > max_overnight_cost:
             raise ValidationError('Accomondation cost %.2f for petition with'
                                   ' DSE %s exceeds the max overnight cost.' % (
                                       self.accommodation_cost,
-                                      str(self.travel_petition_buffer.dse)))
+                                      str(travel_petition.dse)))
 
     def transport_days_proposed(self):
         """
@@ -438,18 +450,24 @@ class TravelInfo(Accommodation, Transportation):
         :returns:compensation level
 
         """
+
+        travel_petition = self.__get_travel_petition()
+
         if not self.arrival_point:
             return 0.0
         return common.COMPENSATION_CATEGORIES[(
-            self.travel_petition.user_category,
+            travel_petition.user_category,
             self.arrival_point.country.category)]
 
     def same_day_return_task(self):
         """
         This method checks that the t
         """
-        task_start_date = self.travel_petition.task_start_date
-        task_end_date = self.travel_petition.task_end_date
+
+        travel_petition = self.__get_travel_petition()
+
+        task_start_date = travel_petition.task_start_date
+        task_end_date = travel_petition.task_end_date
         if task_end_date is None or \
                 self.return_date is None \
                 or task_start_date is None \
@@ -459,9 +477,11 @@ class TravelInfo(Accommodation, Transportation):
             == task_start_date.date() == self.depart_date.date()
 
     def compensation_days_proposed(self):
-        return self.overnights_num_proposed(self.travel_petition.
-                                            task_start_date,
-                                            self.travel_petition.task_end_date)
+
+        travel_petition = self.__get_travel_petition()
+
+        return self.overnights_num_proposed(travel_petition.task_start_date,
+                                            travel_petition.task_end_date)
 
     def compensation_cost(self):
         """Calculates the compensation based on compensation days,
@@ -469,6 +489,9 @@ class TravelInfo(Accommodation, Transportation):
         :returns: The maximum possible compensation
 
         """
+
+        travel_petition = self.__get_travel_petition()
+
         percentage = 100
         max_compensation = self.compensation_days_manual * \
             self.compensation_level()
@@ -477,7 +500,7 @@ class TravelInfo(Accommodation, Transportation):
         compensation_proportion = common.COMPENSATION_PROPORTION[self.meals] \
             if self.meals else 1
         return max_compensation * compensation_proportion * (
-            self.travel_petition.grnet_quota() / percentage)
+            travel_petition.grnet_quota() / percentage)
 
 
 class TravelInfoUserSubmission(TravelInfo):
