@@ -128,6 +128,7 @@ def validate(self, attrs):
     model_inst = model(**attrs)
     validate_transport_days(attrs.get('user', None), total_transport_days)
     model_inst.clean()
+
     attrs['travel_info'] = nested_attrs
     return attrs
 
