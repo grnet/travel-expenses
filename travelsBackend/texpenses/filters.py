@@ -5,26 +5,26 @@ from texpenses.models import Petition
 class PetitionFilter(filters.FilterSet):
 
     depart_date = filters.DateTimeFilter(name='travel_info__depart_date',
-                                         lookup_type='exact')
+                                         lookup_expr='exact')
     depart_date__gt = filters.DateTimeFilter(name='travel_info__depart_date',
-                                             lookup_type='gt')
+                                             lookup_expr='gt')
     depart_date__gte = filters.DateTimeFilter(name='travel_info__depart_date',
-                                              lookup_type='gte')
+                                              lookup_expr='gte')
     depart_date__lt = filters.DateTimeFilter(name='travel_info__depart_date',
-                                             lookup_type='lt')
+                                             lookup_expr='lt')
     depart_date__lte = filters.DateTimeFilter(name='travel_info__depart_date',
-                                              lookup_type='lte')
+                                              lookup_expr='lte')
 
     return_date = filters.DateTimeFilter(name='travel_info__return_date',
-                                         lookup_type='exact')
+                                         lookup_expr='exact')
     return_date__gt = filters.DateTimeFilter(name='travel_info__return_date',
-                                             lookup_type='gt')
+                                             lookup_expr='gt')
     return_date__gte = filters.DateTimeFilter(name='travel_info__return_date',
-                                              lookup_type='gte')
+                                              lookup_expr='gte')
     return_date__lt = filters.DateTimeFilter(name='travel_info__return_date',
-                                             lookup_type='lt')
+                                             lookup_expr='lt')
     return_date__lte = filters.DateTimeFilter(name='travel_info__return_date',
-                                              lookup_type='lte')
+                                              lookup_expr='lte')
 
     class Meta:
         model = Petition
