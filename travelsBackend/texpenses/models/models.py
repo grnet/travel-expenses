@@ -269,10 +269,14 @@ class TravelInfo(Accommodation, Transportation):
         blank=False, default=0)
     meals = models.CharField(max_length=10, choices=common.MEALS,
                              blank=False, default='NON')
-    travel_petition = models.ForeignKey('Petition')
+    travel_petition = models.ForeignKey('Petition', related_name='travel_info')
 
     tracked_fields = ['depart_date', 'return_date']
     tracker = FieldTracker(fields=tracked_fields)
+
+    def __init__(self, *args, **kwargs):
+        self.travel_petition_buffer = kwargs.pop('travel_petition', [])
+        super(TravelInfo, self).__init__(*args, **kwargs)
 
     class Api:
         expose = False
@@ -298,10 +302,12 @@ class TravelInfo(Accommodation, Transportation):
         allowable_operations = ('list', 'retrieve', 'delete')
 
     def clean(self):
+
         if self.depart_date and self.return_date \
-                and self.travel_petition.task_end_date:
+                and self.travel_petition_buffer.task_end_date:
             dates = ((self.depart_date, self.return_date),
-                     (self.depart_date, self.travel_petition.task_end_date))
+                     (self.depart_date,
+                      self.travel_petition_buffer.task_end_date))
             labels = (('depart', 'return'), ('depart', 'task end'))
             start_end_date_validator(dates, labels)
         self.validate_overnight_cost()
@@ -333,6 +339,10 @@ class TravelInfo(Accommodation, Transportation):
             self._set_travel_manual_fields()
 
     def save(self, *args, **kwargs):
+
+        if self.travel_petition_buffer:
+            self.travel_petition = self.travel_petition_buffer
+
         new_object = kwargs.pop('new_object', False)
 
         changed = any(self.tracker.has_changed(field)
@@ -356,13 +366,13 @@ class TravelInfo(Accommodation, Transportation):
         """
         EXTRA_COST = 100
         max_overnight_cost = common.MAX_OVERNIGHT_COST[
-            self.travel_petition.user_category]
+            self.travel_petition_buffer.user_category]
         max_overnight_cost += EXTRA_COST if self.is_city_ny() else 0
         if self.accommodation_cost > max_overnight_cost:
             raise ValidationError('Accomondation cost %.2f for petition with'
                                   ' DSE %s exceeds the max overnight cost.' % (
                                       self.accommodation_cost,
-                                      str(self.travel_petition.dse)))
+                                      str(self.travel_petition_buffer.dse)))
 
     def transport_days_proposed(self):
         """
@@ -704,7 +714,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     dse = models.IntegerField(
         blank=False, validators=[MinValueValidator(1)])
-    travel_info = models.ManyToManyField(TravelInfo, blank=True)
+    # travel_info = models.ManyToManyField(TravelInfo, blank=True)
 
     user = models.ForeignKey(UserProfile, blank=False)
     task_start_date = models.DateTimeField(
@@ -1246,7 +1256,8 @@ class UserCompensation(Petition):
                 'additional_expenses_initial',
                 'additional_expenses_initial_description',
                 'additional_expenses', 'additional_expenses_description',
-                'manager_final_approval', 'manager_travel_approval']
+                'manager_final_approval', 'manager_travel_approval',
+                'compensation_alert']
     excluded_travel_info = ['accommodation_local_cost', ]
 
     class Meta:
