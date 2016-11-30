@@ -10,7 +10,25 @@ from texpenses.models import (
 class TravelInfoTest(TestCase):
 
     def setUp(self):
-        travel_petition = Petition(user_category='A')
+        project = Project.objects.create(name='Test Project',
+                                         accounting_code=1,
+                                         manager_name='Name',
+                                         manager_surname='Surname',
+                                         manager_email='manager@email.com')
+
+        tax_office = TaxOffice.objects.create(
+            name='test', description='test', address='test',
+            email='test@example.com', phone='2104344444')
+        self.user = UserProfile.objects.create(
+            first_name='Nick', last_name='Jones', email='test@email.com',
+            iban='GR4902603280000910200635494', kind='1',
+            specialty='1', tax_reg_num=011111111,
+            tax_office=tax_office, user_category='A',
+            trip_days_left=5)
+
+        self.travel_petition = Petition(tax_office=tax_office,status=1,
+                                        user_category='A', project=project,
+                                        user=self.user)
         self.arrival_country = Country(name='FRANCE', category='A',
                                        currency='EUR')
         self.arrival_country.save()
@@ -23,17 +41,23 @@ class TravelInfoTest(TestCase):
                                     country=self.departure_country)
         self.departure_point.save()
 
-        self.travel_obj = TravelInfo(travel_petition=travel_petition,
-                                     accommodation_cost=0.0,
+        # self.travel_obj = TravelInfo(travel_petition=travel_petition,
+                                     # accommodation_cost=0.0,
+                                     # arrival_point=self.arrival_point,
+                                     # departure_point=self.departure_point,
+                                     # meals='NON')
+
+        self.travel_obj = TravelInfo(accommodation_cost=0.0,
                                      arrival_point=self.arrival_point,
                                      departure_point=self.departure_point,
                                      meals='NON')
 
     def test_validate_overnight_cost(self):
-        self.travel_obj.validate_overnight_cost()
+        self.travel_obj.validate_overnight_cost(self.travel_petition)
         self.travel_obj.accommodation_cost = float('inf')
         self.assertRaises(ValidationError,
-                          self.travel_obj.validate_overnight_cost)
+                          self.travel_obj.validate_overnight_cost,
+                          self.travel_petition)
 
     def test_transport_days_proposed(self):
         date = datetime.now()
@@ -45,6 +69,9 @@ class TravelInfoTest(TestCase):
         self.assertEqual(self.travel_obj.transport_days_proposed(), 5)
 
     def test_compensation_level(self):
+
+        self.travel_petition.save()
+        self.travel_obj.travel_petition=self.travel_petition
 
         self.assertEqual(self.travel_obj.compensation_level(), 100)
 
@@ -115,13 +142,16 @@ class TravelInfoTest(TestCase):
         depart = datetime.now() + timedelta(days=3)
         self.travel_obj.depart_date = depart
         self.travel_obj.return_date = depart + timedelta(days=3)
-        self.travel_obj.travel_petition_buffer.task_end_date = depart - \
-            timedelta(days=2)
-        self.assertRaises(ValidationError, self.travel_obj.clean)
 
-        self.travel_obj.travel_petition_buffer.task_end_date = depart - \
-            timedelta(days=4)
-        self.assertRaises(ValidationError, self.travel_obj.clean)
+        self.travel_petition.task_end_date = depart - timedelta(days=2)
+
+        self.assertRaises(ValidationError, self.travel_obj.clean,
+                          self.travel_petition)
+
+        self.travel_petition.task_end_date = depart - timedelta(days=4)
+
+        self.assertRaises(ValidationError, self.travel_obj.clean,
+                          self.travel_petition)
 
     def test_compensation_days_proposed(self):
         depart = datetime.now() + timedelta(days=3)
@@ -131,8 +161,11 @@ class TravelInfoTest(TestCase):
 
         self.travel_obj.depart_date = depart
         self.travel_obj.return_date = return_d
-        self.travel_obj.travel_petition_buffer.task_start_date = task_start
-        self.travel_obj.travel_petition_buffer.task_end_date = task_end
+
+        self.travel_petition.save()
+        self.travel_obj.travel_petition=self.travel_petition
+        self.travel_obj.travel_petition.task_start_date = task_start
+        self.travel_obj.travel_petition.task_end_date = task_end
 
         overnights = self.travel_obj.overnights_num_proposed(
             task_start, task_end)
