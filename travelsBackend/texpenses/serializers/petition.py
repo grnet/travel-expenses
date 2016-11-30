@@ -119,9 +119,8 @@ def validate(self, attrs):
     total_transport_days = 0
     travel_info_model = self.fields['travel_info'].child.Meta.model
     for nested in nested_attrs:
-        nested_inst = travel_info_model(travel_petition=model(**attrs),
-                                        **nested)
-        nested_inst.clean()
+        nested_inst = travel_info_model(**nested)
+        nested_inst.clean(model(**attrs))
         total_transport_days += nested_inst.transport_days_manual\
             if nested_inst.transport_days_manual\
             else nested_inst.transport_days_proposed()
