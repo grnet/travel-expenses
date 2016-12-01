@@ -1212,9 +1212,11 @@ class UserCompensation(Petition):
                 'secretary_recommendation', 'compensation_petition_date',
                 'compensation_decision_protocol', 'compensation_decision_date',
                 'participation_payment_description', 'deleted', 'travel_files',
-                'participation_local_cost', 'additional_expenses_initial',
+                'participation_local_cost', 'compensation_alert',
+                'additional_expenses_initial',
                 'additional_expenses_initial_description',
-                'additional_expenses', 'additional_expenses_description']
+                'additional_expenses', 'additional_expenses_description',
+                'manager_final_approval', 'manager_travel_approval']
     excluded_travel_info = ['accommodation_local_cost', ]
 
     class Meta:
@@ -1291,7 +1293,8 @@ class SecretaryCompensation(Petition):
                 'participation_local_cost', 'additional_expenses_initial',
                 'additional_expenses_initial_description',
                 'additional_expenses', 'additional_expenses_description',
-                'user_recommendation', 'secretary_recommendation']
+                'user_recommendation', 'compensation_alert',
+                'secretary_recommendation']
     excluded_travel_info = ['accommodation_local_cost', ]
 
     class Meta:
