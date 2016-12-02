@@ -1294,7 +1294,8 @@ class SecretaryCompensation(Petition):
                 'additional_expenses_initial_description',
                 'additional_expenses', 'additional_expenses_description',
                 'user_recommendation', 'compensation_alert',
-                'secretary_recommendation']
+                'secretary_recommendation', 'manager_final_approval',
+                'manager_travel_approval']
     excluded_travel_info = ['accommodation_local_cost', ]
 
     class Meta:
