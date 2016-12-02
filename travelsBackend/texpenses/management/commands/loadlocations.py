@@ -26,10 +26,21 @@ class Command(BaseCommand):
     def preprocess(self, input):
         return input.strip().split(',')
 
-    def get_or_create_extended(self, model, **kwargs):
+    def get_or_create_country(self, model, **kwargs):
         try:
             name = kwargs['name']
             obj = model.objects.get(name=name)
+            created = False
+        except model.DoesNotExist:
+            obj = model(**kwargs)
+            obj.clean_fields()
+            obj.save()
+            created = True
+        return (obj, created)
+
+    def get_or_create_city(self, model, **kwargs):
+        try:
+            obj = model.objects.get(**kwargs)
             created = False
         except model.DoesNotExist:
             obj = model(**kwargs)
@@ -52,7 +63,7 @@ class Command(BaseCommand):
                 country_data = {'name': country_name, 'category': category_name,
                                 'currency': CURRENCY}
                 country_obj, country_created = self.\
-                    get_or_create_extended(Country, **country_data)
+                    get_or_create_country(Country, **country_data)
 
                 if country_created:
                     self.stdout.write("Country:{0} is created.".
@@ -60,7 +71,7 @@ class Command(BaseCommand):
 
                 city_data = {'name': city_name, 'country': country_obj}
                 city_obj, city_created = self.\
-                    get_or_create_extended(City, **city_data)
+                    get_or_create_city(City, **city_data)
 
                 if city_created:
                     self.stdout.write("\tCity:{0} is created.".
