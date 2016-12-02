@@ -40,6 +40,8 @@ const UI_DEFAULT = {
   }
 };
 
+const PROFILE_PARAMS = ['first_name', 'last_name', 'iban', 'specialty', 'kind', 'tax_reg_num'];
+
 
 export default DS.Model.extend(Validations, {
   __api__: {
@@ -84,15 +86,16 @@ export default DS.Model.extend(Validations, {
   }),
   'user_group': DS.attr(),
 
-  'FILLED_PARAMS': ['first_name', 'last_name', 'iban', 'specialty', 'kind', 'tax_reg_num'],
+  
 
-  profileIsFilled: Ember.computed('FILLED_PARAMS', function(){
+  profileIsFilled: Ember.computed(...PROFILE_PARAMS, function(){
 
-    var profile = this.getProperties(this.get('FILLED_PARAMS'));
+    var profile = this.getProperties(PROFILE_PARAMS);
 
     return this.get('tax_office').then((value) => {
 
-      for (var key in profile) {     
+      for (var key in profile) { 
+        console.log("These are keys", key, profile[key]);    
         if (profile[key] == null || value == null) {
           return false;
         };
