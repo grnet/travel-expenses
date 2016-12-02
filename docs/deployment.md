@@ -180,8 +180,8 @@ The last thing we have to do is to migrate the initial database schema and data 
 ```
 python manage.py migrate
 python manage.py loaddata texpenses/fixtures/data.json
-python manage.py loadlocations --delete texpenses/data/countries.csv
-python manage.py loadprojects --delete texpenses/data/ListProjects.csv
+python manage.py loadlocations texpenses/data/countries.csv
+python manage.py loadprojects texpenses/data/ListProjects.csv
 python manage.py loadtaxoffices texpenses/data/ListEfories.csv
 python manage.py collectstatic
 ```
