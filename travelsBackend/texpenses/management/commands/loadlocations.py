@@ -28,7 +28,8 @@ class Command(BaseCommand):
 
     def get_or_create_extended(self, model, **kwargs):
         try:
-            obj = model.objects.get(**kwargs)
+            name = kwargs['name']
+            obj = model.objects.get(name=name)
             created = False
         except model.DoesNotExist:
             obj = model(**kwargs)
