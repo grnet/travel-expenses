@@ -94,8 +94,7 @@ export default DS.Model.extend(Validations, {
 
     return this.get('tax_office').then((value) => {
 
-      for (var key in profile) { 
-        console.log("These are keys", key, profile[key]);    
+      for (var key in profile) {    
         if (profile[key] == null || value == null) {
           return false;
         };

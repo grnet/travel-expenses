@@ -1,3 +1,4 @@
+
 import Ember from 'ember';
 
 
@@ -18,7 +19,6 @@ export default Ember.Controller.extend({
             
             let group = profile.get('user_group');
             return profile.get('profileIsFilled').then((profileFilled) => {
-              console.log("profile is filled", profileFilled);
               if (profileFilled) {
                 if (group === "SECRETARY" || group === "CONTROLLER") {
                   this.transitionToRoute('advancedList');
