@@ -9,12 +9,12 @@ class ValidatorTest(TestCase):
 
     def test_date_validaror(self):
         date = datetime.now()
-        self.assertRaises(ValidationError, date_validator, date)
-        self.assertRaises(ValidationError, date_validator, date.date())
+        self.assertRaises(ValidationError, date_validator, 'date', date)
+        self.assertRaises(ValidationError, date_validator, 'date', date.date())
 
         date += timedelta(days=1)
-        date_validator(date)
-        date_validator(None)
+        date_validator('date', date)
+        date_validator('', None)
 
     def test_start_end_date_validator(self):
         start = datetime.now()
