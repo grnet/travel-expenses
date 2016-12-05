@@ -35,7 +35,7 @@ def save(self, request, pk=None):
 
 @detail_route(methods=['post'])
 @transaction.atomic
-@inform_on_action('USER_COMPENSATION_SUBMISSION')
+@inform_on_action('USER_COMPENSATION_SUBMISSION', inform_controller=True)
 def submit(self, request, pk=None):
     instance = self.get_object()
     petition_id = instance.proceed()
@@ -46,7 +46,7 @@ def submit(self, request, pk=None):
 
 @detail_route(methods=['post'])
 @transaction.atomic
-@inform_on_action('USER_COMPENSATION_CANCELLATION')
+@inform_on_action('USER_COMPENSATION_CANCELLATION', inform_controller=True)
 def cancel(self, request, pk=None):
     submitted = self.get_object()
     try:

@@ -36,7 +36,8 @@ def cancel(self, request, pk=None):
 
 @detail_route(methods=['post'])
 @transaction.atomic
-@inform_on_action('PETITION_PRESIDENT_APPROVAL', target_user=True)
+@inform_on_action('PETITION_PRESIDENT_APPROVAL', target_user=True,
+                  inform_controller=True)
 def president_approval(self, request, pk=None):
 
     petition = self.get_object()

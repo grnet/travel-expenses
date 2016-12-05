@@ -11,6 +11,7 @@ from datetime import datetime
 DATE_FORMAT = '%Y-%m-%d'
 SENDER = settings.SERVER_EMAIL
 SECRETARY_EMAIL = settings.SECRETARY_EMAIL
+CONTROLLER_EMAIL = settings.CONTROLLER_EMAIL
 EMAIL_TEMPLATES = {
     'SUBMISSION': ('submission.txt', 'Υποβολή αίτησης μετακίνησης'),
     'CANCELLATION': ('cancellation.txt',
@@ -46,7 +47,7 @@ def send_email(subject, template, params, sender, to, bcc=(), cc=(),
         logger.error(e)
 
 
-def inform(petition, action, target_user):
+def inform(petition, action, target_user, inform_controller):
     """
     Inform about action applied to a specific petition with an informative
     email.
@@ -73,14 +74,17 @@ def inform(petition, action, target_user):
         'reason': petition.reason,
     }
     cc = (petition.user.email,)
-    to = (petition.project.manager_email, SECRETARY_EMAIL)
+    to = (petition.project.manager_email, SECRETARY_EMAIL)\
+        if not inform_controller else (petition.project.manager_email,\
+                                   SECRETARY_EMAIL,CONTROLLER_EMAIL)
     if target_user:
         cc = to
         to = (petition.user.email,)
+
     send_email(subject, template, params, SENDER, to=to, cc=cc)
 
 
-def inform_on_action(action, target_user=False):
+def inform_on_action(action, target_user=False, inform_controller=False):
     def inform_action(func):
         def wrapper(*args, **kwargs):
             obj = args[0]
@@ -92,7 +96,7 @@ def inform_on_action(action, target_user=False):
                                         status.HTTP_200_OK]:
                 if not obj.kwargs:
                     instance = Petition.objects.get(id=response.data['id'])
-                inform(instance, action, target_user)
+                inform(instance, action, target_user, inform_controller)
             return response
         return wrapper
     return inform_action
@@ -102,7 +106,7 @@ def compensation_alert():
 
     now = datetime.now().strftime(DATE_FORMAT)
 
-    approved_petitions=Petition.objects.filter(status=\
+    approved_petitions = Petition.objects.filter(status=\
                                                Petition.APPROVED_BY_PRESIDENT)
 
     for petition in approved_petitions:

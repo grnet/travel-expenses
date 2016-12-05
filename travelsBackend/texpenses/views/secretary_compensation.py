@@ -64,7 +64,8 @@ def submit(self, request, pk=None):
 
 @detail_route(methods=['post'])
 @transaction.atomic
-@inform_on_action('COMPENSATION_PRESIDENT_APPROVAL', target_user=True)
+@inform_on_action('COMPENSATION_PRESIDENT_APPROVAL', target_user=True,
+                  inform_controller=True)
 def president_approval(self, request, pk=None):
 
     petition = self.get_object()
@@ -84,7 +85,7 @@ def president_approval(self, request, pk=None):
 
 @detail_route(methods=['post'])
 @transaction.atomic
-@inform_on_action('CANCELLATION')
+@inform_on_action('CANCELLATION', inform_controller=True)
 def cancel(self, request, pk=None):
     submitted = self.get_object()
     try:

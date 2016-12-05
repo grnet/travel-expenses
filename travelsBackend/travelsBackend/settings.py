@@ -29,6 +29,7 @@ TEMPLATE_DIRS = ()
 MEDIA_ROOT = 'uploads'
 MAX_HOLIDAY_DAYS = 60
 SECRETARY_EMAIL = 'test@email.com'
+CONTROLLER_EMAIL = 'controller@email.com'
 
 DEFAULT_CURRENCY = 'EUR'
 HOST_URL = "http://localhost:8000/"
