@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from rest_framework.exceptions import PermissionDenied
-from texpenses.models import Petition, TravelInfo, SecretaryPetitionSubmission
+from texpenses.models import Petition
 
 EXPOSED_METHODS = [
     'create',
@@ -28,13 +28,12 @@ def create(self, validated_data):
     check_creation_allowed(validated_data)
     travel_info = validated_data.pop('travel_info', [])
     petition = self.Meta.model.objects.create(**validated_data)
+    travel_info_model = self.fields['travel_info'].child.Meta.model
+
     for travel in travel_info:
-        travel_obj = TravelInfo(travel_petition=petition, **travel)
+        travel_obj = travel_info_model(travel_petition=petition, **travel)
         travel_obj.save(new_object=True)
         petition.travel_info.add(travel_obj)
-        # if self.Meta.model is SecretaryPetitionSubmission:
-            # petition.user.trip_days_left -= petition.transport_days()
-            # petition.user.save()
     return petition
 
 
@@ -118,8 +117,10 @@ def validate(self, attrs):
     model = self.Meta.model
     nested_attrs = attrs.pop('travel_info', [])
     total_transport_days = 0
+    travel_info_model = self.fields['travel_info'].child.Meta.model
     for nested in nested_attrs:
-        nested_inst = TravelInfo(travel_petition=model(**attrs), **nested)
+        nested_inst = travel_info_model(travel_petition=model(**attrs),
+                                        **nested)
         nested_inst.clean()
         total_transport_days += nested_inst.transport_days_manual\
             if nested_inst.transport_days_manual\

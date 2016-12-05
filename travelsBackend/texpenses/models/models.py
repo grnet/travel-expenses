@@ -252,8 +252,8 @@ class TravelInfo(Accommodation, Transportation):
     Travel information are associated with the duration, departure and arrival
     point, transportation, accommodation, etc.
     """
-    depart_date = models.DateTimeField(null=True, validators=[date_validator])
-    return_date = models.DateTimeField(null=True, validators=[date_validator])
+    depart_date = models.DateTimeField(null=True)
+    return_date = models.DateTimeField(null=True)
     departure_point = models.ForeignKey(
         City, blank=True, null=True, related_name='travel_departure_point')
     arrival_point = models.ForeignKey(City, blank=True, null=True,
@@ -461,6 +461,17 @@ class TravelInfo(Accommodation, Transportation):
 
 class TravelInfoUserSubmission(TravelInfo):
 
+    def clean(self):
+        if self.depart_date and self.return_date \
+                and self.travel_petition.task_end_date:
+            dates = ((self.depart_date, self.return_date),
+                     (self.depart_date, self.travel_petition.task_end_date))
+            labels = (('depart', 'return'), ('depart', 'task end'))
+            date_validator('depart_date', self.depart_date)
+            date_validator('return_date', self.return_date)
+            start_end_date_validator(dates, labels)
+        self.validate_overnight_cost()
+
     class Meta:
         proxy = True
 
@@ -481,6 +492,17 @@ class TravelInfoUserSubmission(TravelInfo):
 
 
 class TravelInfoCompensation(TravelInfo):
+
+    def clean(self):
+        if self.depart_date and self.return_date \
+                and self.travel_petition.task_end_date:
+            dates = ((self.depart_date, self.return_date),
+                     (self.depart_date, self.travel_petition.task_end_date))
+            labels = (('depart', 'return'), ('depart', 'task end'))
+            date_validator('depart_date', self.depart_date)
+            date_validator('return_date', self.return_date)
+            start_end_date_validator(dates, labels)
+        self.validate_overnight_cost()
 
     class Meta:
         proxy = True
@@ -691,9 +713,9 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     user = models.ForeignKey(UserProfile, blank=False)
     task_start_date = models.DateTimeField(
-        blank=True, null=True, validators=[date_validator])
+        blank=True, null=True)
     task_end_date = models.DateTimeField(
-        blank=True, null=True, validators=[date_validator])
+        blank=True, null=True)
     created = models.DateTimeField(blank=False, default=timezone.now())
     updated = models.DateTimeField(blank=False, default=timezone.now())
     deleted = models.BooleanField(default=False, db_index=True)
