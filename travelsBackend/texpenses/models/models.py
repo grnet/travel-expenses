@@ -1088,6 +1088,18 @@ class UserPetitionSubmission(Petition):
         viewset_code = 'texpenses.views'
         resource_name = 'petition/user/submitted'
 
+    def clean(self):
+        """
+        Overrides `clean` method and checks if specified dates are valid.
+        """
+        super(Petition, self).clean()
+        if self.task_start_date and self.task_end_date:
+            start_end_date_validator(
+                ((self.task_start_date, self.task_end_date),),
+                (('task start', 'task end'),))
+            date_validator('Task start', self.task_start_date)
+            date_validator('Task end', self.task_end_date)
+
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
         try:
