@@ -953,8 +953,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
         """
         return sum(travel_obj.compensation_cost()
-                   for travel_obj in self.travel_info.all()) + \
-            (self.additional_expenses or self.additional_expenses_initial)
+                   for travel_obj in self.travel_info.all())
 
     def total_cost(self):
         """
@@ -966,7 +965,9 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         transportation_cost = sum(travel.transportation_cost
                                   for travel in self.travel_info.all())
         return sum([transportation_cost, self.participation_cost,
-                    self.compensation_final(), self.overnights_sum_cost()])
+                    self.compensation_final(), self.overnights_sum_cost(),
+                    self.additional_expenses or
+                    self.additional_expenses_initial])
 
     def __unicode__(self):
         return str(self.id) + "-" + self.project.name
