@@ -467,8 +467,8 @@ class TravelInfoUserSubmission(TravelInfo):
             dates = ((self.depart_date, self.return_date),
                      (self.depart_date, self.travel_petition.task_end_date))
             labels = (('depart', 'return'), ('depart', 'task end'))
-            date_validator('depart_date', self.depart_date)
-            date_validator('return_date', self.return_date)
+            date_validator('Departure date', self.depart_date)
+            date_validator('Return date', self.return_date)
             start_end_date_validator(dates, labels)
         self.validate_overnight_cost()
 
