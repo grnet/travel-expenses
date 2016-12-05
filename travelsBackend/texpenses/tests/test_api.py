@@ -88,7 +88,7 @@ class APIPetitionTest(APITestCase):
             password='test', kind='1',
             specialty='1', tax_reg_num=011111111,
             tax_office=self.tax_office, user_category='A',
-            trip_days_left=5)
+            trip_days_left=10)
         self.city = City.objects.create(
             name='Athens', country=Country.objects.create(name='Greece'))
         self.project = Project.objects.create(name='Test Project',
@@ -292,7 +292,7 @@ class APIPetitionTest(APITestCase):
             kind='1',
             iban='GR4902603280000910200635494',
             password='test', specialty='1', tax_reg_num=135362340,
-            tax_office=self.tax_office, user_category='A', trip_days_left=5)
+            tax_office=self.tax_office, user_category='A', trip_days_left=10)
         self.city = City.objects.create(
             name='Amsterdam', country=Country.objects.create(name='Holland'))
         self.project = Project.objects.create(name='Test Project 2',
