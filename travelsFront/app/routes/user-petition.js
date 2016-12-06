@@ -60,7 +60,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
       'specialty',
       'kind',
       'tax_reg_num',
-      'tax_office',
       'user_category'
     ];
 
@@ -77,7 +76,10 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
       //set some default values to user petition
       self.store.findRecord('city', ENV.default_city).then((defaultCity) => {
         petition.set('departure_point', defaultCity);
-        resolve(petition);
+        profile.get('tax_office').then((office) => {
+          petition.set('tax_office',office);
+          resolve(petition);
+        });
       }).catch(function() {
         resolve(petition);
       });
