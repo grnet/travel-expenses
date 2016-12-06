@@ -138,9 +138,9 @@ export const UIS = {
       {
         'label': 'travel_report.label',
         'fields': [['travel_files', {attrs:{disabled: true}}], ['travel_report', {attrs:{disabled: true}}], 
-        ['additional_expenses', {label:'additional_expenses_user.label', attrs:{disabled: true}}], 
-        ['additional_expenses_local_currency', {attrs:{disabled: true}}], 
-        ['additional_expenses_description', {label:'additional_expenses_description_user.label', attrs:{disabled: true}}]]
+        ['additional_expenses', {label:'additional_expenses_user.label'}], 
+        'additional_expenses_local_currency', 
+        ['additional_expenses_description', {label:'additional_expenses_description_user.label'}]]
       },
       {
         'label': 'manager_approval.label',
@@ -161,7 +161,8 @@ export const UIS = {
         ['accommodation_local_currency', {attrs:{disabled: true}}], 'accommodation_payment_way', 'accommodation_payment_description', 
         'participation_cost', ['participation_local_cost', {label:'participation_local_cost_user.label', attrs:{disabled: true}}], 
         ['participation_local_currency', {attrs:{disabled: true}}], 'participation_payment_way', 'participation_payment_description', 
-        'additional_expenses_initial', 'additional_expenses_initial_description', 'meals', 'non_grnet_quota', ]
+        ['additional_expenses_initial', {attrs:{disabled: true}}], ['additional_expenses_initial_description', {attrs:{disabled: true}}], 
+        'meals', 'non_grnet_quota', ]
       },
       {
         'label': 'controller_data.label',
