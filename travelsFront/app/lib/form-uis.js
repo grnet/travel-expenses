@@ -164,7 +164,7 @@ export const UIS = {
         'additional_expenses_initial', 'additional_expenses_initial_description', 'meals', 'non_grnet_quota', ]
       },
       {
-        'label': 'secretary_data.label',
+        'label': 'controller_data.label',
         'fields': [['movement_id', {attrs:{disabled: true}}], ['trip_days_before', {attrs:{disabled: true}}], 
         ['expenditure_date_protocol', {attrs:{disabled: true}}], ['expenditure_protocol', {attrs:{disabled: true}}], 
         ['movement_date_protocol', {attrs:{disabled: true}}], ['movement_protocol', {attrs:{disabled: true}}],
