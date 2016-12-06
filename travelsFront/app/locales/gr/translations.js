@@ -150,8 +150,9 @@ export default {
  	'signup.title': 'Δημιουργία Λογαριασμού',
  	'profile.title': 'Προφίλ',
   'password_change.title': 'Αλλαγή Κωδικού Πρόσβασης',
- 	'petition_create.title': 'Δημιουργία Αίτησης',
- 	'petition_edit.title': 'Επεξεργασία Αίτησης',
+ 	'petition_create.title': 'Δημιουργία Αίτησης Μετακίνησης',
+ 	'petition_edit.title': 'Επεξεργασία Αίτησης Μετακίνησης',
+  'compensation_edit.title': 'Επεξεργασία Αίτησης Αποζημίωσης',
  	'petition_list.title': 'Λίστα Αιτήσεων',
   'filters.title': 'Φίλτρα Αναζήτησης',
   //travel_report labels
