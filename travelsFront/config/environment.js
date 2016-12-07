@@ -1,10 +1,13 @@
 /* jshint node: true */
+var API_EP = 'http://localhost:8000/api';
+var APPLICATION_URL_PREFIX='/app/';
+var choices = require('../../resources/common');
 
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'travels-front',
     environment: environment,
-    rootURL: '/',
+    baseURL: '/ui/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
@@ -20,6 +23,8 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+      backend_host: API_EP,
+      resource_choices: choices,
     }
   };
 
