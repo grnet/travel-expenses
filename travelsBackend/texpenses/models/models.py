@@ -307,6 +307,17 @@ class TravelInfo(Accommodation, Transportation):
         self.validate_overnight_cost()
         super(TravelInfo, self).clean()
 
+    def clean_extended(self):
+        if self.depart_date and self.return_date \
+                and self.travel_petition.task_end_date:
+            dates = ((self.depart_date, self.return_date),
+                     (self.depart_date, self.travel_petition.task_end_date))
+            labels = (('depart', 'return'), ('depart', 'task end'))
+            date_validator('depart_date', self.depart_date)
+            date_validator('return_date', self.return_date)
+            start_end_date_validator(dates, labels)
+        self.validate_overnight_cost()
+
     def _set_travel_manual_fields(self):
         overnight_days = self.overnights_num_proposed(
             self.travel_petition.task_start_date,
@@ -390,12 +401,12 @@ class TravelInfo(Accommodation, Transportation):
                 and task_start_date and task_end_date):
             return 0
 
-        first_day = task_start_date - timedelta(days=1)\
-            if (task_start_date - self.depart_date).days >= 1\
+        first_day = task_start_date - timedelta(days=1) \
+            if (task_start_date - self.depart_date).days >= 1 \
             else self.depart_date
         last_day = task_end_date + timedelta(days=1) if (
             self.return_date - task_end_date).days >= 1 else self.return_date
-        return (last_day.date() - first_day.date()).days\
+        return (last_day.date() - first_day.date()).days \
             if first_day < last_day else 0
 
     def overnight_cost(self):
@@ -430,11 +441,11 @@ class TravelInfo(Accommodation, Transportation):
         task_start_date = self.travel_petition.task_start_date
         task_end_date = self.travel_petition.task_end_date
         if task_end_date is None or \
-                self.return_date is None\
-                or task_start_date is None\
+                self.return_date is None \
+                or task_start_date is None \
                 or self.depart_date is None:
             return False
-        return task_end_date.date() == self.return_date.date()\
+        return task_end_date.date() == self.return_date.date() \
             == task_start_date.date() == self.depart_date.date()
 
     def compensation_days_proposed(self):
@@ -453,7 +464,7 @@ class TravelInfo(Accommodation, Transportation):
             self.compensation_level()
         if self.same_day_return_task():
             max_compensation *= 0.5
-        compensation_proportion = common.COMPENSATION_PROPORTION[self.meals]\
+        compensation_proportion = common.COMPENSATION_PROPORTION[self.meals] \
             if self.meals else 1
         return max_compensation * compensation_proportion * (
             self.travel_petition.grnet_quota() / percentage)
@@ -462,15 +473,7 @@ class TravelInfo(Accommodation, Transportation):
 class TravelInfoUserSubmission(TravelInfo):
 
     def clean(self):
-        if self.depart_date and self.return_date \
-                and self.travel_petition.task_end_date:
-            dates = ((self.depart_date, self.return_date),
-                     (self.depart_date, self.travel_petition.task_end_date))
-            labels = (('depart', 'return'), ('depart', 'task end'))
-            date_validator('Departure date', self.depart_date)
-            date_validator('Return date', self.return_date)
-            start_end_date_validator(dates, labels)
-        self.validate_overnight_cost()
+        self.clean_extended()
 
     class Meta:
         proxy = True
@@ -494,15 +497,7 @@ class TravelInfoUserSubmission(TravelInfo):
 class TravelInfoCompensation(TravelInfo):
 
     def clean(self):
-        if self.depart_date and self.return_date \
-                and self.travel_petition.task_end_date:
-            dates = ((self.depart_date, self.return_date),
-                     (self.depart_date, self.travel_petition.task_end_date))
-            labels = (('depart', 'return'), ('depart', 'task end'))
-            date_validator('depart_date', self.depart_date)
-            date_validator('return_date', self.return_date)
-            start_end_date_validator(dates, labels)
-        self.validate_overnight_cost()
+        self.clean_extended()
 
     class Meta:
         proxy = True
