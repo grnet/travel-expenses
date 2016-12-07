@@ -7,7 +7,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'travels-front',
     environment: environment,
-    baseURL: '/ui/',
+    rootURL: '/ui/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
