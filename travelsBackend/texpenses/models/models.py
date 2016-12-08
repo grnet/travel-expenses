@@ -310,16 +310,16 @@ class TravelInfo(Accommodation, Transportation):
         self.validate_overnight_cost(petition)
         super(TravelInfo, self).clean()
 
-    def clean_extended(self):
+    def clean_extended(self, petition):
         if self.depart_date and self.return_date \
-                and self.travel_petition.task_end_date:
+                and petition.task_end_date:
             dates = ((self.depart_date, self.return_date),
-                     (self.depart_date, self.travel_petition.task_end_date))
+                     (self.depart_date, petition.task_end_date))
             labels = (('depart', 'return'), ('depart', 'task end'))
             date_validator('depart_date', self.depart_date)
             date_validator('return_date', self.return_date)
             start_end_date_validator(dates, labels)
-        self.validate_overnight_cost()
+        self.validate_overnight_cost(petition)
 
     def _set_travel_manual_fields(self):
 
@@ -482,8 +482,8 @@ class TravelInfo(Accommodation, Transportation):
 
 class TravelInfoUserSubmission(TravelInfo):
 
-    def clean(self):
-        self.clean_extended()
+    def clean(self, petition):
+        self.clean_extended(petition)
 
     class Meta:
         proxy = True
@@ -506,8 +506,8 @@ class TravelInfoUserSubmission(TravelInfo):
 
 class TravelInfoCompensation(TravelInfo):
 
-    def clean(self):
-        self.clean_extended()
+    def clean(self, petition):
+        self.clean_extended(petition)
 
     class Meta:
         proxy = True
