@@ -74,48 +74,10 @@ export const UIS = {
         'fields': ['travel_files', 'travel_report', 'additional_expenses', 'additional_expenses_local_currency', 'additional_expenses_description']
       },
       {
-        'label': 'manager_approval.label',
-        'fields': [['manager_travel_approval', {attrs:{disabled: true}}], ['manager_final_approval', {attrs:{disabled: true}}],]
-      },
-      {
-        'label': 'user_data.label',
-        'fields': ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'user_category']
-      },
-      {
         'label': 'travel_data.label',
         'fields': [['dse', {attrs:{disabled: true}}], ['project', {attrs:{disabled: true}}], ['reason', {attrs:{disabled: true}}], 
-        ['departure_point', {attrs:{disabled: true}}], ['arrival_point', {attrs:{disabled: true}}], 'movement_category', 'country_category',
-        ['task_start_date', {attrs:{disabled: true}}], ['task_end_date', {attrs:{disabled: true}}], ['depart_date', {attrs:{disabled: true}}], 
-        ['return_date', {attrs:{disabled: true}}], ['means_of_transport', {attrs:{disabled: true}}], ['transportation_cost', {attrs:{disabled: true}}],
-        ['transportation_payment_way', {attrs:{disabled: true}}], ['transportation_payment_description', {attrs:{disabled: true}}], 
-        ['accommodation_cost', {attrs:{disabled: true}}], 
-        ['accommodation_local_cost', {attrs:{disabled: true, label:'accommodation_local_cost_user.label'}}], 
-        ['accommodation_local_currency', {attrs:{disabled: true}}], 
-        ['accommodation_payment_way', {attrs:{disabled: true}}], ['accommodation_payment_description', {attrs:{disabled: true}}], 
-        ['participation_cost', {attrs:{disabled: true}}],
-        ['participation_local_cost', {attrs:{disabled: true, label:'participation_local_cost_user.label'}}], 
-        ['participation_local_currency', {attrs:{disabled: true}}], 
-        ['participation_payment_way', {attrs:{disabled: true}}], ['participation_payment_description', {attrs:{disabled: true}}], 
-        ['additional_expenses_initial',{attrs:{disabled: true}}], 
-        ['additional_expenses_initial_description', {attrs:{disabled: true}}], ['meals', {attrs:{disabled: true}}], 
-        ['non_grnet_quota', {attrs:{disabled: true}}], 
-        ['user_recommendation',{attrs:{disabled: true}}], ['secretary_recommendation', {attrs:{disabled: true}}]]
-      },
-      {
-        'label': 'secretary_data.label',
-        'fields': [['movement_id', {attrs:{disabled: true}}], ['trip_days_before', {attrs:{disabled: true}}], 
-        ['expenditure_date_protocol', {attrs:{disabled: true}}], ['expenditure_protocol', {attrs:{disabled: true}}], 
-        ['movement_date_protocol', {attrs:{disabled: true}}], ['movement_protocol', {attrs:{disabled: true}}]]
-      },
-      {
-        'label': 'computed_data.label',
-        'fields': [['transport_days_manual', {attrs:{disabled: true}}], ['transport_days_proposed', {attrs:{disabled: true}}], 
-        ['overnights_num_manual', {attrs:{disabled: true}}], ['overnights_proposed', {attrs:{disabled: true}}], 
-        ['compensation_days_manual', {attrs:{disabled: true}}], ['compensation_days_proposed', {attrs:{disabled: true}}], 
-        ['trip_days_before', {attrs:{disabled: true}}], ['trip_days_after',{attrs:{disabled: true}}], 
-        ['same_day_return_task', {attrs:{disabled: true}}], ['overnights_sum_cost', {attrs:{disabled: true}}], 
-        ['compensation_final', {attrs:{disabled: true}}], ['compensation_level', {attrs:{disabled: true}}], 
-        ['total_cost', {attrs:{disabled: true}}]]
+        ['departure_point', {attrs:{disabled: true}}], ['arrival_point', {attrs:{disabled: true}}], ['task_start_date', {attrs:{disabled: true}}], 
+        ['task_end_date', {attrs:{disabled: true}}], ['depart_date', {attrs:{disabled: true}}], ['return_date', {attrs:{disabled: true}}]]
       },
     ],
     layout: {
