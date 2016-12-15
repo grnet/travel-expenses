@@ -8,9 +8,7 @@ export const UIS = {
       {
         'label': 'travel_data.label',
         'fields': [['dse',{attrs:{disabled: true}}], 'project', 'reason', 'departure_point', 'arrival_point','movement_category', 'country_category',
-        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'means_of_transport', 'transportation_cost', 'meals',
-        'accommodation_local_cost', 'accommodation_local_currency', 'additional_expenses_initial', 'participation_local_cost', 
-        'participation_local_currency', 'additional_expenses_initial_description', 'user_recommendation']
+        'task_start_date', 'task_end_date', 'user_recommendation']
       },
     ],
     layout: {
