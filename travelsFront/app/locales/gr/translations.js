@@ -158,7 +158,7 @@ export default {
   //travel_report labels
   'travel_report.label': 'Απολογισμός Ταξιδιού',
   'travel_files.label': 'Ανέβασμα αρχείων',
-  'travel_report.label': 'Ατζέντα',
+  'travel_report.label': 'Απολογισμός Μετακίνησης',
   'additional_expenses.label': 'Λοιπά Έξοδα Μετακίνησης',
   'additional_expenses_local_currency.label': 'Νόμισμα',
   'additional_expenses_description.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή',
