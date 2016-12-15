@@ -62,9 +62,7 @@ export default DS.Model.extend(Validations, {
       disabled: true
     }
   }),
-	'email': DS.attr({
-    hint: 'hint_email.label'
-  }),
+	'email': DS.attr(),
 	'first_name': DS.attr(),
 	'last_name': DS.attr(), 
 	'iban': DS.attr(),
