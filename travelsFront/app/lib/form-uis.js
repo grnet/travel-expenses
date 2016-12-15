@@ -70,14 +70,14 @@ export const UIS = {
   "compensation_user": {
     fieldsets: [
       {
-        'label': 'travel_report.label',
-        'fields': ['travel_files', 'travel_report', 'additional_expenses', 'additional_expenses_local_currency', 'additional_expenses_description']
-      },
-      {
         'label': 'travel_data.label',
         'fields': [['dse', {attrs:{disabled: true}}], ['project', {attrs:{disabled: true}}], ['reason', {attrs:{disabled: true}}], 
         ['departure_point', {attrs:{disabled: true}}], ['arrival_point', {attrs:{disabled: true}}], ['task_start_date', {attrs:{disabled: true}}], 
         ['task_end_date', {attrs:{disabled: true}}], ['depart_date', {attrs:{disabled: true}}], ['return_date', {attrs:{disabled: true}}]]
+      },    
+      {
+        'label': 'travel_report.label',
+        'fields': ['travel_files', 'travel_report', 'additional_expenses', 'additional_expenses_local_currency', 'additional_expenses_description']
       },
     ],
     layout: {
