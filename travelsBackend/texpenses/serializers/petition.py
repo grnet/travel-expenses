@@ -66,7 +66,6 @@ def update(self, instance, validated_data):
     update of objects.
     """
     travel_info = validated_data.pop('travel_info', [])
-    validated_data.pop('dse', None)
     for k, v in validated_data.iteritems():
         setattr(instance, k, v)
 
