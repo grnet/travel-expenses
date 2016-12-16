@@ -199,7 +199,6 @@ class APIPetitionTest(APITestCase):
                     'task_end_date': self.task_end_date,
                     'travel_info': travel_info,
                     'user': self.user_url,
-                    'dse': None,
                     'movement_id': 'movement_id'}
             data.update(EXTRA_DATA[model])
             response = self.client.post(url, data, format='json')
