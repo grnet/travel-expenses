@@ -710,11 +710,9 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     user_category = models.CharField(
         max_length=1, choices=common.USER_CATEGORIES,
         blank=False, default='B')
-    #
 
     dse = models.IntegerField(
         blank=False, validators=[MinValueValidator(1)])
-    # travel_info = models.ManyToManyField(TravelInfo, blank=True)
 
     user = models.ForeignKey(UserProfile, blank=False)
     task_start_date = models.DateTimeField(

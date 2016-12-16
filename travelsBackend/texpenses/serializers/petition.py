@@ -21,9 +21,6 @@ def create(self, validated_data):
     models and it actually implements the nested serialization for the
     creation of objects.
 
-    There is an outlier case: When a `SecretaryPetitionSubmission` is created,
-    then the available number user's trip days is updated accordingly, by
-    removing the total transport days of trip.
     """
     check_creation_allowed(validated_data)
     travel_info = validated_data.pop('travel_info', [])
