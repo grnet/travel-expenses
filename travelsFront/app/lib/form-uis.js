@@ -114,11 +114,9 @@ export const UIS = {
         ['departure_point', {attrs:{disabled: true}}], ['arrival_point', {attrs:{disabled: true}}], 'movement_category', 'country_category',
         ['task_start_date', {attrs:{disabled: true}}], ['task_end_date', {attrs:{disabled: true}}], ['depart_date', {attrs:{disabled: true}}], 
         ['return_date', {attrs:{disabled: true}}], ['means_of_transport', {attrs:{disabled: true}}], 'transportation_cost',
-        'transportation_payment_way', 'transportation_payment_description', 'accommodation_cost', 
-        ['accommodation_local_cost', {label:'accommodation_local_cost_user.label', attrs:{disabled: true}}], 
+        'transportation_payment_way', 'transportation_payment_description', 'accommodation_cost',
         ['accommodation_local_currency', {attrs:{disabled: true}}], 'accommodation_payment_way', 'accommodation_payment_description', 
-        'participation_cost', ['participation_local_cost', {label:'participation_local_cost_user.label', attrs:{disabled: true}}], 
-        ['participation_local_currency', {attrs:{disabled: true}}], 'participation_payment_way', 'participation_payment_description', 
+        'participation_cost', 'participation_local_currency', 'participation_payment_way', 'participation_payment_description', 
         ['additional_expenses_initial', {attrs:{disabled: true}}], ['additional_expenses_initial_description', {attrs:{disabled: true}}], 
         'meals', 'non_grnet_quota', ]
       },
@@ -148,8 +146,8 @@ export const UIS = {
         50, 50, 50, 50, 50, 50, 50, 50, 50, 50,      //40
         50, 50, 50, 50, 50, 50, 50, 50, 50, 50,      //50
         50, 50, 50, 50, 50, 50, 100, 50, 50, 50,     //60 
-        50, 50, 50, 50, 40, 10, 50, 50, 100, 40,     //70
-        50, 50, 50, 50, 50, 50, 50, 40, 10,          //80                
+        50, 50, 50, 50, 50, 50, 50, 50, 100, 40,     //70
+        50, 50, 50, 50, 50, 50, 50, 50, 50,          //80                
       ] 
     }
   },
