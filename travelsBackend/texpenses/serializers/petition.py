@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from rest_framework.exceptions import PermissionDenied
+from django.db.models import Q
 from texpenses.models import Petition
 
 EXPOSED_METHODS = [
@@ -48,10 +49,28 @@ def check_creation_allowed(data):
     dse = data.get('dse', None)
     if not dse:
         return
-    exists = Petition.objects.filter(
-        dse=dse, status__lt=data['status'], user=data['user'],
-        deleted=False).exists()
-    if not exists:
+
+    relative_petition_filter = {'dse': dse, 'status__lt': data['status'],
+                                'user': data['user'], 'deleted': False,
+                                'task_start_date': data['task_start_date'],
+                                'task_end_date': data['task_end_date']}
+
+    relative_petition_exclude_filter = {'dse': dse, 'user': data['user'],
+                                        'task_start_date':
+                                        data['task_start_date'],
+                                        'task_end_date': data['task_end_date']}
+
+    relative_records = Petition.objects.filter(**relative_petition_filter)
+
+    dse_already_used = Petition.objects.\
+        exclude(**relative_petition_exclude_filter).filter(dse=dse)
+
+    if dse_already_used.exists():
+        raise PermissionDenied("A petition with dse:{0}, already exists."
+                               ", with data:{1}".
+                               format(dse, dse_already_used))
+
+    if not relative_records.exists():
         raise PermissionDenied('Cannot create petition with dse %s' % (
             dse))
 
