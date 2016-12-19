@@ -115,7 +115,7 @@ export const UIS = {
         ['task_start_date', {attrs:{disabled: true}}], ['task_end_date', {attrs:{disabled: true}}], ['depart_date', {attrs:{disabled: true}}], 
         ['return_date', {attrs:{disabled: true}}], ['means_of_transport', {attrs:{disabled: true}}], 'transportation_cost',
         'transportation_payment_way', 'transportation_payment_description', 'accommodation_cost',
-        ['accommodation_local_currency', {attrs:{disabled: true}}], 'accommodation_payment_way', 'accommodation_payment_description', 
+        'accommodation_local_currency', 'accommodation_payment_way', 'accommodation_payment_description', 
         'participation_cost', 'participation_local_currency', 'participation_payment_way', 'participation_payment_description', 
         ['additional_expenses_initial', {attrs:{disabled: true}}], ['additional_expenses_initial_description', {attrs:{disabled: true}}], 
         'meals', 'non_grnet_quota', ]
