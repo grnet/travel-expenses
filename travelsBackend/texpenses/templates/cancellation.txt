@@ -1,3 +1,9 @@
-Ο χρήστης {{ first_name }} {{ last_name }} αναίρεσε την Αίτηση Μετακίνησης με κωδικό {{ dse }} στο
-πλαίσιο του έργου {{ project_name }} από {{ departure_point }} σε {{ arrival_point }}
-από {{ start_date }} έως {{ end_date }} με σκοπό '{{ reason }}'.
+Ο χρήστης {{ first_name }} {{ last_name }} αναίρεσε την Αίτηση Μετακίνησης με κωδικό {{ dse }}
+και Στοιχεία Μετακίνησης:
+
+- Έργο: {{ project_name }}
+- Αναχώρηση: {{ departure_point }}
+- Άφιξη: {{ arrival_point }}
+- Έναρξη Εργασιών: {{ start_date }}
+- Λήξη Εργασιών: {{ end_date }}
+- Αιτιολογία Μετακίνησης: '{{ reason }}'

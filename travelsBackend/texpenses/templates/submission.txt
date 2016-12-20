@@ -1,3 +1,10 @@
 Ο χρήστης {{ first_name }} {{ last_name }} υπέβαλε Αίτηση Μετακίνησης με κωδικό {{ dse }} στο
-πλαίσιο του έργου {{ project_name }} από {{ departure_point }} σε {{ arrival_point }}
-από {{ start_date }} έως {{ end_date }} με σκοπό '{{ reason }}'.
+πλαίσιο του έργου {{ project_name }}.
+
+Στοιχεία Μετακίνησης:
+
+- Αναχώρηση: {{ departure_point }}
+- Άφιξη: {{ arrival_point }}
+- Έναρξη Εργασιών: {{ start_date }}
+- Λήξη Εργασιών: {{ end_date }}
+- Αιτιολογία Μετακίνησης: '{{ reason }}'
