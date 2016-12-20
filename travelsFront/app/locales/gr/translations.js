@@ -58,7 +58,7 @@ export default {
  	'dse.label': 'ΔΣΕ',
  	'project.label': 'Έργο - Υπεύθυνος Έργου',
  	'reason.label': 'Αιτιολογία Μετακίνησης',
- 	'departure_point.label': 'Τόπος Μετακίνησης - Από:',
+ 	'departure_point.label': 'Τόπος Αναχώρησης - Από:',
  	'arrival_point.label': 'Τόπος Προορισμού - Προς:',
  	'movement_category.label': 'Κατηγορία Μετακίνησης',
  	'country_category.label': 'Κατηγορία Χώρας',
