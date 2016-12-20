@@ -997,7 +997,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
                     self.additional_expenses_initial])
 
     def __unicode__(self):
-        return str(self.id) + "-" + self.project.name
+        return str(self.dse) + "-" + self.project.name + '-' + str(self.id)
 
 
 class PetitionManager(models.Manager):
