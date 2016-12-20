@@ -39,9 +39,10 @@ logger = logging.getLogger(__name__)
 def send_email(subject, template, params, sender, to, bcc=(), cc=(),
                fail_silently=True):
     content = render_to_string(template, params)
+    prefix = '<Travel Expenses> '
     try:
         EmailMessage(
-            subject, content, sender, to=to, bcc=bcc, cc=cc,
+            prefix + subject, content, sender, to=to, bcc=bcc, cc=cc,
             connection=get_connection()).send(fail_silently)
     except Exception as e:
         logger.error(e)
