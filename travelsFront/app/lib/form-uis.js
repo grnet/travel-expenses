@@ -8,7 +8,7 @@ export const UIS = {
       {
         'label': 'travel_data.label',
         'fields': [['dse',{attrs:{disabled: true}}], 'project', 'reason', 'departure_point', 'arrival_point','movement_category', 'country_category',
-        'task_start_date', 'task_end_date', 'user_recommendation']
+        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'user_recommendation']
       },
     ],
     layout: {
@@ -34,11 +34,10 @@ export const UIS = {
       {
         'label': 'travel_data.label',
         'fields': [['dse',{attrs:{disabled: true}}], 'project', 'reason', 'departure_point', 'arrival_point','movement_category', 'country_category',
-        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'means_of_transport', 'transportation_cost',
-        'transportation_payment_way', 'transportation_payment_description', 'accommodation_cost', 'accommodation_local_currency', 
-        'accommodation_payment_way', 'accommodation_payment_description', 'participation_cost', 'participation_local_currency', 
-        'participation_payment_way', 'participation_payment_description', 'additional_expenses_initial', 
-        'additional_expenses_initial_description', 'meals', 'non_grnet_quota', 
+        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'means_of_transport', 'transportation_cost', 'transportation_payment_way', 
+        'transportation_payment_description', 'accommodation_cost', 'accommodation_local_cost', 'accommodation_local_currency', 'accommodation_payment_way', 
+        'accommodation_payment_description', 'participation_cost', 'participation_local_cost', 'participation_local_currency', 'participation_payment_way', 
+        'participation_payment_description', 'additional_expenses_initial', 'additional_expenses_initial_description', 'meals', 'non_grnet_quota', 
         ['user_recommendation',{attrs:{readonly: true}}], 'secretary_recommendation']
       },
       {
@@ -60,8 +59,8 @@ export const UIS = {
         100, 50, 50, 50, 50, 50, 50, 50, 50, 50,     //30
         50, 50, 50, 50, 100, 100, 50, 50, 50, 50,    //40
         50, 50, 50, 50, 50, 50, 50, 100, 50, 50,     //50 
-        50, 50, 50, 50, 50, 50, 50, 50, 50, 100,     //60 
-        50, 50, 50, 50, 50, 100, 100, 100, 50, 50    //70 
+        50, 50, 50, 50, 50, 40, 10, 50, 50, 100,     //60 
+        50, 50, 50, 50, 50, 100, 100, 100, 40, 10    //70 
       ] 
     }
   },
@@ -114,9 +113,9 @@ export const UIS = {
         ['departure_point', {attrs:{disabled: true}}], ['arrival_point', {attrs:{disabled: true}}], 'movement_category', 'country_category',
         ['task_start_date', {attrs:{disabled: true}}], ['task_end_date', {attrs:{disabled: true}}], ['depart_date', {attrs:{disabled: true}}], 
         ['return_date', {attrs:{disabled: true}}], ['means_of_transport', {attrs:{disabled: true}}], 'transportation_cost',
-        'transportation_payment_way', 'transportation_payment_description', 'accommodation_cost',
+        'transportation_payment_way', 'transportation_payment_description', 'accommodation_cost', 'accommodation_local_cost',
         'accommodation_local_currency', 'accommodation_payment_way', 'accommodation_payment_description', 
-        'participation_cost', 'participation_local_currency', 'participation_payment_way', 'participation_payment_description', 
+        'participation_cost', 'participation_local_cost', 'participation_local_currency', 'participation_payment_way', 'participation_payment_description', 
         ['additional_expenses_initial', {attrs:{disabled: true}}], ['additional_expenses_initial_description', {attrs:{disabled: true}}], 
         'meals', 'non_grnet_quota', ]
       },
@@ -146,8 +145,8 @@ export const UIS = {
         50, 50, 50, 50, 50, 50, 50, 50, 50, 50,      //40
         50, 50, 50, 50, 50, 50, 50, 50, 50, 50,      //50
         50, 50, 50, 50, 50, 50, 100, 50, 50, 50,     //60 
-        50, 50, 50, 50, 50, 50, 50, 50, 100, 40,     //70
-        50, 50, 50, 50, 50, 50, 50, 50, 50,          //80                
+        50, 50, 50, 50, 40, 10, 50, 50, 100, 40,     //70
+        50, 50, 50, 50, 50, 50, 50, 40, 10,          //80                
       ] 
     }
   },
