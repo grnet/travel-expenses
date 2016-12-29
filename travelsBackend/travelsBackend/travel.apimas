@@ -1,0 +1,46 @@
+root: http://localhost:8000
+spec:
+    .endpoint: {}
+    api:
+       taxoffices:
+         .collection: {}
+         .drf_collection:
+            model: texpenses.models.TaxOffice
+         '*':
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            url:
+             .drf_field: {}
+             .identity: {}
+             .readonly: {}
+            name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            address:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            email:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            phone:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+
+

@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from djoser import views as djoser_views
 from djoser import utils as djoser_utils
 from texpenses.serializers import CustomUserRegistrationSerializer,\
-    PasswordResetConfirmRetypeSerializer
+    PasswordResetConfirmRetypeSerializer, UserProfileSerializer
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework import response, status
 from texpenses.models import UserProfile
@@ -118,7 +118,7 @@ class CustomUserDetailedView(djoser_views.UserView):
 
     """API endpoint that allows a user to view and edit his personal info"""
 
-    serializer_class = generate(UserProfile)
+    serializer_class = UserProfileSerializer
     permission_classes = (
         IsAuthenticated, DjangoModelPermissions,
     )

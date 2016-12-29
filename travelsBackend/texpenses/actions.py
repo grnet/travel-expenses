@@ -6,6 +6,10 @@ from django.template.loader import render_to_string
 from rest_framework import status
 from texpenses.models import Petition
 from datetime import datetime
+from apimas.modeling.adapters.drf import django_rest
+from apimas.modeling.utils import load_config
+from texpenses.permissions.permission_rules import PERMISSION_RULES
+from texpenses.endpoint_confs import Configuration
 
 
 DATE_FORMAT = '%Y-%m-%d'
@@ -77,7 +81,7 @@ def inform(petition, action, target_user, inform_controller):
     cc = (petition.user.email,)
     to = (petition.project.manager_email, SECRETARY_EMAIL)\
         if not inform_controller else (petition.project.manager_email,\
-                                   SECRETARY_EMAIL,CONTROLLER_EMAIL)
+                                   SECRETARY_EMAIL, CONTROLLER_EMAIL)
     if target_user:
         cc = to
         to = (petition.user.email,)
@@ -115,7 +119,23 @@ def compensation_alert():
         travel_info = petition.travel_info.all()[0]
         return_date = travel_info.return_date.strftime(DATE_FORMAT)
         if return_date == now:
-            inform(petition, action='COMPENSATION_ALERT', target_user=True,inform_controller=False)
-            petition.compensation_alert = True
-            petition.save()
+            if not petition.compensation_alert:
+                inform(petition, action='COMPENSATION_ALERT', target_user=True)
+                petition.compensation_alert = True
+                petition.save()
 
+
+def load_apimas_urls():
+
+    config = load_config()
+    adapter = django_rest.DjangoRestAdapter()
+
+    spec = config.get('spec')
+    spec['.endpoint']['permissions'] = PERMISSION_RULES
+
+    configuration = Configuration(spec)
+    configuration.configure_spec()
+
+    adapter.construct(spec)
+    adapter.apply()
+    return adapter.urls

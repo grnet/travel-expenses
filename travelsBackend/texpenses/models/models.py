@@ -42,16 +42,6 @@ class TaxOffice(models.Model):
     email = models.EmailField(blank=True)
     phone = models.CharField(max_length=20, blank=True)
 
-    class Api(object):
-        fields = ('id', 'url', 'name', 'description', 'address',
-                  'email', 'phone')
-        read_only_fields = ('id', 'url')
-        enable_authentication = False
-        enable_permissions = False
-        allowable_operations = ('list', 'retrieve')
-        caching = True
-        resource_name = 'resources/tax-office'
-
     def __unicode__(self):
         return self.name
 
@@ -99,13 +89,9 @@ class UserProfile(AbstractUser, TravelUserProfile):
         validators=[MaxValueValidator(settings.MAX_HOLIDAY_DAYS),
                     MinValueValidator(0)])
 
-    class Api(object):
-        fields = ('username', 'first_name', 'last_name', 'email',
-                  'iban', 'specialty', 'kind', 'tax_reg_num', 'tax_office',
-                  'user_category', 'user_group', 'trip_days_left')
-        read_only_fields = ('username', 'trip_days_left', 'user_category')
-        allowable_operations = ('list', 'retrieve')
-        caching = True
+    @property
+    def apimas_roles(self):
+        return [self.user_group()]
 
     def user_group(self):
         groups = self.groups.all()
@@ -129,15 +115,6 @@ class Project(models.Model):
     manager_name = models.CharField(max_length=40, blank=False)
     manager_surname = models.CharField(max_length=40, blank=False)
     manager_email = models.EmailField(max_length=256, blank=False, null=True)
-
-    class Api(object):
-        fields = ('id', 'url', 'name', 'accounting_code',
-                  'manager_name', 'manager_surname', 'manager_email')
-        read_only_fields = ('id', 'url')
-        allowable_operations = ('list', 'retrieve')
-        enable_authentication = False
-        enable_permissions = False
-        resource_name = 'resources/project'
 
     def __unicode__(self):
         return self.name
@@ -164,14 +141,6 @@ class Country(models.Model):
         max_length=3, choices=common.CURRENCIES, blank=False,
         default=settings.DEFAULT_CURRENCY)
 
-    class Api(object):
-        fields = ('id', 'url', 'name', 'category', 'currency')
-        read_only_fields = ('id', 'url', 'category', 'currency')
-        allowable_operations = ('list', 'retrieve')
-        caching = True
-        enable_authentication = False
-        enable_permissions = False
-
     def __unicode__(self):
         """TODO: to be defined1. """
         return self.name
@@ -183,18 +152,6 @@ class City(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=False)
     country = models.ForeignKey(Country, blank=False)
-
-    class Api(object):
-        fields = ('id', 'url', 'name', 'country')
-        read_only_fields = ('id', 'url', 'country')
-        nested_relations = [('country', 'country')]
-        allowable_operations = ('list', 'retrieve')
-        caching = True
-        enable_authentication = False
-        enable_permissions = False
-        viewset_code = 'texpenses.views'
-        viewset_module_name = 'city'
-        resource_name = 'resources/city'
 
     def __unicode__(self):
         """TODO: to be defined. """
@@ -299,13 +256,17 @@ class TravelInfo(Accommodation, Transportation):
         allowable_operations = ('list', 'retrieve', 'delete')
 
     def clean(self, petition):
+        extended_validation_statuses = [Petition.SUBMITTED_BY_USER]
 
         if self.depart_date and self.return_date \
                 and petition.task_end_date:
             dates = ((self.depart_date, self.return_date),
-                     (self.depart_date,
-                      petition.task_end_date))
+                     (self.depart_date, petition.task_end_date))
             labels = (('depart', 'return'), ('depart', 'task end'))
+            if petition.status in extended_validation_statuses:
+                date_validator('depart_date', self.depart_date)
+                date_validator('return_date', self.return_date)
+
             start_end_date_validator(dates, labels)
         self.validate_overnight_cost(petition)
         super(TravelInfo, self).clean()
@@ -320,6 +281,7 @@ class TravelInfo(Accommodation, Transportation):
             date_validator('return_date', self.return_date)
             start_end_date_validator(dates, labels)
         self.validate_overnight_cost(petition)
+        super(TravelInfo, self).clean()
 
     def _set_travel_manual_fields(self):
 
@@ -1023,27 +985,6 @@ class UserPetition(Petition):
     class Meta:
         proxy = True
 
-    class Api:
-        fields = Petition.Api.fields
-        read_only_fields = Petition.Api.read_only_fields + (
-            'dse', 'user')
-        filter_class = Petition.Api.filter_class
-        nested_relations = [('travel_info', 'travel_info')]
-        extra_kwargs = {
-            'dse': {'required': False, 'allow_null': True},
-            'status': {'default': Petition.SAVED_BY_USER},
-            'task_start_date': {'required': False},
-            'task_end_date': {'required': False},
-            'travel_info': {'required': False},
-            'user': {'default': serializers.CurrentUserDefault(),
-                     'validators': [functools.partial(
-                         required_validator, fields=Petition.USER_FIELDS)]}
-        }
-        serializer_code = 'texpenses.serializers'
-        serializer_module_name = 'petition'
-        viewset_code = 'texpenses.views'
-        resource_name = 'petition/user/saved'
-
 
 class UserPetitionSubmission(Petition):
 
@@ -1053,38 +994,38 @@ class UserPetitionSubmission(Petition):
     class Meta:
         proxy = True
 
-    class Api:
-        fields = Petition.Api.fields
-        read_only_fields = Petition.Api.read_only_fields + ('user',)
-        filter_class = Petition.Api.filter_class
-        nested_relations = [
-            ('travel_info', 'travel_info', TravelInfoUserSubmission)]
-        extra_kwargs = {
-            'reason': {
-                'required': True, 'allow_blank': False, 'allow_null': False
-            },
-            'dse': {
-                'required': False, 'allow_null': True
-            },
-            'status': {
-                'default': Petition.SUBMITTED_BY_USER
-            },
-            'task_start_date': {
-                'required': True, 'allow_null': False
-            },
-            'task_end_date': {
-                'required': True, 'allow_null': False
-            },
-            'user': {
-                'default': serializers.CurrentUserDefault(),
-                'validators': [functools.partial(
-                    required_validator, fields=Petition.USER_FIELDS)]
-            }
-        }
-        serializer_code = 'texpenses.serializers'
-        serializer_module_name = 'petition'
-        viewset_code = 'texpenses.views'
-        resource_name = 'petition/user/submitted'
+    # class Api:
+        # fields = Petition.Api.fields
+        # read_only_fields = Petition.Api.read_only_fields + ('user',)
+        # filter_class = Petition.Api.filter_class
+        # nested_relations = [
+            # ('travel_info', 'travel_info', TravelInfoUserSubmission)]
+        # extra_kwargs = {
+            # 'reason': {
+                # 'required': True, 'allow_blank': False, 'allow_null': False
+            # },
+            # 'dse': {
+                # 'required': False, 'allow_null': True
+            # },
+            # 'status': {
+                # 'default': Petition.SUBMITTED_BY_USER
+            # },
+            # 'task_start_date': {
+                # 'required': True, 'allow_null': False
+            # },
+            # 'task_end_date': {
+                # 'required': True, 'allow_null': False
+            # },
+            # 'user': {
+                # 'default': serializers.CurrentUserDefault(),
+                # 'validators': [functools.partial(
+                    # required_validator, fields=Petition.USER_FIELDS)]
+            # }
+        # }
+        # serializer_code = 'texpenses.serializers'
+        # serializer_module_name = 'petition'
+        # viewset_code = 'texpenses.views'
+        # resource_name = 'petition/user/submitted'
 
     def clean(self):
         """

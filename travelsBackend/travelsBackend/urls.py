@@ -2,19 +2,20 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.views.generic.base import RedirectView
-from texpenses.generators.urls import generate_api_urls
 from . import auth_urls
 from django.conf.urls.static import static
+from texpenses.actions import load_apimas_urls
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browseable API.
 admin.autodiscover()
+
 api_prefix = settings.API_PREFIX
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^' + api_prefix + '/auth/', include(auth_urls)),
-    generate_api_urls(),
+    load_apimas_urls(),
     url(r'^' + api_prefix + '/docs/', include('rest_framework_docs.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
