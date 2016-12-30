@@ -18,7 +18,7 @@ export default Ember.Controller.extend(PaginationMixin, {
   }),
 
   editPetitionRoute: 'userPetition',
-  editCompensationRoute: 'userCompensation',
+  // editCompensationRoute: 'userCompensation',
 	deleteMessage: "",
 	statePetitionList: "",
   sortByDse: ['status:desc', 'dse:asc'],

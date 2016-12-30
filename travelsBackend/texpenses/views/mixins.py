@@ -1,11 +1,12 @@
-from texpenses.models import UserPetition
 from rest_framework import permissions, status
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from texpenses.models import UserPetitionSubmission
+from texpenses.models import SecretaryPetition
+from texpenses.models import UserPetitionSubmission, UserPetition,\
+    SecretaryPetition
 from texpenses.actions import inform_on_action
 
 
@@ -52,6 +53,22 @@ class UserPetitionSubmissionMixin(object):
                                                               'user',
                                                               'project').\
             filter(user=self.request.user)
+        if self.request.method in non_atomic_requests:
+            return query
+        else:
+            return query.select_for_update(nowait=True)
+
+
+class SecretaryPetitionSave(object):
+
+    @transaction.atomic
+    def update(self, request, pk=None):
+        return super(UserPetitionMixin, self).update(request, pk)
+
+    def get_queryset(self):
+        non_atomic_requests = permissions.SAFE_METHODS
+        query = SecretaryPetition.objects.select_related('tax_office', 'user',
+                                                         'project').all()
         if self.request.method in non_atomic_requests:
             return query
         else:

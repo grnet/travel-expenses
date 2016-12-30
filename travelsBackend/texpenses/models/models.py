@@ -994,39 +994,6 @@ class UserPetitionSubmission(Petition):
     class Meta:
         proxy = True
 
-    # class Api:
-        # fields = Petition.Api.fields
-        # read_only_fields = Petition.Api.read_only_fields + ('user',)
-        # filter_class = Petition.Api.filter_class
-        # nested_relations = [
-            # ('travel_info', 'travel_info', TravelInfoUserSubmission)]
-        # extra_kwargs = {
-            # 'reason': {
-                # 'required': True, 'allow_blank': False, 'allow_null': False
-            # },
-            # 'dse': {
-                # 'required': False, 'allow_null': True
-            # },
-            # 'status': {
-                # 'default': Petition.SUBMITTED_BY_USER
-            # },
-            # 'task_start_date': {
-                # 'required': True, 'allow_null': False
-            # },
-            # 'task_end_date': {
-                # 'required': True, 'allow_null': False
-            # },
-            # 'user': {
-                # 'default': serializers.CurrentUserDefault(),
-                # 'validators': [functools.partial(
-                    # required_validator, fields=Petition.USER_FIELDS)]
-            # }
-        # }
-        # serializer_code = 'texpenses.serializers'
-        # serializer_module_name = 'petition'
-        # viewset_code = 'texpenses.views'
-        # resource_name = 'petition/user/submitted'
-
     def clean(self):
         """
         Overrides `clean` method and checks if specified dates are valid.
@@ -1064,31 +1031,31 @@ class SecretaryPetition(Petition):
     class Meta:
         proxy = True
 
-    class Api:
-        fields = Petition.Api.fields + (
-            'non_grnet_quota', 'grnet_quota', 'user',
-            'expenditure_protocol',
-            'expenditure_date_protocol', 'movement_protocol',
-            'movement_date_protocol',  'movement_id',
-            'manager_travel_approval', 'manager_final_approval')
-        read_only_fields = Petition.Api.read_only_fields
-        filter_class = Petition.Api.filter_class
-        nested_relations = [('travel_info', 'travel_info')]
-        extra_kwargs = {
-            'dse': {'required': False, 'allow_null': True},
-            'task_start_date': {'required': False},
-            'task_end_date': {'required': False},
-            'travel_info': {'required': False},
-            'status': {'default': Petition.SAVED_BY_SECRETARY},
-            'user': {
-                'validators': [functools.partial(
-                    required_validator, fields=Petition.USER_FIELDS)]
-            },
-        }
-        serializer_code = 'texpenses.serializers'
-        serializer_module_name = 'petition'
-        viewset_code = 'texpenses.views'
-        resource_name = 'petition/secretary/saved'
+    # class Api:
+        # fields = Petition.Api.fields + (
+            # 'non_grnet_quota', 'grnet_quota', 'user',
+            # 'expenditure_protocol',
+            # 'expenditure_date_protocol', 'movement_protocol',
+            # 'movement_date_protocol',  'movement_id',
+            # 'manager_travel_approval', 'manager_final_approval')
+        # read_only_fields = Petition.Api.read_only_fields
+        # filter_class = Petition.Api.filter_class
+        # nested_relations = [('travel_info', 'travel_info')]
+        # extra_kwargs = {
+            # 'dse': {'required': False, 'allow_null': True},
+            # 'task_start_date': {'required': False},
+            # 'task_end_date': {'required': False},
+            # 'travel_info': {'required': False},
+            # 'status': {'default': Petition.SAVED_BY_SECRETARY},
+            # 'user': {
+                # 'validators': [functools.partial(
+                    # required_validator, fields=Petition.USER_FIELDS)]
+            # },
+        # }
+        # serializer_code = 'texpenses.serializers'
+        # serializer_module_name = 'petition'
+        # viewset_code = 'texpenses.views'
+        # resource_name = 'petition/secretary/saved'
 
 
 class SecretaryPetitionSubmission(Petition):
