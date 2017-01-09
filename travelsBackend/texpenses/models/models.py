@@ -1031,32 +1031,6 @@ class SecretaryPetition(Petition):
     class Meta:
         proxy = True
 
-    # class Api:
-        # fields = Petition.Api.fields + (
-            # 'non_grnet_quota', 'grnet_quota', 'user',
-            # 'expenditure_protocol',
-            # 'expenditure_date_protocol', 'movement_protocol',
-            # 'movement_date_protocol',  'movement_id',
-            # 'manager_travel_approval', 'manager_final_approval')
-        # read_only_fields = Petition.Api.read_only_fields
-        # filter_class = Petition.Api.filter_class
-        # nested_relations = [('travel_info', 'travel_info')]
-        # extra_kwargs = {
-            # 'dse': {'required': False, 'allow_null': True},
-            # 'task_start_date': {'required': False},
-            # 'task_end_date': {'required': False},
-            # 'travel_info': {'required': False},
-            # 'status': {'default': Petition.SAVED_BY_SECRETARY},
-            # 'user': {
-                # 'validators': [functools.partial(
-                    # required_validator, fields=Petition.USER_FIELDS)]
-            # },
-        # }
-        # serializer_code = 'texpenses.serializers'
-        # serializer_module_name = 'petition'
-        # viewset_code = 'texpenses.views'
-        # resource_name = 'petition/secretary/saved'
-
 
 class SecretaryPetitionSubmission(Petition):
 
@@ -1067,64 +1041,64 @@ class SecretaryPetitionSubmission(Petition):
     class Meta:
         proxy = True
 
-    class Api:
-        fields = Petition.Api.fields + (
-            'non_grnet_quota', 'grnet_quota', 'user', 'movement_id',
-            'expenditure_protocol',
-            'expenditure_date_protocol',
-            'movement_protocol', 'movement_date_protocol',
-            'manager_travel_approval',
-            'manager_final_approval')
-        read_only_fields = Petition.Api.read_only_fields
-        filter_class = Petition.Api.filter_class
-        nested_relations = [
-            ('travel_info', 'travel_info', TravelInfoSecretarySubmission)]
-        extra_kwargs = {
-            'movement_id': {
-                'required': True, 'allow_blank': False, 'allow_null': False
-            },
-            'expenditure_protocol': {
-                'required': True, 'allow_blank': False, 'allow_null': False
-            },
-            'expenditure_date_protocol': {
-                'required': True, 'allow_null': False
-            },
-            'movement_protocol': {
-                'required': True, 'allow_blank': False, 'allow_null': False
-            },
-            "movement_date_protocol": {
-                'required': True, 'allow_null': False
-            },
+    # class Api:
+        # fields = Petition.Api.fields + (
+            # 'non_grnet_quota', 'grnet_quota', 'user', 'movement_id',
+            # 'expenditure_protocol',
+            # 'expenditure_date_protocol',
+            # 'movement_protocol', 'movement_date_protocol',
+            # 'manager_travel_approval',
+            # 'manager_final_approval')
+        # read_only_fields = Petition.Api.read_only_fields
+        # filter_class = Petition.Api.filter_class
+        # nested_relations = [
+            # ('travel_info', 'travel_info', TravelInfoSecretarySubmission)]
+        # extra_kwargs = {
+            # 'movement_id': {
+                # 'required': True, 'allow_blank': False, 'allow_null': False
+            # },
+            # 'expenditure_protocol': {
+                # 'required': True, 'allow_blank': False, 'allow_null': False
+            # },
+            # 'expenditure_date_protocol': {
+                # 'required': True, 'allow_null': False
+            # },
+            # 'movement_protocol': {
+                # 'required': True, 'allow_blank': False, 'allow_null': False
+            # },
+            # "movement_date_protocol": {
+                # 'required': True, 'allow_null': False
+            # },
 
-            'additional_expenses_initial': {
-                'required': True, 'allow_null': False
-            },
-            'additional_expenses_default_currency': {
-                'required': True, 'allow_blank': False, 'allow_null': False,
-            },
+            # 'additional_expenses_initial': {
+                # 'required': True, 'allow_null': False
+            # },
+            # 'additional_expenses_default_currency': {
+                # 'required': True, 'allow_blank': False, 'allow_null': False,
+            # },
 
-            'additional_expenses_initial': {
-                'required': True, 'allow_null': False
-            },
-            'additional_expenses_default_currency': {
-                'required': True, 'allow_null': False, 'allow_blank': False
-            },
+            # 'additional_expenses_initial': {
+                # 'required': True, 'allow_null': False
+            # },
+            # 'additional_expenses_default_currency': {
+                # 'required': True, 'allow_null': False, 'allow_blank': False
+            # },
 
-            'dse': {
-                'required': False, 'allow_null': True
-            },
-            'status': {
-                'default': Petition.SUBMITTED_BY_SECRETARY
-            },
-            'user': {
-                'validators': [functools.partial(
-                    required_validator, fields=Petition.USER_FIELDS)]
-            },
-        }
-        serializer_code = 'texpenses.serializers'
-        serializer_module_name = 'petition'
-        viewset_code = 'texpenses.views'
-        resource_name = 'petition/secretary/submitted'
+            # 'dse': {
+                # 'required': False, 'allow_null': True
+            # },
+            # 'status': {
+                # 'default': Petition.SUBMITTED_BY_SECRETARY
+            # },
+            # 'user': {
+                # 'validators': [functools.partial(
+                    # required_validator, fields=Petition.USER_FIELDS)]
+            # },
+        # }
+        # serializer_code = 'texpenses.serializers'
+        # serializer_module_name = 'petition'
+        # viewset_code = 'texpenses.views'
+        # resource_name = 'petition/secretary/submitted'
 
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.

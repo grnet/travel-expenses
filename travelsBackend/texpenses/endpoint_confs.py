@@ -41,7 +41,19 @@ class Configuration(object):
         doc.doc_set(endpoint, ['*', 'status', '.drf_field', 'default'],
                     Petition.SAVED_BY_SECRETARY)
 
+    def SecretaryPetitionSubmitConfig(self):
+
+        endpoint = self.spec['api']['petition/secretary/submitted']
+
+        doc.doc_set(endpoint, ['*', 'user', '.drf_field', 'validators'],
+                    [functools.partial(required_validator,
+                                       fields=Petition.USER_FIELDS)])
+
+        doc.doc_set(endpoint, ['*', 'status', '.drf_field', 'default'],
+                    Petition.SUBMITTED_BY_SECRETARY)
+
     def configure_spec(self):
         self.UserPetitionConfig()
         self.UserPetitionSubmitConfig()
         self.SecretaryPetitionSaveConfig()
+        self.SecretaryPetitionSubmitConfig()
