@@ -2787,8 +2787,35 @@ spec:
              .field: {}
              .drf_field: {}
              .readonly: {}
-             .ref:
-                to: resources/countries
+             .struct:
+                id:
+                 .cli_option: {}
+                 .field: {}
+                 .drf_field: {}
+                 .serial: {}
+                 .readonly: {}
+                url:
+                 .drf_field: {}
+                 .identity: {}
+                 .readonly: {}
+                name:
+                 .cli_option: {}
+                 .field: {}
+                 .drf_field: {}
+                 .string: {}
+                 .readonly: {}
+                category:
+                 .cli_option: {}
+                 .field: {}
+                 .drf_field: {}
+                 .string: {}
+                 .readonly: {}
+                currency:
+                 .cli_option: {}
+                 .field: {}
+                 .drf_field: {}
+                 .string: {}
+                 .readonly: {}
          actions:
              .list: {}
              .retrieve: {}
