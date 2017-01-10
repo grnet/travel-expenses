@@ -52,8 +52,27 @@ class Configuration(object):
         doc.doc_set(endpoint, ['*', 'status', '.drf_field', 'default'],
                     Petition.SUBMITTED_BY_SECRETARY)
 
+    def UserCompensationConfig(self):
+
+        endpoint = self.spec['api']['petition/user/compensations']
+        doc.doc_set(endpoint, ['*', 'user', '.drf_field', 'validators'],
+                    [functools.partial(required_validator,
+                                       fields=Petition.USER_FIELDS)])
+
+        doc.doc_set(endpoint, ['*', 'status', '.drf_field', 'default'],
+                    Petition.USER_COMPENSATION)
+
+    def SecretaryCompensationConfig(self):
+
+        endpoint = self.spec['api']['petition/secretary/compensations']
+
+        doc.doc_set(endpoint, ['*', 'status', '.drf_field', 'default'],
+                    Petition.SECRETARY_COMPENSATION)
+
     def configure_spec(self):
         self.UserPetitionConfig()
         self.UserPetitionSubmitConfig()
         self.SecretaryPetitionSaveConfig()
         self.SecretaryPetitionSubmitConfig()
+        self.UserCompensationConfig()
+        self.SecretaryCompensationConfig()

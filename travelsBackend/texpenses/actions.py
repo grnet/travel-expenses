@@ -127,7 +127,7 @@ def compensation_alert():
 
 def load_apimas_urls():
 
-    config = load_config()
+    config = load_config(settings.APIMAS_CONFIG,'travel.apimas')
     adapter = django_rest.DjangoRestAdapter()
 
     spec = config.get('spec')

@@ -3,6 +3,6 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 import {PetitionListRoute, preloadPetitions} from 'travels-front/lib/models/util';
 
 export default PetitionListRoute.extend(AuthenticatedRouteMixin,{
-  petitionModel: ['user-petition-submission', 'user-petition']
+  petitionModel: ['user-compensation', 'user-petition-submission', 'user-petition']
 
 });

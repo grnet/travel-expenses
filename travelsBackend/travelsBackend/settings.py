@@ -30,8 +30,7 @@ MEDIA_ROOT = 'uploads'
 MAX_HOLIDAY_DAYS = 60
 SECRETARY_EMAIL = 'test@email.com'
 CONTROLLER_EMAIL = 'controller@email.com'
-APIMAS_CONFIG = "/home/kostas/travelRepo/travelsBackend/travelsBackend/"\
-    "travel.apimas"
+APIMAS_CONFIG = '/home/kostas/travelRepo/travelsBackend/travelsBackend/'
 
 DEFAULT_CURRENCY = 'EUR'
 HOST_URL = "http://localhost:8000/"
@@ -85,16 +84,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-    }
-}
-REST_FRAMEWORK_EXTENSIONS = {
-    'DEFAULT_CACHE_ERRORS': False,
-    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 60
-}
 ROOT_URLCONF = 'travelsBackend.urls'
 
 WSGI_APPLICATION = 'travelsBackend.wsgi.application'

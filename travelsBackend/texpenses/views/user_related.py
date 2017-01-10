@@ -11,8 +11,6 @@ from texpenses.serializers import CustomUserRegistrationSerializer,\
     PasswordResetConfirmRetypeSerializer, UserProfileSerializer
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework import response, status
-from texpenses.models import UserProfile
-from texpenses.generators.serializers import generate
 
 logger = logging.getLogger(__name__)
 
