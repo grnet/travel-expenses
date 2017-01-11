@@ -8,10 +8,7 @@ from texpenses.models import Petition, UserPetitionSubmission, UserPetition,\
     SecretaryPetition, SecretaryPetitionSubmission, UserCompensation,\
     SecretaryCompensation, City
 from texpenses.actions import inform_on_action
-from django.template.loader import get_template
-from django.template import RequestContext
-from django.http import HttpResponse
-from weasyprint import HTML
+from texpenses.views.utils import PDFRenderer
 
 
 class CityMixin(object):
@@ -95,7 +92,7 @@ class SecretaryPetitionSaveMixin(object):
             return query.select_for_update(nowait=True)
 
 
-class SecretaryPetitionSubmissionMixin(object):
+class SecretaryPetitionSubmissionMixin(PDFRenderer):
 
     @detail_route(methods=['post'])
     @transaction.atomic
@@ -195,31 +192,15 @@ class SecretaryPetitionSubmissionMixin(object):
                      })
         return data
 
-    def _render_template2pdf(self, request, template_path,
-                             default_report_name='report.pdf'):
-        petition = self.get_object()
-
-        html_template = get_template(template_path)
-
-        rendered_html = html_template.render(
-            RequestContext(request, self._extract_info(petition))).\
-            encode(encoding="UTF-8")
-        pdf_file = HTML(string=rendered_html,
-                        base_url=request.build_absolute_uri()).write_pdf()
-
-        http_response = HttpResponse(pdf_file, content_type='application/pdf')
-        http_response['Content-Disposition'] = 'filename="' +\
-            default_report_name + '"'
-        return http_response
-
     @detail_route(methods=['get'])
     def application_report(self, request, pk=None):
         template_path = "texpenses/movement_petition_application/" +\
             "movement_petition_application.html"
         report_name = 'petition_application_report.pdf'
-
-        return self._render_template2pdf(
-            request, template_path, report_name)
+        petition = self.get_object()
+        data = self._extract_info(petition)
+        return self.render_template2pdf(
+            request, data, template_path, report_name)
 
     @detail_route(methods=['get'])
     def decision_report(self, request, pk=None):
@@ -227,8 +208,10 @@ class SecretaryPetitionSubmissionMixin(object):
             "movement_petition_decision.html"
         report_name = 'petition_decision_report.pdf'
 
-        return self._render_template2pdf(
-            request, template_path, report_name)
+        petition = self.get_object()
+        data = self._extract_info(petition)
+        return self.render_template2pdf(
+            request, data, template_path, report_name)
 
     def get_queryset(self):
         non_atomic_requests = permissions.SAFE_METHODS
@@ -309,7 +292,7 @@ class UserCompensationMixin(object):
         pass
 
 
-class SecretaryCompensationMixin(object):
+class SecretaryCompensationMixin(PDFRenderer):
 
     VIEW_NAMES = {
         Petition.SECRETARY_COMPENSATION: "petition/secretary/"
@@ -377,7 +360,7 @@ class SecretaryCompensationMixin(object):
             return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
 
         except PermissionDenied as e:
-            return Response({'detail': e.message},\
+            return Response({'detail': e.message},
                             status=status.HTTP_403_FORBIDDEN)
 
     @detail_route(methods=['post'])
@@ -438,10 +421,10 @@ class SecretaryCompensationMixin(object):
                      'transportation_cost': travel_info.transportation_cost,
                      'transportation_default_currency': travel_info.
                      transportation_default_currency,
-                     'overnights_num_manual':\
+                     'overnights_num_manual':
                      travel_info.overnights_num_manual,
                      'accommodation_cost': travel_info.accommodation_cost,
-                     'overnights_sum_cost':\
+                     'overnights_sum_cost':
                      petition_object.overnights_sum_cost,
                      'accommodation_default_currency': travel_info.
                      accommodation_default_currency,
@@ -458,30 +441,13 @@ class SecretaryCompensationMixin(object):
                      compensation_days_manual,
                      'compensation_level': travel_info.compensation_level(),
                      'compensation_cost': travel_info.compensation_cost(),
-                     'additional_expenses':\
+                     'additional_expenses':
                      petition_object.additional_expenses,
                      'additional_expenses_local_currency':
                      petition_object.additional_expenses_local_currency,
                      'compensation_final': petition_object.compensation_final
                      })
         return data
-
-    def _render_template2pdf(self, request, template_path,
-                             default_report_name='report.pdf'):
-        petition = self.get_object()
-
-        html_template = get_template(template_path)
-
-        rendered_html = html_template.render(
-            RequestContext(request, self._extract_info(petition))).\
-            encode(encoding="UTF-8")
-        pdf_file = HTML(string=rendered_html,
-                        base_url=request.build_absolute_uri()).write_pdf()
-
-        http_response = HttpResponse(pdf_file, content_type='application/pdf')
-        http_response['Content-Disposition'] = 'filename="' +\
-            default_report_name + '"'
-        return http_response
 
     @detail_route(methods=['get'])
     def application_report(self, request, pk=None):
@@ -493,8 +459,10 @@ class SecretaryCompensationMixin(object):
                 "movement_compensation_application.html"
             report_name = 'compensation_application_report.pdf'
 
-            return self._render_template2pdf(
-                request, template_path, report_name)
+            petition = self.get_object()
+            data = self._extract_info(petition)
+            return self.render_template2pdf(
+                request, data, template_path, report_name)
 
         return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
 
@@ -508,6 +476,8 @@ class SecretaryCompensationMixin(object):
                 "movement_compensation_decision.html"
             report_name = 'compensation_decision_report.pdf'
 
-            return self._render_template2pdf(
-                request, template_path, report_name)
+            petition = self.get_object()
+            data = self._extract_info(petition)
+            return self.render_template2pdf(
+                request, data, template_path, report_name)
         return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
