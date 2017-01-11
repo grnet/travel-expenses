@@ -9,7 +9,7 @@ from datetime import datetime
 from apimas.modeling.adapters.drf import django_rest
 from apimas.modeling.utils import load_config
 from texpenses.permissions.permission_rules import PERMISSION_RULES
-from texpenses.endpoint_confs import Configuration
+from texpenses.api_conf.endpoint_confs import Configuration
 
 
 DATE_FORMAT = '%Y-%m-%d'
@@ -127,7 +127,8 @@ def compensation_alert():
 
 def load_apimas_urls():
 
-    config = load_config(settings.APIMAS_CONFIG,'travel.apimas')
+    config = load_config(settings.APIMAS_CONFIG_PATH,\
+                         settings.APIMAS_CONFIG_NAME)
     adapter = django_rest.DjangoRestAdapter()
 
     spec = config.get('spec')

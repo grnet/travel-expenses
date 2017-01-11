@@ -140,7 +140,8 @@ class SecretaryPetitionSubmissionMixin(object):
              'movement_date_protocol': petition_object.movement_date_protocol,
              'movement_protocol': petition_object.movement_protocol,
              'expenditure_protocol': petition_object.expenditure_protocol,
-             'expenditure_date_protocol': petition_object.expenditure_date_protocol,
+             'expenditure_date_protocol':
+             petition_object.expenditure_date_protocol,
 
              }
         )
@@ -171,9 +172,11 @@ class SecretaryPetitionSubmissionMixin(object):
                      'transportation_cost': travel_info.transportation_cost,
                      'transportation_default_currency': travel_info.
                      transportation_default_currency,
-                     'overnights_num_manual': travel_info.overnights_num_manual,
+                     'overnights_num_manual':
+                     travel_info.overnights_num_manual,
                      'accommodation_cost': travel_info.accommodation_cost,
-                     'overnights_sum_cost': petition_object.overnights_sum_cost,
+                     'overnights_sum_cost':
+                     petition_object.overnights_sum_cost,
                      'accommodation_default_currency': travel_info.
                      accommodation_default_currency,
                      'participation_cost': petition_object.participation_cost,
@@ -309,8 +312,10 @@ class UserCompensationMixin(object):
 class SecretaryCompensationMixin(object):
 
     VIEW_NAMES = {
-        Petition.SECRETARY_COMPENSATION: 'petition/secretary/compensations-detail',
-        Petition.SECRETARY_COMPENSATION_SUBMISSION: 'petition/secretary/compensations-detail',
+        Petition.SECRETARY_COMPENSATION: "petition/secretary/"
+        "compensations-detail",
+        Petition.SECRETARY_COMPENSATION_SUBMISSION: "petition/secretary/"
+        "compensations-detail",
     }
 
     @transaction.atomic
@@ -372,7 +377,8 @@ class SecretaryCompensationMixin(object):
             return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
 
         except PermissionDenied as e:
-            return Response({'detail': e.message}, status=status.HTTP_403_FORBIDDEN)
+            return Response({'detail': e.message},\
+                            status=status.HTTP_403_FORBIDDEN)
 
     @detail_route(methods=['post'])
     @transaction.atomic
@@ -432,9 +438,11 @@ class SecretaryCompensationMixin(object):
                      'transportation_cost': travel_info.transportation_cost,
                      'transportation_default_currency': travel_info.
                      transportation_default_currency,
-                     'overnights_num_manual': travel_info.overnights_num_manual,
+                     'overnights_num_manual':\
+                     travel_info.overnights_num_manual,
                      'accommodation_cost': travel_info.accommodation_cost,
-                     'overnights_sum_cost': petition_object.overnights_sum_cost,
+                     'overnights_sum_cost':\
+                     petition_object.overnights_sum_cost,
                      'accommodation_default_currency': travel_info.
                      accommodation_default_currency,
                      'participation_cost': petition_object.participation_cost,
@@ -450,7 +458,8 @@ class SecretaryCompensationMixin(object):
                      compensation_days_manual,
                      'compensation_level': travel_info.compensation_level(),
                      'compensation_cost': travel_info.compensation_cost(),
-                     'additional_expenses': petition_object.additional_expenses,
+                     'additional_expenses':\
+                     petition_object.additional_expenses,
                      'additional_expenses_local_currency':
                      petition_object.additional_expenses_local_currency,
                      'compensation_final': petition_object.compensation_final
