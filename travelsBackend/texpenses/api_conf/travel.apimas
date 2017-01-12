@@ -247,6 +247,7 @@ PETITION_USER_SAVE_FIELDS: &PETITION_USER_SAVE_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
+             .required: {}
              .ref:
                 to: resources/project
             reason:
@@ -633,6 +634,7 @@ PETITION_USER_SUBMIT_FIELDS: &PETITION_USER_SUBMIT_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
+             .required: {}
              .ref:
                 to: resources/project
             reason:
@@ -1019,6 +1021,7 @@ PETITION_SECRETARY_SAVE_FIELDS: &PETITION_SECRETARY_SAVE_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
+             .required: {}
              .ref:
                 to: resources/project
             reason:
@@ -1443,6 +1446,7 @@ PETITION_SECRETARY_SUBMIT_FIELDS: &PETITION_SECRETARY_SUBMIT_FIELDS
              .drf_field: {}
              .ref:
                 to: users
+             .required: {}
             iban:
              .cli_option: {}
              .field: {}
@@ -1483,6 +1487,7 @@ PETITION_SECRETARY_SUBMIT_FIELDS: &PETITION_SECRETARY_SUBMIT_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
+             .required: {}
              .ref:
                 to: resources/project
             reason:
@@ -1556,6 +1561,7 @@ PETITION_SECRETARY_SUBMIT_FIELDS: &PETITION_SECRETARY_SUBMIT_FIELDS
                 required: True
                 allow_null: False
              .float: {}
+             .required: {}
             additional_expenses_initial_description:
              .cli_option: {}
              .field: {}
@@ -1569,6 +1575,7 @@ PETITION_SECRETARY_SUBMIT_FIELDS: &PETITION_SECRETARY_SUBMIT_FIELDS
                 allow_null: False
                 allow_blank: False
              .string: {}
+             .required: {}
             overnights_sum_cost:
              .cli_option: {}
              .field: {}
@@ -1641,6 +1648,7 @@ PETITION_SECRETARY_SUBMIT_FIELDS: &PETITION_SECRETARY_SUBMIT_FIELDS
                 allow_blank: False
                 allow_null: False
              .string: {}
+             .required: {}
             expenditure_date_protocol:
              .cli_option: {}
              .field: {}
@@ -1648,6 +1656,7 @@ PETITION_SECRETARY_SUBMIT_FIELDS: &PETITION_SECRETARY_SUBMIT_FIELDS
                required: True
                allow_null: False
              .date: {}
+             .required: {}
             movement_protocol:
              .cli_option: {}
              .field: {}
@@ -1656,6 +1665,7 @@ PETITION_SECRETARY_SUBMIT_FIELDS: &PETITION_SECRETARY_SUBMIT_FIELDS
                 allow_blank: False
                 allow_null: False
              .string: {}
+             .required: {}
             movement_date_protocol:
              .cli_option: {}
              .field: {}
@@ -1663,6 +1673,7 @@ PETITION_SECRETARY_SUBMIT_FIELDS: &PETITION_SECRETARY_SUBMIT_FIELDS
                required: True
                allow_null: False
              .date: {}
+             .required: {}
             movement_id:
              .cli_option: {}
              .field: {}
@@ -1671,6 +1682,7 @@ PETITION_SECRETARY_SUBMIT_FIELDS: &PETITION_SECRETARY_SUBMIT_FIELDS
                  allow_blank: False
                  allow_null: False
              .string: {}
+             .required: {}
             manager_travel_approval:
              .cli_option: {}
              .field: {}
@@ -1939,6 +1951,7 @@ PETITION_USER_COMPENSATION_FIELDS: &PETITION_USER_COMPENSATION_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
+             .required: {}
              .ref:
                 to: resources/project
              .readonly: {}
@@ -2414,6 +2427,7 @@ PETITION_SECRETARY_COMPENSATION_FIELDS: &PETITION_SECRETARY_COMPENSATION_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
+             .required: {}
              .ref:
                 to: resources/project
              .readonly: {}
