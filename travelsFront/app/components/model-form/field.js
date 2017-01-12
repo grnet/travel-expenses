@@ -122,6 +122,9 @@ export default Ember.Component.extend({
           set(get(this, 'object'), get(this, 'key'), model);
         });
       } else {
+        let onChange = get(this, 'field.options.onChange');
+        if (onChange) { onChange(get(this, 'object'), get(this, 'key'), value); }
+    
         set(get(this, 'object'), get(this, 'key'), value);
       }
     }

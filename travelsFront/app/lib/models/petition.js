@@ -5,6 +5,11 @@ import ENV from 'travels-front/config/environment';
 const CHOICES = ENV.APP.resource_choices,
       CURRENCY = [[ENV.default_currency, ENV.default_currency]];
 
+const {
+  get,
+  set
+} = Ember;      
+
 export var Petition = DS.Model.extend({
   session: Ember.inject.service('session'),
   // profile fields
@@ -26,6 +31,9 @@ export var Petition = DS.Model.extend({
   created: DS.attr('date', {attrs: {time: true, required: true}}),
   updated: DS.attr('date', {attrs: {time: true, required: true}}),
   task_start_date: DS.attr('date', {
+    onChange(object, key, value) {
+    if (!get(object, 'task_end_date')) { set(object, 'task_end_date', value);}
+    },
     attrs: {
       time: true,
       required: true
@@ -51,6 +59,9 @@ export var Petition = DS.Model.extend({
   departure_point: DS.belongsTo('city', {attrs: {required: true, autocomplete: true, labelKey: 'labelWithCountry'}}),
   arrival_point: DS.belongsTo('city', {attrs: {required: true, autocomplete: true, labelKey: 'labelWithCountry'}}),
   depart_date: DS.attr('date', {
+    onChange(object, key, value) {
+    if (!get(object, 'return_date')) { set(object, 'return_date', value);}
+    },    
     attrs: {
       time: true
     }}),
@@ -80,6 +91,7 @@ export var Petition = DS.Model.extend({
       }
     })
   }),
+
 
   // set status label value
   status_label: Ember.computed('status',function(){
