@@ -66,16 +66,19 @@ def inform(petition, action, target_user, inform_controller):
     # TODO Add more parameters and template wording.
     # We take the first `travel_info` object, because multiple destinations
     # are not supported at the moment.
-    travel_info = petition.travel_info.all()[0]
+
+    travel_info = None
+    if petition.travel_info.all():
+        travel_info = petition.travel_info.all()[0]
     params = {
         'first_name': petition.first_name,
         'last_name': petition.last_name,
         'dse': petition.dse,
         'project_name': petition.project,
-        'departure_point': travel_info.departure_point,
-        'arrival_point': travel_info.arrival_point,
-        'start_date': str(petition.task_start_date),
-        'end_date': str(petition.task_end_date),
+        'departure_point': travel_info.departure_point if travel_info else None,
+        'arrival_point': travel_info.arrival_point if travel_info else None,
+        'start_date': petition.task_start_date,
+        'end_date': petition.task_end_date,
         'reason': petition.reason,
     }
     cc = (petition.user.email,)

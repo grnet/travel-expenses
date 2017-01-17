@@ -20,8 +20,8 @@ class CityMixin(object):
 class UserPetitionMixin(object):
 
     @transaction.atomic
-    def update(self, request, pk=None):
-        return super(UserPetitionMixin, self).update(request, pk)
+    def update(self, request, pk=None, **kwargs):
+        return super(UserPetitionMixin, self).update(request, pk, **kwargs)
 
     @transaction.atomic
     def destroy(self, request, pk=None):
@@ -75,8 +75,9 @@ class UserPetitionSubmissionMixin(object):
 class SecretaryPetitionSaveMixin(object):
 
     @transaction.atomic
-    def update(self, request, pk=None):
-        return super(SecretaryPetitionSaveMixin, self).update(request, pk)
+    def update(self, request, pk=None, **kwargs):
+        return super(SecretaryPetitionSaveMixin, self).update(request, pk,
+                                                              **kwargs)
 
     @transaction.atomic
     def destroy(self, request, pk=None):
@@ -233,8 +234,8 @@ class UserCompensationMixin(object):
     }
 
     @transaction.atomic
-    def update(self, request, pk=None):
-        return super(UserCompensationMixin, self).update(request, pk)
+    def update(self, request, pk=None, **kwargs):
+        return super(UserCompensationMixin, self).update(request, pk, **kwargs)
 
     @transaction.atomic
     def destroy(self, request, pk=None):
@@ -302,8 +303,9 @@ class SecretaryCompensationMixin(PDFRenderer):
     }
 
     @transaction.atomic
-    def update(self, request, pk=None):
-        return super(SecretaryCompensationMixin, self).update(request, pk)
+    def update(self, request, pk=None, **kwargs):
+        return super(SecretaryCompensationMixin, self).update(request, pk,
+                                                              **kwargs)
 
     @transaction.atomic
     def destroy(self, request, pk=None):
