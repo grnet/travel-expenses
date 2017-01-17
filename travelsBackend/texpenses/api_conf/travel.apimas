@@ -978,7 +978,7 @@ PETITION_SECRETARY_SAVE_FIELDS: &PETITION_SECRETARY_SAVE_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .readonly: {}
+             .required: {}
              .ref:
                 to: users
             iban:
@@ -1905,7 +1905,7 @@ PETITION_USER_COMPENSATION_FIELDS: &PETITION_USER_COMPENSATION_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .readonly: {}
+             .required: {}
              .ref:
                 to: users
             iban:
@@ -1954,7 +1954,6 @@ PETITION_USER_COMPENSATION_FIELDS: &PETITION_USER_COMPENSATION_FIELDS
              .required: {}
              .ref:
                 to: resources/project
-             .readonly: {}
             reason:
              .cli_option: {}
              .field: {}
@@ -2382,7 +2381,7 @@ PETITION_SECRETARY_COMPENSATION_FIELDS: &PETITION_SECRETARY_COMPENSATION_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .readonly: {}
+             .required: {}
              .ref:
                 to: users
             iban:
@@ -2430,7 +2429,6 @@ PETITION_SECRETARY_COMPENSATION_FIELDS: &PETITION_SECRETARY_COMPENSATION_FIELDS
              .required: {}
              .ref:
                 to: resources/project
-             .readonly: {}
             reason:
              .cli_option: {}
              .field: {}
@@ -3079,4 +3077,6 @@ spec:
              .update: {}
              .delete: {}   
    
+
+
 
