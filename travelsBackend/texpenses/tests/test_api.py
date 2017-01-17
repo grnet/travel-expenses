@@ -13,7 +13,8 @@ from rest_framework.authtoken.models import Token
 from texpenses.permissions.permission_rules import PERMISSION_RULES
 from rest_framework import status
 from datetime import datetime, timedelta
-from texpenses.models import Petition
+from django.core.urlresolvers import reverse
+
 
 config = load_config(settings.APIMAS_CONFIG_PATH,
                      settings.APIMAS_CONFIG_NAME)
@@ -87,9 +88,6 @@ class TestApi(ApimasTestCase):
         setattr(TestApi,
                 'test_partial_update_petition/secretary/compensations',
                 test_partial_update)
-        super(TestApi, self).setUp()
-
-    def setUp_collection(self, collection, action):
         self.testing_group = Group.objects.create(name='ADMIN')
 
         self.tax_office = TaxOffice.objects.create(
@@ -106,6 +104,10 @@ class TestApi(ApimasTestCase):
         self.user.groups.add(self.testing_group)
         token = Token.objects.create(user=self.user)
         self.client.force_authenticate(user=self.user, token=token)
+        super(TestApi, self).setUp()
+
+    def setUp_collection(self, collection, action):
+
         if collection == 'users':
             return [self.user]
         collection_instances = super(
@@ -143,3 +145,408 @@ class TestApi(ApimasTestCase):
                                                    response,
                                                    data, response_spec,
                                                    instances)
+
+    def _petition_submit_cancel(self, collection):
+
+        project = Project.objects.create(name='Test Project',
+                                         accounting_code=1,
+                                         manager_name=self.user.first_name,
+                                         manager_surname=self.user.
+                                         last_name,
+                                         manager_email=self.user.email)
+        task_start_date = datetime.now() + timedelta(days=2)
+        task_end_date = datetime.now() + timedelta(days=3)
+        city = City.objects.create(
+            name='Athens', country=Country.objects.create(name='Greece'))
+        base_name, petition_status = collection,\
+            PETITION_COLLECTIONS[collection][0]
+        data = {'project': project,
+                'task_start_date': task_start_date,
+                'task_end_date': task_end_date,
+                'status': petition_status,
+                'dse': 1,
+                'user': self.user}
+        petition = Petition.objects.create(**data)
+        travel_info = TravelInfo.objects.create(
+            arrival_point=city, departure_point=city,
+            travel_petition=petition)
+        petition.travel_info.add(travel_info)
+        submission_endpoint = reverse(base_name + '-list')
+        cancel_url = submission_endpoint + str(petition.id) + '/cancel/'
+        response = self.client.post(cancel_url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
+        response = self.client.get(dict(response.items())['Location'],
+                                   format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        petition.status = petition_status + 2
+        petition.save()
+        petition = Petition.objects.create(**data)
+
+        cancel_url = submission_endpoint + str(petition.id) + '/cancel/'
+        response = self.client.post(cancel_url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_petition_user_submit_cancel(self):
+        self._petition_submit_cancel('petition/user/submitted')
+
+    def test_petition_secretary_submit_cancel(self):
+        self._petition_submit_cancel('petition/secretary/submitted')
+
+    def test_petition_secretary_submit_president_approval(self):
+
+        collection = 'petition/secretary/submitted'
+
+        project = Project.objects.create(name='Test Project',
+                                         accounting_code=1,
+                                         manager_name=self.user.first_name,
+                                         manager_surname=self.user.
+                                         last_name,
+                                         manager_email=self.user.email)
+        task_start_date = datetime.now() + timedelta(days=2)
+        task_end_date = datetime.now() + timedelta(days=3)
+        city = City.objects.create(
+            name='Athens', country=Country.objects.create(name='Greece'))
+        base_name, petition_status = collection,\
+            PETITION_COLLECTIONS[collection][0]
+        data = {'project': project,
+                'task_start_date': task_start_date,
+                'task_end_date': task_end_date,
+                'status': petition_status,
+                'dse': 1,
+                'user': self.user}
+        petition = Petition.objects.create(**data)
+        travel_info = TravelInfo.objects.create(
+            arrival_point=city, departure_point=city,
+            travel_petition=petition)
+        petition.travel_info.add(travel_info)
+        submission_endpoint = reverse(base_name + '-list')
+        approval_url = submission_endpoint + str(petition.id) +\
+            '/president_approval/'
+        response = self.client.post(approval_url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        petition.status = 5
+        petition.save()
+
+        approval_url = submission_endpoint + str(petition.id) +\
+            '/president_approval/'
+        response = self.client.post(approval_url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_501_NOT_IMPLEMENTED)
+
+    def _petition_secretary_submit_reports(self, report_name):
+
+        collection = 'petition/secretary/submitted'
+
+        project = Project.objects.create(name='Test Project',
+                                         accounting_code=1,
+                                         manager_name=self.user.first_name,
+                                         manager_surname=self.user.
+                                         last_name,
+                                         manager_email=self.user.email)
+        task_start_date = datetime.now() + timedelta(days=2)
+        task_end_date = datetime.now() + timedelta(days=3)
+        city = City.objects.create(
+            name='Athens', country=Country.objects.create(name='Greece'))
+        base_name, petition_status = collection,\
+            PETITION_COLLECTIONS[collection][0]
+        data = {'project': project,
+                'task_start_date': task_start_date,
+                'task_end_date': task_end_date,
+                'status': petition_status,
+                'dse': 1,
+                'user': self.user}
+        petition = Petition.objects.create(**data)
+        travel_info = TravelInfo.objects.create(
+            arrival_point=city, departure_point=city,
+            travel_petition=petition)
+        petition.travel_info.add(travel_info)
+        submission_endpoint = reverse(base_name + '-list')
+        ar_url = submission_endpoint + str(petition.id) + report_name
+        response = self.client.get(ar_url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_petition_secretary_submit_application_report(self):
+        self._petition_secretary_submit_reports('/application_report/')
+
+    def test_petition_secretary_submit_decision_report(self):
+        self._petition_secretary_submit_reports('/decision_report/')
+
+    def test_user_compensation_submit(self):
+        collection = 'petition/user/compensations'
+
+        project = Project.objects.create(name='Test Project',
+                                         accounting_code=1,
+                                         manager_name=self.user.first_name,
+                                         manager_surname=self.user.
+                                         last_name,
+                                         manager_email=self.user.email)
+        task_start_date = datetime.now() + timedelta(days=2)
+        task_end_date = datetime.now() + timedelta(days=3)
+
+        depart_date = task_start_date - timedelta(days=1)
+        return_date = task_end_date + timedelta(days=1)
+        city = City.objects.create(
+            name='Athens', country=Country.objects.create(name='Greece'))
+        base_name, petition_status = collection,\
+            PETITION_COLLECTIONS[collection][0]
+        data = {'project': project,
+                'task_start_date': task_start_date,
+                'task_end_date': task_end_date,
+                'status': petition_status,
+                'dse': 1,
+                'user': self.user,
+                'expenditure_date_protocol': datetime.now(),
+                'expenditure_protocol': '1234',
+                'movement_date_protocol': datetime.now(),
+                'movement_protocol': '4321',
+                'participation_local_currency': 'e',
+                'reason': '12312321',
+                'travel_report': 'sadsadsa'
+                }
+        petition = Petition.objects.create(**data)
+        travel_info = TravelInfo.objects.create(
+            arrival_point=city, departure_point=city,
+            travel_petition=petition, depart_date=depart_date,
+            return_date=return_date, transportation_cost=60,
+            transportation_payment_description='dsadsa',
+            accommodation_cost=60,
+            accommodation_local_currency='e',
+            accommodation_payment_description='sdsds')
+        petition.travel_info.add(travel_info)
+        submission_endpoint = reverse(base_name + '-list')
+        submit_url = submission_endpoint + str(petition.id) + '/submit/'
+        response = self.client.post(submit_url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
+
+    def test_secretary_compensation_submit(self):
+        collection = 'petition/secretary/compensations'
+
+        project = Project.objects.create(name='Test Project',
+                                         accounting_code=1,
+                                         manager_name=self.user.first_name,
+                                         manager_surname=self.user.
+                                         last_name,
+                                         manager_email=self.user.email)
+        task_start_date = datetime.now() + timedelta(days=2)
+        task_end_date = datetime.now() + timedelta(days=3)
+
+        depart_date = task_start_date - timedelta(days=1)
+        return_date = task_end_date + timedelta(days=1)
+        city = City.objects.create(
+            name='Athens', country=Country.objects.create(name='Greece'))
+        base_name, petition_status = collection,\
+            PETITION_COLLECTIONS[collection][0]
+        data = {'project': project,
+                'task_start_date': task_start_date,
+                'task_end_date': task_end_date,
+                'status': petition_status,
+                'dse': 1,
+                'user': self.user,
+                'expenditure_date_protocol': datetime.now(),
+                'expenditure_protocol': '1234',
+                'movement_date_protocol': datetime.now(),
+                'movement_protocol': '4321',
+                'participation_local_currency': 'e',
+                'reason': '12312321',
+                'travel_report': 'sadsadsa',
+                'compensation_decision_date': datetime.now(),
+                'compensation_decision_protocol': '5678',
+                'compensation_petition_date': datetime.now(),
+                'compensation_petition_protocol': '8765'
+                }
+        petition = Petition.objects.create(**data)
+        travel_info = TravelInfo.objects.create(
+            arrival_point=city, departure_point=city,
+            travel_petition=petition, depart_date=depart_date,
+            return_date=return_date, transportation_cost=60,
+            transportation_payment_description='dsadsa',
+            accommodation_cost=60,
+            accommodation_local_currency='e',
+            accommodation_payment_description='sdsds')
+        petition.travel_info.add(travel_info)
+        submission_endpoint = reverse(base_name + '-list')
+        save_url = submission_endpoint + str(petition.id) + '/submit/'
+        response = self.client.post(save_url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
+
+    def test_secretary_compensation_president_approval(self):
+        collection = 'petition/secretary/compensations'
+
+        project = Project.objects.create(name='Test Project',
+                                         accounting_code=1,
+                                         manager_name=self.user.first_name,
+                                         manager_surname=self.user.
+                                         last_name,
+                                         manager_email=self.user.email)
+        task_start_date = datetime.now() + timedelta(days=2)
+        task_end_date = datetime.now() + timedelta(days=3)
+
+        depart_date = task_start_date - timedelta(days=1)
+        return_date = task_end_date + timedelta(days=1)
+        city = City.objects.create(
+            name='Athens', country=Country.objects.create(name='Greece'))
+        base_name, petition_status = collection,\
+            PETITION_COLLECTIONS[collection][0]
+        data = {'project': project,
+                'task_start_date': task_start_date,
+                'task_end_date': task_end_date,
+                'status': Petition.SECRETARY_COMPENSATION_SUBMISSION,
+                'dse': 1,
+                'user': self.user,
+                'expenditure_date_protocol': datetime.now(),
+                'expenditure_protocol': '1234',
+                'movement_date_protocol': datetime.now(),
+                'movement_protocol': '4321',
+                'participation_local_currency': 'e',
+                'reason': '12312321',
+                'travel_report': 'sadsadsa',
+                'compensation_decision_date': datetime.now(),
+                'compensation_decision_protocol': '5678',
+                'compensation_petition_date': datetime.now(),
+                'compensation_petition_protocol': '8765'
+                }
+        petition = Petition.objects.create(**data)
+        travel_info = TravelInfo.objects.create(
+            arrival_point=city, departure_point=city,
+            travel_petition=petition, depart_date=depart_date,
+            return_date=return_date, transportation_cost=60,
+            transportation_payment_description='dsadsa',
+            accommodation_cost=60,
+            accommodation_local_currency='e',
+            accommodation_payment_description='sdsds')
+        petition.travel_info.add(travel_info)
+        submission_endpoint = reverse(base_name + '-list')
+        approval_url = submission_endpoint + str(petition.id) +\
+            '/president_approval/'
+        response = self.client.post(approval_url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        petition.status = 10
+        petition.save()
+
+        approval_url = submission_endpoint + str(petition.id) +\
+            '/president_approval/'
+        response = self.client.post(approval_url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_501_NOT_IMPLEMENTED)
+
+    def _compensation_report(self, report_name):
+        collection = 'petition/secretary/compensations'
+
+        project = Project.objects.create(name='Test Project',
+                                         accounting_code=1,
+                                         manager_name=self.user.first_name,
+                                         manager_surname=self.user.
+                                         last_name,
+                                         manager_email=self.user.email)
+        task_start_date = datetime.now() + timedelta(days=2)
+        task_end_date = datetime.now() + timedelta(days=3)
+
+        depart_date = task_start_date - timedelta(days=1)
+        return_date = task_end_date + timedelta(days=1)
+        city = City.objects.create(
+            name='Athens', country=Country.objects.create(name='Greece'))
+        base_name, petition_status = collection,\
+            PETITION_COLLECTIONS[collection][0]
+        data = {'project': project,
+                'task_start_date': task_start_date,
+                'task_end_date': task_end_date,
+                'status': Petition.SECRETARY_COMPENSATION_SUBMISSION,
+                'dse': 1,
+                'user': self.user,
+                'expenditure_date_protocol': datetime.now(),
+                'expenditure_protocol': '1234',
+                'movement_date_protocol': datetime.now(),
+                'movement_protocol': '4321',
+                'participation_local_currency': 'e',
+                'reason': '12312321',
+                'travel_report': 'sadsadsa',
+                'compensation_decision_date': datetime.now(),
+                'compensation_decision_protocol': '5678',
+                'compensation_petition_date': datetime.now(),
+                'compensation_petition_protocol': '8765'
+                }
+        petition = Petition.objects.create(**data)
+        travel_info = TravelInfo.objects.create(
+            arrival_point=city, departure_point=city,
+            travel_petition=petition, depart_date=depart_date,
+            return_date=return_date, transportation_cost=60,
+            transportation_payment_description='dsadsa',
+            accommodation_cost=60,
+            accommodation_local_currency='e',
+            accommodation_payment_description='sdsds')
+        petition.travel_info.add(travel_info)
+        submission_endpoint = reverse(base_name + '-list')
+        approval_url = submission_endpoint + str(petition.id) + report_name
+        response = self.client.get(approval_url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_secretary_compensation_application_report(self):
+        self._compensation_report('/application_report/')
+
+    def test_secretary_compensation_decision_report(self):
+        self._compensation_report('/decision_report/')
+
+    def test_secretary_compensation_cancel(self):
+        collection = 'petition/secretary/compensations'
+
+        project = Project.objects.create(name='Test Project',
+                                         accounting_code=1,
+                                         manager_name=self.user.first_name,
+                                         manager_surname=self.user.
+                                         last_name,
+                                         manager_email=self.user.email)
+        task_start_date = datetime.now() + timedelta(days=2)
+        task_end_date = datetime.now() + timedelta(days=3)
+
+        depart_date = task_start_date - timedelta(days=1)
+        return_date = task_end_date + timedelta(days=1)
+        city = City.objects.create(
+            name='Athens', country=Country.objects.create(name='Greece'))
+        base_name, petition_status = collection,\
+            PETITION_COLLECTIONS[collection][0]
+        data = {'project': project,
+                'task_start_date': task_start_date,
+                'task_end_date': task_end_date,
+                'status': Petition.SECRETARY_COMPENSATION_SUBMISSION,
+                'dse': 1,
+                'user': self.user,
+                'expenditure_date_protocol': datetime.now(),
+                'expenditure_protocol': '1234',
+                'movement_date_protocol': datetime.now(),
+                'movement_protocol': '4321',
+                'participation_local_currency': 'e',
+                'reason': '12312321',
+                'travel_report': 'sadsadsa',
+                'compensation_decision_date': datetime.now(),
+                'compensation_decision_protocol': '5678',
+                'compensation_petition_date': datetime.now(),
+                'compensation_petition_protocol': '8765'
+                }
+        petition = Petition.objects.create(**data)
+        travel_info = TravelInfo.objects.create(
+            arrival_point=city, departure_point=city,
+            travel_petition=petition, depart_date=depart_date,
+            return_date=return_date, transportation_cost=60,
+            transportation_payment_description='dsadsa',
+            accommodation_cost=60,
+            accommodation_local_currency='e',
+            accommodation_payment_description='sdsds')
+        petition.travel_info.add(travel_info)
+        submission_endpoint = reverse(base_name + '-list')
+        save_url = submission_endpoint + str(petition.id) + '/cancel/'
+        response = self.client.post(save_url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
+        response = self.client.get(dict(response.items())['Location'],
+                                   format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        petition.status = petition_status + 1
+        petition.save()
+        petition = Petition.objects.create(**data)
+
+        cancel_url = submission_endpoint + str(petition.id) + '/cancel/'
+        response = self.client.post(cancel_url, format='json')
