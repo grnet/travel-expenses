@@ -59,8 +59,7 @@
     "ember-transition-helper": "0.0.6",
     "loader.js": "^4.0.1",
     "moment": "2.13.0",
-    "moment-timezone": "0.5.4",
-    "paper-data-table": "0.1.2"
+    "moment-timezone": "0.5.4"
   },
   "dependencies": {
     "core-object": "^2.0.5",
@@ -68,6 +67,7 @@
     "ember-cp-validations": "3.0.0-beta.3",
     "ember-django-adapter": "^1.1.2",
     "ember-truth-helpers": "^1.2.0",
+    "paper-data-table": "git+https://github.com/ibarrick/paper-data-table.git#master",
     "moment": "^2.13.0"
   }
 }
