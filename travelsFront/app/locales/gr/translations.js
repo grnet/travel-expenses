@@ -87,7 +87,7 @@ export default {
   'manager_travel_approval.label': 'Έγκριση Αίτησης Μετακίνησης από τον Υπεύθυνο Έργου',
   'manager_final_approval.label': ' Έγκριση τελικών δαπανών της Μετακίνησης από τον Υπεύθυνο Έργου',
   'secretary_data.label': 'Στοιχεία Αίτησης που καταχωρεί η Γραμματεία',
-  'controller_data.label': 'Στοιχεία Αίτησης που καταχωρεί η Υπεύθυνη Μετακινήσεων',
+  'controller_data.label': 'Στοιχεία Αίτησης - Λογιστικός Έλεγχος',
   'computed_data.label': 'Υπολογιζόμενα Οικονομικά Στοιχεία',
   'movement_id.label': 'Αρ.Μετακίνησης',
   'expenditure_date_protocol.label': 'Ημ. Πρ. Αίτησης Δαπάνης Μετακίνησης',
