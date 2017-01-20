@@ -70,8 +70,8 @@ def inform(petition, action, target_user, inform_controller):
         'project_name': petition.project,
         'departure_point': travel_info.departure_point,
         'arrival_point': travel_info.arrival_point,
-        'start_date': petition.task_start_date,
-        'end_date': petition.task_end_date,
+        'start_date': str(petition.task_start_date),
+        'end_date': str(petition.task_end_date),
         'reason': petition.reason,
     }
     cc = (petition.user.email,)
@@ -81,6 +81,7 @@ def inform(petition, action, target_user, inform_controller):
     if target_user:
         cc = to
         to = (petition.user.email,)
+    print subject,template,params,SENDER,to,cc
 
     send_email(subject, template, params, SENDER, to=to, cc=cc)
 
@@ -108,13 +109,13 @@ def compensation_alert():
     now = datetime.now().strftime(DATE_FORMAT)
 
     approved_petitions = Petition.objects.filter(status=\
-                                               Petition.APPROVED_BY_PRESIDENT)
-
+                                               Petition.APPROVED_BY_PRESIDENT,\
+                                                 compensation_alert=False)
     for petition in approved_petitions:
         travel_info = petition.travel_info.all()[0]
         return_date = travel_info.return_date.strftime(DATE_FORMAT)
         if return_date == now:
-            if not petition.compensation_alert:
-                inform(petition, action='COMPENSATION_ALERT', target_user=True)
-                petition.compensation_alert = True
-                petition.save()
+            inform(petition, action='COMPENSATION_ALERT', target_user=True,inform_controller=False)
+            petition.compensation_alert = True
+            petition.save()
+
