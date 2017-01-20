@@ -878,6 +878,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         If next status is one of the submission statuses, then a checker
         is triggered and tests if the petition is completed.
         """
+        import pdb
+        pdb.set_trace()
         next_status = self.status + 1
         submit = next_status in Petition.SUBMISSION_STATUSES or\
             kwargs.pop('delete', False)
@@ -1251,7 +1253,10 @@ class UserCompensation(Petition):
                 'additional_expenses', 'additional_expenses_description',
                 'manager_final_approval', 'manager_travel_approval',
                 'compensation_alert']
-    excluded_travel_info = ['accommodation_local_cost', ]
+    excluded_travel_info = ['accommodation_local_cost',
+                            'overnights_num_manual',
+                            'transport_days_manual',
+                            'compensation_days_manual']
 
     class Meta:
         proxy = True
@@ -1330,7 +1335,10 @@ class SecretaryCompensation(Petition):
                 'user_recommendation', 'compensation_alert',
                 'secretary_recommendation', 'manager_final_approval',
                 'manager_travel_approval']
-    excluded_travel_info = ['accommodation_local_cost', ]
+    excluded_travel_info = ['accommodation_local_cost',
+                            'overnights_num_manual',
+                            'transport_days_manual',
+                            'compensation_days_manual']
 
     class Meta:
         proxy = True
