@@ -2934,7 +2934,6 @@ spec:
             mixins: [texpenses.views.mixins.UserPetitionMixin]
             search_fields: [first_name,last_name,project,task_start_date,task_end_date,created,updated]
             ordering_fields: [id]
-            filter_class: [texpenses.filters.PetitionFilter]
          .cli_commands: {}
          .cli_auth:
            .auth_format:
@@ -2960,7 +2959,6 @@ spec:
             mixins: [texpenses.views.mixins.UserPetitionSubmissionMixin]
             search_fields: [first_name,last_name,project,task_start_date,task_end_date,created,updated]
             ordering_fields: [id]
-            filter_class: [texpenses.filters.PetitionFilter]
          .cli_commands: {}
          .cli_auth:
            .auth_format:
@@ -2986,7 +2984,6 @@ spec:
             mixins: [texpenses.views.mixins.SecretaryPetitionSaveMixin]
             search_fields: [first_name,last_name,project,task_start_date,task_end_date,created,updated]
             ordering_fields: [id]
-            filter_class: [texpenses.filters.PetitionFilter]
          .cli_commands: {}
          .cli_auth:
            .auth_format:
@@ -3012,7 +3009,6 @@ spec:
             mixins: [texpenses.views.mixins.SecretaryPetitionSubmissionMixin]
             search_fields: [first_name,last_name,project,task_start_date,task_end_date,created,updated]
             ordering_fields: [id]
-            filter_class: [texpenses.filters.PetitionFilter]
          .cli_commands: {}
          .cli_auth:
            .auth_format:
@@ -3038,7 +3034,6 @@ spec:
             mixins: [texpenses.views.mixins.UserCompensationMixin]
             search_fields: [first_name,last_name,project,task_start_date,task_end_date,created,updated]
             ordering_fields: [id]
-            filter_class: [texpenses.filters.PetitionFilter]
          .cli_commands: {}
          .cli_auth:
            .auth_format:
@@ -3064,7 +3059,6 @@ spec:
             mixins: [texpenses.views.mixins.SecretaryCompensationMixin]
             search_fields: [first_name,last_name,project,task_start_date,task_end_date,created,updated]
             ordering_fields: [id]
-            filter_class: [texpenses.filters.PetitionFilter]
          .cli_commands: {}
          .cli_auth:
            .auth_format:
