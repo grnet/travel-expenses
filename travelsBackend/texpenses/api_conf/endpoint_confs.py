@@ -1,6 +1,7 @@
 from apimas.modeling.core import documents as doc
 from texpenses.models import Petition
 from rest_framework import serializers
+from django_filters.rest_framework import DjangoFilterBackend
 from texpenses.validators import required_validator
 from texpenses.pagination import TexpensesPagination
 from texpenses.filters import PetitionFilter
@@ -28,6 +29,9 @@ class Configuration(object):
         doc.doc_set(endpoint, ['.drf_collection', 'filter_class'],
                     PetitionFilter)
 
+        doc.doc_set(endpoint, ['.drf_collection', 'filter_backends'],
+                    (DjangoFilterBackend,))
+
     def UserPetitionSubmitConfig(self):
         endpoint = self.spec['api']['petition/user/submitted']
         doc.doc_set(endpoint, ['*', 'status', '.drf_field', 'default'],
@@ -43,6 +47,9 @@ class Configuration(object):
 
         doc.doc_set(endpoint, ['.drf_collection', 'filter_class'],
                     PetitionFilter)
+
+        doc.doc_set(endpoint, ['.drf_collection', 'filter_backends'],
+                    (DjangoFilterBackend,))
 
     def SecretaryPetitionSaveConfig(self):
 
@@ -61,6 +68,9 @@ class Configuration(object):
         doc.doc_set(endpoint, ['.drf_collection', 'filter_class'],
                     PetitionFilter)
 
+        doc.doc_set(endpoint, ['.drf_collection', 'filter_backends'],
+                    (DjangoFilterBackend,))
+
     def SecretaryPetitionSubmitConfig(self):
 
         endpoint = self.spec['api']['petition/secretary/submitted']
@@ -78,6 +88,9 @@ class Configuration(object):
         doc.doc_set(endpoint, ['.drf_collection', 'filter_class'],
                     PetitionFilter)
 
+        doc.doc_set(endpoint, ['.drf_collection', 'filter_backends'],
+                    (DjangoFilterBackend,))
+
     def UserCompensationConfig(self):
 
         endpoint = self.spec['api']['petition/user/compensations']
@@ -94,6 +107,9 @@ class Configuration(object):
         doc.doc_set(endpoint, ['.drf_collection', 'filter_class'],
                     PetitionFilter)
 
+        doc.doc_set(endpoint, ['.drf_collection', 'filter_backends'],
+                    (DjangoFilterBackend,))
+
     def SecretaryCompensationConfig(self):
 
         endpoint = self.spec['api']['petition/secretary/compensations']
@@ -106,6 +122,9 @@ class Configuration(object):
 
         doc.doc_set(endpoint, ['.drf_collection', 'filter_class'],
                     PetitionFilter)
+
+        doc.doc_set(endpoint, ['.drf_collection', 'filter_backends'],
+                    (DjangoFilterBackend,))
 
     def configure_spec(self):
         self.UserPetitionConfig()
