@@ -66,6 +66,7 @@ CACHES = {
         'LOCATION': '127.0.0.1:11211',
     }
 }
+PAGINATION_PAGE_SIZE = 0
 REST_FRAMEWORK = {
     # 'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S",
     'DATETIME_FORMAT': "%Y-%m-%dT%H:%M",
