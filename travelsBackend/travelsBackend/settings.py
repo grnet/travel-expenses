@@ -60,6 +60,12 @@ CRONJOBS = [
     ('0 0 * * *', 'texpenses.actions.compensation_alert',
      '>> /home/kostas/travelRepo/travelsBackend/logs/scheduled_job.log')
 ]
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
 REST_FRAMEWORK = {
     # 'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S",
     'DATETIME_FORMAT': "%Y-%m-%dT%H:%M",
