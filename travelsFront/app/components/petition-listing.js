@@ -5,7 +5,7 @@ export default Ember.Component.extend({
 	
 	deleteMessage: "",
 	statePetitionList: "",
-  tagName: 'tr',
+  tagName: '',
   promptService: Ember.inject.service('prompt'),
 
 	actions: {

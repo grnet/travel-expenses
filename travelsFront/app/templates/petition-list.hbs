@@ -1,63 +1,57 @@
 {{page-toolbar pageTitle=(t "petition_list.title")}}
 
-<div class="container">
-<table class="table responsive">
+{{#paper-data-table as |table|}}
 
   {{#if (or (can "approve petition") (can "compensate petition"))}}
     {{#list-filter
      filter=(action 'filterList') results=(readonly model) model=sortedModel
      as |results|}}  
    
-      <thead>
-        <tr>
-          <th>ΔΣΕ</th> 
-          <th>Όνομα</th>
-          <th>Επώνυμο</th>
-          <th>Έργο</th>
-          <th>Προορισμός</th>
-          <th>Ημ/νία Δημιουργίας</th>
-          <th>Τελευταία ανανέωση</th>
-          <th>Ημ/νία Αναχώρησης</th>
-          <th>Ημ/νία Επιστροφής</th>
-          <th>Κατάσταση</th>
-          <th>Συνολικό Κόστος</th>
-          <th class="link-tab">{{#paper-button raised=true primary=true onClick=(transition-to "userPetition" "new") bubbles=false }}Νεα Αιτηση{{/paper-button}}</th>
-        </tr>
-      </thead>
-      <tbody>
+      {{#table.head as |head|}}
+          {{#head.column}}ΔΣΕ{{/head.column}}
+          {{#head.column}}Όνομα{{/head.column}}
+          {{#head.column}}Επώνυμο{{/head.column}}
+          {{#head.column}}Έργο{{/head.column}}
+          {{#head.column}}Προορισμός{{/head.column}}
+          {{#head.column}}Ημ/νία Δημιουργίας{{/head.column}}
+          {{#head.column}}Τελευταία ανανέωση{{/head.column}}
+          {{#head.column}}Ημ/νία Αναχώρησης{{/head.column}}
+          {{#head.column}}Ημ/νία Επιστροφής{{/head.column}}
+          {{#head.column}}Κατάσταση{{/head.column}}
+          {{#head.column}}Συνολικό Κόστος{{/head.column}}
+          {{#head.column class="link-tab"}}{{#paper-button raised=true primary=true onClick=(transition-to "userPetition" "new") bubbles=false }}Νεα Αιτηση{{/paper-button}}{{/head.column}}
+      {{/table.head}}
+      {{#table.body as |body|}}
         {{#each results as |petition|}}
           {{#if petition.project.name}}
-            {{petition-listing petition=petition 
+            {{petition-listing  petition=petition
               del="petitionDelete" 
               edit="petitionEdit" 
               undo="petitionUndo" 
               view="petitionView" 
               pdf="pdfExport" 
               approve="presidentApproval"
-            }}
+              wrapper=body.row}}
           {{/if}}
         {{/each}}
-      </tbody>
+      {{/table.body}}
     {{/list-filter}}
-
-  {{else}}  
-      <thead>
-        <tr>
-          <th>ΔΣΕ</th> 
-          <th>Όνομα</th>
-          <th>Επώνυμο</th>
-          <th>Έργο</th>
-          <th>Προορισμός</th>
-          <th>Ημ/νία Δημιουργίας</th>
-          <th>Τελευταία ανανέωση</th>
-          <th>Ημ/νία Αναχώρησης</th>
-          <th>Ημ/νία Επιστροφής</th>
-          <th>Κατάσταση</th>
-          <th>Συνολικό Κόστος</th>
-          <th class="link-tab">{{#paper-button raised=true primary=true onClick=(transition-to "userPetition" "new") bubbles=false }}Νεα Αιτηση{{/paper-button}}</th>
-        </tr>
-    </thead>
-    <tbody>
+  {{else}}
+  
+      {{#table.head as |head|}}
+          {{#head.column}}ΔΣΕ{{/head.column}}
+          {{#head.column}}Όνομα{{/head.column}}
+          {{#head.column}}Επώνυμο{{/head.column}}
+          {{#head.column}}Έργο{{/head.column}}
+          {{#head.column}}Προορισμός{{/head.column}}
+          {{#head.column}}Ημ/νία Δημιουργίας{{/head.column}}
+          {{#head.column}}Τελευταία ανανέωση{{/head.column}}
+          {{#head.column}}Ημ/νία Αναχώρησης{{/head.column}}
+          {{#head.column}}Ημ/νία Επιστροφής{{/head.column}}
+          {{#head.column}}Κατάσταση{{/head.column}}
+          {{#head.column class="link-tab"}}{{#paper-button raised=true primary=true onClick=(transition-to "userPetition" "new") bubbles=false }}Νεα Αιτηση{{/paper-button}}{{/head.column}}
+    {{/table.head}}
+    {{#table.body as |body|}}
       {{#each sortedModel as |petition|}}
         {{#if petition.project.name}}
           {{petition-listing petition=petition 
@@ -67,13 +61,15 @@
             view="petitionView" 
             pdf="pdfExport" 
             approve="presidentApproval"
-          }}
+            wrapper=body.row}}
         {{/if}}
       {{/each}}
-    </tbody>
+    {{/table.body}}
   {{/if}}  
-</table>
-</div>
-
-
-
+{{/paper-data-table}}
+{{paper-data-table-pagination
+  page=page
+  pages=pages
+  onChangePage=(action (mut page))
+  onChangeLimit=(action (mut limit))
+}}
