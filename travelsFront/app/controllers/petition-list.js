@@ -1,13 +1,15 @@
 import Ember from 'ember';
 import ENV from 'travels-front/config/environment';
 import {PetitionListRoute, preloadPetitions} from 'travels-front/lib/models/util';
+import PaginationMixin from 'travels-front/mixins/pagination';
 
 const {
   set,
-  get
+  get,
+  computed
 } = Ember;
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(PaginationMixin, {
 
   editPetitionRoute: 'userPetition',
   editCompensationRoute: 'userCompensation',
