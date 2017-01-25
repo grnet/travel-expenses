@@ -22,7 +22,7 @@
           {{#head.column class="link-tab"}}{{#paper-button raised=true primary=true onClick=(transition-to "userPetition" "new") bubbles=false }}Νεα Αιτηση{{/paper-button}}{{/head.column}}
       {{/table.head}}
       {{#table.body as |body|}}
-        {{#each results as |petition|}}
+        {{#each paginatedModel as |petition|}}
           {{#if petition.project.name}}
             {{petition-listing  petition=petition
               del="petitionDelete" 
@@ -52,7 +52,7 @@
           {{#head.column class="link-tab"}}{{#paper-button raised=true primary=true onClick=(transition-to "userPetition" "new") bubbles=false }}Νεα Αιτηση{{/paper-button}}{{/head.column}}
     {{/table.head}}
     {{#table.body as |body|}}
-      {{#each sortedModel as |petition|}}
+      {{#each paginatedModel as |petition|}}
         {{#if petition.project.name}}
           {{petition-listing petition=petition 
             del="petitionDelete" 
@@ -68,8 +68,12 @@
   {{/if}}  
 {{/paper-data-table}}
 {{paper-data-table-pagination
+  limit=limit
+  limitOptions=limitOptions
   page=page
   pages=pages
   onChangePage=(action (mut page))
   onChangeLimit=(action (mut limit))
+  onIncrementPage=(action 'incrementPage')
+  onDecrementPage=(action 'decrementPage')
 }}
