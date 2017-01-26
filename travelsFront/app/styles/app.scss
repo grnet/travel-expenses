@@ -5,6 +5,7 @@ $color-blue: map-merge($color-blue, ('contrast':  $light-contrast-color));
 
 @charset "utf-8";
 @import 'ember-paper';
+@import 'paper-data-table';
 
 
 body, body div.app, body div.app > div { height: 100%; }
