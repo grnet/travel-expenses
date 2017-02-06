@@ -9,8 +9,7 @@ const {
 export default Ember.Mixin.create({
   
   model: [],
-
-  page: 0,
+  page: 1,
   pages: [],
   limit: 5,
   limitOptions: Ember.A([5,10,15]),
@@ -23,10 +22,10 @@ export default Ember.Mixin.create({
     let pages = get(this, 'pages');
     let arrayEnd = Math.floor(model.length/limit) + (model.length%limit);
 
-    for (var i=0; i < arrayEnd; i ++){
-      pages[i] = i;
-    }
-    return model.slice(page * limit, limit * (page + 1));
+    for (var i=1; i < arrayEnd + 1; i ++){
+  		pages[i] = i;
+  	}
+    return model.slice((page - 1) * limit, limit * page);
   }),
 
   actions: {
@@ -35,16 +34,16 @@ export default Ember.Mixin.create({
       let page = get(this, 'page');
       let limit = parseInt(get(this, 'limit'));
       let arrayEnd = Math.floor(model.length/limit) + (model.length%limit);
-      if (page < arrayEnd -1) {
-        let newPage = page + 1;
-        set(this, 'page', newPage); // this will trigger paginatedModel change
-      }
+      if (page < arrayEnd) {
+      	let newPage = page + 1;
+      	set(this, 'page', newPage); // this will trigger paginatedModel change
+    	}
     },
     decrementPage() { 
-      let page = get(this, 'page');
-      if (page > 0) {
-        let newPage = page - 1;
-        set(this, 'page', newPage); // this will trigger paginatedModel change
+    	let page = get(this, 'page');
+    	if (page > 1) {
+	      let newPage = page - 1;
+	      set(this, 'page', newPage); // this will trigger paginatedModel change
       }
     }
   }
