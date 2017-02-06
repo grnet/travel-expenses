@@ -878,8 +878,6 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         If next status is one of the submission statuses, then a checker
         is triggered and tests if the petition is completed.
         """
-        import pdb
-        pdb.set_trace()
         next_status = self.status + 1
         submit = next_status in Petition.SUBMISSION_STATUSES or\
             kwargs.pop('delete', False)
