@@ -8,3 +8,7 @@
 - Έναρξη Εργασιών: {{ start_date }}
 - Λήξη Εργασιών: {{ end_date }}
 
+
+Happy journeys!
+Travel Expenses Team
+
