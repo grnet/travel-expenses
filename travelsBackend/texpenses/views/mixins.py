@@ -47,7 +47,7 @@ class UserPetitionSubmissionMixin(object):
         submitted = self.get_object()
         try:
             petition_id = submitted.status_rollback()
-            headers = {'location': reverse('petition/user/saved-detail',
+            headers = {'location': reverse('api_petition-user-saved-detail',
                                            args=[petition_id])}
             return Response(headers=headers, status=status.HTTP_303_SEE_OTHER)
         except PermissionDenied as e:
@@ -101,7 +101,7 @@ class SecretaryPetitionSubmissionMixin(PDFRenderer):
         submitted = self.get_object()
         try:
             petition_id = submitted.status_rollback()
-            headers = {'location': reverse('petition/secretary/saved-detail',
+            headers = {'location': reverse('api_petition-secretary-saved-detail',
                                            args=[petition_id])}
             return Response(headers=headers, status=status.HTTP_303_SEE_OTHER)
         except PermissionDenied as e:
@@ -228,8 +228,8 @@ class SecretaryPetitionSubmissionMixin(PDFRenderer):
 class UserCompensationMixin(object):
 
     VIEW_NAMES = {
-        Petition.USER_COMPENSATION: 'petition/user/compensations-detail',
-        Petition.USER_COMPENSATION_SUBMISSION: "petition/user/compensations-"
+        Petition.USER_COMPENSATION: 'api_petition-user-compensations-detail',
+        Petition.USER_COMPENSATION_SUBMISSION: "api_petition-user-compensations-"
         "detail"
     }
 
@@ -296,9 +296,9 @@ class UserCompensationMixin(object):
 class SecretaryCompensationMixin(PDFRenderer):
 
     VIEW_NAMES = {
-        Petition.SECRETARY_COMPENSATION: "petition/secretary/"
+        Petition.SECRETARY_COMPENSATION: "api_petition-secretary-"
         "compensations-detail",
-        Petition.SECRETARY_COMPENSATION_SUBMISSION: "petition/secretary/"
+        Petition.SECRETARY_COMPENSATION_SUBMISSION: "api_petition-secretary-"
         "compensations-detail",
     }
 

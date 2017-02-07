@@ -12,18 +12,18 @@ TRAVEL_INFO_USER_SAVE: &TRAVEL_INFO_USER_SAVE
              .field: {}
              .drf_field: {}
              .ref:
-                to: resources/city
+                to: api/city
             departure_point:
              .cli_option: {}
              .field: {}
              .drf_field: {}
              .ref:
-                to: resources/city
+                to: api/city
             means_of_transport:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             accommodation_cost:
              .cli_option: {}
              .field: {}
@@ -44,12 +44,12 @@ TRAVEL_INFO_USER_SAVE: &TRAVEL_INFO_USER_SAVE
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             accommodation_payment_way:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             accommodation_payment_description:
              .cli_option: {}
              .field: {}
@@ -80,7 +80,7 @@ TRAVEL_INFO_USER_SAVE: &TRAVEL_INFO_USER_SAVE
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             transportation_payment_description:
              .cli_option: {}
              .field: {}
@@ -135,7 +135,7 @@ TRAVEL_INFO_USER_SAVE: &TRAVEL_INFO_USER_SAVE
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
      
 
 PETITION_USER_SAVE_FIELDS: &PETITION_USER_SAVE_FIELDS
@@ -173,13 +173,13 @@ PETITION_USER_SAVE_FIELDS: &PETITION_USER_SAVE_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             specialty:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             tax_office:
              .cli_option: {}
@@ -187,7 +187,7 @@ PETITION_USER_SAVE_FIELDS: &PETITION_USER_SAVE_FIELDS
              .drf_field: {}
              .readonly: {}
              .ref:
-                to: resources/tax-office
+                to: api/tax-office
             tax_reg_num:
              .cli_option: {}
              .field: {}
@@ -199,14 +199,14 @@ PETITION_USER_SAVE_FIELDS: &PETITION_USER_SAVE_FIELDS
              .field: {}
              .drf_field: {}
              .readonly: {}
-             .string: {}
+             .choices: {}
             user:
              .cli_option: {}
              .field: {}
              .drf_field: {}
              .readonly: {}
              .ref:
-                to: users
+                to: api/users
             iban:
              .cli_option: {}
              .field: {}
@@ -249,7 +249,7 @@ PETITION_USER_SAVE_FIELDS: &PETITION_USER_SAVE_FIELDS
              .drf_field: {}
              .required: {}
              .ref:
-                to: resources/project
+                to: api/project
             reason:
              .cli_option: {}
              .field: {}
@@ -303,12 +303,12 @@ PETITION_USER_SAVE_FIELDS: &PETITION_USER_SAVE_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             participation_payment_way:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             participation_payment_description:
              .cli_option: {}
              .field: {}
@@ -392,7 +392,7 @@ TRAVEL_INFO_USER_SUBMIT: &TRAVEL_INFO_USER_SUBMIT
                 required: True
                 allow_null: False
              .ref:
-                to: resources/city
+                to: api/city
             departure_point:
              .cli_option: {}
              .field: {}
@@ -401,12 +401,12 @@ TRAVEL_INFO_USER_SUBMIT: &TRAVEL_INFO_USER_SUBMIT
                 allow_null: False
              .required: {}
              .ref:
-                to: resources/city
+                to: api/city
             means_of_transport:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             accommodation_cost:
              .cli_option: {}
              .field: {}
@@ -427,12 +427,12 @@ TRAVEL_INFO_USER_SUBMIT: &TRAVEL_INFO_USER_SUBMIT
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             accommodation_payment_way:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             accommodation_payment_description:
              .cli_option: {}
              .field: {}
@@ -463,7 +463,7 @@ TRAVEL_INFO_USER_SUBMIT: &TRAVEL_INFO_USER_SUBMIT
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             transportation_payment_description:
              .cli_option: {}
              .field: {}
@@ -518,7 +518,7 @@ TRAVEL_INFO_USER_SUBMIT: &TRAVEL_INFO_USER_SUBMIT
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
      
 
 PETITION_USER_SUBMIT_FIELDS: &PETITION_USER_SUBMIT_FIELDS
@@ -556,13 +556,13 @@ PETITION_USER_SUBMIT_FIELDS: &PETITION_USER_SUBMIT_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             specialty:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             tax_office:
              .cli_option: {}
@@ -570,7 +570,7 @@ PETITION_USER_SUBMIT_FIELDS: &PETITION_USER_SUBMIT_FIELDS
              .drf_field: {}
              .readonly: {}
              .ref:
-                to: resources/tax-office
+                to: api/tax-office
             tax_reg_num:
              .cli_option: {}
              .field: {}
@@ -582,14 +582,14 @@ PETITION_USER_SUBMIT_FIELDS: &PETITION_USER_SUBMIT_FIELDS
              .field: {}
              .drf_field: {}
              .readonly: {}
-             .string: {}
+             .choices: {}
             user:
              .cli_option: {}
              .field: {}
              .drf_field: {}
              .readonly: {}
              .ref:
-                to: users
+                to: api/users
             iban:
              .cli_option: {}
              .field: {}
@@ -636,7 +636,7 @@ PETITION_USER_SUBMIT_FIELDS: &PETITION_USER_SUBMIT_FIELDS
              .drf_field: {}
              .required: {}
              .ref:
-                to: resources/project
+                to: api/project
             reason:
              .cli_option: {}
              .field: {}
@@ -694,12 +694,12 @@ PETITION_USER_SUBMIT_FIELDS: &PETITION_USER_SUBMIT_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             participation_payment_way:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             participation_payment_description:
              .cli_option: {}
@@ -780,18 +780,18 @@ TRAVEL_INFO_SECRETARY_SAVE: &TRAVEL_INFO_SECRETARY_SAVE
              .field: {}
              .drf_field: {}
              .ref:
-                to: resources/city
+                to: api/city
             departure_point:
              .cli_option: {}
              .field: {}
              .drf_field: {}
              .ref:
-                to: resources/city
+                to: api/city
             means_of_transport:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             accommodation_cost:
              .cli_option: {}
              .field: {}
@@ -812,12 +812,12 @@ TRAVEL_INFO_SECRETARY_SAVE: &TRAVEL_INFO_SECRETARY_SAVE
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             accommodation_payment_way:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             accommodation_payment_description:
              .cli_option: {}
              .field: {}
@@ -848,7 +848,7 @@ TRAVEL_INFO_SECRETARY_SAVE: &TRAVEL_INFO_SECRETARY_SAVE
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             transportation_payment_description:
              .cli_option: {}
              .field: {}
@@ -908,7 +908,7 @@ TRAVEL_INFO_SECRETARY_SAVE: &TRAVEL_INFO_SECRETARY_SAVE
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
 
 
 
@@ -947,13 +947,13 @@ PETITION_SECRETARY_SAVE_FIELDS: &PETITION_SECRETARY_SAVE_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             specialty:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             tax_office:
              .cli_option: {}
@@ -961,7 +961,7 @@ PETITION_SECRETARY_SAVE_FIELDS: &PETITION_SECRETARY_SAVE_FIELDS
              .drf_field: {}
              .readonly: {}
              .ref:
-                to: resources/tax-office
+                to: api/tax-office
             tax_reg_num:
              .cli_option: {}
              .field: {}
@@ -973,14 +973,14 @@ PETITION_SECRETARY_SAVE_FIELDS: &PETITION_SECRETARY_SAVE_FIELDS
              .field: {}
              .drf_field: {}
              .readonly: {}
-             .string: {}
+             .choices: {}
             user:
              .cli_option: {}
              .field: {}
              .drf_field: {}
              .required: {}
              .ref:
-                to: users
+                to: api/users
             iban:
              .cli_option: {}
              .field: {}
@@ -1023,7 +1023,7 @@ PETITION_SECRETARY_SAVE_FIELDS: &PETITION_SECRETARY_SAVE_FIELDS
              .drf_field: {}
              .required: {}
              .ref:
-                to: resources/project
+                to: api/project
             reason:
              .cli_option: {}
              .field: {}
@@ -1077,12 +1077,12 @@ PETITION_SECRETARY_SAVE_FIELDS: &PETITION_SECRETARY_SAVE_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             participation_payment_way:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             participation_payment_description:
              .cli_option: {}
              .field: {}
@@ -1217,7 +1217,7 @@ TRAVEL_INFO_SECRETARY_SUBMIT: &TRAVEL_INFO_SECRETARY_SUBMIT
                 required: True
                 allow_null: False
              .ref:
-                to: resources/city
+                to: api/city
             departure_point:
              .cli_option: {}
              .field: {}
@@ -1225,7 +1225,7 @@ TRAVEL_INFO_SECRETARY_SUBMIT: &TRAVEL_INFO_SECRETARY_SUBMIT
                 required: True
                 allow_null: False
              .ref:
-                to: resources/city
+                to: api/city
             means_of_transport:
              .cli_option: {}
              .field: {}
@@ -1233,7 +1233,7 @@ TRAVEL_INFO_SECRETARY_SUBMIT: &TRAVEL_INFO_SECRETARY_SUBMIT
                 required: True
                 allow_null: False
                 allow_blank: False
-             .string: {}
+             .choices: {}
             accommodation_cost:
              .cli_option: {}
              .field: {}
@@ -1259,7 +1259,7 @@ TRAVEL_INFO_SECRETARY_SUBMIT: &TRAVEL_INFO_SECRETARY_SUBMIT
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             accommodation_payment_way:
              .cli_option: {}
              .field: {}
@@ -1267,7 +1267,7 @@ TRAVEL_INFO_SECRETARY_SUBMIT: &TRAVEL_INFO_SECRETARY_SUBMIT
                 required: True
                 allow_null: False
                 allow_blank: False
-             .string: {}
+             .choices: {}
             accommodation_payment_description:
              .cli_option: {}
              .field: {}
@@ -1313,7 +1313,7 @@ TRAVEL_INFO_SECRETARY_SUBMIT: &TRAVEL_INFO_SECRETARY_SUBMIT
                 required: True
                 allow_null: False
                 allow_blank: False
-             .string: {}
+             .choices: {}
             transportation_payment_description:
              .cli_option: {}
              .field: {}
@@ -1376,7 +1376,7 @@ TRAVEL_INFO_SECRETARY_SUBMIT: &TRAVEL_INFO_SECRETARY_SUBMIT
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
 
 PETITION_SECRETARY_SUBMIT_FIELDS: &PETITION_SECRETARY_SUBMIT_FIELDS
             id:
@@ -1413,13 +1413,13 @@ PETITION_SECRETARY_SUBMIT_FIELDS: &PETITION_SECRETARY_SUBMIT_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             specialty:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             tax_office:
              .cli_option: {}
@@ -1427,7 +1427,7 @@ PETITION_SECRETARY_SUBMIT_FIELDS: &PETITION_SECRETARY_SUBMIT_FIELDS
              .drf_field: {}
              .readonly: {}
              .ref:
-                to: resources/tax-office
+                to: api/tax-office
             tax_reg_num:
              .cli_option: {}
              .field: {}
@@ -1439,13 +1439,13 @@ PETITION_SECRETARY_SUBMIT_FIELDS: &PETITION_SECRETARY_SUBMIT_FIELDS
              .field: {}
              .drf_field: {}
              .readonly: {}
-             .string: {}
+             .choices: {}
             user:
              .cli_option: {}
              .field: {}
              .drf_field: {}
              .ref:
-                to: users
+                to: api/users
              .required: {}
             iban:
              .cli_option: {}
@@ -1489,7 +1489,7 @@ PETITION_SECRETARY_SUBMIT_FIELDS: &PETITION_SECRETARY_SUBMIT_FIELDS
              .drf_field: {}
              .required: {}
              .ref:
-                to: resources/project
+                to: api/project
             reason:
              .cli_option: {}
              .field: {}
@@ -1543,12 +1543,12 @@ PETITION_SECRETARY_SUBMIT_FIELDS: &PETITION_SECRETARY_SUBMIT_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             participation_payment_way:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             participation_payment_description:
              .cli_option: {}
              .field: {}
@@ -1709,7 +1709,7 @@ TRAVEL_INFO_USER_COMPENSATION: &TRAVEL_INFO_USER_COMPENSATION
                 required: True
                 allow_null: False
              .ref:
-                to: resources/city
+                to: api/city
             departure_point:
              .cli_option: {}
              .field: {}
@@ -1718,12 +1718,12 @@ TRAVEL_INFO_USER_COMPENSATION: &TRAVEL_INFO_USER_COMPENSATION
                 allow_null: False
              .required: {}
              .ref:
-                to: resources/city
+                to: api/city
             means_of_transport:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             accommodation_cost:
              .cli_option: {}
              .field: {}
@@ -1744,12 +1744,12 @@ TRAVEL_INFO_USER_COMPENSATION: &TRAVEL_INFO_USER_COMPENSATION
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             accommodation_payment_way:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             accommodation_payment_description:
              .cli_option: {}
              .field: {}
@@ -1780,7 +1780,7 @@ TRAVEL_INFO_USER_COMPENSATION: &TRAVEL_INFO_USER_COMPENSATION
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             transportation_payment_description:
              .cli_option: {}
              .field: {}
@@ -1835,7 +1835,7 @@ TRAVEL_INFO_USER_COMPENSATION: &TRAVEL_INFO_USER_COMPENSATION
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
      
 
 PETITION_USER_COMPENSATION_FIELDS: &PETITION_USER_COMPENSATION_FIELDS
@@ -1874,13 +1874,13 @@ PETITION_USER_COMPENSATION_FIELDS: &PETITION_USER_COMPENSATION_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             specialty:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             tax_office:
              .cli_option: {}
@@ -1888,7 +1888,7 @@ PETITION_USER_COMPENSATION_FIELDS: &PETITION_USER_COMPENSATION_FIELDS
              .drf_field: {}
              .readonly: {}
              .ref:
-                to: resources/tax-office
+                to: api/tax-office
             tax_reg_num:
              .cli_option: {}
              .field: {}
@@ -1900,14 +1900,14 @@ PETITION_USER_COMPENSATION_FIELDS: &PETITION_USER_COMPENSATION_FIELDS
              .field: {}
              .drf_field: {}
              .readonly: {}
-             .string: {}
+             .choices: {}
             user:
              .cli_option: {}
              .field: {}
              .drf_field: {}
              .required: {}
              .ref:
-                to: users
+                to: api/users
             iban:
              .cli_option: {}
              .field: {}
@@ -1953,7 +1953,7 @@ PETITION_USER_COMPENSATION_FIELDS: &PETITION_USER_COMPENSATION_FIELDS
              .drf_field: {}
              .required: {}
              .ref:
-                to: resources/project
+                to: api/project
             reason:
              .cli_option: {}
              .field: {}
@@ -2012,13 +2012,13 @@ PETITION_USER_COMPENSATION_FIELDS: &PETITION_USER_COMPENSATION_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             participation_payment_way:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             participation_payment_description:
              .cli_option: {}
@@ -2170,20 +2170,20 @@ TRAVEL_INFO_SECRETARY_COMPENSATION: &TRAVEL_INFO_SECRETARY_COMPENSATION
              .field: {}
              .drf_field: {}
              .ref:
-                to: resources/city
+                to: api/city
              .readonly: {}
             departure_point:
              .cli_option: {}
              .field: {}
              .drf_field: {}
              .ref:
-                to: resources/city
+                to: api/city
              .readonly: {}
             means_of_transport:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             accommodation_cost:
              .cli_option: {}
@@ -2206,13 +2206,13 @@ TRAVEL_INFO_SECRETARY_COMPENSATION: &TRAVEL_INFO_SECRETARY_COMPENSATION
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             accommodation_payment_way:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             accommodation_payment_description:
              .cli_option: {}
@@ -2247,7 +2247,7 @@ TRAVEL_INFO_SECRETARY_COMPENSATION: &TRAVEL_INFO_SECRETARY_COMPENSATION
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             transportation_payment_description:
              .cli_option: {}
@@ -2311,7 +2311,7 @@ TRAVEL_INFO_SECRETARY_COMPENSATION: &TRAVEL_INFO_SECRETARY_COMPENSATION
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
      
 
 PETITION_SECRETARY_COMPENSATION_FIELDS: &PETITION_SECRETARY_COMPENSATION_FIELDS
@@ -2350,13 +2350,13 @@ PETITION_SECRETARY_COMPENSATION_FIELDS: &PETITION_SECRETARY_COMPENSATION_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             specialty:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             tax_office:
              .cli_option: {}
@@ -2364,7 +2364,7 @@ PETITION_SECRETARY_COMPENSATION_FIELDS: &PETITION_SECRETARY_COMPENSATION_FIELDS
              .drf_field: {}
              .readonly: {}
              .ref:
-                to: resources/tax-office
+                to: api/tax-office
             tax_reg_num:
              .cli_option: {}
              .field: {}
@@ -2376,14 +2376,14 @@ PETITION_SECRETARY_COMPENSATION_FIELDS: &PETITION_SECRETARY_COMPENSATION_FIELDS
              .field: {}
              .drf_field: {}
              .readonly: {}
-             .string: {}
+             .choices: {}
             user:
              .cli_option: {}
              .field: {}
              .drf_field: {}
              .required: {}
              .ref:
-                to: users
+                to: api/users
             iban:
              .cli_option: {}
              .field: {}
@@ -2428,7 +2428,7 @@ PETITION_SECRETARY_COMPENSATION_FIELDS: &PETITION_SECRETARY_COMPENSATION_FIELDS
              .drf_field: {}
              .required: {}
              .ref:
-                to: resources/project
+                to: api/project
             reason:
              .cli_option: {}
              .field: {}
@@ -2482,12 +2482,12 @@ PETITION_SECRETARY_COMPENSATION_FIELDS: &PETITION_SECRETARY_COMPENSATION_FIELDS
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             participation_payment_way:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             participation_payment_description:
              .cli_option: {}
              .field: {}
@@ -2644,9 +2644,9 @@ PETITION_SECRETARY_COMPENSATION_FIELDS: &PETITION_SECRETARY_COMPENSATION_FIELDS
 
 
 spec:
-    .endpoint: {}
     api:
-       resources/tax-office:
+       .endpoint: {}
+       tax-office:
          .collection: {}
          .drf_collection:
             model: texpenses.models.TaxOffice
@@ -2691,7 +2691,7 @@ spec:
          actions:
              .list: {}
              .retrieve: {}
-       resources/project:
+       project:
          .collection: {}
          .drf_collection:
             model: texpenses.models.Project
@@ -2736,7 +2736,7 @@ spec:
          actions:
              .list: {}
              .retrieve: {}
-       resources/countries:
+       countries:
          .collection: {}
          .drf_collection:
             model: texpenses.models.Country
@@ -2763,18 +2763,18 @@ spec:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {} 
              .readonly: {}
             currency:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {} 
              .readonly: {}
          actions:
              .list: {}
              .retrieve: {}
-       resources/city:
+       city:
          .collection: {}
          .drf_collection:
             model: texpenses.models.City
@@ -2823,13 +2823,13 @@ spec:
                  .cli_option: {}
                  .field: {}
                  .drf_field: {}
-                 .string: {}
+                 .choices: {}
                  .readonly: {}
                 currency:
                  .cli_option: {}
                  .field: {}
                  .drf_field: {}
-                 .string: {}
+                 .choices: {}
                  .readonly: {}
          actions:
              .list: {}
@@ -2837,16 +2837,15 @@ spec:
        users:
          .collection: {}
          .drf_collection:
-            
             model: texpenses.models.UserProfile
             authentication_classes: [rest_framework.authentication.SessionAuthentication,rest_framework.authentication.TokenAuthentication]
             permission_classes: [rest_framework.permissions.IsAuthenticated, rest_framework.permissions.DjangoModelPermissions,texpenses.permissions.custom_permissions.IsOwner]
          .cli_commands: {}
          .cli_auth:
-           .auth_format:
-              format: yaml
-           token:
-             - token
+           format: yaml
+           schema:
+             token:
+               - token
          '*':
             username:
              .cli_option: {}
@@ -2878,12 +2877,12 @@ spec:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             kind:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
             tax_reg_num:
              .cli_option: {}
              .field: {}
@@ -2893,7 +2892,7 @@ spec:
              .cli_option: {}
              .field: {}
              .drf_field: {}
-             .string: {}
+             .choices: {}
              .readonly: {}
             user_group:
              .cli_option: {}
@@ -2908,7 +2907,7 @@ spec:
              .drf_field: {}
              .readonly: {}
              .ref:
-                to: resources/tax-office
+                to: api/tax-office
             tax_reg_num:
              .cli_option: {}
              .field: {}
@@ -2924,7 +2923,7 @@ spec:
              .list: {}
              .retrieve: {}
       
-       petition/user/saved:
+       petition-user-saved:
          .collection: {}
          .drf_collection:
             model: texpenses.models.UserPetition
@@ -2936,10 +2935,10 @@ spec:
             ordering_fields: [id]
          .cli_commands: {}
          .cli_auth:
-           .auth_format:
-              format: yaml
-           token:
-             - token
+           format: yaml
+           schema:
+             token:
+               - token
          '*': 
            *PETITION_USER_SAVE_FIELDS
          actions:
@@ -2949,7 +2948,7 @@ spec:
              .update: {}
              .delete: {}
 
-       petition/user/submitted:
+       petition-user-submitted:
          .collection: {}
          .drf_collection:
             model: texpenses.models.UserPetitionSubmission
@@ -2961,10 +2960,10 @@ spec:
             ordering_fields: [id]
          .cli_commands: {}
          .cli_auth:
-           .auth_format:
-              format: yaml
-           token:
-             - token
+           format: yaml
+           schema:
+             token:
+               - token
          '*': 
             *PETITION_USER_SUBMIT_FIELDS
          actions:
@@ -2974,7 +2973,7 @@ spec:
              .update: {}
              .delete: {}
 
-       petition/secretary/saved:
+       petition-secretary-saved:
          .collection: {}
          .drf_collection:
             model: texpenses.models.SecretaryPetition
@@ -2986,10 +2985,10 @@ spec:
             ordering_fields: [id]
          .cli_commands: {}
          .cli_auth:
-           .auth_format:
-              format: yaml
-           token:
-             - token
+           format: yaml
+           schema:
+             token:
+               - token
          '*': 
             *PETITION_SECRETARY_SAVE_FIELDS
          actions:
@@ -2999,7 +2998,7 @@ spec:
              .update: {}
              .delete: {}     
 
-       petition/secretary/submitted:
+       petition-secretary-submitted:
          .collection: {}
          .drf_collection:
             model: texpenses.models.SecretaryPetitionSubmission
@@ -3011,10 +3010,10 @@ spec:
             ordering_fields: [id]
          .cli_commands: {}
          .cli_auth:
-           .auth_format:
-              format: yaml
-           token:
-             - token
+           format: yaml
+           schema:
+             token:
+               - token
          '*': 
             *PETITION_SECRETARY_SUBMIT_FIELDS
          actions:
@@ -3024,7 +3023,7 @@ spec:
              .update: {}
              .delete: {}     
 
-       petition/user/compensations:
+       petition-user-compensations:
          .collection: {}
          .drf_collection:
             model: texpenses.models.UserCompensation
@@ -3036,10 +3035,10 @@ spec:
             ordering_fields: [id]
          .cli_commands: {}
          .cli_auth:
-           .auth_format:
-              format: yaml
-           token:
-             - token
+           format: yaml
+           schema:
+             token:
+               - token
          '*': 
             *PETITION_USER_COMPENSATION_FIELDS
          actions:
@@ -3049,7 +3048,7 @@ spec:
              .update: {}
              .delete: {}
 
-       petition/secretary/compensations:
+       petition-secretary-compensations:
          .collection: {}
          .drf_collection:
             model: texpenses.models.SecretaryCompensation
@@ -3061,10 +3060,10 @@ spec:
             ordering_fields: [id]
          .cli_commands: {}
          .cli_auth:
-           .auth_format:
-              format: yaml
-           token:
-             - token
+           format: yaml
+           schema:
+             token:
+               - token
          '*': 
             *PETITION_SECRETARY_COMPENSATION_FIELDS
          actions:
