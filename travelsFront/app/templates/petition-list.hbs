@@ -4,8 +4,8 @@
 
   {{#if (or (can "approve petition") (can "compensate petition"))}}
     {{#list-filter
-     filter=(action 'filterList') results=(readonly model) model=sortedModel
-     as |results|}}  
+     filter=(action 'filterList') results=(readonly paginatedModel)
+     as |paginatedModel|}}  
    
       {{#table.head as |head|}}
           {{#head.column}}ΔΣΕ{{/head.column}}
