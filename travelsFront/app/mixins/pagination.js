@@ -9,22 +9,28 @@ const {
 export default Ember.Mixin.create({
   
   model: [],
-  page: 1,
-  pages: [],
+  page: 1,  
   limit: 5,
   limitOptions: Ember.A([5,10,15]),
 
+  pages: computed('model.length', 'limit',
+  function() {
+    let pages = [];
+    let limit = parseInt(get(this, 'limit'));    
+    let modelSize = get(this, 'model.length');
+    let arrayEnd = Math.floor(modelSize/limit) + (modelSize%limit);
+
+    for (var i=1; i < arrayEnd + 1; i ++){
+      pages[i] = i;
+    }
+    return pages;
+  }),
+  
   paginatedModel: computed('model.[]', 'page', 'limit',
   function() {
     let model = get(this, 'model'); 
     let page = parseInt(get(this, 'page'));
-    let limit = parseInt(get(this, 'limit'));
-    let pages = get(this, 'pages');
-    let arrayEnd = Math.floor(model.length/limit) + (model.length%limit);
-
-    for (var i=1; i < arrayEnd + 1; i ++){
-  		pages[i] = i;
-  	}
+    let limit = parseInt(get(this, 'limit'));   
     return model.slice((page - 1) * limit, limit * page);
   }),
 
@@ -33,8 +39,8 @@ export default Ember.Mixin.create({
       let model = get(this, 'model');
       let page = get(this, 'page');
       let limit = parseInt(get(this, 'limit'));
-      let arrayEnd = Math.floor(model.length/limit) + (model.length%limit);
-      if (page < arrayEnd) {
+      let pagesLength = get(this, 'pages.length');;
+      if (page < pagesLength-1) {
       	let newPage = page + 1;
       	set(this, 'page', newPage); // this will trigger paginatedModel change
     	}
