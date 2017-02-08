@@ -7,10 +7,9 @@ from rest_framework import status
 from texpenses.models import Petition
 from datetime import datetime
 from apimas.modeling.adapters.drf import django_rest
-from apimas.modeling.utils import load_config
-from texpenses.permissions.permission_rules import PERMISSION_RULES
 from texpenses.api_conf.endpoint_confs import Configuration
-
+from texpenses.api_conf.spec.spec import spec
+import pprint
 
 DATE_FORMAT = '%Y-%m-%d'
 SENDER = settings.SERVER_EMAIL
@@ -127,19 +126,55 @@ def compensation_alert():
                 petition.compensation_alert = True
                 petition.save()
 
+def pythonize_spec(spec):
+
+    petitions = [spec['api']['petition-user-saved'],\
+                 spec['api']['petition-user-submitted'],
+                 spec['api']['petition-secretary-saved'],
+                 spec['api']['petition-secretary-submitted'],
+                 spec['api']['petition-user-compensations'],
+                 spec['api']['petition-secretary-compensations']
+                 ]
+
+    petition_base = {}
+    travel_info_base = {}
+
+    for idx, petition in enumerate(petitions):
+        travel_info = petition['*']['travel_info']
+        petition['*']['travel_info'] = {}
+
+        if idx > 0:
+           for key in petition_base['*'].keys():
+               if petition['*'][key] == petition_base['*'][key]:
+                   petition['*'].pop(key, None)
+           for key in petition_base.keys():
+               if petition[key] == petition_base[key]:
+                   petition.pop(key, None)
+
+           for key in travel_info_base['.structarray'].keys():
+               if travel_info['.structarray'][key] == \
+                       travel_info_base['.structarray'][key]:
+                   travel_info['.structarray'].pop(key, None)
+           for key in travel_info_base.keys():
+               if travel_info[key] == travel_info_base[key]:
+                   travel_info.pop(key, None)
+        else:
+            petition_base = petition
+            travel_info_base = travel_info
+
+        petition_file = open('petition'+str(idx)+'.py', 'w')
+        travel_info_file = open('travel_info'+str(idx)+'.py', 'w')
+        petition_file.write(pprint.pformat(petition, indent=1))
+        travel_info_file.write(pprint.pformat(travel_info, indent=1))
+        petition_file.close()
+        travel_info_file.close()
 
 def load_apimas_urls():
 
-    config = load_config(settings.APIMAS_CONFIG_PATH,\
-                         settings.APIMAS_CONFIG_NAME)
     adapter = django_rest.DjangoRestAdapter()
-
-    spec = config.get('spec')
-    spec['.endpoint']['permissions'] = PERMISSION_RULES
 
     configuration = Configuration(spec)
     configuration.configure_spec()
 
     adapter.construct(spec)
-    adapter.apply()
-    return adapter.urls
+    return adapter.urls.values()

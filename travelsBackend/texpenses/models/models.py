@@ -128,15 +128,10 @@ class Country(models.Model):
     A country is descibed by its category which define the amount of
     compensation combined with the user category.
     """
-    CATEGORIES = (
-        ('A', 'A'),
-        ('B', 'B'),
-        ('C', 'C')
-    )
 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=False, unique=True)
-    category = models.CharField(choices=CATEGORIES, max_length=1, default='A')
+    category = models.CharField(choices=common.CATEGORIES, max_length=1, default='A')
     currency = models.CharField(
         max_length=3, choices=common.CURRENCIES, blank=False,
         default=settings.DEFAULT_CURRENCY)

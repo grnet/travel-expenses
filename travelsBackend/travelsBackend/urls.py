@@ -15,10 +15,10 @@ api_prefix = settings.API_PREFIX
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^' + api_prefix + '/auth/', include(auth_urls)),
-    load_apimas_urls(),
     url(r'^' + api_prefix + '/docs/', include('rest_framework_docs.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns.extend(load_apimas_urls())
 
 ui_prefix = getattr(settings, 'UI_PREFIX', 'ui/')
 if ui_prefix and ui_prefix != '/':

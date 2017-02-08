@@ -42,6 +42,11 @@ MAX_OVERNIGHT_COST = {
     'B': 160.0
 }
 
+CATEGORIES = (
+    ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C')
+)
 
 COMPENSATION_CATEGORIES = {
     ('A', 'A'): 100.0,
