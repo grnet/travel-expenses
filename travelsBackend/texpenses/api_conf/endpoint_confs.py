@@ -56,28 +56,67 @@ class Configuration(object):
         return petition_base
 
     def _inject_choices_petition_fields(self, endpoint):
-        endpoint['*']['specialty']['.choices']['allowed'] = self.specialties
-        endpoint['*']['kind']['.choices']['allowed'] = self.kinds
+
+        values, names = zip(*self.specialties)
+        endpoint['*']['specialty']['.choices']['allowed'] = values
+        endpoint['*']['specialty']['.choices']['display'] = names
+
+        values, names = zip(*self.kinds)
+        endpoint['*']['kind']['.choices']['allowed'] = values
+        endpoint['*']['kind']['.choices']['display'] = names
+
+        values, names = zip(*self.user_categories)
         endpoint['*']['user_category']['.choices']\
-            ['allowed'] = self.user_categories
+            ['allowed'] = values
+        endpoint['*']['user_category']['.choices']\
+            ['display'] = names
+
+        currency_values, currency_names = zip(*self.currencies)
         endpoint['*']['participation_local_currency']\
-            ['.choices']['allowed'] = self.currencies
+            ['.choices']['allowed'] = currency_values
+        endpoint['*']['participation_local_currency']\
+            ['.choices']['display'] = currency_names
+
+        payment_values, payment_names = zip(*self.payment_ways)
         endpoint['*']['participation_payment_way']\
-            ['.choices']['allowed'] = self.payment_ways
+            ['.choices']['allowed'] = payment_values
+        endpoint['*']['participation_payment_way']\
+            ['.choices']['display'] = payment_names
+
         endpoint['*']['travel_info']['.structarray']\
             ['accommodation_local_currency']\
-            ['.choices']['allowed'] = self.currencies
+            ['.choices']['allowed'] = currency_values
+        endpoint['*']['travel_info']['.structarray']\
+            ['accommodation_local_currency']\
+            ['.choices']['display'] = currency_names
+
         endpoint['*']['travel_info']['.structarray']\
             ['accommodation_payment_way']\
-            ['.choices']['allowed'] = self.payment_ways
+            ['.choices']['allowed'] = payment_values
+        endpoint['*']['travel_info']['.structarray']\
+            ['accommodation_payment_way']\
+            ['.choices']['display'] = payment_names
+
         endpoint['*']['travel_info']['.structarray']\
             ['transportation_payment_way']['.choices']\
-            ['allowed'] = self.payment_ways
+            ['allowed'] = payment_values
+        endpoint['*']['travel_info']['.structarray']\
+            ['transportation_payment_way']['.choices']\
+            ['display'] = payment_names
+
+        values, names = zip(*self.transportation)
         endpoint['*']['travel_info']['.structarray']\
             ['means_of_transport']['.choices']\
-            ['allowed'] = self.transportation
+            ['allowed'] = values
         endpoint['*']['travel_info']['.structarray']\
-            ['meals']['.choices']['allowed'] = self.meals
+            ['means_of_transport']['.choices']\
+            ['display'] = names
+
+        values, names = zip(*self.meals)
+        endpoint['*']['travel_info']['.structarray']\
+            ['meals']['.choices']['allowed'] = values
+        endpoint['*']['travel_info']['.structarray']\
+            ['meals']['.choices']['allowed'] = values
 
     def _inject_standard_configuration(self, endpoint):
         endpoint['.drf_collection']['pagination_class'] = TexpensesPagination
@@ -172,7 +211,7 @@ class Configuration(object):
 
         self._inject_standard_configuration(endpoint)
         self._inject_choices_petition_fields(endpoint)
-        self.spec['api']['petition-secretary-submit'] = endpoint
+        self.spec['api']['petition-secretary-submitted'] = endpoint
 
     def UserCompensationConfig(self):
 
