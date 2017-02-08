@@ -1,4 +1,4 @@
-from apimas.modeling.core import documents as doc
+from apimas import documents as doc
 from texpenses.models import Petition
 from rest_framework import serializers
 from django_filters.rest_framework import DjangoFilterBackend
