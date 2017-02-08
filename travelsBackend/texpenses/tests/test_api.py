@@ -14,13 +14,7 @@ from texpenses.permissions.permission_rules import PERMISSION_RULES
 from rest_framework import status
 from datetime import datetime, timedelta
 from django.core.urlresolvers import reverse
-
-
-config = load_config(settings.APIMAS_CONFIG_PATH,
-                     settings.APIMAS_CONFIG_NAME)
-
-spec = config.get('spec')
-spec['api']['.endpoint']['permissions'] = PERMISSION_RULES
+from texpenses.api_conf.spec.spec import spec
 
 
 configuration = Configuration(spec)
@@ -52,9 +46,9 @@ def petition_secretary_compensation_conf(petition):
     pass
 
 PETITION_COLLECTIONS = {
-    'api_petition-user-saved': [Petition.SAVED_BY_USER,\
+    'api_petition-user-saved': [Petition.SAVED_BY_USER,
                                 petition_user_save_conf],
-    'api_petition-user-submitted': [Petition.SUBMITTED_BY_USER,\
+    'api_petition-user-submitted': [Petition.SUBMITTED_BY_USER,
                                     petition_user_submit_conf],
     'api_petition-secretary-saved': [Petition.SAVED_BY_SECRETARY,
                                      petition_secretary_save_conf],
@@ -125,7 +119,7 @@ class TestApi(ApimasTestCase):
     def set_request_context(self, endpoint, collection, action, instances):
 
         super(TestApi, self).set_request_context(endpoint, collection, action,
-                                                 instances)
+                                                 instances or [])
 
         if collection in PETITION_COLLECTIONS.keys():
             PETITION_COLLECTIONS[collection][1](self.data)
