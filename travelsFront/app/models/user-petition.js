@@ -29,7 +29,7 @@ var Validations = buildValidations({
 
 export default Petition.extend(Validations, {
   __api__: {
-    path: 'petition/user/saved/',
+    path: 'petition-user-saved/',
     normalize: normalizePetition, 
     serialize: serializePetition
   },

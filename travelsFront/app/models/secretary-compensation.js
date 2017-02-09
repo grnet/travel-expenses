@@ -10,7 +10,7 @@ var Validations = buildValidations({
 
 export default SecretaryCompensation.extend(Validations, {
   __api__: {
-    path: 'petition/secretary/compensations/',
+    path: 'petition-secretary-compensations/',
     normalize: normalizePetition, 
     serialize: serializePetition
   },

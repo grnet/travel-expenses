@@ -15,7 +15,7 @@ var Validations=buildValidations({
 
 export default SecretaryPetition.extend(Validations, {
   __api__: {
-    path: 'petition/secretary/submitted/',
+    path: 'petition-secretary-submitted/',
     normalize: normalizePetition, 
     serialize: serializePetition
   },

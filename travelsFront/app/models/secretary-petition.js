@@ -10,7 +10,7 @@ var Validations = buildValidations({
 
 export default SecretaryPetition.extend(Validations, {
   __api__: {
-    path: 'petition/secretary/saved/',
+    path: 'petition-secretary-saved/',
     normalize: normalizePetition, 
     serialize: serializePetition
   },
