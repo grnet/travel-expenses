@@ -35,4 +35,4 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
                   'user_category', 'user_group', 'trip_days_left')
         read_only_fields = ('username', 'trip_days_left', 'user_category')
         extra_kwargs = {'tax_office': {'view_name':
-                                       'tax-office-detail'}}
+                                       'api_tax-office-detail'}}
