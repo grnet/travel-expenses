@@ -19,6 +19,8 @@ from texpenses.api_conf.spec.spec import spec
 
 configuration = Configuration(spec)
 configuration.configure_spec()
+task_start_date = datetime.now() + timedelta(days=2)
+task_end_date = datetime.now() + timedelta(days=4)
 
 
 def petition_user_save_conf(petition):
@@ -26,8 +28,8 @@ def petition_user_save_conf(petition):
 
 
 def petition_user_submit_conf(petition):
-    petition['task_start_date'] = datetime.now() + timedelta(days=2)
-    petition['task_end_date'] = datetime.now() + timedelta(days=3)
+    petition['task_start_date'] = task_start_date
+    petition['task_end_date'] = task_end_date
 
 
 def petition_secretary_save_conf(petition):
@@ -82,7 +84,7 @@ class TestApi(ApimasTestCase):
         setattr(TestApi, 'test_partial_update_petition-user-compensations',
                 test_partial_update)
         setattr(TestApi,
-                'test_partial_update_petition-secretar-compensations',
+                'test_partial_update_petition-secretary-compensations',
                 test_partial_update)
         self.testing_group = Group.objects.create(name='ADMIN')
 
@@ -107,22 +109,27 @@ class TestApi(ApimasTestCase):
         if collection == 'users':
             return [self.user]
         super(TestApi, self).setUp_collection(endpoint, collection, action)
-        if collection in PETITION_COLLECTIONS.keys() and action != 'create':
+        if endpoint + '_' + collection in PETITION_COLLECTIONS.keys()\
+                and action != 'create':
+            instance = self.collection_instances.\
+                get(endpoint + '/' + collection)[0]
             TravelInfo.objects.create(
-                travel_petition=self.collection_instances[0])
-            self.collection_instances[0].deleted = False
-            self.collection_instances[0].user = self.user
-            self.collection_instances[0].status = \
-                PETITION_COLLECTIONS[collection][0]
-            self.collection_instances[0].save()
+                travel_petition=instance)
+            instance.deleted = False
+            instance.user = self.user
+            instance.status = \
+                PETITION_COLLECTIONS[endpoint + '_' + collection][0]
+            instance.save()
 
     def set_request_context(self, endpoint, collection, action, instances):
 
         super(TestApi, self).set_request_context(endpoint, collection, action,
                                                  instances or [])
 
-        if collection in PETITION_COLLECTIONS.keys():
-            PETITION_COLLECTIONS[collection][1](self.data)
+        if endpoint + '_' + collection in PETITION_COLLECTIONS.keys():
+            # self.data['task_end_date'] = task_end_date
+            # self.data['task_start_date'] = task_start_date
+            PETITION_COLLECTIONS[endpoint + '_' + collection][1](self.data)
 
     def validate_response(self, endpoint, collection, action, response, data,
                           response_spec, instances):

@@ -45,8 +45,13 @@ class Configuration(object):
         and injecting an additional one.
         """
         travel_base = copy.deepcopy(travel_info_save)
-        travel_base['.structarray'].\
-            update(travel_info_additional['.structarray'])
+
+        for key in travel_info_additional.keys():
+            try:
+                travel_base[key].update(travel_info_additional[key])
+            except KeyError:
+                travel_base[key] = travel_info_additional[key]
+
         petition_additional['*']['travel_info'] = travel_base
 
         petition_base = copy.deepcopy(petition_save)
