@@ -128,6 +128,7 @@ export default {
   //placeholders
   'placeholder.filterByProject': 'Έργο',
   'placeholder.filterByName': 'Επώνυμο',
+  'placeholder.filterByStatus': 'Κατάσταση',
   'placeholder.filterByDSE': 'ΔΣΕ',
   'placeholder.filterByStartDate': 'Ημ/νία Αναχώρησης',
   'placeholder.filterByEndDate': 'Ημ/νία Επιστροφής',

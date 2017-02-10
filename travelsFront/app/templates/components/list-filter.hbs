@@ -11,6 +11,7 @@
 		{{/each}}
 	{{/paper-select}}
 	{{input value=filters.name  placeholder=(t 'placeholder.filterByName')}}
+	{{input value=filters.status  placeholder=(t 'placeholder.filterByStatus')}}
 	{{pick-a-date date=date on-selected=(action (mut filters.startDate)) placeholder=(t 'placeholder.filterByStartDate')}}
 	{{pick-a-date date=date on-selected=(action (mut filters.endDate)) placeholder=(t 'placeholder.filterByEndDate')}}
 	{{#paper-button bubbles=false raised=true onClick=(action "handleFilterEntry")}}{{t 'list.button.search'}}{{/paper-button}}
