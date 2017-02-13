@@ -107,7 +107,8 @@ class TestApi(ApimasTestCase):
     def setUp_collection(self, endpoint, collection, action):
 
         if collection == 'users':
-            return [self.user]
+            self.collection_instances[endpoint + '/' + collection] = [self.user]
+            return
         super(TestApi, self).setUp_collection(endpoint, collection, action)
         if endpoint + '_' + collection in PETITION_COLLECTIONS.keys()\
                 and action != 'create':
