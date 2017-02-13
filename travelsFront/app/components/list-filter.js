@@ -31,7 +31,6 @@ export default Ember.Component.extend({
 
     handleChangeS(status){      
       this.set('filters.status', status);
-      console.log("This is status in action change", status);
     }, 
     
 
