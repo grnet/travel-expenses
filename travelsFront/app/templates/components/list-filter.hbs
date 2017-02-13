@@ -3,15 +3,23 @@
 		{{t 'filters.title'}}
 	</span>
 	{{input value=filters.dse type="number" placeholder=(t 'placeholder.filterByDSE')}}
-	{{#paper-select id="filter" value=filters.project.name onChange=(action "handleChange") placeholder=placeholderLabel }}
+	{{#paper-select class="filter" value=filters.project.name onChange=(action "handleChange") placeholder=placeholderLabel }}
 		{{#each projects as |project|}}
   		{{#paper-option value=project }}
     		{{project.name}}
   		{{/paper-option}}
 		{{/each}}
 	{{/paper-select}}
+
+	{{#paper-select class="filter" value=filters.status onChange=(action "handleChangeS") placeholder=placeholderLabelS }}
+		{{#each statuses as |status|}}
+  		{{#paper-option value=status }}
+    		{{status}}
+  		{{/paper-option}}
+		{{/each}}
+	{{/paper-select}}
+
 	{{input value=filters.name  placeholder=(t 'placeholder.filterByName')}}
-	{{input value=filters.status  placeholder=(t 'placeholder.filterByStatus')}}
 	{{pick-a-date date=date on-selected=(action (mut filters.startDate)) placeholder=(t 'placeholder.filterByStartDate')}}
 	{{pick-a-date date=date on-selected=(action (mut filters.endDate)) placeholder=(t 'placeholder.filterByEndDate')}}
 	{{#paper-button bubbles=false raised=true onClick=(action "handleFilterEntry")}}{{t 'list.button.search'}}{{/paper-button}}
