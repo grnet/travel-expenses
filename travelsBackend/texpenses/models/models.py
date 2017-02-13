@@ -1252,6 +1252,7 @@ class UserCompensation(Petition):
                 'manager_final_approval', 'manager_travel_approval',
                 'compensation_alert']
     excluded_travel_info = ['accommodation_local_cost',
+                            'accommodation_cost',
                             'overnights_num_manual',
                             'transport_days_manual',
                             'compensation_days_manual']
