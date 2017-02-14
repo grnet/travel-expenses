@@ -9,6 +9,7 @@ from datetime import datetime
 from apimas.backends.drf import django_rest
 from texpenses.api_conf.endpoint_confs import Configuration
 from texpenses.api_conf.spec.spec import spec
+from texpenses.views.utils import render_template2csv
 import pprint
 
 DATE_FORMAT = '%Y-%m-%d'
@@ -16,39 +17,48 @@ SENDER = settings.SERVER_EMAIL
 SECRETARY_EMAIL = settings.SECRETARY_EMAIL
 CONTROLLER_EMAIL = settings.CONTROLLER_EMAIL
 EMAIL_TEMPLATES = {
-    'SUBMISSION': ('submission.txt', 'Υποβολή αίτησης μετακίνησης'),
+    'SUBMISSION': ('submission.txt', 'Υποβολή αίτησης μετακίνησης', True),
     'CANCELLATION': ('cancellation.txt',
-                     'Αναίρεση υποβολής αίτησης μετακίνησης'),
+                     'Αναίρεση υποβολής αίτησης μετακίνησης',False),
     'PETITION_PRESIDENT_APPROVAL': ('petition_president_approval.txt',
-                                    'Έγκριση μετακίνησης απο τον πρόεδρο.'),
+                                    'Έγκριση μετακίνησης απο τον πρόεδρο.',\
+                                    False),
 
     'USER_COMPENSATION_SUBMISSION': ('user_compensation_submission.txt',
                                     "Υποβολή αίτησης αποζημίωσης"
-                                     " από μετακινούμενο."),
+                                     " από μετακινούμενο.",False),
 
     'USER_COMPENSATION_CANCELLATION': ('user_compensation_cancellation.txt',
                                     "Αναίρεση υποβολής αίτησης αποζημίωσης"
-                                     " από μετακινούμενο."),
+                                     " από μετακινούμενο.",False),
 
     'COMPENSATION_PRESIDENT_APPROVAL': ('compensation_president_approval.txt',
-                                    'Έγκριση αποζημίωσης απο τον πρόεδρο.'),
+                                    'Έγκριση αποζημίωσης απο τον πρόεδρο.',\
+                                        False),
     'COMPENSATION_ALERT': ('compensation_alert.txt',
-                           'Ενημέρωση σύνταξης αίτησης αποζημίωσης.')
+                           'Ενημέρωση σύνταξης αίτησης αποζημίωσης.',False)
 }
 
 logger = logging.getLogger(__name__)
 
 
 def send_email(subject, template, params, sender, to, bcc=(), cc=(),
-               fail_silently=True):
+               fail_silently=True, attach_csv=False):
     content = render_to_string(template, params)
     prefix = '<Travel Expenses> '
     try:
-        EmailMessage(
-            prefix + subject, content, sender, to=to, bcc=bcc, cc=cc,
-            connection=get_connection()).send(fail_silently)
+        message = EmailMessage(prefix + subject, content, sender, to=to,
+                               bcc=bcc, cc=cc, connection=get_connection()
+                               )
+        if attach_csv:
+            message.attach('petition.csv', _export_csv(params), 'text/csv')
+        message.send(fail_silently)
     except Exception as e:
         logger.error(e)
+
+def _export_csv(data):
+
+    return render_template2csv(data, 'petition.csv', to_file=True)
 
 
 def inform(petition, action, target_user, inform_controller):
@@ -59,7 +69,8 @@ def inform(petition, action, target_user, inform_controller):
     Recipients of that notification are, user related to that petition,
     secretary and project manager.
     """
-    template, subject = EMAIL_TEMPLATES.get(action, (None, None))
+    template, subject, attach_csv = EMAIL_TEMPLATES.get(action,(None, None,\
+                                                                False))
     assert template is not None and subject is not None
     # TODO alert in case of invalid action?
     # TODO Add more parameters and template wording.
@@ -73,13 +84,25 @@ def inform(petition, action, target_user, inform_controller):
         'first_name': petition.first_name,
         'last_name': petition.last_name,
         'dse': petition.dse,
-        'project_name': petition.project,
-        'departure_point': travel_info.departure_point if travel_info else None,
-        'arrival_point': travel_info.arrival_point if travel_info else None,
-        'start_date': petition.task_start_date,
-        'end_date': petition.task_end_date,
+        'project_name': petition.project.name,
+        'departure_point': travel_info.departure_point.name if travel_info\
+        else None,
+        'arrival_point': travel_info.arrival_point.name if travel_info\
+        else None,
+        'task_start_date': petition.task_start_date,
+        'task_end_date': petition.task_end_date,
         'reason': petition.reason,
     }
+    if attach_csv:
+        params.update(
+            {'kind': petition.get_kind_display(),
+             'specialty': petition.get_specialty_display(),
+             'iban': petition.iban,
+             'tax_reg_num': petition.tax_reg_num,
+             'depart_date': travel_info.depart_date,
+             'return_date': travel_info.return_date,
+            }
+        )
     cc = (petition.user.email,)
     to = (petition.project.manager_email, SECRETARY_EMAIL)\
         if not inform_controller else (petition.project.manager_email,\
@@ -89,7 +112,8 @@ def inform(petition, action, target_user, inform_controller):
         to = (petition.user.email,)
     print subject,template,params,SENDER,to,cc
 
-    send_email(subject, template, params, SENDER, to=to, cc=cc)
+    send_email(subject, template, params, SENDER, to=to, cc=cc,\
+               attach_csv=attach_csv)
 
 
 def inform_on_action(action, target_user=False, inform_controller=False):

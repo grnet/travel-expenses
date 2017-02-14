@@ -8,7 +8,7 @@ from texpenses.models import Petition, UserPetitionSubmission, UserPetition,\
     SecretaryPetition, SecretaryPetitionSubmission, UserCompensation,\
     SecretaryCompensation, City
 from texpenses.actions import inform_on_action
-from texpenses.views.utils import PDFRenderer
+from texpenses.views.utils import render_template2pdf, render_template2csv
 
 
 class CityMixin(object):
@@ -54,6 +54,7 @@ class UserPetitionSubmissionMixin(object):
             return Response({'detail': e.message},
                             status=status.HTTP_403_FORBIDDEN)
 
+
     @inform_on_action('SUBMISSION')
     def create(self, request, *args, **kwargs):
         return super(UserPetitionSubmissionMixin, self).create(request,
@@ -92,8 +93,39 @@ class SecretaryPetitionSaveMixin(object):
         else:
             return query.select_for_update(nowait=True)
 
+    def _extract_info(self, petition_object):
+        data = {}
 
-class SecretaryPetitionSubmissionMixin(PDFRenderer):
+        # user info
+        data.update({'first_name': petition_object.first_name,
+                     'last_name': petition_object.last_name,
+                     'kind': petition_object.get_kind_display(),
+                     'specialty': petition_object.get_specialty_display(),
+                     'iban': petition_object.iban,
+                     'tax_reg_num': petition_object.tax_reg_num
+                     })
+        # petition info
+        travel_info = petition_object.travel_info.all()[0]
+        data.update({'depart_date': travel_info.depart_date,
+                     'return_date': travel_info.return_date,
+                     'task_start_date': petition_object.task_start_date,
+                     'task_end_date': petition_object.task_end_date,
+                     'reason': petition_object.reason,
+                     'departure_point': travel_info.departure_point.name,
+                     'arrival_point': travel_info.arrival_point.name,
+                     'project': petition_object.project.name
+                     })
+        return data
+
+    @detail_route(methods=['get'])
+    def export_csv(self, request, pk=None):
+        template_path = "petition.csv"
+        petition = self.get_object()
+        data = self._extract_info(petition)
+        return render_template2csv(data, template_path)
+
+
+class SecretaryPetitionSubmissionMixin(object):
 
     @detail_route(methods=['post'])
     @transaction.atomic
@@ -108,6 +140,13 @@ class SecretaryPetitionSubmissionMixin(PDFRenderer):
             return Response({'detail': e.message},
                             status=status.HTTP_403_FORBIDDEN)
 
+    @detail_route(methods=['get'])
+    def export_csv(self, request, pk=None):
+        template_path = "petition.csv"
+        petition = self.get_object()
+        data = self._extract_info(petition)
+        return render_template2csv(data, template_path)
+
     @detail_route(methods=['post'])
     @transaction.atomic
     @inform_on_action('PETITION_PRESIDENT_APPROVAL', target_user=True,
@@ -120,7 +159,7 @@ class SecretaryPetitionSubmissionMixin(PDFRenderer):
             if petition.status is ACCEPTED_STATUS:
                 petition.proceed(delete=True)
                 return Response({'message':
-                                'The petition is approved by the president'},
+                                 'The petition is approved by the president'},
                                 status=status.HTTP_200_OK)
             return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
 
@@ -146,7 +185,7 @@ class SecretaryPetitionSubmissionMixin(PDFRenderer):
 
         # user info
         data.update({'first_name': petition_object.first_name,
-                    'last_name': petition_object.last_name,
+                     'last_name': petition_object.last_name,
                      'kind': petition_object.get_kind_display(),
                      'specialty': petition_object.get_specialty_display(),
                      'iban': petition_object.iban,
@@ -155,7 +194,7 @@ class SecretaryPetitionSubmissionMixin(PDFRenderer):
         # petition info
         travel_info = petition_object.travel_info.all()[0]
         data.update({'depart_date': travel_info.depart_date,
-                    'return_date': travel_info.return_date,
+                     'return_date': travel_info.return_date,
                      'task_start_date': petition_object.task_start_date,
                      'task_end_date': petition_object.task_end_date,
                      'trip_days_before': petition_object.trip_days_before,
@@ -200,8 +239,7 @@ class SecretaryPetitionSubmissionMixin(PDFRenderer):
         report_name = 'petition_application_report.pdf'
         petition = self.get_object()
         data = self._extract_info(petition)
-        return self.render_template2pdf(
-            request, data, template_path, report_name)
+        return render_template2pdf(request, data, template_path, report_name)
 
     @detail_route(methods=['get'])
     def decision_report(self, request, pk=None):
@@ -211,8 +249,7 @@ class SecretaryPetitionSubmissionMixin(PDFRenderer):
 
         petition = self.get_object()
         data = self._extract_info(petition)
-        return self.render_template2pdf(
-            request, data, template_path, report_name)
+        return render_template2pdf(request, data, template_path, report_name)
 
     def get_queryset(self):
         non_atomic_requests = permissions.SAFE_METHODS
@@ -293,7 +330,7 @@ class UserCompensationMixin(object):
         pass
 
 
-class SecretaryCompensationMixin(PDFRenderer):
+class SecretaryCompensationMixin(object):
 
     VIEW_NAMES = {
         Petition.SECRETARY_COMPENSATION: "api_petition-secretary-"
@@ -357,7 +394,7 @@ class SecretaryCompensationMixin(PDFRenderer):
                 petition.proceed(delete=True)
                 petition.set_trip_days_left()
                 return Response({'message':
-                                'The petition is approved by the president'},
+                                 'The petition is approved by the president'},
                                 status=status.HTTP_200_OK)
             return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
 
@@ -399,7 +436,7 @@ class SecretaryCompensationMixin(PDFRenderer):
 
         # user info
         data.update({'first_name': petition_object.first_name,
-                    'last_name': petition_object.last_name,
+                     'last_name': petition_object.last_name,
                      'kind': petition_object.get_kind_display(),
                      'specialty': petition_object.get_specialty_display(),
                      'iban': petition_object.iban,
@@ -408,7 +445,7 @@ class SecretaryCompensationMixin(PDFRenderer):
         # petition info
         travel_info = petition_object.travel_info.all()[0]
         data.update({'depart_date': travel_info.depart_date,
-                    'return_date': travel_info.return_date,
+                     'return_date': travel_info.return_date,
                      'task_start_date': petition_object.task_start_date,
                      'task_end_date': petition_object.task_end_date,
                      'trip_days_before': petition_object.trip_days_before,
@@ -463,8 +500,8 @@ class SecretaryCompensationMixin(PDFRenderer):
 
             petition = self.get_object()
             data = self._extract_info(petition)
-            return self.render_template2pdf(
-                request, data, template_path, report_name)
+            return render_template2pdf(request, data, template_path,\
+                                       report_name)
 
         return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
 
@@ -480,6 +517,6 @@ class SecretaryCompensationMixin(PDFRenderer):
 
             petition = self.get_object()
             data = self._extract_info(petition)
-            return self.render_template2pdf(
-                request, data, template_path, report_name)
+            return render_template2pdf(request, data, template_path,\
+                                       report_name)
         return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
