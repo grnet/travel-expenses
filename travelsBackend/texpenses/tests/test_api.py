@@ -22,6 +22,9 @@ configuration.configure_spec()
 task_start_date = datetime.now() + timedelta(days=2)
 task_end_date = datetime.now() + timedelta(days=4)
 
+task_start_date = task_start_date.strftime('%Y-%m-%dT%H:%M')
+task_end_date = task_end_date.strftime('%Y-%m-%dT%H:%M')
+
 
 def petition_user_save_conf(petition):
     pass
