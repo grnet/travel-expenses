@@ -19,7 +19,11 @@ export default Ember.Component.extend({
   placeholderLabelS: t('placeholder.filterByStatus'),
   statuses: Ember.computed(function(){
     var status = CHOICES.STATUS;
-    return status;
+    var statusLabel = [];
+    for (var i=0; i < status.length; i++ ){
+      statusLabel[i] = status[i][0] + ":" + status[i][1]; 
+    }
+    return statusLabel;
   }), 
   
 
@@ -40,7 +44,7 @@ export default Ember.Component.extend({
         dse: this.get('filters.dse'),
         name: this.get('filters.name'),
         project: this.get('filters.project.id'),
-        status: this.get('filters.status')[0],
+        status: this.get('filters.status').substring(0, this.get('filters.status').indexOf(":")),
         startDate: this.get('filters.startDate'),
         endDate: this.get('filters.endDate')
       };
