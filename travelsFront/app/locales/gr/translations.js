@@ -156,7 +156,7 @@ export default {
   'filters.title': 'Φίλτρα Αναζήτησης',
   //travel_report labels
   'travel_report.label': 'Απολογισμός Ταξιδιού',
-  'travel_files.label': 'Ανέβασμα Αρχείων (μέγιστο μέγεθος 8MByte)',
+  'travel_files.label': 'Ανέβασμα Αρχείων (μέγιστο μέγεθος 8MB)',
   'travel_report.label': 'Απολογισμός Μετακίνησης',
   'additional_expenses.label': 'Λοιπά Έξοδα Μετακίνησης',
   'additional_expenses_local_currency.label': 'Νόμισμα',
