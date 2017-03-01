@@ -17,6 +17,13 @@ export default Ember.Controller.extend(PaginationMixin, {
 	statePetitionList: "",
   sortByDse: ['status:desc', 'dse:asc'],
   sortedModel: Ember.computed.sort('model', 'sortByDse'),
+  filters: null,
+  filteredModel: computed('filters', 'model.length', function() {
+    let filters = this.get('filters');   console.log('filters in cotnroller', filters); 
+    if (!filters) { return this.get('model'); } 
+    
+    return this.store.query('secretary-compensation', filters);
+  }),
 
 	actions: {
 
@@ -63,9 +70,8 @@ export default Ember.Controller.extend(PaginationMixin, {
       })
     },
 
-    filterList(filterInputValue) {
-
-      return preloadPetitions(get(this, 'petitionModel'), get(this, 'store'), filterInputValue);
+    setFilters(filters) {
+      set(this, 'filters', filters);
     }
 
 	}

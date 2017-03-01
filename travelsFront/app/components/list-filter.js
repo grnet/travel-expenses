@@ -39,7 +39,6 @@ export default Ember.Component.extend({
     
 
     handleFilterEntry() {
-
       let filterInputValue = {
         dse: this.get('filters.dse'),
         name: this.get('filters.name'),
@@ -49,8 +48,7 @@ export default Ember.Component.extend({
         endDate: this.get('filters.endDate')
       };
 
-      let filterAction = this.get('filter');
-      filterAction(filterInputValue).then((filterResults) => this.set('results', filterResults));
+      this.updateFilters(filterInputValue);
     },
 
     clearFilters() {
@@ -64,8 +62,7 @@ export default Ember.Component.extend({
         endDate: this.set('date', null)
       };
 
-    	let filterAction = this.get('filter');
-      filterAction(filterInputValue).then((filterResults) => this.set('results', filterResults));
+      this.updateFilters(filterInputValue);
     }
   }
 });

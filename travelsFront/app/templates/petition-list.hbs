@@ -3,9 +3,7 @@
 {{#paper-data-table as |table|}}
 
   {{#if (or (can "approve petition") (can "compensate petition"))}}
-    {{#list-filter
-     filter=(action 'filterList') results=(readonly paginatedModel)
-     as |paginatedModel|}}  
+    {{list-filter filters=filters updateFilters=(action 'setFilters')}}
    
       {{#table.head as |head|}}
           {{#head.column}}ΔΣΕ{{/head.column}}
@@ -35,7 +33,6 @@
           {{/if}}
         {{/each}}
       {{/table.body}}
-    {{/list-filter}}
   {{else}}
   
       {{#table.head as |head|}}
