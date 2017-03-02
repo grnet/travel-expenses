@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 from rest_framework import status
 from texpenses.models import Petition
 from datetime import datetime
-from apimas.backends.drf import django_rest
+from apimas.drf import django_rest
 from texpenses.api_conf.endpoint_confs import Configuration
 from texpenses.api_conf.spec.spec import spec
 from texpenses.views.utils import render_template2csv

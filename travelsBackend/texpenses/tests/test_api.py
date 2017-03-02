@@ -1,6 +1,6 @@
-from apimas.backends.drf.testing import (
+from apimas.drf.testing import (
     ApimasTestCase, apimas_context)
-from apimas.utils import load_config
+from apimas.config import configure
 from texpenses.permissions.permission_rules import PERMISSION_RULES
 from texpenses.api_conf.endpoint_confs import Configuration
 from django.conf import settings
