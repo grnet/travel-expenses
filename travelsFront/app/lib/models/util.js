@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 const {
+  set,
   get,
   isArray,
   RSVP: { Promise }
@@ -90,7 +91,8 @@ const serializePetition = function(json) {
   return json;
 }
 
-const preloadPetitions = function(petitionModel, store) {
+const preloadPetitions = function(petitionModel, store, query) {
+  query = query || {};
   return new Ember.RSVP.Promise((resolve, reject) => {
     store.findAll('city').then(() => {
       store.findAll('project').then(() => {
@@ -98,7 +100,7 @@ const preloadPetitions = function(petitionModel, store) {
           petitionModel = [petitionModel];
         }
 
-        let petitions = Promise.all(petitionModel.map((m) => {return store.query(m, {})}));
+        let petitions = Promise.all(petitionModel.map((m) => {return store.query(m, query)}));
         petitions.then((results) => {
           let model = results.reduce((prev, cur) => { return prev.concat(cur.toArray()); }, []);
           model.reload = function() {
@@ -119,10 +121,10 @@ const preloadPetitions = function(petitionModel, store) {
 
 const PetitionListRoute = Ember.Route.extend({
   petitionModel: null,
-  model() {
+  model(params) {
     return preloadPetitions(get(this, 'petitionModel'), get(this, 'store'));
   },
-  setupController(controller,model){
+  setupController(controller, model){
     this._super(controller, model);
     controller.set('petitionModel', this.petitionModel);
   }

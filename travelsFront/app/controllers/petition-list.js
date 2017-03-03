@@ -6,10 +6,16 @@ import PaginationMixin from 'travels-front/mixins/pagination';
 const {
   set,
   get,
-  computed
+  computed,
+  on
 } = Ember;
 
 export default Ember.Controller.extend(PaginationMixin, {
+
+  initFilters: on('init', function() {
+    set(this, 'filters', {});
+    set(this, 'activeFilters', {});
+  }),
 
   editPetitionRoute: 'userPetition',
   editCompensationRoute: 'userCompensation',
@@ -17,12 +23,14 @@ export default Ember.Controller.extend(PaginationMixin, {
 	statePetitionList: "",
   sortByDse: ['status:desc', 'dse:asc'],
   sortedModel: Ember.computed.sort('model', 'sortByDse'),
-  filters: null,
-  filteredModel: computed('filters', 'model.length', function() {
-    let filters = this.get('filters');   console.log('filters in cotnroller', filters); 
+
+  filteredModel: computed('activeFilters', 'model.length', function() {
+    let filters = this.get('activeFilters');   console.log('filters in cotnroller', filters); 
     if (!filters) { return this.get('model'); } 
-    
-    return this.store.query('secretary-compensation', filters);
+
+    if (filters.project) { filters.project = get(filters, 'project.id'); }
+    let promise = preloadPetitions(get(this, 'petitionModel'), this.store, filters);
+    return DS.PromiseArray.create({promise});
   }),
 
 	actions: {
@@ -71,7 +79,7 @@ export default Ember.Controller.extend(PaginationMixin, {
     },
 
     setFilters(filters) {
-      set(this, 'filters', filters);
+      set(this, 'activeFilters', filters);
     }
 
 	}
