@@ -208,7 +208,7 @@ table.responsive {
   }
 }
 
-.filter {
+.filterSelect {
   .md-select-value {
     border: 1px #A5A5A5 solid;
     min-width: 200px;
@@ -221,4 +221,16 @@ table.responsive {
     color: #A5A5A5 !important;
     overflow: hidden;
   } 
+}
+
+.filterInput {
+  .md-input {
+    border: 1px #A5A5A5 solid;
+    min-width: 200px;
+    min-height: 22px;
+    padding: 1px 0px 0px 1px;
+    margin: 20px 0px 0px 0px;
+    align-items: baseline;
+    color: #000000;
+  }
 }
