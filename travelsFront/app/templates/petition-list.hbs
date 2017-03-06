@@ -1,10 +1,10 @@
 {{page-toolbar pageTitle=(t "petition_list.title")}}
+  
+{{#if (or (can "approve petition") (can "compensate petition"))}}
 
-{{#paper-data-table as |table|}}
+  {{list-filter filters=filters updateFilters=(action 'setFilters')}}
 
-  {{#if (or (can "approve petition") (can "compensate petition"))}}
-    {{list-filter filters=filters updateFilters=(action 'setFilters')}}
-   
+  {{#paper-data-table as |table|}}   
       {{#table.head as |head|}}
           {{#head.column}}ΔΣΕ{{/head.column}}
           {{#head.column}}Όνομα{{/head.column}}
@@ -33,8 +33,19 @@
           {{/if}}
         {{/each}}
       {{/table.body}}
-  {{else}}
-  
+  {{/paper-data-table}}
+  {{paper-data-table-pagination
+    limit=limit
+    limitOptions=limitOptions
+    page=page
+    pages=pages
+    onChangePage=(action (mut page))
+    onChangeLimit=(action (mut limit))
+    onIncrementPage=(action 'incrementPage')
+    onDecrementPage=(action 'decrementPage')
+  }}         
+{{else}}
+  {{#paper-data-table as |table|}}
       {{#table.head as |head|}}
           {{#head.column}}ΔΣΕ{{/head.column}}
           {{#head.column}}Όνομα{{/head.column}}
@@ -62,15 +73,16 @@
         {{/if}}
       {{/each}}
     {{/table.body}}
-  {{/if}}  
-{{/paper-data-table}}
-{{paper-data-table-pagination
-  limit=limit
-  limitOptions=limitOptions
-  page=page
-  pages=pages
-  onChangePage=(action (mut page))
-  onChangeLimit=(action (mut limit))
-  onIncrementPage=(action 'incrementPage')
-  onDecrementPage=(action 'decrementPage')
-}}
+  {{/paper-data-table}}
+  {{paper-data-table-pagination
+    limit=limit
+    limitOptions=limitOptions
+    page=page
+    pages=pages
+    onChangePage=(action (mut page))
+    onChangeLimit=(action (mut limit))
+    onIncrementPage=(action 'incrementPage')
+    onDecrementPage=(action 'decrementPage')
+  }}
+{{/if}}  
+
