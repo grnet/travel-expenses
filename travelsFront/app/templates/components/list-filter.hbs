@@ -11,6 +11,13 @@
   		{{/paper-option}}
 		{{/each}}
 	{{/paper-select}}
+	{{#paper-select class="filterSelect" value=filters.status onChange=(action (mut filters.status)) placeholder=placeholderLabelS }}
+		{{#each statuses as |status|}}
+      {{#paper-option value=status }}
+        {{status}}
+      {{/paper-option}}
+    {{/each}}
+	{{/paper-select}}	
 	{{pick-a-date date=depart_date__gte on-selected=(action (mut filters.depart_date__gte)) placeholder=(t 'placeholder.filterByStartDate')}}
 	{{pick-a-date date=return_date__lte on-selected=(action (mut filters.return_date__lte)) placeholder=(t 'placeholder.filterByEndDate')}}
 	{{#paper-button bubbles=false raised=true onClick=(action "handleFilterEntry")}}{{t 'list.button.search'}}{{/paper-button}}

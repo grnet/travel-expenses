@@ -29,6 +29,7 @@ export default Ember.Controller.extend(PaginationMixin, {
     if (!filters) { return this.get('model'); } 
 
     if (filters.project) { filters.project = get(filters, 'project.id'); }
+    if (filters.status) { filters.status = get(filters, 'status').substring(0, this.get('filters.status').indexOf(":")); }
     if (filters.depart_date__gte) { filters.depart_date__gte = moment(get(filters, 'depart_date__gte')).format("YYYY-MM-DD"); }
     if (filters.return_date__lte) { filters.return_date__lte = moment(get(filters, 'return_date__lte')).format("YYYY-MM-DD"); }
     let promise = preloadPetitions(get(this, 'petitionModel'), this.store, filters);
