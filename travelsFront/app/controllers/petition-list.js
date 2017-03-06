@@ -25,7 +25,7 @@ export default Ember.Controller.extend(PaginationMixin, {
   sortedModel: Ember.computed.sort('model', 'sortByDse'),
 
   filteredModel: computed('activeFilters', 'model.length', function() {
-    let filters = this.get('activeFilters');   console.log('filters in cotnroller', filters); 
+    let filters = this.get('activeFilters'); 
     if (!filters) { return this.get('model'); } 
 
     if (filters.project) { filters.project = get(filters, 'project.id'); }
