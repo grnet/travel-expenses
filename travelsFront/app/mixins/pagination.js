@@ -10,7 +10,7 @@ export default Ember.Mixin.create({
   
   modelToPaginate: Ember.computed.reads('filteredModel'),
   page: 1,  
-  limit: 5,
+  limit: 10,
   limitOptions: Ember.A([5,10,15]),
 
   pages: computed('modelToPaginate.length', 'limit', function() {
