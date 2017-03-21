@@ -42,9 +42,8 @@ export default Ember.Component.extend({
         last_name: this.set('filters.last_name', ''),
         project: this.set('filters.project', ''),
         status: this.set('filters.status', ''),
-        status: this.set('filters.status', ''),
-        depart_date__gte: this.set('depart_date__gte', null),
-        return_date__lte: this.set('return_date__lte', null)
+        depart_date__gte: this.set('date', null),
+        return_date__lte: this.set('date', null),
       };
       this.updateFilters(emptyFilters);
     }
