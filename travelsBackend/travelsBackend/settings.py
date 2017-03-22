@@ -29,6 +29,7 @@ TEMPLATE_DIRS = ()
 MEDIA_ROOT = 'uploads'
 MAX_HOLIDAY_DAYS = 60
 SECRETARY_EMAIL = 'test@email.com'
+CONTROLLER_EMAIL = 'controller@email.com'
 
 DEFAULT_CURRENCY = 'EUR'
 HOST_URL = "http://localhost:8000/"
@@ -50,7 +51,19 @@ INSTALLED_APPS = (
     'djoser',
     'crispy_forms',
     'rest_framework_docs',
+    'django_crontab',
 )
+CRONJOBS = [
+    ('0 0 * * *', 'texpenses.actions.compensation_alert',
+     '>> /home/kostas/travelRepo/travelsBackend/logs/scheduled_job.log')
+]
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+PAGINATION_PAGE_SIZE = 0
 REST_FRAMEWORK = {
     # 'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S",
     'DATETIME_FORMAT': "%Y-%m-%dT%H:%M",
@@ -59,7 +72,7 @@ REST_FRAMEWORK = {
     ),
 }
 DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': 'auth/password/reset/confirm/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': API_PREFIX + '/auth/password/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': API_PREFIX + '/auth/activate/{uid}/{token}',
     'PASSWORD_VALIDATORS': [],
     'SERIALIZERS': {},
@@ -77,16 +90,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-    }
-}
-REST_FRAMEWORK_EXTENSIONS = {
-    'DEFAULT_CACHE_ERRORS': False,
-    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 60
-}
 ROOT_URLCONF = 'travelsBackend.urls'
 
 WSGI_APPLICATION = 'travelsBackend.wsgi.application'
@@ -159,6 +162,10 @@ LOGGING = {
             'handlers': ['console', 'mail_admins', 'file'],
             'level': 'INFO'
         },
+        'django_crontab': {
+            'handlers': ['console', 'mail_admins', 'file'],
+            'level': 'DEBUG'
+        },
         # 'django.db': {
             # 'handlers': ['console', 'mail_admins', 'file'],
             # 'level': 'DEBUG'
@@ -168,7 +175,8 @@ LOGGING = {
 }
 
 # Path to resources file.
-RESOURCES_FILE = os.path.join(BASE_DIR, '../resources/common.json')
+RESOURCES_FILE = os.path.join(BASE_DIR,
+                              '../resources/common.json')
 try:
     from local_settings import *
 except ImportError, e:

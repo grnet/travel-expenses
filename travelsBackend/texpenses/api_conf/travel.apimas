@@ -1,0 +1,3078 @@
+root: http://localhost:8000
+
+TRAVEL_INFO_USER_SAVE: &TRAVEL_INFO_USER_SAVE
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            arrival_point:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .ref:
+                to: api/city
+            departure_point:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .ref:
+                to: api/city
+            means_of_transport:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            accommodation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            accommodation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            accommodation_local_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            accommodation_local_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            accommodation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            accommodation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            return_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+            depart_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+            transportation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            transportation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            transportation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            transportation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            transport_days_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            overnight_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            compensation_level:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            same_day_return_task:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .boolean: {}
+            compensation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            compensation_days_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            overnights_num_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            transport_days_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            compensation_days_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            meals:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+     
+
+PETITION_USER_SAVE_FIELDS: &PETITION_USER_SAVE_FIELDS
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            dse:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: False
+                allow_null: True
+             .integer: {}
+             .nullable: {}
+            url:
+             .drf_field: {}
+             .identity: {}
+             .readonly: {}
+            first_name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            last_name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            kind:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            specialty:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            tax_office:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .ref:
+                to: api/tax-office
+            tax_reg_num:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            user_category:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .choices: {}
+            user:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .ref:
+                to: api/users
+            iban:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            task_start_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: False
+             .datetime: {}
+            task_end_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: False
+             .datetime: {}
+            created:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+             .readonly: {}
+            updated:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+             .readonly: {}
+            travel_info:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: False
+             .structarray: *TRAVEL_INFO_USER_SAVE
+            project:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .required: {}
+             .ref:
+                to: api/project
+            reason:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            secretary_recommendation:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            user_recommendation:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            trip_days_before:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            trip_days_after:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            status:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            participation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            participation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            participation_local_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            participation_local_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            participation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            participation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            additional_expenses_initial:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            additional_expenses_initial_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            additional_expenses_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            overnights_sum_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            overnights_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            transport_days:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            overnights_num:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            overnights_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            overnights_sum_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            task_duration:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            compensation_final:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            total_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+
+TRAVEL_INFO_USER_SUBMIT: &TRAVEL_INFO_USER_SUBMIT
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            arrival_point:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+             .ref:
+                to: api/city
+            departure_point:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+             .required: {}
+             .ref:
+                to: api/city
+            means_of_transport:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            accommodation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            accommodation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            accommodation_local_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            accommodation_local_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            accommodation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            accommodation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            return_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+            depart_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+            transportation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            transportation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            transportation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            transportation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            transport_days_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            overnight_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            compensation_level:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            same_day_return_task:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .boolean: {}
+            compensation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            compensation_days_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            overnights_num_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            transport_days_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            compensation_days_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            meals:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+     
+
+PETITION_USER_SUBMIT_FIELDS: &PETITION_USER_SUBMIT_FIELDS
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            dse:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: False
+               allow_null: True
+             .integer: {}
+             .nullable: {}
+            url:
+             .drf_field: {}
+             .identity: {}
+             .readonly: {}
+            first_name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            last_name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            kind:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            specialty:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            tax_office:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .ref:
+                to: api/tax-office
+            tax_reg_num:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            user_category:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .choices: {}
+            user:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .ref:
+                to: api/users
+            iban:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            task_start_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+             .datetime: {}
+             .required: {}
+            task_end_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: True
+               allow_null: False
+             .datetime: {}
+             .required: {}
+            created:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+             .readonly: {}
+            updated:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+             .readonly: {}
+            travel_info:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: False
+             .structarray: *TRAVEL_INFO_USER_SUBMIT
+            project:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .required: {}
+             .ref:
+                to: api/project
+            reason:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: True
+               allow_blank: False
+               allow_null: False
+             .string: {}
+             .required: {}
+            secretary_recommendation:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            user_recommendation:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            trip_days_before:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            trip_days_after:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            status:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            participation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            participation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+             .readonly: {}
+            participation_local_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            participation_local_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            participation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            participation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            additional_expenses_initial:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            additional_expenses_initial_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            additional_expenses_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            overnights_sum_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            overnights_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            transport_days:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            overnights_num:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            overnights_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            overnights_sum_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            task_duration:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            compensation_final:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            total_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+
+TRAVEL_INFO_SECRETARY_SAVE: &TRAVEL_INFO_SECRETARY_SAVE
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            arrival_point:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .ref:
+                to: api/city
+            departure_point:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .ref:
+                to: api/city
+            means_of_transport:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            accommodation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            accommodation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            accommodation_local_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            accommodation_local_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            accommodation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            accommodation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            return_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+            depart_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+            transportation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            transportation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            transportation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            transportation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            transport_days_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            overnight_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            compensation_level:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            same_day_return_task:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .boolean: {}
+             .readonly: {}
+            compensation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            compensation_days_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            overnights_num_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            transport_days_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            compensation_days_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            meals:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+
+
+
+PETITION_SECRETARY_SAVE_FIELDS: &PETITION_SECRETARY_SAVE_FIELDS
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            dse:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: False
+               allow_null: True
+             .integer: {}
+             .nullable: {}
+            url:
+             .drf_field: {}
+             .identity: {}
+             .readonly: {}
+            first_name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            last_name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            kind:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            specialty:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            tax_office:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .ref:
+                to: api/tax-office
+            tax_reg_num:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            user_category:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .choices: {}
+            user:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .required: {}
+             .ref:
+                to: api/users
+            iban:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            task_start_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: False
+             .datetime: {}
+            task_end_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: False
+             .datetime: {}
+            created:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+             .readonly: {}
+            updated:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+             .readonly: {}
+            travel_info:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: False
+             .structarray: *TRAVEL_INFO_SECRETARY_SAVE
+            project:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .required: {}
+             .ref:
+                to: api/project
+            reason:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            secretary_recommendation:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            user_recommendation:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            trip_days_before:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            trip_days_after:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            status:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            participation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            participation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            participation_local_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            participation_local_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            participation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            participation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            additional_expenses_initial:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            additional_expenses_initial_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            additional_expenses_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            overnights_sum_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            overnights_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            transport_days:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            overnights_num:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            overnights_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            overnights_sum_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            task_duration:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            compensation_final:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            total_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            non_grnet_quota:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            grnet_quota:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            expenditure_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            expenditure_date_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .date: {}
+            movement_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            movement_date_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .date: {}
+            movement_id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            manager_travel_approval:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            manager_final_approval:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+
+TRAVEL_INFO_SECRETARY_SUBMIT: &TRAVEL_INFO_SECRETARY_SUBMIT
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            arrival_point:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+             .ref:
+                to: api/city
+            departure_point:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+             .ref:
+                to: api/city
+            means_of_transport:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+                allow_blank: False
+             .choices: {}
+            accommodation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+             .float: {}
+            accommodation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+                allow_blank: False
+             .string: {}
+             .readonly: {}
+            accommodation_local_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            accommodation_local_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            accommodation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+                allow_blank: False
+             .choices: {}
+            accommodation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+                allow_blank: False
+             .string: {}
+            return_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+             .datetime: {}
+            depart_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+             .datetime: {}
+            transportation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+             .float: {}
+            transportation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+                allow_blank: False
+             .string: {}
+             .readonly: {}
+            transportation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+                allow_blank: False
+             .choices: {}
+            transportation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+                allow_blank: False
+             .string: {}
+            transport_days_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            overnight_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            compensation_level:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            same_day_return_task:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .boolean: {}
+             .readonly: {}
+            compensation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            compensation_days_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            overnights_num_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            transport_days_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            compensation_days_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            meals:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+
+PETITION_SECRETARY_SUBMIT_FIELDS: &PETITION_SECRETARY_SUBMIT_FIELDS
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            dse:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: False
+               allow_null: True
+             .integer: {}
+             .nullable: {}
+            url:
+             .drf_field: {}
+             .identity: {}
+             .readonly: {}
+            first_name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            last_name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            kind:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            specialty:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            tax_office:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .ref:
+                to: api/tax-office
+            tax_reg_num:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            user_category:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .choices: {}
+            user:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .ref:
+                to: api/users
+             .required: {}
+            iban:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            task_start_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: False
+             .datetime: {}
+            task_end_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: False
+             .datetime: {}
+            created:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+             .readonly: {}
+            updated:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+             .readonly: {}
+            travel_info:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: False
+             .structarray: *TRAVEL_INFO_SECRETARY_SUBMIT
+            project:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .required: {}
+             .ref:
+                to: api/project
+            reason:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            secretary_recommendation:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            user_recommendation:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            trip_days_before:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            trip_days_after:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            status:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            participation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            participation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            participation_local_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            participation_local_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            participation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            participation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            additional_expenses_initial:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+             .float: {}
+             .required: {}
+            additional_expenses_initial_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            additional_expenses_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+                allow_blank: False
+             .string: {}
+             .required: {}
+            overnights_sum_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            overnights_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            transport_days:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            overnights_num:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            overnights_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            overnights_sum_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            task_duration:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            compensation_final:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            total_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            non_grnet_quota:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            grnet_quota:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            expenditure_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_blank: False
+                allow_null: False
+             .string: {}
+             .required: {}
+            expenditure_date_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: True
+               allow_null: False
+             .date: {}
+             .required: {}
+            movement_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_blank: False
+                allow_null: False
+             .string: {}
+             .required: {}
+            movement_date_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: True
+               allow_null: False
+             .date: {}
+             .required: {}
+            movement_id:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                 required: True
+                 allow_blank: False
+                 allow_null: False
+             .string: {}
+             .required: {}
+            manager_travel_approval:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            manager_final_approval:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+
+
+TRAVEL_INFO_USER_COMPENSATION: &TRAVEL_INFO_USER_COMPENSATION
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            arrival_point:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+             .ref:
+                to: api/city
+            departure_point:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: True
+                allow_null: False
+             .required: {}
+             .ref:
+                to: api/city
+            means_of_transport:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            accommodation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            accommodation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            accommodation_local_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            accommodation_local_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            accommodation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            accommodation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            return_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+            depart_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+            transportation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            transportation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            transportation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            transportation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            transport_days_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            overnight_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            compensation_level:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            same_day_return_task:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .boolean: {}
+            compensation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            compensation_days_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            overnights_num_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            transport_days_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            compensation_days_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            meals:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+     
+
+PETITION_USER_COMPENSATION_FIELDS: &PETITION_USER_COMPENSATION_FIELDS
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            dse:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: False
+                allow_null: True
+             .integer: {}
+             .nullable: {}
+             .readonly: {}
+            url:
+             .drf_field: {}
+             .identity: {}
+             .readonly: {}
+            first_name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            last_name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            kind:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            specialty:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            tax_office:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .ref:
+                to: api/tax-office
+            tax_reg_num:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            user_category:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .choices: {}
+            user:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .required: {}
+             .ref:
+                to: api/users
+            iban:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            task_start_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: False
+             .datetime: {}
+             .readonly: {}
+            task_end_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: False
+             .datetime: {}
+             .readonly: {}
+            created:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+             .readonly: {}
+            updated:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+             .readonly: {}
+            travel_info:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: False
+             .structarray: *TRAVEL_INFO_USER_COMPENSATION
+             .readonly: {}
+            project:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .required: {}
+             .ref:
+                to: api/project
+            reason:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            secretary_recommendation:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            user_recommendation:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            trip_days_before:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            trip_days_after:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            status:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            participation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            participation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            participation_local_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            participation_local_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            participation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            participation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            overnights_sum_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            overnights_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            transport_days:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            overnights_num:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            task_duration:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            compensation_final:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            total_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            additional_expenses_initial:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            additional_expenses_initial_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            additional_expenses_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            additional_expenses:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            additional_expenses_local_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            additional_expenses_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            travel_report:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            travel_files:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .file: {}
+            non_grnet_quota:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            movement_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            movement_date_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .date: {}
+             .readonly: {}
+            expenditure_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            expenditure_date_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .date: {}
+             .readonly: {}
+            movement_id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            manager_final_approval:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            manager_travel_approval:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+
+TRAVEL_INFO_SECRETARY_COMPENSATION: &TRAVEL_INFO_SECRETARY_COMPENSATION
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            arrival_point:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .ref:
+                to: api/city
+             .readonly: {}
+            departure_point:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .ref:
+                to: api/city
+             .readonly: {}
+            means_of_transport:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            accommodation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            accommodation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            accommodation_local_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            accommodation_local_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            accommodation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            accommodation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            return_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+             .readonly: {}
+            depart_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+             .readonly: {}
+            transportation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            transportation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            transportation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            transportation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            transport_days_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            overnight_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            compensation_level:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            same_day_return_task:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .boolean: {}
+             .readonly: {}
+            compensation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            compensation_days_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            overnights_num_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            transport_days_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            compensation_days_manual:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            meals:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+     
+
+PETITION_SECRETARY_COMPENSATION_FIELDS: &PETITION_SECRETARY_COMPENSATION_FIELDS
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            dse:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: False
+                allow_null: True
+             .integer: {}
+             .nullable: {}
+             .readonly: {}
+            url:
+             .drf_field: {}
+             .identity: {}
+             .readonly: {}
+            first_name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            last_name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            kind:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            specialty:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            tax_office:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .ref:
+                to: api/tax-office
+            tax_reg_num:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            user_category:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .choices: {}
+            user:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .required: {}
+             .ref:
+                to: api/users
+            iban:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            task_start_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: False
+             .datetime: {}
+             .readonly: {}
+            task_end_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+                required: False
+             .datetime: {}
+             .readonly: {}
+            created:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+             .readonly: {}
+            updated:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .datetime: {}
+             .readonly: {}
+            travel_info:
+             .cli_option: {}
+             .field: {}
+             .drf_field:
+               required: False
+             .structarray: *TRAVEL_INFO_SECRETARY_COMPENSATION
+            project:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .required: {}
+             .ref:
+                to: api/project
+            reason:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            secretary_recommendation:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            user_recommendation:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            trip_days_before:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            trip_days_after:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            status:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            participation_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            participation_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            participation_local_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            participation_local_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            participation_payment_way:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            participation_payment_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            additional_expenses_initial:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            additional_expenses_initial_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            additional_expenses_default_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            additional_expenses_local_currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            additional_expenses_description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            additional_expenses:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+            overnights_sum_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            overnights_proposed:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            transport_days:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            overnights_num:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+             .readonly: {}
+            task_duration:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .integer: {}
+            compensation_final:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            total_cost:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            non_grnet_quota:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .float: {}
+             .readonly: {}
+            travel_report:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            travel_files:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .file: {}
+             .readonly: {}
+            compensation_petition_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            compensation_petition_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .date: {}
+            compensation_decision_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            compensation_decision_date:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .date: {}
+            manager_travel_approval:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            manager_final_approval:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            movement_id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            expenditure_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            expenditure_date_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .date: {}
+             .readonly: {}
+            movement_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            movement_date_protocol:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .date: {}
+             .readonly: {}
+
+
+spec:
+    api:
+       .endpoint: {}
+       tax-office:
+         .collection: {}
+         .drf_collection:
+            model: texpenses.models.TaxOffice
+            mixins: [rest_framework_extensions.cache.mixins.CacheResponseMixin]
+         .cli_commands: {}
+         '*':
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            url:
+             .drf_field: {}
+             .identity: {}
+             .readonly: {}
+            name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            description:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            address:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            email:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            phone:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+         actions:
+             .list: {}
+             .retrieve: {}
+       project:
+         .collection: {}
+         .drf_collection:
+            model: texpenses.models.Project
+            mixins: [rest_framework_extensions.cache.mixins.CacheResponseMixin]
+         .cli_commands: {}
+         '*':
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            url:
+             .drf_field: {}
+             .identity: {}
+             .readonly: {}
+            name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            accounting_code:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            manager_name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            manager_surname:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            manager_email:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+         actions:
+             .list: {}
+             .retrieve: {}
+       countries:
+         .collection: {}
+         .drf_collection:
+            model: texpenses.models.Country
+            mixins: [rest_framework_extensions.cache.mixins.CacheResponseMixin]
+         .cli_commands: {}
+         '*':
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            url:
+             .drf_field: {}
+             .identity: {}
+             .readonly: {}
+            name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            category:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {} 
+             .readonly: {}
+            currency:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {} 
+             .readonly: {}
+         actions:
+             .list: {}
+             .retrieve: {}
+       city:
+         .collection: {}
+         .drf_collection:
+            model: texpenses.models.City
+            mixins: [rest_framework_extensions.cache.mixins.CacheResponseMixin,texpenses.views.mixins.CityMixin]
+         .cli_commands: {}
+         '*':
+            id:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .serial: {}
+             .readonly: {}
+            url:
+             .drf_field: {}
+             .identity: {}
+             .readonly: {}
+            name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            country:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .struct:
+                id:
+                 .cli_option: {}
+                 .field: {}
+                 .drf_field: {}
+                 .serial: {}
+                 .readonly: {}
+                url:
+                 .drf_field: {}
+                 .identity: {}
+                 .readonly: {}
+                name:
+                 .cli_option: {}
+                 .field: {}
+                 .drf_field: {}
+                 .string: {}
+                 .readonly: {}
+                category:
+                 .cli_option: {}
+                 .field: {}
+                 .drf_field: {}
+                 .choices: {}
+                 .readonly: {}
+                currency:
+                 .cli_option: {}
+                 .field: {}
+                 .drf_field: {}
+                 .choices: {}
+                 .readonly: {}
+         actions:
+             .list: {}
+             .retrieve: {}
+       users:
+         .collection: {}
+         .drf_collection:
+            model: texpenses.models.UserProfile
+            authentication_classes: [rest_framework.authentication.SessionAuthentication,rest_framework.authentication.TokenAuthentication]
+            permission_classes: [rest_framework.permissions.IsAuthenticated, rest_framework.permissions.DjangoModelPermissions,texpenses.permissions.custom_permissions.IsOwner]
+         .cli_commands: {}
+         .cli_auth:
+           format: yaml
+           schema:
+             token:
+               - token
+         '*':
+            username:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+            first_name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            last_name:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            email:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            iban:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            specialty:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            kind:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+            tax_reg_num:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            user_category:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .choices: {}
+             .readonly: {}
+            user_group:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+             .readonly: {}
+             .nullable: {}
+            tax_office:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .ref:
+                to: api/tax-office
+            tax_reg_num:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .string: {}
+            trip_days_left:
+             .cli_option: {}
+             .field: {}
+             .drf_field: {}
+             .readonly: {}
+             .integer: {}
+         actions:
+             .list: {}
+             .retrieve: {}
+      
+       petition-user-saved:
+         .collection: {}
+         .drf_collection:
+            model: texpenses.models.UserPetition
+            authentication_classes: [rest_framework.authentication.SessionAuthentication,rest_framework.authentication.TokenAuthentication]
+            permission_classes: [rest_framework.permissions.IsAuthenticated, rest_framework.permissions.DjangoModelPermissions]
+            model_serializers: [texpenses.serializers.mixins.PetitionMixin]
+            mixins: [texpenses.views.mixins.UserPetitionMixin]
+            search_fields: [first_name,last_name,project,task_start_date,task_end_date,created,updated]
+            ordering_fields: [id]
+         .cli_commands: {}
+         .cli_auth:
+           format: yaml
+           schema:
+             token:
+               - token
+         '*': 
+           *PETITION_USER_SAVE_FIELDS
+         actions:
+             .create: {}
+             .list: {}
+             .retrieve: {}
+             .update: {}
+             .delete: {}
+
+       petition-user-submitted:
+         .collection: {}
+         .drf_collection:
+            model: texpenses.models.UserPetitionSubmission
+            authentication_classes: [rest_framework.authentication.SessionAuthentication,rest_framework.authentication.TokenAuthentication]
+            permission_classes: [rest_framework.permissions.IsAuthenticated, rest_framework.permissions.DjangoModelPermissions]
+            model_serializers: [texpenses.serializers.mixins.PetitionMixin]
+            mixins: [texpenses.views.mixins.UserPetitionSubmissionMixin]
+            search_fields: [first_name,last_name,project,task_start_date,task_end_date,created,updated]
+            ordering_fields: [id]
+         .cli_commands: {}
+         .cli_auth:
+           format: yaml
+           schema:
+             token:
+               - token
+         '*': 
+            *PETITION_USER_SUBMIT_FIELDS
+         actions:
+             .create: {}
+             .list: {}
+             .retrieve: {}
+             .update: {}
+             .delete: {}
+
+       petition-secretary-saved:
+         .collection: {}
+         .drf_collection:
+            model: texpenses.models.SecretaryPetition
+            authentication_classes: [rest_framework.authentication.SessionAuthentication,rest_framework.authentication.TokenAuthentication]
+            permission_classes: [rest_framework.permissions.IsAuthenticated, rest_framework.permissions.DjangoModelPermissions]
+            model_serializers: [texpenses.serializers.mixins.PetitionMixin]
+            mixins: [texpenses.views.mixins.SecretaryPetitionSaveMixin]
+            search_fields: [first_name,last_name,project,task_start_date,task_end_date,created,updated]
+            ordering_fields: [id]
+         .cli_commands: {}
+         .cli_auth:
+           format: yaml
+           schema:
+             token:
+               - token
+         '*': 
+            *PETITION_SECRETARY_SAVE_FIELDS
+         actions:
+             .create: {}
+             .list: {}
+             .retrieve: {}
+             .update: {}
+             .delete: {}     
+
+       petition-secretary-submitted:
+         .collection: {}
+         .drf_collection:
+            model: texpenses.models.SecretaryPetitionSubmission
+            authentication_classes: [rest_framework.authentication.SessionAuthentication,rest_framework.authentication.TokenAuthentication]
+            permission_classes: [rest_framework.permissions.IsAuthenticated, rest_framework.permissions.DjangoModelPermissions]
+            model_serializers: [texpenses.serializers.mixins.PetitionMixin]
+            mixins: [texpenses.views.mixins.SecretaryPetitionSubmissionMixin]
+            search_fields: [first_name,last_name,project,task_start_date,task_end_date,created,updated]
+            ordering_fields: [id]
+         .cli_commands: {}
+         .cli_auth:
+           format: yaml
+           schema:
+             token:
+               - token
+         '*': 
+            *PETITION_SECRETARY_SUBMIT_FIELDS
+         actions:
+             .create: {}
+             .list: {}
+             .retrieve: {}
+             .update: {}
+             .delete: {}     
+
+       petition-user-compensations:
+         .collection: {}
+         .drf_collection:
+            model: texpenses.models.UserCompensation
+            authentication_classes: [rest_framework.authentication.SessionAuthentication,rest_framework.authentication.TokenAuthentication]
+            permission_classes: [rest_framework.permissions.IsAuthenticated, rest_framework.permissions.DjangoModelPermissions]
+            model_serializers: [texpenses.serializers.mixins.PetitionMixin]
+            mixins: [texpenses.views.mixins.UserCompensationMixin]
+            search_fields: [first_name,last_name,project,task_start_date,task_end_date,created,updated]
+            ordering_fields: [id]
+         .cli_commands: {}
+         .cli_auth:
+           format: yaml
+           schema:
+             token:
+               - token
+         '*': 
+            *PETITION_USER_COMPENSATION_FIELDS
+         actions:
+             .create: {}
+             .list: {}
+             .retrieve: {}
+             .update: {}
+             .delete: {}
+
+       petition-secretary-compensations:
+         .collection: {}
+         .drf_collection:
+            model: texpenses.models.SecretaryCompensation
+            authentication_classes: [rest_framework.authentication.SessionAuthentication,rest_framework.authentication.TokenAuthentication]
+            permission_classes: [rest_framework.permissions.IsAuthenticated, rest_framework.permissions.DjangoModelPermissions]
+            model_serializers: [texpenses.serializers.mixins.PetitionMixin]
+            mixins: [texpenses.views.mixins.SecretaryCompensationMixin]
+            search_fields: [first_name,last_name,project,task_start_date,task_end_date,created,updated]
+            ordering_fields: [id]
+         .cli_commands: {}
+         .cli_auth:
+           format: yaml
+           schema:
+             token:
+               - token
+         '*': 
+            *PETITION_SECRETARY_COMPENSATION_FIELDS
+         actions:
+             .create: {}
+             .list: {}
+             .retrieve: {}
+             .update: {}
+             .delete: {}   
+   
+
+
+

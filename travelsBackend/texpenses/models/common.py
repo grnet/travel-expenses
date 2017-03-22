@@ -8,11 +8,17 @@ def load_resources():
 
 
 def user_directory_path(instance, filename):
-    travel_info = instance.travel_info.all()[0]
-    arrival_point_id = travel_info.arrival_point.id
-    depart_date = travel_info.depart_date
-    year = depart_date.year
-    month = depart_date.month
+
+    arrival_point_id = 'unknown_arrival_id'
+    year = 'unknon_year'
+    month = 'unknown_month'
+
+    if instance.travel_info.all():
+        travel_info = instance.travel_info.all()[0]
+        arrival_point_id = travel_info.arrival_point.id
+        depart_date = travel_info.depart_date
+        year = depart_date.year
+        month = depart_date.month
     filename = filename.encode('utf8')
 
     str_repr = '{0}/{1}/{2}_{3}/{4}'.format(instance.user.username,
@@ -36,6 +42,11 @@ MAX_OVERNIGHT_COST = {
     'B': 160.0
 }
 
+CATEGORIES = (
+    ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C')
+)
 
 COMPENSATION_CATEGORIES = {
     ('A', 'A'): 100.0,

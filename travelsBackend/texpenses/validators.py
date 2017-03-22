@@ -52,7 +52,7 @@ def start_end_date_validator(dates, labels):
                 repr(end_label), repr(start_label)))
 
 
-def date_validator(value):
+def date_validator(field, value):
     """
     This validator checks if a given object (date or datetime) is after from
     current date.
@@ -64,4 +64,5 @@ def date_validator(value):
     """
     now = datetime.now().date() if type(value) is date else datetime.now()
     if value and value <= now:
-        raise ValidationError('This date field should be after today.')
+        raise ValidationError('The {} date field should be after today.'.
+                              format(field))

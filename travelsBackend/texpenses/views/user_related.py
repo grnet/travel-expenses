@@ -6,10 +6,11 @@ from django.conf import settings
 import requests
 from django.http import HttpResponse
 from djoser import views as djoser_views
-from texpenses.serializers import CustomUserRegistrationSerializer
+from djoser import utils as djoser_utils
+from texpenses.serializers import CustomUserRegistrationSerializer,\
+    PasswordResetConfirmRetypeSerializer, UserProfileSerializer
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
-from texpenses.models import UserProfile
-from texpenses.generators.serializers import generate
+from rest_framework import response, status
 
 logger = logging.getLogger(__name__)
 
@@ -67,10 +68,24 @@ class CustomPasswordResetView(djoser_views.PasswordResetView):
     pass
 
 
-class CustomPasswordResetConfirmView(djoser_views.PasswordResetConfirmView):
+class PasswordResetView(djoser_views.PasswordResetConfirmView):
 
     """Use this endpoint to finish reset password process"""
-    pass
+
+    def post(self, request, **kwargs):
+
+        uid = djoser_utils.decode_uid(kwargs['uid'])
+        self.user = User.objects.get(pk=uid)
+
+        return super(PasswordResetView, self).post(request)
+
+    def action(self, serializer):
+        self.user.set_password(serializer.data['new_password'])
+        self.user.save()
+        return response.Response(status=status.HTTP_200_OK)
+
+    def get_serializer_class(self):
+        return PasswordResetConfirmRetypeSerializer
 
 
 class CustomLoginView(djoser_views.LoginView):
@@ -101,7 +116,7 @@ class CustomUserDetailedView(djoser_views.UserView):
 
     """API endpoint that allows a user to view and edit his personal info"""
 
-    serializer_class = generate(UserProfile)
+    serializer_class = UserProfileSerializer
     permission_classes = (
         IsAuthenticated, DjangoModelPermissions,
     )
