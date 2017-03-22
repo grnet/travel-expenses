@@ -24,7 +24,7 @@ export default Ember.Controller.extend(PaginationMixin, {
   sortByDse: ['status:desc', 'dse:asc'],
   sortedModel: Ember.computed.sort('model', 'sortByDse'),
 
-  filteredModel: computed('activeFilters', 'model.length', function() {
+  filteredModel: computed('activeFilters', 'model.[]', function() {
     let filters = this.get('activeFilters'); 
     if (!filters) { return this.get('model'); } 
 
@@ -74,7 +74,7 @@ export default Ember.Controller.extend(PaginationMixin, {
 		petitionDelete(model){
       if (model.get("currentState.stateName") == "root.deleted.inFlight") { return; }
       model.destroyRecord().then(() => {
-        set(this, 'actionMessage', 'petition.delete.success');
+        get(this, 'model').reload();
       }, (err) => {
         console.error(err);
         set(this, 'actionMessage', 'petition.delete.fail')
