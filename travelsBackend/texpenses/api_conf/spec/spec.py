@@ -70,7 +70,7 @@ tax_office_conf = {'*': {'address': {'.cli_option': {},
                                        ["rest_framework_extensions.cache."
                                         "mixins.CacheResponseMixin"],
                                        'model': 'texpenses.models.TaxOffice'},
-                   'actions': {'.list': {}, '.retrieve': {}}}
+                   '.actions': {'.list': {}, '.retrieve': {}}}
 
 project_conf = {'*': {'accounting_code': {'.cli_option': {},
                                           '.drf_field': {},
@@ -105,7 +105,7 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                                     ["rest_framework_extensions."
                                      "cache.mixins.CacheResponseMixin"],
                                     'model': 'texpenses.models.Project'},
-                'actions': {'.list': {}, '.retrieve': {}}}
+                '.actions': {'.list': {}, '.retrieve': {}}}
 
 user_conf = {'*': {'email': {'.cli_option': {},
                              '.drf_field': {},
@@ -173,7 +173,7 @@ user_conf = {'*': {'email': {'.cli_option': {},
                   ['rest_framework.permissions.IsAuthenticated',
                    'rest_framework.permissions.DjangoModelPermissions',
                    'texpenses.permissions.custom_permissions.IsOwner']},
-             'actions': {'.list': {}, '.retrieve': {}}}
+             '.actions': {'.list': {}, '.retrieve': {}}}
 
 countries_conf = {'*': {'category': {'.choices': {},
                                      '.cli_option': {},
@@ -204,7 +204,7 @@ countries_conf = {'*': {'category': {'.choices': {},
                    ["rest_framework_extensions.cache.mixins."
                     "CacheResponseMixin"],
                    'model': 'texpenses.models.Country'},
-                  'actions': {'.list': {}, '.retrieve': {}}}
+                  '.actions': {'.list': {}, '.retrieve': {}}}
 
 city_conf = {'*': {'country': {'.cli_option': {},
                                '.drf_field': {},
@@ -252,4 +252,4 @@ city_conf = {'*': {'country': {'.cli_option': {},
               ['rest_framework_extensions.cache.mixins.CacheResponseMixin',
                'texpenses.views.mixins.CityMixin'],
               'model': 'texpenses.models.City'},
-             'actions': {'.list': {}, '.retrieve': {}}}
+             '.actions': {'.list': {}, '.retrieve': {}}}
