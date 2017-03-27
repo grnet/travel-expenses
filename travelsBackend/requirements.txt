@@ -1,5 +1,4 @@
 apimas==0.3
--e git+ssh://phab-vcs-user@phab.dev.grnet.gr:222/diffusion/APIMAS/apimas.git@334398e0d5e8916f64b0c16c57fb42040a4e4278#egg=apimas_drf&subdirectory=apimas-drf
 backports.shutil-get-terminal-size==1.0.0
 cairocffi==0.6
 CairoSVG==1.0.22
