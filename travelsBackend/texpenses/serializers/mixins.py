@@ -46,11 +46,7 @@ class PetitionMixin(object):
                                     'task_start_date': data['task_start_date'],
                                     'task_end_date': data['task_end_date']}
 
-        relative_petition_exclude_filter = {'dse': dse, 'user': data['user'],
-                                            'task_start_date':
-                                            data['task_start_date'],
-                                            'task_end_date':
-                                            data['task_end_date']}
+        relative_petition_exclude_filter = {'dse': dse, 'user': data['user']}
 
         relative_records = Petition.objects.filter(**relative_petition_filter)
 
