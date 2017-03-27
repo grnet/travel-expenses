@@ -404,6 +404,11 @@ class TravelInfo(Accommodation, Transportation):
         return max_compensation * compensation_proportion * (
             self.travel_petition.grnet_quota() / percentage)
 
+    def __unicode__(self):
+        return str(self.travel_petition.dse) + "-" + \
+            self.travel_petition.project.name +\
+            '-' + str(self.travel_petition.id)
+
 
 class SecretarialInfo(models.Model):
 
