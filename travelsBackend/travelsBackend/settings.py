@@ -177,6 +177,8 @@ LOGGING = {
 # Path to resources file.
 RESOURCES_FILE = os.path.join(BASE_DIR,
                               '../resources/common.json')
+
+from texpenses.permissions.permission_rules import PERMISSION_RULES
 try:
     from local_settings import *
 except ImportError, e:
