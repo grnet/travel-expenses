@@ -120,6 +120,8 @@ PERMISSION_RULES = [
     ('petition-user-compensations', 'save', 'USER', '*', '*', '*'),
     ('petition-user-compensations', 'submit', 'USER', '*', '*', '*'),
     ('petition-user-compensations', 'cancel', 'USER', '*', '*', '*'),
+    ('petition-user-compensations', 'application_report', 'USER', '*', '*',
+     '*'),
     ('petition-user-compensations', 'create', 'ADMIN', '*', '*', '*'),
     ('petition-user-compensations', 'update', 'ADMIN', '*', '*', '*'),
     ('petition-user-compensations', 'list', 'ADMIN', '*', '*', '*'),
@@ -127,7 +129,8 @@ PERMISSION_RULES = [
     ('petition-user-compensations', 'save', 'ADMIN', '*', '*', '*'),
     ('petition-user-compensations', 'submit', 'ADMIN', '*', '*', '*'),
     ('petition-user-compensations', 'cancel', 'ADMIN', '*', '*', '*'),
-
+    ('petition-user-compensations', 'application_report', 'ADMIN', '*', '*',
+     '*'),
 
     ('petition-secretary-compensations', 'create', 'CONTROLLER', '*', '*', '*'),
     ('petition-secretary-compensations', 'list', 'CONTROLLER', '*', '*', '*'),

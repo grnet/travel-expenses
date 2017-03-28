@@ -54,7 +54,6 @@ class UserPetitionSubmissionMixin(object):
             return Response({'detail': e.message},
                             status=status.HTTP_403_FORBIDDEN)
 
-
     @inform_on_action('SUBMISSION')
     def create(self, request, *args, **kwargs):
         return super(UserPetitionSubmissionMixin, self).create(request,
@@ -133,8 +132,9 @@ class SecretaryPetitionSubmissionMixin(object):
         submitted = self.get_object()
         try:
             petition_id = submitted.status_rollback()
-            headers = {'location': reverse('api_petition-secretary-saved-detail',
-                                           args=[petition_id])}
+            headers = {'location': reverse(
+                'api_petition-secretary-saved-detail',
+                args=[petition_id])}
             return Response(headers=headers, status=status.HTTP_303_SEE_OTHER)
         except PermissionDenied as e:
             return Response({'detail': e.message},
@@ -329,6 +329,80 @@ class UserCompensationMixin(object):
             return query.select_for_update(nowait=True)
         pass
 
+    def _extract_info(self, petition_object):
+        data = {}
+
+        # protocol info
+        data.update(
+            {'dse': petition_object.dse,
+             'movement_id': petition_object.movement_id,
+             'movement_date_protocol': petition_object.movement_date_protocol,
+             'movement_protocol': petition_object.movement_protocol,
+             'expenditure_protocol': petition_object.expenditure_protocol,
+             'expenditure_date_protocol':
+             petition_object.expenditure_date_protocol,
+
+             }
+        )
+
+        # user info
+        data.update({'first_name': petition_object.first_name,
+                     'last_name': petition_object.last_name,
+                     'kind': petition_object.get_kind_display(),
+                     'specialty': petition_object.get_specialty_display(),
+                     'iban': petition_object.iban,
+                     'tax_reg_num': petition_object.tax_reg_num
+                     })
+        # petition info
+        travel_info = petition_object.travel_info.all()[0]
+        data.update({'depart_date': travel_info.depart_date,
+                     'return_date': travel_info.return_date,
+                     'task_start_date': petition_object.task_start_date,
+                     'task_end_date': petition_object.task_end_date,
+                     'trip_days_before': petition_object.trip_days_before,
+                     'trip_days_after': petition_object.trip_days_after,
+                     'transport_days': petition_object.transport_days,
+                     'overnights_num': petition_object.overnights_num,
+                     'reason': petition_object.reason,
+                     'departure_point': travel_info.departure_point.name,
+                     'arrival_point': travel_info.arrival_point.name,
+                     'means_of_transport': travel_info.
+                     get_means_of_transport_display(),
+                     'transportation_cost': travel_info.transportation_cost,
+                     'transportation_default_currency': travel_info.
+                     transportation_default_currency,
+                     'overnights_num_manual':
+                     travel_info.overnights_num_manual,
+                     'accommodation_cost': travel_info.accommodation_cost,
+                     'overnights_sum_cost':
+                     petition_object.overnights_sum_cost,
+                     'accommodation_default_currency': travel_info.
+                     accommodation_default_currency,
+                     'participation_cost': petition_object.participation_cost,
+                     'participation_default_currency': petition_object.
+                     participation_local_currency,
+                     'additional_expenses_initial': petition_object.
+                     additional_expenses_initial,
+                     'additional_expenses_default_currency': petition_object.
+                     additional_expenses_default_currency,
+                     'total_cost': petition_object.total_cost,
+                     'project': petition_object.project.name,
+                     'compensation_days_manual': travel_info.
+                     compensation_days_manual,
+                     'compensation_level': travel_info.compensation_level(),
+                     'compensation_cost': travel_info.compensation_cost()
+                     })
+        return data
+
+    @detail_route(methods=['get'])
+    def application_report(self, request, pk=None):
+        template_path = "texpenses/movement_petition_application/" +\
+            "movement_petition_application.html"
+        report_name = 'petition_application_report.pdf'
+        petition = self.get_object()
+        data = self._extract_info(petition)
+        return render_template2pdf(request, data, template_path, report_name)
+
 
 class SecretaryCompensationMixin(object):
 
@@ -500,7 +574,7 @@ class SecretaryCompensationMixin(object):
 
             petition = self.get_object()
             data = self._extract_info(petition)
-            return render_template2pdf(request, data, template_path,\
+            return render_template2pdf(request, data, template_path,
                                        report_name)
 
         return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
@@ -517,6 +591,6 @@ class SecretaryCompensationMixin(object):
 
             petition = self.get_object()
             data = self._extract_info(petition)
-            return render_template2pdf(request, data, template_path,\
+            return render_template2pdf(request, data, template_path,
                                        report_name)
         return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
