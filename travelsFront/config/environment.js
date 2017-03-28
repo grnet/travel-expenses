@@ -1,13 +1,10 @@
 /* jshint node: true */
-var API_EP = 'http://localhost:8000/api';
-var APPLICATION_URL_PREFIX='/app/';
-var choices = require('../../resources/common');
-
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'travels-front',
+    modulePrefix: 'travel',
     environment: environment,
     rootURL: '/ui/',
+    appURL: '/api/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
@@ -19,21 +16,16 @@ module.exports = function(environment) {
         Date: false
       }
     },
-
-    APP: {
-      // Here you can pass flags/options to your application instance
-      // when it is created
-      backend_host: API_EP,
-      resource_choices: choices,
-    }
+    APP: {}
   };
 
   ENV['ember-simple-auth'] = {
+    authenticationRoute: 'auth.index',
     authorizer: 'authorizer:token'
   };
 
   ENV['ember-simple-auth-token'] = {
-    serverTokenEndpoint: ENV.APP.backend_host + '/auth/login/',
+    serverTokenEndpoint: '/api/auth/login/',
     identificationField: 'username',
     passwordField: 'password',
     tokenPropertyName: 'auth_token',
