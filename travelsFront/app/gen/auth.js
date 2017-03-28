@@ -9,7 +9,7 @@ const {
 export default AuthGen.extend({
   login: {
     config: {
-      authenticator: 'apimas'
+      authenticator: 'travel'
     }
   },
 
