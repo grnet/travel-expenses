@@ -9,19 +9,19 @@ const {
 export default AuthGen.extend({
   login: {
     config: {
-      authenticator: 'token'
+      authenticator: 'apimas'
     }
   },
 
   profile: {
-  	
-    modelName: 'profile',
-    menu: { display: true, icon: 'perm_identity',},
-
+    menu: {
+      display: true,
+      icon: 'portrait',
+      label: 'profile.menu_label',
+    },
     getModel() {
       return get(this, 'store').findRecord('profile', 'me');
     }
-  	
   }
 })
 
