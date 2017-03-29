@@ -19,6 +19,7 @@ export default AuthGen.extend({
       icon: 'portrait',
       label: 'profile.menu_label',
     },
+
     getModel() {
       return get(this, 'store').findRecord('profile', 'me');
     }
