@@ -110,7 +110,6 @@ def inform(petition, action, target_user, inform_controller):
     if target_user:
         cc = to
         to = (petition.user.email,)
-    print subject,template,params,SENDER,to,cc
 
     send_email(subject, template, params, SENDER, to=to, cc=cc,\
                attach_csv=attach_csv)
@@ -146,7 +145,8 @@ def compensation_alert():
         return_date = travel_info.return_date.strftime(DATE_FORMAT)
         if return_date == inform_date:
             if not petition.compensation_alert:
-                inform(petition, action='COMPENSATION_ALERT', target_user=True)
+                inform(petition, action='COMPENSATION_ALERT', target_user=True,\
+                       inform_controller=False)
                 petition.compensation_alert = True
                 petition.save()
 
