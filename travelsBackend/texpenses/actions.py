@@ -84,7 +84,7 @@ def inform(petition, action, target_user, inform_controller):
         'first_name': petition.first_name,
         'last_name': petition.last_name,
         'dse': petition.dse,
-        'project_name': petition.project.name,
+        'project': petition.project.name,
         'departure_point': travel_info.departure_point.name if travel_info\
         else None,
         'arrival_point': travel_info.arrival_point.name if travel_info\
