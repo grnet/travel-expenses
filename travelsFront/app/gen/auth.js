@@ -14,6 +14,7 @@ export default AuthGen.extend({
   },
 
   profile: {
+    modelName: 'profile',
     menu: {
       display: true,
       icon: 'portrait',
@@ -25,4 +26,3 @@ export default AuthGen.extend({
     }
   }
 })
-
