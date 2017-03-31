@@ -2,8 +2,11 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   __api__: {
-    ns: '/'
+    path: 'tax-office'
   },
+  full_label: Ember.computed('name', function(){
+    return this.get('name');
+  }),
 	name:  DS.attr(),
 	description:  DS.attr(),
 	address:  DS.attr(),
