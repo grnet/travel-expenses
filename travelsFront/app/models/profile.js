@@ -16,6 +16,7 @@ export default  Profile.extend({
   },
 
   username: DS.attr(),
+  email: DS.attr('string'),
   first_name: DS.attr(),
   last_name: DS.attr(),
   iban: DS.attr(),
