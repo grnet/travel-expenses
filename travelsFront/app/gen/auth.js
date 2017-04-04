@@ -1,6 +1,5 @@
 import gen from 'ember-gen/lib/gen';
 import AuthGen from 'ember-gen/lib/auth';
-import routes from 'ember-gen/lib/routes';
 
 const {
   get, computed
@@ -18,8 +17,24 @@ export default AuthGen.extend({
     menu: {
       display: true,
       icon: 'portrait',
-      label: 'profile.menu_label',
+      label: 'profile.tab',
     },
+    fieldsets: [
+      {
+        label: 'my_account.label',
+        fields: ['username', 'email'],
+        layout: {
+          flex: [50, 50]
+        }
+      },
+      {
+        label: 'personal_info.label',
+        fields: ['first_name', 'last_name', 'iban', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'user_category'],
+        layout: {
+          flex: [50, 50, 50, 50, 50, 50, 50, 50]
+        }
+      }
+    ],
 
     getModel() {
       return get(this, 'store').findRecord('profile', 'me');
