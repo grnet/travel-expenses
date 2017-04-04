@@ -23,8 +23,6 @@ travelsBackend/.coverage
 travelsBackend/htmlcov/*
 
 instructions.txt~
-travelsBackend/texpenses/migrations/
-travelsBackend/texpenses/migrations/*
 resources/.*.swo
 uploads/
 #backend sqlite testing db
