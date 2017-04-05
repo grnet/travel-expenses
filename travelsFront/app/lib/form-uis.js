@@ -8,14 +8,14 @@ export const UIS = {
       {
         'label': 'travel_data.label',
         'fields': [['dse',{attrs:{disabled: true}}], 'project', 'reason', 'departure_point', 'arrival_point','movement_category', 'country_category',
-        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'user_recommendation']
+        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'participation_local_cost', 'participation_local_currency', 'user_recommendation']
       },
     ],
     layout: {
       flex: [
       50, 50, 50, 50, 50, 50, 50, 50, 50, 50,    //10
-      50, 100, 50, 50, 50, 50, 50, 50, 50, 30,   //20
-      20, 50, 100, 100, 50, 50, 50, 50, 50, 50,  //30
+      50, 100, 50, 50, 50, 50, 50, 50, 50, 50,   //20
+      50, 50, 100, 100, 50, 50, 50, 50, 50, 50,  //30
       50, 50, 30, 20
       ]
     }
