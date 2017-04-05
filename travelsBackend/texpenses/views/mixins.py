@@ -218,7 +218,7 @@ class SecretaryPetitionSubmissionMixin(object):
                      accommodation_default_currency,
                      'participation_cost': petition_object.participation_cost,
                      'participation_default_currency': petition_object.
-                     participation_local_currency,
+                     participation_default_currency,
                      'additional_expenses_initial': petition_object.
                      additional_expenses_initial,
                      'additional_expenses_default_currency': petition_object.
@@ -380,7 +380,7 @@ class UserCompensationMixin(object):
                      accommodation_default_currency,
                      'participation_cost': petition_object.participation_cost,
                      'participation_default_currency': petition_object.
-                     participation_local_currency,
+                     participation_default_currency,
                      'additional_expenses_initial': petition_object.
                      additional_expenses_initial,
                      'additional_expenses_default_currency': petition_object.
@@ -543,7 +543,7 @@ class SecretaryCompensationMixin(object):
                      accommodation_default_currency,
                      'participation_cost': petition_object.participation_cost,
                      'participation_default_currency': petition_object.
-                     participation_local_currency,
+                     participation_default_currency,
                      'additional_expenses_initial': petition_object.
                      additional_expenses_initial,
                      'additional_expenses_default_currency': petition_object.
