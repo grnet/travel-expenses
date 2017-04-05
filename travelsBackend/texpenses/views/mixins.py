@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from texpenses.models import Petition, UserPetitionSubmission, UserPetition,\
     SecretaryPetition, SecretaryPetitionSubmission, UserCompensation,\
-    SecretaryCompensation, City
+    SecretaryCompensation, City, Project
 from texpenses.actions import inform_on_action
 from texpenses.views.utils import render_template2pdf, render_template2csv
 
@@ -86,7 +86,15 @@ class SecretaryPetitionSaveMixin(object):
     def get_queryset(self):
         non_atomic_requests = permissions.SAFE_METHODS
         query = SecretaryPetition.objects.select_related('tax_office', 'user',
-                                                         'project').all()
+                                                         'project')
+        user = self.request.user
+        if user.user_group() == "MANAGER":
+            manager_projects = Project.objects.filter(manager=user)
+            query = query.filter(project__in=manager_projects,
+                                 manager_movement_approval=False)
+        else:
+            query = query.all()
+
         if self.request.method in non_atomic_requests:
             return query
         else:
