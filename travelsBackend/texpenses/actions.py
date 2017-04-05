@@ -105,8 +105,8 @@ def inform(petition, action, target_user, inform_controller):
             }
         )
     cc = (petition.user.email,)
-    to = (petition.project.manager_email, SECRETARY_EMAIL)\
-        if not inform_controller else (petition.project.manager_email,\
+    to = (petition.project.manager.email, SECRETARY_EMAIL)\
+        if not inform_controller else (petition.project.manager.email,\
                                    SECRETARY_EMAIL, CONTROLLER_EMAIL)
     if target_user:
         cc = to
