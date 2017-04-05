@@ -46,9 +46,6 @@ class Command(BaseCommand):
 
                 project_data = {'name': name,
                                 'accounting_code': accounting_code,
-                                'manager_surname': manager_surname,
-                                'manager_name': manager_name,
-                                'manager_email': manager_email
                                 }
                 project_obj, project_created = self.\
                     get_or_create_extended(Project, **project_data)
