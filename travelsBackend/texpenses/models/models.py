@@ -6,14 +6,14 @@ from django.core.exceptions import (
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractUser
-from django.db import models
+from django.db import models as md
 from django.db.models import Max
 from django.db.models import Q
 from model_utils import FieldTracker
 from rest_framework import serializers
 from texpenses.models import common
 from texpenses.validators import (
-    afm_validator,  iban_validation, date_validator,
+    afm_validator, iban_validation, date_validator,
     start_end_date_validator)
 
 
@@ -32,21 +32,21 @@ def get_model_missing_fields(instance, excluded=()):
     return missing_fields
 
 
-class TaxOffice(models.Model):
+class TaxOffice(md.Model):
 
     """ Model which contains all tax offices of Greece. """
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200, blank=False, unique=True)
-    description = models.CharField(max_length=300, blank=True)
-    address = models.CharField(max_length=20, blank=True)
-    email = models.EmailField(blank=True)
-    phone = models.CharField(max_length=20, blank=True)
+    id = md.AutoField(primary_key=True)
+    name = md.CharField(max_length=200, blank=False, unique=True)
+    description = md.CharField(max_length=300, blank=True)
+    address = md.CharField(max_length=20, blank=True)
+    email = md.EmailField(blank=True)
+    phone = md.CharField(max_length=20, blank=True)
 
     def __unicode__(self):
         return self.name
 
 
-class TravelUserProfile(models.Model):
+class TravelUserProfile(md.Model):
 
     """
     An abstract model class which include all fields which describe the user
@@ -56,16 +56,16 @@ class TravelUserProfile(models.Model):
     number, Tax Office, etc. as well as, with the kind and specialty of user at
     GRNET.
     """
-    iban = models.CharField(max_length=27, blank=False, null=True,
-                            validators=[iban_validation])
-    specialty = models.CharField(
+    iban = md.CharField(max_length=27, blank=False, null=True,
+                        validators=[iban_validation])
+    specialty = md.CharField(
         max_length=5, choices=common.SPECIALTY, blank=False, null=True)
-    tax_reg_num = models.CharField(max_length=9, blank=False, null=True,
-                                   unique=True, validators=[afm_validator])
-    tax_office = models.ForeignKey(TaxOffice, blank=False, null=True)
-    kind = models.CharField(max_length=5, choices=common.KIND, blank=False,
-                            null=True)
-    user_category = models.CharField(
+    tax_reg_num = md.CharField(max_length=9, blank=False, null=True,
+                               unique=True, validators=[afm_validator])
+    tax_office = md.ForeignKey(TaxOffice, blank=False, null=True)
+    kind = md.CharField(max_length=5, choices=common.KIND, blank=False,
+                        null=True)
+    user_category = md.CharField(
         max_length=1, choices=common.USER_CATEGORIES,
         blank=False, default='B')
 
@@ -84,7 +84,7 @@ class UserProfile(AbstractUser, TravelUserProfile):
     fields for the user of `Travel Expenses Application`.
     """
 
-    trip_days_left = models.IntegerField(
+    trip_days_left = md.IntegerField(
         blank=False, default=settings.MAX_HOLIDAY_DAYS,
         validators=[MaxValueValidator(settings.MAX_HOLIDAY_DAYS),
                     MinValueValidator(0)])
@@ -100,8 +100,19 @@ class UserProfile(AbstractUser, TravelUserProfile):
             return "Unknown"
         return groups[0].name
 
+    def __unicode__(self):
+        return self.first_name + " " + self.last_name + " (username:"\
+            + self.username + ")"
 
-class Project(models.Model):
+
+def is_manager(manager_id):
+    manager = UserProfile.objects.get(id=manager_id)
+    manager_group = manager.user_group()
+    if manager_group != "MANAGER":
+        raise ValidationError('The chosen user must be a MANAGER')
+
+
+class Project(md.Model):
 
     """
     Model which describes a project which GRNET has assumed.
@@ -109,18 +120,17 @@ class Project(models.Model):
     A project is described by its name, accounting code and the GRNET member
     who managed it.
     """
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=500, blank=False, unique=True)
-    accounting_code = models.CharField(max_length=20, blank=False)
-    manager_name = models.CharField(max_length=40, blank=False)
-    manager_surname = models.CharField(max_length=40, blank=False)
-    manager_email = models.EmailField(max_length=256, blank=False, null=True)
+    id = md.AutoField(primary_key=True)
+    name = md.CharField(max_length=500, blank=False, unique=True)
+    accounting_code = md.CharField(max_length=20, blank=False)
+    manager = md.ForeignKey(UserProfile, null=True, blank=True,
+                            validators=[is_manager])
 
     def __unicode__(self):
         return self.name
 
 
-class Country(models.Model):
+class Country(md.Model):
 
     """
     Model for countries.
@@ -129,10 +139,11 @@ class Country(models.Model):
     compensation combined with the user category.
     """
 
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100, blank=False, unique=True)
-    category = models.CharField(choices=common.CATEGORIES, max_length=1, default='A')
-    currency = models.CharField(
+    id = md.AutoField(primary_key=True)
+    name = md.CharField(max_length=100, blank=False, unique=True)
+    category = md.CharField(
+        choices=common.CATEGORIES, max_length=1, default='A')
+    currency = md.CharField(
         max_length=3, choices=common.CURRENCIES, blank=False,
         default=settings.DEFAULT_CURRENCY)
 
@@ -141,7 +152,7 @@ class Country(models.Model):
         return self.name
 
 
-class City(models.Model):
+class City(md.Model):
 
     """Model for cities. """
     id = models.AutoField(primary_key=True)
@@ -154,43 +165,43 @@ class City(models.Model):
         return self.name
 
 
-class Accommodation(models.Model):
+class Accommodation(md.Model):
 
     """
     An abstract model that represents the accommodation related info
     """
 
-    accommodation_cost = models.FloatField(
+    accommodation_cost = md.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-    accommodation_default_currency = models.CharField(
+    accommodation_default_currency = md.CharField(
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
-    accommodation_local_cost = models.FloatField(
+    accommodation_local_cost = md.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-    accommodation_local_currency = models.CharField(
+    accommodation_local_currency = md.CharField(
         max_length=3, blank=True, choices=common.CURRENCIES)
-    accommodation_payment_way = models.CharField(
+    accommodation_payment_way = md.CharField(
         max_length=5, choices=common.WAYS_OF_PAYMENT, blank=False,
         default='NON')
-    accommodation_payment_description = models.CharField(
+    accommodation_payment_description = md.CharField(
         max_length=200, null=True)
 
     class Meta:
         abstract = True
 
 
-class Transportation(models.Model):
+class Transportation(md.Model):
 
     """
     An abstract model that represents the transportation related info
     """
-    transportation_cost = models.FloatField(
+    transportation_cost = md.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-    transportation_default_currency = models.CharField(
+    transportation_default_currency = md.CharField(
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
-    transportation_payment_way = models.CharField(
+    transportation_payment_way = md.CharField(
         max_length=5, choices=common.WAYS_OF_PAYMENT,
         blank=False, default='NON')
-    transportation_payment_description = models.CharField(
+    transportation_payment_description = md.CharField(
         max_length=200, null=True)
 
     class Meta:
@@ -205,24 +216,24 @@ class TravelInfo(Accommodation, Transportation):
     Travel information are associated with the duration, departure and arrival
     point, transportation, accommodation, etc.
     """
-    depart_date = models.DateTimeField(null=True)
-    return_date = models.DateTimeField(null=True)
-    departure_point = models.ForeignKey(
+    depart_date = md.DateTimeField(null=True)
+    return_date = md.DateTimeField(null=True)
+    departure_point = md.ForeignKey(
         City, blank=True, null=True, related_name='travel_departure_point')
-    arrival_point = models.ForeignKey(City, blank=True, null=True,
-                                      related_name='travel_arrival_point')
-    means_of_transport = models.CharField(
+    arrival_point = md.ForeignKey(City, blank=True, null=True,
+                                  related_name='travel_arrival_point')
+    means_of_transport = md.CharField(
         choices=common.TRANSPORTATION, max_length=10, blank=False,
         default='AIR')
-    transport_days_manual = models.PositiveSmallIntegerField(
+    transport_days_manual = md.PositiveSmallIntegerField(
         blank=False, default=0)
-    overnights_num_manual = models.PositiveSmallIntegerField(
+    overnights_num_manual = md.PositiveSmallIntegerField(
         blank=False, default=0)
-    compensation_days_manual = models.PositiveSmallIntegerField(
+    compensation_days_manual = md.PositiveSmallIntegerField(
         blank=False, default=0)
-    meals = models.CharField(max_length=10, choices=common.MEALS,
-                             blank=False, default='NON')
-    travel_petition = models.ForeignKey('Petition', related_name='travel_info')
+    meals = md.CharField(max_length=10, choices=common.MEALS,
+                         blank=False, default='NON')
+    travel_petition = md.ForeignKey('Petition', related_name='travel_info')
 
     tracked_fields = ['depart_date', 'return_date']
     tracker = FieldTracker(fields=tracked_fields)
@@ -411,36 +422,35 @@ class TravelInfo(Accommodation, Transportation):
             '-' + str(self.travel_petition.id)
 
 
-class SecretarialInfo(models.Model):
+class SecretarialInfo(md.Model):
 
     """
     Abstract model which includes information that secretary fills.
     """
-    non_grnet_quota = models.FloatField(
+    non_grnet_quota = md.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
 
-    movement_id = models.CharField(max_length=200, null=True, blank=True)
-    expenditure_protocol = models.CharField(
+    movement_id = md.CharField(max_length=200, null=True, blank=True)
+    expenditure_protocol = md.CharField(
         max_length=30, null=True, blank=True)
-    expenditure_date_protocol = models.DateField(
+    expenditure_date_protocol = md.DateField(
         blank=True, null=True)
-    movement_protocol = models.CharField(
+    movement_protocol = md.CharField(
         max_length=30, null=True, blank=True)
-    movement_date_protocol = models.DateField(
+    movement_date_protocol = md.DateField(
         blank=True, null=True)
-    compensation_petition_protocol = models.CharField(
+    compensation_petition_protocol = md.CharField(
         max_length=30, null=True, blank=True)
-    compensation_petition_date = models.DateField(
+    compensation_petition_date = md.DateField(
         blank=True, null=True)
-    compensation_decision_protocol = models.CharField(
+    compensation_decision_protocol = md.CharField(
         max_length=30, null=True, blank=True)
-    compensation_decision_date = models.DateField(
+    compensation_decision_date = md.DateField(
         blank=True, null=True)
-    manager_travel_approval = models.CharField(max_length=200, null=True,
-                                               blank=True)
+    manager_movement_approval = md.BooleanField(default=False,
+                                                db_index=True)
+    manager_cost_approval = md.BooleanField(default=False, db_index=True)
 
-    manager_final_approval = models.CharField(max_length=200, null=True,
-                                              blank=True)
     MAX_GRNET_QUOTA = 100
 
     def grnet_quota(self):
@@ -452,47 +462,47 @@ class SecretarialInfo(models.Model):
         abstract = True
 
 
-class ParticipationInfo(models.Model):
+class ParticipationInfo(md.Model):
 
     """
     An abstract model that represents the participation cost related info
     """
-    participation_cost = models.FloatField(
+    participation_cost = md.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
 
-    participation_default_currency = models.CharField(
+    participation_default_currency = md.CharField(
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
-    participation_local_cost = models.FloatField(
+    participation_local_cost = md.FloatField(
         blank=True, default=0.0, validators=[MinValueValidator(0.0)])
-    participation_local_currency = models.CharField(
+    participation_local_currency = md.CharField(
         max_length=3, blank=True, choices=common.CURRENCIES)
-    participation_payment_way = models.CharField(
+    participation_payment_way = md.CharField(
         max_length=10, choices=common.WAYS_OF_PAYMENT, blank=False,
         default='NON')
-    participation_payment_description = models.CharField(
+    participation_payment_description = md.CharField(
         max_length=200, blank=True, null=True)
 
     class Meta:
         abstract = True
 
 
-class AdditionalCosts(models.Model):
+class AdditionalCosts(md.Model):
 
     """
     An abstract model that represents the additional costs related info
     """
-    additional_expenses_initial = models.FloatField(
+    additional_expenses_initial = md.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-    additional_expenses_default_currency = models.CharField(
+    additional_expenses_default_currency = md.CharField(
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
-    additional_expenses_initial_description = models.CharField(
+    additional_expenses_initial_description = md.CharField(
         max_length=400, blank=True, null=True)
 
-    additional_expenses = models.FloatField(
+    additional_expenses = md.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-    additional_expenses_local_currency = models.CharField(
+    additional_expenses_local_currency = md.CharField(
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
-    additional_expenses_description = models.CharField(
+    additional_expenses_description = md.CharField(
         max_length=400, blank=True, null=True)
 
     class Meta:
@@ -519,50 +529,50 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     USER_FIELDS = ['first_name', 'last_name', 'iban', 'specialty', 'kind',
                    'tax_office', 'tax_reg_num', 'user_category']
 
-    id = models.AutoField(primary_key=True)
+    id = md.AutoField(primary_key=True)
 
     # travel user profile fields
-    iban = models.CharField(max_length=27, blank=False,
-                            validators=[iban_validation])
-    specialty = models.CharField(
+    iban = md.CharField(max_length=27, blank=False,
+                        validators=[iban_validation])
+    specialty = md.CharField(
         max_length=5, choices=common.SPECIALTY, blank=False)
-    tax_reg_num = models.CharField(max_length=9, blank=False,
-                                   validators=[afm_validator])
-    tax_office = models.ForeignKey(TaxOffice, blank=False)
-    kind = models.CharField(max_length=5, choices=common.KIND, blank=False)
-    user_category = models.CharField(
+    tax_reg_num = md.CharField(max_length=9, blank=False,
+                               validators=[afm_validator])
+    tax_office = md.ForeignKey(TaxOffice, blank=False)
+    kind = md.CharField(max_length=5, choices=common.KIND, blank=False)
+    user_category = md.CharField(
         max_length=1, choices=common.USER_CATEGORIES,
         blank=False, default='B')
 
-    dse = models.IntegerField(
+    dse = md.IntegerField(
         blank=False, validators=[MinValueValidator(1)])
 
-    user = models.ForeignKey(UserProfile, blank=False)
-    task_start_date = models.DateTimeField(
+    user = md.ForeignKey(UserProfile, blank=False)
+    task_start_date = md.DateTimeField(
         blank=True, null=True)
-    task_end_date = models.DateTimeField(
+    task_end_date = md.DateTimeField(
         blank=True, null=True)
-    created = models.DateTimeField(blank=False, default=timezone.now)
-    updated = models.DateTimeField(blank=False, default=timezone.now)
-    deleted = models.BooleanField(default=False, db_index=True)
-    project = models.ForeignKey(Project, blank=False)
-    reason = models.CharField(max_length=500, blank=True, null=True)
-    user_recommendation = models.CharField(
+    created = md.DateTimeField(blank=False, default=timezone.now)
+    updated = md.DateTimeField(blank=False, default=timezone.now)
+    deleted = md.BooleanField(default=False, db_index=True)
+    project = md.ForeignKey(Project, blank=False)
+    reason = md.CharField(max_length=500, blank=True, null=True)
+    user_recommendation = md.CharField(
         max_length=500, blank=True, null=True)
-    secretary_recommendation = models.CharField(
+    secretary_recommendation = md.CharField(
         max_length=500, blank=True, null=True)
 
-    status = models.IntegerField(blank=False, db_index=True)
+    status = md.IntegerField(blank=False, db_index=True)
 
-    first_name = models.CharField(max_length=200, blank=False, null=True)
-    last_name = models.CharField(max_length=200, blank=False, null=True)
+    first_name = md.CharField(max_length=200, blank=False, null=True)
+    last_name = md.CharField(max_length=200, blank=False, null=True)
 
-    travel_report = models.CharField(max_length=1000, blank=True, null=True)
+    travel_report = md.CharField(max_length=1000, blank=True, null=True)
 
-    compensation_alert = models.BooleanField(default=False, db_index=True)
+    compensation_alert = md.BooleanField(default=False, db_index=True)
 
-    travel_files = models.FileField(upload_to=common.user_directory_path,
-                                    null=True, blank=True)
+    travel_files = md.FileField(upload_to=common.user_directory_path,
+                                null=True, blank=True)
 
     tracked_fields = ['task_start_date', 'task_end_date']
     tracker = FieldTracker()
@@ -789,7 +799,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         return str(self.dse) + "-" + self.project.name + '-' + str(self.id)
 
 
-class PetitionManager(models.Manager):
+class PetitionManager(md.Manager):
 
     def __init__(self, status_list, *args, **kwargs):
         self.status_list = status_list
@@ -906,7 +916,7 @@ class UserCompensation(Petition):
                 'additional_expenses_initial',
                 'additional_expenses_initial_description',
                 'additional_expenses', 'additional_expenses_description',
-                'manager_final_approval', 'manager_travel_approval',
+                'manager_cost_approval', 'manager_movement_approval',
                 'compensation_alert']
     excluded_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
@@ -933,8 +943,8 @@ class SecretaryCompensation(Petition):
                 'additional_expenses_initial_description',
                 'additional_expenses', 'additional_expenses_description',
                 'user_recommendation', 'compensation_alert',
-                'secretary_recommendation', 'manager_final_approval',
-                'manager_travel_approval']
+                'secretary_recommendation', 'manager_cost_approval',
+                'manager_movement_approval']
     excluded_travel_info = ['accommodation_local_cost',
                             'overnights_num_manual',
                             'transport_days_manual',
