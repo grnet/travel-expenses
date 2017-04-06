@@ -13,7 +13,7 @@ from model_utils import FieldTracker
 from rest_framework import serializers
 from texpenses.models import common
 from texpenses.validators import (
-    afm_validator, required_validator, iban_validation, date_validator,
+    afm_validator,  iban_validation, date_validator,
     start_end_date_validator)
 
 

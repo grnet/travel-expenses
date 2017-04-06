@@ -1,13 +1,9 @@
 import logging
 from datetime import datetime, date
 from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator
-
+from stdnum import iban
+from stdnum.gr import vat
 logger = logging.getLogger(__name__)
-
-
-iban_validation = RegexValidator(
-    r'^^GR\d{9}[0-9A-Z]{16}$', 'IBAN number is not valid.')
 
 
 def required_validator(obj, fields=()):
@@ -16,25 +12,18 @@ def required_validator(obj, fields=()):
             raise ValidationError('Field %s is required' % repr(field))
 
 
+def iban_validation(value):
+    try:
+        iban.validate(value)
+    except Exception as ex:
+        raise ValidationError(ex.message)
+
+
 def afm_validator(value):
-    NUM_DIGITS = 9
-    if not value.isdigit():
-        raise ValidationError(
-            'AFM is not valid; it should include only digits')
-
-    if all(int(v) == 0 for v in value):
-        raise ValidationError(
-            'AFM is not valid; it should not contain zero digits')
-
-    if len(value) != NUM_DIGITS:
-        raise ValidationError('AFM is not valid; it should contain 9 digits')
-
-    last_digit = value[-1]
-    total = sum(int(digit) * 2 ** ((NUM_DIGITS - 1) - i)
-                for i, digit in enumerate(value[:-1]))
-    if int(last_digit) != (total % 11) % 10:
-        raise ValidationError(
-            'AFM is not valid; It does not conform to the general rules')
+    try:
+        vat.validate(value)
+    except Exception as ex:
+        raise ValidationError(ex.message)
 
 
 def start_end_date_validator(dates, labels):
