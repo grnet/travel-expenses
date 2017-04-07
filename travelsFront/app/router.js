@@ -20,6 +20,7 @@ Router.map(function() {
   this.route('secretaryCompensation', {path: 'secretaryCompensation/:petition_id'});
   this.route('password');
   this.route('help');
+  this.route('manager-list');
 });
 
 export default Router;
