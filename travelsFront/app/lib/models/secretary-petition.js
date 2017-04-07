@@ -10,8 +10,8 @@ export var SecretaryPetition = Petition.extend({
      
   //secretary fields
   non_grnet_quota: DS.attr(),
-  manager_travel_approval: DS.attr({attrs:{textarea: true}}),
-  manager_final_approval: DS.attr({attrs:{textarea: true}}),
+  manager_movement_approval: DS.attr('boolean'),
+  manager_cost_approval: DS.attr('boolean'),
   participation_cost: DS.attr(),
   participation_default_currency: DS.attr({'choices': CHOICES.CURRENCIES}),
   participation_payment_way: DS.attr({'choices': CHOICES.WAYS_OF_PAYMENT}),
