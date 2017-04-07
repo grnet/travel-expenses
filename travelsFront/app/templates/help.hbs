@@ -2,14 +2,16 @@
 
 {{#paper-content classNames="md-padding"}}
   {{#if (can "see petition")}}
-    {{partial 'traveler-manual'}}      
+    {{partial 'traveler-manual'}}
   {{else if (can "approve petition")}}
     {{partial 'secretary-manual'}}
   {{else if (can "compensate petition")}}
     {{partial 'controller-manual'}}
+  {{else if (can "managerApprove petition")}}
+    {{partial 'manager-manual'}}
   {{else}}
-    {{partial 'user-manual'}}  
-  {{/if}}     
+    {{partial 'user-manual'}}
+  {{/if}}
 {{/paper-content}}
 
 
