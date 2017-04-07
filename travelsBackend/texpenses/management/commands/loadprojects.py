@@ -26,7 +26,13 @@ class Command(BaseCommand):
         except model.DoesNotExist:
             obj = model(**kwargs)
             obj.clean_fields()
-            obj.save()
+            try:
+                obj.save()
+            except Exception:
+                print "Record for project:" + str(kwargs['name']) + \
+                    " will be updated."
+                model.objects.get(name=kwargs['name']).delete()
+                obj.save()
             created = True
         return (obj, created)
 
