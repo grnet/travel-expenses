@@ -12,4 +12,7 @@ export default Ability.extend({
 	canCompensate: Ember.computed('account.user.user_group', function() {
     	return this.get('account.user.user_group') === "CONTROLLER";
 	}),
+	canManagerApprove: Ember.computed('account.user.user_group', function() {
+    return this.get('account.user.user_group') === "MANAGER";
+  }),
 });
