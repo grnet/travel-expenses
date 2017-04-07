@@ -24,7 +24,7 @@ export var Petition = DS.Model.extend({
   //petition fields
   user: DS.attr('string'),
   dse: DS.attr('string', {attrs: {required: true}}),
-  project: DS.belongsTo('project', {attrs: {labelKey: "full_label", required: true}, component: 'sort-model'}),
+  project: DS.belongsTo('project', {attrs: {required: true}, component: 'sort-model'}),
   reason: DS.attr({attrs: {required: true, textarea: true}}),
   movement_category: DS.attr({choices: CHOICES.MOVEMENT_CATEGORIES, attrs: {disabled: true}}),
   country_category: DS.attr('string', {attrs: {disabled: true}}),
@@ -92,13 +92,20 @@ export var Petition = DS.Model.extend({
     })
   }),
 
-
   // set status label value
-  status_label: Ember.computed('status',function(){
+  status_label: Ember.computed('status', function(){
     var status =this.get('status');
     var label=CHOICES.STATUS[status-1];
     console.log("Status no. ", label[0]);
     return label[1] || status;
+  }),
+
+  needsApproval: Ember.computed('manager_movement_approval', function() {
+    return this.get('manager_movement_approval');
+  }),
+
+  needsCostApproval: Ember.computed('manager_cost_approval', function() {
+    return this.get('manager_cost_approval');
   }),
 
   

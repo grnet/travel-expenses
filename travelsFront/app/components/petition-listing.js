@@ -34,5 +34,13 @@ export default Ember.Component.extend({
 		approve(model) {
       this.sendAction('approve', model);
 		},
+
+		managerApproval(model) {
+      this.sendAction('managerApproval', model);
+    },
+
+    managerCostApproval(model) {
+      this.sendAction('managerCostApproval', model);
+    },
 	}
 });

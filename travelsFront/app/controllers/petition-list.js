@@ -71,6 +71,30 @@ export default Ember.Controller.extend(PaginationMixin, {
       });
     },
 
+    managerApproval(petition){
+      petition.set('manager_movement_approval', "approved");
+      Ember.RSVP.all([
+        petition.get('tax_office'),
+        petition.get('project'),
+        petition.get('arrival_point'),
+        petition.get('departure_point')
+      ]).then(() => {
+        petition.save();
+      });
+    },
+
+    managerCostApproval(petition){
+      petition.set('manager_cost_approval', "approved");
+      Ember.RSVP.all([
+        petition.get('tax_office'),
+        petition.get('project'),
+        petition.get('arrival_point'),
+        petition.get('departure_point')
+      ]).then(() => {
+        petition.save();
+      });
+    }, 
+
 		petitionDelete(model){
       if (model.get("currentState.stateName") == "root.deleted.inFlight") { return; }
       model.destroyRecord().then(() => {
