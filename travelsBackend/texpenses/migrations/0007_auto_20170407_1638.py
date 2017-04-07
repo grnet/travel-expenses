@@ -2,14 +2,15 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from django.conf import settings
 import datetime
+from django.conf import settings
+import texpenses.models.models
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('texpenses', '0005_auto_20170322_1515'),
+        ('texpenses', '0006_auto_20170407_1553'),
     ]
 
     operations = [
@@ -46,16 +47,16 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='project',
             name='manager',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True),
+            field=models.ForeignKey(validators=[texpenses.models.models.is_manager], to=settings.AUTH_USER_MODEL, blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='petition',
             name='created',
-            field=models.DateTimeField(default=datetime.datetime(2017, 4, 4, 14, 20, 12, 471205)),
+            field=models.DateTimeField(default=datetime.datetime(2017, 4, 7, 16, 38, 35, 958341)),
         ),
         migrations.AlterField(
             model_name='petition',
             name='updated',
-            field=models.DateTimeField(default=datetime.datetime(2017, 4, 4, 14, 20, 12, 471237)),
+            field=models.DateTimeField(default=datetime.datetime(2017, 4, 7, 16, 38, 35, 958373)),
         ),
     ]
