@@ -25,7 +25,7 @@ export const UIS = {
     fieldsets: [
       {
         'label': 'manager_approval.label',
-        'fields': ['manager_travel_approval', 'manager_final_approval',]
+        'fields': [['manager_movement_approval',{attrs:{disabled: true}}], ['manager_cost_approval',{attrs:{disabled: true}}],]
       },
       {
         'label': 'user_data.label',
@@ -102,7 +102,7 @@ export const UIS = {
       },
       {
         'label': 'manager_approval.label',
-        'fields': [['manager_travel_approval', {attrs:{disabled: true}}], ['manager_final_approval', {attrs:{disabled: true}}],]
+        'fields': [['manager_movement_approval', {attrs:{disabled: true}}], ['manager_cost_approval', {attrs:{disabled: true}}],]
       },
       {
         'label': 'user_data.label',
@@ -158,7 +158,7 @@ export const UIS = {
   fieldsets: [
     {
       'label': 'manager_approval.label',
-      'fields': [['manager_travel_approval', {attrs:{disabled: true}}], ['manager_final_approval', {attrs:{disabled: true}}],]
+      'fields': [['manager_movement_approval', {attrs:{disabled: true}}], ['manager_cost_approval', {attrs:{disabled: true}}],]
     },
     {
       'label': 'user_data.label',
@@ -219,7 +219,7 @@ export const UIS = {
   fieldsets: [
     {
       'label': 'manager_approval.label',
-      'fields': [['manager_travel_approval', {attrs:{disabled: true}}], ['manager_final_approval', {attrs:{disabled: true}}],]
+      'fields': [['manager_movement_approval', {attrs:{disabled: true}}], ['manager_cost_approval', {attrs:{disabled: true}}],]
     },
     {
       'label': 'user_data.label',

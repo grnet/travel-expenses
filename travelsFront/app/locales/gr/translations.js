@@ -84,8 +84,8 @@ export default {
   //secretary petition labels
   'non_grnet_quota.label': 'Κάλυψη ημερήσιας αποζημίωσης από άλλο φορέα',
   'manager_approval.label': 'Έγκριση της Μετακίνησης από τον Υπεύθυνο Έργου',
-  'manager_travel_approval.label': 'Έγκριση Αίτησης Μετακίνησης από τον Υπεύθυνο Έργου',
-  'manager_final_approval.label': ' Έγκριση τελικών δαπανών της Μετακίνησης από τον Υπεύθυνο Έργου',
+  'manager_movement_approval.label': 'Έγκριση Αίτησης Μετακίνησης από τον Υπεύθυνο Έργου',
+  'manager_cost_approval.label': ' Έγκριση τελικών δαπανών της Μετακίνησης από τον Υπεύθυνο Έργου',
   'secretary_data.label': 'Στοιχεία Αίτησης που καταχωρεί η Γραμματεία',
   'controller_data.label': 'Στοιχεία Αίτησης - Λογιστικός Έλεγχος',
   'computed_data.label': 'Υπολογιζόμενα Οικονομικά Στοιχεία',
