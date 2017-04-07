@@ -21,7 +21,7 @@
             {{/paper-content}}
             {{#menu-item onClick=(transition-to "profile")}}{{t 'profile.tab'}}{{/menu-item}}
             {{#menu-item onClick=(transition-to "password")}}{{t 'password.change.tab'}}{{/menu-item}}
-            {{#unless (or (can "approve petition") (can "compensate petition"))}}
+            {{#unless (or (can "approve petition") (can "compensate petition")  (can "managerApprove petition"))}}
               {{#menu-item onClick=(transition-to "userPetition" "new")}}{{t 'new_petition.tab'}}{{/menu-item}}
               {{#menu-item onClick=(transition-to "petitionList")}}{{t 'my_petitions.tab'}}{{/menu-item}}
             {{/unless}}
@@ -30,6 +30,10 @@
             {{/if}}
             {{#if (can "compensate petition")}}
               {{#menu-item onClick=(transition-to "advancedList")}}{{t 'petitions_list.tab'}}{{/menu-item}}
+            {{/if}}
+            {{#if (can "managerApprove petition")}}
+              {{#menu-item onClick=(transition-to "petitionList")}}{{t 'my_petitions.tab'}}{{/menu-item}}
+              {{#menu-item onClick=(transition-to "manager-list")}}{{t 'petitions_list.tab'}}{{/menu-item}}
             {{/if}}
             {{#menu-item onClick=(transition-to "help")}}{{t 'help.tab'}}{{/menu-item}}
         {{/unless}}

@@ -14,8 +14,8 @@ export default Ember.Controller.extend({
       };
 
 			var authenticator = 'authenticator:token';
-			this.get('session').authenticate(authenticator, credentials).then(() => { 
-    			this.get("account").loadCurrentUser().then((profile) => {            
+			this.get('session').authenticate(authenticator, credentials).then(() => {
+    			this.get("account").loadCurrentUser().then((profile) => {
             
             let group = profile.get('user_group');
             return profile.get('profileIsFilled').then((profileFilled) => {
@@ -24,13 +24,15 @@ export default Ember.Controller.extend({
                   this.transitionToRoute('advancedList');
                 } else if (group === "USER") {
                   this.transitionToRoute('petitionList');
-                }              
+                } else if (group === "MANAGER") {
+                  this.transitionToRoute('manager-list');
+                }
               } 
               else {
                 this.transitionToRoute('profile');
-              }              
+              }
             });
-          });          
+          });
 			}).catch((err) => {
         if (err.non_field_errors) {
           this.set('submitError', err.non_field_errors[0]);
