@@ -175,10 +175,9 @@
 Γερμανία,Χάλλε (Ζάαλε)1,A,Europe/Berlin
 Γερμανία,Χαμ,A,Europe/Berlin
 Γερμανία,Χέρνε,A,Europe/Berlin
-Γεωργία,Τμπιλίσι,C,Asia/Tbilisi
 Γεωργία,Τυφλίδα,C,Asia/Tbilisi
 Δανία,Hvidovre,A,Europe/Copenhagen
-Δανία,Lyngby-Taarb?ka,A,Europe/Copenhagen
+Δανία,Lyngby-Taarbaeka,A,Europe/Copenhagen
 Δανία,Vejle,A,Europe/Copenhagen
 Δανία,Άλμποργκ,A,Europe/Copenhagen
 Δανία,Γκεντόφτε,A,Europe/Copenhagen
@@ -193,7 +192,7 @@
 Δανία,Χόρσενς,A,Europe/Copenhagen
 Δανία,Ώρχους,A,Europe/Copenhagen
 Ελβετία,Βέρνη,A,Europe/Zurich
-Ελβετία,Γενευη,A,Europe/Zurich
+Ελβετία,Γενεύη,A,Europe/Zurich
 Ελβετία,Ζυρίχη,A,Europe/Zurich
 Ελβετία,Λουγκάνο,A,Europe/Zurich
 Ελβετία,Λωζάνη,A,Europe/Zurich
@@ -203,7 +202,7 @@
 Εσθονία,Ταλίν,B,Europe/Tallinn
 Εσθονία,Τάρτου,B,Europe/Tallinn
 Η.Π.Α.,Salt Lake City-Γιούτα,A,America/Denver
-Η.Π.Α.,?Αρλινγκτον-Βιρτζίνια,A,America/New_York
+Η.Π.Α.,Άρλινγκτον-Βιρτζίνια,A,America/New_York
 Η.Π.Α.,Ατλάντα-Γεωργία,A,America/New_York
 Η.Π.Α.,Βαλτιμόρη-Μέριλαντ,A,America/New_York
 Η.Π.Α.,Βοστώνη,A,America/New_York
@@ -230,13 +229,12 @@
 Ηνωμένο Βασίλειο,Culham,A,Europe/London
 Ηνωμένο Βασίλειο,Daresbury,A,Europe/London
 Ηνωμένο Βασίλειο,Αμπερντήν,A,Europe/London
-Ηνωμένο Βασίλειο,?Αμπινγκτον,A,Europe/London
+Ηνωμένο Βασίλειο,Άμπινγκτον,A,Europe/London
 Ηνωμένο Βασίλειο,Γιόρκ,A,Europe/London
 Ηνωμένο Βασίλειο,Γλασκώβη,A,Europe/London
 Ηνωμένο Βασίλειο,Γουέστ Μπρόμγουιτς,A,Europe/London
 Ηνωμένο Βασίλειο,Γουλβερχάμπτον,A,Europe/London
 Ηνωμένο Βασίλειο,Γουόλσολ,A,Europe/London
-Ηνωμένο Βασίλειο,Εδιμβούργο,A,Europe/London
 Ηνωμένο Βασίλειο,Εδιμβούργο,A,Europe/London
 Ηνωμένο Βασίλειο,Ίπσουιτς,A,Europe/London
 Ηνωμένο Βασίλειο,Κάρντιφ,A,Europe/London
@@ -287,15 +285,13 @@
 Ιαπωνία,Τόκιο,A,Asia/Tokyo
 Ινδία,Guwahati,C,Asia/Kolkata
 Ινδία,Βομβάη,C,Asia/Kolkata
-Ινδία,Μπανγαλόρ,C,Asia/Kolkata
 Ινδία,Μπανγκαλόρ,C,Asia/Kolkata
 Ινδία,Νέο Δελχί,C,Asia/Kolkata
 Ινδία,Χιντεραμπάντ,C,Asia/Kolkata
 Ιορδανία,Αμμάν,C,Asia/Amman
-Ιορδανία,Αμμάν,C,Asia/Amman
 Ιρλανδία,Γκάλγουεϊ,A,Europe/Dublin
 Ιρλανδία,Δουβλίνο,A,Europe/Dublin
-Ιρλανδία,Κόρκ,A,Europe/Dublin
+Ιρλανδία,Κορκ,A,Europe/Dublin
 Ισλανδία,Ρέικγιαβικ,A,Europe/Dublin
 Ισπανία,Α Κορούνια,A,Europe/Madrid
 Ισπανία,Αλικάντε,A,Europe/Madrid
