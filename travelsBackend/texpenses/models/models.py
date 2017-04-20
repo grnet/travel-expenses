@@ -900,7 +900,7 @@ class UserCompensation(Petition):
                 'compensation_petition_protocol', 'user_recommendation',
                 'secretary_recommendation', 'compensation_petition_date',
                 'compensation_decision_protocol', 'compensation_decision_date',
-                'participation_payment_description', 'deleted', 'travel_files',
+                'participation_payment_description', 'deleted',
                 'participation_local_cost', 'compensation_alert',
                 'additional_expenses_initial',
                 'additional_expenses_initial_description',
