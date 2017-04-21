@@ -66,7 +66,7 @@ CACHES = {
 PAGINATION_PAGE_SIZE = 0
 REST_FRAMEWORK = {
     # 'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S",
-    'DATETIME_FORMAT': "%Y-%m-%dT%H:%M",
+    # 'DATETIME_FORMAT': "%Y-%m-%dT%H:%M",
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
@@ -110,15 +110,15 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-# TIME_ZONE = 'UTC'
-TIME_ZONE = 'Europe/Athens'
+TIME_ZONE = 'UTC'
+# TIME_ZONE = 'Europe/Athens'
 # DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)

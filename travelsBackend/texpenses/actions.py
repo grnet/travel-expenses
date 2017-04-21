@@ -5,7 +5,8 @@ from django.core.mail import EmailMessage, get_connection
 from django.template.loader import render_to_string
 from rest_framework import status
 from texpenses.models import Petition
-from datetime import datetime, timedelta
+from datetime import timedelta
+from django.utils import timezone
 from apimas.drf import django_rest
 from texpenses.api_conf.endpoint_confs import Configuration
 from texpenses.api_conf.spec.spec import spec
@@ -135,7 +136,7 @@ def inform_on_action(action, target_user=False, inform_controller=False):
 
 def compensation_alert():
 
-    inform_date = (datetime.now() + timedelta(days=1)).strftime(DATE_FORMAT)
+    inform_date = (timezone.now() + timedelta(days=1)).strftime(DATE_FORMAT)
 
     approved_petitions = Petition.objects.filter(status=\
                                                Petition.APPROVED_BY_PRESIDENT,\

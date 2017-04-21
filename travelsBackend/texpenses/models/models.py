@@ -541,8 +541,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         blank=True, null=True)
     task_end_date = models.DateTimeField(
         blank=True, null=True)
-    created = models.DateTimeField(blank=False, default=timezone.now())
-    updated = models.DateTimeField(blank=False, default=timezone.now())
+    created = models.DateTimeField(blank=False, default=timezone.now)
+    updated = models.DateTimeField(blank=False, default=timezone.now)
     deleted = models.BooleanField(default=False, db_index=True)
     project = models.ForeignKey(Project, blank=False)
     reason = models.CharField(max_length=500, blank=True, null=True)

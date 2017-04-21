@@ -1,5 +1,6 @@
 import logging
-from datetime import datetime, date
+from datetime import date
+from django.utils import timezone
 from django.core.exceptions import ValidationError
 from stdnum import iban
 from stdnum.gr import vat
@@ -51,7 +52,7 @@ def date_validator(field, value):
     :raises: VallidationError if given date or datetime object is not after
     from current day.
     """
-    now = datetime.now().date() if type(value) is date else datetime.now()
+    now = timezone.now().date() if type(value) is date else timezone.now()
     if value and value <= now:
         raise ValidationError('The {} date field should be after today.'.
                               format(field))
