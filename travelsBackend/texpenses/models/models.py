@@ -147,6 +147,7 @@ class City(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=False)
     country = models.ForeignKey(Country, blank=False)
+    timezone = models.CharField(max_length=100, blank=False)
 
     def __unicode__(self):
         """TODO: to be defined. """
