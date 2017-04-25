@@ -93,14 +93,14 @@ PERMISSION_RULES = [
     ('petition-secretary-saved', 'create', 'SECRETARY', '*', '*', '*'),
     ('petition-secretary-saved', 'list', 'SECRETARY', '*', '*', '*'),
     ('petition-secretary-saved', 'retrieve', 'SECRETARY', '*', '*', '*'),
+    ('petition-secretary-saved', 'update', 'SECRETARY', '*', '*', '*'),
+
     ('petition-secretary-saved', 'list', 'CONTROLLER', '*', '*', '*'),
     ('petition-secretary-saved', 'retrieve', 'CONTROLLER', '*', '*', '*'),
     ('petition-secretary-saved', 'list', 'MANAGER', '*', '*', '*'),
     ('petition-secretary-saved', 'retrieve', 'MANAGER', '*', '*', '*'),
     ('petition-secretary-saved', 'update', 'MANAGER',
      'manager_movement_approval', '*', '*'),
-    ('petition-secretary-saved', 'update', 'SECRETARY',
-     '!manager_movement_approval', '*', '*'),
     ('petition-secretary-saved', 'export_csv', 'SECRETARY', '*', '*', '*'),
 
 
