@@ -134,6 +134,15 @@ export var Petition = DS.Model.extend({
     let model = this;
     return adapter.action(this, 'submit').then(function() {
       return model;
+    }).catch((apiError) => { 
+        let modelErrors = model.get('errors') // ta error data tou model
+        apiError.errors.forEach((err) => {
+        let attr = err.source.pointer.split('/').slice(-1)[0];
+        let msg = err.detail;
+        modelErrors.set(attr, [msg]);
+
+        throw apiError;
+      });
     });
   },
 

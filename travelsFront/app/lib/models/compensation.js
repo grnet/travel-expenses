@@ -12,6 +12,6 @@ export var Compensation = SecretaryPetition.extend({
   additional_expenses: DS.attr({attrs: {required: true}}),
   additional_expenses_local_currency: DS.attr({'choices': CURRENCY, 'component': 'petition-currency'}),
   additional_expenses_description: DS.attr({attrs:{textarea: true}}),
-  travel_files: DS.attr('file'),
-  travel_report: DS.attr({attrs:{textarea: true}}),
+  travel_files: DS.attr('file', {attrs: {required: true}}),
+  travel_report: DS.attr({attrs:{required: true, textarea: true}}),
 });
