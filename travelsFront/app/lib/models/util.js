@@ -34,18 +34,54 @@ const TRAVEL_INFO_FIELDS = [
   'same_day_return_task',
 ];
 
-const DATE_PARAMS = [
-  'departure_point',
-  'arrival_point',
-  'task_start_date',
-  'task_end_date',
-  'depart_date',
-  'return_date'
-];
-
 let FILE_FIELDS = [
   'travel_files'
-]
+];
+
+const petitionDatesFields = [
+  {
+    key: 'departure_point',
+    attrs: [
+      'depart_date',
+    ]
+  },
+  {
+    key: 'arrival_point',
+    attrs: [
+      'task_start_date',
+      'task_end_date',
+      'return_date',
+    ]
+  }
+];
+
+function serializePetitionDate(serializer, source, key, attrs) {
+  let timezoneID = source[key].split('/').slice(-2)[0];
+  let city = serializer.store.peekRecord('city', timezoneID);
+  let timezone = city.data.timezone;
+
+  for (let attr of attrs) {
+    let dateFromServer = source[attr];
+    let date = moment.tz(dateFromServer, timezone);
+    let dateRaw = moment(date).format().slice(0, -6);
+    let dateLocal = moment(dateRaw).toDate();
+    source[attr] = moment(dateLocal).format();
+  }
+}
+
+function deserializePetitionDate(serializer, source, key, attrs) {
+  let timezoneID = source[key].split('/').slice(-2)[0];
+  let city = serializer.store.peekRecord('city', timezoneID);
+  let timezone = city.data.timezone;
+
+  for (let attr of attrs) {
+    let dateFromUi = source[attr];
+    let rawDate = moment(dateFromUi).format().slice(0, -6);
+    let dateLocal = moment.tz(rawDate, timezone).format();
+    let dateUTC = moment.utc(dateLocal).format();
+    source[attr] = dateUTC.slice(0, -4);
+  }
+}
 
 const normalizePetition = function(hash, serializer) {
   let travel_info = hash['travel_info'];
@@ -56,67 +92,20 @@ const normalizePetition = function(hash, serializer) {
         hash[field] = travel_info[field];
       }
     }
-  };
-  //deserialize dates
-  for (let key of DATE_PARAMS) {
-    if (key == "departure_point") {
-      let departureTimezoneID = hash[key].split('/').slice(-2)[0];
-      let city = serializer.store.peekRecord('city', departureTimezoneID);
-      let departureTimezone = city.data.timezone;
-      //transform depart_date property
-      let departDateFromServer = hash['depart_date'];
-      let departDate = moment.tz(departDateFromServer, departureTimezone);
-      let rawDepartDate = moment(departDate).format().slice(0, -6);
-      let departDateLocal = moment(rawDepartDate).toDate();
-      hash['depart_date'] = moment(departDateLocal).format();
-    }
-    else if (key == "arrival_point") {
-      let arrivalTimezoneID = hash[key].split('/').slice(-2)[0];
-      let city = serializer.store.peekRecord('city', arrivalTimezoneID);
-      let arrivalTimezone = city.get('timezone');
+  }
 
-      for (let attr of ['task_start_date', 'task_end_date', 'return_date']) {
-        let dateFromServer = hash[attr];
-        let date = moment.tz(dateFromServer, arrivalTimezone);
-        let rawDate = moment(date).format().slice(0, -6);
-        let dateLocal = moment(rawDate).toDate();
-        hash[attr] = moment(dateLocal).format();
-      }
-    }
-  };
+  for (let o of petitionDatesFields) {
+    serializePetitionDate(serializer, hash, o.key, o.attrs);
+  }
 
   delete hash['travel_info'];
   return hash;
 }
 
 const serializePetition = function(json, snapshot, serializer) {
-  //serialize dates
-  for (let key of DATE_PARAMS) {
-    if (key == "departure_point") {
-      let departureTimezoneID = json[key].split('/').slice(-2)[0];
-      let city = serializer.store.peekRecord('city', departureTimezoneID);
-      let departureTimezone = city.data.timezone;
-      //transform depart_date property
-      let departDate = json['depart_date'];
-      let rawDepartDate = moment(departDate).format().slice(0, -6);
-      let departDateLocal = moment.tz(rawDepartDate, departureTimezone).format();
-      let departDateUTC = moment.utc(departDateLocal).format();
-      json['depart_date'] = departDateUTC.slice(0, -4);
-    }
-    else if (key == "arrival_point") {
-      let arrivalTimezoneID = json[key].split('/').slice(-2)[0];
-      let city = serializer.store.peekRecord('city', arrivalTimezoneID);
-      let arrivalTimezone = city.get('timezone');
-
-      for (let attr of ['task_start_date', 'task_end_date', 'return_date']) {
-        let dateFromUi = json[attr];
-        let rawDate = moment(dateFromUi).format().slice(0, -6);
-        let dateLocal = moment.tz(rawDate, arrivalTimezone).format();
-        let dateUTC = moment.utc(dateLocal).format();
-        json[attr] = dateUTC.slice(0, -4);
-      }
-    }
-  };
+  for (let o of petitionDatesFields) {
+    deserializePetitionDate(serializer, json, o.key, o.attrs);
+  }
 
   let travel_info = {};
   for (let field of TRAVEL_INFO_FIELDS) {
@@ -127,7 +116,7 @@ const serializePetition = function(json, snapshot, serializer) {
     if (field === 'travel_files') {
       debugger;
     }
-  };
+  }
   // File fields values are set as
   //
   // - `File object` in case the user requested to upload a new file. we 
