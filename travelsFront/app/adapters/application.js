@@ -95,4 +95,49 @@ export default DRFAdapter.extend(DataAdapterMixin, {
     }
     return hash;
   },
+
+  findRecord(store, type, id, snapshot) {
+    // custom logic just for petition models
+    if (!type || !type.modelName || type.modelName.indexOf('petition') === -1) {
+      return this._super(store, type, id, snapshot);
+    }
+ 
+    // Try to preload cities prior to resolving petition payload data.
+    // Cities timezones are injected to payload making them accessible
+    // in petition record normalize methods.
+    return this._super(store, type, id, snapshot).then((payload) => {
+      let timezonePromises = {};
+ 
+      // preload cities
+      for (let attr of ['departure_point', 'arrival_point']) {
+        let timezonePromise;
+        let cityURL = payload.travel_info[0][attr];
+        // no city is set, set timezone to `null`
+        payload[attr + '_timezone'] = null;
+        if (!cityURL) { continue; }
+ 
+        let cityId = cityURL.split('/').slice(-2)[0];
+        let record = store.peekRecord('city', cityId);
+        if (record) {
+          // directly resolve city timezone
+          timezonePromise = Ember.RSVP.resolve(record.get('timezone'));
+        } else {
+          // find city record and resolve the city timezone
+          timezonePromise = store.findRecord('city', cityId).then((city) => { return city.get('timezone') });
+        }
+        timezonePromises[attr] = timezonePromise;
+      }
+ 
+      // preload timezone promises and then return payload with injected timezones
+      return Ember.RSVP.hash(timezonePromises).then(({departure_point, arrival_point}) => {
+        if (departure_point) {
+          payload['departure_point_timezone'] = departure_point;
+        }
+        if (arrival_point) {
+          payload['arrival_point_timezone'] = arrival_point;
+        }
+        return payload;
+      })
+    });
+  },  
 });
