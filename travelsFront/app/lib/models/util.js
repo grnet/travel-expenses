@@ -74,24 +74,14 @@ const normalizePetition = function(hash, serializer) {
       let arrivalTimezoneID = hash[key].split('/').slice(-2)[0];
       let city = serializer.store.peekRecord('city', arrivalTimezoneID);
       let arrivalTimezone = city.get('timezone');
-      //transform task_start_date property
-      let taskStartDateFromServer = hash['task_start_date'];
-      let taskStartDate = moment.tz(taskStartDateFromServer, arrivalTimezone);
-      let rawTaskStartDate = moment(taskStartDate).format().slice(0, -6);
-      let taskStartDateLocal = moment(rawTaskStartDate).toDate();
-      hash['task_start_date'] = moment(taskStartDateLocal).format();
-      //transform task_end_date property
-      let taskEndDateFromServer = hash['task_end_date'];
-      let taskEndDate = moment.tz(taskEndDateFromServer, arrivalTimezone);
-      let rawTaskEndDate = moment(taskEndDate).format().slice(0, -6);
-      let taskEndDateLocal = moment(rawTaskEndDate).toDate();
-      hash['task_end_date'] = moment(taskEndDateLocal).format();
-      //transform return_date property
-      let returnDateFromServer = hash['return_date'];
-      let returnDate = moment.tz(returnDateFromServer, arrivalTimezone);
-      let rawReturnDate = moment(returnDate).format().slice(0, -6);
-      let returnDateLocal = moment(rawReturnDate).toDate();
-      hash['return_date'] = moment(returnDateLocal).format();
+
+      for (let attr of ['task_start_date', 'task_end_date', 'return_date']) {
+        let dateFromServer = hash[attr];
+        let date = moment.tz(dateFromServer, arrivalTimezone);
+        let rawDate = moment(date).format().slice(0, -6);
+        let dateLocal = moment(rawDate).toDate();
+        hash[attr] = moment(dateLocal).format();
+      }
     }
   };
 
@@ -117,24 +107,14 @@ const serializePetition = function(json, snapshot, serializer) {
       let arrivalTimezoneID = json[key].split('/').slice(-2)[0];
       let city = serializer.store.peekRecord('city', arrivalTimezoneID);
       let arrivalTimezone = city.get('timezone');
-      //transform task_start_date property
-      let taskStartDate = json['task_start_date'];
-      let rawTaskStartDate = moment(taskStartDate).format().slice(0, -6);
-      let taskStartDateLocal = moment.tz(rawTaskStartDate, arrivalTimezone).format();
-      let taskStartDateUTC = moment.utc(taskStartDateLocal).format();
-      json['task_start_date'] = taskStartDateUTC.slice(0, -4);
-      //transform task_end_date property
-      let taskEndDate = json['task_end_date'];
-      let rawTaskEndDate = moment(taskEndDate).format().slice(0, -6);
-      let taskEndDateLocal = moment.tz(rawTaskEndDate, arrivalTimezone).format();
-      let taskEndDateUTC = moment.utc(taskEndDateLocal).format();
-      json['task_end_date'] = taskEndDateUTC.slice(0, -4);
-      //transform return_date property
-      let returnDate = json['return_date'];
-      let rawReturnDate = moment(returnDate).format().slice(0, -6);
-      let returnDateLocal = moment.tz(rawReturnDate, arrivalTimezone).format();
-      let returnDateUTC = moment.utc(returnDateLocal).format();
-      json['return_date'] = returnDateUTC.slice(0, -4);
+
+      for (let attr of ['task_start_date', 'task_end_date', 'return_date']) {
+        let dateFromUi = json[attr];
+        let rawDate = moment(dateFromUi).format().slice(0, -6);
+        let dateLocal = moment.tz(rawDate, arrivalTimezone).format();
+        let dateUTC = moment.utc(dateLocal).format();
+        json[attr] = dateUTC.slice(0, -4);
+      }
     }
   };
 
