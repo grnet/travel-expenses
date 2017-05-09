@@ -55,31 +55,44 @@ const petitionDatesFields = [
   }
 ];
 
-function serializePetitionDate(serializer, source, key, attrs) {
-  let timezoneID = source[key].split('/').slice(-2)[0];
+function serializePetitionDate(serializer, payload, key, attrs) {
+  const cityURL = payload[key];
+  if (!cityURL) { 
+    return;
+  }
+  let timezoneID = cityURL.split('/').slice(-2)[0];
   let city = serializer.store.peekRecord('city', timezoneID);
   let timezone = city.data.timezone;
 
   for (let attr of attrs) {
-    let dateFromServer = source[attr];
-    let date = moment.tz(dateFromServer, timezone);
-    let dateRaw = moment(date).format().slice(0, -6);
-    let dateLocal = moment(dateRaw).toDate();
-    source[attr] = moment(dateLocal).format();
+    const dateFromUI = payload[attr];
+    if (dateFromUI) {
+      let dateFromServer = payload[attr];
+      let date = moment.tz(dateFromServer, timezone);
+      let dateRaw = moment(date).format().slice(0, -6);
+      let dateLocal = moment(dateRaw).toDate();
+      payload[attr] = moment(dateLocal).format();
+    }
   }
 }
 
-function deserializePetitionDate(serializer, source, key, attrs) {
-  let timezoneID = source[key].split('/').slice(-2)[0];
+function deserializePetitionDate(serializer, payload, key, attrs) {
+  const cityURL = payload[key];
+  if (!cityURL) {
+    return;
+  }
+  let timezoneID = cityURL.split('/').slice(-2)[0];
   let city = serializer.store.peekRecord('city', timezoneID);
   let timezone = city.data.timezone;
 
   for (let attr of attrs) {
-    let dateFromUi = source[attr];
-    let rawDate = moment(dateFromUi).format().slice(0, -6);
-    let dateLocal = moment.tz(rawDate, timezone).format();
-    let dateUTC = moment.utc(dateLocal).format();
-    source[attr] = dateUTC.slice(0, -4);
+    const dateFromUI = payload[attr];
+    if (dateFromUI) {
+      const rawDate = moment(dateFromUI).format().slice(0, -6);
+      const dateLocal = moment.tz(rawDate, timezone).format();
+      const dateUTC = moment.utc(dateLocal).format();
+      payload[attr] = dateUTC.slice(0, -4);
+    }
   }
 }
 
