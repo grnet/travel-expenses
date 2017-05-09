@@ -116,7 +116,7 @@ export default DRFAdapter.extend(DataAdapterMixin, {
           return Ember.RSVP.resolve(null);
         }
 
-        const cityId = travel_info_props[point].split('/').slice(-2)[0];
+        const cityId = cityURL.split('/').slice(-2)[0];
         const record = store.peekRecord('city', cityId);
         return record
           ? Ember.RSVP.resolve(record.get('timezone'))
