@@ -38,7 +38,7 @@ let FILE_FIELDS = [
   'travel_files'
 ];
 
-const petitionDatesFields = [
+const petitionDateFields = [
   {
     key: 'departure_point',
     attrs: [
@@ -60,11 +60,11 @@ function serializePetitionDate(serializer, payload, key, attrs) {
   if (!cityURL) { 
     return;
   }
-  let timezoneID = cityURL.split('/').slice(-2)[0];
-  let city = serializer.store.peekRecord('city', timezoneID);
-  let timezone = city.data.timezone;
+  const timezoneID = cityURL.split('/').slice(-2)[0];
+  const city = serializer.store.peekRecord('city', timezoneID);
+  const timezone = city.data.timezone;
 
-  for (let attr of attrs) {
+  for (const attr of attrs) {
     const dateFromServer = payload[attr];
     if (dateFromServer) {
       const date = moment.tz(dateFromServer, timezone);
@@ -80,15 +80,15 @@ function deserializePetitionDate(serializer, payload, key, attrs) {
   if (!cityURL) {
     return;
   }
-  let timezoneID = cityURL.split('/').slice(-2)[0];
-  let city = serializer.store.peekRecord('city', timezoneID);
-  let timezone = city.data.timezone;
+  const timezoneID = cityURL.split('/').slice(-2)[0];
+  const city = serializer.store.peekRecord('city', timezoneID);
+  const timezone = city.data.timezone;
 
-  for (let attr of attrs) {
+  for (const attr of attrs) {
     const dateFromUI = payload[attr];
     if (dateFromUI) {
-      const rawDate = moment(dateFromUI).format().slice(0, -6);
-      const dateLocal = moment.tz(rawDate, timezone).format();
+      const dateRaw = moment(dateFromUI).format().slice(0, -6);
+      const dateLocal = moment.tz(dateRaw, timezone).format();
       const dateUTC = moment.utc(dateLocal).format();
       payload[attr] = dateUTC.slice(0, -4);
     }
@@ -106,7 +106,7 @@ const normalizePetition = function(hash, serializer) {
     }
   }
 
-  for (let o of petitionDatesFields) {
+  for (let o of petitionDateFields) {
     serializePetitionDate(serializer, hash, o.key, o.attrs);
   }
 
@@ -115,7 +115,7 @@ const normalizePetition = function(hash, serializer) {
 }
 
 const serializePetition = function(json, snapshot, serializer) {
-  for (let o of petitionDatesFields) {
+  for (let o of petitionDateFields) {
     deserializePetitionDate(serializer, json, o.key, o.attrs);
   }
 
