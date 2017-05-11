@@ -98,7 +98,7 @@ export default DRFAdapter.extend(DataAdapterMixin, {
 
   findRecord(store, type, id, snapshot) {
     // custom logic just for petition models
-    if (!type || !type.modelName || type.modelName.indexOf('petition') === -1) {
+    if (!type || !type.modelName || (type.modelName.indexOf('petition') === -1 && type.modelName.indexOf('compensation') === -1)) {
       return this._super(store, type, id, snapshot);
     }
 
