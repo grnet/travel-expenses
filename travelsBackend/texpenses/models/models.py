@@ -155,10 +155,10 @@ class Country(md.Model):
 class City(md.Model):
 
     """Model for cities. """
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100, blank=False)
-    country = models.ForeignKey(Country, blank=False)
-    timezone = models.CharField(max_length=100)
+    id = md.AutoField(primary_key=True)
+    name = md.CharField(max_length=100, blank=False)
+    country = md.ForeignKey(Country, blank=False)
+    timezone = md.CharField(max_length=100)
 
     def __unicode__(self):
         """TODO: to be defined. """
