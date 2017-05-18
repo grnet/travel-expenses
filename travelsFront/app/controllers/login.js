@@ -20,7 +20,7 @@ export default Ember.Controller.extend({
             let group = profile.get('user_group');
             return profile.get('profileIsFilled').then((profileFilled) => {
               if (profileFilled) {
-                if (group === "SECRETARY" || group === "CONTROLLER") {
+                if (group === "SECRETARY" || group === "CONTROLLER" || group === "VIEWER") {
                   this.transitionToRoute('advancedList');
                 } else if (group === "USER") {
                   this.transitionToRoute('petitionList');

@@ -9,18 +9,9 @@
     {{partial 'controller-manual'}}
   {{else if (can "managerApprove petition")}}
     {{partial 'manager-manual'}}
+  {{else if (can "view petition")}}
+    {{partial 'viewer-manual'}}
   {{else}}
     {{partial 'user-manual'}}
   {{/if}}
 {{/paper-content}}
-
-
-
-
-
-
-
-
-
-
-      

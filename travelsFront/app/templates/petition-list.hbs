@@ -1,6 +1,6 @@
 {{page-toolbar pageTitle=(t "petition_list.title")}}
   
-{{#if (or (can "approve petition") (can "compensate petition") (can "managerApprove petition"))}}
+{{#if (or (can "approve petition") (can "compensate petition") (can "managerApprove petition") (can "view petition"))}}
 
   {{list-filter filters=filters updateFilters=(action 'setFilters')}}
 

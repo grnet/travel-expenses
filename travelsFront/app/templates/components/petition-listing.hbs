@@ -48,7 +48,7 @@
     {{list-action action=(action "pdf" petition "4") icon='file_download' tooltip-message=(t 'pdf_compensation_decision') iconButton=true confirm=false}}
     {{list-action action=(action "approve" petition) icon='done' tooltip-message=(t 'compensation_presidentApproval') iconButton=true confirm=true promptTitle=(t 'prompt_done_title') promptMessage=(t 'prompt_done_message')}}
   {{/if}}
-{{else}}
+{{else if (can "see petition")}}
 	{{#if (eq petition.status 1)}}
     {{list-action action=(action "edit" petition) icon='create' tooltip-message=(t 'tooltip_edit')  iconButton= true confirm=false}}
     {{list-action action=(action "del" petition) icon='delete_forever' warn=true tooltip-message=(t 'tooltip_delete') iconButton=true confirm=true promptTitle=(t 'prompt_delete_title') promptMessage=(t 'prompt_delete_message')}}
