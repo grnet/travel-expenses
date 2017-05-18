@@ -5,12 +5,14 @@ PERMISSION_RULES = [
     ('tax-office', 'list', 'SECRETARY', '*', '*', '*'),
     ('tax-office', 'list', 'CONTROLLER', '*', '*', '*'),
     ('tax-office', 'list', 'MANAGER', '*', '*', '*'),
+    ('tax-office', 'list', 'VIEWER', '*', '*', '*'),
     ('tax-office', 'retrieve', 'ADMIN', '*', '*', '*'),
     ('tax-office', 'retrieve', 'anonymous', '*', '*', '*'),
     ('tax-office', 'retrieve', 'USER', '*', '*', '*'),
     ('tax-office', 'retrieve', 'SECRETARY', '*', '*', '*'),
     ('tax-office', 'retrieve', 'CONTROLLER', '*', '*', '*'),
     ('tax-office', 'retrieve', 'MANAGER', '*', '*', '*'),
+    ('tax-office', 'retrieve', 'VIEWER', '*', '*', '*'),
 
 
     ('project', 'list', 'ADMIN', '*', '*', '*'),
@@ -19,12 +21,14 @@ PERMISSION_RULES = [
     ('project', 'list', 'SECRETARY', '*', '*', '*'),
     ('project', 'list', 'CONTROLLER', '*', '*', '*'),
     ('project', 'list', 'MANAGER', '*', '*', '*'),
+    ('project', 'list', 'VIEWER', '*', '*', '*'),
     ('project', 'retrieve', 'ADMIN', '*', '*', '*'),
     ('project', 'retrieve', 'anonymous', '*', '*', '*'),
     ('project', 'retrieve', 'USER', '*', '*', '*'),
     ('project', 'retrieve', 'SECRETARY', '*', '*', '*'),
     ('project', 'retrieve', 'CONTROLLER', '*', '*', '*'),
     ('project', 'retrieve', 'MANAGER', '*', '*', '*'),
+    ('project', 'retrieve', 'VIEWER', '*', '*', '*'),
 
     ('countries', 'list', 'ADMIN', '*', '*', '*'),
     ('countries', 'list', 'anonymous', '*', '*', '*'),
@@ -32,12 +36,14 @@ PERMISSION_RULES = [
     ('countries', 'list', 'SECRETARY', '*', '*', '*'),
     ('countries', 'list', 'CONTROLLER', '*', '*', '*'),
     ('countries', 'list', 'MANAGER', '*', '*', '*'),
+    ('countries', 'list', 'VIEWER', '*', '*', '*'),
     ('countries', 'retrieve', 'ADMIN', '*', '*', '*'),
     ('countries', 'retrieve', 'anonymous', '*', '*', '*'),
     ('countries', 'retrieve', 'USER', '*', '*', '*'),
     ('countries', 'retrieve', 'SECRETARY', '*', '*', '*'),
     ('countries', 'retrieve', 'CONTROLLER', '*', '*', '*'),
     ('countries', 'retrieve', 'MANAGER', '*', '*', '*'),
+    ('countries', 'retrieve', 'VIEWER', '*', '*', '*'),
 
     ('city', 'list', 'ADMIN', '*', '*', '*'),
     ('city', 'list', 'anonymous', '*', '*', '*'),
@@ -45,18 +51,21 @@ PERMISSION_RULES = [
     ('city', 'list', 'SECRETARY', '*', '*', '*'),
     ('city', 'list', 'CONTROLLER', '*', '*', '*'),
     ('city', 'list', 'MANAGER', '*', '*', '*'),
+    ('city', 'list', 'VIEWER', '*', '*', '*'),
     ('city', 'retrieve', 'ADMIN', '*', '*', '*'),
     ('city', 'retrieve', 'anonymous', '*', '*', '*'),
     ('city', 'retrieve', 'USER', '*', '*', '*'),
     ('city', 'retrieve', 'SECRETARY', '*', '*', '*'),
     ('city', 'retrieve', 'CONTROLLER', '*', '*', '*'),
     ('city', 'retrieve', 'MANAGER', '*', '*', '*'),
+    ('city', 'retrieve', 'VIEWER', '*', '*', '*'),
 
     ('users', 'retrieve', 'USER', '*', '*', '*'),
     ('users', 'retrieve', 'ADMIN', '*', '*', '*'),
     ('users', 'retrieve', 'SECRETARY', '*', '*', '*'),
     ('users', 'retrieve', 'CONTROLLER', '*', '*', '*'),
     ('users', 'retrieve', 'MANAGER', '*', '*', '*'),
+    ('users', 'retrieve', 'VIEWER', '*', '*', '*'),
 
     ('petition-user-saved', 'create', 'USER', '*', '*', '*'),
     ('petition-user-saved', 'list', 'USER', '*', '*', '*'),
@@ -89,6 +98,8 @@ PERMISSION_RULES = [
     ('petition-user-submitted', 'list', 'ADMIN', '*', '*', '*'),
     ('petition-user-submitted', 'retrieve', 'ADMIN', '*', '*', '*'),
     ('petition-user-submitted', 'update', 'ADMIN', '*', '*', '*'),
+    ('petition-user-submitted', 'list', 'VIEWER', '*', '*', '*'),
+    ('petition-user-submitted', 'retrieve', 'VIEWER', '*', '*', '*'),
 
     ('petition-secretary-saved', 'create', 'SECRETARY', '*', '*', '*'),
     ('petition-secretary-saved', 'list', 'SECRETARY', '*', '*', '*'),
@@ -102,6 +113,8 @@ PERMISSION_RULES = [
     ('petition-secretary-saved', 'update', 'MANAGER',
      'manager_movement_approval', '*', '*'),
     ('petition-secretary-saved', 'export_csv', 'SECRETARY', '*', '*', '*'),
+    ('petition-secretary-saved', 'list', 'VIEWER', '*', '*', '*'),
+    ('petition-secretary-saved', 'retrieve', 'VIEWER', '*', '*', '*'),
 
 
     ('petition-secretary-saved', 'create', 'ADMIN', '*', '*', '*'),
@@ -140,6 +153,8 @@ PERMISSION_RULES = [
     ('petition-secretary-submitted',
      'decision_report', 'ADMIN', '*', '*', '*'),
     ('petition-secretary-submitted', 'export_csv', 'ADMIN', '*', '*', '*'),
+    ('petition-secretary-submitted', 'list', 'VIEWER', '*', '*', '*'),
+    ('petition-secretary-submitted', 'retrieve', 'VIEWER', '*', '*', '*'),
 
     ('petition-user-compensations', 'create', 'USER', '*', '*', '*'),
     ('petition-user-compensations', 'update', 'USER', '*', '*', '*'),
@@ -168,6 +183,8 @@ PERMISSION_RULES = [
     ('petition-user-compensations', 'cancel', 'ADMIN', '*', '*', '*'),
     ('petition-user-compensations', 'application_report', 'ADMIN', '*', '*',
      '*'),
+    ('petition-user-compensations', 'list', 'VIEWER', '*', '*', '*'),
+    ('petition-user-compensations', 'retrieve', 'VIEWER', '*', '*', '*'),
 
     ('petition-secretary-compensations', 'create', 'CONTROLLER', '*', '*', '*'),
     ('petition-secretary-compensations', 'list', 'CONTROLLER', '*', '*', '*'),
@@ -208,6 +225,9 @@ PERMISSION_RULES = [
      'retrieve', 'ADMIN', '*', '*', '*'),
     ('petition-secretary-compensations', 'update', 'ADMIN', '*', '*', '*'),
     ('petition-secretary-compensations', 'cancel', 'ADMIN', '*', '*', '*'),
+    ('petition-secretary-compensations', 'list', 'VIEWER', '*', '*', '*'),
+    ('petition-secretary-compensations', 'retrieve', 'VIEWER', '*', '*', '*'),
+
 
 
 ]
