@@ -347,6 +347,11 @@ class TravelInfo(Accommodation, Transportation):
             print 'Calculating distance'
             self.distance = self.calculate_city_distance()
 
+        if not self.is_abroad() and self.means_of_transport in ('BIKE','CAR'):
+           distance_factor = common.\
+               MEANS_OF_TRANSPORT_DISTANCE_FACTOR[self.means_of_transport]
+           self.transportation_cost = 2*distance_factor*self.distance
+
         self._set_travel_manual_field_defaults()
         super(TravelInfo, self).save(*args, **kwargs)
 

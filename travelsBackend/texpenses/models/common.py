@@ -50,6 +50,11 @@ TRANSPORTATION_MODE_MIN_DISTANCE = {
     "SHIP":  37.04
 }
 
+# this is used in case of domestic travel
+MEANS_OF_TRANSPORT_DISTANCE_FACTOR = {
+    "CAR": 0.15,
+    "BIKE": 0.05
+}
 
 CATEGORIES = (
     ('A', 'A'),
