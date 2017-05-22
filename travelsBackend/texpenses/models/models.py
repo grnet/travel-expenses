@@ -343,14 +343,15 @@ class TravelInfo(Accommodation, Transportation):
         if changed and not new_object or petition_dates_changed:
             self._set_travel_manual_fields()
 
-        if not self.is_abroad() and self.locations_have_changed():
-            print 'Calculating distance'
-            self.distance = self.calculate_city_distance()
+        if not self.is_abroad():
+            if self.locations_have_changed():
+                print 'Calculating distance'
+                self.distance = self.calculate_city_distance()
 
-        if not self.is_abroad() and self.means_of_transport in ('BIKE','CAR'):
-           distance_factor = common.\
-               MEANS_OF_TRANSPORT_DISTANCE_FACTOR[self.means_of_transport]
-           self.transportation_cost = 2*distance_factor*self.distance
+            if self.means_of_transport in ('BIKE','CAR'):
+                distance_factor = common.\
+                    MEANS_OF_TRANSPORT_DISTANCE_FACTOR[self.means_of_transport]
+                self.transportation_cost = 2*distance_factor*self.distance
 
         self._set_travel_manual_field_defaults()
         super(TravelInfo, self).save(*args, **kwargs)
@@ -514,10 +515,30 @@ class TravelInfo(Accommodation, Transportation):
         percentage = 100
         max_compensation = self.compensation_days_manual * \
             self.compensation_level()
+
         if self.same_day_return_task():
             max_compensation *= 0.5
+
         compensation_proportion = common.COMPENSATION_PROPORTION[self.meals] \
             if self.meals else 1
+
+        if not self.is_abroad():
+            if self.meals not in ('SEMI','FULL'):
+                if self.same_day_return_task() and \
+                        self.distance >= common.\
+                        TRANSPORTATION_MODE_MIN_DISTANCE[self.\
+                                                         means_of_transport]:
+                    compensation_proportion=0.5
+
+                if self.same_day_return_task() and \
+                        self.distance <= common.\
+                        TRANSPORTATION_MODE_MIN_DISTANCE[self.\
+                                                         means_of_transport]:
+                    compensation_proportion=0.25
+
+            if self.meals == 'FULL':
+                compensation_proportion=0
+
         return max_compensation * compensation_proportion * (
             self.travel_petition.grnet_quota() / percentage)
 
