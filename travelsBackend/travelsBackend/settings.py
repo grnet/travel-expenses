@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Django settings for travelsBackend project.
 
@@ -25,6 +28,8 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = []
 TEMPLATE_DIRS = ()
+BASE_COUNTRY = u'Ελλάδα'
+GOOGLE_MAPS_KEY = '***REMOVED***'
 
 MEDIA_ROOT = 'uploads'
 MAX_HOLIDAY_DAYS = 60

@@ -38,23 +38,35 @@ CURRENCIES = RESOURCES['CURRENCIES']
 
 
 MAX_OVERNIGHT_COST = {
-    'A': 220.0,
-    'B': 160.0
+    'A': (220.0, 80.0),
+    'B': (160.0, 60.0)
 }
+
+TRANSPORTATION_MODE_MIN_DISTANCE = {
+    "BIKE": 160.00,
+    "CAR": 160.00,
+    "TRAIN": 120.00,
+    "BUS": 120.00,
+    "SHIP":  37.04
+}
+
 
 CATEGORIES = (
     ('A', 'A'),
     ('B', 'B'),
-    ('C', 'C')
+    ('C', 'C'),
+    ('D', 'D')
 )
 
 COMPENSATION_CATEGORIES = {
     ('A', 'A'): 100.0,
     ('A', 'B'): 80.0,
     ('A', 'C'): 60.0,
+    ('A', 'D'): 40.0,
     ('B', 'A'): 80.0,
     ('B', 'B'): 60.0,
     ('B', 'C'): 50.0,
+    ('B', 'D'): 40.0,
 }
 
 
