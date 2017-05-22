@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from datetime import timedelta
 import functools
 from django.conf import settings
@@ -15,6 +18,8 @@ from texpenses.models import common
 from texpenses.validators import (
     afm_validator, iban_validation, date_validator,
     start_end_date_validator)
+import googlemaps
+from geopy.geocoders import Nominatim
 
 
 def update_instance(instance, updated_fields):
@@ -234,9 +239,13 @@ class TravelInfo(Accommodation, Transportation):
     meals = md.CharField(max_length=10, choices=common.MEALS,
                          blank=False, default='NON')
     travel_petition = md.ForeignKey('Petition', related_name='travel_info')
+    distance = md.FloatField(blank=False, default=0.0,
+                                 validators=[MinValueValidator(0.0)])
 
-    tracked_fields = ['depart_date', 'return_date']
-    tracker = FieldTracker(fields=tracked_fields)
+    tracked_date_fields = ['depart_date', 'return_date']
+    tracker = FieldTracker(fields=tracked_date_fields)
+    tracked_location_fields = ['departure_point', 'arrival_point']
+    location_tracker = FieldTracker(fields=tracked_location_fields)
     travel_petition_buffer = None
 
     def clean(self, petition):
@@ -244,6 +253,7 @@ class TravelInfo(Accommodation, Transportation):
                                         Petition.USER_COMPENSATION_SUBMISSION,
                                         Petition.
                                         SECRETARY_COMPENSATION_SUBMISSION]
+        self._validate_depart_arrival_points()
 
         if self.depart_date and self.return_date \
                 and petition.task_end_date:
@@ -257,6 +267,26 @@ class TravelInfo(Accommodation, Transportation):
             start_end_date_validator(dates, labels)
         self.validate_overnight_cost(petition)
         super(TravelInfo, self).clean()
+
+    def _endpoints_are_set(self):
+        return True if self.departure_point is not None and \
+            self.arrival_point is not None else False
+
+    def _validate_depart_arrival_points(self):
+
+        if self._endpoints_are_set():
+            base_country_name = settings.BASE_COUNTRY
+            departure_country_name = self.departure_point.country.name
+
+            if departure_country_name != base_country_name:
+                raise ValidationError(u'Departure country should be:{}'.
+                                    format(base_country_name))
+
+            arrival_point_name = self.arrival_point.name
+            departure_point_name = self.departure_point.name
+            if departure_point_name == arrival_point_name:
+                raise ValidationError(u"Departure city and arrival city should"
+                                    " not be the same.")
 
     def _set_travel_manual_fields(self):
 
@@ -273,17 +303,49 @@ class TravelInfo(Accommodation, Transportation):
                 self.compensation_days_manual]) == 0:
             self._set_travel_manual_fields()
 
+
+    def is_abroad(self):
+
+        if self._endpoints_are_set():
+            base_country_name = settings.BASE_COUNTRY
+            arrival_country_name = self.arrival_point.country.name
+
+            if arrival_country_name == base_country_name:
+                return False
+            return True
+        return True
+
+    def is_athens_or_thesniki(self):
+
+        if self._endpoints_are_set():
+            arrival_point_name = self.arrival_point.name
+
+            if not self.is_abroad() and (arrival_point_name == u'Αθήνα'
+                                        or arrival_point_name == u'Θεσσαλονίκη'):
+                return True
+
+            return False
+        return False
+
+    def locations_have_changed(self):
+        return any(self.location_tracker.has_changed(field)
+                   for field in self.tracked_location_fields)
+
     def save(self, *args, **kwargs):
 
         new_object = kwargs.pop('new_object', False)
 
         changed = any(self.tracker.has_changed(field)
-                      for field in self.tracked_fields)
+                      for field in self.tracked_date_fields)
         petition_dates_changed = any(
             self.travel_petition.tracker.has_changed(field)
             for field in self.travel_petition.tracked_fields)
         if changed and not new_object or petition_dates_changed:
             self._set_travel_manual_fields()
+
+        if not self.is_abroad() and self.locations_have_changed():
+            print 'Calculating distance'
+            self.distance = self.calculate_city_distance()
 
         self._set_travel_manual_field_defaults()
         super(TravelInfo, self).save(*args, **kwargs)
@@ -298,14 +360,41 @@ class TravelInfo(Accommodation, Transportation):
         """
 
         EXTRA_COST = 100
+
         max_overnight_cost = common.MAX_OVERNIGHT_COST[
-            petition.user_category]
+            petition.user_category][0] if self.is_abroad() else \
+            common.MAX_OVERNIGHT_COST[petition.user_category][1]
+
         max_overnight_cost += EXTRA_COST if self.is_city_ny() else 0
+        max_overnight_cost += max_overnight_cost * 0.2\
+            if self.is_athens_or_thesniki() else 0
+
         if self.accommodation_cost > max_overnight_cost:
             raise ValidationError('Accomondation cost %.2f for petition with'
-                                  ' DSE %s exceeds the max overnight cost.' % (
-                                      self.accommodation_cost,
-                                      str(petition.dse)))
+                                  ' DSE %s exceeds the max overnight cost %.2f euro.'\
+                                  % (self.accommodation_cost,str(petition.dse),\
+                                     max_overnight_cost))
+    def calculate_city_distance(self):
+        try:
+            city_name_from = self.departure_point.name
+            city_name_to = self.arrival_point.name
+            geolocator = Nominatim()
+            _from = geolocator.geocode(city_name_from)
+            _to = geolocator.geocode(city_name_to)
+            _from = (_from.latitude, _from.longitude)
+            _to = (_to.latitude, _to.longitude)
+
+            gmaps = googlemaps.Client(key=settings.GOOGLE_MAPS_KEY)
+            distance_result = gmaps.distance_matrix(_from,
+                                                    _to,
+                                                    mode="driving")
+
+            distance = distance_result['rows'][0]['elements'][0]['distance']\
+                ['value']
+            distance /= 1000
+            return distance
+        except Exception as ex:
+            return 0
 
     def transport_days_proposed(self):
         """
@@ -354,6 +443,17 @@ class TravelInfo(Accommodation, Transportation):
 
     def overnight_cost(self):
         """ Returns total overnight cost. """
+        try:
+            min_distance = \
+                common.TRANSPORTATION_MODE_MIN_DISTANCE[self.\
+                                                        means_of_transport]
+            if not self.is_abroad() and self.distance < min_distance:
+                print "Overnight cost is not taken into account,"\
+                "min allowable distance is {}, current:{}".\
+                    format(min_distance, self.distance)
+                return 0
+        except KeyError as error:
+            pass
         return self.accommodation_cost * self.overnights_num_manual
 
     def is_city_ny(self):
