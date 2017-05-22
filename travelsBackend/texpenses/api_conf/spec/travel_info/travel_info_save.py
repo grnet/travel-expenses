@@ -108,4 +108,14 @@ spec = {'.cli_option': {},
                   'transportation_payment_way': {'.choices': {},
                                                  '.cli_option': {},
                                                  '.drf_field': {},
-                                                 '.field': {}}}}
+                                                 '.field': {}},
+                  'is_abroad': {'.cli_option': {},
+                                '.drf_field': {},
+                                '.field': {},
+                                '.boolean': {}},
+                  'distance': {'.cli_option': {},
+                                '.drf_field': {},
+                                '.field': {},
+                                '.float': {}},
+
+                  }}
