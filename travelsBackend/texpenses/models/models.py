@@ -467,11 +467,13 @@ class TravelInfo(Accommodation, Transportation):
             min_distance = \
                 common.TRANSPORTATION_MODE_MIN_DISTANCE[self.\
                                                         means_of_transport]
-            if not self.is_abroad() and self.distance < min_distance:
-                print "Overnight cost is not taken into account,"\
-                "min allowable distance is {}, current:{}".\
-                    format(min_distance, self.distance)
-                return 0
+            if not self.is_abroad():
+                if self.means_of_transport in ('CAR','BIKE') and\
+                        self.distance < min_distance:
+                    print "Overnight cost is not taken into account,"\
+                    "min allowable distance is {}, current:{}".\
+                        format(min_distance, self.distance)
+                    return 0
         except KeyError as error:
             pass
         return self.accommodation_cost * self.overnights_num_manual
