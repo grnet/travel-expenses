@@ -246,6 +246,10 @@ class TravelInfo(Accommodation, Transportation):
     tracker = FieldTracker(fields=tracked_date_fields)
     tracked_location_fields = ['departure_point', 'arrival_point']
     location_tracker = FieldTracker(fields=tracked_location_fields)
+
+    tracked_means_of_tranport_fields = ['means_of_transport']
+    means_of_transport_tracker = FieldTracker(fields=
+                                              tracked_means_of_tranport_fields)
     travel_petition_buffer = None
 
     def clean(self, petition):
@@ -295,7 +299,8 @@ class TravelInfo(Accommodation, Transportation):
             self.travel_petition.task_end_date)
         self.transport_days_manual = self.transport_days_proposed()
         self.overnights_num_manual = overnight_days
-        self.compensation_days_manual = overnight_days
+        self.compensation_days_manual = overnight_days if overnight_days >0 \
+        else 1
 
     def _set_travel_manual_field_defaults(self):
 
@@ -331,6 +336,10 @@ class TravelInfo(Accommodation, Transportation):
         return any(self.location_tracker.has_changed(field)
                    for field in self.tracked_location_fields)
 
+    def means_of_transport_have_changed(self):
+        return any(self.means_of_transport_tracker.has_changed(field)
+                   for field in self.tracked_means_of_tranport_fields)
+
     def save(self, *args, **kwargs):
 
         new_object = kwargs.pop('new_object', False)
@@ -344,11 +353,15 @@ class TravelInfo(Accommodation, Transportation):
             self._set_travel_manual_fields()
 
         if not self.is_abroad():
-            if self.locations_have_changed():
-                print 'Calculating distance'
-                self.distance = self.calculate_city_distance()
-
             if self.means_of_transport in ('BIKE','CAR'):
+
+                if self.means_of_transport_have_changed():
+                    print 'Calculating distance'
+                    self.distance = self.calculate_city_distance()
+                if self.locations_have_changed():
+                    print 'Calculating distance'
+                    self.distance = self.calculate_city_distance()
+
                 distance_factor = common.\
                     MEANS_OF_TRANSPORT_DISTANCE_FACTOR[self.means_of_transport]
                 self.transportation_cost = 2*distance_factor*self.distance
@@ -377,7 +390,8 @@ class TravelInfo(Accommodation, Transportation):
 
         if self.accommodation_cost > max_overnight_cost:
             raise ValidationError('Accomondation cost %.2f for petition with'
-                                  ' DSE %s exceeds the max overnight cost %.2f euro.'\
+                                  ' DSE %s exceeds the max overnight cost %.2f'
+                                  ' euro.'\
                                   % (self.accommodation_cost,str(petition.dse),\
                                      max_overnight_cost))
     def calculate_city_distance(self):
@@ -500,10 +514,12 @@ class TravelInfo(Accommodation, Transportation):
             == task_start_date.date() == self.depart_date.date()
 
     def compensation_days_proposed(self):
-
-        return self.overnights_num_proposed(
-            self.travel_petition.task_start_date,
-            self.travel_petition.task_end_date)
+        calculated_compensation = \
+            self.overnights_num_proposed(self.travel_petition.task_start_date,\
+                                         self.travel_petition.task_end_date)
+        calculated_compensation = 1 if calculated_compensation==0 else \
+            calculated_compensation
+        return calculated_compensation
 
     def compensation_cost(self):
         """Calculates the compensation based on compensation days,
@@ -516,7 +532,8 @@ class TravelInfo(Accommodation, Transportation):
         max_compensation = self.compensation_days_manual * \
             self.compensation_level()
 
-        if self.same_day_return_task():
+
+        if self.is_abroad() and self.same_day_return_task():
             max_compensation *= 0.5
 
         compensation_proportion = common.COMPENSATION_PROPORTION[self.meals] \
@@ -524,17 +541,20 @@ class TravelInfo(Accommodation, Transportation):
 
         if not self.is_abroad():
             if self.meals not in ('SEMI','FULL'):
-                if self.same_day_return_task() and \
-                        self.distance >= common.\
-                        TRANSPORTATION_MODE_MIN_DISTANCE[self.\
-                                                         means_of_transport]:
-                    compensation_proportion=0.5
+                try:
+                    if self.same_day_return_task() and \
+                            self.distance >= common.\
+                            TRANSPORTATION_MODE_MIN_DISTANCE[self.\
+                                                            means_of_transport]:
+                        compensation_proportion=0.5
 
-                if self.same_day_return_task() and \
-                        self.distance <= common.\
-                        TRANSPORTATION_MODE_MIN_DISTANCE[self.\
-                                                         means_of_transport]:
-                    compensation_proportion=0.25
+                    if self.same_day_return_task() and \
+                            self.distance <= common.\
+                            TRANSPORTATION_MODE_MIN_DISTANCE[self.\
+                                                            means_of_transport]:
+                        compensation_proportion=0.25
+                except KeyError:
+                    pass
 
             if self.meals == 'FULL':
                 compensation_proportion=0
