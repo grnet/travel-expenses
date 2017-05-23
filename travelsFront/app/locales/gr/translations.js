@@ -74,7 +74,7 @@ export default {
  	'accommodation_local_currency.label': 'Νόμισμα',
  	'additional_expenses_initial.label': 'Λοιπά Έξοδα Μετακίνησης',
   'participation_cost.label': 'Κόστος Συμμετοχής - Ευρώ',
- 	'participation_local_cost.label': 'Κόστος Συμμετοχής - Τοπικό Νόμισμα',
+ 	'participation_local_cost.label': 'Κόστος Συμμετοχής',
  	'participation_local_currency.label': 'Νόμισμα',
  	'additional_expenses_initial_description.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή',
  	'user_recommendation.label': 'Αρχικές Προτάσεις Μετακινούμενου (για κρατήσεις πτήσεων, ξενοδοχείου, κλπ)',
