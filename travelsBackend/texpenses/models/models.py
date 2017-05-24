@@ -58,6 +58,7 @@ class TaxOffice(md.Model):
         return self.name
 
 
+
 class TravelUserProfile(md.Model):
 
     """
@@ -176,6 +177,17 @@ class City(md.Model):
         """TODO: to be defined. """
         return self.name
 
+class CityDistances(md.Model):
+
+    """ Model which holds the distance between various Greek Cities"""
+    id = md.AutoField(primary_key=True)
+    from_city = md.ForeignKey(City, related_name='from_city')
+    to_city = md.ForeignKey(City, related_name='to_city')
+    distance = md.PositiveSmallIntegerField(blank=True)
+
+    def __unicode__(self):
+        return str(self.id) + '-' + self.from_city.name + ' to '+ \
+            self.to_city.name
 
 class Accommodation(md.Model):
 
@@ -364,10 +376,14 @@ class TravelInfo(Accommodation, Transportation):
 
                 if self.means_of_transport_have_changed():
                     print 'Calculating distance'
-                    self.distance = self.calculate_city_distance()
+                    self.distance = self.\
+                        calculate_city_distance(self.departure_point,\
+                                                self.arrival_point)
                 if self.locations_have_changed():
                     print 'Calculating distance'
-                    self.distance = self.calculate_city_distance()
+                    self.distance = self.\
+                        calculate_city_distance(self.departure_point,\
+                                                self.arrival_point)
 
                 distance_factor = common.\
                     MEANS_OF_TRANSPORT_DISTANCE_FACTOR[self.means_of_transport]
@@ -409,13 +425,29 @@ class TravelInfo(Accommodation, Transportation):
         if not self.same_day_return_task(petition=petition) and \
                 self.accommodation_cost == 0:
             fields=['accommodation_cost',]
-            raise serializers.\
-                ValidationError(_construct_validation_message(fields))
+            if petition.status > 3:
+                raise serializers.\
+                    ValidationError(_construct_validation_message(fields))
 
-    def calculate_city_distance(self):
+    def calculate_city_distance(self, departure_point, arrival_point):
+
+        # Search in the db if the distance between cities is already calculated
+
+        city_distance_record = CityDistances.objects.\
+            filter(from_city=departure_point, to_city=arrival_point)
+
+        # if exists return the saved distance value
+        if city_distance_record:
+            return city_distance_record[0].distance
+
+        # else create a new city distance object
+        city_distance_record = CityDistances(from_city=departure_point,\
+                                                to_city=arrival_point)
+
+        # and use google maps client
         try:
-            city_name_from = self.departure_point.name
-            city_name_to = self.arrival_point.name
+            city_name_from = departure_point.name
+            city_name_to = arrival_point.name
             geolocator = Nominatim()
             _from = geolocator.geocode(city_name_from)
             _to = geolocator.geocode(city_name_to)
@@ -430,6 +462,10 @@ class TravelInfo(Accommodation, Transportation):
             distance = distance_result['rows'][0]['elements'][0]['distance']\
                 ['value']
             distance /= 1000
+
+            # and save the calculated value to db
+            city_distance_record.distance=distance
+            city_distance_record.save()
             return distance
         except Exception as ex:
             return 0
@@ -839,14 +875,6 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             travel_obj.save()
         self.travel_info.add(*travel_info)
         return self.id
-
-    # def _construct_validation_message(self, fields):
-        # response = {}
-        # message = ['This field is required']
-
-        # for field in fields:
-            # response[field] = message
-        # return response
 
     def proceed(self, **kwargs):
         """
