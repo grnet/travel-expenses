@@ -394,6 +394,11 @@ class TravelInfo(Accommodation, Transportation):
                                   ' euro.'\
                                   % (self.accommodation_cost,str(petition.dse),\
                                      max_overnight_cost))
+        if self.same_day_return_task(petition=petition) and \
+                self.accommodation_cost:
+            raise ValidationError('This is a same day return travel,'
+                                  ' overnight cost is not acceptable.')
+
     def calculate_city_distance(self):
         try:
             city_name_from = self.departure_point.name
@@ -500,13 +505,18 @@ class TravelInfo(Accommodation, Transportation):
             self.travel_petition.user_category,
             self.arrival_point.country.category)]
 
-    def same_day_return_task(self):
+    def same_day_return_task(self, petition=None):
         """
         This method checks that the t
         """
+        task_start_date, task_end_date = None, None
+        if petition is None:
+            task_start_date = self.travel_petition.task_start_date
+            task_end_date = self.travel_petition.task_end_date
+        else:
+            task_start_date = petition.task_start_date
+            task_end_date = petition.task_end_date
 
-        task_start_date = self.travel_petition.task_start_date
-        task_end_date = self.travel_petition.task_end_date
         if task_end_date is None or \
                 self.return_date is None \
                 or task_start_date is None \
@@ -514,6 +524,7 @@ class TravelInfo(Accommodation, Transportation):
             return False
         return task_end_date.date() == self.return_date.date() \
             == task_start_date.date() == self.depart_date.date()
+
 
     def compensation_days_proposed(self):
         calculated_compensation = \
