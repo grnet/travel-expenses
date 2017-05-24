@@ -36,6 +36,13 @@ def get_model_missing_fields(instance, excluded=()):
                 missing_fields.append(field.name)
     return missing_fields
 
+def _construct_validation_message(fields):
+    response = {}
+    message = ['This field is required']
+
+    for field in fields:
+        response[field] = message
+    return response
 
 class TaxOffice(md.Model):
 
@@ -398,6 +405,12 @@ class TravelInfo(Accommodation, Transportation):
                 self.accommodation_cost:
             raise ValidationError('This is a same day return travel,'
                                   ' overnight cost is not acceptable.')
+
+        if not self.same_day_return_task(petition=petition) and \
+                self.accommodation_cost == 0:
+            fields=['accommodation_cost',]
+            raise serializers.\
+                ValidationError(_construct_validation_message(fields))
 
     def calculate_city_distance(self):
         try:
@@ -827,13 +840,13 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         self.travel_info.add(*travel_info)
         return self.id
 
-    def _construct_validation_message(self, fields):
-        response = {}
-        message = ['This field is required']
+    # def _construct_validation_message(self, fields):
+        # response = {}
+        # message = ['This field is required']
 
-        for field in fields:
-            response[field] = message
-        return response
+        # for field in fields:
+            # response[field] = message
+        # return response
 
     def proceed(self, **kwargs):
         """
@@ -850,7 +863,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         if next_status in Petition.SUBMISSION_STATUSES \
                 and missing_fields:
             raise serializers.ValidationError(
-                self._construct_validation_message(missing_fields))
+                _construct_validation_message(missing_fields))
         return self.status_transition(self.status + 1, delete=submit, **kwargs)
 
     def get_missing_fields(self):

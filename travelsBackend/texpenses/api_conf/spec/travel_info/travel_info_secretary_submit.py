@@ -1,6 +1,6 @@
 spec = {'.structarray': {'accommodation_cost': {'.cli_option': {},
                                          '.drf_field': {'allow_null': False,
-                                                        'required': True},
+                                                        'required': False},
                                          '.field': {},
                                          '.float': {}},
                   'accommodation_default_currency': {'.cli_option': {},
