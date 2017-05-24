@@ -1,10 +1,10 @@
 {{page-toolbar pageTitle=(t "petition_list.title")}}
   
-{{#if (or (can "approve petition") (can "compensate petition") (can "managerApprove petition") (can "view petition"))}}
+{{#if (or (can "approve petition") (can "compensate petition") (can "managerApprove petition"))}}
 
   {{list-filter filters=filters updateFilters=(action 'setFilters')}}
 
-  {{#paper-data-table as |table|}}   
+  {{#paper-data-table as |table|}}
       {{#table.head as |head|}}
           {{#head.column}}ΔΣΕ{{/head.column}}
           {{#head.column}}Όνομα{{/head.column}}
@@ -45,7 +45,44 @@
     onChangeLimit=(action (mut limit))
     onIncrementPage=(action 'incrementPage')
     onDecrementPage=(action 'decrementPage')
-  }}         
+  }}
+{{else if (can "view petition")}}
+  {{list-filter filters=filters updateFilters=(action 'setFilters')}}
+
+  {{#paper-data-table as |table|}}
+      {{#table.head as |head|}}
+          {{#head.column}}ΔΣΕ{{/head.column}}
+          {{#head.column}}Όνομα{{/head.column}}
+          {{#head.column}}Επώνυμο{{/head.column}}
+          {{#head.column}}Έργο{{/head.column}}
+          {{#head.column}}Προορισμός{{/head.column}}
+          {{#head.column}}Ημ/νία Δημιουργίας{{/head.column}}
+          {{#head.column}}Τελευταία ανανέωση{{/head.column}}
+          {{#head.column}}Ημ/νία Αναχώρησης{{/head.column}}
+          {{#head.column}}Ημ/νία Επιστροφής{{/head.column}}
+          {{#head.column}}Κατάσταση{{/head.column}}
+          {{#head.column}}Συνολικό Κόστος{{/head.column}}
+          {{#head.column}}{{/head.column}}
+      {{/table.head}}
+      {{#table.body as |body|}}
+        {{#each paginatedModel as |petition|}}
+          {{#if petition.project.name}}
+            {{petition-listing  petition=petition
+              wrapper=body.row}}
+          {{/if}}
+        {{/each}}
+      {{/table.body}}
+  {{/paper-data-table}}
+  {{paper-data-table-pagination
+    limit=limit
+    limitOptions=limitOptions
+    page=page
+    pages=pages
+    onChangePage=(action (mut page))
+    onChangeLimit=(action (mut limit))
+    onIncrementPage=(action 'incrementPage')
+    onDecrementPage=(action 'decrementPage')
+  }}
 {{else}}
   {{#paper-data-table as |table|}}
       {{#table.head as |head|}}
@@ -87,5 +124,5 @@
     onIncrementPage=(action 'incrementPage')
     onDecrementPage=(action 'decrementPage')
   }}
-{{/if}}  
+{{/if}}
 
