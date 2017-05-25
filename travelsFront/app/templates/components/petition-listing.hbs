@@ -1,18 +1,7 @@
 {{#component wrapper as |row|}}
-{{#row.cell}}{{petition.dse}}{{/row.cell}}
-{{#row.cell}}{{petition.first_name}}{{/row.cell}}
-{{#row.cell}}{{petition.last_name}}{{/row.cell}}
-{{#row.cell}}{{petition.project.name}}{{/row.cell}}
-{{#row.cell}}{{petition.arrival_point.name}}{{/row.cell}}
-{{#row.cell}}{{to-date petition.created}}{{/row.cell}}
-{{#row.cell}}{{to-date petition.updated}}{{/row.cell}}
-{{#row.cell}}{{to-date petition.depart_date}}{{/row.cell}}
-{{#row.cell}}{{to-date petition.return_date}}{{/row.cell}}
-{{#row.cell}}{{petition.status_label}}{{/row.cell}}
-{{#row.cell}}{{petition.total_cost}}{{/row.cell}}
 {{#row.cell class="icon-cell"}}
 {{#if (can "approve petition")}}
-	{{#if (or (eq petition.status 2) (eq petition.status 3))}}
+  {{#if (or (eq petition.status 2) (eq petition.status 3))}}
     {{list-action action=(action "edit" petition) icon='create' tooltip-message=(t 'tooltip_edit')  iconButton=true confirm=false}}
   {{else if (eq petition.status 4)}}
     {{list-action action=(action "undo" petition) icon='undo' tooltip-message=(t 'tooltip_undo') iconButton=true confirm=true promptTitle=(t 'prompt_undo_title') promptMessage=(t 'prompt_undo_message')}}
@@ -49,7 +38,7 @@
     {{list-action action=(action "approve" petition) icon='done' tooltip-message=(t 'compensation_presidentApproval') iconButton=true confirm=true promptTitle=(t 'prompt_done_title') promptMessage=(t 'prompt_done_message')}}
   {{/if}}
 {{else if (can "see petition")}}
-	{{#if (eq petition.status 1)}}
+  {{#if (eq petition.status 1)}}
     {{list-action action=(action "edit" petition) icon='create' tooltip-message=(t 'tooltip_edit')  iconButton= true confirm=false}}
     {{list-action action=(action "del" petition) icon='delete_forever' warn=true tooltip-message=(t 'tooltip_delete') iconButton=true confirm=true promptTitle=(t 'prompt_delete_title') promptMessage=(t 'prompt_delete_message')}}
   {{else if (or (eq petition.status 5) (eq petition.status 6))}}
@@ -60,6 +49,17 @@
   {{/if}}
 {{/if}}
 {{/row.cell}}
+{{#row.cell}}{{petition.dse}}{{/row.cell}}
+{{#row.cell}}{{petition.first_name}}{{/row.cell}}
+{{#row.cell}}{{petition.last_name}}{{/row.cell}}
+{{#row.cell}}{{petition.project.name}}{{/row.cell}}
+{{#row.cell}}{{petition.arrival_point.name}}{{/row.cell}}
+{{#row.cell}}{{to-date petition.created}}{{/row.cell}}
+{{#row.cell}}{{to-date petition.updated}}{{/row.cell}}
+{{#row.cell}}{{to-date petition.depart_date}}{{/row.cell}}
+{{#row.cell}}{{to-date petition.return_date}}{{/row.cell}}
+{{#row.cell}}{{petition.status_label}}{{/row.cell}}
+{{#row.cell}}{{petition.total_cost}}{{/row.cell}}
 {{/component}}
 
 
