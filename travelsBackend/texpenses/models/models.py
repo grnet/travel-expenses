@@ -411,12 +411,6 @@ class TravelInfo(Accommodation, Transportation):
         max_overnight_cost += max_overnight_cost * 0.2\
             if self.is_athens_or_thesniki() else 0
 
-        if self.accommodation_cost > max_overnight_cost:
-            raise ValidationError('Accomondation cost %.2f for petition with'
-                                  ' DSE %s exceeds the max overnight cost %.2f'
-                                  ' euro.'\
-                                  % (self.accommodation_cost,str(petition.dse),\
-                                     max_overnight_cost))
         if self.same_day_return_task(petition=petition) and \
                 self.accommodation_cost:
             raise ValidationError('This is a same day return travel,'
@@ -517,19 +511,6 @@ class TravelInfo(Accommodation, Transportation):
 
     def overnight_cost(self):
         """ Returns total overnight cost. """
-        try:
-            min_distance = \
-                common.TRANSPORTATION_MODE_MIN_DISTANCE[self.\
-                                                        means_of_transport]
-            if not self.is_abroad():
-                if self.means_of_transport in ('CAR','BIKE') and\
-                        self.distance < min_distance:
-                    print "Overnight cost is not taken into account,"\
-                    "min allowable distance is {}, current:{}".\
-                        format(min_distance, self.distance)
-                    return 0
-        except KeyError as error:
-            pass
         return self.accommodation_cost * self.overnights_num_manual
 
     def is_city_ny(self):
