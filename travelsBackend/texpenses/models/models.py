@@ -1103,7 +1103,7 @@ class UserCompensation(Petition):
                             'accommodation_cost',
                             'overnights_num_manual',
                             'transport_days_manual',
-                            'compensation_days_manual']
+                            'compensation_days_manual','distance']
 
     class Meta:
         proxy = True
@@ -1129,7 +1129,7 @@ class SecretaryCompensation(Petition):
     excluded_travel_info = ['accommodation_local_cost',
                             'overnights_num_manual',
                             'transport_days_manual',
-                            'compensation_days_manual']
+                            'compensation_days_manual','distance']
 
     class Meta:
         proxy = True
