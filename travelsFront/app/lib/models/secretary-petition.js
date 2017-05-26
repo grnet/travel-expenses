@@ -47,4 +47,21 @@ export var SecretaryPetition = Petition.extend({
   overnight_cost: DS.attr(),
   compensation_level: DS.attr({attrs: {disabled: true}}),
   same_day_return_task: DS.attr('boolean', {attrs: {disabled: true}}),
+
+  passedAccommodationLimit: Ember.computed('movement_category', 'accommodation_cost', function() {
+    var movement_category = this.get('movement_category');
+    var accommodation_cost = this.get('accommodation_cost');
+
+      if (movement_category  == 1) {
+        if (accommodation_cost > 60) {
+          return true;
+        }
+      }
+      else if (movement_category  == 2){
+        if (accommodation_cost > 160) {
+          return true;
+        }
+      }
+    return false;
+  }),
 });
