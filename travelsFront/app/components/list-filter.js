@@ -13,7 +13,7 @@ export default Ember.Component.extend({
 	store: Ember.inject.service(),
 	
   classNames: ['list-filter'],
-  filters: {dse: '', last_name: '', project: '', status: '', depart_date__gte: '', return_date__lte: ''},
+  filters: {dse: '', last_name: '', project: '', status: '', depart_date__gte: null, return_date__lte: null},
   placeholderLabel: t('placeholder.filterByProject'),
   placeholderLabelS: t('placeholder.filterByStatus'),
   statuses: Ember.computed(function(){
@@ -42,8 +42,8 @@ export default Ember.Component.extend({
         last_name: this.set('filters.last_name', ''),
         project: this.set('filters.project', ''),
         status: this.set('filters.status', ''),
-        depart_date__gte: this.set('date', null),
-        return_date__lte: this.set('date', null),
+        depart_date__gte: this.set('filters.depart_date__gte', null),
+        return_date__lte: this.set('filters.return_date__lte', null),
       };
       this.updateFilters(emptyFilters);
     }

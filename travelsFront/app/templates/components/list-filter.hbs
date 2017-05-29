@@ -16,8 +16,8 @@
       {{/paper-option}}
     {{/each}}
 	{{/paper-select}}	
-	{{pick-a-date date=date on-selected=(action (mut filters.depart_date__gte)) placeholder=(t 'placeholder.filterByStartDate')}}
-	{{pick-a-date date=date on-selected=(action (mut filters.return_date__lte)) placeholder=(t 'placeholder.filterByEndDate')}}
+	{{pick-a-date date=filters.depart_date__gte on-selected=(action (mut filters.depart_date__gte)) placeholder=(t 'placeholder.filterByStartDate')}}
+	{{pick-a-date date=filters.return_date__lte on-selected=(action (mut filters.return_date__lte)) placeholder=(t 'placeholder.filterByEndDate')}}
 {{/paper-card-content}}
 	<div class="md-actions" layout="row" style="margin-left:1%;">
 		{{#paper-button bubbles=false raised=true onClick=(action "handleFilterEntry")}}{{t 'list.button.search'}}{{/paper-button}}
