@@ -18,6 +18,7 @@
     {{list-action action=(action "del" petition) icon='delete_forever' warn=true tooltip-message=(t 'tooltip_delete') iconButton=true confirm=true promptTitle=(t 'prompt_delete_title') promptMessage=(t 'prompt_delete_message')}}
   {{else if (or (eq petition.status 5) (eq petition.status 6))}}
     {{#if (eq petition.tax_reg_num account.user.tax_reg_num)}}
+      {{list-action action=(action "pdf" petition "3") icon='file_download' tooltip-message=(t 'pdf_compensation_application') iconButton=true confirm=false}}
       {{list-action action=(action "edit" petition) icon='create' tooltip-message=(t 'tooltip_edit')  iconButton= true confirm=false}}
     {{/if}}
   {{else if (or (eq petition.status 2) (eq petition.status 7))}}
@@ -61,10 +62,3 @@
 {{#row.cell}}{{petition.status_label}}{{/row.cell}}
 {{#row.cell}}{{petition.total_cost}}{{/row.cell}}
 {{/component}}
-
-
-
-
-
-
-
