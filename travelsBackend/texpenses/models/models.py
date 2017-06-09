@@ -36,6 +36,7 @@ def get_model_missing_fields(instance, excluded=()):
                 missing_fields.append(field.name)
     return missing_fields
 
+
 def _construct_validation_message(fields):
     response = {}
     message = ['This field is required']
@@ -43,6 +44,7 @@ def _construct_validation_message(fields):
     for field in fields:
         response[field] = message
     return response
+
 
 class TaxOffice(md.Model):
 
@@ -56,7 +58,6 @@ class TaxOffice(md.Model):
 
     def __unicode__(self):
         return self.name
-
 
 
 class TravelUserProfile(md.Model):
@@ -177,6 +178,7 @@ class City(md.Model):
         """TODO: to be defined. """
         return self.name
 
+
 class CityDistances(md.Model):
 
     """ Model which holds the distance between various Greek Cities"""
@@ -186,8 +188,9 @@ class CityDistances(md.Model):
     distance = md.PositiveSmallIntegerField(blank=True)
 
     def __unicode__(self):
-        return str(self.id) + '-' + self.from_city.name + ' to '+ \
+        return str(self.id) + '-' + self.from_city.name + ' to ' + \
             self.to_city.name
+
 
 class Accommodation(md.Model):
 
@@ -259,7 +262,7 @@ class TravelInfo(Accommodation, Transportation):
                          blank=False, default='NON')
     travel_petition = md.ForeignKey('Petition', related_name='travel_info')
     distance = md.FloatField(blank=False, default=0.0,
-                                 validators=[MinValueValidator(0.0)])
+                             validators=[MinValueValidator(0.0)])
 
     tracked_date_fields = ['depart_date', 'return_date']
     tracker = FieldTracker(fields=tracked_date_fields)
@@ -267,8 +270,8 @@ class TravelInfo(Accommodation, Transportation):
     location_tracker = FieldTracker(fields=tracked_location_fields)
 
     tracked_means_of_tranport_fields = ['means_of_transport']
-    means_of_transport_tracker = FieldTracker(fields=
-                                              tracked_means_of_tranport_fields)
+    means_of_transport_tracker = FieldTracker(
+        fields=tracked_means_of_tranport_fields)
     travel_petition_buffer = None
 
     def clean(self, petition):
@@ -303,13 +306,13 @@ class TravelInfo(Accommodation, Transportation):
 
             if departure_country_name != base_country_name:
                 raise ValidationError(u'Departure country should be:{}'.
-                                    format(base_country_name))
+                                      format(base_country_name))
 
             arrival_point_name = self.arrival_point.name
             departure_point_name = self.departure_point.name
             if departure_point_name == arrival_point_name:
                 raise ValidationError(u"Departure city and arrival city should"
-                                    " not be the same.")
+                                      " not be the same.")
 
     def _set_travel_manual_fields(self):
 
@@ -318,7 +321,7 @@ class TravelInfo(Accommodation, Transportation):
             self.travel_petition.task_end_date)
         self.transport_days_manual = self.transport_days_proposed()
         self.overnights_num_manual = overnight_days
-        self.compensation_days_manual = overnight_days if overnight_days >0 \
+        self.compensation_days_manual = overnight_days if overnight_days > 0
         else 1
 
     def _set_travel_manual_field_defaults(self):
@@ -326,7 +329,6 @@ class TravelInfo(Accommodation, Transportation):
         if sum([self.transport_days_manual, self.overnights_num_manual,
                 self.compensation_days_manual]) == 0:
             self._set_travel_manual_fields()
-
 
     def is_abroad(self):
 
@@ -344,8 +346,8 @@ class TravelInfo(Accommodation, Transportation):
         if self._endpoints_are_set():
             arrival_point_name = self.arrival_point.name
 
-            if not self.is_abroad() and (arrival_point_name == u'Αθήνα'
-                                        or arrival_point_name == u'Θεσσαλονίκη'):
+            if not self.is_abroad() and (arrival_point_name == u'Αθήνα' or
+                                         arrival_point_name == u'Θεσσαλονίκη'):
                 return True
 
             return False
@@ -372,17 +374,17 @@ class TravelInfo(Accommodation, Transportation):
             self._set_travel_manual_fields()
 
         if not self.is_abroad():
-            if self.means_of_transport in ('BIKE','CAR'):
+            if self.means_of_transport in ('BIKE', 'CAR'):
 
                 if self.means_of_transport_have_changed():
                     print 'Calculating distance'
                     self.distance = self.\
-                        calculate_city_distance(self.departure_point,\
+                        calculate_city_distance(self.departure_point,
                                                 self.arrival_point)
                 if self.locations_have_changed():
                     print 'Calculating distance'
                     self.distance = self.\
-                        calculate_city_distance(self.departure_point,\
+                        calculate_city_distance(self.departure_point,
                                                 self.arrival_point)
 
                 distance_factor = common.\
@@ -418,7 +420,7 @@ class TravelInfo(Accommodation, Transportation):
 
         if not self.same_day_return_task(petition=petition) and \
                 self.accommodation_cost == 0:
-            fields=['accommodation_cost',]
+            fields = ['accommodation_cost', ]
             if petition.status > 3:
                 raise serializers.\
                     ValidationError(_construct_validation_message(fields))
@@ -435,8 +437,8 @@ class TravelInfo(Accommodation, Transportation):
             return city_distance_record[0].distance
 
         # else create a new city distance object
-        city_distance_record = CityDistances(from_city=departure_point,\
-                                                to_city=arrival_point)
+        city_distance_record = CityDistances(from_city=departure_point,
+                                             to_city=arrival_point)
 
         # and use google maps client
         try:
@@ -453,12 +455,12 @@ class TravelInfo(Accommodation, Transportation):
                                                     _to,
                                                     mode="driving")
 
-            distance = distance_result['rows'][0]['elements'][0]['distance']\
-                ['value']
+            distance = distance_result['rows'][0]['elements'][0]['distance']
+            ['value']
             distance /= 1000
 
             # and save the calculated value to db
-            city_distance_record.distance=distance
+            city_distance_record.distance = distance
             city_distance_record.save()
             return distance
         except Exception as ex:
@@ -497,8 +499,8 @@ class TravelInfo(Accommodation, Transportation):
         :param task_end_date: Date when task ends.
         :returns: The proposed overinight days.
         """
-        if not (self.return_date and self.depart_date
-                and task_start_date and task_end_date):
+        if not (self.return_date and self.depart_date and
+                task_start_date and task_end_date):
             return 0
 
         first_day = task_start_date - timedelta(days=1) \
@@ -555,13 +557,12 @@ class TravelInfo(Accommodation, Transportation):
         return task_end_date.date() == self.return_date.date() \
             == task_start_date.date() == self.depart_date.date()
 
-
     def compensation_days_proposed(self):
         calculated_compensation = \
-            self.overnights_num_proposed(self.travel_petition.task_start_date,\
+            self.overnights_num_proposed(self.travel_petition.task_start_date,
                                          self.travel_petition.task_end_date)
-        calculated_compensation = 1 if calculated_compensation==0 else \
-            calculated_compensation
+        calculated_compensation = 1 if calculated_compensation == 0 else
+        calculated_compensation
         return calculated_compensation
 
     def compensation_cost(self):
@@ -575,7 +576,6 @@ class TravelInfo(Accommodation, Transportation):
         max_compensation = self.compensation_days_manual * \
             self.compensation_level()
 
-
         if self.is_abroad() and self.same_day_return_task():
             max_compensation *= 0.5
 
@@ -583,24 +583,24 @@ class TravelInfo(Accommodation, Transportation):
             if self.meals else 1
 
         if not self.is_abroad():
-            if self.meals not in ('SEMI','FULL'):
+            if self.meals not in ('SEMI', 'FULL'):
                 try:
                     if self.same_day_return_task() and \
                             self.distance >= common.\
-                            TRANSPORTATION_MODE_MIN_DISTANCE[self.\
-                                                            means_of_transport]:
-                        compensation_proportion=0.5
+                            TRANSPORTATION_MODE_MIN_DISTANCE[
+                                self.means_of_transport]:
+                        compensation_proportion = 0.5
 
                     if self.same_day_return_task() and \
                             self.distance <= common.\
-                            TRANSPORTATION_MODE_MIN_DISTANCE[self.\
-                                                            means_of_transport]:
-                        compensation_proportion=0.25
+                            TRANSPORTATION_MODE_MIN_DISTANCE[
+                                self.means_of_transport]:
+                        compensation_proportion = 0.25
                 except KeyError:
                     pass
 
             if self.meals == 'FULL':
-                compensation_proportion=0
+                compensation_proportion = 0
 
         return max_compensation * compensation_proportion * (
             self.travel_petition.grnet_quota() / percentage)
@@ -1103,7 +1103,8 @@ class UserCompensation(Petition):
                             'accommodation_cost',
                             'overnights_num_manual',
                             'transport_days_manual',
-                            'compensation_days_manual','distance']
+                            'compensation_days_manual',
+                            'distance']
 
     class Meta:
         proxy = True
@@ -1129,7 +1130,8 @@ class SecretaryCompensation(Petition):
     excluded_travel_info = ['accommodation_local_cost',
                             'overnights_num_manual',
                             'transport_days_manual',
-                            'compensation_days_manual','distance']
+                            'compensation_days_manual',
+                            'distance']
 
     class Meta:
         proxy = True
