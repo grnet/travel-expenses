@@ -295,8 +295,7 @@ class TravelInfo(Accommodation, Transportation):
         super(TravelInfo, self).clean()
 
     def _endpoints_are_set(self):
-        return True if self.departure_point is not None and \
-            self.arrival_point is not None else False
+        return None not in (self.departure_point, self.arrival_point)
 
     def _validate_depart_arrival_points(self):
 
@@ -346,8 +345,8 @@ class TravelInfo(Accommodation, Transportation):
         if self._endpoints_are_set():
             arrival_point_name = self.arrival_point.name
 
-            if not self.is_abroad() and (arrival_point_name == u'Αθήνα' or
-                                         arrival_point_name == u'Θεσσαλονίκη'):
+            if not self.is_abroad() and arrival_point_name in (u'Αθήνα',
+                                                               u'Θεσσαλονίκη'):
                 return True
 
             return False
