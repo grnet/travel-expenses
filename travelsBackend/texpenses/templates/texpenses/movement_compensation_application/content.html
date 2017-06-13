@@ -65,8 +65,8 @@
 		<td>Ενδιάμεσοι προορισμοί</td>
 		{% for travel_obj in travel_info %}
 		<tr>
-			<td>Από(αναχώρηση {{travel_obj.depart_date|date:"d/m/Y"}}):</td>
-			<td>{{travel_obj.departure_point}} ({{travel_obj.get_means_of_transport_display}})</td>
+			<td>Από(ημ/νια {{travel_obj.depart_date|date:"d/m/Y"}}):</td>
+			<td>{{travel_obj.departure_point}}</td>
 			<td>Προς:</td>
 			<td>{{travel_obj.arrival_point}}</td>
 		</tr>
