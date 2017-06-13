@@ -56,10 +56,24 @@
 		<td>Προς:</td>
 		<td>{{arrival_point}}</td>
 	</tr>
+	{% if travel_info.count > 1 %}
+	<tr>
+		<td>Ενδιάμεσοι προορισμοί</td>
+		{% for travel_obj in travel_info %}
+		<tr>
+			<td>Από(αναχώρηση {{travel_obj.depart_date|date:"d/m/Y"}}):</td>
+			<td>{{travel_obj.departure_point}} ({{travel_obj.get_means_of_transport_display}})</td>
+			<td>Προς:</td>
+			<td>{{travel_obj.arrival_point}}</td>
+		</tr>
+		{% endfor %}
+	</tr>
+	{% else %}
 	<tr>
 		<td>Μέσο μετακίνησης</td>
 		<td>{{means_of_transport}}</td>
 	</tr>
+	{% endif %}
 	<tr>
 		<td>Αιτιολογία μετακίνησης</td>
 		<td colspan="4">{{reason}}</td>

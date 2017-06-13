@@ -42,83 +42,97 @@
 	{% include 'texpenses/footer.html' %}
 </footer>
 
-<br><br><br><br><br><br><br><br><br><br><br><br>
-<table style="width:100%">
-	<tr>
-		<td>Ημερομηνία μετακίνησης</td>
-		<td>Αναχώρηση</td>
-		<td>{{depart_date|date:"d/m/Y"}}</td>
-		<td>Επιστροφή</td>
-		<td>{{return_date|date:"d/m/Y"}}</td>
-	</tr>
-	<tr>
-		<td>Ημερομηνία εργασιών</td>
-		<td>Έναρξη</td>
-		<td>{{task_start_date|date:"d/m/Y"}}</td>
-		<td>Λήξη</td>
-		<td>{{task_end_date|date:"d/m/Y"}}</td>
-	</tr>
-	<tr>
-		<td>Εναπομείνασες ημέρες μετακίνησης εργασιών</td>
-		<td>Πριν</td>
-		<td>{{trip_days_before}}</td>
-		<td>Μετά</td>
-		<td>{{trip_days_after}}</td>
-	</tr>
-	<tr>
-		<td>Ημέρες μετακίνησης εργασιών</td>
-		<td>{{transport_days}}</td>
-	</tr>
-	<tr>
-		<td>Διανυκτερεύσεις</td>
-		<td>{{overnights_num}}</td>
-	</tr>
-	<tr>
-		<td>Τόπος μετακίνησης</td>
-		<td>Από:</td>
-		<td>{{departure_point}}</td>
-		<td>Προς:</td>
-		<td>{{arrival_point}}</td>
-	</tr>
-	<tr>
-		<td>Μέσο μετακίνησης</td>
-		<td>{{means_of_transport}}</td>
-	</tr>
-	<tr>
-		<td>Αιτιολογία μετακίνησης</td>
-		<td colspan="4">{{reason}}</td>
-	</tr>
-</table>
-<br>
-<table style="width:100%">
-	<caption style='text-align: center;'><b>Βεβαιώνουμε την ακόλουθη δέσμευση πίστωσης:</b></caption>
-	<tr>
-		<td><b>ΚΑΤΗΓΟΡΙΑ ΔΑΠΑΝΗΣ</b></td>
-		<td><b>ΠΡΟΥΠΟΛΟΓΙΣΜΟΣ</b></td>
-	</tr>
-	<tr>
-		<td>Εισιτήριο</td>
-		<td>{{transportation_cost}} ευρώ </td>
-	</tr>
-	<tr>
-		<td>Διανυκτέρευση</td>
-		<td>{{overnights_num_manual}} ημέρες x {{accommodation_cost}} = {{overnights_sum_cost}} ευρώ</td>
-	</tr>
-	<tr>
-		<td>Ημερήσια Αποζημίωση</td>
-		<td>{{compensation_days_manual}} ημέρες x {{compensation_level}} = {{compensation_cost}} ευρώ </td>
-	</tr>
-	<tr>
-		<td>Κόστος συμμετοχής</td>
-		<td>{{participation_cost}} ευρώ</td>
-	</tr>
-	<tr>
-		<td>Λοιπά έξοδα μετακίνησης</td>
-		<td>{{additional_expenses_initial}} ευρώ </td>
-	</tr>
-	<tr>
-		<td><b>Σύνολο</td>
-		<td><b>{{total_cost}} ευρώ</b></td>
-	</tr>
-</table>
-{% endblock %}
+	<br><br><br><br><br><br><br><br><br><br><br><br>
+	<table style="width:100%">
+		<tr>
+			<td>Ημερομηνία μετακίνησης</td>
+			<td>Αναχώρηση</td>
+			<td>{{depart_date|date:"d/m/Y"}}</td>
+			<td>Επιστροφή</td>
+			<td>{{return_date|date:"d/m/Y"}}</td>
+		</tr>
+		<tr>
+			<td>Ημερομηνία εργασιών</td>
+			<td>Έναρξη</td>
+			<td>{{task_start_date|date:"d/m/Y"}}</td>
+			<td>Λήξη</td>
+			<td>{{task_end_date|date:"d/m/Y"}}</td>
+		</tr>
+		<tr>
+			<td>Εναπομείνασες ημέρες μετακίνησης εργασιών</td>
+			<td>Πριν</td>
+			<td>{{trip_days_before}}</td>
+			<td>Μετά</td>
+			<td>{{trip_days_after}}</td>
+		</tr>
+		<tr>
+			<td>Ημέρες μετακίνησης εργασιών</td>
+			<td>{{transport_days}}</td>
+		</tr>
+		<tr>
+			<td>Διανυκτερεύσεις</td>
+			<td>{{overnights_num}}</td>
+		</tr>
+		<tr>
+			<td>Τόπος μετακίνησης</td>
+			<td>Από:</td>
+			<td>{{departure_point}}</td>
+			<td>Προς:</td>
+			<td>{{arrival_point}}</td>
+		</tr>
+		{% if travel_info.count > 1 %}
+		<tr>
+			<td>Ενδιάμεσοι προορισμοί</td>
+			{% for travel_obj in travel_info %}
+			<tr>
+				<td>Από(αναχώρηση {{travel_obj.depart_date|date:"d/m/Y"}}):</td>
+				<td>{{travel_obj.departure_point}} ({{travel_obj.get_means_of_transport_display}})</td>
+				<td>Προς:</td>
+				<td>{{travel_obj.arrival_point}}</td>
+			</tr>
+			{% endfor %}
+		</tr>
+		{% else %}
+		<tr>
+			<td>Μέσο μετακίνησης</td>
+			<td>{{means_of_transport}}</td>
+		</tr>
+		{% endif %}
+		<tr>
+			<td>Αιτιολογία μετακίνησης</td>
+			<td colspan="4">{{reason}}</td>
+		</tr>
+	</table>
+	<br>
+	<table style="width:100%">
+		<caption style='text-align: center;'><b>Βεβαιώνουμε την ακόλουθη δέσμευση πίστωσης:</b></caption>
+		<tr>
+			<td><b>ΚΑΤΗΓΟΡΙΑ ΔΑΠΑΝΗΣ</b></td>
+			<td><b>ΠΡΟΥΠΟΛΟΓΙΣΜΟΣ</b></td>
+		</tr>
+		<tr>
+			<td>Εισιτήριο</td>
+			<td>{{transportation_cost}} ευρώ </td>
+		</tr>
+		<tr>
+			<td>Διανυκτέρευση</td>
+			<td>{{overnights_num_manual}} ημέρες x {{accommodation_cost}} = {{overnights_sum_cost}} ευρώ  </td>
+		</tr>
+		<tr>
+			<td>Ημερήσια Αποζημίωση</td>
+			<td>{{compensation_days_manual}} ημέρες x {{compensation_level}} = {{compensation_cost}} ευρώ </td>
+		</tr>
+		<tr>
+			<td>Κόστος συμμετοχής</td>
+			<td>{{participation_cost}} ευρώ</td>
+		</tr>
+		<tr>
+			<td>Λοιπά έξοδα μετακίνησης</td>
+			<td>{{additional_expenses_initial}} ευρώ  </td>
+		</tr>
+		<tr>
+			<td><b>Σύνολο</td>
+			<td><b>{{total_cost}} ευρώ</b></td>
+		</tr>
+	</table>
+	{% endblock %}
