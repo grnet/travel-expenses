@@ -104,37 +104,39 @@
 		</tr>
 	</table>
 
-<table style="width:100%">
-	<caption style='text-align: center;'><b>Οι πραγματοποιηθείσες δαπάνες έχουν ως εξής:</b></caption>
-	<tr>
-		<td><b>ΚΑΤΗΓΟΡΙΑ ΔΑΠΑΝΗΣ</b></td>
-		<td><b>ΠΟΣΟ</b></td>
-	</tr>
-	<tr>
-		<td>Εισιτήριο</td>
-		<td>{{transportation_cost}} ευρώ </td>
-	</tr>
-	<tr>
-		<td>Ημερήσια Αποζημίωση</td>
-		<td>{{compensation_days_manual}} ημέρες x {{compensation_level}} = {{compensation_cost}} ευρώ </td>
-	</tr>
-	<tr>
-		<td>Διανυκτέρευση</td>
-		<td>{{overnights_num_manual}} ημέρες x {{accommodation_cost}} = {{overnights_sum_cost}} ευρώ </td>
-	</tr>
-	<tr>
-		<td>Κόστος συμμετοχής</td>
-		<td>{{participation_cost}} ευρώ</td>
-	</tr>
-	<tr>
-		<td>Λοιπά έξοδα μετακίνησης</td>
-		<td>{{additional_expenses}} ευρώ</td>
-	</tr>
-	<tr>
-		<td><b>Σύνολο</td>
-		<td><b>{{total_cost}} ευρώ</b></td>
-	</tr>
-</table>
+	<table style="width:100%">
+		<caption style='text-align: center;'><b>Οι πραγματοποιηθείσες δαπάνες έχουν ως εξής:</b></caption>
+		<tr>
+			<td><b>ΚΑΤΗΓΟΡΙΑ ΔΑΠΑΝΗΣ</b></td>
+			<td><b>ΠΟΣΟ</b></td>
+		</tr>
+		<tr>
+			<td>Εισιτήριο</td>
+			<td>{{transportation_cost}} ευρώ </td>
+		</tr>
+		<tr>
+			<td>Ημερήσια Αποζημίωση</td>
+			<td>{{compensation_string}} = {{compensation_cost}} ευρώ </td>
+
+		</tr>
+		<tr>
+			<td>Διανυκτέρευση</td>
+			<td>{{overnights_sum_cost_string}} = {{overnights_sum_cost}} ευρώ</td>
+
+		</tr>
+		<tr>
+			<td>Κόστος συμμετοχής</td>
+			<td>{{participation_cost}} ευρώ  </td>
+		</tr>
+		<tr>
+			<td>Λοιπά έξοδα μετακίνησης</td>
+			<td>{{additional_expenses}} ευρώ  </td>
+		</tr>
+		<tr>
+			<td><b>Σύνολο</td>
+			<td><b>{{total_cost}} ευρώ </b></td>
+		</tr>
+	</table>
 
 <table style="width:100%">
 	<caption style='text-align: center;'><b>ΕΓΚΡΙΝΟΥΜΕ
