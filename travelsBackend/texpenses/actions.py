@@ -80,20 +80,20 @@ def inform(petition, action, target_user, inform_controller):
     # We take the first `travel_info` object, because multiple destinations
     # are not supported at the moment.
 
-    travel_info = None
-    if petition.travel_info.all():
-        travel_info = petition.travel_info.all()[0]
+    travel_info_first = petition.travel_info.first()
+    travel_info_last = petition.travel_info.last()
+
     params = {
         'first_name': petition.first_name,
         'last_name': petition.last_name,
         'dse': petition.dse,
         'project': petition.project.name,
-        'departure_point': travel_info.departure_point.name if travel_info\
-        else None,
-        'arrival_point': travel_info.arrival_point.name if travel_info\
-        else None,
-        'timezone_arrival': travel_info.arrival_point.timezone,
-        'timezone_depart': travel_info.departure_point.timezone,
+        'departure_point': travel_info_first.departure_point.name \
+        if travel_info_first else None,
+        'arrival_point': travel_info_last.arrival_point.name \
+        if travel_info_last else None,
+        'timezone_arrival': travel_info_last.arrival_point.timezone,
+        'timezone_depart': travel_info_first.departure_point.timezone,
         'task_start_date': petition.task_start_date,
         'task_end_date': petition.task_end_date,
         'reason': petition.reason,
@@ -104,8 +104,8 @@ def inform(petition, action, target_user, inform_controller):
              'specialty': petition.get_specialty_display(),
              'iban': petition.iban,
              'tax_reg_num': petition.tax_reg_num,
-             'depart_date': travel_info.depart_date,
-             'return_date': travel_info.return_date,
+             'depart_date': travel_info_first.depart_date,
+             'return_date': travel_info_last.return_date,
             }
         )
     cc = (petition.user.email,)
@@ -146,8 +146,8 @@ def compensation_alert():
                                                Petition.APPROVED_BY_PRESIDENT,\
                                                  compensation_alert=False)
     for petition in approved_petitions:
-        travel_info = petition.travel_info.all()[0]
-        return_date = travel_info.return_date.strftime(DATE_FORMAT)
+        return_date = petition.travel_info.last().return_date.\
+            strftime(DATE_FORMAT)
         if return_date == inform_date:
             if not petition.compensation_alert:
                 inform(petition, action='COMPENSATION_ALERT', target_user=True,\

@@ -304,10 +304,6 @@ class TravelInfo(Accommodation, Transportation):
             base_country_name = settings.BASE_COUNTRY
             departure_country_name = self.departure_point.country.name
 
-            if departure_country_name != base_country_name:
-                raise ValidationError(u'Departure country should be:{}'.
-                                      format(base_country_name))
-
             arrival_point_name = self.arrival_point.name
             departure_point_name = self.departure_point.name
             if departure_point_name == arrival_point_name:

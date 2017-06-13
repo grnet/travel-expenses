@@ -210,14 +210,16 @@ class SecretaryPetitionSaveMixin(object):
                      'tax_reg_num': petition_object.tax_reg_num
                      })
         # petition info
-        travel_info = petition_object.travel_info.all()[0]
-        data.update({'depart_date': travel_info.depart_date,
-                     'return_date': travel_info.return_date,
+        travel_info_first = petition_object.travel_info.first()
+        travel_info_last = petition_object.travel_info.last()
+
+        data.update({'depart_date': travel_info_first.depart_date,
+                     'return_date': travel_info_last.return_date,
                      'task_start_date': petition_object.task_start_date,
                      'task_end_date': petition_object.task_end_date,
                      'reason': petition_object.reason,
-                     'departure_point': travel_info.departure_point.name,
-                     'arrival_point': travel_info.arrival_point.name,
+                     'departure_point': travel_info_first.departure_point.name,
+                     'arrival_point': travel_info_last.arrival_point.name,
                      'project': petition_object.project.name
                      })
         return data
@@ -298,9 +300,12 @@ class SecretaryPetitionSubmissionMixin(object):
                      'tax_reg_num': petition_object.tax_reg_num
                      })
         # petition info
-        travel_info = petition_object.travel_info.all()[0]
-        data.update({'depart_date': travel_info.depart_date,
-                     'return_date': travel_info.return_date,
+        travel_info = petition_object.travel_info.all()
+        travel_info_first = petition_object.travel_info.first()
+        travel_info_last = petition_object.travel_info.last()
+        data.update({'depart_date': travel_info_first.depart_date,
+                     'return_date': travel_info_last.return_date,
+                     'travel_info': travel_info,
                      'task_start_date': petition_object.task_start_date,
                      'task_end_date': petition_object.task_end_date,
                      'trip_days_before': petition_object.trip_days_before,
@@ -308,20 +313,22 @@ class SecretaryPetitionSubmissionMixin(object):
                      'transport_days': petition_object.transport_days,
                      'overnights_num': petition_object.overnights_num,
                      'reason': petition_object.reason,
-                     'departure_point': travel_info.departure_point.name,
-                     'arrival_point': travel_info.arrival_point.name,
-                     'means_of_transport': travel_info.
-                     get_means_of_transport_display(),
-                     'transportation_cost': travel_info.transportation_cost,
-                     'transportation_default_currency': travel_info.
-                     transportation_default_currency,
-                     'overnights_num_manual':
-                     travel_info.overnights_num_manual,
-                     'accommodation_cost': travel_info.accommodation_cost,
+                     'departure_point': travel_info_first.departure_point.name,
+                     'arrival_point': travel_info_last.arrival_point.name,
+                     'means_of_transport': \
+                     utils.get_means_of_transport(travel_info),
+                     'transportation_cost': \
+                     utils.get_transportation_cost(travel_info),
+                     'transportation_default_currency': \
+                     travel_info_first.transportation_default_currency,
+                     'overnights_num_manual': \
+                     utils.get_overnights(travel_info),
+                     'accommodation_cost': \
+                     utils.get_accommodation_cost(travel_info),
                      'overnights_sum_cost':
                      petition_object.overnights_sum_cost,
-                     'accommodation_default_currency': travel_info.
-                     accommodation_default_currency,
+                     'accommodation_default_currency':\
+                     travel_info_first.accommodation_default_currency,
                      'participation_cost': petition_object.participation_cost,
                      'participation_default_currency': petition_object.
                      participation_default_currency,
@@ -331,10 +338,12 @@ class SecretaryPetitionSubmissionMixin(object):
                      additional_expenses_default_currency,
                      'total_cost': petition_object.total_cost,
                      'project': petition_object.project.name,
-                     'compensation_days_manual': travel_info.
-                     compensation_days_manual,
-                     'compensation_level': travel_info.compensation_level(),
-                     'compensation_cost': travel_info.compensation_cost()
+                     'compensation_days_manual': \
+                     utils.get_compensation_days(travel_info),
+                     'compensation_level': \
+                     utils.get_compensation_levels(travel_info),
+                     'compensation_cost': \
+                     utils.get_compensation_cost(travel_info)
                      })
         return data
 
@@ -460,9 +469,12 @@ class UserCompensationMixin(object):
                      'tax_reg_num': petition_object.tax_reg_num
                      })
         # petition info
-        travel_info = petition_object.travel_info.all()[0]
-        data.update({'depart_date': travel_info.depart_date,
-                     'return_date': travel_info.return_date,
+        travel_info = petition_object.travel_info.all()
+        travel_info_first = petition_object.travel_info.first()
+        travel_info_last = petition_object.travel_info.last()
+        data.update({'depart_date': travel_info_first.depart_date,
+                     'return_date': travel_info_last.return_date,
+                     'travel_info': travel_info,
                      'task_start_date': petition_object.task_start_date,
                      'task_end_date': petition_object.task_end_date,
                      'trip_days_before': petition_object.trip_days_before,
@@ -470,20 +482,22 @@ class UserCompensationMixin(object):
                      'transport_days': petition_object.transport_days,
                      'overnights_num': petition_object.overnights_num,
                      'reason': petition_object.reason,
-                     'departure_point': travel_info.departure_point.name,
-                     'arrival_point': travel_info.arrival_point.name,
-                     'means_of_transport': travel_info.
-                     get_means_of_transport_display(),
-                     'transportation_cost': travel_info.transportation_cost,
-                     'transportation_default_currency': travel_info.
-                     transportation_default_currency,
-                     'overnights_num_manual':
-                     travel_info.overnights_num_manual,
-                     'accommodation_cost': travel_info.accommodation_cost,
+                     'departure_point': travel_info_first.departure_point.name,
+                     'arrival_point': travel_info_last.arrival_point.name,
+                     'means_of_transport':\
+                     utils.get_means_of_transport(travel_info),
+                     'transportation_cost': \
+                     utils.get_transportation_cost(travel_info),
+                     'transportation_default_currency': \
+                     travel_info_first.transportation_default_currency,
+                     'overnights_num_manual': \
+                     utils.get_overnights(travel_info),
+                     'accommodation_cost': \
+                     utils.get_accommodation_cost(travel_info),
                      'overnights_sum_cost':
                      petition_object.overnights_sum_cost,
-                     'accommodation_default_currency': travel_info.
-                     accommodation_default_currency,
+                     'accommodation_default_currency': \
+                     travel_info_first.accommodation_default_currency,
                      'participation_cost': petition_object.participation_cost,
                      'participation_default_currency': petition_object.
                      participation_default_currency,
@@ -493,10 +507,12 @@ class UserCompensationMixin(object):
                      additional_expenses_default_currency,
                      'total_cost': petition_object.total_cost,
                      'project': petition_object.project.name,
-                     'compensation_days_manual': travel_info.
-                     compensation_days_manual,
-                     'compensation_level': travel_info.compensation_level(),
-                     'compensation_cost': travel_info.compensation_cost()
+                     'compensation_days_manual': \
+                     utils.get_compensation_days(travel_info),
+                     'compensation_level': \
+                     utils.get_compensation_levels(travel_info),
+                     'compensation_cost':\
+                     utils.get_compensation_cost(travel_info)
                      })
         return data
 
@@ -623,9 +639,12 @@ class SecretaryCompensationMixin(object):
                      'tax_reg_num': petition_object.tax_reg_num
                      })
         # petition info
-        travel_info = petition_object.travel_info.all()[0]
-        data.update({'depart_date': travel_info.depart_date,
-                     'return_date': travel_info.return_date,
+        travel_info = petition_object.travel_info.all()
+        travel_info_first = petition_object.travel_info.first()
+        travel_info_last = petition_object.travel_info.last()
+        data.update({'depart_date': travel_info_first.depart_date,
+                     'travel_info': travel_info,
+                     'return_date': travel_info_last.return_date,
                      'task_start_date': petition_object.task_start_date,
                      'task_end_date': petition_object.task_end_date,
                      'trip_days_before': petition_object.trip_days_before,
@@ -633,20 +652,22 @@ class SecretaryCompensationMixin(object):
                      'transport_days': petition_object.transport_days,
                      'overnights_num': petition_object.overnights_num,
                      'reason': petition_object.reason,
-                     'departure_point': travel_info.departure_point.name,
-                     'arrival_point': travel_info.arrival_point.name,
-                     'means_of_transport': travel_info.
-                     get_means_of_transport_display(),
-                     'transportation_cost': travel_info.transportation_cost,
-                     'transportation_default_currency': travel_info.
-                     transportation_default_currency,
-                     'overnights_num_manual':
-                     travel_info.overnights_num_manual,
-                     'accommodation_cost': travel_info.accommodation_cost,
+                     'departure_point': travel_info_first.departure_point.name,
+                     'arrival_point': travel_info_last.arrival_point.name,
+                     'means_of_transport': \
+                     utils.get_means_of_transport(travel_info),
+                     'transportation_cost': \
+                     utils.get_transportation_cost(travel_info),
+                     'transportation_default_currency': \
+                     travel_info_first.transportation_default_currency,
+                     'overnights_num_manual':\
+                     utils.get_overnights(travel_info),
+                     'accommodation_cost':\
+                     utils.get_accommodation_cost(travel_info),
                      'overnights_sum_cost':
                      petition_object.overnights_sum_cost,
-                     'accommodation_default_currency': travel_info.
-                     accommodation_default_currency,
+                     'accommodation_default_currency': \
+                     travel_info_first.accommodation_default_currency,
                      'participation_cost': petition_object.participation_cost,
                      'participation_default_currency': petition_object.
                      participation_default_currency,
@@ -656,10 +677,12 @@ class SecretaryCompensationMixin(object):
                      additional_expenses_default_currency,
                      'total_cost': petition_object.total_cost,
                      'project': petition_object.project.name,
-                     'compensation_days_manual': travel_info.
-                     compensation_days_manual,
-                     'compensation_level': travel_info.compensation_level(),
-                     'compensation_cost': travel_info.compensation_cost(),
+                     'compensation_days_manual':\
+                     utils.get_compensation_days(travel_info),
+                     'compensation_level': \
+                     utils.get_compensation_levels(travel_info),
+                     'compensation_cost':
+                     utils.get_compensation_cost(travel_info),
                      'additional_expenses':
                      petition_object.additional_expenses,
                      'additional_expenses_local_currency':
