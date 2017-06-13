@@ -321,8 +321,10 @@ class SecretaryPetitionSubmissionMixin(object):
                      utils.get_transportation_cost(travel_info),
                      'transportation_default_currency': \
                      travel_info_first.transportation_default_currency,
-                     'overnights_sum_cost_string': \
-                     utils.get_overnights_sum_cost_string(travel_info),
+                     'overnights_num_manual': \
+                     utils.get_overnights(travel_info),
+                     'accommodation_cost': \
+                     utils.get_accommodation_cost(travel_info),
                      'overnights_sum_cost':
                      petition_object.overnights_sum_cost,
                      'accommodation_default_currency':\
@@ -336,8 +338,10 @@ class SecretaryPetitionSubmissionMixin(object):
                      additional_expenses_default_currency,
                      'total_cost': petition_object.total_cost,
                      'project': petition_object.project.name,
-                     'compensation_string' :
-                     utils.get_compensation_levels_string(travel_info),
+                     'compensation_days_manual': \
+                     utils.get_compensation_days(travel_info),
+                     'compensation_level': \
+                     utils.get_compensation_levels(travel_info),
                      'compensation_cost': \
                      utils.get_compensation_cost(travel_info)
                      })
@@ -486,8 +490,10 @@ class UserCompensationMixin(object):
                      utils.get_transportation_cost(travel_info),
                      'transportation_default_currency': \
                      travel_info_first.transportation_default_currency,
-                     'overnights_sum_cost_string': \
-                     utils.get_overnights_sum_cost_string(travel_info),
+                     'overnights_num_manual': \
+                     utils.get_overnights(travel_info),
+                     'accommodation_cost': \
+                     utils.get_accommodation_cost(travel_info),
                      'overnights_sum_cost':
                      petition_object.overnights_sum_cost,
                      'accommodation_default_currency': \
@@ -501,8 +507,10 @@ class UserCompensationMixin(object):
                      additional_expenses_default_currency,
                      'total_cost': petition_object.total_cost,
                      'project': petition_object.project.name,
-                     'compensation_string' :
-                     utils.get_compensation_levels_string(travel_info),
+                     'compensation_days_manual': \
+                     utils.get_compensation_days(travel_info),
+                     'compensation_level': \
+                     utils.get_compensation_levels(travel_info),
                      'compensation_cost':\
                      utils.get_compensation_cost(travel_info)
                      })
@@ -652,8 +660,10 @@ class SecretaryCompensationMixin(object):
                      utils.get_transportation_cost(travel_info),
                      'transportation_default_currency': \
                      travel_info_first.transportation_default_currency,
-                     'overnights_sum_cost_string': \
-                     utils.get_overnights_sum_cost_string(travel_info),
+                     'overnights_num_manual':\
+                     utils.get_overnights(travel_info),
+                     'accommodation_cost':\
+                     utils.get_accommodation_cost(travel_info),
                      'overnights_sum_cost':
                      petition_object.overnights_sum_cost,
                      'accommodation_default_currency': \
@@ -667,8 +677,10 @@ class SecretaryCompensationMixin(object):
                      additional_expenses_default_currency,
                      'total_cost': petition_object.total_cost,
                      'project': petition_object.project.name,
-                     'compensation_string':
-                     utils.get_compensation_levels_string(travel_info),
+                     'compensation_days_manual':\
+                     utils.get_compensation_days(travel_info),
+                     'compensation_level': \
+                     utils.get_compensation_levels(travel_info),
                      'compensation_cost':
                      utils.get_compensation_cost(travel_info),
                      'additional_expenses':
