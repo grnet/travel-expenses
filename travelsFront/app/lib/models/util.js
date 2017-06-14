@@ -96,21 +96,10 @@ function deserializePetitionDate(serializer, payload, key, attrs) {
 }
 
 const normalizePetition = function(hash, serializer) {
-  let travel_info = hash['travel_info'];
-  if (travel_info.length) {
-    travel_info = travel_info[0];
-    for (let field of TRAVEL_INFO_FIELDS) {
-      if (field in travel_info) {
-        hash[field] = travel_info[field];
-      }
-    }
-  }
 
   for (let o of petitionDateFields) {
     serializePetitionDate(serializer, hash, o.key, o.attrs);
   }
-
-  delete hash['travel_info'];
   return hash;
 }
 
@@ -119,16 +108,6 @@ const serializePetition = function(json, snapshot, serializer) {
     deserializePetitionDate(serializer, json, o.key, o.attrs);
   }
 
-  let travel_info = {};
-  for (let field of TRAVEL_INFO_FIELDS) {
-    if (field in json) {
-      travel_info[field] = json[field];
-      delete json[field];
-    }
-    if (field === 'travel_files') {
-      debugger;
-    }
-  }
   // File fields values are set as
   //
   // - `File object` in case the user requested to upload a new file. we 
@@ -147,11 +126,6 @@ const serializePetition = function(json, snapshot, serializer) {
       delete json[field];
     }
     if (!val) { json[field] = null; }
-  }
-
-  json['travel_info'] = [];
-  if (Object.keys(travel_info).length) {
-    json['travel_info'].push(travel_info);
   }
   return json;
 }

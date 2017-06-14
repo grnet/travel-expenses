@@ -6,9 +6,13 @@ export const UIS = {
         'fields': ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'user_category']
       },
       {
+        'label': 'user_data.label',
+        'fields': ['travel_info'],
+      },
+      {
         'label': 'travel_data.label',
-        'fields': [['dse',{attrs:{disabled: true}}], 'project', 'reason', 'departure_point', 'arrival_point','movement_category', 'country_category',
-        'task_start_date', 'task_end_date', 'depart_date', 'return_date', 'participation_local_cost', 'participation_local_currency', 'user_recommendation']
+        'fields': [['dse',{attrs:{disabled: true}}], 'project', 'reason',
+        'task_start_date', 'task_end_date', 'participation_local_cost', 'participation_local_currency', 'user_recommendation']
       },
     ],
     layout: {

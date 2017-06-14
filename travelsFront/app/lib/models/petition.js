@@ -8,7 +8,7 @@ const CHOICES = ENV.APP.resource_choices,
 const {
   get,
   set
-} = Ember;      
+} = Ember;
 
 export var Petition = DS.Model.extend({
   session: Ember.inject.service('session'),
@@ -55,25 +55,8 @@ export var Petition = DS.Model.extend({
   user_recommendation: DS.attr({attrs:{textarea: true}}),
 
   //Travel_info DATA
-  travel_info: DS.attr(),
-  departure_point: DS.belongsTo('city', {attrs: {required: true, autocomplete: true, labelKey: 'labelWithCountry'}}),
-  arrival_point: DS.belongsTo('city', {attrs: {required: true, autocomplete: true, labelKey: 'labelWithCountry'}}),
-  depart_date: DS.attr('date', {
-    onChange(object, key, value) {
-    if (!get(object, 'return_date')) { set(object, 'return_date', value);}
-    },    
-    attrs: {
-      time: true
-    }}),
-  return_date: DS.attr('date', {
-    attrs: {
-      time: true
-    }}),
-  meals: DS.attr({'choices': CHOICES.MEALS}),
-  means_of_transport: DS.attr({'choices': CHOICES.TRANSPORTATION}),
-  transportation_cost: DS.attr(),
-  accommodation_local_cost: DS.attr(),
-  accommodation_local_currency: DS.attr({'choices': CURRENCY, 'component': 'petition-currency'}),
+  travel_info: DS.attr('array', {'component': 'travel-info'}),
+  
   //set movement/country category value
   observeDeparturePoint: Ember.observer('arrival_point', function() {
     this.get('arrival_point').then((city) => {
@@ -167,7 +150,7 @@ export var Petition = DS.Model.extend({
         pdf_name = 'application';
         break;
       case "2":
-      case "4": 
+      case "4":
         extension_url = 'decision_report/';
         pdf_name = 'decision';
         break;
