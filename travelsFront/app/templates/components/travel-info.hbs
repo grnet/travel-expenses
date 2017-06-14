@@ -1,0 +1,12 @@
+Travel Info
+{{#each cities as |cityPair index|}}
+
+{{model-form/fields/input label="Meals" value=cityPair.meals onChange=(action 'onFieldChange' index 'meals')}}
+{{/each}} 
+
+{{#paper-button raised=true iconButton=true  onClick=(action 'addPair')}}
+  {{paper-icon  'add'}}
+{{/paper-button}}
+{{#paper-button raised=true iconButton=true  onClick=(action 'removePair')}}
+  {{paper-icon  'remove'}}
+{{/paper-button}}
