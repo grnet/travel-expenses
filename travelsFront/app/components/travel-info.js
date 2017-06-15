@@ -13,7 +13,7 @@ const Travel = Ember.Object.extend({
 	arrival_city: computed('arrival_point', function() {
 		let point = get(this, 'arrival_point');
 		if (!point) { return null }
-		let id = 3; // TODO: extract id from point
+		let id = point.split('/').slice(-2)[0];;
 		return this.get('store').peekRecord('city', id);
 	})
 });
