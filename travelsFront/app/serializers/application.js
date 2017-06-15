@@ -2,7 +2,17 @@ import DRFSerializer from 'ember-django-adapter/serializers/drf';
 import {apiFor, urlJoin} from 'travels-front/adapters/util';
 
 
-export default DRFSerializer.extend({
+export default DRFSerializer.extend(DS.EmbeddedRecordsMixin, {
+
+  noSerializeOptionSpecified(attr) {
+    if (attr == 'travel_info') { return false }
+    return this._super(attr);
+  },
+
+  hasEmbeddedAlwaysOption(attr) {
+    if (attr === 'travel_info') { return true; }
+    return this._super(attr);
+  },
 
   serializeBelongsTo(snapshot, json, rel) {
     let resp = this._super(snapshot, json, rel);
@@ -18,7 +28,7 @@ export default DRFSerializer.extend({
     let resp = this._super(snapshot, json, rel);
     let key = this.keyForRelationship(rel.key);
     let api = apiFor(rel.type, this);
-    if (json[key]) {
+    if (json[key] && !this.hasSerializeRecordsOption(key)) {
       json[key] = json[key].map(function(id) {
         return api.relURL(id);
       })

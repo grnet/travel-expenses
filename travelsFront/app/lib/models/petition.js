@@ -55,8 +55,8 @@ export var Petition = DS.Model.extend({
   user_recommendation: DS.attr({attrs:{textarea: true}}),
 
   //Travel_info DATA
-  travel_info: DS.attr('array', {'component': 'travel-info'}),
-  
+  travel_info: DS.hasMany('travel-info', {'component': 'travel-info'}),
+
   //set movement/country category value
   observeDeparturePoint: Ember.observer('arrival_point', function() {
     this.get('arrival_point').then((city) => {

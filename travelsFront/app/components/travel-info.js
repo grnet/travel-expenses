@@ -9,77 +9,43 @@ const {
   computed: { alias, equal, gt } 
 } = Ember;
 
-const Travel = Ember.Object.extend({
-	arrival_city: computed('arrival_point', function() {
-		let point = get(this, 'arrival_point');
-		if (!point) { return null }
-		let id = point.split('/').slice(-2)[0];;
-		return this.get('store').peekRecord('city', id);
-	})
-});
-
-
 export default Ember.Component.extend(BaseField, {
-	
-	allCities: computed(function() {
-		return this.get('store').findAll('city');
-	}),
+  travelInfos: [],
+  loading: true,
+  activeTravelInfo: null,
 
-	arrivalChoice: computed(function() {
-		return {label: this.get('arrival_city.name'), value: this.get('arrival_city.id')}
-	}),
-
-	cityChoices:Ember.computed('allCities.[]', function() {
-		let cities = this.get('allCities');
-		return cities.map((city) => { 
-			return { label: get(city, 'name'), value: get(city, 'id') }
-		});
-	}),
-	
-
-	onArrivalChoice: Ember.observer('arrivalChoice.value', function() {
-		let city = this.get('arrivalChoice');
-		debugger;
-	}),
-
-  cities: computed('value', function() {
-    let value = get(this, 'value');
-
-    if (!value) {
-      return [] // an to value einai null h undefined epistrefoume keno array
-    }
-
-    let infos = value.map((info) => {
-    	return Travel.extend({store: this.get('store')}).create(info);
+  init() {
+    this.get('value').then((result) => {
+      set(this, 'travelInfos', result);
+      set(this, 'loading', false);
+      if (result.length) {
+        set(this, 'activeTravelInfo', result.objectAt(0));
+      } else {
+        set(this, 'activeTravelInfo', result.createRecord());
+      }
     });
-    console.log(infos);
-    return infos;
-  }),
+    this._super(...arguments);
+  },
+  
+  actions: {
+    showInfo(index) {
+      set(this, 'activeTravelInfo', get(this, 'travelInfos').objectAt(index));
+    },
 
-	actions: {
-		addPair() {
-		  let value = Ember.this.get('cities').concat();
-		  value.addObject({
-		    departure: '',
-		    arrival: ''
-		  });
-		  this.onChange(value);
-		},
-		removePair() {
-		  let value = Ember.this.get('cities').concat();
-		  value = value.slice(-1);
-		  this.onChange(value);
-		},
+    remove(index) {
+      let travelInfos = get(this, 'travelInfos');
+      if (index === undefined) {
+        index = travelInfos.get('length') - 1;
+      }
+      if (travelInfos.get('length') > 1) {
+        travelInfos.removeAt(index);
+      }
+    },
 
-		onFieldChange(index, field, newval) {
-			let value = this.get('cities').concat();
-			let curr = value[index].get(field);
-			if (curr != newval) {
-		  	value[index].set(field, newval);
-		  	//this.onChange(value)
-			}
-
-		}
-	}
-
+    add() {
+      let infos = get(this, 'travelInfos');
+      let model = infos.createRecord();
+      set(this, 'activeTravelInfo', model);
+    }
+  }
 });

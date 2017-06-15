@@ -1,34 +1,14 @@
-{{#each cities as |cityPair index|}}
-
-{{model-form/fields/autocomplete label=(t 'departure_point.label') value=cityPair.departure_point onChange=(action 'onFieldChange' index 'departure_point')}}
-{{model-form/fields/autocomplete label=(t 'arrival_point.label') value=cityPair.arrival_point onChange=(action 'onFieldChange' index 'arrival_point')}}
-{{model-form/fields/date label=(t 'depart_date.label') value=cityPair.depart_date onChange=(action 'onFieldChange' index 'depart_date')}}
-{{model-form/fields/date label=(t 'return_date.label') value=cityPair.return_date onChange=(action 'onFieldChange' index 'return_date')}}
-
-{{model-form/fields/select label=(t 'meals.label') value=cityPair.meals onChange=(action 'onFieldChange' index 'meals')}}
-{{model-form/fields/select label=(t 'means_of_transport.label') value=cityPair.means_of_transport onChange=(action 'onFieldChange' index 'means_of_transport')}}
-
-{{model-form/fields/input label=(t 'transportation_cost.label') value=cityPair.transportation_cost onChange=(action 'onFieldChange' index 'transportation_cost')}}
-
-{{model-form/fields/select label=(t 'transportation_payment_way.label') value=cityPair.transportation_payment_way onChange=(action 'onFieldChange' index 'transportation_payment_way')}}
-{{model-form/fields/input label=(t 'transportation_payment_description.label') value=cityPair.transportation_payment_description onChange=(action 'onFieldChange' index 'transportation_payment_description')}}
-
-{{model-form/fields/input label=(t 'accommodation_cost.label') value=cityPair.accommodation_cost onChange=(action 'onFieldChange' index 'accommodation_cost')}}
-{{model-form/fields/input label=(t 'accommodation_local_cost.label') value=cityPair.accommodation_local_cost onChange=(action 'onFieldChange' index 'accommodation_local_cost')}}
-{{model-form/fields/select label=(t 'accommodation_local_currency.label') value=cityPair.accommodation_local_currency onChange=(action 'onFieldChange' index 'accommodation_local_currency')}}
-{{model-form/fields/select label=(t 'accommodation_payment_way.label') value=cityPair.accommodation_payment_way onChange=(action 'onFieldChange' index 'accommodation_payment_way')}}
-{{model-form/fields/input label=(t 'accommodation_payment_description.label') value=cityPair.accommodation_payment_description onChange=(action 'onFieldChange' index 'accommodation_payment_description')}}
-
-{{model-form/fields/input label=(t 'transport_days_manual.label') value=cityPair.transport_days_manual onChange=(action 'onFieldChange' index 'transport_days_manual')}}
-{{model-form/fields/input label=(t 'transport_days_proposed.label') value=cityPair.transport_days_proposed }}
-{{model-form/fields/input label=(t 'compensation_days_manual.label') value=cityPair.compensation_days_manual onChange=(action 'onFieldChange' index 'compensation_days_manual')}}
-{{model-form/fields/input label=(t 'compensation_days_proposed.label') value=cityPair.compensation_days_proposed }}
-{{model-form/fields/input label=(t 'overnights_num_manual.label') value=cityPair.overnights_num_manual onChange=(action 'onFieldChange' index 'overnights_num_manual')}}
+{{#each travelInfos as |travelInfo index|}}
+<span {{ action 'showInfo' index}}>{{ travelInfo.tabLabel }}</span>
+<span>remove</span>
 {{/each}}
 
-{{#paper-button raised=true iconButton=true  onClick=(action 'addPair')}}
-  {{paper-icon  'add'}}
-{{/paper-button}}
-{{#paper-button raised=true iconButton=true  onClick=(action 'removePair')}}
-  {{paper-icon  'remove'}}
-{{/paper-button}}
+{{#if activeTravelInfo }}
+  {{#model-form/form activeTravelInfo ui='user' as |form|}}
+    {{ form.messages }}
+    {{ form.fields }}
+  {{/model-form/form}}
+{{/if}}
+
+<span {{action 'add'}}>ADD</span>
+<span {{action 'remove'}}>REMOVE</span>

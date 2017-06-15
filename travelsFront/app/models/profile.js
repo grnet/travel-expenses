@@ -92,6 +92,9 @@ export default DS.Model.extend(Validations, {
 
     return this.get('tax_office').then((value) => {
 
+      // tax_office is required to be filled
+      if (!value) { return false }
+
       for (var key in profile) {    
         if (profile[key] == null || value == null) {
           return false;
