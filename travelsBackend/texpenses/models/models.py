@@ -320,7 +320,7 @@ class TravelInfo(Accommodation, Transportation):
             self.travel_petition.task_end_date)
         self.transport_days_manual = self.transport_days_proposed()
         self.overnights_num_manual = overnight_days
-        self.compensation_days_manual = overnight_days if overnight_days > 0
+        self.compensation_days_manual = overnight_days if overnight_days > 0 \
         else 1
 
     def _set_travel_manual_field_defaults(self):
@@ -560,7 +560,7 @@ class TravelInfo(Accommodation, Transportation):
         calculated_compensation = \
             self.overnights_num_proposed(self.travel_petition.task_start_date,
                                          self.travel_petition.task_end_date)
-        calculated_compensation = 1 if calculated_compensation == 0 else
+        calculated_compensation = 1 if calculated_compensation == 0 else \
         calculated_compensation
         return calculated_compensation
 
