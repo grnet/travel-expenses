@@ -6,7 +6,7 @@ export const UIS = {
         'fields': ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'user_category']
       },
       {
-        'label': 'user_data.label',
+        'label': 'travel_data.label',
         'fields': ['travel_info'],
       },
       {
