@@ -15,6 +15,20 @@ const TIMEOUT = 10 * 1000; // 10 seconds
 
 export default DS.Store.extend({
 
+  findAll(model) {
+    let cacheKey = `findAll${model}`;
+    let cacheMatch = CACHE[`findAll${model}`];
+    let now = (new Date()).getTime();
+
+    if (cacheMatch !== undefined && (cacheMatch[1] + TIMEOUT) >= now) {
+      console.log(`Cache match found for key ${cacheKey}`);
+      return cacheMatch[0];
+    }
+    let resp = this._super(...arguments);
+    CACHE[cacheKey] = [resp, (new Date()).getTime()];
+    return resp;
+  },
+
   findBelongsTo: function(owner, link, relationship) {
     let record = owner.record;
     let ref = record.belongsTo(relationship.key);
