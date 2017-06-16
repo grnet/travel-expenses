@@ -137,6 +137,7 @@ class Project(md.Model):
     id = md.AutoField(primary_key=True)
     name = md.CharField(max_length=500, blank=False, unique=True)
     accounting_code = md.CharField(max_length=20, blank=False)
+    active = md.BooleanField(default=True)
     manager = md.ForeignKey(UserProfile, null=True, blank=True,
                             validators=[is_manager])
 
@@ -991,8 +992,8 @@ class PetitionManager(md.Manager):
         """
         base_queryset = super(PetitionManager, self).get_queryset()
         status_dse_map = base_queryset.filter(
-            status__in=self.status_list, deleted=False).values('dse').\
-            annotate(Max('status'))
+            status__in=self.status_list, deleted=False,\
+            project__active=True).values('dse').annotate(Max('status'))
         q = Q()
         for status_dse in status_dse_map:
             q |= Q(status=status_dse['status__max'],
