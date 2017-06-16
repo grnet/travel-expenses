@@ -7,12 +7,12 @@ export const UIS = {
       },
       {
         'label': 'travel_data.label',
-        'fields': ['travel_info'],
+        'fields': [['dse',{attrs:{disabled: true}}], 'project', 'reason',
+        'task_start_date', 'task_end_date', 'participation_local_cost', 'participation_local_currency', 'user_recommendation']
       },
       {
         'label': 'travel_data.label',
-        'fields': [['dse',{attrs:{disabled: true}}], 'project', 'reason',
-        'task_start_date', 'task_end_date', 'participation_local_cost', 'participation_local_currency', 'user_recommendation']
+        'fields': ['travel_info'],
       },
     ],
     layout: {

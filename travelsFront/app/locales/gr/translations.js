@@ -103,6 +103,9 @@ export default {
   'accommodation_payment_description.label': 'Στοιχεία Πληρωμής',
   'participation_payment_way.label': 'Τρόπος Πληρωμής',
   'participation_payment_description.label': 'Στοιχεία Πληρωμής',
+  'travel_info.travel': 'Στοιχεία Μετακίνησης',
+  'travel_info.accommodation': 'Στοιχεία Διαμονής',
+  'travel_info.transportation': 'Στοιχεία Ταξιδιού',
   //computational data labels
   'transport_days_manual.label': 'Ημέρες Μετακίνησης Εργασιών',
   'transport_days_proposed.label': 'Ημέρες Μετακίνησης Εργασιών (προτεινόμενη τιμή)',

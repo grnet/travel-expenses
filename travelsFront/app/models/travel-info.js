@@ -10,9 +10,29 @@ const CHOICES = ENV.APP.resource_choices;
 const CURRENCY = [[ENV.default_currency, ENV.default_currency]];
 
 const UI_USER = {
-  fields: [
-    'departure_point', 'depart_date',
-    'arrival_point', 'return_date'
+  fieldsets: [
+    {
+      'label': 'travel_info.travel',
+      'fields': ['departure_point', 'arrival_point', 'depart_date', 'return_date']
+    },
+  ],
+  layout: {
+    flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+  }
+};
+
+const UI_SECRETARY = {
+  fieldsets: [
+    {
+      'label': 'travel_info.transportation',
+      'fields': ['departure_point', 'arrival_point', 'depart_date', 'return_date', 'means_of_transport', 'transportation_cost', 
+                'transportation_payment_way', 'transportation_payment_description']
+    },
+    {
+      'label': 'travel_info.accommodation',
+      'fields': ['compensation_level', 'meals', 'accommodation_cost', 'accommodation_local_cost', 'accommodation_local_currency',
+                 'accommodation_payment_way', 'accommodation_payment_description']
+    },
   ],
   layout: {
     flex: [
@@ -22,8 +42,34 @@ const UI_USER = {
   }
 };
 
+const UI_CONTROLLER = {
+  fieldsets: [
+    {
+      'label': 'travel_info.transportation',
+      'fields': ['departure_point', 'arrival_point', 'depart_date', 'return_date', 'means_of_transport', 'transportation_cost', 
+                'transportation_payment_way', 'transportation_payment_description',]
+    },
+    {
+      'label': 'travel_info.accommodation',
+      'fields': ['compensation_level', 'meals', 'accommodation_cost', 'accommodation_local_cost', 'accommodation_local_currency',
+                 'accommodation_payment_way', 'accommodation_payment_description']
+    },
+  ],
+  layout: {
+    flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+  }
+}
+
 const UI_MANAGER = {
-  fields: ['departure_point']
+  fieldsets: [
+    {
+      'label': 'travel_info.travel',
+      'fields': ['departure_point', 'arrival_point', 'depart_date', 'return_date']
+    },
+  ],
+  layout: {
+    flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+  }
 }
 
 
@@ -58,6 +104,8 @@ export default DS.Model.extend({
   },
   __ui__: {
     'user': UI_USER,
+    'secretary': UI_SECRETARY,
+    'controller': UI_CONTROLLER,
     'manager': UI_MANAGER
   },
   url: DS.attr(),
@@ -75,8 +123,8 @@ export default DS.Model.extend({
     },
     label: 'Return at'
   }),
-  meals: DS.attr({'choices': CHOICES.MEALS, defaultValue: 'FULL'}),
-  means_of_transport: DS.attr({'choices': CHOICES.TRANSPORTATION}),
+  meals: DS.attr({'choices': CHOICES.MEALS, defaultValue: 'NON'}),
+  means_of_transport: DS.attr({'choices': CHOICES.TRANSPORTATION, defaultValue: 'AIR'}),
   transportation_cost: DS.attr(),
   accommodation_local_cost: DS.attr(),
   accommodation_local_currency: DS.attr({'choices': CHOICES.CURRENCIES}),
