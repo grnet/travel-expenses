@@ -1,14 +1,13 @@
+<div class="layout-column">
 {{#each travelInfos as |travelInfo index|}}
-<span {{ action 'showInfo' index}}>{{ travelInfo.tabLabel }}</span>
-<span>remove</span>
-{{/each}}
-
-{{#if activeTravelInfo }}
+{{#paper-button class="flex" onClick=(action 'showInfo' index) raised=(not (eq activeTravelInfo travelInfo)) accent=true}}Destination #{{travelInfo.index}}: {{ travelInfo.tabDisplay }}{{/paper-button}}
+{{#if (and activeTravelInfo (eq activeTravelInfo travelInfo))}}
   {{#model-form/form activeTravelInfo ui='user' as |form|}}
     {{ form.messages }}
     {{ form.fields }}
   {{/model-form/form}}
 {{/if}}
+{{/each}}
+</div>
 
-<span {{action 'add'}}>ADD</span>
-<span {{action 'remove'}}>REMOVE</span>
+{{#paper-button onClick=(action 'add') raised=true}}ADD DESTINATION{{/paper-button}}
