@@ -40,23 +40,33 @@ let FILE_FIELDS = [
 
 const petitionDateFields = [
   {
-    key: 'departure_point',
+    key: 'travel_info.${i}.departure_point',
     attrs: [
-      'depart_date',
+      'travel_info.${i}.depart_date',
     ]
   },
   {
-    key: 'arrival_point',
+    key: 'travel_info.${i}.arrival_point',
+    attrs: [
+      'travel_info.${i}.return_date',
+    ]
+  },
+  {
+    key: 'travel_info.${first}.arrival_point',
     attrs: [
       'task_start_date',
+    ]
+  },
+  {
+    key: 'travel_info.${last}.arrival_point',
+    attrs: [
       'task_end_date',
-      'return_date',
     ]
   }
 ];
 
 function serializePetitionDate(serializer, payload, key, attrs) {
-  const cityURL = payload[key];
+  const cityURL = get(payload, key);
   if (!cityURL) { 
     return;
   }
@@ -65,18 +75,18 @@ function serializePetitionDate(serializer, payload, key, attrs) {
   const timezone = city.data.timezone;
 
   for (const attr of attrs) {
-    const dateFromServer = payload[attr];
+    const dateFromServer = get(payload, attr);
     if (dateFromServer) {
       const date = moment.tz(dateFromServer, timezone);
       const dateRaw = moment(date).format().slice(0, -6);
       const dateLocal = moment(dateRaw).toDate();
-      payload[attr] = moment(dateLocal).format();
+      set(payload, attr, moment(dateLocal).format());
     }
   }
 }
 
 function deserializePetitionDate(serializer, payload, key, attrs) {
-  const cityURL = payload[key];
+  const cityURL = get(payload, key);
   if (!cityURL) {
     return;
   }
@@ -85,27 +95,96 @@ function deserializePetitionDate(serializer, payload, key, attrs) {
   const timezone = city.data.timezone;
 
   for (const attr of attrs) {
-    const dateFromUI = payload[attr];
+    const dateFromUI = get(payload, attr);
     if (dateFromUI) {
       const dateRaw = moment(dateFromUI).format().slice(0, -6);
       const dateLocal = moment.tz(dateRaw, timezone).format();
       const dateUTC = moment.utc(dateLocal).format();
-      payload[attr] = dateUTC.slice(0, -4);
+      set(payload, attr, dateUTC.slice(0, -4));
     }
   }
 }
 
+function getDateKeys(hash) {
+  let serializeKeys = [];
+
+  for (let tzParams of petitionDateFields) {
+    let _serializeKeys = [];
+    let parts = tzParams.key.split('.');
+    let key = [];
+
+    parts.forEach((part, index) => {
+      if (index == 0) { _serializeKeys.push([part]); return; }
+
+      if (part == '${i}') {
+        let expanded = [];
+        _serializeKeys.forEach((key) => {
+          get(hash, key.join('.')).forEach((_, i) => {
+            expanded.push(key.concat([i]));
+          });
+        });
+        _serializeKeys = expanded;
+      } else if (part == '${last}') {
+        _serializeKeys = _serializeKeys.map((key) => {
+          let last = get(hash, key.join('.'));
+          key.push(last.length - 1);
+          return key;
+        });
+      } else if (part == '${first}') {
+        _serializeKeys = _serializeKeys.map((key) => {
+          key.push(0);
+          return key;
+        });
+      } else {
+        _serializeKeys = _serializeKeys.map((key) => {
+          key.push(part);
+          return key;
+        });
+      }
+    });
+
+    let _keys = []
+    _serializeKeys = _serializeKeys.map((key) => {
+      let _serializeKey = { tzField: key.join('.'), dateFields: [] };
+      _keys.push(_serializeKey);
+
+      tzParams.attrs.forEach((attr) => {
+        let _attr = attr;
+        if (attr.indexOf('${i}')) {
+          _attr = _attr.split('.').map((part, i) => {
+            if (part == '${i}') {
+              return key[i];
+            }
+            return part;
+          }).join('.');
+        }
+        _serializeKey.dateFields.push(_attr);
+      });
+    });
+    serializeKeys = serializeKeys.concat(_keys);
+  }
+  return serializeKeys;
+}
+
 const normalizePetition = function(hash, serializer) {
 
-  for (let o of petitionDateFields) {
-    serializePetitionDate(serializer, hash, o.key, o.attrs);
+  let serializeKeys = getDateKeys(hash);
+  for (let key of serializeKeys) {
+    serializePetitionDate(serializer, hash, key.tzField, key.dateFields);
+  }
+
+  if (hash.travel_info && hash.travel_info.length) {
+    hash.travel_info.forEach((info, i) => {
+      info.index = i + 1;
+    });
   }
   return hash;
 }
 
 const serializePetition = function(json, snapshot, serializer) {
-  for (let o of petitionDateFields) {
-    deserializePetitionDate(serializer, json, o.key, o.attrs);
+  let serializeKeys = getDateKeys(json);
+  for (let key of serializeKeys) {
+    deserializePetitionDate(serializer, json, key.tzField, key.dateFields);
   }
 
   // File fields values are set as
