@@ -17,6 +17,12 @@ class CityMixin(object):
         return City.objects.select_related('country').all()
 
 
+class ProjectMixin(object):
+
+    def get_queryset(self):
+        return Project.objects.filter(active=True)
+
+
 class UserPetitionMixin(object):
 
     @transaction.atomic

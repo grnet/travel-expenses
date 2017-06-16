@@ -97,7 +97,8 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                 '.collection': {},
                 '.drf_collection': {'mixins':
                                     ["rest_framework_extensions."
-                                     "cache.mixins.CacheResponseMixin"],
+                                     "cache.mixins.CacheResponseMixin", \
+                                     'texpenses.views.mixins.ProjectMixin'],
                                     'model': 'texpenses.models.Project'},
                 '.actions': {'.list': {}, '.retrieve': {}}}
 
