@@ -2,22 +2,23 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import ENV from 'travels-front/config/environment';
 
+const {
+  get, set
+} = Ember;
+
 const CHOICES = ENV.APP.resource_choices;
 const CURRENCY = [[ENV.default_currency, ENV.default_currency]];
 
 const UI_USER = {
-  fieldsets: [
-    {
-      'label': 'travel_info.travel',
-      'fields': ['departure_point', 'arrival_point', 'depart_date', 'return_date']
-    },
-    {
-      'label': 'travel_info.extra',
-      'fields': ['meals', 'means_of_transport']
-    },
+  fields: [
+    'departure_point', 'depart_date',
+    'arrival_point', 'return_date'
   ],
   layout: {
-    flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+    flex: [
+      60, 40,
+      60, 40
+    ]
   }
 };
 
@@ -26,9 +27,34 @@ const UI_MANAGER = {
 }
 
 
+const normalizeTravelInfo = function(hash, serializer) {
+  return hash;
+}
+
+let READONLY_FIELDS = [
+  'url',
+  'index',
+  'same_day_return_task',
+  'compensation_level',
+  'overnight_cost',
+  'compensation_days_manual',
+  'compensation_days_proposed',
+  'transport_days_manual',
+  'transport_days_proposed'
+];
+
+const serializeTravelInfo = function(json, snapshot, serializer) {
+  for (let field of READONLY_FIELDS) {
+    delete json[field];
+  }
+  return json;
+}
+
 export default DS.Model.extend({
   __api__: {
-    ns: 'petition'
+    ns: 'petition',
+    normalize: normalizeTravelInfo,
+    serialize: serializeTravelInfo
   },
   __ui__: {
     'user': UI_USER,
@@ -54,6 +80,7 @@ export default DS.Model.extend({
   transportation_cost: DS.attr(),
   accommodation_local_cost: DS.attr(),
   accommodation_local_currency: DS.attr({'choices': CHOICES.CURRENCIES}),
+  participation_local_currency: DS.attr({'choices': CHOICES.CURRENCIES}),
   transport_days_manual: DS.attr(),
   transport_days_proposed: DS.attr(),
   compensation_days_manual: DS.attr(),
@@ -69,8 +96,11 @@ export default DS.Model.extend({
   overnight_cost: DS.attr(),
   compensation_level: DS.attr(),
   same_day_return_task: DS.attr('boolean', {attrs: {disabled: true}}),
+  index: DS.attr(),
 
-  tabLabel: Ember.computed('id', function() {
-    return "Destination: " + (this.get('id') || 'New');
+  tabDisplay: Ember.computed('arrival_point.name', 'departure_point.name', function() {
+    let departure = get(this, 'departure_point.name') || '';
+    let destination = get(this, 'arrival_point.name') || '';
+    return `${departure} → ${destination}`;
   })
 });
