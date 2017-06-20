@@ -10,14 +10,15 @@ const CHOICES = ENV.APP.resource_choices;
 const CURRENCY = [[ENV.default_currency, ENV.default_currency]];
 
 const UI_USER = {
-  fieldsets: [
-    {
-      'label': 'travel_info.travel',
-      'fields': ['departure_point', 'arrival_point', 'depart_date', 'return_date']
-    },
+  fields: [
+    'departure_point', 'depart_date',
+    'arrival_point', 'return_date'
   ],
   layout: {
-    flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+    flex: [
+      60, 40,
+      60, 40
+    ]
   }
 };
 
@@ -35,10 +36,7 @@ const UI_SECRETARY = {
     },
   ],
   layout: {
-    flex: [
-      60, 40,
-      60, 40
-    ]
+    flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
   }
 };
 
@@ -114,14 +112,12 @@ export default DS.Model.extend({
   depart_date: DS.attr('date', {
     attrs: {
       time: true
-    },
-    label: 'Depart at'
+    }
   }),
   return_date: DS.attr('date', {
     attrs: {
       time: true
-    },
-    label: 'Return at'
+    }
   }),
   meals: DS.attr({'choices': CHOICES.MEALS, defaultValue: 'NON'}),
   means_of_transport: DS.attr({'choices': CHOICES.TRANSPORTATION, defaultValue: 'AIR'}),
