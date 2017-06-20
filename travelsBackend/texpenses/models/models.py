@@ -559,7 +559,7 @@ class TravelInfo(Accommodation, Transportation):
             self.overnights_num_proposed(self.travel_petition.task_start_date,
                                          self.travel_petition.task_end_date)
         calculated_compensation = 1 if calculated_compensation == 0 else \
-        calculated_compensation
+            calculated_compensation
         return calculated_compensation
 
     def compensation_cost(self):
