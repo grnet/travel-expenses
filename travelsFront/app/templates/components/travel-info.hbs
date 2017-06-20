@@ -2,7 +2,7 @@
 {{#each travelInfos as |travelInfo index|}}
 {{#paper-button class="flex" onClick=(action 'showInfo' index) raised=(not (eq activeTravelInfo travelInfo)) accent=true}}Destination #{{travelInfo.index}}: {{ travelInfo.tabDisplay }}{{/paper-button}}
 {{#if (and activeTravelInfo (eq activeTravelInfo travelInfo))}}
-  {{#model-form/form activeTravelInfo ui='secretary' as |form|}}
+  {{#model-form/form activeTravelInfo ui=uiToDisplay as |form|}}
     {{ form.messages }}
     {{ form.fields }}
   {{/model-form/form}}

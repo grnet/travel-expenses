@@ -29,11 +29,26 @@ function newRecord(arr) {
 }
 
 export default Ember.Component.extend(BaseField, {
+
   travelInfos: [],
   loading: true,
   activeTravelInfo: null,
+  uiToDisplay: 'user',
 
   init() {
+
+    let group = this.get('account.user.user_group');
+
+    if ( group == 'USER' ) {
+      this.set('uiToDisplay', 'user')
+    } else if ( group == 'MANAGER') {
+      this.set('uiToDisplay', 'manager')
+    } else if ( group == 'SECRETARY') {
+      this.set('uiToDisplay', 'secretary')
+    } else if ( group == 'CONTROLLER') {
+      this.set('uiToDisplay', 'controller')
+    }
+
     this.get('value').then((result) => {
       set(this, 'travelInfos', result);
       set(this, 'loading', false);
