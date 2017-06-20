@@ -318,7 +318,7 @@ class TravelInfo(Accommodation, Transportation):
         self.transport_days_manual = self.transport_days_proposed()
         self.overnights_num_manual = overnight_days
         self.compensation_days_manual = overnight_days if overnight_days > 0 \
-        else 1
+            else 1
 
     def _set_travel_manual_field_defaults(self):
 
@@ -366,8 +366,6 @@ class TravelInfo(Accommodation, Transportation):
         petition_dates_changed = any(
             self.travel_petition.tracker.has_changed(field)
             for field in self.travel_petition.tracked_fields)
-        if changed and not new_object or petition_dates_changed:
-            self._set_travel_manual_fields()
 
         if not self.is_abroad():
             if self.means_of_transport in ('BIKE', 'CAR'):
@@ -385,9 +383,9 @@ class TravelInfo(Accommodation, Transportation):
 
                 distance_factor = common.\
                     MEANS_OF_TRANSPORT_DISTANCE_FACTOR[self.means_of_transport]
-                self.transportation_cost = 2*distance_factor*self.distance
+                self.transportation_cost = 2 * distance_factor * self.distance
 
-        self._set_travel_manual_field_defaults()
+        self._set_travel_manual_fields()
         super(TravelInfo, self).save(*args, **kwargs)
 
     def validate_overnight_cost(self, petition):
@@ -936,6 +934,11 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         return sum(travel.overnights_num_manual
                    for travel in self.travel_info.all())
 
+    def compensation_days_num(self):
+        """ Gets the number of total compensation days for all destinations. """
+        return sum(travel.compensation_days_manual
+                   for travel in self.travel_info.all())
+
     def overnights_proposed(self):
         return sum(travel.overnights_num_proposed(
             self.task_start_date, self.task_end_date)
@@ -957,8 +960,11 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         :returns: TODO
 
         """
-        return sum(travel_obj.compensation_cost()
-                   for travel_obj in self.travel_info.all())
+        compensation_cost_sum = sum(travel_obj.compensation_cost() \
+                                    for travel_obj in self.travel_info.all())
+
+        return sum([compensation_cost_sum, self.additional_expenses or \
+                   self.additional_expenses_initial])
 
     def total_cost(self):
         """
@@ -970,9 +976,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         transportation_cost = sum(travel.transportation_cost
                                   for travel in self.travel_info.all())
         return sum([transportation_cost, self.participation_cost,
-                    self.compensation_final(), self.overnights_sum_cost(),
-                    self.additional_expenses or
-                    self.additional_expenses_initial])
+                    self.compensation_final(), self.overnights_sum_cost()])
 
     def __unicode__(self):
         return str(self.dse) + "-" + self.project.name + '-' + str(self.id)

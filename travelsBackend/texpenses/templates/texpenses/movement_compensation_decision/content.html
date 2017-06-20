@@ -138,20 +138,20 @@
 		</tr>
 	</table>
 
-<table style="width:100%">
-	<caption style='text-align: center;'><b>ΕΓΚΡΙΝΟΥΜΕ
-			Την κάτωθι αποζημίωση για τον μετακινούμενο:</b></caption>
-	<tr>
-		<td>Ημερήσια Αποζημίωση</td>
-		<td>{{compensation_days_manual}} ημέρες x {{compensation_level}} = {{compensation_cost}} ευρώ </td>
-	</tr>
-	<tr>
-		<td>Λοιπά έξοδα μετακίνησης</td>
-		<td>{{additional_expenses}} ευρώ</td>
-	</tr>
-	<tr>
-		<td><b>Σύνολο Αποζημίωσης</td>
-		<td><b>{{compensation_final|add:additional_expenses}} ευρώ</b></td>
-	</tr>
-</table>
-{% endblock %}
+	<table style="width:100%">
+		<caption style='text-align: center;'><b>ΕΓΚΡΙΝΟΥΜΕ
+				Την κάτωθι αποζημίωση για τον μετακινούμενο:</b></caption>
+		<tr>
+			<td>Ημερήσια Αποζημίωση</td>
+			<td>{{compensation_string}} = {{compensation_cost}} ευρώ </td>
+		</tr>
+		<tr>
+			<td>Λοιπά έξοδα μετακίνησης</td>
+			<td>{{additional_expenses}} ευρώ</td>
+		</tr>
+		<tr>
+			<td><b>Σύνολο Αποζημίωσης</td>
+			<td><b>{{compensation_final|add:additional_expenses}} ευρώ</b></td>
+		</tr>
+	</table>
+	{% endblock %}

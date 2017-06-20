@@ -101,12 +101,8 @@
 	</tr>
 	<tr>
 		<td>Διανυκτέρευση</td>
-<<<<<<< 3d4e75d5edb2bd529e2793cd7841172e0d5a6bfb
-		<td>{{overnights_num_manual}} ημέρες x {{accommodation_cost}} = {{overnights_sum_cost}} ευρώ  </td>
-=======
-		<td>{{overnights_sum_cost_string}} = {{overnights_sum_cost}} {{accommodation_default_currency}}</td>
+		<td>{{overnights_sum_cost_string}} = {{overnights_sum_cost}} ευρώ</td>
 
->>>>>>> Raise the template info detail
 	</tr>
 	<tr>
 		<td>Κόστος συμμετοχής</td>
@@ -126,20 +122,20 @@
 	{% include 'texpenses/footer.html' %}
 </footer>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br>
-<table style="width:100%">
-	<caption style='text-align: center;'><b>Ο μετακινούμενος αιτείται την ακόλουθη αποζημίωση:</b></caption>
-	<tr>
-		<td>Ημερήσια Αποζημίωση</td>
-		<td>{{compensation_days_manual}} ημέρες x {{compensation_level}} = {{compensation_cost}} ευρώ </td>
-	</tr>
-	<tr>
-		<td>Λοιπά έξοδα μετακίνησης</td>
-		<td>{{additional_expenses}} ευρώ</td>
-	</tr>
-	<tr>
-		<td><b>Σύνολο Αποζημίωσης</td>
-		<td><b>{{compensation_final|add:additional_expenses}} ευρώ</b></td>
-	</tr>
-</table>
-{% endblock %}
+	<br><br><br><br><br><br><br><br><br><br><br><br><br>
+	<table style="width:100%">
+		<caption style='text-align: center;'><b>Ο μετακινούμενος αιτείται την ακόλουθη αποζημίωση:</b></caption>
+		<tr>
+			<td>Ημερήσια Αποζημίωση</td>
+			<td>{{compensation_string}} = {{compensation_cost}} ευρώ </td>
+		</tr>
+		<tr>
+			<td>Λοιπά έξοδα μετακίνησης</td>
+			<td>{{additional_expenses}} ευρώ</td>
+		</tr>
+		<tr>
+			<td><b>Σύνολο Αποζημίωσης</td>
+			<td><b>{{compensation_final|add:additional_expenses}} ευρώ</b></td>
+		</tr>
+	</table>
+	{% endblock %}

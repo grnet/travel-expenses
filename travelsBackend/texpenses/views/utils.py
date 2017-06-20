@@ -57,9 +57,18 @@ def get_overnights(travel_info):
                 for travel_obj in travel_info])
 
 
-def get_compensation_levels(travel_info):
-    return ','.join([str(travel_obj.compensation_level())
-                     for travel_obj in travel_info])
+def get_overnights_sum_cost_string(travel_info):
+    return '+'.join(["(" + str(travel_info_object.overnights_num_manual) +
+                     u' ημέρες x ' +
+                     str(travel_info_object.accommodation_cost) + ')'
+                     for travel_info_object in travel_info])
+
+
+def get_compensation_levels_string(travel_info):
+    return '+'.join(["(" + str(travel_info_object.compensation_days_manual) +
+                     u' ημέρες x ' +
+                     str(travel_info_object.compensation_level()) + ')'
+                     for travel_info_object in travel_info])
 
 
 def get_means_of_transport(travel_info):
