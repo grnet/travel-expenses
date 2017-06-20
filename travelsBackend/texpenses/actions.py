@@ -82,11 +82,13 @@ def inform(petition, action, target_user, inform_controller):
 
     travel_info_first = petition.travel_info.first()
     travel_info_last = petition.travel_info.last()
+    travel_info = petition.travel_info.all()
 
     params = {
         'first_name': petition.first_name,
         'last_name': petition.last_name,
         'dse': petition.dse,
+        'travel_info': travel_info ,
         'project': petition.project.name,
         'departure_point': travel_info_first.departure_point.name \
         if travel_info_first else None,
