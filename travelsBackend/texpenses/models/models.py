@@ -312,9 +312,7 @@ class TravelInfo(Accommodation, Transportation):
 
     def _set_travel_manual_fields(self):
 
-        overnight_days = self.overnights_num_proposed(
-            self.travel_petition.task_start_date,
-            self.travel_petition.task_end_date)
+        overnight_days = self.overnights_num_proposed()
         self.transport_days_manual = self.transport_days_proposed()
         self.overnights_num_manual = overnight_days
         self.compensation_days_manual = overnight_days if overnight_days > 0 \
@@ -478,7 +476,7 @@ class TravelInfo(Accommodation, Transportation):
                            self.return_date - self.depart_date).days))
         return sum(1 for day in time_period if day.weekday() not in WEEKENDS)
 
-    def overnights_num_proposed(self, task_start_date, task_end_date):
+    def overnights_num_proposed(self, task_start_date=None, task_end_date=None):
         """
         Method which calculates the proposed number of days that traveller
         should overnight.
@@ -494,6 +492,11 @@ class TravelInfo(Accommodation, Transportation):
         :param task_end_date: Date when task ends.
         :returns: The proposed overinight days.
         """
+
+        task_start_date = task_start_date or self.travel_petition.\
+            task_start_date
+        task_end_date = task_end_date or self.travel_petition.task_end_date
+
         if not (self.return_date and self.depart_date and
                 task_start_date and task_end_date):
             return 0
@@ -554,8 +557,7 @@ class TravelInfo(Accommodation, Transportation):
 
     def compensation_days_proposed(self):
         calculated_compensation = \
-            self.overnights_num_proposed(self.travel_petition.task_start_date,
-                                         self.travel_petition.task_end_date)
+            self.overnights_num_proposed()
         calculated_compensation = 1 if calculated_compensation == 0 else \
             calculated_compensation
         return calculated_compensation
@@ -960,11 +962,11 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         :returns: TODO
 
         """
-        compensation_cost_sum = sum(travel_obj.compensation_cost() \
+        compensation_cost_sum = sum(travel_obj.compensation_cost()
                                     for travel_obj in self.travel_info.all())
 
-        return sum([compensation_cost_sum, self.additional_expenses or \
-                   self.additional_expenses_initial])
+        return sum([compensation_cost_sum, self.additional_expenses or
+                    self.additional_expenses_initial])
 
     def total_cost(self):
         """

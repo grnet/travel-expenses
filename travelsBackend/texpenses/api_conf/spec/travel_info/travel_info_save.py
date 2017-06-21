@@ -125,5 +125,10 @@ spec = {'.cli_option': {},
                                       '.drf_field': {},
                                       '.field': {},
                                       '.float': {}},
+                         'overnights_num_proposed': {'.cli_option': {},
+                                                     '.drf_field': {},
+                                                     '.field': {},
+                                                     '.integer': {},
+                                                     '.readonly': {}},
 
                          }}
