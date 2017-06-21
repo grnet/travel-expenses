@@ -26,13 +26,18 @@ const UI_SECRETARY = {
   fieldsets: [
     {
       'label': 'travel_info.transportation',
-      'fields': ['departure_point', 'arrival_point', 'depart_date', 'return_date', 'means_of_transport', 'transportation_cost', 
+      'fields': ['departure_point', 'arrival_point', 'depart_date', 'return_date', 'means_of_transport', 'transportation_cost',
                 'transportation_payment_way', 'transportation_payment_description']
     },
     {
       'label': 'travel_info.accommodation',
       'fields': ['compensation_level', 'meals', 'accommodation_cost', 'accommodation_local_cost', 'accommodation_local_currency',
                  'accommodation_payment_way', 'accommodation_payment_description']
+    },
+    {
+      'label': 'computed_days.label',
+      'fields': ['transport_days_manual', 'transport_days_proposed', 'overnights_num_manual', 'overnights_num_proposed',
+      'compensation_days_manual', 'compensation_days_proposed']
     },
   ],
   layout: {
@@ -56,6 +61,11 @@ const UI_CONTROLLER = {
       'label': 'travel_info.accommodation',
       'fields': ['compensation_level', 'meals', 'accommodation_cost', 'accommodation_local_cost', 'accommodation_local_currency',
                  'accommodation_payment_way', 'accommodation_payment_description']
+    },
+    {
+      'label': 'computed_days.label',
+      'fields': ['transport_days_manual', 'transport_days_proposed', 'overnights_num_manual', 'overnights_num_proposed', 
+      'compensation_days_manual', 'compensation_days_proposed']
     },
   ],
   layout: {
@@ -151,6 +161,7 @@ export default DS.Model.extend({
   compensation_level: DS.attr(),
   same_day_return_task: DS.attr('boolean', {attrs: {disabled: true}}),
   index: DS.attr(),
+  overnights_num_proposed: DS.attr(),
 
   tabDisplay: Ember.computed('arrival_point.name', 'departure_point.name', function() {
     let departure = get(this, 'departure_point.name') || '';

@@ -53,8 +53,7 @@ export const UIS = {
       },
       {
         'label': 'computed_data.label',
-        'fields': ['transport_days_manual', 'transport_days_proposed', 'overnights_num', 'overnights_proposed', 
-        'compensation_days_manual', 'compensation_days_proposed', 'trip_days_before', ['trip_days_after',{attrs:{disabled: true}}], 
+        'fields': ['trip_days_before', ['trip_days_after',{attrs:{disabled: true}}], 
         'same_day_return_task', 'overnights_sum_cost', 'compensation_final', 'total_cost']
       },
     ],
@@ -135,20 +134,16 @@ export const UIS = {
       },
       {
         'label': 'controller_data.label',
-        'fields': [['movement_id', {attrs:{disabled: true}}], ['trip_days_before', {attrs:{disabled: true}}], 
-        ['expenditure_date_protocol', {attrs:{disabled: true}}], ['expenditure_protocol', {attrs:{disabled: true}}], 
+        'fields': [['movement_id', {attrs:{disabled: true}}], ['trip_days_before', {attrs:{disabled: true}}],
+        ['expenditure_date_protocol', {attrs:{disabled: true}}], ['expenditure_protocol', {attrs:{disabled: true}}],
         ['movement_date_protocol', {attrs:{disabled: true}}], ['movement_protocol', {attrs:{disabled: true}}],
         'compensation_petition_date', 'compensation_petition_protocol', 'compensation_decision_date', 'compensation_decision_protocol']
       },
       {
         'label': 'computed_data.label',
-        'fields': [['transport_days_manual', {attrs:{disabled: true}}], ['transport_days_proposed', {attrs:{disabled: true}}], 
-        'overnights_num_manual', ['overnights_proposed', {attrs:{disabled: true}}], 
-        'compensation_days_manual', ['compensation_days_proposed', {attrs:{disabled: true}}], 
-        ['trip_days_before', {attrs:{disabled: true}}], ['trip_days_after',{attrs:{disabled: true}}], 
-        ['same_day_return_task', {attrs:{disabled: true}}], ['overnights_sum_cost', {attrs:{disabled: true}}], 
-        ['compensation_final', {attrs:{disabled: true}}], ['compensation_level', {attrs:{disabled: true}}], 
-        ['total_cost', {attrs:{disabled: true}}]]
+        'fields': [['trip_days_before', {attrs:{disabled: true}}], ['trip_days_after',{attrs:{disabled: true}}],
+        ['same_day_return_task', {attrs:{disabled: true}}], ['overnights_sum_cost', {attrs:{disabled: true}}],
+        ['compensation_final', {attrs:{disabled: true}}], ['total_cost', {attrs:{disabled: true}}]]
       },
     ],
     layout: {

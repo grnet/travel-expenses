@@ -106,10 +106,12 @@ export default {
   'travel_info.travel': 'Στοιχεία Μετακίνησης',
   'travel_info.accommodation': 'Στοιχεία Διαμονής',
   'travel_info.transportation': 'Στοιχεία Ταξιδιού',
+  'computed_days.label': 'Ημέρες Μετακίνησης',
   //computational data labels
   'transport_days_manual.label': 'Ημέρες Μετακίνησης Εργασιών',
   'transport_days_proposed.label': 'Ημέρες Μετακίνησης Εργασιών (προτεινόμενη τιμή)',
   'overnights_num_manual.label': 'Διανυκτερεύσεις',
+  'overnights_num_proposed.label': 'Διανυκτερεύσεις (προτεινόμενη τιμή)',
   'overnights_proposed.label': 'Διανυκτερεύσεις (προτεινόμενη τιμή)',
   'compensation_days_manual.label': 'Ημέρες Αποζημίωσης',
   'compensation_days_proposed.label': 'Ημέρες Αποζημίωσης (προτεινόμενη τιμή)',
