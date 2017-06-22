@@ -29,6 +29,8 @@ PERMISSION_RULES = [
     ('project', 'retrieve', 'CONTROLLER', '*', '*', '*'),
     ('project', 'retrieve', 'MANAGER', '*', '*', '*'),
     ('project', 'retrieve', 'VIEWER', '*', '*', '*'),
+    ('project', 'project_stats', 'CONTROLLER', '*', '*', '*'),
+    ('project', 'project_stats', 'ADMIN', '*', '*', '*'),
 
     ('countries', 'list', 'ADMIN', '*', '*', '*'),
     ('countries', 'list', 'anonymous', '*', '*', '*'),
