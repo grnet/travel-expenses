@@ -33,22 +33,24 @@ export default Ember.Component.extend(BaseField, {
   travelInfos: [],
   loading: true,
   activeTravelInfo: null,
-  uiToDisplay: 'user',
-
-  init() {
+  uiToDisplay: computed('account.user.user_group', function() {
 
     let group = this.get('account.user.user_group');
+    let ui = '';
 
     if ( group == 'USER' ) {
-      this.set('uiToDisplay', 'user')
+      ui = 'user';
     } else if ( group == 'MANAGER') {
-      this.set('uiToDisplay', 'manager')
+      ui = 'manager';
     } else if ( group == 'SECRETARY') {
-      this.set('uiToDisplay', 'secretary')
+      ui = 'secretary';
     } else if ( group == 'CONTROLLER') {
-      this.set('uiToDisplay', 'controller')
+      ui = 'controller';
     }
+    return ui;
+  }),
 
+  init() {
     this.get('value').then((result) => {
       set(this, 'travelInfos', result);
       set(this, 'loading', false);
