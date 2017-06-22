@@ -9,6 +9,7 @@ from texpenses.models import Petition, UserPetitionSubmission, UserPetition,\
     SecretaryCompensation, City, Project
 from texpenses.actions import inform_on_action
 from texpenses.views.utils import render_template2pdf, render_template2csv
+from texpenses.views import utils
 
 
 class CityMixin(object):
@@ -18,6 +19,75 @@ class CityMixin(object):
 
 
 class ProjectMixin(object):
+
+    def _get_related_petitions(self, project_name):
+        petitions = SecretaryCompensation.objects.\
+            filter(project__name=project_name)
+        data_map = {}
+        data = []
+
+        for petition in petitions:
+            petition_info = {}
+
+            # user info
+            petition_info.update({'first_name': petition.first_name,
+                                  'last_name': petition.last_name,
+                                  'kind': petition.get_kind_display(),
+                                  'specialty': petition.get_specialty_display(),
+                                  'iban': petition.iban,
+                                  'tax_reg_num': petition.tax_reg_num
+                                  })
+            # petition info
+            travel_info = petition.travel_info.all()
+            travel_info_first = petition.travel_info.first()
+            travel_info_last = petition.travel_info.last()
+            petition_info.update({'depart_date': travel_info_first.depart_date,
+                                  'return_date': travel_info_last.return_date,
+                                  'travel_info': travel_info,
+                                  'task_start_date': petition.task_start_date,
+                                  'task_end_date': petition.task_end_date,
+                                  'transport_days': petition.transport_days,
+                                  'overnights_num': petition.overnights_num,
+                                  'departure_point':
+                                  travel_info_first.departure_point.name,
+                                  'arrival_point':
+                                  travel_info_last.arrival_point.name,
+                                  'transportation_cost':
+                                  utils.get_transportation_cost(travel_info),
+                                  'transportation_default_currency':
+                                  travel_info_first.
+                                  transportation_default_currency,
+                                  'overnights_sum_cost':
+                                  petition.overnights_sum_cost,
+                                  'accommodation_default_currency':
+                                  travel_info_first.
+                                  accommodation_default_currency,
+                                  'participation_cost':
+                                  petition.participation_cost,
+                                  'participation_default_currency': petition.
+                                  participation_default_currency,
+                                  'additional_expenses_initial': petition.
+                                  additional_expenses_initial,
+                                  'additional_expenses_default_currency':
+                                  petition.additional_expenses_default_currency,
+                                  'additional_expenses':
+                                  petition.additional_expenses,
+                                  'total_cost': petition.total_cost,
+                                  'project': petition.project.name,
+                                  'compensation_cost':
+                                  utils.get_compensation_cost(travel_info)
+                                  })
+            data.append(petition_info)
+        data_map.update({'petitions': data})
+        return data_map
+
+    @detail_route(methods=['get'])
+    def project_stats(self, request, pk=None):
+        template_path = "project_stats.csv"
+        project = self.get_object()
+        project_name = project.name
+        data = self._get_related_petitions(project_name)
+        return render_template2csv(data, template_path, project_name + '_stats')
 
     def get_queryset(self):
         return Project.objects.filter(active=True)
