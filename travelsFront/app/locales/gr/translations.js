@@ -134,11 +134,9 @@ export default {
   'password.button.change': 'Αλλαγη',
   'list.button.search': 'Αναζητηση',
   'list.button.clear': 'Καθαρισμος Φιλτρων',
-<<<<<<< 0d575e19bf02a0b910d1cff2be0d6bfc97852062
   'stats.button.export': 'Εξαγωγη',
-=======
   'form.button.add_destination': 'Προσθηκη Προορισμου',
->>>>>>> Translate buttons and tabs for multiple destinations
+  'form.button.remove_destination': 'Αφαιρεση Προορισμου',
   //placeholders
   'placeholder.filterByProject': 'Έργο',
   'placeholder.filterByName': 'Επώνυμο',

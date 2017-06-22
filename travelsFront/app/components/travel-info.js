@@ -69,8 +69,6 @@ export default Ember.Component.extend(BaseField, {
     },
 
     confirmRemove(index) {
-      let confirm = window.conrim("Are you sure?");
-      if (!confrim) { return; }
 
       let travelInfos = get(this, 'travelInfos');
       if (index === undefined) {
