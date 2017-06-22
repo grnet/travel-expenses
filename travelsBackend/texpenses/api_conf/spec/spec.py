@@ -95,7 +95,10 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                               '.readonly': {}}},
                 '.cli_commands': {},
                 '.collection': {},
-                '.drf_collection': {'mixins':
+                '.drf_collection': {'authentication_classes':
+              ['rest_framework.authentication.SessionAuthentication',
+               'rest_framework.authentication.TokenAuthentication'],
+                                    'mixins':
                                     ["rest_framework_extensions."
                                      "cache.mixins.CacheResponseMixin", \
                                      'texpenses.views.mixins.ProjectMixin'],
