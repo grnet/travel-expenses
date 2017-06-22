@@ -107,6 +107,8 @@ export default {
   'travel_info.accommodation': 'Στοιχεία Διαμονής',
   'travel_info.transportation': 'Στοιχεία Ταξιδιού',
   'computed_days.label': 'Ημέρες Μετακίνησης',
+  //multiple destinations
+  'travel_info_number.label': 'Προορισμος #',
   //computational data labels
   'transport_days_manual.label': 'Ημέρες Μετακίνησης Εργασιών',
   'transport_days_proposed.label': 'Ημέρες Μετακίνησης Εργασιών (προτεινόμενη τιμή)',
@@ -132,7 +134,11 @@ export default {
   'password.button.change': 'Αλλαγη',
   'list.button.search': 'Αναζητηση',
   'list.button.clear': 'Καθαρισμος Φιλτρων',
+<<<<<<< 0d575e19bf02a0b910d1cff2be0d6bfc97852062
   'stats.button.export': 'Εξαγωγη',
+=======
+  'form.button.add_destination': 'Προσθηκη Προορισμου',
+>>>>>>> Translate buttons and tabs for multiple destinations
   //placeholders
   'placeholder.filterByProject': 'Έργο',
   'placeholder.filterByName': 'Επώνυμο',
