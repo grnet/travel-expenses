@@ -36,8 +36,8 @@ const UI_SECRETARY = {
     },
     {
       'label': 'computed_days.label',
-      'fields': ['transport_days_manual', 'transport_days_proposed', 'overnights_num_manual', 'overnights_num_proposed',
-      'compensation_days_manual', 'compensation_days_proposed']
+      'fields': ['transport_days_manual', ['transport_days_proposed', {attrs:{disabled: true}}], 'overnights_num_manual', ['overnights_num_proposed', {attrs:{disabled: true}}],
+      'compensation_days_manual', ['compensation_days_proposed', {attrs:{disabled: true}}]]
     },
   ],
   layout: {
@@ -54,18 +54,19 @@ const UI_CONTROLLER = {
   fieldsets: [
     {
       'label': 'travel_info.transportation',
-      'fields': ['departure_point', 'arrival_point', 'depart_date', 'return_date', 'means_of_transport', 'transportation_cost', 
-                'transportation_payment_way', 'transportation_payment_description',]
+      'fields': [['departure_point', {attrs:{disabled: true}}], ['arrival_point', {attrs:{disabled: true}}], ['depart_date', {attrs:{disabled: true}}],
+       ['return_date', {attrs:{disabled: true}}], ['means_of_transport', {attrs:{disabled: true}}], 'transportation_cost', 
+       'transportation_payment_way', 'transportation_payment_description',]
     },
     {
       'label': 'travel_info.accommodation',
-      'fields': ['compensation_level', 'meals', 'accommodation_cost', 'accommodation_local_cost', 'accommodation_local_currency',
+      'fields': [['compensation_level', {attrs:{disabled: true}}], 'meals', 'accommodation_cost', 'accommodation_local_cost', 'accommodation_local_currency',
                  'accommodation_payment_way', 'accommodation_payment_description']
     },
     {
       'label': 'computed_days.label',
-      'fields': ['transport_days_manual', 'transport_days_proposed', 'overnights_num_manual', 'overnights_num_proposed', 
-      'compensation_days_manual', 'compensation_days_proposed']
+      'fields': ['transport_days_manual', ['transport_days_proposed', {attrs:{disabled: true}}], 'overnights_num_manual',
+      ['overnights_num_proposed', {attrs:{disabled: true}}], 'compensation_days_manual', ['compensation_days_proposed', {attrs:{disabled: true}}]]
     },
   ],
   layout: {
