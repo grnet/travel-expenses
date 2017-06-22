@@ -35,3 +35,11 @@ def render_template2csv(data, template_path, default_report_name='petition',
         return content
     response.write(content)
     return response
+
+
+def get_transportation_cost(travel_info):
+    return sum([travel_obj.transportation_cost for travel_obj in travel_info])
+
+
+def get_compensation_cost(travel_info):
+    return sum([travel_obj.compensation_cost() for travel_obj in travel_info])
