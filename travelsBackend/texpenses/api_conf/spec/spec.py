@@ -97,6 +97,7 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                 '.collection': {},
                 '.drf_collection': {'authentication_classes':
               ['rest_framework.authentication.SessionAuthentication',
+               'rest_framework.authentication.BasicAuthentication',
                'rest_framework.authentication.TokenAuthentication'],
                                     'mixins':
                                     ["rest_framework_extensions."
