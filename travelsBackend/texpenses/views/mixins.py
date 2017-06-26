@@ -35,8 +35,8 @@ class ProjectMixin(object):
                               })
         # petition info
         travel_info = petition.travel_info.all()
-        travel_info_first = petition.travel_info.first()
-        travel_info_last = petition.travel_info.last()
+        travel_info_first = travel_info[0]
+        travel_info_last = travel_info[len(travel_info) - 1]
         date_format = '%Y-%m-%dT%H:%M:%S'
         petition_info.update({'depart_date': travel_info_first.depart_date.
                               strftime(date_format),
@@ -81,8 +81,8 @@ class ProjectMixin(object):
         return petition_info
 
     def _get_related_petitions_json(self, project_name=None):
-        petitions = SecretaryCompensation.objects.\
-            filter(project__name=project_name) if project_name else \
+        petitions = SecretaryCompensation.objects.filter(
+            project__name=project_name) if project_name else \
             SecretaryCompensation.objects.all()
         data = []
 
@@ -94,16 +94,15 @@ class ProjectMixin(object):
         return json.dumps(data)
 
     def _get_related_petitions(self, project_name=None):
-        petitions = SecretaryCompensation.objects.\
-            filter(project__name=project_name) if project_name else \
+        petitions = SecretaryCompensation.objects.filter(
+            project__name=project_name) if project_name else \
             SecretaryCompensation.objects.all()
-        data_map = {}
         data = []
 
         for petition in petitions:
             data.append(self._extract_info(petition))
-        data_map.update({'petitions': data})
-        return data_map
+
+        return {'petitions': data}
 
     @detail_route(methods=['get'])
     def project_stats(self, request, pk=None):
