@@ -1,13 +1,16 @@
+{% load tz %}
+
+{% timezone "Europe/Athens" %}
 Σας ενημερώνουμε ότι θα πρέπει να συνδεθείτε εκ νέου στην εφαρμογή "Travel Expenses" (https://travel.admin.grnet.gr) και να μεταβείτε στην καρτέλα "Λίστα Αιτήσεων", προκειμένου να συμπληρώσετε την αίτηση αποζημίωσης για το ταξίδι που πραγματοποιήσατε με Στοιχεία Μετακίνησης:
 
 - Έργο: {{ project }}
 - Αιτιολογία Μετακίνησης: {{ reason }}
 - Αναχώρηση: {{ departure_point }}
 - Άφιξη: {{ arrival_point }}
-- Έναρξη Εργασιών: {{task_start_date|date:"d/m/Y"}}
-- Λήξη Εργασιών: {{task_end_date|date:"d/m/Y"}}
+- Έναρξη Εργασιών: {{task_start_date|date:"d/m/Y, H:i"}}
+- Λήξη Εργασιών: {{task_end_date|date:"d/m/Y, H:i"}}
 
 
 Happy journeys!
 Η ομάδα ανάπτυξης
-
+{% endtimezone %}

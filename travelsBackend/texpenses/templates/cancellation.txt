@@ -1,3 +1,6 @@
+{% load tz %}
+
+{% timezone "Europe/Athens" %}
 Σας ενημερώνουμε ότι ο χρήστης {{ first_name }} {{ last_name }} αναίρεσε την Αίτηση Μετακίνησης με κωδικό {{ dse }}
 και Στοιχεία Μετακίνησης:
 
@@ -5,9 +8,11 @@
 - Αιτιολογία Μετακίνησης: {{ reason }}
 - Αναχώρηση: {{ departure_point }}
 - Άφιξη: {{ arrival_point }}
-- Έναρξη Εργασιών: {{ task_start_date }}
-- Λήξη Εργασιών: {{ task_end_date }}
+- Έναρξη Εργασιών: {{ task_start_date|date:"d/m/Y, H:i" }}
+- Λήξη Εργασιών: {{ task_end_date|date:"d/m/Y, H:i" }}
 
 
 Happy journeys!
 Η ομάδα ανάπτυξης
+
+{% endtimezone %}
