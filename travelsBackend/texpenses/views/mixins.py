@@ -1,20 +1,20 @@
+import json
+
 from rest_framework import permissions, status
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 
 from rest_framework.decorators import detail_route, list_route
-from rest_framework.response import Response
-from rest_framework.reverse import reverse
+from django.http import HttpResponse
 
+from rest_framework.reverse import reverse
 from texpenses.models import Petition, UserPetitionSubmission, UserPetition,\
     SecretaryPetition, SecretaryPetitionSubmission, UserCompensation,\
     SecretaryCompensation, City, Project
 from texpenses.actions import inform_on_action
 from texpenses.views.utils import render_template2pdf, render_template2csv
 from texpenses.views import utils
-
-import json
 
 
 class CityMixin(object):
@@ -111,7 +111,7 @@ class ProjectMixin(object):
             template_path = "project_stats.csv"
             return render_template2csv(data, template_path, 'all_project_stats')
         else:
-            return Response(data)
+            return HttpResponse(data)
 
     def get_queryset(self):
         return Project.objects.filter(active=True)
