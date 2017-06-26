@@ -24,7 +24,7 @@ http_poller {
       travel_expenses => {
 
         method => get
-        url => "http://localhost:8000/api/project/all_project_stats_json/"
+        url => "http://localhost:8000/api/project/stats/"
 
         auth => {
           user => "admin"
