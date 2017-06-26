@@ -31,9 +31,7 @@ class ProjectMixin(object):
         petition_info.update({'first_name': petition.first_name,
                               'last_name': petition.last_name,
                               'kind': petition.get_kind_display(),
-                              'specialty': petition.get_specialty_display(),
-                              'iban': petition.iban,
-                              'tax_reg_num': petition.tax_reg_num
+                              'specialty': petition.get_specialty_display()
                               })
         # petition info
         travel_info = petition.travel_info.all()
