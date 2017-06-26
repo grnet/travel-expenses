@@ -8,7 +8,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 	newPetition: true,
   modelName: 'secretary-compensation',
 
-	model(params) {
+
+  model(params) {
     let petitionId = params.petition_id;
     let model;
     if (petitionId && petitionId != "new") {
@@ -16,8 +17,15 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
       model = this.store.findRecord(this.modelName, petitionId);
       this.set('newPetition', false);
     }
-    return model;
-	},
+
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      // resolve user profile
+      this.store.findAll('city').then(() => {
+        // delegate stuff to model promise
+        return model.then(resolve).catch(reject);
+      })
+    }.bind(this));
+  },
 
 	actions: {
 	}
