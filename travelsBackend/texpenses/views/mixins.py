@@ -1,12 +1,10 @@
-import json
-
 from rest_framework import permissions, status
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 
 from rest_framework.decorators import detail_route, list_route
-from django.http import HttpResponse
+from rest_framework.response import Response
 
 from rest_framework.reverse import reverse
 from texpenses.models import Petition, UserPetitionSubmission, UserPetition,\
@@ -89,7 +87,7 @@ class ProjectMixin(object):
         for petition in petitions:
             data.append(self._extract_info(petition))
 
-        return {'petitions': data} if format == 'csv' else json.dumps(data)
+        return {'petitions': data} if format == 'csv' else data
 
     @detail_route(methods=['get'])
     def project_stats(self, request, pk=None):
@@ -111,7 +109,7 @@ class ProjectMixin(object):
             template_path = "project_stats.csv"
             return render_template2csv(data, template_path, 'all_project_stats')
         else:
-            return HttpResponse(data)
+            return Response(data)
 
     def get_queryset(self):
         return Project.objects.filter(active=True)
