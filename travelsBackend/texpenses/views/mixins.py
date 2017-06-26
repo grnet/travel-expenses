@@ -1,19 +1,20 @@
 from rest_framework import permissions, status
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse
-from django.core import serializers
-
+from django.conf import settings
 
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+
 from texpenses.models import Petition, UserPetitionSubmission, UserPetition,\
     SecretaryPetition, SecretaryPetitionSubmission, UserCompensation,\
     SecretaryCompensation, City, Project
 from texpenses.actions import inform_on_action
 from texpenses.views.utils import render_template2pdf, render_template2csv
 from texpenses.views import utils
+
+import json
 
 
 class CityMixin(object):
@@ -37,15 +38,14 @@ class ProjectMixin(object):
         travel_info = petition.travel_info.all()
         travel_info_first = travel_info[0]
         travel_info_last = travel_info[len(travel_info) - 1]
-        date_format = '%Y-%m-%dT%H:%M:%S'
         petition_info.update({'depart_date': travel_info_first.depart_date.
-                              strftime(date_format),
+                              strftime(settings.DATE_FORMAT),
                               'return_date': travel_info_last.return_date.
-                              strftime(date_format),
+                              strftime(settings.DATE_FORMAT),
                               'task_start_date': petition.task_start_date.
-                              strftime(date_format),
+                              strftime(settings.DATE_FORMAT),
                               'task_end_date': petition.task_end_date.
-                              strftime(date_format),
+                              strftime(settings.DATE_FORMAT),
                               'transport_days': petition.transport_days(),
                               'overnights_num': petition.overnights_num(),
                               'departure_point':
@@ -80,7 +80,7 @@ class ProjectMixin(object):
                               })
         return petition_info
 
-    def _get_related_petitions_json(self, project_name=None):
+    def _get_related_petitions(self, project_name=None, format='csv'):
         petitions = SecretaryCompensation.objects.filter(
             project__name=project_name) if project_name else \
             SecretaryCompensation.objects.all()
@@ -89,20 +89,7 @@ class ProjectMixin(object):
         for petition in petitions:
             data.append(self._extract_info(petition))
 
-        import json
-
-        return json.dumps(data)
-
-    def _get_related_petitions(self, project_name=None):
-        petitions = SecretaryCompensation.objects.filter(
-            project__name=project_name) if project_name else \
-            SecretaryCompensation.objects.all()
-        data = []
-
-        for petition in petitions:
-            data.append(self._extract_info(petition))
-
-        return {'petitions': data}
+        return {'petitions': data} if format == 'csv' else json.dumps(data)
 
     @detail_route(methods=['get'])
     def project_stats(self, request, pk=None):
@@ -113,15 +100,18 @@ class ProjectMixin(object):
         return render_template2csv(data, template_path, project_name + '_stats')
 
     @list_route()
-    def all_project_stats(self, request):
-        template_path = "project_stats.csv"
-        data = self._get_related_petitions()
-        return render_template2csv(data, template_path, 'all_project_stats')
+    def stats(self, request):
 
-    @list_route()
-    def all_project_stats_json(self, request):
-        data = self._get_related_petitions_json()
-        return HttpResponse(data)
+        response_format = self.request.query_params.get(
+            'response_format', 'json')
+        data = self._get_related_petitions(format=response_format)
+
+        if response_format == 'csv':
+            data = self._get_related_petitions()
+            template_path = "project_stats.csv"
+            return render_template2csv(data, template_path, 'all_project_stats')
+        else:
+            return Response(data)
 
     def get_queryset(self):
         return Project.objects.filter(active=True)

@@ -117,7 +117,7 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 # TIME_ZONE = 'Europe/Athens'
-# DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
+DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 USE_I18N = True
 
