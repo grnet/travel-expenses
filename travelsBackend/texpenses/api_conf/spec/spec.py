@@ -82,11 +82,11 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                              '.readonly': {},
                              '.serial': {}},
 
-                     'manager': {'.cli_option': {},
-                            '.drf_field': {},
-                            '.field': {},
-                            '.readonly': {},
-                            '.ref': {'to': 'api/users'}},
+                      'manager': {'.cli_option': {},
+                                  '.drf_field': {},
+                                  '.field': {},
+                                  '.readonly': {},
+                                  '.ref': {'to': 'api/users'}},
                       'name': {'.cli_option': {},
                                '.drf_field': {},
                                '.field': {},
@@ -95,15 +95,16 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                               '.readonly': {}}},
                 '.cli_commands': {},
                 '.collection': {},
-                '.drf_collection': {'authentication_classes':
-              ['rest_framework.authentication.SessionAuthentication',
-               'rest_framework.authentication.BasicAuthentication',
-               'rest_framework.authentication.TokenAuthentication'],
-                                    'mixins':
-                                    ["rest_framework_extensions."
-                                     "cache.mixins.CacheResponseMixin", \
-                                     'texpenses.views.mixins.ProjectMixin'],
-                                    'model': 'texpenses.models.Project'},
+                '.drf_collection':
+                {'authentication_classes':
+                 ['rest_framework.authentication.SessionAuthentication',
+                  'rest_framework.authentication.BasicAuthentication',
+                  'rest_framework.authentication.TokenAuthentication'],
+                 'mixins':
+                 ["rest_framework_extensions."
+                  "cache.mixins.CacheResponseMixin",
+                  'texpenses.views.mixins.ProjectMixin'],
+                 'model': 'texpenses.models.Project'},
                 '.actions': {'.list': {}, '.retrieve': {}}}
 
 user_conf = {'*': {'email': {'.cli_option': {},
@@ -244,10 +245,10 @@ city_conf = {'*': {'country': {'.cli_option': {},
                             '.string': {}},
 
                    'timezone': {'.cli_option': {},
-                            '.drf_field': {},
-                            '.field': {},
-                            '.readonly': {},
-                            '.string': {}},
+                                '.drf_field': {},
+                                '.field': {},
+                                '.readonly': {},
+                                '.string': {}},
                    'url': {'.drf_field': {}, '.identity': {},
                            '.readonly': {}}},
              '.cli_commands': {},

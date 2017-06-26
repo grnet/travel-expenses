@@ -38,13 +38,13 @@ class ProjectMixin(object):
         travel_info_first = petition.travel_info.first()
         travel_info_last = petition.travel_info.last()
         date_format = '%Y-%m-%dT%H:%M:%S'
-        petition_info.update({'depart_date': travel_info_first.depart_date.\
+        petition_info.update({'depart_date': travel_info_first.depart_date.
                               strftime(date_format),
-                              'return_date': travel_info_last.return_date.\
+                              'return_date': travel_info_last.return_date.
                               strftime(date_format),
-                              'task_start_date': petition.task_start_date.\
+                              'task_start_date': petition.task_start_date.
                               strftime(date_format),
-                              'task_end_date': petition.task_end_date.\
+                              'task_end_date': petition.task_end_date.
                               strftime(date_format),
                               'transport_days': petition.transport_days(),
                               'overnights_num': petition.overnights_num(),
