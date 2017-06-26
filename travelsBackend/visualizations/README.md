@@ -72,6 +72,7 @@ kibana:
     - es
   environment:
     - ELASTICSEARCH_URL=http://es:9200
+    - SERVER_HOST=127.0.0.1
 ```
 
 In order to start it run ([docker-compose](https://docs.docker.com/compose/install/) should be installed):
