@@ -1,6 +1,5 @@
 {% load tz %}
 
-{% timezone timezone %}
 Σας ενημερώνουμε ότι ο χρήστης {{ first_name }} {{ last_name }} υπέβαλε Αίτηση Μετακίνησης με κωδικό {{ dse }} στο
 πλαίσιο του έργου {{ project }}.
 
@@ -10,8 +9,8 @@
 - Αιτιολογία Μετακίνησης: {{ reason }}
 - Αναχώρηση: {{ departure_point }}
 - Άφιξη: {{ arrival_point }}
-- Έναρξη Εργασιών: {{ task_start_date|date:"d/m/Y, H:i" }}
-- Λήξη Εργασιών: {{ task_end_date|date:"d/m/Y, H:i" }}
+- Έναρξη Εργασιών: {{ task_start_date|timezone:timezone_arrival|date:"d/m/Y, H:i" }}
+- Λήξη Εργασιών: {{ task_end_date|timezone:timezone_arrival|date:"d/m/Y, H:i" }}
 
 Επισημαίνεται ότι ο Υπεύθυνος του Έργου θα πρέπει να συνδεθεί στην εφαρμογή (https://travel.admin.grnet.gr) και να εγκρίνει την Αίτηση Μετακίνησης.
 Διαφορετικά δεν μπορεί να ολοκληρωθεί η διαδικασία υποβολής και να προχωρήσει η Γραμματεία στα επόμενα βήματα (εισιτήρια, ξενοδοχεία, κλπ.).
@@ -19,4 +18,3 @@
 
 Happy journeys!
 Η ομάδα ανάπτυξης
-{% endtimezone %}

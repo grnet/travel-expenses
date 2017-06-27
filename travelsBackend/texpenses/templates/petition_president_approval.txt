@@ -1,19 +1,17 @@
 {% load tz %}
 
-{% timezone timezone %}
 Σας ενημερώνουμε ότι η Αίτηση Μετακίνησης με κωδικό {{dse}} και Στοιχεία Μετακίνησης:
 
 - Έργο: {{ project }}
 - Αιτιολογία Μετακίνησης: {{ reason }}
 - Αναχώρηση: {{ departure_point }}
 - Άφιξη: {{ arrival_point }}
-- Έναρξη Εργασιών: {{ task_start_date|date:"d/m/Y, H:i" }}
-- Λήξη Εργασιών: {{ task_end_date|date:"d/m/Y, H:i" }}
+- Έναρξη Εργασιών: {{ task_start_date|timezone:timezone_arrival|date:"d/m/Y, H:i" }}
+- Λήξη Εργασιών: {{ task_end_date|timezone:timezone_arrival|date:"d/m/Y, H:i" }}
 
 έχει λάβει την έγκριση του Προέδρου.
 
 
 Happy journeys!
 Η ομάδα ανάπτυξης
-{% endtimezone %}
 
