@@ -1,6 +1,6 @@
 {% load tz %}
 
-{% timezone "Europe/Athens" %}
+{% timezone timezone %}
 Σας ενημερώνουμε ότι η Αίτηση Αποζημίωσης με κωδικό {{dse}} και Στοιχεία Μετακίνησης:
 
 - Έργο: {{ project }}

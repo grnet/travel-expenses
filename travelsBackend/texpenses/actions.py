@@ -90,6 +90,7 @@ def inform(petition, action, target_user, inform_controller):
         else None,
         'arrival_point': travel_info.arrival_point.name if travel_info\
         else None,
+        'timezone': travel_info.arrival_point.timezone,
         'task_start_date': petition.task_start_date,
         'task_end_date': petition.task_end_date,
         'reason': petition.reason,
