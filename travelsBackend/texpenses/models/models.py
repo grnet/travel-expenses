@@ -455,8 +455,8 @@ class TravelInfo(Accommodation, Transportation):
                                                     _to,
                                                     mode="driving")
 
-            distance = distance_result['rows'][0]['elements'][0]['distance']
-            ['value']
+            distance = distance_result['rows'][0]['elements'][0]['distance']\
+                ['value']
             distance /= 1000
 
             # and save the calculated value to db
@@ -464,6 +464,7 @@ class TravelInfo(Accommodation, Transportation):
             city_distance_record.save()
             return distance
         except Exception as ex:
+            print ex.message
             return 0
 
     def transport_days_proposed(self):
