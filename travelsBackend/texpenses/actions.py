@@ -48,8 +48,10 @@ def send_email(subject, template, params, sender, to, bcc=(), cc=(),
     content = render_to_string(template, params)
     prefix = '<Travel Expenses> '
     try:
-        message = EmailMessage(prefix + subject, content, sender, to=to,
-                               bcc=bcc, cc=cc, connection=get_connection()
+        project_name = '['+str(params['project'])+']'
+        message = EmailMessage(prefix + subject + project_name, content,
+                               sender, to=to, bcc=bcc, cc=cc,
+                               connection=get_connection()
                                )
         if attach_csv:
             message.attach('petition.csv', _export_csv(params), 'text/csv')
@@ -114,8 +116,8 @@ def inform(petition, action, target_user, inform_controller):
         cc = to
         to = (petition.user.email,)
 
-    send_email(subject, template, params, SENDER, to=to, cc=cc,\
-               attach_csv=attach_csv)
+    send_email(subject, template, params, SENDER, \
+               to=to, cc=cc, attach_csv=attach_csv)
 
 
 def inform_on_action(action, target_user=False, inform_controller=False):
