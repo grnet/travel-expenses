@@ -127,6 +127,7 @@ export default {
   'password.button.change': 'Αλλαγη',
   'list.button.search': 'Αναζητηση',
   'list.button.clear': 'Καθαρισμος Φιλτρων',
+  'stats.button.export': 'Εξαγωγη',
   //placeholders
   'placeholder.filterByProject': 'Έργο',
   'placeholder.filterByName': 'Επώνυμο',
@@ -145,6 +146,7 @@ export default {
  	'submitted_petitions.tab': 'Υποβεβλημένες Αιτήσεις',
   'help.tab': 'Οδηγίες Χρήσης',
  	'petitions_list.tab': 'Λίστα Αιτήσεων',
+  'statistics.tab': 'Εξαγωγή Στατιστικών',
  	//titles
  	'login.title': 'Είσοδος',
  	'logged_in_as.title': 'Συνδεθήκατε ως: ',
@@ -156,6 +158,9 @@ export default {
   'compensation_edit.title': 'Επεξεργασία Αίτησης Αποζημίωσης',
  	'petition_list.title': 'Λίστα Αιτήσεων',
   'filters.title': 'Φίλτρα Αναζήτησης',
+  'statistics.title': 'Εξαγωγή Στατιστικών',
+  'stats.title.export': 'Εξαγωγή Στατιστικών με βάση το Έργο',
+  'stats.title.full_export': 'Εξαγωγή Γενικών Στατιστικών',
   //travel_report labels
   'travel_report.label': 'Απολογισμός Ταξιδιού',
   'travel_files.label': 'Ανέβασμα Αρχείων (μέγιστο μέγεθος 8MB)',
