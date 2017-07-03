@@ -30,6 +30,7 @@
             {{/if}}
             {{#if (can "compensate petition")}}
               {{#menu-item onClick=(transition-to "advancedList")}}{{t 'petitions_list.tab'}}{{/menu-item}}
+              {{#menu-item onClick=(transition-to "statistics")}}{{t 'statistics.tab'}}{{/menu-item}}
             {{/if}}
             {{#if (can "view petition")}}
               {{#menu-item onClick=(transition-to "advancedList")}}{{t 'petitions_list.tab'}}{{/menu-item}}

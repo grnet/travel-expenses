@@ -21,6 +21,7 @@ Router.map(function() {
   this.route('password');
   this.route('help');
   this.route('manager-list');
+  this.route('statistics');
 });
 
 export default Router;
