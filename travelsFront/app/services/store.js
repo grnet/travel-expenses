@@ -55,19 +55,36 @@ export default DS.Store.extend({
     });
   },
 
+  _eachEmbeddedRelationship(internalModel, callback) {
+    return internalModel.eachRelationship((key, rel) => {
+      if (rel.kind == 'hasMany' && rel.options && rel.options.embedded) {
+        callback(key, rel);
+      }
+    });
+  },
+
+  didSaveRecord(internalModel, dataArg) {
+    this._super(internalModel, dataArg);
+    let record = internalModel.getRecord();
+    this._eachEmbeddedRelationship(internalModel, (key, rel) => {
+      let rels = get(record, key);
+      rels.forEach(model => { 
+        model._internalModel.clearErrorMessages();
+      });
+    });
+  },
+
   recordWasInvalid(internalModel, errors) {
     let record = internalModel.getRecord();
     // propagate hasMany errors
-    internalModel.eachRelationship((key, rel) => {
-      if (key in errors && 
-          rel.kind == 'hasMany' &&
-          rel.options && rel.options.inline
-         ) {
+    this._eachEmbeddedRelationship(internalModel, (key, rel) => {
+      if (key in errors) {
         let rels = get(record, key);
+
         for (let index = 0; index < errors[key].length; index++) {
+          let obj = rels.objectAt(index);
           for (let attr in errors[key][index]) {
-            let obj = rels.content.objectAt(index);
-            obj._internalModel.addErrorMessageToAttribute(attr, errors[key][index][attr][0]);
+            obj._internalModel.addErrorMessageToAttribute(attr, errors[key][index][attr]);
           }
         }
       }
