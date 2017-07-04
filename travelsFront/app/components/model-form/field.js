@@ -88,6 +88,7 @@ export default Ember.Component.extend({
         })
       });
     }
+    this.observeErrors();
   }),
 
   observeRawValue: observer('rawValue', function() {
