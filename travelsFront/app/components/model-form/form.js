@@ -104,7 +104,7 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
       if (error.detail && error.detail.non_field_errors) {
         formErrors = formErrors.concat(error.detail.non_field_errors);
       }
-      if (typeof error.detail === "string" && error.source && error.source.pointer == "/data") {
+      if (typeof error.detail === "string") {
         formErrors.push(error.detail);
       }
     }
