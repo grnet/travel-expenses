@@ -7,7 +7,7 @@ const {
   isArray,
   assign,
   computed,
-  computed: { alias, equal, gt } 
+  computed: { alias, equal, gt, reads } 
 } = Ember;
 
 const DEFAULTS = {
@@ -30,9 +30,9 @@ function newRecord(arr) {
 
 export default Ember.Component.extend(BaseField, {
 
-  travelInfos: [],
   loading: true,
-  activeTravelInfo: null,
+  activeIndex: 0,
+
   uiToDisplay: computed('account.user.user_group', function() {
 
     let group = this.get('account.user.user_group');
@@ -50,26 +50,28 @@ export default Ember.Component.extend(BaseField, {
     return ui;
   }),
 
+  activeTravelInfo: computed('travelInfos.[]', 'activeIndex', function() {
+    let infos = this.get('travelInfos');
+    let info = infos.objectAt(this.get('activeIndex'));
+    return info;
+  }),
+
+  travelInfos: reads('value'),
+  loading: reads('travelInfos.isPending'),
+
   init() {
     this.get('value').then((result) => {
-      set(this, 'travelInfos', result);
-      set(this, 'loading', false);
-      if (result.length) {
-        set(this, 'activeTravelInfo', result.objectAt(0));
-      } else {
-        set(this, 'activeTravelInfo', newRecord(result));
-      }
+      if (!result.length) { newRecord(result); }
     });
     this._super(...arguments);
   },
-  
+
   actions: {
     showInfo(index) {
-      set(this, 'activeTravelInfo', get(this, 'travelInfos').objectAt(index));
+      set(this, 'activeIndex', index);
     },
 
     confirmRemove(index) {
-
       let travelInfos = get(this, 'travelInfos');
       if (index === undefined) {
         index = travelInfos.get('length') - 1;
@@ -82,7 +84,7 @@ export default Ember.Component.extend(BaseField, {
     add() {
       let infos = get(this, 'travelInfos');
       let model = newRecord(infos);
-      set(this, 'activeTravelInfo', model);
+      set(this, 'activeIndex', get(infos, 'length') - 1);
     }
   }
 });

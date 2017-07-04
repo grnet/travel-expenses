@@ -16,7 +16,7 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
   validationErrors: Ember.computed.alias('model.validations.errors'),
   validation: Ember.computed.alias('model.validations.attrs'),
   isValid: Ember.computed.alias('model.validations.isValid'),
-  modelErrors: Ember.computed.alias('model.errors'),
+  modelErrors: Ember.computed.reads('model.errors'),
   submitLabel: Ember.computed('label', function() {
     return this.get('i18n').t('form.button.save');
   }),
@@ -26,12 +26,11 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
     let object = this.get("model");
     let ui = this.get("ui") || "default";
     let meta = ResourceMetaFrom(object, null, ui);
-    window['meta'] = meta;
     this.setProperties({object, meta});
     let parent = this.get('registerForm');
     if (parent){
       set(parent, 'modelform', this);
-    } 
+    }
   },
 
   handleErrors: Ember.observer('validationErrors.@each', function() {
@@ -109,7 +108,6 @@ const ModelForm = Ember.Component.extend(FlexMixin, {
         formErrors.push(error.detail);
       }
     }
-    console.log("resolved errors", formErrors);
     return formErrors;
   },
 

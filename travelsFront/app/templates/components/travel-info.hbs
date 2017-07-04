@@ -1,8 +1,17 @@
 <div class="layout-column">
 {{#each travelInfos as |travelInfo index|}}
-{{#paper-button class="flex" onClick=(action 'showInfo' index) raised=(not (eq activeTravelInfo travelInfo)) accent=true}}{{t 'travel_info_number.label'}}{{travelInfo.index}}: {{ travelInfo.tabDisplay }}{{/paper-button}}
+{{#paper-button
+    class="flex"
+    onClick=(action 'showInfo' index)
+    raised=(not (eq activeTravelInfo travelInfo))
+    accent=(eq travelInfo.errors.length 0)
+    warn=(gt travelInfo.errors.length 0)}}
+
+    {{t 'travel_info_number.label'}}{{travelInfo.index}}: {{ travelInfo.tabDisplay }} {{#if travelInfo.errors.length }}({{ travelInfo.errors.length }} errors){{/if}}
+{{/paper-button}}
+
 {{#if (and activeTravelInfo (eq activeTravelInfo travelInfo))}}
-  {{#model-form/form activeTravelInfo ui=uiToDisplay as |form|}}
+  {{#model-form/form activeTravelInfo registerForm=this ui=uiToDisplay isTouched=isTouched as |form|}}
     {{ form.messages }}
     {{ form.fields }}
   {{/model-form/form}}
