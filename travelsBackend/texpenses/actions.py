@@ -22,7 +22,7 @@ EMAIL_TEMPLATES = {
     'CANCELLATION': ('cancellation.txt',
                      'Αναίρεση υποβολής αίτησης μετακίνησης',False),
     'PETITION_PRESIDENT_APPROVAL': ('petition_president_approval.txt',
-                                    'Έγκριση μετακίνησης απο τον πρόεδρο.',\
+                                    'Έγκριση μετακίνησης από τον Πρόεδρο.',\
                                     False),
 
     'USER_COMPENSATION_SUBMISSION': ('user_compensation_submission.txt',
@@ -34,7 +34,7 @@ EMAIL_TEMPLATES = {
                                      " από μετακινούμενο.",False),
 
     'COMPENSATION_PRESIDENT_APPROVAL': ('compensation_president_approval.txt',
-                                    'Έγκριση αποζημίωσης απο τον πρόεδρο.',\
+                                    'Έγκριση αποζημίωσης από τον Πρόεδρο.',\
                                         False),
     'COMPENSATION_ALERT': ('compensation_alert.txt',
                            'Ενημέρωση σύνταξης αίτησης αποζημίωσης.',False)
