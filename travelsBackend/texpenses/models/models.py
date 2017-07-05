@@ -640,6 +640,7 @@ class SecretarialInfo(md.Model):
     manager_movement_approval = md.BooleanField(default=False,
                                                 db_index=True)
     manager_cost_approval = md.BooleanField(default=False, db_index=True)
+    timesheeted = md.BooleanField(default=False, db_index=True)
 
     MAX_GRNET_QUOTA = 100
 
@@ -1099,7 +1100,7 @@ class UserCompensation(Petition):
                 'additional_expenses_initial_description',
                 'additional_expenses', 'additional_expenses_description',
                 'manager_cost_approval', 'manager_movement_approval',
-                'compensation_alert']
+                'compensation_alert','timesheeted']
     excluded_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
                             'overnights_num_manual',
@@ -1127,7 +1128,7 @@ class SecretaryCompensation(Petition):
                 'additional_expenses', 'additional_expenses_description',
                 'user_recommendation', 'compensation_alert',
                 'secretary_recommendation', 'manager_cost_approval',
-                'manager_movement_approval']
+                'manager_movement_approval','timesheeted']
     excluded_travel_info = ['accommodation_local_cost',
                             'overnights_num_manual',
                             'transport_days_manual',
