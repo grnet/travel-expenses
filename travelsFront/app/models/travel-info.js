@@ -31,7 +31,7 @@ const UI_SECRETARY = {
     },
     {
       'label': 'travel_info.accommodation',
-      'fields': ['compensation_level', 'meals', 'accommodation_cost', 'accommodation_local_cost', 'accommodation_local_currency',
+      'fields': [['compensation_level', {attrs:{disabled: true}}], 'meals', 'accommodation_cost', 'accommodation_local_cost', 'accommodation_local_currency',
                  'accommodation_payment_way', 'accommodation_payment_description']
     },
     {
