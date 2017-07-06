@@ -82,6 +82,8 @@ export default {
   'travel_data.label': 'Στοιχεία μετακίνησης',
   'user_data.label': 'Στοιχεία χρήστη',
   //secretary petition labels
+  'timesheets.label': 'Συγχρονισμός με την εφαρμογή Timesheets',
+  'timesheeted.label': 'Οι ημέρες μετακίνησης έχουν περαστεί στην εφαρμογή Timesheets',
   'non_grnet_quota.label': 'Κάλυψη ημερήσιας αποζημίωσης από άλλο φορέα',
   'manager_approval.label': 'Έγκριση της Μετακίνησης από τον Υπεύθυνο Έργου',
   'manager_movement_approval.label': 'Έγκριση Αίτησης Μετακίνησης από τον Υπεύθυνο Έργου',
