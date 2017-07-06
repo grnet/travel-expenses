@@ -2,11 +2,6 @@ import Ember from 'ember';
 import { translationMacro as t } from "ember-i18n";
 import ENV from 'travels-front/config/environment'; 
 
-const CHOICES = ENV.APP.resource_choices;
-
-const {
-  on, assign
-} = Ember;
 
 export default Ember.Component.extend({
 
@@ -33,4 +28,3 @@ export default Ember.Component.extend({
     },
   }
 });
-
