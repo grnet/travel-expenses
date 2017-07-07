@@ -42,37 +42,43 @@ One has to change the **url** in order to look at the right endpoint, the **auth
 
 -	Casts the various date related fields to a specific date format.
 
--	Stores the info to Elastic Search backend. One has to set the **hosts** fields and the **template** path
-
-Start logstash with the following command (elastic search should already be running):
-
-```bash
-cd visualizations/logstash-5.4-2/;
-bin/logstash -f conf/travel_expenses.conf
-```
+-	Stores the info to Elastic Search backend.
 
 Elastic Search
 --------------
 
-Elastic Search and Kibana are configured and started through the following docker-compose image (visualizations/es_kibana/docker-compose.yml):
+Elastic Search, Kibana and Logstash are configured and started through the following docker-compose image (visualizations/es_kibana/docker-compose.yml):
 
 ```
-es:
-  image: elasticsearch:2.4.0
-  ports:
-    - "9200:9200"
-  environment:
-    - http.host=0.0.0.0
-    - transport.host=127.0.0.1
-kibana:
-  image: kibana:4.6.4
-  ports:
-    - "5601:5601"
-  links:
-    - es
-  environment:
-    - ELASTICSEARCH_URL=http://es:9200
-    - SERVER_HOST=127.0.0.1
+version: '2'
+services:
+        es:
+                image: elasticsearch:2.4.0
+                ports:
+                 - "9200:9200"
+                environment:
+                 - http.host=0.0.0.0
+                 - transport.host=127.0.0.1
+        kibana:
+                image: kibana:4.6.4
+                ports:
+                 - "5601:5601"
+                links:
+                 - es
+                environment:
+                 - ELASTICSEARCH_URL=http://es:9200
+                 - SERVER_HOST=127.0.0.1
+                depends_on:
+                 - es
+        logstash:
+                image: logstash:5.4.2
+                volumes:
+                 - ../logstash-5.4-2/:/config-dir
+                command: logstash -f /config-dir/travel_expenses.conf
+                ports:
+                 - "5000:5000"
+                depends_on:
+                 - es
 ```
 
 In order to start it run ([docker-compose](https://docs.docker.com/compose/install/) should be installed):
