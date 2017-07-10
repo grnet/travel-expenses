@@ -135,8 +135,8 @@ export default {
   'list.button.search': 'Αναζητηση',
   'list.button.clear': 'Καθαρισμος Φιλτρων',
   'stats.button.export': 'Εξαγωγη',
-  'form.button.add_destination': 'Προσθηκη Προορισμου',
-  'form.button.remove_destination': 'Αφαιρεση Προορισμου',
+  'form.button.add_destination': 'Προσθηκη Προορισμου ( + )',
+  'form.button.remove_destination': 'Αφαιρεση Προορισμου ( - )',
   //placeholders
   'placeholder.filterByProject': 'Έργο',
   'placeholder.filterByName': 'Επώνυμο',
