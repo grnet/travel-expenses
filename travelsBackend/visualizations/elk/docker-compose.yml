@@ -4,27 +4,27 @@ services:
                 image: elasticsearch:2.4.0
                 ports:
                  - "9200:9200"
-                environment:
-                 - http.host=0.0.0.0
-                 - transport.host=127.0.0.1
+                volumes:
+                 - ../confs/elastic-2.4.0/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
         kibana:
                 image: kibana:4.6.4
                 ports:
                  - "5601:5601"
-                links:
-                 - es
-                environment:
-                 - ELASTICSEARCH_URL=http://es:9200
-                 - SERVER_HOST=127.0.0.1
+                volumes:
+                 - ../confs/kibana-4.6.4/kibana.yml:/opt/kibana/config/kibana.yml
                 depends_on:
+                 - es
+                links:
                  - es
         logstash:
                 image: logstash:5.4.2
                 volumes:
-                 - ../logstash-5.4-2/:/config-dir
+                 - ../confs/logstash-5.4.2:/config-dir
                 command: logstash -f /config-dir/travel_expenses.conf
                 ports:
                  - "5000:5000"
                 depends_on:
+                 - es
+                links:
                  - es
 
