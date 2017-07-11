@@ -73,7 +73,7 @@ services:
         logstash:
                 image: logstash:5.4.2
                 volumes:
-                 - ../logstash-5.4-2/:/config-dir
+                 - ../confs/:/config-dir
                 command: logstash -f /config-dir/travel_expenses.conf
                 ports:
                  - "5000:5000"
