@@ -2,7 +2,7 @@
 {{#each travelInfos as |travelInfo index|}}
 {{#paper-button
     class="flex"
-    id="button-font-size"
+    class="destination-label"
     onClick=(action 'showInfo' index)
     raised=(not (eq activeTravelInfo travelInfo))
     accent=(eq travelInfo.errors.length 0)
