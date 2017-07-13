@@ -57,8 +57,8 @@
 {{#row.cell}}{{petition.travel_info.firstObject.arrival_point.name}}{{/row.cell}}
 {{#row.cell}}{{to-date petition.created}}{{/row.cell}}
 {{#row.cell}}{{to-date petition.updated}}{{/row.cell}}
-{{#row.cell}}{{to-date petition.depart_date}}{{/row.cell}}
-{{#row.cell}}{{to-date petition.return_date}}{{/row.cell}}
+{{#row.cell}}{{to-date petition.travel_info.firstObject.depart_date}}{{/row.cell}}
+{{#row.cell}}{{to-date petition.travel_info.firstObject.return_date}}{{/row.cell}}
 {{#row.cell}}{{petition.status_label}}{{/row.cell}}
 {{#row.cell}}{{petition.total_cost}}{{/row.cell}}
 {{/component}}
