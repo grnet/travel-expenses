@@ -51,7 +51,8 @@ class PetitionMixin(object):
         relative_records = Petition.objects.filter(**relative_petition_filter)
 
         dse_already_used = Petition.objects.\
-            exclude(**relative_petition_exclude_filter).filter(dse=dse)
+            exclude(**relative_petition_exclude_filter).filter(dse=dse,
+                                                               deleted=False)
 
         if dse_already_used.exists():
             raise PermissionDenied("A petition with dse:{0}, already exists."
