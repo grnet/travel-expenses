@@ -3,6 +3,17 @@ spec = {'.structarray': {'compensation_days_proposed': {'.cli_option': {},
                                                         '.field': {},
                                                         '.integer': {},
                                                         '.readonly': {}},
+                         'accommodation_payment_description': {'.cli_option':
+                                                               {},
+                                                               '.drf_field':
+                                                               {'allow_blank':
+                                                                True,
+                                                                'allow_null':
+                                                                True,
+                                                                'required':
+                                                                False},
+                                                               '.field': {},
+                                                               '.string': {}},
 
                          'overnights_num_proposed': {'.cli_option': {},
                                                      '.drf_field': {},

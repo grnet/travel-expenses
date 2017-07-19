@@ -410,12 +410,6 @@ class TravelInfo(Accommodation, Transportation):
             raise ValidationError('This is a same day return travel,'
                                   ' overnight cost is not acceptable.')
 
-        if not self.same_day_return_task(petition=petition) and \
-                self.accommodation_cost == 0:
-            fields = ['accommodation_cost', ]
-            if petition.status > 3:
-                raise serializers.\
-                    ValidationError(_construct_validation_message(fields))
 
     def calculate_city_distance(self, departure_point, arrival_point):
 
@@ -1067,6 +1061,8 @@ class SecretaryPetitionSubmission(Petition):
     objects = PetitionManager([Petition.SUBMITTED_BY_SECRETARY,
                                Petition.APPROVED_BY_PRESIDENT])
 
+    # excluded_travel_info = ['accommodation_cost',]
+
     class Meta:
         proxy = True
 
@@ -1105,6 +1101,7 @@ class UserCompensation(Petition):
                 'compensation_alert','timesheeted']
     excluded_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
+                            'accommodation_payment_description',
                             'overnights_num_manual',
                             'transport_days_manual',
                             'compensation_days_manual',
@@ -1132,6 +1129,8 @@ class SecretaryCompensation(Petition):
                 'secretary_recommendation', 'manager_cost_approval',
                 'manager_movement_approval','timesheeted']
     excluded_travel_info = ['accommodation_local_cost',
+                            'accommodation_cost',
+                            'accommodation_payment_description',
                             'overnights_num_manual',
                             'transport_days_manual',
                             'compensation_days_manual',

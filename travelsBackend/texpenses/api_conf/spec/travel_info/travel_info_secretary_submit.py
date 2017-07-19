@@ -1,6 +1,6 @@
 spec = {'.structarray': {'accommodation_cost': {'.cli_option': {},
                                                 '.drf_field': {'allow_null':
-                                                               False,
+                                                               True,
                                                                'required':
                                                                False},
                                                 '.field': {},
@@ -19,11 +19,11 @@ spec = {'.structarray': {'accommodation_cost': {'.cli_option': {},
                                                                {},
                                                                '.drf_field':
                                                                {'allow_blank':
-                                                                False,
+                                                                True,
                                                                 'allow_null':
-                                                                False,
+                                                                True,
                                                                 'required':
-                                                                True},
+                                                                False},
                                                                '.field': {},
                                                                '.string': {}},
                          'accommodation_payment_way': {'.choices': {},
