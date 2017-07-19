@@ -1061,8 +1061,6 @@ class SecretaryPetitionSubmission(Petition):
     objects = PetitionManager([Petition.SUBMITTED_BY_SECRETARY,
                                Petition.APPROVED_BY_PRESIDENT])
 
-    # excluded_travel_info = ['accommodation_cost',]
-
     class Meta:
         proxy = True
 
