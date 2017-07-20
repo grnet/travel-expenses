@@ -56,7 +56,7 @@ export default {
   'hint_email.label': 'Μια έγκυρη διεύθυνση email',
  	//petition labels
  	'dse.label': 'ΔΣΕ',
- 	'project.label': 'Έργο - Υπεύθυνος Έργου',
+ 	'project.label': 'Έργο',
  	'reason.label': 'Αιτιολογία Μετακίνησης',
  	'departure_point.label': 'Τόπος Αναχώρησης - Από:',
  	'arrival_point.label': 'Τόπος Προορισμού - Προς:',
@@ -155,6 +155,7 @@ export default {
  	'submitted_petitions.tab': 'Υποβεβλημένες Αιτήσεις',
   'help.tab': 'Οδηγίες Χρήσης',
  	'petitions_list.tab': 'Λίστα Αιτήσεων',
+  'manager_petitions_list.tab': 'Λίστα Αιτήσεων προς Έγκριση',
   'statistics.tab': 'Εξαγωγή Στατιστικών',
  	//titles
  	'login.title': 'Είσοδος',

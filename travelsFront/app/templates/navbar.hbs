@@ -37,7 +37,7 @@
             {{/if}}
             {{#if (can "managerApprove petition")}}
               {{#menu-item onClick=(transition-to "petitionList")}}{{t 'my_petitions.tab'}}{{/menu-item}}
-              {{#menu-item onClick=(transition-to "manager-list")}}{{t 'petitions_list.tab'}}{{/menu-item}}
+              {{#menu-item onClick=(transition-to "manager-list")}}{{t 'manager_petitions_list.tab'}}{{/menu-item}}
             {{/if}}
             {{#menu-item onClick=(transition-to "help")}}{{t 'help.tab'}}{{/menu-item}}
         {{/unless}}
