@@ -128,8 +128,8 @@ export default DS.Model.extend({
     'manager': UI_MANAGER
   },
   url: DS.attr(),
-  departure_point: DS.belongsTo('city', {attrs: {required: true, autocomplete: true}}),
-  arrival_point: DS.belongsTo('city', {attrs: {required: true, autocomplete: true}}),
+  departure_point: DS.belongsTo('city', {attrs: {required: true, autocomplete: true, labelKey: 'labelWithCountry'}}),
+  arrival_point: DS.belongsTo('city', {attrs: {required: true, autocomplete: true, labelKey: 'labelWithCountry'}}),
   depart_date: DS.attr('date', {
     attrs: {
       time: true
