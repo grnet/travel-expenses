@@ -411,6 +411,7 @@ class UserCompensationMixin(object):
         petition_id = instance.proceed()
         headers = {'location': reverse(
             self.VIEW_NAMES[instance.status], args=[petition_id])}
+        instance.set_trip_days_left()
         return Response(status=status.HTTP_303_SEE_OTHER, headers=headers)
 
     @detail_route(methods=['post'])
@@ -580,7 +581,6 @@ class SecretaryCompensationMixin(object):
         try:
             if petition.status is ACCEPTED_STATUS:
                 petition.proceed(delete=True)
-                petition.set_trip_days_left()
                 return Response({'message':
                                  'The petition is approved by the president'},
                                 status=status.HTTP_200_OK)

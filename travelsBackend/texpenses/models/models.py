@@ -919,11 +919,15 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     def trip_days_before(self):
         """ Gets the number of trip days of user before petition. """
-        return self.user.trip_days_left
+        return self.user.trip_days_left \
+            if self.status < self.USER_COMPENSATION_SUBMISSION else \
+            self.user.trip_days_left + self.transport_days()
 
     def trip_days_after(self):
         """ Gets the number of trip days of user after petition. """
-        return self.user.trip_days_left - self.transport_days()
+        return self.user.trip_days_left - self.transport_days() \
+            if self.status < self.USER_COMPENSATION_SUBMISSION else \
+            self.user.trip_days_left
 
     def overnights_num(self):
         """ Gets the number of total overnight days for all destinations. """
