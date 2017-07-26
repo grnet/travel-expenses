@@ -80,6 +80,102 @@ PERMISSION_RULES = [
     ('users', 'retrieve', 'VIEWER', '*', '*', '*'),
     ('users', 'retrieve', 'PRESIDENT_SECRETARY', '*', '*', '*'),
 
+#==============================================================================
+    ('applications', 'create', 'USER', '*', '*', '*'),
+    ('applications', 'list', 'USER', '*', '*', '*'),
+    ('applications', 'retrieve', 'USER', '*', '*', '*'),
+    ('applications', 'destroy', 'USER', '*', 'usersaved', '*'),
+    ('applications', 'submit', 'USER', '*', 'usersaved', '*'),
+    ('applications', 'cancel', 'USER', '*', 'usersubmitted', '*'),
+    ('applications', 'update', 'USER', 'project', 'usersaved', '*'),
+    ('applications', 'update', 'USER', 'reason', 'usersaved', '*'),
+    ('applications', 'update', 'USER', 'task_start_date', 'usersaved', '*'),
+    ('applications', 'update', 'USER', 'task_end_date', 'usersaved', '*'),
+    ('applications', 'update', 'USER', 'participation_cost', 'usersaved', '*'),
+    ('applications', 'update', 'USER', 'user_recommendation', 'usersaved', '*'),
+    ('applications', 'update', 'USER', 'travel_info/departure_point',
+     'usersaved', '*'),
+    ('applications', 'update', 'USER', 'travel_info/arrival_point',
+     'usersaved', '*'),
+    ('applications', 'update', 'USER', 'travel_info/depart_date',
+     'usersaved', '*'),
+    ('applications', 'update', 'USER', 'travel_info/arrival_date',
+     'usersaved', '*'),
+
+    ('applications', 'create', 'MANAGER', '*', '*', '*'),
+    ('applications', 'list', 'MANAGER', '*', '*', '*'),
+    ('applications', 'retrieve', 'MANAGER', '*', '*', '*'),
+    ('applications', 'destroy', 'MANAGER', '*', 'usersaved', '*'),
+    ('applications', 'submit', 'MANAGER', '*', 'usersaved', '*'),
+    ('applications', 'cancel', 'MANAGER', '*', 'usersubmitted', '*'),
+    ('applications', 'update', 'MANAGER', 'project', 'usersaved', '*'),
+    ('applications', 'update', 'MANAGER', 'reason', 'usersaved', '*'),
+    ('applications', 'update', 'MANAGER', 'task_start_date', 'usersaved', '*'),
+    ('applications', 'update', 'MANAGER', 'task_end_date', 'usersaved', '*'),
+    ('applications', 'update', 'MANAGER', 'participation_cost', 'usersaved',
+     '*'),
+    ('applications', 'update', 'MANAGER', 'user_recommendation', 'usersaved',
+     '*'),
+    ('applications', 'update', 'MANAGER', 'travel_info/departure_point',
+     'usersaved', '*'),
+    ('applications', 'update', 'MANAGER', 'travel_info/arrival_point',
+     'usersaved', '*'),
+    ('applications', 'update', 'MANAGER', 'travel_info/depart_date',
+     'usersaved', '*'),
+    ('applications', 'update', 'MANAGER', 'travel_info/arrival_date',
+     'usersaved', '*'),
+
+    ('applications', 'create', 'ADMIN', '*', '*', '*'),
+    ('applications', 'list', 'ADMIN', '*', '*', '*'),
+    ('applications', 'retrieve', 'ADMIN', '*', '*', '*'),
+    ('applications', 'destroy', 'ADMIN', '*', 'usersaved', '*'),
+    ('applications', 'submit', 'ADMIN', '*', 'usersaved', '*'),
+    ('applications', 'cancel', 'ADMIN', '*', 'usersubmitted', '*'),
+    ('applications', 'update', 'ADMIN', 'project', 'usersaved', '*'),
+    ('applications', 'update', 'ADMIN', 'reason', 'usersaved', '*'),
+    ('applications', 'update', 'ADMIN', 'task_start_date', 'usersaved', '*'),
+    ('applications', 'update', 'ADMIN', 'task_end_date', 'usersaved', '*'),
+    ('applications', 'update', 'ADMIN', 'participation_cost', 'usersaved',
+     '*'),
+    ('applications', 'update', 'ADMIN', 'user_recommendation', 'usersaved',
+     '*'),
+    ('applications', 'update', 'ADMIN', 'travel_info/departure_point',
+     'usersaved', '*'),
+    ('applications', 'update', 'ADMIN', 'travel_info/arrival_point',
+     'usersaved', '*'),
+    ('applications', 'update', 'ADMIN', 'travel_info/depart_date',
+     'usersaved', '*'),
+    ('applications', 'update', 'ADMIN', 'travel_info/arrival_date',
+     'usersaved', '*'),
+#==============================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     ('petition-user-saved', 'create', 'USER', '*', '*', '*'),
     ('petition-user-saved', 'list', 'USER', '*', '*', '*'),
     ('petition-user-saved', 'retrieve', 'USER', '*', '*', '*'),

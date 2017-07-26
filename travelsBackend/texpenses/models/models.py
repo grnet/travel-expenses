@@ -872,6 +872,18 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
 
     @classmethod
+    def check_resource_state_usersaved(cls, obj, row, request, view):
+        return obj.status == cls.SAVED_BY_USER
+
+    @classmethod
+    def check_resource_state_usersubmitted(cls, obj, row, request, view):
+        return obj.status == cls.SUBMITTED_BY_USER
+
+    @classmethod
+    def check_resource_state_secretarysaved(cls, obj, row, request, view):
+        return obj.status == cls.SAVED_BY_SECRETARY
+
+    @classmethod
     def check_resource_state_secretarysubmitted(cls, obj, row, request, view):
         return obj.status == cls.SUBMITTED_BY_SECRETARY
 
@@ -880,8 +892,19 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         return obj.status == cls.APPROVED_BY_PRESIDENT
 
     @classmethod
-    def check_resource_state_usercompensation(cls, obj, row, request, view):
+    def check_resource_state_usercompensationsaved(cls, obj, row, request,
+                                                   view):
         return obj.status == cls.USER_COMPENSATION
+
+    @classmethod
+    def check_resource_state_usercompensationsubmitted(cls, obj, row, request,
+                                                       view):
+        return obj.stats == cls.USER_COMPENSATION_SUBMISSION
+
+    @classmethod
+    def check_resource_state_secretarycompensationsaved(cls, obj, row,
+                                                        request, view):
+        return obj.status == cls.SECRETARY_COMPENSATION
 
     @classmethod
     def check_resource_state_secretarycompensationsubmitted(cls, obj, row,
@@ -1065,8 +1088,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         related objects have been initialized.
         """
         missing_fields = []
-        petition_missing_fields = get_model_missing_fields(
-            self, excluded=getattr(self, 'excluded', []))
+        excluded = self.excluded_per_status.get(self.status, [])
+        petition_missing_fields = get_model_missing_fields(self, excluded)
         missing_fields.extend(petition_missing_fields)
 
         travel_info = self.travel_info.all()
@@ -1074,9 +1097,10 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         if travel_info:
             for travel_obj in travel_info:
                 travel_info_missing_fields = []
+                travel_info_excluded = \
+                    self.excluded_ti_per_status.get(self.status,[])
                 travel_info_missing_fields.extend(get_model_missing_fields(
-                    travel_obj,
-                    excluded=getattr(self, 'excluded_travel_info', [])))
+                    travel_obj,travel_info_excluded))
                 missing_fields.extend(travel_info_missing_fields)
 
         return missing_fields
@@ -1257,6 +1281,147 @@ class PetitionManager(md.Manager):
         return base_queryset.filter(q) if status_dse_map else \
             base_queryset.filter(status__in=self.status_list, deleted=False)
 
+class Applications(Petition):
+    objects = PetitionManager([Petition.SAVED_BY_USER,
+                               Petition.SUBMITTED_BY_USER,
+                               Petition.SAVED_BY_SECRETARY,
+                               Petition.SUBMITTED_BY_SECRETARY,
+                               Petition.APPROVED_BY_PRESIDENT,
+                               Petition.USER_COMPENSATION,
+                               Petition.USER_COMPENSATION_SUBMISSION,
+                               Petition.SECRETARY_COMPENSATION,
+                               Petition.SECRETARY_COMPENSATION_SUBMISSION,
+                               Petition.PETITION_FINAL_APPOVAL])
+
+    excluded_ucompensation = ['non_grnet_quota', 'participation_cost',
+                'compensation_petition_protocol', 'user_recommendation',
+                'secretary_recommendation', 'compensation_petition_date',
+                'compensation_decision_protocol', 'compensation_decision_date',
+                'participation_payment_description', 'deleted',
+                'participation_local_cost', 'compensation_alert',
+                'additional_expenses_initial',
+                'additional_expenses_initial_description',
+                'additional_expenses', 'additional_expenses_description',
+                'manager_cost_approval', 'manager_movement_approval',
+                'compensation_alert','timesheeted']
+    excluded_uc_travel_info = ['accommodation_local_cost',
+                               'accommodation_cost',
+                               'accommodation_payment_description',
+                               'overnights_num_manual',
+                               'transport_days_manual',
+                               'compensation_days_manual',
+                               'distance']
+
+    excluded_scompensation = ['non_grnet_quota', 'participation_cost',
+                'participation_payment_description', 'deleted', 'travel_files',
+                'participation_local_cost', 'additional_expenses_initial',
+                'additional_expenses_initial_description',
+                'additional_expenses', 'additional_expenses_description',
+                'user_recommendation', 'compensation_alert',
+                'secretary_recommendation', 'manager_cost_approval',
+                'manager_movement_approval','timesheeted']
+    excluded_sc_travel_info = ['accommodation_local_cost',
+                            'accommodation_cost',
+                            'accommodation_payment_description',
+                            'overnights_num_manual',
+                            'transport_days_manual',
+                            'compensation_days_manual',
+                            'distance']
+
+    excluded_usubmission = ['non_grnet_quota','expenditure_protocol',
+                            'expenditure_date_protocol',
+                            'movement_protocol',
+                            'movement_date_protocol',
+                            'compensation_petition_protocol',
+                            'compensation_petition_date',
+                            'compensation_decision_protocol',
+                            'compensation_decision_date',
+                            'manager_movement_approval',
+                            'manager_cost_approval',
+                            'timesheeted',
+                            'participation_cost',
+                            'participation_local_cost',
+                            'participation_payment_description',
+                            'additional_expenses_initial',
+                            'additional_expenses_initial_description',
+                            'additional_expenses',
+                            'additional_expenses_description',
+                            'deleted',
+                            'user_recommendation',
+                            'secretary_recommendation',
+                            'travel_report',
+                            'compensation_alert',
+                            'travel_files',
+                            'accommodation_cost',
+                            'accommodation_local_cost',
+                            'accommodation_payment_description',
+                            'transportation_cost',
+                            'transportation_payment_description',
+                            'distance']
+    excluded_usubmission_ti = ['accommodation_cost',
+                               'accommodation_local_cost',
+                               'accommodation_payment_description',
+                               'transportation_cost',
+                               'transportation_payment_description',
+                               'distance']
+
+
+    excluded_per_status = {
+        Petition.SAVED_BY_USER:excluded_usubmission,
+        Petition.APPROVED_BY_PRESIDENT:excluded_ucompensation,
+        Petition.USER_COMPENSATION:excluded_ucompensation,
+        Petition.USER_COMPENSATION_SUBMISSION:excluded_ucompensation,
+        Petition.SECRETARY_COMPENSATION:excluded_scompensation,
+        Petition.SECRETARY_COMPENSATION_SUBMISSION:excluded_scompensation,
+        Petition.PETITION_FINAL_APPOVAL:excluded_scompensation
+    }
+    excluded_ti_per_status = {
+        Petition.SAVED_BY_USER:excluded_usubmission_ti,
+        Petition.APPROVED_BY_PRESIDENT:excluded_uc_travel_info,
+        Petition.USER_COMPENSATION:excluded_uc_travel_info,
+        Petition.USER_COMPENSATION_SUBMISSION:excluded_uc_travel_info,
+        Petition.SECRETARY_COMPENSATION:excluded_sc_travel_info,
+        Petition.SECRETARY_COMPENSATION_SUBMISSION:excluded_sc_travel_info,
+        Petition.PETITION_FINAL_APPOVAL:excluded_sc_travel_info
+    }
+
+    class Meta:
+        proxy = True
+
+    def clean(self):
+        """
+        Overrides `clean` method and checks if specified dates are valid.
+        """
+        super(Applications, self).clean()
+        if self.task_start_date and self.task_end_date:
+            start_end_date_validator(
+                ((self.task_start_date, self.task_end_date),),
+                (('task start', 'task end'),))
+            date_validator('Task start', self.task_start_date)
+            date_validator('Task end', self.task_end_date)
+
+    def save(self, **kwargs):
+        # Remove temporary saved petition with the corresponding dse.
+
+        if self.status in (Petition.SUBMITTED_BY_USER,
+                           Petition.SUBMITTED_BY_SECRETARY):
+            try:
+                Applications.objects.get(status=self.status-1,
+                                         dse=self.dse).delete()
+            except ObjectDoesNotExist:
+                pass
+
+        super(Applications, self).save(**kwargs)
+
+    def status_rollback(self):
+        """
+        Changes status of the petition to the previous one by marking current
+        as deleted and creating new one to the corresponding status.
+        """
+
+        if self.status in (Petition.SUBMITTED_BY_USER,
+                           Petition.SUBMITTED_BY_SECRETARY):
+            return self.status_transition(self.status-1)
 
 class UserPetition(Petition):
 

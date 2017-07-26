@@ -26,6 +26,7 @@ class PetitionMixin(object):
         except Petition.DoesNotExist:
             pass
 
+        validated_data.update({'status': 1})
         self.check_creation_allowed(validated_data)
         travel_info = validated_data.pop('travel_info', [])
         petition = self.Meta.model.objects.create(**validated_data)
@@ -83,6 +84,7 @@ class PetitionMixin(object):
         models and it actually implements the nested serializationf for the
         update of objects.
         """
+
         travel_info = validated_data.pop('travel_info', [])
         for k, v in validated_data.iteritems():
             setattr(instance, k, v)

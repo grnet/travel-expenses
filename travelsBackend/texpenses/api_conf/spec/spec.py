@@ -1,3 +1,5 @@
+from texpenses.api_conf.spec.petitions.applications \
+    import spec as applications
 from texpenses.api_conf.spec.petitions.petition_compensations \
     import spec as petition_user_compensation
 from texpenses.api_conf.spec.petitions.petition_save \
@@ -11,6 +13,8 @@ from texpenses.api_conf.spec.petitions.petition_secretary_submit \
 from texpenses.api_conf.spec.petitions.petition_submit \
     import spec as petition_submit
 
+from texpenses.api_conf.spec.travel_info.travel_info\
+    import spec as travel_info
 from texpenses.api_conf.spec.travel_info.travel_info_compensations\
     import spec as travel_info_compensations
 from texpenses.api_conf.spec.travel_info.travel_info_save\
@@ -33,6 +37,7 @@ spec = {'api': {'.endpoint': {},
                 'petition-user-compensations': {},
                 'petition-user-saved': {},
                 'petition-user-submitted': {},
+                'applications': {},
                 'project': {},
                 'tax-office': {},
                 'users': {}}}

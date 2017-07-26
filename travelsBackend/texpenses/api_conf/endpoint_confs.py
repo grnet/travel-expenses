@@ -9,11 +9,13 @@ from texpenses.models import common
 from texpenses.permissions.permission_rules import PERMISSION_RULES
 from texpenses.api_conf.spec.spec import (countries_conf, city_conf, user_conf,
                                           tax_office_conf, project_conf,
-                                          petition_save, petition_submit,
+                                          petition_save, applications,
+                                          petition_submit,
                                           petition_secretary_save,
                                           petition_secretary_submit,
                                           petition_user_compensation,
                                           petition_secretary_compensation,
+                                          travel_info,
                                           travel_info_save, travel_info_submit,
                                           travel_info_secretary_save,
                                           travel_info_secretary_submit,
@@ -176,6 +178,22 @@ class Configuration(object):
         self._inject_choices_petition_fields(endpoint)
         self.spec['api']['petition-user-saved'] = endpoint
 
+    def ApplicationConfig(self):
+
+        applications['*']['travel_info'] = copy.deepcopy(travel_info)
+        endpoint = copy.deepcopy(applications)
+
+        # endpoint['*']['status']['.drf_field']['default'] =\
+            # Petition.SAVED_BY_USER
+        endpoint['*']['user']['.drf_field']['default'] =\
+            serializers.CurrentUserDefault()
+        endpoint['*']['user']['.drf_field']['validators'] =\
+            [functools.partial(required_validator,
+                               fields=Petition.USER_FIELDS)]
+        self._inject_standard_configuration(endpoint)
+        self._inject_choices_petition_fields(endpoint)
+        self.spec['api']['applications'] = endpoint
+
     def UserPetitionSubmitConfig(self):
         endpoint = self._compose_petition(petition_submit, travel_info_submit)
 
@@ -251,6 +269,7 @@ class Configuration(object):
         self.UsersConfig()
         self.CitiesConfig()
         self.CountriesConfig()
+        self.ApplicationConfig()
         self.UserPetitionConfig()
         self.UserPetitionSubmitConfig()
         self.SecretaryPetitionSaveConfig()
