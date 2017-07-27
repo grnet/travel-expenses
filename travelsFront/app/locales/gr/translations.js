@@ -108,7 +108,7 @@ export default {
   'travel_info.transportation': 'Στοιχεία Ταξιδιού',
   'computed_days.label': 'Ημέρες Μετακίνησης',
   //multiple destinations
-  'travel_info_number.label': 'Προορισμος #',
+  'travel_info_number.label': 'Προορισμός #',
   //computational data labels
   'transport_days_manual.label': 'Ημέρες Μετακίνησης Εργασιών',
   'transport_days_proposed.label': 'Ημέρες Μετακίνησης Εργασιών (προτεινόμενη τιμή)',
