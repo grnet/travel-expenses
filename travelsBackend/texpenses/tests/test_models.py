@@ -3,18 +3,14 @@ from django.core.exceptions import ValidationError, PermissionDenied
 from django.test import TestCase
 from texpenses.models import (
     Country,
-    City, TravelInfo, Petition, UserPetition, Project, UserProfile, TaxOffice,
-    UserPetitionSubmission, SecretaryPetition, SecretaryPetitionSubmission)
+    City, TravelInfo, Petition, UserPetition, Project,Applications,
+    UserProfile, TaxOffice, UserPetitionSubmission, SecretaryPetition,
+    SecretaryPetitionSubmission)
 
 
 class TravelInfoTest(TestCase):
 
     def setUp(self):
-        project = Project.objects.create(name='Test Project',
-                                         accounting_code=1,
-                                         manager_name='Name',
-                                         manager_surname='Surname',
-                                         manager_email='manager@email.com')
 
         tax_office = TaxOffice.objects.create(
             name='test', description='test', address='test',
@@ -25,6 +21,10 @@ class TravelInfoTest(TestCase):
             specialty='1', tax_reg_num=011111111,
             tax_office=tax_office, user_category='A',
             trip_days_left=5)
+
+        project = Project.objects.create(name='Test Project',
+                                         accounting_code=1,
+                                         manager=self.user)
 
         self.travel_petition = Petition(tax_office=tax_office,status=1,
                                         user_category='A', project=project,
@@ -41,12 +41,6 @@ class TravelInfoTest(TestCase):
                                     country=self.departure_country)
         self.departure_point.save()
 
-        # self.travel_obj = TravelInfo(travel_petition=travel_petition,
-                                     # accommodation_cost=0.0,
-                                     # arrival_point=self.arrival_point,
-                                     # departure_point=self.departure_point,
-                                     # meals='NON')
-
         self.travel_obj = TravelInfo(accommodation_cost=0.0,
                                      arrival_point=self.arrival_point,
                                      departure_point=self.departure_point,
@@ -54,10 +48,24 @@ class TravelInfoTest(TestCase):
 
     def test_validate_overnight_cost(self):
         self.travel_obj.validate_overnight_cost(self.travel_petition)
-        self.travel_obj.accommodation_cost = float('inf')
-        self.assertRaises(ValidationError,
-                          self.travel_obj.validate_overnight_cost,
-                          self.travel_petition)
+        import copy
+        petition = copy.deepcopy(self.travel_petition)
+
+        task_start_date= datetime(2012,9,16)
+        task_end_date= datetime(2012,9,16)
+        return_date= datetime(2012,9,16)
+        depart_date= datetime(2012,9,16)
+
+        petition.task_start_date = task_start_date
+        petition.task_end_date = task_end_date
+        travel_info = copy.deepcopy(self.travel_obj)
+
+        travel_info.depart_date = depart_date
+        travel_info.return_date = return_date
+
+        travel_info.accommodation_cost = float('inf')
+        self.assertRaises(ValidationError,travel_info.validate_overnight_cost,
+                          petition)
 
     def test_transport_days_proposed(self):
         date = datetime.now()
@@ -194,10 +202,7 @@ class PetitionTest(TestCase):
             name='Athens', country=Country.objects.create(name='Greece'))
         self.project = Project.objects.create(name='Test Project',
                                               accounting_code=1,
-                                              manager_name=self.user.first_name,
-                                              manager_surname=self.user.
-                                              last_name,
-                                              manager_email=self.user.email)
+                                              manager=self.user)
         self.petition = Petition.objects.create(
             task_start_date=self.start_date, task_end_date=self.end_date,
             status=1, user=self.user, project=self.project)
@@ -242,6 +247,8 @@ class PetitionTest(TestCase):
         self.petition.task_start_date = self.start_date
         self.petition.task_end_date = None
         self.assertEqual(self.petition.task_duration(), 0)
+
+
 
     def test_user_petition_manager(self):
         user_petition = UserPetition.objects.create(
@@ -325,3 +332,60 @@ class PetitionTest(TestCase):
         self.assertRaises(
             PermissionDenied,
             petition.status_transition, Petition.SAVED_BY_USER)
+
+    def test_application(self):
+        petition = Applications.objects.create(
+            task_start_date=self.start_date, task_end_date=self.end_date,
+            user=self.user, project=self.project, status=1)
+        self.assertEqual(petition.status, Petition.SAVED_BY_USER)
+
+        petition = Applications.objects.create(
+            task_start_date=self.start_date, task_end_date=self.end_date,
+            user=self.user, project=self.project, status=2)
+        self.assertEqual(petition.status, Petition.SUBMITTED_BY_USER)
+
+        petition = Applications.objects.create(
+            task_start_date=self.start_date, task_end_date=self.end_date,
+            user=self.user, project=self.project, status=3)
+        self.assertEqual(petition.status, Petition.SAVED_BY_SECRETARY)
+
+        petition = Applications.objects.create(
+            task_start_date=self.start_date, task_end_date=self.end_date,
+            user=self.user, project=self.project, status=4)
+        self.assertEqual(petition.status,
+                         Petition.SUBMITTED_BY_SECRETARY)
+
+        petition = Applications.objects.create(
+            task_start_date=self.start_date, task_end_date=self.end_date,
+            user=self.user, project=self.project, status=5)
+        self.assertEqual(petition.status,
+                         Petition.APPROVED_BY_PRESIDENT)
+
+        petition = Applications.objects.create(
+            task_start_date=self.start_date, task_end_date=self.end_date,
+            user=self.user, project=self.project, status=6)
+        self.assertEqual(petition.status,
+                         Petition.USER_COMPENSATION)
+        petition = Applications.objects.create(
+            task_start_date=self.start_date, task_end_date=self.end_date,
+            user=self.user, project=self.project, status=7)
+        self.assertEqual(petition.status,
+                         Petition.USER_COMPENSATION_SUBMISSION)
+
+        petition = Applications.objects.create(
+            task_start_date=self.start_date, task_end_date=self.end_date,
+            user=self.user, project=self.project, status=8)
+        self.assertEqual(petition.status,
+                         Petition.SECRETARY_COMPENSATION)
+
+        petition = Applications.objects.create(
+            task_start_date=self.start_date, task_end_date=self.end_date,
+            user=self.user, project=self.project, status=9)
+        self.assertEqual(petition.status,
+                         Petition.SECRETARY_COMPENSATION_SUBMISSION)
+        petition = Applications.objects.create(
+            task_start_date=self.start_date, task_end_date=self.end_date,
+            user=self.user, project=self.project, status=10)
+        self.assertEqual(petition.status,
+                         Petition.PETITION_FINAL_APPOVAL)
+
