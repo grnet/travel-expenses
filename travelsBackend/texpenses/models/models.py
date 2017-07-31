@@ -108,6 +108,10 @@ class UserProfile(AbstractUser, TravelUserProfile):
     def apimas_roles(self):
         return [self.user_group()]
 
+    @classmethod
+    def check_resource_state_isme(cls, obj, row, request, view):
+        return request.user == obj
+
     def user_group(self):
         groups = self.groups.all()
         # TODO fix this hack.
@@ -876,12 +880,25 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         return obj.status == cls.SAVED_BY_USER
 
     @classmethod
+    def check_resource_state_usersaved_and_belongs(cls, obj, row, request,
+                                                     view):
+        return (obj.status == cls.SAVED_BY_USER) & (request.user == obj.user)
+
+    @classmethod
     def check_resource_state_usersubmitted(cls, obj, row, request, view):
         return obj.status == cls.SUBMITTED_BY_USER
 
     @classmethod
+    def check_resource_state_usersubmitted_notbelongs(cls, obj, row, request,
+                                                      view):
+        return (obj.status >= cls.SUBMITTED_BY_USER and
+                obj.status <cls.SUBMITTED_BY_SECRETARY) and \
+            request.user !=obj.user
+
+    @classmethod
     def check_resource_state_secretarysaved(cls, obj, row, request, view):
-        return obj.status == cls.SAVED_BY_SECRETARY
+        return obj.status == cls.SUBMITTED_BY_USER or \
+            obj.status == cls.SAVED_BY_SECRETARY
 
     @classmethod
     def check_resource_state_secretarysubmitted(cls, obj, row, request, view):
@@ -899,7 +916,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     @classmethod
     def check_resource_state_usercompensationsubmitted(cls, obj, row, request,
                                                        view):
-        return obj.stats == cls.USER_COMPENSATION_SUBMISSION
+        return obj.status == cls.USER_COMPENSATION_SUBMISSION
 
     @classmethod
     def check_resource_state_secretarycompensationsaved(cls, obj, row,
@@ -920,6 +937,10 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     def check_resource_state_presidentcompensationapproved(cls, obj, row,
                                                            request, view):
         return obj.status == cls.PETITION_FINAL_APPOVAL
+
+    @classmethod
+    def check_resource_state_belongs(cls, obj, row, request, view):
+        return request.user == obj.user
 
     def __init__(self, *args, **kwargs):
         super(Petition, self).__init__(*args, **kwargs)
@@ -1363,12 +1384,40 @@ class Applications(Petition):
                                'accommodation_payment_description',
                                'transportation_cost',
                                'transportation_payment_description',
-                               'distance']
+                               'distance', 'overnights_num_manual',
+                               'transport_days_manual']
+
+    excluded_sec_submission =['non_grnet_quota',
+                              'compensation_petition_protocol',
+                              'compensation_petition_date',
+                              'compensation_decision_protocol',
+                              'compensation_decision_date',
+                              'manager_cost_approval',
+                              'timesheeted',
+                              'participation_cost',
+                              'participation_local_cost',
+                              'participation_payment_description',
+                              'additional_expenses_initial',
+                              'additional_expenses_initial_description',
+                              'additional_expenses',
+                              'additional_expenses_description',
+                              'deleted',
+                              'user_recommendation',
+                              'secretary_recommendation',
+                              'travel_report',
+                              'compensation_alert',
+                              'travel_files']
+
+    excluded_sec_submission_ti =['accommodation_local_cost','distance',
+                                 'accommodation_cost',
+                                 'manager_movement_approval',
+                                 'accommodation_payment_description']
 
 
     excluded_per_status = {
         Petition.SAVED_BY_USER:excluded_usubmission,
         Petition.APPROVED_BY_PRESIDENT:excluded_ucompensation,
+        Petition.SAVED_BY_SECRETARY:excluded_sec_submission,
         Petition.USER_COMPENSATION:excluded_ucompensation,
         Petition.USER_COMPENSATION_SUBMISSION:excluded_ucompensation,
         Petition.SECRETARY_COMPENSATION:excluded_scompensation,
@@ -1377,6 +1426,7 @@ class Applications(Petition):
     }
     excluded_ti_per_status = {
         Petition.SAVED_BY_USER:excluded_usubmission_ti,
+        Petition.SAVED_BY_SECRETARY:excluded_sec_submission_ti,
         Petition.APPROVED_BY_PRESIDENT:excluded_uc_travel_info,
         Petition.USER_COMPENSATION:excluded_uc_travel_info,
         Petition.USER_COMPENSATION_SUBMISSION:excluded_uc_travel_info,
