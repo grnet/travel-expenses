@@ -26,7 +26,9 @@ class PetitionMixin(object):
         except Petition.DoesNotExist:
             pass
 
-        validated_data.update({'status': 1})
+        validated_data.update({'status': Petition.SAVED_BY_USER,
+                               'user': self.context['request'].user})
+
         self.check_creation_allowed(validated_data)
         travel_info = validated_data.pop('travel_info', [])
         petition = self.Meta.model.objects.create(**validated_data)

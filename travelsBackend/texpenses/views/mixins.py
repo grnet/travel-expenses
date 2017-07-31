@@ -1,6 +1,7 @@
 from rest_framework import permissions, status
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.conf import settings
 
 from rest_framework.decorators import detail_route, list_route
@@ -10,7 +11,7 @@ from rest_framework.reverse import reverse
 from texpenses.models import Petition, UserPetitionSubmission, UserPetition,\
     SecretaryPetition, SecretaryPetitionSubmission, UserCompensation,\
     SecretaryCompensation, City, Project, Applications
-from texpenses.actions import inform_on_action
+from texpenses.actions import inform_on_action, inform
 from texpenses.views.utils import render_template2pdf, render_template2csv
 from texpenses.views import utils
 
@@ -130,13 +131,25 @@ class ApplicationMixin(object):
 
     @detail_route(methods=['post'])
     @transaction.atomic
-    @inform_on_action('CANCELLATION')
     def cancel(self, request, pk=None):
-        submitted = self.get_object()
+        application = self.get_object()
+        application_status = application.status
         try:
-            petition_id = submitted.status_rollback()
+            application_id = application.status_rollback()
+            if application_status == Petition.SUBMITTED_BY_USER:
+                application_id = application.status_rollback()
+                inform(application, 'CANCELLATION', False, False)
+            if application_status == Petition.USER_COMPENSATION_SUBMISSION:
+                application_id = application.revoke()
+                inform(application, 'USER_COMPENSATION_CANCELLATION',
+                       False, True)
+            if application_status == Petition.SECRETARY_COMPENSATION_SUBMISSION:
+                application_id = application.revoke()
+                inform(application, 'CANCELLATION',
+                       False, True)
+
             headers = {'location': reverse('api_applications-detail',
-                                           args=[petition_id])}
+                                           args=[application_id])}
             return Response(headers=headers, status=status.HTTP_303_SEE_OTHER)
         except PermissionDenied as e:
             return Response({'detail': e.message},
@@ -144,20 +157,218 @@ class ApplicationMixin(object):
 
     @detail_route(methods=['post'])
     @transaction.atomic
-    @inform_on_action('SUBMISSION')
     def submit(self, request, pk=None):
-        instance = self.get_object()
-        petition_id = instance.proceed()
+        application = self.get_object()
+        application_status = application.status
+
+        application_id = application.proceed()
+        if application_status == Petition.SUBMITTED_BY_USER:
+            inform(application, 'SUBMISSION', False, False)
+
+        if application_status == Petition.USER_COMPENSATION:
+            application.set_trip_days_left()
+            inform(application, 'USER_COMPENSATION_SUBMISSION', False, True)
+
         headers = {'location': reverse('api_applications-detail',
-                                       args=[petition_id])}
-        # instance.set_trip_days_left()
+                                       args=[application_id])}
         return Response(status=status.HTTP_303_SEE_OTHER, headers=headers)
+
+    @detail_route(methods=['post'])
+    @transaction.atomic
+    def president_approval(self, request, pk=None):
+
+        application = self.get_object()
+        application_status = application.status
+        ACCEPTED_STATUSES = (Petition.SUBMITTED_BY_SECRETARY,
+                             Petition.SECRETARY_COMPENSATION_SUBMISSION)
+        try:
+            if application_status in ACCEPTED_STATUSES:
+                application.proceed(delete=True)
+
+                if application_status == Petition.SUBMITTED_BY_SECRETARY:
+                    inform(application, 'PETITION_PRESIDENT_APPROVAL', True,
+                           True)
+                if application_status == Petition.\
+                        SECRETARY_COMPENSATION_SUBMISSION:
+                    inform(application, 'COMPENSATION_PRESIDENT_APPROVAL',
+                           True,True)
+
+                return Response({'message':
+                                 'The application is approved by the president'},
+                                status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
+
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
+
+    @detail_route(methods=['get'])
+    def application_report(self, request, pk=None):
+        petition = self.get_object()
+        petition_status = petition.status
+
+        if petition_status == Petition.SUBMITTED_BY_SECRETARY:
+            template_path = "texpenses/movement_petition_application/" +\
+                "movement_petition_application.html"
+            report_name = 'petition_application_report.pdf'
+
+        if petition_status == Petition.USER_COMPENSATION:
+            template_path = "texpenses/movement_petition_application/" +\
+                "movement_petition_application.html"
+            report_name = 'petition_application_report.pdf'
+
+        if petition_status == Petition.SECRETARY_COMPENSATION_SUBMISSION:
+            template_path = "texpenses/movement_compensation_application/" +\
+                "movement_compensation_application.html"
+            report_name = 'compensation_application_report.pdf'
+
+        data = self._extract_info(petition)
+
+        return render_template2pdf(request, data, template_path, report_name)
+
+    @detail_route(methods=['get'])
+    def decision_report(self, request, pk=None):
+        petition = self.get_object()
+        petition_status = petition.status
+
+        if petition_status == Petition.SUBMITTED_BY_SECRETARY:
+            template_path = "texpenses/movement_petition_decision/" +\
+                "movement_petition_decision.html"
+            report_name = 'petition_decision_report.pdf'
+
+        if petition_status == Petition.SECRETARY_COMPENSATION_SUBMISSION:
+            template_path = "texpenses/movement_compensation_decision/" +\
+                "movement_compensation_decision.html"
+            report_name = 'compensation_decision_report.pdf'
+
+        data = self._extract_info(petition)
+        return render_template2pdf(request, data, template_path, report_name)
+
+    def _extract_info(self, petition_object):
+        data = {}
+
+        # user info
+        data.update({'first_name': petition_object.first_name,
+                     'last_name': petition_object.last_name,
+                     'kind': petition_object.get_kind_display(),
+                     'specialty': petition_object.get_specialty_display(),
+                     'iban': petition_object.iban,
+                     'tax_reg_num': petition_object.tax_reg_num
+                     })
+
+        # petition info
+        travel_info_first = petition_object.travel_info.first()
+        travel_info_last = petition_object.travel_info.last()
+
+        if petition_object.status in (Petition.SUBMITTED_BY_SECRETARY,
+                                      Petition.APPROVED_BY_PRESIDENT,
+                                      Petition.USER_COMPENSATION,
+                                      Petition.\
+                                      SECRETARY_COMPENSATION_SUBMISSION):
+            # protocol info
+            data.update(
+                {'dse': petition_object.dse,
+                 'movement_id': petition_object.movement_id,
+                 'movement_date_protocol':
+                 petition_object.movement_date_protocol,
+                 'movement_protocol': petition_object.movement_protocol,
+                 'expenditure_protocol': petition_object.expenditure_protocol,
+                 'expenditure_date_protocol':
+                 petition_object.expenditure_date_protocol,
+                 'compensation_petition_protocol':
+                 petition_object.compensation_petition_protocol,
+                 'compensation_petition_date':
+                 petition_object.compensation_petition_date,
+                 'compensation_decision_protocol':
+                 petition_object.compensation_decision_protocol,
+                 'compensation_decision_date':
+                 petition_object.compensation_decision_date
+                 }
+            )
+            travel_info = petition_object.travel_info.all()
+            data.update({'depart_date': travel_info_first.depart_date,
+                         'return_date': travel_info_last.return_date,
+                         'travel_info': travel_info,
+                         'task_start_date': petition_object.task_start_date,
+                         'task_end_date': petition_object.task_end_date,
+                         'trip_days_before': petition_object.trip_days_before,
+                         'trip_days_after': petition_object.trip_days_after,
+                         'transport_days': petition_object.transport_days,
+                         'overnights_num': petition_object.overnights_num,
+                         'reason': petition_object.reason,
+                         'departure_point': travel_info_first.\
+                         departure_point.name,
+                         'arrival_point': travel_info_last.arrival_point.name,
+                         'means_of_transport': \
+                         utils.get_means_of_transport(travel_info),
+                         'transportation_cost': \
+                         utils.get_transportation_cost(travel_info),
+                         'transportation_default_currency': \
+                         travel_info_first.transportation_default_currency,
+                         'overnights_sum_cost_string': \
+                         utils.get_overnights_sum_cost_string(travel_info),
+                         'overnights_sum_cost':
+                         petition_object.overnights_sum_cost,
+                         'accommodation_default_currency':\
+                         travel_info_first.accommodation_default_currency,
+                         'participation_cost': petition_object.\
+                         participation_cost,
+                         'participation_default_currency': petition_object.
+                         participation_default_currency,
+                         'additional_expenses_initial': petition_object.
+                         additional_expenses_initial,
+                         'additional_expenses_default_currency': \
+                         petition_object.additional_expenses_default_currency,
+                         'total_cost': petition_object.total_cost,
+                         'project': petition_object.project.name,
+                         'compensation_string' :
+                         utils.get_compensation_levels_string(travel_info),
+                         'compensation_cost': \
+                         utils.get_compensation_cost(travel_info),
+                         'additional_expenses':
+                         petition_object.additional_expenses,
+                         'additional_expenses_local_currency':
+                         petition_object.additional_expenses_local_currency,
+                         'compensation_final':\
+                         petition_object.compensation_final
+                         })
+
+        return data
 
     def get_queryset(self):
         non_atomic_requests = permissions.SAFE_METHODS
-        query = Applications.objects.select_related('tax_office', 'user',
-                                                    'project').\
-            filter(user=self.request.user)
+        user = self.request.user
+        query = \
+            Applications.objects.select_related('tax_office',
+                                                'user', 'project').\
+            prefetch_related('travel_info')
+
+        if user.user_group == "USER":
+            query = query.filter(user=self.request.user)
+
+        if user.user_group() == "VIEWER":
+            query = query.filter(status__gte=Petition.SUBMITTED_BY_USER)
+
+        if user.user_group() == "MANAGER":
+            manager_projects = Project.objects.filter(manager=user)
+            query = query.filter(Q(user=self.request.user) |
+                                 (Q(project__in=manager_projects) &
+                                  Q(manager_movement_approval=False) &
+                                  Q(status__gte=Petition.SUBMITTED_BY_USER) &
+                                  Q(status__lt=Petition.SUBMITTED_BY_SECRETARY)))
+
+        if user.user_group() == "SECRETARY":
+            query = query.filter(status__gte=Petition.SUBMITTED_BY_USER,
+                                 status__lte=Petition.APPROVED_BY_PRESIDENT)
+
+        if user.user_group() == "CONTROLLER":
+            query = \
+                query.filter(status__gte=Petition.USER_COMPENSATION_SUBMISSION,
+                             status__lte=Petition.PETITION_FINAL_APPOVAL)
+
+        if user.user_group() == "ADMIN":
+            query = query.all()
+
         if self.request.method in non_atomic_requests:
             return query
         else:
