@@ -183,10 +183,6 @@ class Configuration(object):
         applications['*']['travel_info'] = copy.deepcopy(travel_info)
         endpoint = copy.deepcopy(applications)
 
-        # endpoint['*']['status']['.drf_field']['default'] =\
-            # Petition.SAVED_BY_USER
-        endpoint['*']['user']['.drf_field']['default'] =\
-            serializers.CurrentUserDefault()
         endpoint['*']['user']['.drf_field']['validators'] =\
             [functools.partial(required_validator,
                                fields=Petition.USER_FIELDS)]
