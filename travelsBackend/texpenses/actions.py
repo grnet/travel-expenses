@@ -36,7 +36,7 @@ EMAIL_TEMPLATES = {
                                      " από μετακινούμενο."),
 
     'COMPENSATION_PRESIDENT_APPROVAL': ('compensation_president_approval.txt',
-                                    'Έγκριση αποζημίωσης από τον Πρόεδρο.'),
+                                        'Έγκριση αποζημίωσης από τον Πρόεδρο.'),
     'COMPENSATION_ALERT': ('compensation_alert.txt',
                            'Ενημέρωση σύνταξης αίτησης αποζημίωσης.')
 }
@@ -145,7 +145,7 @@ def compensation_alert():
 
 def pythonize_spec(spec):
 
-    petitions = [spec['api']['petition-user-saved'],\
+    petitions = [spec['api']['petition-user-saved'],
                  spec['api']['petition-user-submitted'],
                  spec['api']['petition-secretary-saved'],
                  spec['api']['petition-secretary-submitted'],
