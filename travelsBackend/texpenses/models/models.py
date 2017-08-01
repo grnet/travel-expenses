@@ -1452,16 +1452,6 @@ class Applications(Petition):
 
         super(Applications, self).save(**kwargs)
 
-    def status_rollback(self):
-        """
-        Changes status of the petition to the previous one by marking current
-        as deleted and creating new one to the corresponding status.
-        """
-
-        if self.status in (Petition.SUBMITTED_BY_USER,
-                           Petition.SUBMITTED_BY_SECRETARY):
-            return self.status_transition(self.status-1)
-
 class UserPetition(Petition):
 
     """ A proxy model for the temporary saved petition by user. """
@@ -1499,13 +1489,6 @@ class UserPetitionSubmission(Petition):
             pass
         super(UserPetitionSubmission, self).save(**kwargs)
 
-    def status_rollback(self):
-        """
-        Changes status of the petition to the previous one by marking current
-        as deleted and creating new one to the corresponding status.
-        """
-        return self.status_transition(self.SAVED_BY_USER)
-
 
 class SecretaryPetition(Petition):
 
@@ -1533,13 +1516,6 @@ class SecretaryPetitionSubmission(Petition):
         except ObjectDoesNotExist:
             pass
         super(SecretaryPetitionSubmission, self).save(**kwargs)
-
-    def status_rollback(self):
-        """
-        Changes status of the petition to the previous one by marking current
-        as deleted and creating new one to the corresponding status.
-        """
-        return self.status_transition(self.SAVED_BY_SECRETARY)
 
 
 class UserCompensation(Petition):
