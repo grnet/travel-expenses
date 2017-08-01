@@ -879,21 +879,10 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     def check_resource_state_usersaved(cls, obj, row, request, view):
         return obj.status == cls.SAVED_BY_USER
 
-    @classmethod
-    def check_resource_state_usersaved_and_belongs(cls, obj, row, request,
-                                                     view):
-        return (obj.status == cls.SAVED_BY_USER) & (request.user == obj.user)
 
     @classmethod
     def check_resource_state_usersubmitted(cls, obj, row, request, view):
         return obj.status == cls.SUBMITTED_BY_USER
-
-    @classmethod
-    def check_resource_state_usersubmitted_notbelongs(cls, obj, row, request,
-                                                      view):
-        return (obj.status >= cls.SUBMITTED_BY_USER and
-                obj.status <cls.SUBMITTED_BY_SECRETARY) and \
-            request.user !=obj.user
 
     @classmethod
     def check_resource_state_secretarysaved(cls, obj, row, request, view):
