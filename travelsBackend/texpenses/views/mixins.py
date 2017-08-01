@@ -135,18 +135,18 @@ class ApplicationMixin(object):
         application = self.get_object()
         application_status = application.status
         try:
-            application_id = application.status_rollback()
-            if application_status == Petition.SUBMITTED_BY_USER:
-                application_id = application.status_rollback()
-                inform(application, 'CANCELLATION', False, False)
-            if application_status == Petition.USER_COMPENSATION_SUBMISSION:
-                application_id = application.revoke()
-                inform(application, 'USER_COMPENSATION_CANCELLATION',
-                       False, True)
-            if application_status == Petition.SECRETARY_COMPENSATION_SUBMISSION:
-                application_id = application.revoke()
-                inform(application, 'CANCELLATION',
-                       False, True)
+            application_id = application.revoke()
+
+            per_status_email_confs = {
+                Petition.SUBMITTED_BY_USER: [
+                    application, 'CANCELLATION', False, False],
+                Petition.USER_COMPENSATION_SUBMISSION: [
+                    application, 'USER_COMPENSATION_CANCELLATION', False, True],
+                Petition.SECRETARY_COMPENSATION_SUBMISSION: [
+                    application, 'CANCELLATION', False, True],
+            }
+            args = per_status_email_confs[application_status]
+            inform(*args)
 
             headers = {'location': reverse('api_applications-detail',
                                            args=[application_id])}
@@ -162,12 +162,18 @@ class ApplicationMixin(object):
         application_status = application.status
 
         application_id = application.proceed()
-        if application_status == Petition.SUBMITTED_BY_USER:
-            inform(application, 'SUBMISSION', False, False)
 
         if application_status == Petition.USER_COMPENSATION:
             application.set_trip_days_left()
-            inform(application, 'USER_COMPENSATION_SUBMISSION', False, True)
+
+        per_status_email_confs = {
+            Petition.SUBMITTED_BY_USER: [
+                application, 'SUBMISSION', False, False],
+            Petition.USER_COMPENSATION: [
+                application, 'USER_COMPENSATION_SUBMISSION', False, True]
+        }
+        args = per_status_email_confs[application_status]
+        inform(*args)
 
         headers = {'location': reverse('api_applications-detail',
                                        args=[application_id])}
@@ -185,17 +191,20 @@ class ApplicationMixin(object):
             if application_status in ACCEPTED_STATUSES:
                 application.proceed(delete=True)
 
-                if application_status == Petition.SUBMITTED_BY_SECRETARY:
-                    inform(application, 'PETITION_PRESIDENT_APPROVAL', True,
-                           True)
-                if application_status == Petition.\
-                        SECRETARY_COMPENSATION_SUBMISSION:
-                    inform(application, 'COMPENSATION_PRESIDENT_APPROVAL',
-                           True,True)
+                per_status_email_confs = {
+                    Petition.SUBMITTED_BY_SECRETARY: [
+                        application, 'PETITION_PRESIDENT_APPROVAL', True, True],
+                    Petition.SECRETARY_COMPENSATION_SUBMISSION: [
+                        application, 'COMPENSATION_PRESIDENT_APPROVAL',
+                        True, True]
+                }
+                args = per_status_email_confs[application_status]
 
-                return Response({'message':
-                                 'The application is approved by the president'},
-                                status=status.HTTP_200_OK)
+                inform(*args)
+
+                return Response(
+                    {'message': 'The application is approved by the president'},
+                    status=status.HTTP_200_OK)
             return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
 
         except PermissionDenied as e:
@@ -207,21 +216,25 @@ class ApplicationMixin(object):
         petition = self.get_object()
         petition_status = petition.status
 
-        if petition_status == Petition.SUBMITTED_BY_SECRETARY:
-            template_path = "texpenses/movement_petition_application/" +\
-                "movement_petition_application.html"
-            report_name = 'petition_application_report.pdf'
 
-        if petition_status == Petition.USER_COMPENSATION:
-            template_path = "texpenses/movement_petition_application/" +\
-                "movement_petition_application.html"
-            report_name = 'petition_application_report.pdf'
+        template_info = {
+            Petition.SUBMITTED_BY_SECRETARY: {
+                'template_path': "texpenses/movement_petition_application/"+\
+                "movement_petition_application.html",
+                'report_name': 'petition_application_report.pdf'},
 
-        if petition_status == Petition.SECRETARY_COMPENSATION_SUBMISSION:
-            template_path = "texpenses/movement_compensation_application/" +\
-                "movement_compensation_application.html"
-            report_name = 'compensation_application_report.pdf'
+            Petition.SECRETARY_COMPENSATION_SUBMISSION: {
+                'template_path': "texpenses/movement_compensation_application/"+\
+                "movement_compensation_application.html",
+                'report_name': 'compensation_application_report.pdf'},
 
+            Petition.USER_COMPENSATION: {
+                'template_path': "texpenses/movement_petition_application/"+\
+                "movement_petition_application.html",
+                'report_name': 'petition_application_report.pdf'}
+        }
+
+        template_path, report_name = template_info[petition_status]
         data = self._extract_info(petition)
 
         return render_template2pdf(request, data, template_path, report_name)
@@ -231,15 +244,20 @@ class ApplicationMixin(object):
         petition = self.get_object()
         petition_status = petition.status
 
-        if petition_status == Petition.SUBMITTED_BY_SECRETARY:
-            template_path = "texpenses/movement_petition_decision/" +\
-                "movement_petition_decision.html"
-            report_name = 'petition_decision_report.pdf'
+        template_info = {
+            Petition.SUBMITTED_BY_SECRETARY: {
+                'template_path': "texpenses/movement_petition_decision/"+\
+                "movement_petition_decision.html",
+                'report_name': 'petition_decision_report.pdf'},
 
-        if petition_status == Petition.SECRETARY_COMPENSATION_SUBMISSION:
-            template_path = "texpenses/movement_compensation_decision/" +\
-                "movement_compensation_decision.html"
-            report_name = 'compensation_decision_report.pdf'
+            Petition.SECRETARY_COMPENSATION_SUBMISSION: {
+                'template_path': "texpenses/movement_compensation_decision/"+\
+                "movement_compensation_decision.html",
+                'report_name': 'compensation_decision_report.pdf'}
+        }
+
+        template_path, report_name = template_info[petition_status]
+
 
         data = self._extract_info(petition)
         return render_template2pdf(request, data, template_path, report_name)
@@ -263,7 +281,7 @@ class ApplicationMixin(object):
         if petition_object.status in (Petition.SUBMITTED_BY_SECRETARY,
                                       Petition.APPROVED_BY_PRESIDENT,
                                       Petition.USER_COMPENSATION,
-                                      Petition.\
+                                      Petition.
                                       SECRETARY_COMPENSATION_SUBMISSION):
             # protocol info
             data.update(
@@ -296,40 +314,40 @@ class ApplicationMixin(object):
                          'transport_days': petition_object.transport_days,
                          'overnights_num': petition_object.overnights_num,
                          'reason': petition_object.reason,
-                         'departure_point': travel_info_first.\
+                         'departure_point': travel_info_first.
                          departure_point.name,
                          'arrival_point': travel_info_last.arrival_point.name,
-                         'means_of_transport': \
+                         'means_of_transport':
                          utils.get_means_of_transport(travel_info),
-                         'transportation_cost': \
+                         'transportation_cost':
                          utils.get_transportation_cost(travel_info),
-                         'transportation_default_currency': \
+                         'transportation_default_currency':
                          travel_info_first.transportation_default_currency,
-                         'overnights_sum_cost_string': \
+                         'overnights_sum_cost_string':
                          utils.get_overnights_sum_cost_string(travel_info),
                          'overnights_sum_cost':
                          petition_object.overnights_sum_cost,
-                         'accommodation_default_currency':\
+                         'accommodation_default_currency':
                          travel_info_first.accommodation_default_currency,
-                         'participation_cost': petition_object.\
+                         'participation_cost': petition_object.
                          participation_cost,
                          'participation_default_currency': petition_object.
                          participation_default_currency,
                          'additional_expenses_initial': petition_object.
                          additional_expenses_initial,
-                         'additional_expenses_default_currency': \
+                         'additional_expenses_default_currency':
                          petition_object.additional_expenses_default_currency,
                          'total_cost': petition_object.total_cost,
                          'project': petition_object.project.name,
                          'compensation_string' :
                          utils.get_compensation_levels_string(travel_info),
-                         'compensation_cost': \
+                         'compensation_cost':
                          utils.get_compensation_cost(travel_info),
                          'additional_expenses':
                          petition_object.additional_expenses,
                          'additional_expenses_local_currency':
                          petition_object.additional_expenses_local_currency,
-                         'compensation_final':\
+                         'compensation_final':
                          petition_object.compensation_final
                          })
 
@@ -338,9 +356,8 @@ class ApplicationMixin(object):
     def get_queryset(self):
         non_atomic_requests = permissions.SAFE_METHODS
         user = self.request.user
-        query = \
-            Applications.objects.select_related('tax_office',
-                                                'user', 'project').\
+        query = Applications.objects.select_related('tax_office',
+                                                    'user', 'project').\
             prefetch_related('travel_info')
 
         if user.user_group == "USER":
@@ -404,7 +421,7 @@ class UserPetitionSubmissionMixin(object):
     def cancel(self, request, pk=None):
         submitted = self.get_object()
         try:
-            petition_id = submitted.status_rollback()
+            petition_id = submitted.revoke()
             headers = {'location': reverse('api_petition-user-saved-detail',
                                            args=[petition_id])}
             return Response(headers=headers, status=status.HTTP_303_SEE_OTHER)
@@ -524,7 +541,7 @@ class SecretaryPetitionSubmissionMixin(object):
     def cancel(self, request, pk=None):
         submitted = self.get_object()
         try:
-            petition_id = submitted.status_rollback()
+            petition_id = submitted.revoke()
             headers = {'location': reverse(
                 'api_petition-secretary-saved-detail',
                 args=[petition_id])}
