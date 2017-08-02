@@ -356,9 +356,8 @@ class ApplicationMixin(object):
     def get_queryset(self):
         non_atomic_requests = permissions.SAFE_METHODS
         user = self.request.user
-        query = Applications.objects.select_related('tax_office',
-                                                    'user', 'project').\
-            prefetch_related('travel_info')
+        query = Applications.objects.select_related(
+            'tax_office', 'user', 'project').prefetch_related('travel_info')
 
         if user.user_group == "USER":
             query = query.filter(user=self.request.user)

@@ -1,31 +1,32 @@
 from texpenses.api_conf.spec.petitions.applications import spec as applications
-from texpenses.api_conf.spec.petitions.petition_compensations (
-    import spec as petition_user_compensation)
-from texpenses.api_conf.spec.petitions.petition_save (
-    import spec as petition_save)
-from texpenses.api_conf.spec.petitions.petition_secretary_compensations (
-    import spec as petition_secretary_compensation)
-from texpenses.api_conf.spec.petitions.petition_secretary_save (
-    import spec as petition_secretary_save)
-from texpenses.api_conf.spec.petitions.petition_secretary_submit (
-    import spec as petition_secretary_submit)
-from texpenses.api_conf.spec.petitions.petition_submit (
-    import spec as petition_submit)
+from texpenses.api_conf.spec.petitions.petition_compensations import (
+    spec as petition_user_compensation)
+from texpenses.api_conf.spec.petitions.petition_save import (
+    spec as petition_save)
+from texpenses.api_conf.spec.petitions.petition_secretary_compensations import (
+    spec as petition_secretary_compensation)
+from texpenses.api_conf.spec.petitions.petition_secretary_save import (
+    spec as petition_secretary_save)
+from texpenses.api_conf.spec.petitions.petition_secretary_submit import (
+    spec as petition_secretary_submit)
+from texpenses.api_conf.spec.petitions.petition_submit import (
+    spec as petition_submit)
 
-from texpenses.api_conf.spec.travel_info.travel_info (
-    import spec as travel_info)
-from texpenses.api_conf.spec.travel_info.travel_info_compensations (
-    import spec as travel_info_compensations)
-from texpenses.api_conf.spec.travel_info.travel_info_save (
-    import spec as travel_info_save)
-from texpenses.api_conf.spec.travel_info.travel_info_submit (
-    import spec as travel_info_submit)
-from texpenses.api_conf.spec.travel_info.travel_info_secretary_save (
-    import spec as travel_info_secretary_save)
-from texpenses.api_conf.spec.travel_info.travel_info_secretary_submit (
-    import spec as travel_info_secretary_submit)
-from texpenses.api_conf.spec.travel_info.travel_info_secretary_compensations (
-    import spec as travel_info_secretary_compensations)
+from texpenses.api_conf.spec.travel_info.travel_info import (
+    spec as travel_info)
+from texpenses.api_conf.spec.travel_info.travel_info_compensations import (
+    spec as travel_info_compensations)
+from texpenses.api_conf.spec.travel_info.travel_info_save import (
+    spec as travel_info_save)
+from texpenses.api_conf.spec.travel_info.travel_info_submit import (
+    spec as travel_info_submit)
+from texpenses.api_conf.spec.travel_info.travel_info_secretary_save import (
+    spec as travel_info_secretary_save)
+from texpenses.api_conf.spec.travel_info.travel_info_secretary_submit import (
+    spec as travel_info_secretary_submit)
+from texpenses.api_conf.spec.\
+    travel_info.travel_info_secretary_compensations import (
+        spec as travel_info_secretary_compensations)
 
 spec = {'api': {'.endpoint': {},
                 'city': {},
