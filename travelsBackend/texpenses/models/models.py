@@ -312,11 +312,9 @@ class TravelInfo(Accommodation, Transportation):
 
     def _set_travel_manual_fields(self):
 
-        overnight_days = self.overnights_num_proposed()
         self.transport_days_manual = self.transport_days_proposed()
-        self.overnights_num_manual = overnight_days
-        self.compensation_days_manual = overnight_days if overnight_days > 0 \
-            else 1
+        self.overnights_num_manual = self.overnights_num_proposed()
+        self.compensation_days_manual = self.compensation_days_proposed()
 
     def _set_travel_manual_field_defaults(self):
 
@@ -356,7 +354,6 @@ class TravelInfo(Accommodation, Transportation):
                    for field in self.tracked_means_of_tranport_fields)
 
     def save(self, *args, **kwargs):
-
         new_object = kwargs.pop('new_object', False)
 
         changed = any(self.tracker.has_changed(field)
@@ -383,7 +380,7 @@ class TravelInfo(Accommodation, Transportation):
                     MEANS_OF_TRANSPORT_DISTANCE_FACTOR[self.means_of_transport]
                 self.transportation_cost = 2 * distance_factor * self.distance
 
-        self._set_travel_manual_fields()
+        self._set_travel_manual_field_defaults()
         super(TravelInfo, self).save(*args, **kwargs)
 
     def validate_overnight_cost(self, petition):
@@ -462,12 +459,13 @@ class TravelInfo(Accommodation, Transportation):
 
         :returns: Proposed transport_days.
         """
+
         WEEKENDS = [5, 6]
         if self.depart_date is None or self.return_date is None:
             return 0
-        time_period = (self.depart_date + timedelta(x + 1)
+        time_period = (self.depart_date + timedelta(x)
                        for x in xrange((
-                           self.return_date - self.depart_date).days))
+                           self.return_date - self.depart_date).days + 1))
         return sum(1 for day in time_period if day.weekday() not in WEEKENDS)
 
     def overnights_num_proposed(self, task_start_date=None, task_end_date=None):
@@ -550,11 +548,30 @@ class TravelInfo(Accommodation, Transportation):
             == task_start_date.date() == self.depart_date.date()
 
     def compensation_days_proposed(self):
-        calculated_compensation = \
-            self.overnights_num_proposed()
-        calculated_compensation = 1 if calculated_compensation == 0 else \
-            calculated_compensation
-        return calculated_compensation
+        """
+        A method that calculates compensation days in case no related value is
+        inserted by secretary
+
+        Algorithm description:
+
+            [task_end_date] - [task_start_date] + 1
+            +1 if { [depart_date] < [task_start_date] }
+        """
+
+        task_start_date = self.travel_petition.task_start_date
+        task_end_date = self.travel_petition.task_end_date
+
+        if not (self.depart_date and task_start_date and task_end_date):
+            return 0
+
+        task_duration_in_days = (task_end_date - task_start_date).days
+        compensation_days = task_duration_in_days + 1
+
+        trip_duration_in_days = (task_end_date - self.depart_date).days
+
+        return compensation_days + 1 if trip_duration_in_days > (
+            task_duration_in_days) else compensation_days
+
 
     def compensation_cost(self):
         """Calculates the compensation based on compensation days,
