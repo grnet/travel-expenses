@@ -359,7 +359,7 @@ class ApplicationMixin(object):
         query = Applications.objects.select_related(
             'tax_office', 'user', 'project').prefetch_related('travel_info')
 
-        if user.user_group == "USER":
+        if user.user_group() == "USER":
             query = query.filter(user=self.request.user)
 
         if user.user_group() == "VIEWER":
