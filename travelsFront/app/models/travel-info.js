@@ -102,9 +102,8 @@ let READONLY_FIELDS = [
   'same_day_return_task',
   'compensation_level',
   'overnight_cost',
-  'compensation_days_manual',
+  'overnights_num_proposed',
   'compensation_days_proposed',
-  'transport_days_manual',
   'transport_days_proposed'
 ];
 
