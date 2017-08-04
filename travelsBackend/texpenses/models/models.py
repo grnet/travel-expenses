@@ -1313,10 +1313,14 @@ class Applications(Petition):
                 'additional_expenses_initial_description',
                 'additional_expenses', 'additional_expenses_description',
                 'manager_cost_approval', 'manager_movement_approval',
-                'compensation_alert','timesheeted']
+                'compensation_alert','timesheeted',
+                              'participation_local_currency',
+                              'expenditure_date_protocol',
+                              'expenditure_protocol']
     excluded_uc_travel_info = ['accommodation_local_cost',
                                'accommodation_cost',
                                'accommodation_payment_description',
+                               'accommodation_local_currency',
                                'overnights_num_manual',
                                'transport_days_manual',
                                'compensation_days_manual',
@@ -1329,10 +1333,12 @@ class Applications(Petition):
                 'additional_expenses', 'additional_expenses_description',
                 'user_recommendation', 'compensation_alert',
                 'secretary_recommendation', 'manager_cost_approval',
-                'manager_movement_approval','timesheeted']
+                'manager_movement_approval','timesheeted',
+                              'participation_local_currency']
     excluded_sc_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
                             'accommodation_payment_description',
+                            'accommodation_local_currency',
                             'overnights_num_manual',
                             'transport_days_manual',
                             'compensation_days_manual',
@@ -1350,6 +1356,7 @@ class Applications(Petition):
                             'manager_cost_approval',
                             'timesheeted',
                             'participation_cost',
+                            'participation_local_currency',
                             'participation_local_cost',
                             'participation_payment_description',
                             'additional_expenses_initial',
@@ -1374,7 +1381,8 @@ class Applications(Petition):
                                'transportation_cost',
                                'transportation_payment_description',
                                'distance', 'overnights_num_manual',
-                               'transport_days_manual']
+                               'transport_days_manual',
+                               'accommodation_local_currency']
 
     excluded_sec_submission =['non_grnet_quota',
                               'compensation_petition_protocol',
@@ -1395,12 +1403,16 @@ class Applications(Petition):
                               'secretary_recommendation',
                               'travel_report',
                               'compensation_alert',
-                              'travel_files']
+                              'travel_files',
+                              'manager_movement_approval',
+                              'participation_local_currency']
 
     excluded_sec_submission_ti =['accommodation_local_cost','distance',
                                  'accommodation_cost',
                                  'manager_movement_approval',
-                                 'accommodation_payment_description']
+                                 'accommodation_payment_description',
+                                 'accommodation_local_currency',
+                                 ]
 
 
     excluded_per_status = {

@@ -145,8 +145,10 @@ class ApplicationMixin(object):
                 Petition.SECRETARY_COMPENSATION_SUBMISSION: [
                     application, 'CANCELLATION', False, True],
             }
-            args = per_status_email_confs[application_status]
-            inform(*args)
+            args = per_status_email_confs.get(application_status, None)
+
+            if args:
+                inform(*args)
 
             headers = {'location': reverse('api_applications-detail',
                                            args=[application_id])}
@@ -159,9 +161,9 @@ class ApplicationMixin(object):
     @transaction.atomic
     def submit(self, request, pk=None):
         application = self.get_object()
-        application_status = application.status
 
         application_id = application.proceed()
+        application_status = application.status
 
         if application_status == Petition.USER_COMPENSATION:
             application.set_trip_days_left()
@@ -172,8 +174,10 @@ class ApplicationMixin(object):
             Petition.USER_COMPENSATION: [
                 application, 'USER_COMPENSATION_SUBMISSION', False, True]
         }
-        args = per_status_email_confs[application_status]
-        inform(*args)
+        args = per_status_email_confs.get(application_status, None)
+
+        if args:
+            inform(*args)
 
         headers = {'location': reverse('api_applications-detail',
                                        args=[application_id])}
@@ -231,10 +235,18 @@ class ApplicationMixin(object):
             Petition.USER_COMPENSATION: {
                 'template_path': "texpenses/movement_petition_application/"+\
                 "movement_petition_application.html",
+                'report_name': 'petition_application_report.pdf'},
+
+            Petition.APPROVED_BY_PRESIDENT: {
+                'template_path': "texpenses/movement_petition_application/"+\
+                "movement_petition_application.html",
                 'report_name': 'petition_application_report.pdf'}
         }
 
-        template_path, report_name = template_info[petition_status]
+        template_path, report_name = (
+            template_info[petition_status]['template_path'],
+            template_info[petition_status]['report_name'])
+
         data = self._extract_info(petition)
 
         return render_template2pdf(request, data, template_path, report_name)
@@ -256,7 +268,9 @@ class ApplicationMixin(object):
                 'report_name': 'compensation_decision_report.pdf'}
         }
 
-        template_path, report_name = template_info[petition_status]
+        template_path, report_name = (
+            template_info[petition_status]['template_path'],
+            template_info[petition_status]['report_name'])
 
 
         data = self._extract_info(petition)

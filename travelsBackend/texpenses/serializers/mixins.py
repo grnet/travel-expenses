@@ -87,6 +87,16 @@ class PetitionMixin(object):
         update of objects.
         """
 
+        user = self.context['request'].user
+
+        proceed_status = [
+            ("USER", Petition.APPROVED_BY_PRESIDENT),
+            ("SECRETARY", Petition.SUBMITTED_BY_USER),
+            ("CONTROLLER", Petition.USER_COMPENSATION_SUBMISSION)]
+
+        if (user.user_group(), instance.status) in proceed_status:
+            instance.proceed()
+
         travel_info = validated_data.pop('travel_info', [])
         for k, v in validated_data.iteritems():
             setattr(instance, k, v)
