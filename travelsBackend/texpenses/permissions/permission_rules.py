@@ -141,7 +141,7 @@ PERMISSION_RULES = [
     ('applications', 'destroy', 'MANAGER', '*', 'usersaved', '*'),
     ('applications', 'submit', 'MANAGER', '*', 'usersaved', '*'),
     ('applications', 'submit', 'MANAGER', '*', 'usercompensationsaved', '*'),
-    ('applications', 'cancel', 'MANAGER', '*',  'usersaved', '*'),
+    ('applications', 'cancel', 'MANAGER', '*',  'usersubmitted', '*'),
     ('applications', 'cancel', 'MANAGER', '*', 'usercompensationsubmitted', '*'),
 
     ('applications', 'update', 'MANAGER', 'manager_movement_approval', 'usersubmitted', '*'),
