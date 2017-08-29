@@ -572,17 +572,15 @@ class TravelInfo(Accommodation, Transportation):
         return compensation_days + 1 if trip_duration_in_days > (
             task_duration_in_days) else compensation_days
 
-
-    def compensation_cost(self):
-        """Calculates the compensation based on compensation days,
-        compensation level and additional expenses
-        :returns: The maximum possible compensation
+    def compensation_cost_single_day(self):
+        """
+        Calculates the single day compensation
+        :returns: The maximum possible compensation per day
 
         """
 
         percentage = 100
-        max_compensation = self.compensation_days_manual * \
-            self.compensation_level()
+        max_compensation = self.compensation_level()
 
         if self.is_abroad() and self.same_day_return_task():
             max_compensation *= 0.5
@@ -612,6 +610,14 @@ class TravelInfo(Accommodation, Transportation):
 
         return max_compensation * compensation_proportion * (
             self.travel_petition.grnet_quota() / percentage)
+
+    def compensation_cost(self):
+        """Calculates the compensation for all compensation days,
+        :returns: The maximum possible compensation
+
+        """
+        return self.compensation_cost_single_day() * (
+            self.compensation_days_manual)
 
     def __unicode__(self):
         return str(self.travel_petition.dse) + "-" + \
