@@ -136,9 +136,4 @@ spec = {'*': {'additional_expenses_default_currency': {'.cli_option': {},
              ['rest_framework.permissions.IsAuthenticated',
               'rest_framework.permissions.DjangoModelPermissions'],
              'search_fields': ['first_name',
-                               'last_name',
-                               'project',
-                               'task_start_date',
-                               'task_end_date',
-                               'created',
-                               'updated']}}
+                               'last_name',]}}
