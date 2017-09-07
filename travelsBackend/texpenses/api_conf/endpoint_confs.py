@@ -1,7 +1,7 @@
 from apimas import documents as doc
 from texpenses.models import Petition
 from rest_framework import serializers
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import DjangoFilterBackend, SearchFilter
 from texpenses.validators import required_validator
 from texpenses.pagination import TexpensesPagination
 from texpenses.filters import PetitionFilter
@@ -126,7 +126,8 @@ class Configuration(object):
     def _inject_standard_configuration(self, endpoint):
         endpoint['.drf_collection']['pagination_class'] = TexpensesPagination
         endpoint['.drf_collection']['filter_class'] = PetitionFilter
-        endpoint['.drf_collection']['filter_backends'] = (DjangoFilterBackend,)
+        endpoint['.drf_collection']['filter_backends'] = (DjangoFilterBackend,
+                                                          SearchFilter,)
 
     def CountriesConfig(self):
         endpoint = countries_conf
