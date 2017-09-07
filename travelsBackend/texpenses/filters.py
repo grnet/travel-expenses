@@ -26,6 +26,9 @@ class PetitionFilter(filters.FilterSet):
     return_date__lte = filters.DateTimeFilter(name='travel_info__return_date',
                                               lookup_expr='lte')
 
+    first_name = filters.CharFilter(name='first_name', lookup_expr='icontains')
+    last_name = filters.CharFilter(name='last_name', lookup_expr='icontains')
+
     class Meta:
         model = Petition
         fields = ['id', 'first_name', 'last_name', 'status', 'created',
