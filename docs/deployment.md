@@ -61,6 +61,34 @@ Now, all we need to do is give our database user access rights to the database w
 GRANT ALL PRIVILEGES ON DATABASE travelproduction TO traveluser;
 ```
 
+Finally, we need to install the [unaccent postgres plugin ](https://www.postgresql.org/docs/current/static/unaccent.html) (check also the [Django relative url](https://docs.djangoproject.com/en/1.8/ref/contrib/postgres/lookups/)).
+
+Copy the uccent_greek.rules file to the tsearch_data postgres installation folder:
+
+```
+cp travel_expenses_folder/resources/unaccent_greek.rules /usr/share/postgresql/_version/tsearch_data/ ;
+sudo su - postgres ;
+psql travelproduction ;
+
+```
+
+Turn on extension using our unaccent_greek.rules file:
+
+```sql
+CREATE EXTENSION "unaccent";
+ALTER TEXT SEARCH DICTIONARY unaccent (RULES='unaccent_greek');
+```
+
+Test everything works as expencted:
+
+```sql
+select ts_lexize('unaccent','ταξίδι');
+ts_lexize
+-----------
+ {ταξιδι}
+(1 row)
+```
+
 Exit the SQL prompt to get back to the postgres user's shell session:
 
 `\q`
@@ -222,7 +250,9 @@ Check whether everything went well:
 ```
 tail -f /var/log/gunicorn/texpenses.log
 ```
+
 ### Configure Crontabbed jobs
+
 In local `local_settings.py` file insert the following in case you want to override the system defaults.
 
 ```python
@@ -231,8 +261,8 @@ CRONJOBS = [
      '>> /path_to_save/scheduled_job.log')
 ]
 ```
-For more info on how to setup crontab check [this wiki](https://en.wikipedia.org/wiki/Cron#Format).
-After configuration just run on terminal:
+
+For more info on how to setup crontab check [this wiki](https://en.wikipedia.org/wiki/Cron#Format). After configuration just run on terminal:
 
 ```bash
 python manage.py crontab add
@@ -243,6 +273,7 @@ for removing Travel Expenses jobs from crontab run on the following on terminal:
 ```bash
 python manage.py crontab remove
 ```
+
 Finally in order to show all Travel Expenses jobs run the following on terminal:
 
 ```bash
