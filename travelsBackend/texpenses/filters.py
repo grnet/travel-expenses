@@ -26,8 +26,10 @@ class PetitionFilter(filters.FilterSet):
     return_date__lte = filters.DateTimeFilter(name='travel_info__return_date',
                                               lookup_expr='lte')
 
-    first_name = filters.CharFilter(name='first_name', lookup_expr='icontains')
-    last_name = filters.CharFilter(name='last_name', lookup_expr='icontains')
+    first_name = filters.CharFilter(name='first_name',
+                                    lookup_expr='unaccent__icontains')
+    last_name = filters.CharFilter(name='last_name',
+                                   lookup_expr='unaccent__icontains')
 
     class Meta:
         model = Petition
