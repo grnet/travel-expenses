@@ -142,7 +142,8 @@ export default {
   'placeholder.filterByName': 'Επώνυμο',
   'placeholder.filterByStatus': 'Κατάσταση',
   'placeholder.filterByDSE': 'ΔΣΕ',
-  'placeholder.filterByStartDate': 'Ημ/νία Αναχώρησης',
+  'placeholder.filterByStartDateFrom': 'Ημ/νία Αναχώρησης - Από',
+  'placeholder.filterByStartDateTo': 'Ημ/νία Αναχώρησης - Έως',
   'placeholder.filterByEndDate': 'Ημ/νία Επιστροφής',
  	//tabs
  	'login.tab': 'Είσοδος',
