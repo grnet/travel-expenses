@@ -50,6 +50,9 @@
   {{/if}}
 {{/if}}
 {{/row.cell}}
+{{#if (can "compensate petition")}}
+  {{#row.cell}}{{petition.timesheeted}}{{/row.cell}}
+{{/if}}
 {{#row.cell}}{{petition.dse}}{{/row.cell}}
 {{#row.cell}}{{petition.first_name}}{{/row.cell}}
 {{#row.cell}}{{petition.last_name}}{{/row.cell}}

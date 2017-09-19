@@ -7,6 +7,9 @@
   {{#paper-data-table as |table|}}
       {{#table.head as |head|}}
           {{#head.column class="link-tab"}}{{#paper-button raised=true primary=true onClick=(transition-to "userPetition" "new") bubbles=false }}Νεα Αιτηση{{/paper-button}}{{/head.column}}
+          {{#if (can "compensate petition")}}
+            {{#head.column}}t{{/head.column}}
+          {{/if}}
           {{#head.column}}ΔΣΕ{{/head.column}}
           {{#head.column}}Όνομα{{/head.column}}
           {{#head.column}}Επώνυμο{{/head.column}}
