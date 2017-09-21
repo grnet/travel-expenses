@@ -100,7 +100,6 @@ spec = {'.structarray': {'accommodation_cost': {'.cli_option': {},
                                                                 False,
                                                                 'required':
                                                                 True,
-                                                                'min_value': 1,
                                                                 },
                                                  '.field': {},
                                                  '.float': {}},

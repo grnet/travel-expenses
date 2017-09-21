@@ -1129,6 +1129,7 @@ class UserCompensation(Petition):
                             'accommodation_payment_description',
                             'overnights_num_manual',
                             'transport_days_manual',
+                            'transportation_cost',
                             'compensation_days_manual',
                             'distance']
 
@@ -1159,6 +1160,7 @@ class SecretaryCompensation(Petition):
                             'overnights_num_manual',
                             'transport_days_manual',
                             'compensation_days_manual',
+                            'transportation_cost',
                             'distance']
 
     class Meta:
