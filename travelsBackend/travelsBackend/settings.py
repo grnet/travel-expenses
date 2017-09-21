@@ -122,6 +122,7 @@ DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 USE_I18N = True
 
+DECIMAL_SEPARATOR = ','
 USE_L10N = False
 
 USE_TZ = True
