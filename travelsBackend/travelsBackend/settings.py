@@ -123,6 +123,9 @@ DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
 USE_I18N = True
 
 DECIMAL_SEPARATOR = ','
+
+# A workaround setting for translations bug [1]
+# [1] https://code.djangoproject.com/ticket/24569
 USE_L10N = False
 
 USE_TZ = True
