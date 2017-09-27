@@ -1,0 +1,5 @@
+1.0.0
+=====
+* Travel Expenses packaging.
+    Install Travel Expenses either using pip or as a debian package.
+
