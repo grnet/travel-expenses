@@ -56,7 +56,6 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'djoser',
     'crispy_forms',
-    'rest_framework_docs',
     'django_crontab',
 )
 CRONJOBS = [

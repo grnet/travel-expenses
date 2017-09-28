@@ -10,7 +10,6 @@ djoser==0.4.3
 drf-extensions==0.3.1
 geopy==1.11.0
 googlemaps==2.4.5
-drfdocs==0.0.9
 python-stdnum==1.5
 requests==2.9.1
 cairocffi==0.6
