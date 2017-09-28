@@ -18,7 +18,7 @@ with open('travelsBackend/requirements.txt') as f:
 
 SHORT_DESCRIPTION = "Travel Expenses"
 
-PACKAGES_ROOT = '.'
+PACKAGES_ROOT = 'travelsBackend'
 PACKAGES = find_packages(PACKAGES_ROOT)
 
 # Package meta
@@ -98,7 +98,6 @@ class InstallCommand(_install):
 
         _install.run(self)
 
-
 setup(
     name=PACKAGE_NAME,
     version=VERSION,
@@ -127,7 +126,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'travel = travelsBackend.texpenses.management:main',
+            'travel = texpenses.management:main',
         ],
     },
     cmdclass={'install': InstallCommand, 'build_py': BuildUiCommand},
