@@ -48,7 +48,7 @@ UI_DATA_FILES = get_all_data_files('lib/travel/www/ui', 'travelsFront/dist')
 
 TRAVEL_TEMPLATE_FILES = get_all_data_files('lib/travel/resources/templates',
                                            'travelsBackend/texpenses/templates')
-
+TRAVEL_VISUALIZATIONS_FILES = get_all_data_files('lib/travel/visualizations', 'travelsBackend/visualizations')
 
 class BuildUiCommand(_build_py):
     """ Extend build_py to build Travel UI. """
@@ -118,7 +118,7 @@ setup(
              'travelsBackend/texpenses/fixtures/data.json',
          ]),
         ('lib/travel/scripts', ['scripts/travel_init.sh']),
-    ] + UI_DATA_FILES + TRAVEL_TEMPLATE_FILES,
+    ] + UI_DATA_FILES + TRAVEL_TEMPLATE_FILES + TRAVEL_VISUALIZATIONS_FILES,
     zip_safe=False,
     install_requires=INSTALL_REQUIRES,
     extras_require=EXTRAS_REQUIRES,
