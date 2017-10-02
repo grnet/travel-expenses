@@ -353,6 +353,11 @@ class TravelInfo(Accommodation, Transportation):
         return any(self.means_of_transport_tracker.has_changed(field)
                    for field in self.tracked_means_of_tranport_fields)
 
+    def means_of_transport_is_car_or_bike(self):
+        if self.means_of_transport in ('BIKE', 'CAR'):
+            return True
+        return False
+
     def save(self, *args, **kwargs):
         new_object = kwargs.pop('new_object', False)
 
@@ -480,7 +485,7 @@ class TravelInfo(Accommodation, Transportation):
             2) One more day is added to the total overnight days if the
                return date is one day after from the date when task ends.
 
-        :param task_start_date: Date when task starts.
+        :param task_start_date: Date when, transportation_cost task starts.
         :param task_end_date: Date when task ends.
         :returns: The proposed overinight days.
         """
@@ -978,6 +983,26 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             return 0
         return (self.task_end_date - self.task_start_date).days
 
+    def tranportation_cost_to_be_compensated(self):
+
+        transportation_compensation = 0
+
+        for travel_obj in self.travel_info.all():
+            if travel_obj.means_of_transport_is_car_or_bike():
+                transportation_compensation += travel_obj.transportation_cost
+
+        return transportation_compensation
+
+    def tranportation_cost_not_to_be_compensated(self):
+
+        transportation_compensation = 0
+
+        for travel_obj in self.travel_info.all():
+            if not travel_obj.means_of_transport_is_car_or_bike():
+                transportation_compensation += travel_obj.transportation_cost
+
+        return transportation_compensation
+
     def compensation_final(self):
         """TODO: Docstring for compensation_final.
         :returns: TODO
@@ -986,8 +1011,10 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         compensation_cost_sum = sum(travel_obj.compensation_cost()
                                     for travel_obj in self.travel_info.all())
 
+
         return sum([compensation_cost_sum, self.additional_expenses or
-                    self.additional_expenses_initial])
+                    self.additional_expenses_initial,
+                    self.tranportation_cost_to_be_compensated()])
 
     def total_cost(self):
         """
@@ -996,9 +1023,12 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         This value is calculated by adding the transportation,
         compensation, partication and accommodation costs.
         """
-        transportation_cost = sum(travel.transportation_cost
-                                  for travel in self.travel_info.all())
-        return sum([transportation_cost, self.participation_cost,
+        transportation_cost_not_to_be_compensated_sum = sum(
+            self.tranportation_cost_not_to_be_compensated()
+            for travel in self.travel_info.all())
+
+        return sum([transportation_cost_not_to_be_compensated_sum,
+                    self.participation_cost,
                     self.compensation_final(), self.overnights_sum_cost()])
 
     def __unicode__(self):
