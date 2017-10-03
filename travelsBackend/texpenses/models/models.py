@@ -1195,3 +1195,10 @@ class SecretaryCompensation(Petition):
 
     class Meta:
         proxy = True
+
+    def status_rollback(self):
+        """
+        Changes status of the petition to the previous one by marking current
+        as deleted and creating new one to the corresponding status.
+        """
+        return self.status_transition(self.SECRETARY_COMPENSATION)

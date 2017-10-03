@@ -596,7 +596,7 @@ class SecretaryCompensationMixin(object):
     def cancel(self, request, pk=None):
         submitted = self.get_object()
         try:
-            petition_id = submitted.revoke()
+            petition_id = submitted.status_rollback()
             headers = {'location': reverse(self.VIEW_NAMES[submitted.status],
                                            args=[petition_id])}
             return Response(headers=headers, status=status.HTTP_303_SEE_OTHER)
