@@ -1,28 +1,32 @@
-from texpenses.api_conf.spec.petitions.petition_compensations \
-    import spec as petition_user_compensation
-from texpenses.api_conf.spec.petitions.petition_save \
-    import spec as petition_save
-from texpenses.api_conf.spec.petitions.petition_secretary_compensations \
-    import spec as petition_secretary_compensation
-from texpenses.api_conf.spec.petitions.petition_secretary_save \
-    import spec as petition_secretary_save
-from texpenses.api_conf.spec.petitions.petition_secretary_submit \
-    import spec as petition_secretary_submit
-from texpenses.api_conf.spec.petitions.petition_submit \
-    import spec as petition_submit
+from texpenses.api_conf.spec.petitions.applications import spec as applications
+from texpenses.api_conf.spec.petitions.petition_compensations import (
+    spec as petition_user_compensation)
+from texpenses.api_conf.spec.petitions.petition_save import (
+    spec as petition_save)
+from texpenses.api_conf.spec.petitions.petition_secretary_compensations import (
+    spec as petition_secretary_compensation)
+from texpenses.api_conf.spec.petitions.petition_secretary_save import (
+    spec as petition_secretary_save)
+from texpenses.api_conf.spec.petitions.petition_secretary_submit import (
+    spec as petition_secretary_submit)
+from texpenses.api_conf.spec.petitions.petition_submit import (
+    spec as petition_submit)
 
-from texpenses.api_conf.spec.travel_info.travel_info_compensations\
-    import spec as travel_info_compensations
-from texpenses.api_conf.spec.travel_info.travel_info_save\
-    import spec as travel_info_save
-from texpenses.api_conf.spec.travel_info.travel_info_submit\
-    import spec as travel_info_submit
-from texpenses.api_conf.spec.travel_info.travel_info_secretary_save\
-    import spec as travel_info_secretary_save
-from texpenses.api_conf.spec.travel_info.travel_info_secretary_submit\
-    import spec as travel_info_secretary_submit
-from texpenses.api_conf.spec.travel_info.travel_info_secretary_compensations\
-    import spec as travel_info_secretary_compensations
+from texpenses.api_conf.spec.travel_info.travel_info import (
+    spec as travel_info)
+from texpenses.api_conf.spec.travel_info.travel_info_compensations import (
+    spec as travel_info_compensations)
+from texpenses.api_conf.spec.travel_info.travel_info_save import (
+    spec as travel_info_save)
+from texpenses.api_conf.spec.travel_info.travel_info_submit import (
+    spec as travel_info_submit)
+from texpenses.api_conf.spec.travel_info.travel_info_secretary_save import (
+    spec as travel_info_secretary_save)
+from texpenses.api_conf.spec.travel_info.travel_info_secretary_submit import (
+    spec as travel_info_secretary_submit)
+from texpenses.api_conf.spec.\
+    travel_info.travel_info_secretary_compensations import (
+        spec as travel_info_secretary_compensations)
 
 spec = {'api': {'.endpoint': {},
                 'city': {},
@@ -33,6 +37,7 @@ spec = {'api': {'.endpoint': {},
                 'petition-user-compensations': {},
                 'petition-user-saved': {},
                 'petition-user-submitted': {},
+                'applications': {},
                 'project': {},
                 'tax-office': {},
                 'users': {}}}
@@ -70,7 +75,7 @@ tax_office_conf = {'*': {'address': {'.cli_option': {},
                                        ["rest_framework_extensions.cache."
                                         "mixins.CacheResponseMixin"],
                                        'model': 'texpenses.models.TaxOffice'},
-                   'actions': {'.list': {}, '.retrieve': {}}}
+                   '.actions': {'.list': {}, '.retrieve': {}}}
 
 project_conf = {'*': {'accounting_code': {'.cli_option': {},
                                           '.drf_field': {},
@@ -81,18 +86,12 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                              '.field': {},
                              '.readonly': {},
                              '.serial': {}},
-                      'manager_email': {'.cli_option': {},
-                                        '.drf_field': {},
-                                        '.field': {},
-                                        '.string': {}},
-                      'manager_name': {'.cli_option': {},
-                                       '.drf_field': {},
-                                       '.field': {},
-                                       '.string': {}},
-                      'manager_surname': {'.cli_option': {},
-                                          '.drf_field': {},
-                                          '.field': {},
-                                          '.string': {}},
+
+                      'manager': {'.cli_option': {},
+                                  '.drf_field': {},
+                                  '.field': {},
+                                  '.readonly': {},
+                                  '.ref': {'to': 'api/users'}},
                       'name': {'.cli_option': {},
                                '.drf_field': {},
                                '.field': {},
@@ -101,11 +100,17 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                               '.readonly': {}}},
                 '.cli_commands': {},
                 '.collection': {},
-                '.drf_collection': {'mixins':
-                                    ["rest_framework_extensions."
-                                     "cache.mixins.CacheResponseMixin"],
-                                    'model': 'texpenses.models.Project'},
-                'actions': {'.list': {}, '.retrieve': {}}}
+                '.drf_collection':
+                {'authentication_classes':
+                 ['rest_framework.authentication.SessionAuthentication',
+                  'rest_framework.authentication.BasicAuthentication',
+                  'rest_framework.authentication.TokenAuthentication'],
+                 'mixins':
+                 ["rest_framework_extensions."
+                  "cache.mixins.CacheResponseMixin",
+                  'texpenses.views.mixins.ProjectMixin'],
+                 'model': 'texpenses.models.Project'},
+                '.actions': {'.list': {}, '.retrieve': {}}}
 
 user_conf = {'*': {'email': {'.cli_option': {},
                              '.drf_field': {},
@@ -173,7 +178,7 @@ user_conf = {'*': {'email': {'.cli_option': {},
                   ['rest_framework.permissions.IsAuthenticated',
                    'rest_framework.permissions.DjangoModelPermissions',
                    'texpenses.permissions.custom_permissions.IsOwner']},
-             'actions': {'.list': {}, '.retrieve': {}}}
+             '.actions': {'.list': {}, '.retrieve': {}}}
 
 countries_conf = {'*': {'category': {'.choices': {},
                                      '.cli_option': {},
@@ -204,7 +209,7 @@ countries_conf = {'*': {'category': {'.choices': {},
                    ["rest_framework_extensions.cache.mixins."
                     "CacheResponseMixin"],
                    'model': 'texpenses.models.Country'},
-                  'actions': {'.list': {}, '.retrieve': {}}}
+                  '.actions': {'.list': {}, '.retrieve': {}}}
 
 city_conf = {'*': {'country': {'.cli_option': {},
                                '.drf_field': {},
@@ -243,6 +248,12 @@ city_conf = {'*': {'country': {'.cli_option': {},
                             '.field': {},
                             '.readonly': {},
                             '.string': {}},
+
+                   'timezone': {'.cli_option': {},
+                                '.drf_field': {},
+                                '.field': {},
+                                '.readonly': {},
+                                '.string': {}},
                    'url': {'.drf_field': {}, '.identity': {},
                            '.readonly': {}}},
              '.cli_commands': {},
@@ -252,4 +263,4 @@ city_conf = {'*': {'country': {'.cli_option': {},
               ['rest_framework_extensions.cache.mixins.CacheResponseMixin',
                'texpenses.views.mixins.CityMixin'],
               'model': 'texpenses.models.City'},
-             'actions': {'.list': {}, '.retrieve': {}}}
+             '.actions': {'.list': {}, '.retrieve': {}}}

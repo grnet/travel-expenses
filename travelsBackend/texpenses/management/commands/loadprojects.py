@@ -26,7 +26,13 @@ class Command(BaseCommand):
         except model.DoesNotExist:
             obj = model(**kwargs)
             obj.clean_fields()
-            obj.save()
+            try:
+                obj.save()
+            except Exception:
+                print "Record for project:" + str(kwargs['name']) + \
+                    " will be updated."
+                model.objects.get(name=kwargs['name']).delete()
+                obj.save()
             created = True
         return (obj, created)
 
@@ -40,9 +46,6 @@ class Command(BaseCommand):
 
                 project_data = {'name': name,
                                 'accounting_code': accounting_code,
-                                'manager_surname': manager_surname,
-                                'manager_name': manager_name,
-                                'manager_email': manager_email
                                 }
                 project_obj, project_created = self.\
                     get_or_create_extended(Project, **project_data)

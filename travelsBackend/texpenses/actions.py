@@ -5,7 +5,8 @@ from django.core.mail import EmailMessage, get_connection
 from django.template.loader import render_to_string
 from rest_framework import status
 from texpenses.models import Petition
-from datetime import datetime
+from datetime import timedelta
+from django.utils import timezone
 from apimas.drf import django_rest
 from texpenses.api_conf.endpoint_confs import Configuration
 from texpenses.api_conf.spec.spec import spec
@@ -21,7 +22,7 @@ EMAIL_TEMPLATES = {
     'CANCELLATION': ('cancellation.txt',
                      'Αναίρεση υποβολής αίτησης μετακίνησης',False),
     'PETITION_PRESIDENT_APPROVAL': ('petition_president_approval.txt',
-                                    'Έγκριση μετακίνησης απο τον πρόεδρο.',\
+                                    'Έγκριση μετακίνησης από τον Πρόεδρο.',
                                     False),
 
     'USER_COMPENSATION_SUBMISSION': ('user_compensation_submission.txt',
@@ -33,7 +34,7 @@ EMAIL_TEMPLATES = {
                                      " από μετακινούμενο.",False),
 
     'COMPENSATION_PRESIDENT_APPROVAL': ('compensation_president_approval.txt',
-                                    'Έγκριση αποζημίωσης απο τον πρόεδρο.',\
+                                    'Έγκριση αποζημίωσης από τον Πρόεδρο.',
                                         False),
     'COMPENSATION_ALERT': ('compensation_alert.txt',
                            'Ενημέρωση σύνταξης αίτησης αποζημίωσης.',False)
@@ -47,8 +48,10 @@ def send_email(subject, template, params, sender, to, bcc=(), cc=(),
     content = render_to_string(template, params)
     prefix = '<Travel Expenses> '
     try:
-        message = EmailMessage(prefix + subject, content, sender, to=to,
-                               bcc=bcc, cc=cc, connection=get_connection()
+        project_name = '['+str(params['project'])+']'
+        message = EmailMessage(prefix + subject + project_name, content,
+                               sender, to=to, bcc=bcc, cc=cc,
+                               connection=get_connection()
                                )
         if attach_csv:
             message.attach('petition.csv', _export_csv(params), 'text/csv')
@@ -69,7 +72,7 @@ def inform(petition, action, target_user, inform_controller):
     Recipients of that notification are, user related to that petition,
     secretary and project manager.
     """
-    template, subject, attach_csv = EMAIL_TEMPLATES.get(action,(None, None,\
+    template, subject, attach_csv = EMAIL_TEMPLATES.get(action,(None, None,
                                                                 False))
     assert template is not None and subject is not None
     # TODO alert in case of invalid action?
@@ -77,18 +80,22 @@ def inform(petition, action, target_user, inform_controller):
     # We take the first `travel_info` object, because multiple destinations
     # are not supported at the moment.
 
-    travel_info = None
-    if petition.travel_info.all():
-        travel_info = petition.travel_info.all()[0]
+    travel_info_first = petition.travel_info.first()
+    travel_info_last = petition.travel_info.last()
+    travel_info = petition.travel_info.all()
+
     params = {
         'first_name': petition.first_name,
         'last_name': petition.last_name,
         'dse': petition.dse,
-        'project_name': petition.project.name,
-        'departure_point': travel_info.departure_point.name if travel_info\
-        else None,
-        'arrival_point': travel_info.arrival_point.name if travel_info\
-        else None,
+        'travel_info': travel_info ,
+        'project': petition.project.name,
+        'departure_point': travel_info_first.departure_point.name \
+        if travel_info_first else None,
+        'arrival_point': travel_info_last.arrival_point.name \
+        if travel_info_last else None,
+        'timezone_arrival': travel_info_last.arrival_point.timezone,
+        'timezone_depart': travel_info_first.departure_point.timezone,
         'task_start_date': petition.task_start_date,
         'task_end_date': petition.task_end_date,
         'reason': petition.reason,
@@ -99,21 +106,20 @@ def inform(petition, action, target_user, inform_controller):
              'specialty': petition.get_specialty_display(),
              'iban': petition.iban,
              'tax_reg_num': petition.tax_reg_num,
-             'depart_date': travel_info.depart_date,
-             'return_date': travel_info.return_date,
+             'depart_date': travel_info_first.depart_date,
+             'return_date': travel_info_last.return_date,
             }
         )
     cc = (petition.user.email,)
-    to = (petition.project.manager_email, SECRETARY_EMAIL)\
-        if not inform_controller else (petition.project.manager_email,\
+    to = (petition.project.manager.email, SECRETARY_EMAIL)\
+        if not inform_controller else (petition.project.manager.email,\
                                    SECRETARY_EMAIL, CONTROLLER_EMAIL)
     if target_user:
         cc = to
         to = (petition.user.email,)
-    print subject,template,params,SENDER,to,cc
 
-    send_email(subject, template, params, SENDER, to=to, cc=cc,\
-               attach_csv=attach_csv)
+    send_email(subject, template, params, SENDER, \
+               to=to, cc=cc, attach_csv=attach_csv)
 
 
 def inform_on_action(action, target_user=False, inform_controller=False):
@@ -136,23 +142,24 @@ def inform_on_action(action, target_user=False, inform_controller=False):
 
 def compensation_alert():
 
-    now = datetime.now().strftime(DATE_FORMAT)
+    inform_date = (timezone.now() + timedelta(days=1)).strftime(DATE_FORMAT)
 
-    approved_petitions = Petition.objects.filter(status=\
-                                               Petition.APPROVED_BY_PRESIDENT,\
+    approved_petitions = Petition.objects.filter(status=
+                                                 Petition.APPROVED_BY_PRESIDENT,\
                                                  compensation_alert=False)
     for petition in approved_petitions:
-        travel_info = petition.travel_info.all()[0]
-        return_date = travel_info.return_date.strftime(DATE_FORMAT)
-        if return_date == now:
+        return_date = petition.travel_info.last().return_date.\
+            strftime(DATE_FORMAT)
+        if return_date == inform_date:
             if not petition.compensation_alert:
-                inform(petition, action='COMPENSATION_ALERT', target_user=True)
+                inform(petition, action='COMPENSATION_ALERT', target_user=True,\
+                       inform_controller=False)
                 petition.compensation_alert = True
                 petition.save()
 
 def pythonize_spec(spec):
 
-    petitions = [spec['api']['petition-user-saved'],\
+    petitions = [spec['api']['petition-user-saved'],
                  spec['api']['petition-user-submitted'],
                  spec['api']['petition-secretary-saved'],
                  spec['api']['petition-secretary-submitted'],

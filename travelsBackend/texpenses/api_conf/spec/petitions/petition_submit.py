@@ -37,13 +37,13 @@ spec = {'*': {'additional_expenses_default_currency': {'.cli_option': {},
                                            '.field': {},
                                            '.string': {}},
               'task_end_date': {'.cli_option': {},
-                                '.datetime': {'format':['%Y-%m-%dT%H:%M']},
+                                '.datetime': {'format': ['%Y-%m-%dT%H:%M']},
                                 '.drf_field': {'allow_null': False,
                                                'required': True},
                                 '.field': {},
                                 '.required': {}},
               'task_start_date': {'.cli_option': {},
-                                  '.datetime': {'format':['%Y-%m-%dT%H:%M']},
+                                  '.datetime': {'format': ['%Y-%m-%dT%H:%M']},
                                   '.drf_field': {'allow_null': False,
                                                  'required': True},
                                   '.field': {},
@@ -52,20 +52,20 @@ spec = {'*': {'additional_expenses_default_currency': {'.cli_option': {},
                                       '.drf_field': {},
                                       '.field': {},
                                       '.string': {}}},
-        '.drf_collection': {'authentication_classes':\
+        '.drf_collection': {'authentication_classes':
                             ["rest_framework.authentication."
-                             "SessionAuthentication",\
+                             "SessionAuthentication",
                              "rest_framework.authentication."
                              "TokenAuthentication"],
-                            'mixins':\
+                            'mixins':
                             ["texpenses.views.mixins."
                              "UserPetitionSubmissionMixin"],
                             'model': 'texpenses.models.UserPetitionSubmission',
-                            'model_serializers':\
+                            'model_serializers':
                             ['texpenses.serializers.mixins.PetitionMixin'],
                             'ordering_fields': ['id'],
-                            'permission_classes':\
-                            ['rest_framework.permissions.IsAuthenticated',\
+                            'permission_classes':
+                            ['rest_framework.permissions.IsAuthenticated',
                              "rest_framework.permissions."
                              "DjangoModelPermissions"],
                             'search_fields': ['first_name',

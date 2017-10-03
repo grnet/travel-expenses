@@ -4,7 +4,7 @@ from django.views.decorators.http import require_http_methods
 import urllib
 from django.conf import settings
 import requests
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from djoser import views as djoser_views
 from djoser import utils as djoser_utils
 from texpenses.serializers import CustomUserRegistrationSerializer,\
@@ -29,9 +29,9 @@ def custom_activation_view(request, uid=None, token=None):
         headers = {'content-type': 'application/x-www-form-urlencoded'}
         response = requests.post(url, data=enc, headers=headers)
         if response.status_code == 200 or response.status_code == 204:
-            return HttpResponse("ACTIVATED")
+            return HttpResponseRedirect("/")
         elif response.status_code == 403:
-            return HttpResponse("ALREADY ACTIVATED")
+            return HttpResponseRedirect("/")
         else:
             return HttpResponse("Could not activate account with uid:" +
                                 uid + " and token:" + token)

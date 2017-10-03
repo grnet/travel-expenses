@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Django settings for travelsBackend project.
 
@@ -25,6 +28,9 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = []
 TEMPLATE_DIRS = ()
+DEFAULT_CITY_DB_ID = 4269
+BASE_COUNTRY = u'Ελλάδα'
+GOOGLE_MAPS_KEY = '***REMOVED***'
 
 MEDIA_ROOT = 'uploads'
 MAX_HOLIDAY_DAYS = 60
@@ -66,7 +72,7 @@ CACHES = {
 PAGINATION_PAGE_SIZE = 0
 REST_FRAMEWORK = {
     # 'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S",
-    'DATETIME_FORMAT': "%Y-%m-%dT%H:%M",
+    # 'DATETIME_FORMAT': "%Y-%m-%dT%H:%M",
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
@@ -110,15 +116,15 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-# TIME_ZONE = 'UTC'
-TIME_ZONE = 'Europe/Athens'
-# DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
+TIME_ZONE = 'UTC'
+# TIME_ZONE = 'Europe/Athens'
+DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -177,8 +183,6 @@ LOGGING = {
 # Path to resources file.
 RESOURCES_FILE = os.path.join(BASE_DIR,
                               '../resources/common.json')
-
-from texpenses.permissions.permission_rules import PERMISSION_RULES
 try:
     from local_settings import *
 except ImportError, e:

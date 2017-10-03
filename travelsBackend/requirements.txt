@@ -1,4 +1,4 @@
-apimas==0.3
+apimas-drf==0.3
 backports.shutil-get-terminal-size==1.0.0
 cairocffi==0.6
 CairoSVG==1.0.22
@@ -56,3 +56,4 @@ wcwidth==0.1.7
 WeasyPrint==0.31
 webencodings==0.5
 workdays==1.4
+python-stdnum==1.5

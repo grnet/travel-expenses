@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from datetime import timedelta
 import functools
 from django.conf import settings
@@ -6,15 +9,17 @@ from django.core.exceptions import (
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractUser
-from django.db import models
+from django.db import models as md
 from django.db.models import Max
 from django.db.models import Q
 from model_utils import FieldTracker
 from rest_framework import serializers
 from texpenses.models import common
 from texpenses.validators import (
-    afm_validator, required_validator, iban_validation, date_validator,
+    afm_validator, iban_validation, date_validator,
     start_end_date_validator)
+import googlemaps
+from geopy.geocoders import Nominatim
 
 
 def update_instance(instance, updated_fields):
@@ -32,21 +37,30 @@ def get_model_missing_fields(instance, excluded=()):
     return missing_fields
 
 
-class TaxOffice(models.Model):
+def _construct_validation_message(fields):
+    response = {}
+    message = ['This field is required']
+
+    for field in fields:
+        response[field] = message
+    return response
+
+
+class TaxOffice(md.Model):
 
     """ Model which contains all tax offices of Greece. """
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200, blank=False, unique=True)
-    description = models.CharField(max_length=300, blank=True)
-    address = models.CharField(max_length=20, blank=True)
-    email = models.EmailField(blank=True)
-    phone = models.CharField(max_length=20, blank=True)
+    id = md.AutoField(primary_key=True)
+    name = md.CharField(max_length=200, blank=False, unique=True)
+    description = md.CharField(max_length=300, blank=True)
+    address = md.CharField(max_length=20, blank=True)
+    email = md.EmailField(blank=True)
+    phone = md.CharField(max_length=20, blank=True)
 
     def __unicode__(self):
         return self.name
 
 
-class TravelUserProfile(models.Model):
+class TravelUserProfile(md.Model):
 
     """
     An abstract model class which include all fields which describe the user
@@ -56,16 +70,16 @@ class TravelUserProfile(models.Model):
     number, Tax Office, etc. as well as, with the kind and specialty of user at
     GRNET.
     """
-    iban = models.CharField(max_length=27, blank=False, null=True,
-                            validators=[iban_validation])
-    specialty = models.CharField(
+    iban = md.CharField(max_length=27, blank=False, null=True,
+                        validators=[iban_validation])
+    specialty = md.CharField(
         max_length=5, choices=common.SPECIALTY, blank=False, null=True)
-    tax_reg_num = models.CharField(max_length=9, blank=False, null=True,
-                                   unique=True, validators=[afm_validator])
-    tax_office = models.ForeignKey(TaxOffice, blank=False, null=True)
-    kind = models.CharField(max_length=5, choices=common.KIND, blank=False,
-                            null=True)
-    user_category = models.CharField(
+    tax_reg_num = md.CharField(max_length=9, blank=False, null=True,
+                               unique=True, validators=[afm_validator])
+    tax_office = md.ForeignKey(TaxOffice, blank=False, null=True)
+    kind = md.CharField(max_length=5, choices=common.KIND, blank=False,
+                        null=True)
+    user_category = md.CharField(
         max_length=1, choices=common.USER_CATEGORIES,
         blank=False, default='B')
 
@@ -84,7 +98,7 @@ class UserProfile(AbstractUser, TravelUserProfile):
     fields for the user of `Travel Expenses Application`.
     """
 
-    trip_days_left = models.IntegerField(
+    trip_days_left = md.IntegerField(
         blank=False, default=settings.MAX_HOLIDAY_DAYS,
         validators=[MaxValueValidator(settings.MAX_HOLIDAY_DAYS),
                     MinValueValidator(0)])
@@ -93,6 +107,10 @@ class UserProfile(AbstractUser, TravelUserProfile):
     def apimas_roles(self):
         return [self.user_group()]
 
+    @classmethod
+    def check_resource_state_isme(cls, obj, row, request, view):
+        return request.user == obj
+
     def user_group(self):
         groups = self.groups.all()
         # TODO fix this hack.
@@ -100,8 +118,19 @@ class UserProfile(AbstractUser, TravelUserProfile):
             return "Unknown"
         return groups[0].name
 
+    def __unicode__(self):
+        return self.first_name + " " + self.last_name + " (username:"\
+            + self.username + ")"
 
-class Project(models.Model):
+
+def is_manager(manager_id):
+    manager = UserProfile.objects.get(id=manager_id)
+    manager_group = manager.user_group()
+    if manager_group != "MANAGER":
+        raise ValidationError('The chosen user must be a MANAGER')
+
+
+class Project(md.Model):
 
     """
     Model which describes a project which GRNET has assumed.
@@ -109,18 +138,18 @@ class Project(models.Model):
     A project is described by its name, accounting code and the GRNET member
     who managed it.
     """
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=500, blank=False, unique=True)
-    accounting_code = models.CharField(max_length=20, blank=False)
-    manager_name = models.CharField(max_length=40, blank=False)
-    manager_surname = models.CharField(max_length=40, blank=False)
-    manager_email = models.EmailField(max_length=256, blank=False, null=True)
+    id = md.AutoField(primary_key=True)
+    name = md.CharField(max_length=500, blank=False, unique=True)
+    accounting_code = md.CharField(max_length=20, blank=False)
+    active = md.BooleanField(default=True)
+    manager = md.ForeignKey(UserProfile, null=True, blank=True,
+                            validators=[is_manager])
 
     def __unicode__(self):
         return self.name
 
 
-class Country(models.Model):
+class Country(md.Model):
 
     """
     Model for countries.
@@ -129,10 +158,11 @@ class Country(models.Model):
     compensation combined with the user category.
     """
 
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100, blank=False, unique=True)
-    category = models.CharField(choices=common.CATEGORIES, max_length=1, default='A')
-    currency = models.CharField(
+    id = md.AutoField(primary_key=True)
+    name = md.CharField(max_length=100, blank=False, unique=True)
+    category = md.CharField(
+        choices=common.CATEGORIES, max_length=1, default='A')
+    currency = md.CharField(
         max_length=3, choices=common.CURRENCIES, blank=False,
         default=settings.DEFAULT_CURRENCY)
 
@@ -141,55 +171,69 @@ class Country(models.Model):
         return self.name
 
 
-class City(models.Model):
+class City(md.Model):
 
     """Model for cities. """
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100, blank=False)
-    country = models.ForeignKey(Country, blank=False)
+    id = md.AutoField(primary_key=True)
+    name = md.CharField(max_length=100, blank=False)
+    country = md.ForeignKey(Country, blank=False)
+    timezone = md.CharField(max_length=100)
 
     def __unicode__(self):
         """TODO: to be defined. """
         return self.name
 
 
-class Accommodation(models.Model):
+class CityDistances(md.Model):
+
+    """ Model which holds the distance between various Greek Cities"""
+    id = md.AutoField(primary_key=True)
+    from_city = md.ForeignKey(City, related_name='from_city')
+    to_city = md.ForeignKey(City, related_name='to_city')
+    distance = md.PositiveSmallIntegerField(blank=True)
+
+    def __unicode__(self):
+        return str(self.id) + '-' + self.from_city.name + ' to ' + \
+            self.to_city.name
+
+
+class Accommodation(md.Model):
 
     """
     An abstract model that represents the accommodation related info
     """
 
-    accommodation_cost = models.FloatField(
+    accommodation_cost = md.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-    accommodation_default_currency = models.CharField(
+    accommodation_default_currency = md.CharField(
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
-    accommodation_local_cost = models.FloatField(
+    accommodation_local_cost = md.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-    accommodation_local_currency = models.CharField(
+    accommodation_local_currency = md.CharField(
         max_length=3, blank=True, choices=common.CURRENCIES)
-    accommodation_payment_way = models.CharField(
+    accommodation_payment_way = md.CharField(
         max_length=5, choices=common.WAYS_OF_PAYMENT, blank=False,
         default='NON')
-    accommodation_payment_description = models.CharField(
+    accommodation_payment_description = md.CharField(
         max_length=200, null=True)
 
     class Meta:
         abstract = True
 
 
-class Transportation(models.Model):
+class Transportation(md.Model):
 
     """
     An abstract model that represents the transportation related info
     """
-    transportation_cost = models.FloatField(
+    transportation_cost = md.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-    transportation_default_currency = models.CharField(
+    transportation_default_currency = md.CharField(
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
-    transportation_payment_way = models.CharField(
+    transportation_payment_way = md.CharField(
         max_length=5, choices=common.WAYS_OF_PAYMENT,
         blank=False, default='NON')
-    transportation_payment_description = models.CharField(
+    transportation_payment_description = md.CharField(
         max_length=200, null=True)
 
     class Meta:
@@ -204,27 +248,35 @@ class TravelInfo(Accommodation, Transportation):
     Travel information are associated with the duration, departure and arrival
     point, transportation, accommodation, etc.
     """
-    depart_date = models.DateTimeField(null=True)
-    return_date = models.DateTimeField(null=True)
-    departure_point = models.ForeignKey(
+    depart_date = md.DateTimeField(null=True)
+    return_date = md.DateTimeField(null=True)
+    departure_point = md.ForeignKey(
         City, blank=True, null=True, related_name='travel_departure_point')
-    arrival_point = models.ForeignKey(City, blank=True, null=True,
-                                      related_name='travel_arrival_point')
-    means_of_transport = models.CharField(
+    arrival_point = md.ForeignKey(City, blank=True, null=True,
+                                  related_name='travel_arrival_point')
+    means_of_transport = md.CharField(
         choices=common.TRANSPORTATION, max_length=10, blank=False,
         default='AIR')
-    transport_days_manual = models.PositiveSmallIntegerField(
+    transport_days_manual = md.PositiveSmallIntegerField(
         blank=False, default=0)
-    overnights_num_manual = models.PositiveSmallIntegerField(
+    overnights_num_manual = md.PositiveSmallIntegerField(
         blank=False, default=0)
-    compensation_days_manual = models.PositiveSmallIntegerField(
+    compensation_days_manual = md.PositiveSmallIntegerField(
         blank=False, default=0)
-    meals = models.CharField(max_length=10, choices=common.MEALS,
-                             blank=False, default='NON')
-    travel_petition = models.ForeignKey('Petition', related_name='travel_info')
+    meals = md.CharField(max_length=10, choices=common.MEALS,
+                         blank=False, default='NON')
+    travel_petition = md.ForeignKey('Petition', related_name='travel_info')
+    distance = md.FloatField(blank=False, default=0.0,
+                             validators=[MinValueValidator(0.0)])
 
-    tracked_fields = ['depart_date', 'return_date']
-    tracker = FieldTracker(fields=tracked_fields)
+    tracked_date_fields = ['depart_date', 'return_date']
+    tracker = FieldTracker(fields=tracked_date_fields)
+    tracked_location_fields = ['departure_point', 'arrival_point']
+    location_tracker = FieldTracker(fields=tracked_location_fields)
+
+    tracked_means_of_tranport_fields = ['means_of_transport']
+    means_of_transport_tracker = FieldTracker(
+        fields=tracked_means_of_tranport_fields)
     travel_petition_buffer = None
 
     def clean(self, petition):
@@ -232,6 +284,7 @@ class TravelInfo(Accommodation, Transportation):
                                         Petition.USER_COMPENSATION_SUBMISSION,
                                         Petition.
                                         SECRETARY_COMPENSATION_SUBMISSION]
+        self._validate_depart_arrival_points()
 
         if self.depart_date and self.return_date \
                 and petition.task_end_date:
@@ -246,14 +299,28 @@ class TravelInfo(Accommodation, Transportation):
         self.validate_overnight_cost(petition)
         super(TravelInfo, self).clean()
 
+    def _endpoints_are_set(self):
+        return None not in (self.departure_point, self.arrival_point)
+
+    def _validate_depart_arrival_points(self):
+
+        if self._endpoints_are_set():
+            base_country_name = settings.BASE_COUNTRY
+            departure_country_name = self.departure_point.country.name
+
+            arrival_point_name = self.arrival_point.name
+            departure_point_name = self.departure_point.name
+            if departure_point_name == arrival_point_name:
+                raise ValidationError(u"Departure city and arrival city should"
+                                      " not be the same.")
+
     def _set_travel_manual_fields(self):
 
-        overnight_days = self.overnights_num_proposed(
-            self.travel_petition.task_start_date,
-            self.travel_petition.task_end_date)
+        overnight_days = self.overnights_num_proposed()
         self.transport_days_manual = self.transport_days_proposed()
         self.overnights_num_manual = overnight_days
-        self.compensation_days_manual = overnight_days
+        self.compensation_days_manual = overnight_days if overnight_days > 0 \
+            else 1
 
     def _set_travel_manual_field_defaults(self):
 
@@ -261,19 +328,66 @@ class TravelInfo(Accommodation, Transportation):
                 self.compensation_days_manual]) == 0:
             self._set_travel_manual_fields()
 
+    def is_abroad(self):
+
+        if self._endpoints_are_set():
+            base_country_name = settings.BASE_COUNTRY
+            arrival_country_name = self.arrival_point.country.name
+
+            if arrival_country_name == base_country_name:
+                return False
+            return True
+        return True
+
+    def is_athens_or_thesniki(self):
+
+        if self._endpoints_are_set():
+            arrival_point_name = self.arrival_point.name
+
+            if not self.is_abroad() and arrival_point_name in (u'Αθήνα',
+                                                               u'Θεσσαλονίκη'):
+                return True
+
+            return False
+        return False
+
+    def locations_have_changed(self):
+        return any(self.location_tracker.has_changed(field)
+                   for field in self.tracked_location_fields)
+
+    def means_of_transport_have_changed(self):
+        return any(self.means_of_transport_tracker.has_changed(field)
+                   for field in self.tracked_means_of_tranport_fields)
+
     def save(self, *args, **kwargs):
 
         new_object = kwargs.pop('new_object', False)
 
         changed = any(self.tracker.has_changed(field)
-                      for field in self.tracked_fields)
+                      for field in self.tracked_date_fields)
         petition_dates_changed = any(
             self.travel_petition.tracker.has_changed(field)
             for field in self.travel_petition.tracked_fields)
-        if changed and not new_object or petition_dates_changed:
-            self._set_travel_manual_fields()
 
-        self._set_travel_manual_field_defaults()
+        if not self.is_abroad():
+            if self.means_of_transport in ('BIKE', 'CAR'):
+
+                if self.means_of_transport_have_changed():
+                    print 'Calculating distance'
+                    self.distance = self.\
+                        calculate_city_distance(self.departure_point,
+                                                self.arrival_point)
+                if self.locations_have_changed():
+                    print 'Calculating distance'
+                    self.distance = self.\
+                        calculate_city_distance(self.departure_point,
+                                                self.arrival_point)
+
+                distance_factor = common.\
+                    MEANS_OF_TRANSPORT_DISTANCE_FACTOR[self.means_of_transport]
+                self.transportation_cost = 2 * distance_factor * self.distance
+
+        self._set_travel_manual_fields()
         super(TravelInfo, self).save(*args, **kwargs)
 
     def validate_overnight_cost(self, petition):
@@ -286,14 +400,62 @@ class TravelInfo(Accommodation, Transportation):
         """
 
         EXTRA_COST = 100
+
         max_overnight_cost = common.MAX_OVERNIGHT_COST[
-            petition.user_category]
+            petition.user_category][0] if self.is_abroad() else \
+            common.MAX_OVERNIGHT_COST[petition.user_category][1]
+
         max_overnight_cost += EXTRA_COST if self.is_city_ny() else 0
-        if self.accommodation_cost > max_overnight_cost:
-            raise ValidationError('Accomondation cost %.2f for petition with'
-                                  ' DSE %s exceeds the max overnight cost.' % (
-                                      self.accommodation_cost,
-                                      str(petition.dse)))
+        max_overnight_cost += max_overnight_cost * 0.2\
+            if self.is_athens_or_thesniki() else 0
+
+        if self.same_day_return_task(petition=petition) and \
+                self.accommodation_cost:
+            raise ValidationError('This is a same day return travel,'
+                                  ' overnight cost is not acceptable.')
+
+
+    def calculate_city_distance(self, departure_point, arrival_point):
+
+        # Search in the db if the distance between cities is already calculated
+
+        city_distance_record = CityDistances.objects.\
+            filter(from_city=departure_point, to_city=arrival_point)
+
+        # if exists return the saved distance value
+        if city_distance_record:
+            return city_distance_record[0].distance
+
+        # else create a new city distance object
+        city_distance_record = CityDistances(from_city=departure_point,
+                                             to_city=arrival_point)
+
+        # and use google maps client
+        try:
+            city_name_from = departure_point.name
+            city_name_to = arrival_point.name
+            geolocator = Nominatim()
+            _from = geolocator.geocode(city_name_from)
+            _to = geolocator.geocode(city_name_to)
+            _from = (_from.latitude, _from.longitude)
+            _to = (_to.latitude, _to.longitude)
+
+            gmaps = googlemaps.Client(key=settings.GOOGLE_MAPS_KEY)
+            distance_result = gmaps.distance_matrix(_from,
+                                                    _to,
+                                                    mode="driving")
+
+            distance = distance_result['rows'][0]['elements'][0]['distance']\
+                ['value']
+            distance /= 1000
+
+            # and save the calculated value to db
+            city_distance_record.distance = distance
+            city_distance_record.save()
+            return distance
+        except Exception as ex:
+            print ex.message
+            return 0
 
     def transport_days_proposed(self):
         """
@@ -312,7 +474,7 @@ class TravelInfo(Accommodation, Transportation):
                            self.return_date - self.depart_date).days))
         return sum(1 for day in time_period if day.weekday() not in WEEKENDS)
 
-    def overnights_num_proposed(self, task_start_date, task_end_date):
+    def overnights_num_proposed(self, task_start_date=None, task_end_date=None):
         """
         Method which calculates the proposed number of days that traveller
         should overnight.
@@ -328,8 +490,13 @@ class TravelInfo(Accommodation, Transportation):
         :param task_end_date: Date when task ends.
         :returns: The proposed overinight days.
         """
-        if not (self.return_date and self.depart_date
-                and task_start_date and task_end_date):
+
+        task_start_date = task_start_date or self.travel_petition.\
+            task_start_date
+        task_end_date = task_end_date or self.travel_petition.task_end_date
+
+        if not (self.return_date and self.depart_date and
+                task_start_date and task_end_date):
             return 0
 
         first_day = task_start_date - timedelta(days=1) \
@@ -366,13 +533,18 @@ class TravelInfo(Accommodation, Transportation):
             self.travel_petition.user_category,
             self.arrival_point.country.category)]
 
-    def same_day_return_task(self):
+    def same_day_return_task(self, petition=None):
         """
         This method checks that the t
         """
+        task_start_date, task_end_date = None, None
+        if petition is None:
+            task_start_date = self.travel_petition.task_start_date
+            task_end_date = self.travel_petition.task_end_date
+        else:
+            task_start_date = petition.task_start_date
+            task_end_date = petition.task_end_date
 
-        task_start_date = self.travel_petition.task_start_date
-        task_end_date = self.travel_petition.task_end_date
         if task_end_date is None or \
                 self.return_date is None \
                 or task_start_date is None \
@@ -382,10 +554,11 @@ class TravelInfo(Accommodation, Transportation):
             == task_start_date.date() == self.depart_date.date()
 
     def compensation_days_proposed(self):
-
-        return self.overnights_num_proposed(
-            self.travel_petition.task_start_date,
-            self.travel_petition.task_end_date)
+        calculated_compensation = \
+            self.overnights_num_proposed()
+        calculated_compensation = 1 if calculated_compensation == 0 else \
+            calculated_compensation
+        return calculated_compensation
 
     def compensation_cost(self):
         """Calculates the compensation based on compensation days,
@@ -397,44 +570,72 @@ class TravelInfo(Accommodation, Transportation):
         percentage = 100
         max_compensation = self.compensation_days_manual * \
             self.compensation_level()
-        if self.same_day_return_task():
+
+        if self.is_abroad() and self.same_day_return_task():
             max_compensation *= 0.5
+
         compensation_proportion = common.COMPENSATION_PROPORTION[self.meals] \
             if self.meals else 1
+
+        if not self.is_abroad():
+            if self.meals not in ('SEMI', 'FULL'):
+                try:
+                    if self.same_day_return_task() and \
+                            self.distance >= common.\
+                            TRANSPORTATION_MODE_MIN_DISTANCE[
+                                self.means_of_transport]:
+                        compensation_proportion = 0.5
+
+                    if self.same_day_return_task() and \
+                            self.distance <= common.\
+                            TRANSPORTATION_MODE_MIN_DISTANCE[
+                                self.means_of_transport]:
+                        compensation_proportion = 0.25
+                except KeyError:
+                    pass
+
+            if self.meals == 'FULL':
+                compensation_proportion = 0
+
         return max_compensation * compensation_proportion * (
             self.travel_petition.grnet_quota() / percentage)
 
+    def __unicode__(self):
+        return str(self.travel_petition.dse) + "-" + \
+            self.travel_petition.project.name +\
+            '-' + str(self.travel_petition.id)
 
-class SecretarialInfo(models.Model):
+
+class SecretarialInfo(md.Model):
 
     """
     Abstract model which includes information that secretary fills.
     """
-    non_grnet_quota = models.FloatField(
+    non_grnet_quota = md.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
 
-    movement_id = models.CharField(max_length=200, null=True, blank=True)
-    expenditure_protocol = models.CharField(
+    movement_id = md.CharField(max_length=200, null=True, blank=True)
+    expenditure_protocol = md.CharField(
         max_length=30, null=True, blank=True)
-    expenditure_date_protocol = models.DateField(
+    expenditure_date_protocol = md.DateField(
         blank=True, null=True)
-    movement_protocol = models.CharField(
+    movement_protocol = md.CharField(
         max_length=30, null=True, blank=True)
-    movement_date_protocol = models.DateField(
+    movement_date_protocol = md.DateField(
         blank=True, null=True)
-    compensation_petition_protocol = models.CharField(
+    compensation_petition_protocol = md.CharField(
         max_length=30, null=True, blank=True)
-    compensation_petition_date = models.DateField(
+    compensation_petition_date = md.DateField(
         blank=True, null=True)
-    compensation_decision_protocol = models.CharField(
+    compensation_decision_protocol = md.CharField(
         max_length=30, null=True, blank=True)
-    compensation_decision_date = models.DateField(
+    compensation_decision_date = md.DateField(
         blank=True, null=True)
-    manager_travel_approval = models.CharField(max_length=200, null=True,
-                                               blank=True)
+    manager_movement_approval = md.BooleanField(default=False,
+                                                db_index=True)
+    manager_cost_approval = md.BooleanField(default=False, db_index=True)
+    timesheeted = md.BooleanField(default=False, db_index=True)
 
-    manager_final_approval = models.CharField(max_length=200, null=True,
-                                              blank=True)
     MAX_GRNET_QUOTA = 100
 
     def grnet_quota(self):
@@ -446,47 +647,47 @@ class SecretarialInfo(models.Model):
         abstract = True
 
 
-class ParticipationInfo(models.Model):
+class ParticipationInfo(md.Model):
 
     """
     An abstract model that represents the participation cost related info
     """
-    participation_cost = models.FloatField(
+    participation_cost = md.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
 
-    participation_default_currency = models.CharField(
+    participation_default_currency = md.CharField(
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
-    participation_local_cost = models.FloatField(
+    participation_local_cost = md.FloatField(
         blank=True, default=0.0, validators=[MinValueValidator(0.0)])
-    participation_local_currency = models.CharField(
+    participation_local_currency = md.CharField(
         max_length=3, blank=True, choices=common.CURRENCIES)
-    participation_payment_way = models.CharField(
+    participation_payment_way = md.CharField(
         max_length=10, choices=common.WAYS_OF_PAYMENT, blank=False,
         default='NON')
-    participation_payment_description = models.CharField(
+    participation_payment_description = md.CharField(
         max_length=200, blank=True, null=True)
 
     class Meta:
         abstract = True
 
 
-class AdditionalCosts(models.Model):
+class AdditionalCosts(md.Model):
 
     """
     An abstract model that represents the additional costs related info
     """
-    additional_expenses_initial = models.FloatField(
+    additional_expenses_initial = md.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-    additional_expenses_default_currency = models.CharField(
+    additional_expenses_default_currency = md.CharField(
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
-    additional_expenses_initial_description = models.CharField(
+    additional_expenses_initial_description = md.CharField(
         max_length=400, blank=True, null=True)
 
-    additional_expenses = models.FloatField(
+    additional_expenses = md.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-    additional_expenses_local_currency = models.CharField(
+    additional_expenses_local_currency = md.CharField(
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
-    additional_expenses_description = models.CharField(
+    additional_expenses_description = md.CharField(
         max_length=400, blank=True, null=True)
 
     class Meta:
@@ -513,53 +714,105 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     USER_FIELDS = ['first_name', 'last_name', 'iban', 'specialty', 'kind',
                    'tax_office', 'tax_reg_num', 'user_category']
 
-    id = models.AutoField(primary_key=True)
+    id = md.AutoField(primary_key=True)
 
     # travel user profile fields
-    iban = models.CharField(max_length=27, blank=False,
-                            validators=[iban_validation])
-    specialty = models.CharField(
+    iban = md.CharField(max_length=27, blank=False,
+                        validators=[iban_validation])
+    specialty = md.CharField(
         max_length=5, choices=common.SPECIALTY, blank=False)
-    tax_reg_num = models.CharField(max_length=9, blank=False,
-                                   validators=[afm_validator])
-    tax_office = models.ForeignKey(TaxOffice, blank=False)
-    kind = models.CharField(max_length=5, choices=common.KIND, blank=False)
-    user_category = models.CharField(
+    tax_reg_num = md.CharField(max_length=9, blank=False,
+                               validators=[afm_validator])
+    tax_office = md.ForeignKey(TaxOffice, blank=False)
+    kind = md.CharField(max_length=5, choices=common.KIND, blank=False)
+    user_category = md.CharField(
         max_length=1, choices=common.USER_CATEGORIES,
         blank=False, default='B')
 
-    dse = models.IntegerField(
+    dse = md.IntegerField(
         blank=False, validators=[MinValueValidator(1)])
 
-    user = models.ForeignKey(UserProfile, blank=False)
-    task_start_date = models.DateTimeField(
+    user = md.ForeignKey(UserProfile, blank=False)
+    task_start_date = md.DateTimeField(
         blank=True, null=True)
-    task_end_date = models.DateTimeField(
+    task_end_date = md.DateTimeField(
         blank=True, null=True)
-    created = models.DateTimeField(blank=False, default=timezone.now())
-    updated = models.DateTimeField(blank=False, default=timezone.now())
-    deleted = models.BooleanField(default=False, db_index=True)
-    project = models.ForeignKey(Project, blank=False)
-    reason = models.CharField(max_length=500, blank=True, null=True)
-    user_recommendation = models.CharField(
+    created = md.DateTimeField(blank=False, default=timezone.now)
+    updated = md.DateTimeField(blank=False, default=timezone.now)
+    deleted = md.BooleanField(default=False, db_index=True)
+    project = md.ForeignKey(Project, blank=False)
+    reason = md.CharField(max_length=500, blank=True, null=True)
+    user_recommendation = md.CharField(
         max_length=500, blank=True, null=True)
-    secretary_recommendation = models.CharField(
+    secretary_recommendation = md.CharField(
         max_length=500, blank=True, null=True)
 
-    status = models.IntegerField(blank=False, db_index=True)
+    status = md.IntegerField(blank=False, db_index=True)
 
-    first_name = models.CharField(max_length=200, blank=False, null=True)
-    last_name = models.CharField(max_length=200, blank=False, null=True)
+    first_name = md.CharField(max_length=200, blank=False, null=True)
+    last_name = md.CharField(max_length=200, blank=False, null=True)
 
-    travel_report = models.CharField(max_length=1000, blank=True, null=True)
+    travel_report = md.CharField(max_length=1000, blank=True, null=True)
 
-    compensation_alert = models.BooleanField(default=False, db_index=True)
+    compensation_alert = md.BooleanField(default=False, db_index=True)
 
-    travel_files = models.FileField(upload_to=common.user_directory_path,
-                                    null=True, blank=True)
+    travel_files = md.FileField(upload_to=common.user_directory_path,
+                                null=True, blank=True)
 
     tracked_fields = ['task_start_date', 'task_end_date']
     tracker = FieldTracker()
+
+
+    @classmethod
+    def check_resource_state_usersaved(cls, obj, row, request, view):
+        return obj.status == cls.SAVED_BY_USER
+
+
+    @classmethod
+    def check_resource_state_usersubmitted(cls, obj, row, request, view):
+        return obj.status == cls.SUBMITTED_BY_USER
+
+    @classmethod
+    def check_resource_state_secretarysaved(cls, obj, row, request, view):
+        return obj.status == cls.SUBMITTED_BY_USER or \
+            obj.status == cls.SAVED_BY_SECRETARY
+
+    @classmethod
+    def check_resource_state_secretarysubmitted(cls, obj, row, request, view):
+        return obj.status == cls.SUBMITTED_BY_SECRETARY
+
+    @classmethod
+    def check_resource_state_presidentapproved(cls, obj, row, request, view):
+        return obj.status == cls.APPROVED_BY_PRESIDENT
+
+    @classmethod
+    def check_resource_state_usercompensationsaved(cls, obj, row, request,
+                                                   view):
+        return obj.status == cls.USER_COMPENSATION
+
+    @classmethod
+    def check_resource_state_usercompensationsubmitted(cls, obj, row, request,
+                                                       view):
+        return obj.status == cls.USER_COMPENSATION_SUBMISSION
+
+    @classmethod
+    def check_resource_state_secretarycompensationsaved(cls, obj, row,
+                                                        request, view):
+        return obj.status == cls.SECRETARY_COMPENSATION
+
+    @classmethod
+    def check_resource_state_secretarycompensationsubmitted(cls, obj, row,
+                                                            request, view):
+        return obj.status == cls.SECRETARY_COMPENSATION_SUBMISSION
+
+    @classmethod
+    def check_resource_state_presidentcompensationapproved(cls, obj, row,
+                                                           request, view):
+        return obj.status == cls.PETITION_FINAL_APPOVAL
+
+    @classmethod
+    def check_resource_state_belongs(cls, obj, row, request, view):
+        return request.user == obj.user
 
     def __init__(self, *args, **kwargs):
         super(Petition, self).__init__(*args, **kwargs)
@@ -652,14 +905,6 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         self.travel_info.add(*travel_info)
         return self.id
 
-    def _construct_validation_message(self, fields):
-        response = {}
-        message = ['This field is required']
-
-        for field in fields:
-            response[field] = message
-        return response
-
     def proceed(self, **kwargs):
         """
         Proceed petition to the next status.
@@ -675,7 +920,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         if next_status in Petition.SUBMISSION_STATUSES \
                 and missing_fields:
             raise serializers.ValidationError(
-                self._construct_validation_message(missing_fields))
+                _construct_validation_message(missing_fields))
         return self.status_transition(self.status + 1, delete=submit, **kwargs)
 
     def get_missing_fields(self):
@@ -685,8 +930,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         related objects have been initialized.
         """
         missing_fields = []
-        petition_missing_fields = get_model_missing_fields(
-            self, excluded=getattr(self, 'excluded', []))
+        excluded = self.excluded_per_status.get(self.status, [])
+        petition_missing_fields = get_model_missing_fields(self, excluded)
         missing_fields.extend(petition_missing_fields)
 
         travel_info = self.travel_info.all()
@@ -694,9 +939,10 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         if travel_info:
             for travel_obj in travel_info:
                 travel_info_missing_fields = []
+                travel_info_excluded = \
+                    self.excluded_ti_per_status.get(self.status,[])
                 travel_info_missing_fields.extend(get_model_missing_fields(
-                    travel_obj,
-                    excluded=getattr(self, 'excluded_travel_info', [])))
+                    travel_obj,travel_info_excluded))
                 missing_fields.extend(travel_info_missing_fields)
 
         return missing_fields
@@ -730,15 +976,24 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     def trip_days_before(self):
         """ Gets the number of trip days of user before petition. """
-        return self.user.trip_days_left
+        return self.user.trip_days_left \
+            if self.status < self.USER_COMPENSATION_SUBMISSION else \
+            self.user.trip_days_left + self.transport_days()
 
     def trip_days_after(self):
         """ Gets the number of trip days of user after petition. """
-        return self.user.trip_days_left - self.transport_days()
+        return self.user.trip_days_left - self.transport_days() \
+            if self.status < self.USER_COMPENSATION_SUBMISSION else \
+            self.user.trip_days_left
 
     def overnights_num(self):
         """ Gets the number of total overnight days for all destinations. """
         return sum(travel.overnights_num_manual
+                   for travel in self.travel_info.all())
+
+    def compensation_days_num(self):
+        """ Gets the number of total compensation days for all destinations. """
+        return sum(travel.compensation_days_manual
                    for travel in self.travel_info.all())
 
     def overnights_proposed(self):
@@ -762,8 +1017,11 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         :returns: TODO
 
         """
-        return sum(travel_obj.compensation_cost()
-                   for travel_obj in self.travel_info.all())
+        compensation_cost_sum = sum(travel_obj.compensation_cost()
+                                    for travel_obj in self.travel_info.all())
+
+        return sum([compensation_cost_sum, self.additional_expenses or
+                    self.additional_expenses_initial])
 
     def total_cost(self):
         """
@@ -775,15 +1033,13 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         transportation_cost = sum(travel.transportation_cost
                                   for travel in self.travel_info.all())
         return sum([transportation_cost, self.participation_cost,
-                    self.compensation_final(), self.overnights_sum_cost(),
-                    self.additional_expenses or
-                    self.additional_expenses_initial])
+                    self.compensation_final(), self.overnights_sum_cost()])
 
     def __unicode__(self):
         return str(self.dse) + "-" + self.project.name + '-' + str(self.id)
 
 
-class PetitionManager(models.Manager):
+class PetitionManager(md.Manager):
 
     def __init__(self, status_list, *args, **kwargs):
         self.status_list = status_list
@@ -795,8 +1051,8 @@ class PetitionManager(models.Manager):
         """
         base_queryset = super(PetitionManager, self).get_queryset()
         status_dse_map = base_queryset.filter(
-            status__in=self.status_list, deleted=False).values('dse').\
-            annotate(Max('status'))
+            status__in=self.status_list, deleted=False,
+            project__active=True).values('dse').annotate(Max('status'))
         q = Q()
         for status_dse in status_dse_map:
             q |= Q(status=status_dse['status__max'],
@@ -804,6 +1060,178 @@ class PetitionManager(models.Manager):
         return base_queryset.filter(q) if status_dse_map else \
             base_queryset.filter(status__in=self.status_list, deleted=False)
 
+class Applications(Petition):
+    objects = PetitionManager([Petition.SAVED_BY_USER,
+                               Petition.SUBMITTED_BY_USER,
+                               Petition.SAVED_BY_SECRETARY,
+                               Petition.SUBMITTED_BY_SECRETARY,
+                               Petition.APPROVED_BY_PRESIDENT,
+                               Petition.USER_COMPENSATION,
+                               Petition.USER_COMPENSATION_SUBMISSION,
+                               Petition.SECRETARY_COMPENSATION,
+                               Petition.SECRETARY_COMPENSATION_SUBMISSION,
+                               Petition.PETITION_FINAL_APPOVAL])
+
+    excluded_ucompensation = ['non_grnet_quota', 'participation_cost',
+                'compensation_petition_protocol', 'user_recommendation',
+                'secretary_recommendation', 'compensation_petition_date',
+                'compensation_decision_protocol', 'compensation_decision_date',
+                'participation_payment_description', 'deleted',
+                'participation_local_cost', 'compensation_alert',
+                'additional_expenses_initial',
+                'additional_expenses_initial_description',
+                'additional_expenses', 'additional_expenses_description',
+                'manager_cost_approval', 'manager_movement_approval',
+                'compensation_alert','timesheeted',
+                              'participation_local_currency',
+                              'expenditure_date_protocol',
+                              'expenditure_protocol']
+    excluded_uc_travel_info = ['accommodation_local_cost',
+                               'accommodation_cost',
+                               'accommodation_payment_description',
+                               'accommodation_local_currency',
+                               'overnights_num_manual',
+                               'transport_days_manual',
+                               'compensation_days_manual',
+                               'distance']
+
+    excluded_scompensation = ['non_grnet_quota', 'participation_cost',
+                'participation_payment_description', 'deleted', 'travel_files',
+                'participation_local_cost', 'additional_expenses_initial',
+                'additional_expenses_initial_description',
+                'additional_expenses', 'additional_expenses_description',
+                'user_recommendation', 'compensation_alert',
+                'secretary_recommendation', 'manager_cost_approval',
+                'manager_movement_approval','timesheeted',
+                              'participation_local_currency']
+    excluded_sc_travel_info = ['accommodation_local_cost',
+                            'accommodation_cost',
+                            'accommodation_payment_description',
+                            'accommodation_local_currency',
+                            'overnights_num_manual',
+                            'transport_days_manual',
+                            'compensation_days_manual',
+                            'distance']
+
+    excluded_usubmission = ['non_grnet_quota','expenditure_protocol',
+                            'expenditure_date_protocol',
+                            'movement_protocol',
+                            'movement_date_protocol',
+                            'compensation_petition_protocol',
+                            'compensation_petition_date',
+                            'compensation_decision_protocol',
+                            'compensation_decision_date',
+                            'manager_movement_approval',
+                            'manager_cost_approval',
+                            'timesheeted',
+                            'participation_cost',
+                            'participation_local_currency',
+                            'participation_local_cost',
+                            'participation_payment_description',
+                            'additional_expenses_initial',
+                            'additional_expenses_initial_description',
+                            'additional_expenses',
+                            'additional_expenses_description',
+                            'deleted',
+                            'user_recommendation',
+                            'secretary_recommendation',
+                            'travel_report',
+                            'compensation_alert',
+                            'travel_files',
+                            'accommodation_cost',
+                            'accommodation_local_cost',
+                            'accommodation_payment_description',
+                            'transportation_cost',
+                            'transportation_payment_description',
+                            'distance']
+    excluded_usubmission_ti = ['accommodation_cost',
+                               'accommodation_local_cost',
+                               'accommodation_payment_description',
+                               'transportation_cost',
+                               'transportation_payment_description',
+                               'distance', 'overnights_num_manual',
+                               'transport_days_manual',
+                               'accommodation_local_currency']
+
+    excluded_sec_submission =['non_grnet_quota',
+                              'compensation_petition_protocol',
+                              'compensation_petition_date',
+                              'compensation_decision_protocol',
+                              'compensation_decision_date',
+                              'manager_cost_approval',
+                              'timesheeted',
+                              'participation_cost',
+                              'participation_local_cost',
+                              'participation_payment_description',
+                              'additional_expenses_initial',
+                              'additional_expenses_initial_description',
+                              'additional_expenses',
+                              'additional_expenses_description',
+                              'deleted',
+                              'user_recommendation',
+                              'secretary_recommendation',
+                              'travel_report',
+                              'compensation_alert',
+                              'travel_files',
+                              'manager_movement_approval',
+                              'participation_local_currency']
+
+    excluded_sec_submission_ti =['accommodation_local_cost','distance',
+                                 'accommodation_cost',
+                                 'manager_movement_approval',
+                                 'accommodation_payment_description',
+                                 'accommodation_local_currency',
+                                 ]
+
+
+    excluded_per_status = {
+        Petition.SAVED_BY_USER:excluded_usubmission,
+        Petition.APPROVED_BY_PRESIDENT:excluded_ucompensation,
+        Petition.SAVED_BY_SECRETARY:excluded_sec_submission,
+        Petition.USER_COMPENSATION:excluded_ucompensation,
+        Petition.USER_COMPENSATION_SUBMISSION:excluded_ucompensation,
+        Petition.SECRETARY_COMPENSATION:excluded_scompensation,
+        Petition.SECRETARY_COMPENSATION_SUBMISSION:excluded_scompensation,
+        Petition.PETITION_FINAL_APPOVAL:excluded_scompensation
+    }
+    excluded_ti_per_status = {
+        Petition.SAVED_BY_USER:excluded_usubmission_ti,
+        Petition.SAVED_BY_SECRETARY:excluded_sec_submission_ti,
+        Petition.APPROVED_BY_PRESIDENT:excluded_uc_travel_info,
+        Petition.USER_COMPENSATION:excluded_uc_travel_info,
+        Petition.USER_COMPENSATION_SUBMISSION:excluded_uc_travel_info,
+        Petition.SECRETARY_COMPENSATION:excluded_sc_travel_info,
+        Petition.SECRETARY_COMPENSATION_SUBMISSION:excluded_sc_travel_info,
+        Petition.PETITION_FINAL_APPOVAL:excluded_sc_travel_info
+    }
+
+    class Meta:
+        proxy = True
+
+    def clean(self):
+        """
+        Overrides `clean` method and checks if specified dates are valid.
+        """
+        super(Applications, self).clean()
+        if self.task_start_date and self.task_end_date:
+            start_end_date_validator(
+                ((self.task_start_date, self.task_end_date),),
+                (('task start', 'task end'),))
+            date_validator('Task start', self.task_start_date)
+            date_validator('Task end', self.task_end_date)
+
+    def save(self, **kwargs):
+        # Remove temporary saved petition with the corresponding dse.
+
+        if self.status in (Petition.SUBMITTED_BY_USER,
+                           Petition.SUBMITTED_BY_SECRETARY):
+            try:
+                Applications.objects.get(status=self.status-1,
+                                         dse=self.dse).delete()
+            except ObjectDoesNotExist:
+                pass
+
+        super(Applications, self).save(**kwargs)
 
 class UserPetition(Petition):
 
@@ -842,13 +1270,6 @@ class UserPetitionSubmission(Petition):
             pass
         super(UserPetitionSubmission, self).save(**kwargs)
 
-    def status_rollback(self):
-        """
-        Changes status of the petition to the previous one by marking current
-        as deleted and creating new one to the corresponding status.
-        """
-        return self.status_transition(self.SAVED_BY_USER)
-
 
 class SecretaryPetition(Petition):
 
@@ -877,13 +1298,6 @@ class SecretaryPetitionSubmission(Petition):
             pass
         super(SecretaryPetitionSubmission, self).save(**kwargs)
 
-    def status_rollback(self):
-        """
-        Changes status of the petition to the previous one by marking current
-        as deleted and creating new one to the corresponding status.
-        """
-        return self.status_transition(self.SAVED_BY_SECRETARY)
-
 
 class UserCompensation(Petition):
 
@@ -895,18 +1309,20 @@ class UserCompensation(Petition):
                 'compensation_petition_protocol', 'user_recommendation',
                 'secretary_recommendation', 'compensation_petition_date',
                 'compensation_decision_protocol', 'compensation_decision_date',
-                'participation_payment_description', 'deleted', 'travel_files',
+                'participation_payment_description', 'deleted',
                 'participation_local_cost', 'compensation_alert',
                 'additional_expenses_initial',
                 'additional_expenses_initial_description',
                 'additional_expenses', 'additional_expenses_description',
-                'manager_final_approval', 'manager_travel_approval',
-                'compensation_alert']
+                'manager_cost_approval', 'manager_movement_approval',
+                'compensation_alert','timesheeted']
     excluded_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
+                            'accommodation_payment_description',
                             'overnights_num_manual',
                             'transport_days_manual',
-                            'compensation_days_manual']
+                            'compensation_days_manual',
+                            'distance']
 
     class Meta:
         proxy = True
@@ -927,12 +1343,15 @@ class SecretaryCompensation(Petition):
                 'additional_expenses_initial_description',
                 'additional_expenses', 'additional_expenses_description',
                 'user_recommendation', 'compensation_alert',
-                'secretary_recommendation', 'manager_final_approval',
-                'manager_travel_approval']
+                'secretary_recommendation', 'manager_cost_approval',
+                'manager_movement_approval','timesheeted']
     excluded_travel_info = ['accommodation_local_cost',
+                            'accommodation_cost',
+                            'accommodation_payment_description',
                             'overnights_num_manual',
                             'transport_days_manual',
-                            'compensation_days_manual']
+                            'compensation_days_manual',
+                            'distance']
 
     class Meta:
         proxy = True

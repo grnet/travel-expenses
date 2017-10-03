@@ -15,6 +15,10 @@ class PetitionMixin(object):
         creation of objects.
 
         """
+
+        validated_data.update({'status': Petition.SAVED_BY_USER,
+                               'user': self.context['request'].user})
+
         self.check_creation_allowed(validated_data)
         travel_info = validated_data.pop('travel_info', [])
         petition = self.Meta.model.objects.create(**validated_data)
@@ -46,16 +50,13 @@ class PetitionMixin(object):
                                     'task_start_date': data['task_start_date'],
                                     'task_end_date': data['task_end_date']}
 
-        relative_petition_exclude_filter = {'dse': dse, 'user': data['user'],
-                                            'task_start_date':
-                                            data['task_start_date'],
-                                            'task_end_date':
-                                            data['task_end_date']}
+        relative_petition_exclude_filter = {'dse': dse, 'user': data['user']}
 
         relative_records = Petition.objects.filter(**relative_petition_filter)
 
         dse_already_used = Petition.objects.\
-            exclude(**relative_petition_exclude_filter).filter(dse=dse)
+            exclude(**relative_petition_exclude_filter).filter(dse=dse,
+                                                               deleted=False)
 
         if dse_already_used.exists():
             raise PermissionDenied("A petition with dse:{0}, already exists."
@@ -75,6 +76,18 @@ class PetitionMixin(object):
         models and it actually implements the nested serializationf for the
         update of objects.
         """
+
+        user = self.context['request'].user
+
+        proceed_status = [
+            ("USER", Petition.APPROVED_BY_PRESIDENT),
+            ("MANAGER", Petition.APPROVED_BY_PRESIDENT),
+            ("SECRETARY", Petition.SUBMITTED_BY_USER),
+            ("CONTROLLER", Petition.USER_COMPENSATION_SUBMISSION)]
+
+        if (user.user_group(), instance.status) in proceed_status:
+            instance.proceed()
+
         travel_info = validated_data.pop('travel_info', [])
         for k, v in validated_data.iteritems():
             setattr(instance, k, v)
