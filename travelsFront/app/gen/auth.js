@@ -29,7 +29,7 @@ export default AuthGen.extend({
       },
       {
         label: 'personal_info.label',
-        fields: ['first_name', 'last_name', 'iban', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'user_category'],
+        fields: ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'user_category'],
         layout: {
           flex: [50, 50, 50, 50, 50, 50, 50, 50]
         }

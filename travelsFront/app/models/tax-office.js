@@ -7,10 +7,10 @@ export default DS.Model.extend({
   full_label: Ember.computed('name', function(){
     return this.get('name');
   }),
-	name:  DS.attr(),
-	description:  DS.attr(),
-	address:  DS.attr(),
-	email:  DS.attr(),
-	phone:  DS.attr(),
-	url: DS.attr()
+  name:  DS.attr(),
+  description:  DS.attr(),
+  address:  DS.attr(),
+  email:  DS.attr(),
+  phone:  DS.attr(),
+  url: DS.attr()
 });
