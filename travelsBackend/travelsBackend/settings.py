@@ -55,7 +55,6 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
-    'crispy_forms',
     'django_crontab',
 )
 CRONJOBS = [
@@ -184,8 +183,7 @@ LOGGING = {
 }
 
 # Path to resources file.
-RESOURCES_FILE = os.path.join(BASE_DIR,
-                              '../resources/common.json')
+RESOURCES_FILE = os.path.join(BASE_DIR,'../resources/common.json')
 try:
     from local_settings import *
 except ImportError, e:
