@@ -1,6 +1,4 @@
 /* jshint node: true */
-var choices = require('../../resources/common');
-
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'travel',
