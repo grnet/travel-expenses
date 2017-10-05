@@ -1,7 +1,6 @@
 apimas-drf==0.3
 apimas==0.3
 Django==1.8
-django-crispy-forms==1.6.0
 django-crontab==0.6.0
 django-filter==1.0.0
 django-model-utils==2.5
