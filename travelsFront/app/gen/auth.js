@@ -1,5 +1,6 @@
 import gen from 'ember-gen/lib/gen';
 import AuthGen from 'ember-gen/lib/auth';
+import {Register} from '../lib/register';
 
 const {
   get, computed
@@ -10,6 +11,10 @@ export default AuthGen.extend({
     config: {
       authenticator: 'travel'
     }
+  },
+
+  gens: {
+    register: Register
   },
 
   profile: {

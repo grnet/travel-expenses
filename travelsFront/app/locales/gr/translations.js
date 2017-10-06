@@ -110,7 +110,7 @@ export default {
   'help.tab': 'Οδηγίες Χρήσης',
   'petitions_list.tab': 'Λίστα Αιτήσεων',
   //titles
-  'login.label': 'Εισοδος',
+  'login.label': 'Είσοδος',
   'logged_in_as.title': 'Συνδεθήκατε ως: ',
   'signup.title': 'Δημιουργία Λογαριασμού',
   'profile.title': 'Προφίλ',
