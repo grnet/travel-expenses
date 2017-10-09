@@ -83,7 +83,7 @@ export const UIS = {
       },
       {
         'label': 'travel_report.label',
-        'fields': ['travel_files', 'travel_report', 'additional_expenses', 'additional_expenses_local_currency', 'additional_expenses_description']
+        'fields': ['travel_files', 'additional_expenses', 'additional_expenses_local_currency', 'additional_expenses_description']
       },
     ],
     layout: {
@@ -107,7 +107,7 @@ export const UIS = {
       },
       {
         'label': 'travel_report.label',
-        'fields': [['travel_files', {attrs:{disabled: true}}], ['travel_report', {attrs:{disabled: true}}], 
+        'fields': [['travel_files', {attrs:{disabled: true}}],
         ['additional_expenses', {label:'additional_expenses_user.label'}], 
         'additional_expenses_local_currency', 
         ['additional_expenses_description', {label:'additional_expenses_description_user.label'}]]
