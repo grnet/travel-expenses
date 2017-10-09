@@ -48,7 +48,7 @@ def send_email(subject, template, params, sender, to, bcc=(), cc=(),
     content = render_to_string(template, params)
     prefix = '<Travel Expenses> '
     try:
-        project_name = '['+params['project'].encode('utf-8')+']'
+        project_name = ' ['+params['project'].encode('utf-8')+']'
         message = EmailMessage(prefix + subject + project_name, content,
                                sender, to=to, bcc=bcc, cc=cc,
                                connection=get_connection()
