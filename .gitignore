@@ -21,6 +21,7 @@ travelsBackend/uploads/
 travelsBackend/.cache/*
 travelsBackend/.coverage
 travelsBackend/htmlcov/*
+debian/*~
 
 instructions.txt~
 resources/.*.swo
