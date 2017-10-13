@@ -15,7 +15,7 @@ export default  Profile.extend({
     }
   },
 
-  username: DS.attr(),
+  username: DS.attr({formAttrs: {disabled: true}}),
   email: DS.attr('string'),
   first_name: DS.attr(),
   last_name: DS.attr(),

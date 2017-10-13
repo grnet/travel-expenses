@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import gen from 'ember-gen/lib/gen';
 import AuthGen from 'ember-gen/lib/auth';
 import {Register} from '../lib/register';
@@ -7,6 +8,7 @@ const {
 } = Ember;
 
 export default AuthGen.extend({
+  order: 100,
   login: {
     config: {
       authenticator: 'travel'
