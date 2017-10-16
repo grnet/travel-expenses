@@ -1,3 +1,0 @@
-{% load tz %}
-Μετακινούμενος, Ιδιότητα, Ειδικότητα, ΑΦΜ, IBAN, Αναχώρηση, Επιστροφή, Έναρξη Εργασιών, Λήξη Εργασιών, Αιτιολογία, Τόπος Μετακίνησης. Από, Τόπος Μετακίνησης. Πρός, Έργο
-{{first_name}} {{last_name}}, {{kind}}, {{specialty}}, {{tax_reg_num}},{{iban}}, {{depart_date|timezone:timezone_depart|date:"d/m/Y-H:i"}}, {{return_date|timezone:timezone_arrival|date:"d/m/Y-H:i"}}, {{task_start_date|timezone:timezone_arrival|date:"d/m/Y-H:i"}},{{task_end_date|timezone:timezone_arrival|date:"d/m/Y-H:i"}}, {{reason}}, {{departure_point}}, {{arrival_point}}, {{project}}
