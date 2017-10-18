@@ -142,7 +142,7 @@ def inform_on_action(action, target_user=False, inform_controller=False):
 
 def compensation_alert():
 
-    inform_date = (timezone.now() + timedelta(days=1)).strftime(DATE_FORMAT)
+    inform_date = (timezone.now() - timedelta(days=1)).strftime(DATE_FORMAT)
 
     approved_petitions = Petition.objects.filter(status=\
                                                Petition.APPROVED_BY_PRESIDENT,\
