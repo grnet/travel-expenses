@@ -786,6 +786,25 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     tracked_fields = ['task_start_date', 'task_end_date']
     tracker = FieldTracker()
 
+
+    @classmethod
+    def check_resource_state_secretarysubmitted(cls, obj, row, request, view):
+        return obj.status == cls.SUBMITTED_BY_SECRETARY
+
+    @classmethod
+    def check_resource_state_presidentapproved(cls, obj, row, request, view):
+        return obj.status == cls.APPROVED_BY_PRESIDENT
+
+    @classmethod
+    def check_resource_state_secretarycompensationsubmitted(cls, obj, row,
+                                                            request, view):
+        return obj.status == cls.SECRETARY_COMPENSATION_SUBMISSION
+
+    @classmethod
+    def check_resource_state_presidentcompensationapproved(cls, obj, row,
+                                                           request, view):
+        return obj.status == cls.PETITION_FINAL_APPOVAL
+
     def __init__(self, *args, **kwargs):
         super(Petition, self).__init__(*args, **kwargs)
         user = kwargs.get('user', None)
