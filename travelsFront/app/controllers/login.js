@@ -26,6 +26,8 @@ export default Ember.Controller.extend({
                   this.transitionToRoute('petitionList');
                 } else if (group === "MANAGER") {
                   this.transitionToRoute('manager-list');
+                } else if (group === "PRESIDENT_SECRETARY") {
+                  this.transitionToRoute('president-list');
                 }
               } 
               else {

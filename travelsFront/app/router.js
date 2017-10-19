@@ -22,6 +22,7 @@ Router.map(function() {
   this.route('help');
   this.route('manager-list');
   this.route('statistics');
+  this.route('president-list');
 });
 
 export default Router;

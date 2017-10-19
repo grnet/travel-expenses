@@ -1,6 +1,6 @@
 {{page-toolbar pageTitle=(t "petition_list.title")}}
   
-{{#if (or (can "approve petition") (can "compensate petition") (can "managerApprove petition"))}}
+{{#if (or (can "approve petition") (can "compensate petition") (can "managerApprove petition") (can "presidentApprove petition"))}}
 
   {{list-filter filters=filters updateFilters=(action 'setFilters')}}
 
@@ -106,11 +106,11 @@
       {{#each paginatedModel as |petition|}}
         {{#if petition.project.name}}
           {{petition-listing petition=petition 
-            del="petitionDelete" 
-            edit="petitionEdit" 
-            undo="petitionUndo" 
-            view="petitionView" 
-            pdf="pdfExport" 
+            del="petitionDelete"
+            edit="petitionEdit"
+            undo="petitionUndo"
+            view="petitionView"
+            pdf="pdfExport"
             approve="presidentApproval"
             wrapper=body.row}}
         {{/if}}
@@ -128,4 +128,3 @@
     onDecrementPage=(action 'decrementPage')
   }}
 {{/if}}
-
