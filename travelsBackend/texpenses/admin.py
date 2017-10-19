@@ -9,9 +9,19 @@ from .models import TravelInfo
 from .models import CityDistances
 
 
+class PetitionAdmin(admin.ModelAdmin):
+    search_fields = ['dse']
+    list_display = ('dse', 'project', 'user', 'created', 'deleted',
+                    'updated', 'status', 'task_start_date', 'task_end_date')
+    list_filter = ('created', 'updated', 'task_start_date', 'task_end_date',
+                   'project', 'user')
+    date_hierarchy = 'updated'
+    ordering = ('-updated','-task_start_date', '-task_end_date')
+
+
 admin.site.register(UserProfile)
 admin.site.register(TaxOffice)
-admin.site.register(Petition)
+admin.site.register(Petition, PetitionAdmin)
 admin.site.register(Project)
 admin.site.register(Country)
 admin.site.register(City)
