@@ -18,4 +18,7 @@ export default Ability.extend({
   canView: Ember.computed('account.user.user_group', function() {
     return this.get('account.user.user_group') === "VIEWER";
   }),
+  canPresidentApprove: Ember.computed('account.user.user_group', function() {
+    return this.get('account.user.user_group') === "PRESIDENT_SECRETARY";
+  }),
 });
