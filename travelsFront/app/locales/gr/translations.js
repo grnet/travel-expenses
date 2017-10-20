@@ -190,6 +190,7 @@ export default {
   'tooltip_edit': 'Επεξεργασία Αίτησης',
   'tooltip_delete': 'Διαγραφή Αίτησης',
   'tooltip_undo': 'Αναίρεση Υποβολής',
+  'tooltip_approve_undo': 'Αναίρεση Έγκρισης',
   'tooltip_view': 'Επισκόπηση Αίτησης',
   'pdf_travel_application': 'Εξαγωγή Αίτησης Δαπάνης Μετακίνησης',
   'pdf_travel_decision': 'Εξαγωγή Απόφασης Μετακίνησης',

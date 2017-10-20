@@ -12,11 +12,11 @@
   {{#if (eq petition.status 4)}}
     {{list-action action=(action "approve" petition) icon='done' tooltip-message=(t 'travel_presidentApproval') iconButton=true confirm=true promptTitle=(t 'prompt_done_title') promptMessage=(t 'prompt_done_message')}}
   {{else if (eq petition.status 5)}}
-    {{list-action action=(action "undo" petition) icon='undo' tooltip-message=(t 'tooltip_undo') iconButton=true confirm=true promptTitle=(t 'prompt_undo_title') promptMessage=(t 'prompt_undo_message')}}
+    {{list-action action=(action "undo" petition) icon='undo' tooltip-message=(t 'tooltip_approve_undo') iconButton=true confirm=true promptTitle=(t 'prompt_undo_title') promptMessage=(t 'prompt_undo_message')}}
   {{else if (eq petition.status 9)}}
     {{list-action action=(action "approve" petition) icon='done' tooltip-message=(t 'compensation_presidentApproval') iconButton=true confirm=true promptTitle=(t 'prompt_done_title') promptMessage=(t 'prompt_done_message')}}
   {{else if (eq petition.status 10)}}
-    {{list-action action=(action "undo" petition) icon='undo' tooltip-message=(t 'tooltip_undo') iconButton=true confirm=true promptTitle=(t 'prompt_undo_title') promptMessage=(t 'prompt_undo_message')}}
+    {{list-action action=(action "undo" petition) icon='undo' tooltip-message=(t 'tooltip_approve_undo') iconButton=true confirm=true promptTitle=(t 'prompt_undo_title') promptMessage=(t 'prompt_undo_message')}}
   {{/if}}
 {{else if (can "managerApprove petition")}}
   {{#if (and (lte petition.status 3) (eq petition.needsApproval false))}}

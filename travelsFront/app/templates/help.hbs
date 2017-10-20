@@ -11,6 +11,8 @@
     {{partial 'manager-manual'}}
   {{else if (can "view petition")}}
     {{partial 'viewer-manual'}}
+  {{else if (can "presidentApprove petition")}}
+    {{partial 'president-manual'}}
   {{else}}
     {{partial 'user-manual'}}
   {{/if}}
