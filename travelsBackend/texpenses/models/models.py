@@ -275,6 +275,9 @@ class TravelInfo(Accommodation, Transportation):
         fields=tracked_means_of_tranport_fields)
     travel_petition_buffer = None
 
+    class Meta:
+        ordering = ['depart_date',]
+
     def clean(self, petition):
         extended_validation_statuses = [Petition.SUBMITTED_BY_USER,
                                         Petition.USER_COMPENSATION_SUBMISSION,
@@ -563,8 +566,8 @@ class TravelInfo(Accommodation, Transportation):
             +1 if { [depart_date] < [task_start_date] }
         """
 
-        task_start_date = self.travel_petition.task_start_date
-        task_end_date = self.travel_petition.task_end_date
+        task_start_date = self.depart_date
+        task_end_date = self.return_date
 
         if not (self.depart_date and task_start_date and task_end_date):
             return 0
