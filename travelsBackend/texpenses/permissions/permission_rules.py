@@ -211,7 +211,8 @@ PERMISSION_RULES = [
     ('petition-secretary-compensations', 'retrieve', 'CONTROLLER', '*', '*', '*'),
     ('petition-secretary-compensations', 'update', 'CONTROLLER', '*', '*', '*'),
     ('petition-secretary-compensations', 'cancel', 'CONTROLLER', '*', 'secretarycompensationsubmitted', '*'),
-    ('petition-secretary-compensations', 'president_approval', 'PRESIDENT_SECRETARY', '*', '*', '*'),
+    ('petition-secretary-compensations', 'cancel', 'CONTROLLER', '*', 'presidentcompensationapproved', '*'),
+    ('petition-secretary-compensations', 'president_approval', 'CONTROLLER', '*', '*', '*'),
     ('petition-secretary-compensations', 'application_report', 'CONTROLLER', '*', '*', '*'),
     ('petition-secretary-compensations', 'decision_report', 'CONTROLLER', '*', '*', '*'),
     ('petition-secretary-compensations', 'save', 'CONTROLLER', '*', '*', '*'),
@@ -237,10 +238,5 @@ PERMISSION_RULES = [
     ('petition-secretary-compensations', 'cancel', 'ADMIN', '*', '*', '*'),
     ('petition-secretary-compensations', 'list', 'VIEWER', '*', '*', '*'),
     ('petition-secretary-compensations', 'retrieve', 'VIEWER', '*', '*', '*'),
-
-    ('petition-secretary-compensations', 'list', 'PRESIDENT_SECRETARY', '*', '*', '*'),
-    ('petition-secretary-compensations', 'retrieve', 'PRESIDENT_SECRETARY', '*', '*', '*'),
-    ('petition-secretary-compensations', 'cancel', 'PRESIDENT_SECRETARY', '*', 'presidentcompensationapproved', '*'),
-
 
 ]
