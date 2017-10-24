@@ -679,7 +679,7 @@ class SecretaryCompensationMixin(object):
                      petition_object.additional_expenses_local_currency,
                      'compensation_final': petition_object.compensation_final,
                      'transportation_compensation':
-                     petition_object.tranportation_cost_to_be_compensated()
+                     petition_object.transportation_cost_to_be_compensated()
                      })
         return data
 

@@ -1023,22 +1023,22 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             return 0
         return (self.task_end_date - self.task_start_date).days
 
-    def tranportation_cost_to_be_compensated(self):
-
-        transportation_compensation = 0
-
-        for travel_obj in self.travel_info.all():
-            if travel_obj.means_of_transport_is_car_or_bike():
-                transportation_compensation += travel_obj.transportation_cost
-
-        return transportation_compensation
-
-    def tranportation_cost_not_to_be_compensated(self):
+    def transportation_cost_to_be_compensated(self):
 
         transportation_compensation = 0
 
         for travel_obj in self.travel_info.all():
             if not travel_obj.means_of_transport_is_car_or_bike():
+                transportation_compensation += travel_obj.transportation_cost
+
+        return transportation_compensation
+
+    def transportation_cost_not_to_be_compensated(self):
+
+        transportation_compensation = 0
+
+        for travel_obj in self.travel_info.all():
+            if travel_obj.means_of_transport_is_car_or_bike():
                 transportation_compensation += travel_obj.transportation_cost
 
         return transportation_compensation
@@ -1056,7 +1056,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
                 self.additional_expenses)
 
         return sum([compensation_cost_sum, additional_expenses,
-                    self.tranportation_cost_to_be_compensated()])
+                    self.transportation_cost_to_be_compensated()])
 
 
     def total_cost(self):
@@ -1066,11 +1066,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         This value is calculated by adding the transportation,
         compensation, partication and accommodation costs.
         """
-        transportation_cost_not_to_be_compensated_sum = sum(
-            self.tranportation_cost_not_to_be_compensated()
-            for travel in self.travel_info.all())
 
-        return sum([transportation_cost_not_to_be_compensated_sum,
+        return sum([self.transportation_cost_not_to_be_compensated(),
                     self.participation_cost,
                     self.compensation_final(), self.overnights_sum_cost()])
 
