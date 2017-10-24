@@ -565,20 +565,38 @@ class TravelInfo(Accommodation, Transportation):
             [task_end_date] - [task_start_date] + 1
             +1 if { [depart_date] < [task_start_date] }
         """
+        task_start_date = self.travel_petition.task_start_date
+        task_end_date = self.travel_petition.task_end_date
 
-        task_start_date = self.depart_date
-        task_end_date = self.return_date
+        subtask_start_date = self.depart_date
+        subtask_end_date = self.return_date
 
-        if not (self.depart_date and task_start_date and task_end_date):
+
+        if not (subtask_start_date and subtask_end_date and
+                task_start_date and task_end_date):
             return 0
 
-        task_duration_in_days = (task_end_date - task_start_date).days
-        compensation_days = task_duration_in_days + 1
+        compensation_days = 0
 
-        trip_duration_in_days = (task_end_date - self.depart_date).days
+        if subtask_end_date <= task_end_date:
+            if subtask_start_date < task_start_date:
+                compensation_days = (
+                    subtask_end_date - task_start_date).days + 1
 
-        return compensation_days + 1 if trip_duration_in_days > (
-            task_duration_in_days) else compensation_days
+            if subtask_start_date > task_start_date:
+                compensation_days = (
+                    subtask_end_date - subtask_start_date).days + 1 if (
+                        subtask_end_date == task_end_date) else (
+                            (subtask_end_date-subtask_start_date).days)
+        else:
+            if subtask_start_date < task_start_date:
+                compensation_days = (task_end_date - task_start_date).days + 2
+
+            if subtask_start_date > task_start_date:
+                compensation_days = (
+                    task_end_date - subtask_start_date).days + 1
+
+        return compensation_days
 
     def compensation_cost_single_day(self):
         """
