@@ -1028,7 +1028,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         transportation_compensation = 0
 
         for travel_obj in self.travel_info.all():
-            if not travel_obj.means_of_transport_is_car_or_bike():
+            if travel_obj.means_of_transport_is_car_or_bike():
                 transportation_compensation += travel_obj.transportation_cost
 
         return transportation_compensation
@@ -1038,7 +1038,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         transportation_compensation = 0
 
         for travel_obj in self.travel_info.all():
-            if travel_obj.means_of_transport_is_car_or_bike():
+            if not travel_obj.means_of_transport_is_car_or_bike():
                 transportation_compensation += travel_obj.transportation_cost
 
         return transportation_compensation
