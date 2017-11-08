@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import gen from 'ember-gen/lib/gen';
+import {field} from 'ember-gen';
 
 const {
   get
@@ -24,7 +25,7 @@ export default gen.CRUDGen.extend({
     menu: {
       display: true,
       icon: 'description',
-      label: 'Αιτήσεις',
+      label: 'appications_list.tab',
     },
     row: {
       fields: [
@@ -32,78 +33,78 @@ export default gen.CRUDGen.extend({
         'first_name',
         'last_name',
         'project.name',
-        'task_start_date',
-        'task_end_date',
-        'arrival_point.name',
+        'task_start_date_format',
+        'task_end_date_format',
         'status_label',
       ],
       actions: ['gen:details', 'gen:edit'],
     }
   },
 
-
   details: {
-    preloadModels: ['project'],
-    page: {
-      title: "Petition details",
-    },
     fieldsets: [{
+      label: 'personal_info.label',
+      fields: [
+        'first_name',
+        'last_name',
+        'specialty',
+        'kind',
+        'tax_reg_num',
+        'tax_office.name',
+        'iban',
+        'user_category',
+      ],
+      layout: {
+        flex: [50, 50, 50, 50, 50, 50, 50,50]
+      }
+    },
+    {
+      label: 'application.label',
       fields: [
         'dse',
         'project.name',
-        'first_name',
-        'last_name',
-        'task_start_date',
-        'task_end_date',
-        'arrival_point',
+        'task_start_date_format',
+        'task_end_date_format',
+        'reason',
+        'user_recommendation',
         'status_label',
       ],
       layout: {
-        flex: [50, 50, 50, 50, 50, 50, 50, 50]
+        flex: [50, 50, 50, 50, 100, 100, 50]
       }
     }],
   },
 
   create: {
     fieldsets: [{
-      label: 'petition_create.title',
+      label: 'application_create.title',
       fields: [
+        field('dse', {disabled: true}),
         'project',
-        'reason',
         'task_start_date',
         'task_end_date',
-        'arrival_point',
-        'departure_point',
-        'depart_date',
-        'return_date',
-        'participation_local_cost',
-        'participation_local_currency',
+        'reason',
         'user_recommendation',
       ],
       layout: {
-        flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+        flex: [50, 50, 50, 50, 100, 100]
       }
     }],
   },
 
   edit: {
     fieldsets: [{
-      label: 'petition_create.title',
+      label: 'application_create.title',
       fields: [
+        field('dse', {disabled: true}),
         'project',
-        'reason',
         'task_start_date',
         'task_end_date',
-        'arrival_point',
-        'departure_point',
-        'depart_date',
-        'return_date',
-        'participation_local_cost',
-        'participation_local_currency',
+        'reason',
         'user_recommendation',
       ],
       layout: {
-        flex: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+        flex: [50, 50, 50, 50, 100, 100]
       }
     }],
   },
