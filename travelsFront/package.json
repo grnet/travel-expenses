@@ -31,6 +31,7 @@
     "ember-cli-htmlbars-inline-precompile": "^0.3.3",
     "ember-cli-inject-live-reload": "^1.4.1",
     "ember-cli-jshint": "^1.0.4",
+    "ember-cli-moment-shim": "3.5.0",
     "ember-cli-pickadate": "git+https://github.com/AddJam/ember-cli-pickadate.git#c4f5857a7d5c37b9957b2b91da22908f8959878c",
     "ember-cli-qunit": "^3.0.1",
     "ember-cli-release": "^0.2.9",
@@ -51,6 +52,7 @@
     "loader.js": "^4.0.10"
   },
   "dependencies": {
-    "ember-cli-gen-apimas": "0.0.12"
+    "ember-cli-gen-apimas": "0.0.12",
+    "moment": "^2.19.1"
   }
 }

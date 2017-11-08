@@ -9,6 +9,15 @@ module.exports = function(environment) {
     i18n : {
       defaultLocale: 'gr'
     },
+    moment: {
+      outputFormat: 'DD/MM/YYYY HH:mm'
+    },
+    'ember-cli-pickadate': {
+      date: {
+        format: 'dd/mm/yyyy',
+        formatSubmit: 'dd/mm/yyyy',
+      }
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -19,7 +28,12 @@ module.exports = function(environment) {
         Date: false
       }
     },
-    APP: {}
+    APP: {
+      date_format: 'DD/MM/YYYY',
+      date_time_format: 'DD/MM/YYYY, HH:mm',
+      // Here you can pass flags/options to your application instance
+      // when it is created
+    }
   };
 
   ENV['ember-simple-auth'] = {
