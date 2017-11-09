@@ -4,14 +4,11 @@ const {
   get
 } = Ember;
 
-const DEFAULT_ROUTE = 'auth.profile';
+const DEFAULT_ROUTE = 'application-item';
 
 export default Ember.Route.extend({
   session: Ember.inject.service(),
   beforeModel(transition) {
-    if (get(this, 'session.session.isAuthenticated')) {
-      transition.abort();
-      this.transitionTo(DEFAULT_ROUTE);
-    }
+    this.transitionTo(DEFAULT_ROUTE);
   }
 });
