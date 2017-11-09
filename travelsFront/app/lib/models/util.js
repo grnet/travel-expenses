@@ -77,13 +77,12 @@ function serializePetitionDate(serializer, payload, key, attrs) {
   for (const attr of attrs) {
     const dateFromServer = get(payload, attr);
     if (dateFromServer) {
-      if (timezone == "Europe/London") {
-        const date = moment.tz(dateFromServer, timezone);
+      const date = moment.tz(dateFromServer, timezone);
+      if (date._offset == -0) {
         const dateRaw = moment(date).format().slice(0, -1);
         const dateLocal = moment(dateRaw).toDate();
         set(payload, attr, moment(dateLocal).format());
       } else {
-        const date = moment.tz(dateFromServer, timezone);
         const dateRaw = moment(date).format().slice(0, -6);
         const dateLocal = moment(dateRaw).toDate();
         set(payload, attr, moment(dateLocal).format());
