@@ -9,6 +9,7 @@ export default {
   'edit.page.title': 'Επεξεργασία',
   'details.page.title': 'Λεπτομέρειες',
   'list.page.title': 'Αιτήσεις Μετακίνησης',
+  'delete': 'Διαγραφη',
   //account labels
   'login_pass.label': 'Κωδικός Πρόσβασης',
   'password.label': 'Κωδικός Πρόσβασης',
@@ -163,8 +164,10 @@ export default {
   'del_action_info_message': 'Αφού επιλέξετε την "ΔΙΑΓΡΑΦΗ" του αρχείου, στη συνέχεια πατήστε το κουμπί "ΑΠΟΘΗΚΕΥΣΗ" προκειμένου να πραγματοποιηθεί η ενέργεια της διαγραφής',
   'tooltip_save_b4_submit': 'Για να υποβάλετε την αίτησή σας θα πρέπει πρώτα να αποθηκεύσετε τις αλλαγές σας',
   //prompt messages
-  'prompt_delete_title': 'Διαγραφή Αίτησης',
-  'prompt_delete_message': 'Είστε βέβαιοι ότι θέλετε να διαγράψετε την αίτηση σας;',
+  'confirm.title': 'Διαγραφή Αίτησης',
+  'confirm.message': 'Είστε βέβαιοι ότι θέλετε να διαγράψετε την αίτηση σας;',
+  'confirm.ok': 'OK',
+  'confirm.cancel': 'CANCEL',
   'prompt_undo_title': 'Αναίρεση Υποβολής',
   'prompt_undo_message': 'Είστε βέβαιοι ότι θέλετε να αναιρέσετε την υποβολή την αίτηση σας;',
   'prompt_submit_title': 'Υποβολή Αίτησης',
