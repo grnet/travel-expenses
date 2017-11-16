@@ -73,11 +73,11 @@ class TravelUserProfile(md.Model):
     iban = md.CharField(max_length=27, blank=False, null=True,
                         validators=[iban_validation])
     specialty = md.CharField(
-        max_length=5, choices=common.SPECIALTY, blank=False, null=True)
+        max_length=100, choices=common.SPECIALTY, blank=False, null=True)
     tax_reg_num = md.CharField(max_length=9, blank=False, null=True,
                                unique=True, validators=[afm_validator])
     tax_office = md.ForeignKey(TaxOffice, blank=False, null=True)
-    kind = md.CharField(max_length=5, choices=common.KIND, blank=False,
+    kind = md.CharField(max_length=100, choices=common.KIND, blank=False,
                         null=True)
     user_category = md.CharField(
         max_length=1, choices=common.USER_CATEGORIES,
