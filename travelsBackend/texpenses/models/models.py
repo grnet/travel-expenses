@@ -765,11 +765,11 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     iban = md.CharField(max_length=27, blank=False,
                         validators=[iban_validation])
     specialty = md.CharField(
-        max_length=5, choices=common.SPECIALTY, blank=False)
+        max_length=100, choices=common.SPECIALTY, blank=False)
     tax_reg_num = md.CharField(max_length=9, blank=False,
                                validators=[afm_validator])
     tax_office = md.ForeignKey(TaxOffice, blank=False)
-    kind = md.CharField(max_length=5, choices=common.KIND, blank=False)
+    kind = md.CharField(max_length=100, choices=common.KIND, blank=False)
     user_category = md.CharField(
         max_length=1, choices=common.USER_CATEGORIES,
         blank=False, default='B')
