@@ -957,7 +957,10 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         If next status is one of the submission statuses, then a checker
         is triggered and tests if the petition is completed.
         """
-        next_status = self.status + 1
+        next_status = kwargs.pop('status', 0)
+        if next_status == 0:
+            next_status = self.status + 1
+
         submit = next_status in Petition.SUBMISSION_STATUSES or\
             kwargs.pop('delete', False)
         missing_fields = self.get_missing_fields()
@@ -965,7 +968,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
                 and missing_fields:
             raise serializers.ValidationError(
                 _construct_validation_message(missing_fields))
-        return self.status_transition(self.status + 1, delete=submit, **kwargs)
+        return self.status_transition(next_status, delete=submit, **kwargs)
 
     def get_missing_fields(self):
         """
@@ -1019,15 +1022,20 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     def trip_days_before(self):
         """ Gets the number of trip days of user before petition. """
-        return self.user.trip_days_left \
-            if self.status < self.USER_COMPENSATION_SUBMISSION else \
-            self.user.trip_days_left + self.transport_days()
+
+        if not self.withdrawn:
+            return self.user.trip_days_left \
+                if self.status < self.USER_COMPENSATION_SUBMISSION else \
+                self.user.trip_days_left + self.transport_days()
+        return self.user.trip_days_left
 
     def trip_days_after(self):
         """ Gets the number of trip days of user after petition. """
-        return self.user.trip_days_left - self.transport_days() \
-            if self.status < self.USER_COMPENSATION_SUBMISSION else \
-            self.user.trip_days_left
+        if not self.withdrawn:
+            return self.user.trip_days_left - self.transport_days() \
+                if self.status < self.USER_COMPENSATION_SUBMISSION else \
+                self.user.trip_days_left
+        return self.user.trip_days_left
 
     def overnights_num(self):
         """ Gets the number of total overnight days for all destinations. """
