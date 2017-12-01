@@ -810,6 +810,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     travel_report = md.CharField(max_length=1000, blank=True, null=True)
 
     compensation_alert = md.BooleanField(default=False, db_index=True)
+    withdrawn = md.BooleanField(default=False, db_index=True)
 
     travel_files = md.FileField(upload_to=common.user_directory_path,
                                 null=True, blank=True)
@@ -1208,7 +1209,8 @@ class UserCompensation(Petition):
                 'additional_expenses_initial_description',
                 'additional_expenses', 'additional_expenses_description',
                 'manager_cost_approval', 'manager_movement_approval',
-                'compensation_alert','timesheeted','travel_report']
+                'compensation_alert','timesheeted','travel_report',
+                'withdrawn']
     excluded_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
                             'accommodation_payment_description',
@@ -1238,7 +1240,8 @@ class SecretaryCompensation(Petition):
                 'additional_expenses', 'additional_expenses_description',
                 'user_recommendation', 'compensation_alert',
                 'secretary_recommendation', 'manager_cost_approval',
-                'manager_movement_approval','timesheeted','travel_report']
+                'manager_movement_approval','timesheeted','travel_report',
+                'withdrawn']
     excluded_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
                             'accommodation_payment_description',
