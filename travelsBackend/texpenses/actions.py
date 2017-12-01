@@ -24,6 +24,9 @@ EMAIL_TEMPLATES = {
     'PETITION_PRESIDENT_APPROVAL': ('petition_president_approval.txt',
                                     'Έγκριση μετακίνησης από τον Πρόεδρο.',\
                                     False),
+    'PETITION_WITHDRAWAL': ('withdrawal.txt',
+                            'Απόσυρση αίτησης μετακίνησης.',
+                            False),
 
     'USER_COMPENSATION_SUBMISSION': ('user_compensation_submission.txt',
                                     "Υποβολή αίτησης αποζημίωσης"
