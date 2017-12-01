@@ -645,7 +645,8 @@ class TravelInfo(Accommodation, Transportation):
                 compensation_proportion = 0
 
         return max_compensation * compensation_proportion * (
-            self.travel_petition.grnet_quota() / percentage)
+            self.travel_petition.grnet_quota() / percentage) if not (
+                self.travel_petition.withdrawn) else 0
 
     def compensation_cost(self):
         """Calculates the compensation for all compensation days,
@@ -653,7 +654,8 @@ class TravelInfo(Accommodation, Transportation):
 
         """
         return self.compensation_cost_single_day() * (
-            self.compensation_days_manual)
+            self.compensation_days_manual) if not (
+                self.travel_petition.withdrawn) else 0
 
     def __unicode__(self):
         return str(self.travel_petition.dse) + "-" + \
@@ -932,6 +934,20 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         if self.travel_info.count() > 1:
             return True
         return False
+
+    def withdraw(self, **kwargs):
+        """
+        Withdraw a petition and assign status=petition.SECRETARY_COMPENSATION.
+
+        """
+        current_status = self.status
+        next_status = (
+            self.SECRETARY_COMPENSATION if current_status is (
+                self.APPROVED_BY_PRESIDENT) else current_status + 1)
+
+        delete = kwargs.pop('delete', False)
+        self.withdrawn = True
+        return self.status_transition(next_status, delete=delete, **kwargs)
 
     def proceed(self, **kwargs):
         """
