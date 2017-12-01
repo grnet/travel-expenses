@@ -231,6 +231,22 @@ class SecretaryPetitionSaveMixin(object):
         data = self._extract_info(petition)
         return render_template2csv(data, template_path)
 
+    @detail_route(methods=['post'])
+    @transaction.atomic
+    @inform_on_action('PETITION_WITHDRAWAL', target_user=True,
+                      inform_controller=True)
+    def withdraw(self, request, pk=None):
+
+        petition = self.get_object()
+        try:
+            petition.withdraw(delete=True)
+            return Response({'message': 'The petition is withdrawn'},
+                            status=status.HTTP_200_OK)
+
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
+
 
 class SecretaryPetitionSubmissionMixin(object):
 
@@ -265,7 +281,11 @@ class SecretaryPetitionSubmissionMixin(object):
         ACCEPTED_STATUS = petition.SUBMITTED_BY_SECRETARY
         try:
             if petition.status is ACCEPTED_STATUS:
-                petition.proceed(delete=True)
+                if not petition.withdrawn:
+                    petition.proceed(delete=True)
+                else:
+                    petition.proceed(status=Petition.SECRETARY_COMPENSATION,
+                                     delete=True)
                 return Response({'message':
                                  'The petition is approved by the president'},
                                 status=status.HTTP_200_OK)
