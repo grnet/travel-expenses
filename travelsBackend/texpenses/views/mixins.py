@@ -129,7 +129,7 @@ class UserPetitionMixin(object):
         non_atomic_requests = permissions.SAFE_METHODS
         query = UserPetition.objects.select_related('tax_office', 'user',
                                                     'project').\
-            filter(user=self.request.user)
+            filter(user=self.request.user, withdrawn=False)
         if self.request.method in non_atomic_requests:
             return query
         else:
@@ -163,7 +163,7 @@ class UserPetitionSubmissionMixin(object):
         query = UserPetitionSubmission.objects.select_related('tax_office',
                                                               'user',
                                                               'project').\
-            filter(user=self.request.user)
+            filter(user=self.request.user, withdrawn=False)
         if self.request.method in non_atomic_requests:
             return query
         else:
@@ -433,7 +433,7 @@ class UserCompensationMixin(object):
         query = UserCompensation.objects.select_related('tax_office',
                                                         'user',
                                                         'project').\
-            filter(user=self.request.user)
+            filter(user=self.request.user, withdrawn=False)
 
         if self.request.method in non_atomic_requests:
             return query
