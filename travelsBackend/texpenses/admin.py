@@ -12,9 +12,10 @@ from .models import CityDistances
 class PetitionAdmin(admin.ModelAdmin):
     search_fields = ['dse']
     list_display = ('dse', 'project', 'user', 'created', 'deleted',
-                    'updated', 'status', 'task_start_date', 'task_end_date')
+                    'updated', 'status', 'task_start_date', 'task_end_date',
+                    'withdrawn')
     list_filter = ('created', 'updated', 'task_start_date', 'task_end_date',
-                   'project', 'user')
+                   'project', 'user', 'withdrawn')
     date_hierarchy = 'updated'
     ordering = ('-updated', '-task_start_date', '-task_end_date')
 
