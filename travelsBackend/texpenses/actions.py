@@ -27,6 +27,9 @@ EMAIL_TEMPLATES = {
     'PETITION_WITHDRAWAL': ('withdrawal.txt',
                             'Απόσυρση αίτησης μετακίνησης.',
                             False),
+    'CANCEL_PETITION_WITHDRAWAL': ('cancel_withdrawal.txt',
+                                   'Ακύρωση απόσυρσης αίτησης μετακίνησης.',
+                                   False),
 
     'USER_COMPENSATION_SUBMISSION': ('user_compensation_submission.txt',
                                     "Υποβολή αίτησης αποζημίωσης"
