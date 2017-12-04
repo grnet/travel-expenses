@@ -943,7 +943,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         self.withdrawn = True
         self.save()
 
-    def cancel_withdrawl(self):
+    def cancel_withdrawal(self):
         """
         Cancels petition withdrawal.
 
