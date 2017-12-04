@@ -937,17 +937,19 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     def withdraw(self, **kwargs):
         """
-        Withdraw a petition and assign status=petition.SECRETARY_COMPENSATION.
+        Withdraw a petition.
 
         """
-        current_status = self.status
-        next_status = (
-            self.SECRETARY_COMPENSATION if current_status is (
-                self.APPROVED_BY_PRESIDENT) else current_status + 1)
-
-        delete = kwargs.pop('delete', False)
         self.withdrawn = True
-        return self.status_transition(next_status, delete=delete, **kwargs)
+        self.save()
+
+    def cancel_withdrawl(self):
+        """
+        Cancels petition withdrawal.
+
+        """
+        self.withdrawn = False
+        self.save()
 
     def proceed(self, **kwargs):
         """
