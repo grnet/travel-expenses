@@ -34,7 +34,7 @@ class PetitionFilter(filters.FilterSet):
     class Meta:
         model = Petition
         fields = ['id', 'first_name', 'last_name', 'status', 'created',
-                  'updated',
+                  'updated', 'withdrawn',
                   'depart_date', 'depart_date__gt', 'depart_date__gte',
                   'depart_date__lt', 'depart_date__lte',  'project',
                   'return_date', 'return_date__gt', 'return_date__lt',
