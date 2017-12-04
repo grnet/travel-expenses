@@ -239,8 +239,24 @@ class SecretaryPetitionSaveMixin(object):
 
         petition = self.get_object()
         try:
-            petition.withdraw(delete=True)
+            petition.withdraw()
             return Response({'message': 'The petition is withdrawn'},
+                            status=status.HTTP_200_OK)
+
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
+
+    @detail_route(methods=['post'])
+    @transaction.atomic
+    @inform_on_action('CANCEL_PETITION_WITHDRAWAL', target_user=False,
+                      inform_controller=True)
+    def cancel_withdrawal(self, request, pk=None):
+
+        petition = self.get_object()
+        try:
+            petition.cancel_withdrawal()
+            return Response({'message': 'The petition withdrawal is cancelled'},
                             status=status.HTTP_200_OK)
 
         except PermissionDenied as e:
@@ -260,6 +276,22 @@ class SecretaryPetitionSubmissionMixin(object):
                 'api_petition-secretary-saved-detail',
                 args=[petition_id])}
             return Response(headers=headers, status=status.HTTP_303_SEE_OTHER)
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
+
+    @detail_route(methods=['post'])
+    @transaction.atomic
+    @inform_on_action('CANCEL_PETITION_WITHDRAWAL', target_user=False,
+                      inform_controller=True)
+    def cancel_withdrawal(self, request, pk=None):
+
+        petition = self.get_object()
+        try:
+            petition.cancel_withdrawal()
+            return Response({'message': 'The petition withdrawal is cancelled'},
+                            status=status.HTTP_200_OK)
+
         except PermissionDenied as e:
             return Response({'detail': e.message},
                             status=status.HTTP_403_FORBIDDEN)
@@ -295,6 +327,21 @@ class SecretaryPetitionSubmissionMixin(object):
             return Response({'detail': e.message},
                             status=status.HTTP_403_FORBIDDEN)
 
+    @detail_route(methods=['post'])
+    @transaction.atomic
+    @inform_on_action('PETITION_WITHDRAWAL', target_user=True,
+                      inform_controller=True)
+    def withdraw(self, request, pk=None):
+
+        petition = self.get_object()
+        try:
+            petition.withdraw()
+            return Response({'message': 'The petition is withdrawn'},
+                            status=status.HTTP_200_OK)
+
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
     def _extract_info(self, petition_object):
         data = {}
 
