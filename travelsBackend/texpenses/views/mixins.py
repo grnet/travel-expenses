@@ -316,8 +316,7 @@ class SecretaryPetitionSubmissionMixin(object):
                 if not petition.withdrawn:
                     petition.proceed(delete=True)
                 else:
-                    petition.proceed(status=Petition.SECRETARY_COMPENSATION,
-                                     delete=True)
+                    petition.withdraw(proceed=True)
                 return Response({'message':
                                  'The petition is approved by the president'},
                                 status=status.HTTP_200_OK)
@@ -667,6 +666,20 @@ class SecretaryCompensationMixin(object):
             headers = {'location': reverse(self.VIEW_NAMES[submitted.status],
                                            args=[petition_id])}
             return Response(headers=headers, status=status.HTTP_303_SEE_OTHER)
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
+
+    @detail_route(methods=['post'])
+    @transaction.atomic
+    @inform_on_action('CANCEL_PETITION_WITHDRAWAL', target_user=False,
+                      inform_controller=True)
+    def cancel_withdrawal(self, request, pk=None):
+        submitted = self.get_object()
+        try:
+            submitted.cancel_withdrawal(roll_back=True)
+            return Response({'message': 'The petition withdrawal is cancelled'},
+                            status=status.HTTP_200_OK)
         except PermissionDenied as e:
             return Response({'detail': e.message},
                             status=status.HTTP_403_FORBIDDEN)

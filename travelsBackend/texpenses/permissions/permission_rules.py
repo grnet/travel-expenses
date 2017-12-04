@@ -233,6 +233,8 @@ PERMISSION_RULES = [
     ('petition-secretary-compensations', 'decision_report', 'ADMIN', '*', '*', '*'),
     ('petition-secretary-compensations', 'save', 'ADMIN', '*', '*', '*'),
     ('petition-secretary-compensations', 'submit', 'ADMIN', '*', '*', '*'),
+    ('petition-secretary-compensations', 'cancel_withdrawal', 'CONTROLLER', '*', '*', '*'),
+    ('petition-secretary-compensations', 'cancel_withdrawal', 'ADMIN', '*', '*', '*'),
 
     ('petition-secretary-compensations', 'list', 'SECRETARY', '*', '*', '*'),
     ('petition-secretary-compensations', 'retrieve', 'SECRETARY', '*', '*', '*'),
