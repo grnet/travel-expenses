@@ -921,6 +921,11 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         self.status = new_status
         self.deleted = False
         update_instance(self, petition_modifications)
+
+        # withdrawn = kwargs.pop('withdrawn', False)
+        # if withdrawn:
+            # self.withdrawn = False
+
         self.save()
         for i, travel_obj in enumerate(travel_info):
             travel_obj.id = None
@@ -940,14 +945,22 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         Withdraw a petition.
 
         """
+        proceed = kwargs.pop('proceed', False)
+        if proceed:
+            self.proceed(status=self.SECRETARY_COMPENSATION, delete=True)
         self.withdrawn = True
         self.save()
 
-    def cancel_withdrawal(self):
+    def cancel_withdrawal(self, **kwargs):
         """
         Cancels petition withdrawal.
 
         """
+
+        roll_back = kwargs.pop('roll_back',False)
+        if roll_back:
+            self.status_transition(self.APPROVED_BY_PRESIDENT)
+
         self.withdrawn = False
         self.save()
 
