@@ -604,7 +604,6 @@ class TravelInfo(Accommodation, Transportation):
         :returns: The maximum possible compensation per day
 
         """
-
         percentage = 100
         max_compensation = self.compensation_level()
 
@@ -616,20 +615,20 @@ class TravelInfo(Accommodation, Transportation):
 
         if not self.is_abroad():
             if self.meals not in ('SEMI', 'FULL'):
-                try:
-                    if self.same_day_return_task() and \
-                            self.distance >= common.\
-                            TRANSPORTATION_MODE_MIN_DISTANCE[
-                                self.means_of_transport]:
-                        compensation_proportion = 0.5
+                if self.same_day_return_task() and (
+                    self.distance >= (
+                        common.TRANSPORTATION_MODE_MIN_DISTANCE[
+                            self.means_of_transport])):
+                    compensation_proportion = 0.5
 
-                    if self.same_day_return_task() and \
-                            self.distance <= common.\
-                            TRANSPORTATION_MODE_MIN_DISTANCE[
-                                self.means_of_transport]:
+                if self.same_day_return_task() and (
+                    self.distance <= (
+                        common.TRANSPORTATION_MODE_MIN_DISTANCE[
+                            self.means_of_transport])):
+                    if self.means_of_transport == 'AIR':
+                        compensation_proportion = 0.5
+                    else:
                         compensation_proportion = 0.25
-                except KeyError:
-                    pass
 
             if self.meals == 'FULL':
                 compensation_proportion = 0
