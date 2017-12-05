@@ -1105,10 +1105,11 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         """
         compensation_cost_sum = sum(travel_obj.compensation_cost()
                                     for travel_obj in self.travel_info.all())
-
-        additional_expenses = self.additional_expenses_initial if (
-            self.status <= self.APPROVED_BY_PRESIDENT) else (
-                self.additional_expenses)
+        additional_expenses = 0
+        if not self.withdrawn:
+            additional_expenses = self.additional_expenses_initial if (
+                self.status <= self.APPROVED_BY_PRESIDENT) else (
+                    self.additional_expenses)
 
         return sum([compensation_cost_sum, additional_expenses,
                     self.transportation_cost_to_be_compensated()])
