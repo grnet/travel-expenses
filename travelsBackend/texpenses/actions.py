@@ -144,9 +144,11 @@ def compensation_alert():
 
     inform_date = (timezone.now() - timedelta(days=1)).strftime(DATE_FORMAT)
 
-    approved_petitions = Petition.objects.filter(status=\
-                                               Petition.APPROVED_BY_PRESIDENT,\
-                                                 compensation_alert=False)
+    approved_petitions = Petition.objects.filter(
+        status=Petition.APPROVED_BY_PRESIDENT,
+        deleted=False,
+        compensation_alert=False)
+
     for petition in approved_petitions:
         return_date = petition.travel_info.last().return_date.\
             strftime(DATE_FORMAT)
