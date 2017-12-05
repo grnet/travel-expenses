@@ -576,6 +576,9 @@ class TravelInfo(Accommodation, Transportation):
                 task_start_date and task_end_date):
             return 0
 
+        if self.same_day_return_task():
+            return 1
+
         compensation_days = 0
 
         if subtask_end_date <= task_end_date:
