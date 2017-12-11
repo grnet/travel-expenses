@@ -99,6 +99,7 @@ def inform(petition, action, target_user, inform_controller):
         'task_start_date': petition.task_start_date,
         'task_end_date': petition.task_end_date,
         'reason': petition.reason,
+        'user_recommendation': petition.user_recommendation,
     }
     if attach_csv:
         params.update(

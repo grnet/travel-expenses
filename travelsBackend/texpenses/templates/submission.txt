@@ -6,6 +6,7 @@
 
 - Έργο: {{ project }}
 - Αιτιολογία Μετακίνησης: {{ reason }}
+- Προτάσεις χρήστη: {{ user_recommendation }}
 {% if travel_info.count > 1 %}
 - Ενδιάμεσοι προορισμοί:
 {% for travel_obj in travel_info %}
