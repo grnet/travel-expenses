@@ -493,21 +493,20 @@ class TravelInfo(Accommodation, Transportation):
         :returns: The proposed overinight days.
         """
 
-        task_start_date = task_start_date or self.travel_petition.\
-            task_start_date
+        task_start_date = (task_start_date or
+                           self.travel_petition.task_start_date)
         task_end_date = task_end_date or self.travel_petition.task_end_date
 
         if not (self.return_date and self.depart_date and
                 task_start_date and task_end_date):
             return 0
 
-        first_day = task_start_date - timedelta(days=1) \
-            if (task_start_date - self.depart_date).days >= 1 \
-            else self.depart_date
+        first_day = task_start_date - timedelta(days=1) if (
+            task_start_date - self.depart_date).days >= 1 else self.depart_date
         last_day = task_end_date + timedelta(days=1) if (
             self.return_date - task_end_date).days >= 1 else self.return_date
-        return (last_day.date() - first_day.date()).days \
-            if first_day < last_day else 0
+        return ((last_day.date() - first_day.date()).days
+                if first_day < last_day else 0)
 
     def overnight_cost(self):
         """ Returns total overnight cost. """
@@ -568,11 +567,7 @@ class TravelInfo(Accommodation, Transportation):
         task_start_date = self.travel_petition.task_start_date
         task_end_date = self.travel_petition.task_end_date
 
-        subtask_start_date = self.depart_date
-        subtask_end_date = self.return_date
-
-
-        if not (subtask_start_date and subtask_end_date and
+        if not (self.depart_date and self.return_date and
                 task_start_date and task_end_date):
             return 0
 
@@ -581,23 +576,36 @@ class TravelInfo(Accommodation, Transportation):
 
         compensation_days = 0
 
-        if subtask_end_date <= task_end_date:
-            if subtask_start_date < task_start_date:
-                compensation_days = (
-                    subtask_end_date - task_start_date).days + 1
+        start_date_delta = (task_start_date - self.depart_date).days
 
-            if subtask_start_date > task_start_date:
+
+        if self.return_date <= task_end_date:
+            if start_date_delta == 0:
                 compensation_days = (
-                    subtask_end_date - subtask_start_date).days + 1 if (
-                        subtask_end_date == task_end_date) else (
-                            (subtask_end_date-subtask_start_date).days)
+                    self.return_date - task_start_date).days + 1
+            if start_date_delta > 0:
+                compensation_days = (
+                    self.return_date - task_start_date).days + 1 if (
+                    self.travel_petition.has_multiple_destinations()) else (
+                        self.return_date - task_start_date).days + 2
+
+            if start_date_delta < 0:
+                compensation_days = (
+                    self.return_date - self.depart_date).days + 1 if (
+                        self.return_date == task_end_date) else (
+                            (self.return_date - self.depart_date).days if (
+                            self.travel_petition.has_multiple_destinations())\
+                            else (
+                                (self.return_date - self.depart_date).days + 1)
+                        )
         else:
-            if subtask_start_date < task_start_date:
+            if start_date_delta > 0:
                 compensation_days = (task_end_date - task_start_date).days + 2
-
-            if subtask_start_date > task_start_date:
+            if start_date_delta == 0:
+                compensation_days = (task_end_date - task_start_date).days + 1
+            if start_date_delta < 0:
                 compensation_days = (
-                    task_end_date - subtask_start_date).days + 1
+                    task_end_date - self.depart_date).days + 1
 
         return compensation_days
 
@@ -918,6 +926,11 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             travel_obj.save()
         self.travel_info.add(*travel_info)
         return self.id
+
+    def has_multiple_destinations(self):
+        if self.travel_info.count() > 1:
+            return True
+        return False
 
     def proceed(self, **kwargs):
         """
