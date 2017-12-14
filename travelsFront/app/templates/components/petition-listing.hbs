@@ -3,6 +3,12 @@
 {{#if (can "approve petition")}}
   {{#if (or (eq petition.status 2) (eq petition.status 3))}}
     {{list-action action=(action "edit" petition) icon='create' tooltip-message=(t 'tooltip_edit')  iconButton=true confirm=false}}
+    {{#if (eq petition.withdrawn false)}}
+      {{list-action action=(action "withdraw" petition) icon='block' tooltip-message=(t 'tooltip_withdraw') iconButton=true confirm=true promptTitle=(t 'prompt_withdraw_title') promptMessage=(t 'prompt_withdraw_message')}}
+    {{/if}}
+    {{#if (eq petition.withdrawn true)}}
+      {{list-action action=(action "withdrawCancel" petition) icon='loop' tooltip-message=(t 'tooltip_withdraw_cancel') iconButton=true confirm=true promptTitle=(t 'prompt_withdrawCancel_title') promptMessage=(t 'prompt_withdrawCancel_message')}}
+    {{/if}}
   {{else if (eq petition.status 4)}}
     {{list-action action=(action "undo" petition) icon='undo' tooltip-message=(t 'tooltip_undo') iconButton=true confirm=true promptTitle=(t 'prompt_undo_title') promptMessage=(t 'prompt_undo_message')}}
     {{list-action action=(action "pdf" petition "1") icon='file_download' tooltip-message=(t 'pdf_travel_application') iconButton=true confirm=false}}
@@ -40,6 +46,9 @@
 {{else if (can "compensate petition")}}
   {{#if (or (eq petition.status 7) (eq petition.status 8))}}
     {{list-action action=(action "edit" petition) icon='create' tooltip-message=(t 'tooltip_edit')  iconButton=true confirm=false}}
+    {{#if (eq petition.withdrawn true)}}
+      {{list-action action=(action "withdrawCancel" petition) icon='loop' tooltip-message=(t 'tooltip_withdraw_cancel') iconButton=true confirm=true promptTitle=(t 'prompt_withdrawCancel_title') promptMessage=(t 'prompt_withdrawCancel_message')}}
+    {{/if}}
   {{else if (eq petition.status 9)}}
     {{list-action action=(action "undo" petition) icon='undo' tooltip-message=(t 'tooltip_undo') iconButton=true confirm=true promptTitle=(t 'prompt_undo_title') promptMessage=(t 'prompt_undo_message')}}
     {{list-action action=(action "pdf" petition "3") icon='file_download' tooltip-message=(t 'pdf_compensation_application') iconButton=true confirm=false}}

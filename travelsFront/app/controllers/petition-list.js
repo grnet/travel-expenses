@@ -19,8 +19,8 @@ export default Ember.Controller.extend(PaginationMixin, {
 
   editPetitionRoute: 'userPetition',
   editCompensationRoute: 'userCompensation',
-	deleteMessage: "",
-	statePetitionList: "",
+  deleteMessage: "",
+  statePetitionList: "",
   sortByDse: ['status:desc', 'dse:asc'],
   sortedModel: Ember.computed.sort('model', 'sortByDse'),
 
@@ -37,14 +37,14 @@ export default Ember.Controller.extend(PaginationMixin, {
     return DS.PromiseArray.create({promise});
   }),
 
-	actions: {
+  actions: {
 
-		petitionUndo(petition) {
+    petitionUndo(petition) {
       petition.cancel().then(() => {
         set(this, 'actionMessage', 'petition.undo.success');
         get(this, 'model').reload();
       });
-		},
+    },
 
     pdfExport(petition, pdf_id) {
       petition.pdfExport(petition, pdf_id).then(() => {
@@ -52,14 +52,14 @@ export default Ember.Controller.extend(PaginationMixin, {
       });
     },
 
-		petitionEdit(model){
+    petitionEdit(model){
       if (model.get('status') >= 4) {
         this.transitionToRoute(get(this, 'editCompensationRoute'), model.get('id'));
       }
       else {
         this.transitionToRoute(get(this, 'editPetitionRoute'), model.get('id'));
       }
-		},
+    },
 
     //TO DO: Fix this to redirect to a view mode route
     petitionView(model){
@@ -68,6 +68,18 @@ export default Ember.Controller.extend(PaginationMixin, {
 
     presidentApproval(petition){
       petition.approve().then(() => {
+        get(this, 'model').reload();
+      });
+    },
+
+    petitionWithdraw(petition){
+      petition.withdraw().then(() => {
+        get(this, 'model').reload();
+      });
+    },
+
+    petitionWithdrawCancel(petition){
+      petition.withdrawCancel().then(() => {
         get(this, 'model').reload();
       });
     },
@@ -96,7 +108,7 @@ export default Ember.Controller.extend(PaginationMixin, {
       });
     }, 
 
-		petitionDelete(model){
+    petitionDelete(model){
       if (model.get("currentState.stateName") == "root.deleted.inFlight") { return; }
       model.destroyRecord().then(() => {
         get(this, 'model').reload();
@@ -110,5 +122,5 @@ export default Ember.Controller.extend(PaginationMixin, {
       set(this, 'activeFilters', filters);
     }
 
-	}
+  }
 });

@@ -91,7 +91,7 @@ export var Petition = DS.Model.extend({
     return this.get('manager_cost_approval');
   }),
 
-  
+  withdrawn: DS.attr('boolean'),
   // propagate travel_info errors to the related travel info local model fields
   observeTravelInfoErrors: Ember.observer('errors.travel_info', function() {
     let errors = this.get('errors.travel_info');
@@ -174,11 +174,30 @@ export var Petition = DS.Model.extend({
     });
  },
 
- approve: function(){
+  approve: function(){
     let adapter = this.store.adapterFor(this.constructor.modelName);
     let model = this;
     return adapter.action(this, 'president_approval').then(function() {
       model.unloadRecord();
+      return model;
+    });
+  },
+
+  withdraw: function() {
+    let adapter = this.store.adapterFor(this.constructor.modelName);
+    let model = this;
+    return adapter.action(this, 'withdraw').then(function() {
+      model.unloadRecord();
+      return model;
+    });
+  },
+
+  withdrawCancel: function() {
+    let adapter = this.store.adapterFor(this.constructor.modelName);
+    let model = this;
+    return adapter.action(this, 'cancel_withdrawal').then(function() {
+      model.unloadRecord();
+      model.set("toggleButton", true);
       return model;
     });
   },
