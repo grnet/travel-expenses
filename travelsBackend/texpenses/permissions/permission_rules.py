@@ -148,8 +148,8 @@ PERMISSION_RULES = [
     ('petition-secretary-submitted', 'list', 'CONTROLLER', '*', '*', '*'),
     ('petition-secretary-submitted', 'retrieve', 'CONTROLLER', '*', '*', '*'),
     ('petition-secretary-submitted', 'update', 'SECRETARY', '*', '*', '*'),
-    ('petition-secretary-submitted', 'withdraw', 'SECRETARY', '*', '*', '*'),
-    ('petition-secretary-submitted', 'cancel_withdrawal', 'SECRETARY', '*', '*', '*'),
+    ('petition-secretary-submitted', 'withdraw', 'SECRETARY', '*', 'secretarysubmitted', '*'),
+    ('petition-secretary-submitted', 'cancel_withdrawal', 'SECRETARY', '*', 'secretarysubmitted', '*'),
 
     ('petition-secretary-submitted', 'cancel', 'SECRETARY', '*', 'secretarysubmitted', '*'),
     ('petition-secretary-submitted', 'cancel', 'SECRETARY', '*', 'presidentapproved', '*'),
