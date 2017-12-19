@@ -17,11 +17,14 @@ class PetitionMixin(object):
         """
         # Check whether the petition of previous status is withdrawn, if yes
         # append the withdrawn field value to validated_data
-        petition = Petition.objects.get(dse=validated_data['dse'],
-                                        status=validated_data['status']-1,
-                                        deleted=False)
-        if petition.withdrawn:
-            validated_data['withdrawn'] = True
+        try:
+            petition = Petition.objects.get(dse=validated_data['dse'],
+                                            status=validated_data['status']-1,
+                                            deleted=False)
+            if petition.withdrawn:
+                validated_data['withdrawn'] = True
+        except Petition.DoesNotExist:
+            pass
 
         self.check_creation_allowed(validated_data)
         travel_info = validated_data.pop('travel_info', [])
