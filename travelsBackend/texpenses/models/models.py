@@ -959,7 +959,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
         roll_back = kwargs.pop('roll_back',False)
         if roll_back:
-            self.status_transition(self.APPROVED_BY_PRESIDENT)
+            self.status_transition(self.SAVED_BY_SECRETARY)
 
         self.withdrawn = False
         self.save()
