@@ -817,6 +817,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     travel_files = md.FileField(upload_to=common.user_directory_path,
                                 null=True, blank=True)
 
+    total_cost_manual = md.FloatField(
+        blank=False, default=0.0, validators=[MinValueValidator(0.0)])
     tracked_fields = ['task_start_date', 'task_end_date']
     tracker = FieldTracker()
 
@@ -859,9 +861,17 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
                 ((self.task_start_date, self.task_end_date),),
                 (('task start', 'task end'),))
 
+
+    def _set_manual_total_cost(self):
+
+        if self.total_cost_manual == 0:
+            self.total_cost_manual = self.total_cost_calculated()
+
+
     def save(self, *args, **kwargs):
         self.updated = timezone.now()
         self._set_movement_id()
+        self._set_manual_total_cost()
         super(Petition, self).save(*args, **kwargs)
 
     def delete(self):
@@ -1115,7 +1125,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
                     self.transportation_cost_to_be_compensated()])
 
 
-    def total_cost(self):
+    def total_cost_calculated(self):
         """
         Gets the total expenses of trip.
 
