@@ -127,7 +127,6 @@ PERMISSION_RULES = [
     ('petition-secretary-saved', 'retrieve', 'MANAGER', '*', '*', '*'),
     ('petition-secretary-saved', 'update', 'MANAGER',
      'manager_movement_approval', '*', '*'),
-    ('petition-secretary-saved', 'export_csv', 'SECRETARY', '*', '*', '*'),
     ('petition-secretary-saved', 'list', 'VIEWER', '*', '*', '*'),
     ('petition-secretary-saved', 'retrieve', 'VIEWER', '*', '*', '*'),
 
@@ -136,7 +135,6 @@ PERMISSION_RULES = [
     ('petition-secretary-saved', 'list', 'ADMIN', '*', '*', '*'),
     ('petition-secretary-saved', 'retrieve', 'ADMIN', '*', '*', '*'),
     ('petition-secretary-saved', 'update', 'ADMIN', '*', '*', '*'),
-    ('petition-secretary-saved', 'export_csv', 'ADMIN', '*', '*', '*'),
     ('petition-secretary-saved', 'get_manager_petitions', 'ADMIN', '*',
      '*', '*'),
     ('petition-secretary-saved', 'list', 'PRESIDENT_SECRETARY', '*', '*', '*'),
@@ -163,7 +161,6 @@ PERMISSION_RULES = [
      'application_report', 'SECRETARY', '*', '*', '*'),
     ('petition-secretary-submitted',
      'decision_report', 'SECRETARY', '*', '*', '*'),
-    ('petition-secretary-submitted', 'export_csv', 'SECRETARY', '*', '*', '*'),
     ('petition-secretary-submitted', 'create', 'ADMIN', '*', '*', '*'),
     ('petition-secretary-submitted', 'list', 'ADMIN', '*', '*', '*'),
     ('petition-secretary-submitted', 'retrieve', 'ADMIN', '*', '*', '*'),
@@ -177,7 +174,6 @@ PERMISSION_RULES = [
      'application_report', 'ADMIN', '*', '*', '*'),
     ('petition-secretary-submitted',
      'decision_report', 'ADMIN', '*', '*', '*'),
-    ('petition-secretary-submitted', 'export_csv', 'ADMIN', '*', '*', '*'),
     ('petition-secretary-submitted', 'list', 'VIEWER', '*', '*', '*'),
     ('petition-secretary-submitted', 'retrieve', 'VIEWER', '*', '*', '*'),
 

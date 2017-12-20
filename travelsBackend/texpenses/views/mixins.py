@@ -224,13 +224,6 @@ class SecretaryPetitionSaveMixin(object):
                      })
         return data
 
-    @detail_route(methods=['get'])
-    def export_csv(self, request, pk=None):
-        template_path = "petition.csv"
-        petition = self.get_object()
-        data = self._extract_info(petition)
-        return render_template2csv(data, template_path)
-
     @detail_route(methods=['post'])
     @transaction.atomic
     @inform_on_action('PETITION_WITHDRAWAL', target_user=True,
@@ -295,13 +288,6 @@ class SecretaryPetitionSubmissionMixin(object):
         except PermissionDenied as e:
             return Response({'detail': e.message},
                             status=status.HTTP_403_FORBIDDEN)
-
-    @detail_route(methods=['get'])
-    def export_csv(self, request, pk=None):
-        template_path = "petition.csv"
-        petition = self.get_object()
-        data = self._extract_info(petition)
-        return render_template2csv(data, template_path)
 
     @detail_route(methods=['post'])
     @transaction.atomic
