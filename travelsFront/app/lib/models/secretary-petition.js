@@ -29,7 +29,7 @@ export var SecretaryPetition = Petition.extend({
   overnights_proposed: DS.attr({attrs: {disabled: true}}),
   overnights_num: DS.attr(),
   compensation_final: DS.attr({attrs: {disabled: true}}),
-  total_cost: DS.attr({attrs: {disabled: true}}),
+  total_cost_calculated: DS.attr({attrs: {disabled: true}}),
 
   //Travel_info DATA
   transport_days_manual: DS.attr(),

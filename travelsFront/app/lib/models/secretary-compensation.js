@@ -14,4 +14,6 @@ export var SecretaryCompensation = Compensation.extend({
   compensation_decision_date: DS.attr('date-simple'),
   compensation_decision_protocol: DS.attr(),
   timesheeted: DS.attr('boolean'),
+  total_cost_manual: DS.attr(),
+  total_cost_change_reason: DS.attr({attrs: {textarea: true}})
 });
