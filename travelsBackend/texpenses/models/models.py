@@ -819,6 +819,9 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     total_cost_manual = md.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
+    total_cost_change_reason = md.CharField(max_length=1000, blank=True,
+                                            null=True)
+
     tracked_cost_field = ['total_cost_manual']
     cost_tracker = FieldTracker(fields=tracked_cost_field)
     is_total_manual_cost_set = False
