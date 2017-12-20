@@ -1269,7 +1269,7 @@ class UserCompensation(Petition):
                 'additional_expenses', 'additional_expenses_description',
                 'manager_cost_approval', 'manager_movement_approval',
                 'compensation_alert','timesheeted','travel_report',
-                'withdrawn']
+                'withdrawn', 'total_cost_change_reason']
     excluded_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
                             'accommodation_payment_description',
@@ -1300,7 +1300,7 @@ class SecretaryCompensation(Petition):
                 'user_recommendation', 'compensation_alert',
                 'secretary_recommendation', 'manager_cost_approval',
                 'manager_movement_approval','timesheeted','travel_report',
-                'withdrawn']
+                'withdrawn', 'total_cost_change_reason']
     excluded_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
                             'accommodation_payment_description',
