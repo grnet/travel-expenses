@@ -563,7 +563,7 @@ class UserCompensationMixin(object):
                      'participation_default_currency': petition_object.
                      participation_default_currency,
                      'additional_expenses_initial': petition_object.
-                     additional_expenses_initial,
+                     additional_expenses,
                      'additional_expenses_default_currency': petition_object.
                      additional_expenses_default_currency,
                      'total_cost': petition_object.total_cost_manual,
