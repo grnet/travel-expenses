@@ -819,6 +819,9 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     total_cost_manual = md.FloatField(
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
+    tracked_cost_field = ['total_cost_manual']
+    cost_tracker = FieldTracker(fields=tracked_cost_field)
+    is_total_manual_cost_set = False
     tracked_fields = ['task_start_date', 'task_end_date']
     tracker = FieldTracker()
 
@@ -861,12 +864,15 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
                 ((self.task_start_date, self.task_end_date),),
                 (('task start', 'task end'),))
 
+    def total_cost_manual_haschanged(self):
+        return self.cost_tracker.has_changed('total_cost_manual')
 
     def _set_manual_total_cost(self):
 
-        if self.total_cost_manual == 0:
+        if not self.is_total_manual_cost_set:
             self.total_cost_manual = self.total_cost_calculated()
-
+        if self.total_cost_manual_haschanged():
+            self.is_total_manual_cost_set = True
 
     def save(self, *args, **kwargs):
         self.updated = timezone.now()
