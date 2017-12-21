@@ -755,6 +755,10 @@ class SecretaryCompensationMixin(object):
                      utils.get_compensation_cost(travel_info),
                      'additional_expenses':
                      petition_object.additional_expenses,
+                     'is_total_manual_cost_set':
+                     petition_object.is_total_manual_cost_set,
+                     'total_cost_change_reason':
+                     petition_object.total_cost_change_reason,
                      'additional_expenses_local_currency':
                      petition_object.additional_expenses_local_currency,
                      'compensation_final': petition_object.compensation_final,

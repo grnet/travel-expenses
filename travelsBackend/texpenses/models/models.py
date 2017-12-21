@@ -1305,7 +1305,8 @@ class SecretaryCompensation(Petition):
                 'user_recommendation', 'compensation_alert',
                 'secretary_recommendation', 'manager_cost_approval',
                 'manager_movement_approval','timesheeted','travel_report',
-                'withdrawn', 'total_cost_change_reason']
+                'withdrawn', 'total_cost_change_reason',
+                'is_total_manual_cost_set']
     excluded_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
                             'accommodation_payment_description',

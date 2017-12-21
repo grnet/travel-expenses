@@ -116,6 +116,13 @@
 		<td><b>Σύνολο</td>
 		<td><b>{{total_cost}} ευρώ </b></td>
 	</tr>
+	{% if is_total_manual_cost_set %}
+		<tr>
+			<td><i><b>Τροποποιημένη τιμή αποζημίωσης</td>
+			<td><b>{{total_cost_change_reason}}</b></td>
+		</tr>
+	{% endif %}
+
 </table>
 
 <footer style="position: absolute;right: 0;bottom: 0;left: 0;text-align: right;" >
