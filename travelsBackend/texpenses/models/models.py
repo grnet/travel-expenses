@@ -824,7 +824,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     tracked_cost_field = ['total_cost_manual']
     cost_tracker = FieldTracker(fields=tracked_cost_field)
-    is_total_manual_cost_set = False
+    is_total_manual_cost_set = md.BooleanField(default=False, db_index=True)
+
     tracked_fields = ['task_start_date', 'task_end_date']
     tracker = FieldTracker()
 
@@ -857,6 +858,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             for field in self.USER_FIELDS:
                 setattr(self, field, getattr(user, field))
 
+
+
     def clean(self):
         """
         Overrides `clean` method and checks if specified dates are valid.
@@ -872,10 +875,11 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     def _set_manual_total_cost(self):
 
+        if self.total_cost_manual_haschanged() and (
+            self.cost_tracker.previous('total_cost_manual')):
+            self.is_total_manual_cost_set = True
         if not self.is_total_manual_cost_set:
             self.total_cost_manual = self.total_cost_calculated()
-        if self.total_cost_manual_haschanged():
-            self.is_total_manual_cost_set = True
 
     def save(self, *args, **kwargs):
         self.updated = timezone.now()
@@ -1269,7 +1273,8 @@ class UserCompensation(Petition):
                 'additional_expenses', 'additional_expenses_description',
                 'manager_cost_approval', 'manager_movement_approval',
                 'compensation_alert','timesheeted','travel_report',
-                'withdrawn', 'total_cost_change_reason']
+                'withdrawn', 'total_cost_change_reason',
+                'is_total_manual_cost_set']
     excluded_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
                             'accommodation_payment_description',
