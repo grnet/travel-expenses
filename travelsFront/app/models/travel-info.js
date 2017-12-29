@@ -6,14 +6,14 @@ const {
   get, set
 } = Ember;
 
-const CHOICES = ENV.APP.resource_choices;
-const CURRENCY = [[ENV.default_currency, ENV.default_currency]];
+const CHOICES = ENV.APP.resources;
+const CURRENCY = ENV.APP.currency || ['EUR', 'Euro'];
 
 
 export default DS.Model.extend({
   url: DS.attr(),
-  departure_point: DS.belongsTo('city', {attrs: {required: true, autocomplete: true, labelKey: 'labelWithCountry'}}),
-  arrival_point: DS.belongsTo('city', {attrs: {required: true, autocomplete: true, labelKey: 'labelWithCountry'}}),
+  departure_point: DS.belongsTo('city', {required: true, autocomplete: true, displayAttr: 'labelWithCountry'}),
+  arrival_point: DS.belongsTo('city', {required: true, autocomplete: true, displayAttr: 'labelWithCountry'}),
   depart_date: DS.attr('date', {
     attrs: {
       time: true
