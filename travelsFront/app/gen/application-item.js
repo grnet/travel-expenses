@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import gen from 'ember-gen/lib/gen';
 import {field} from 'ember-gen';
+import meta from 'travel/lib/meta';
+import moment from 'moment';
 
 const {
   get
@@ -76,6 +78,20 @@ export default gen.CRUDGen.extend({
   },
 
   create: {
+
+    getModel() {
+      let model = this.store.createRecord(get(this, 'modelName'));
+      model.set('task_start_date', moment(new Date()).add(1, 'days').toDate());
+      model.set('task_end_date', moment(new Date()).add(2, 'days').toDate());
+      return this.store.findAll('project').then((projects) => {
+        model.set('project', projects.objectAt(1));
+        // TODO: set default arrival_point
+        let travel = this.store.createRecord('travel-info', defaults)
+        model.get('travel_info').addObject(travel);
+        return model;
+      });
+    },
+
     fieldsets: [{
       label: 'application_create.title',
       fields: [
@@ -85,6 +101,7 @@ export default gen.CRUDGen.extend({
         'task_end_date',
         'reason',
         'user_recommendation',
+        meta.forms.travel_info
       ],
       layout: {
         flex: [50, 50, 50, 50, 100, 100]
@@ -102,6 +119,7 @@ export default gen.CRUDGen.extend({
         'task_end_date',
         'reason',
         'user_recommendation',
+        meta.forms.travel_info
       ],
       layout: {
         flex: [50, 50, 50, 50, 100, 100]
