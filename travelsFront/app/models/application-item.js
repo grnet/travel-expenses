@@ -25,7 +25,7 @@ export default DS.Model.extend({
   //application fields
   user: DS.attr('string'),
   dse: DS.attr('string', {attrs: {required: true}}),
-  project: DS.belongsTo('project', {formAttrs: {optionLabelAttr: 'name'}}),
+  project: DS.belongsTo('project', {required: true, formAttrs: {optionLabelAttr: 'name'}}),
   reason: DS.attr({attrs: {required: true, textarea: true}}),
   created: DS.attr('date', {time: true, required: true}),
   updated: DS.attr('date', {time: true, required: true}),
