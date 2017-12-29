@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
@@ -8,4 +9,7 @@ export default DS.Model.extend({
   url: DS.attr(),
   country: DS.belongsTo('country'),
   timezone: DS.attr(),
+  labelWithCountry: Ember.computed('country', function() {
+    return `${this.get('name')} [${this.get('country.name')}]`
+  })
 });
