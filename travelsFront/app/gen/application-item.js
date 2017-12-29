@@ -84,8 +84,7 @@ export default gen.CRUDGen.extend({
       model.set('task_start_date', moment(new Date()).add(1, 'days').toDate());
       model.set('task_end_date', moment(new Date()).add(2, 'days').toDate());
       return this.store.findAll('project').then((projects) => {
-        model.set('project', projects.objectAt(1));
-        // TODO: set default arrival_point
+        let defaults = {};
         let travel = this.store.createRecord('travel-info', defaults)
         model.get('travel_info').addObject(travel);
         return model;
