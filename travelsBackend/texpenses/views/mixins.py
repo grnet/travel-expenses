@@ -131,11 +131,52 @@ class ApplicationMixin(object):
 
     @detail_route(methods=['post'])
     @transaction.atomic
+    @inform_on_action('PETITION_WITHDRAWAL', target_user=True,
+                      inform_controller=True)
+    def withdraw(self, request, pk=None):
+
+        application = self.get_object()
+        try:
+            application.withdraw()
+            return Response({'message': 'The application is withdrawn'},
+                            status=status.HTTP_200_OK)
+
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
+
+    @detail_route(methods=['post'])
+    @transaction.atomic
+    @inform_on_action('CANCEL_PETITION_WITHDRAWAL', target_user=False,
+                      inform_controller=True)
+    def cancel_withdrawal(self, request, pk=None):
+
+        application = self.get_object()
+        try:
+            if application.status < application.SECRETARY_COMPENSATION:
+                application.cancel_withdrawal()
+            else:
+                application.cancel_withdrawal(roll_back=True)
+            return Response({'message': 'The petition withdrawal is cancelled'},
+                            status=status.HTTP_200_OK)
+
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
+
+
+    @detail_route(methods=['post'])
+    @transaction.atomic
     def cancel(self, request, pk=None):
         application = self.get_object()
         application_status = application.status
         try:
-            application_id = application.revoke()
+            if application.status in (
+                Petition.SECRETARY_COMPENSATION_SUBMISSION,
+                Petition.PETITION_FINAL_APPOVAL):
+                application_id = application.status_rollback()
+            else:
+                application_id = application.revoke()
 
             per_status_email_confs = {
                 Petition.SUBMITTED_BY_USER: [
@@ -193,7 +234,13 @@ class ApplicationMixin(object):
                              Petition.SECRETARY_COMPENSATION_SUBMISSION)
         try:
             if application_status in ACCEPTED_STATUSES:
-                application.proceed(delete=True)
+                if not application.withdrawn:
+                    application.proceed(delete=True)
+                else:
+                    application.withdraw(proceed=True)
+                return Response({'message':
+                                 'The petition is approved by the president'},
+                                status=status.HTTP_200_OK)
 
                 per_status_email_confs = {
                     Petition.SUBMITTED_BY_SECRETARY: [
@@ -347,11 +394,17 @@ class ApplicationMixin(object):
                          participation_cost,
                          'participation_default_currency': petition_object.
                          participation_default_currency,
-                         'additional_expenses_initial': petition_object.
-                         additional_expenses_initial,
+                         'additional_expenses_initial': (
+                             petition_object.additional_expenses if (
+                                 petition_object.status == (
+                                     Applications.USER_COMPENSATION)) else (
+                                 petition_object.additional_expenses_initial)),
                          'additional_expenses_default_currency':
                          petition_object.additional_expenses_default_currency,
-                         'total_cost': petition_object.total_cost,
+                         'total_cost': petition_object.total_cost_manual if (
+                             petition_object.status >= (
+                                 Applications.USER_COMPENSATION_SUBMISSION)
+                         ) else petition_object.total_cost_calculated() ,
                          'project': petition_object.project.name,
                          'compensation_string' :
                          utils.get_compensation_levels_string(travel_info),
@@ -362,7 +415,13 @@ class ApplicationMixin(object):
                          'additional_expenses_local_currency':
                          petition_object.additional_expenses_local_currency,
                          'compensation_final':
-                         petition_object.compensation_final
+                         petition_object.compensation_final,
+                         'transportation_compensation':
+                         petition_object.tranportation_cost_to_be_compensated(),
+                         'is_total_manual_cost_set':
+                         petition_object.is_total_manual_cost_set,
+                         'total_cost_change_reason': (
+                             petition_object.total_cost_change_reason)
                          })
 
         return data
@@ -374,7 +433,7 @@ class ApplicationMixin(object):
             'tax_office', 'user', 'project').prefetch_related('travel_info')
 
         if user.user_group() == "USER":
-            query = query.filter(user=self.request.user)
+            query = query.filter(user=self.request.user, withdrawn=False)
 
         if user.user_group() == "VIEWER":
             query = query.filter(status__gte=Petition.SUBMITTED_BY_USER)

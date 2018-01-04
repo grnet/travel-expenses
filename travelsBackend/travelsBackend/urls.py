@@ -15,7 +15,6 @@ api_prefix = settings.API_PREFIX
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^' + api_prefix + '/auth/', include(auth_urls)),
-    url(r'^' + api_prefix + '/docs/', include('rest_framework_docs.urls')),
     url(r'^api/config.json$', views.config, name='config'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

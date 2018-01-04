@@ -1316,7 +1316,9 @@ class Applications(Petition):
                 'compensation_alert','timesheeted',
                               'participation_local_currency',
                               'expenditure_date_protocol',
-                              'expenditure_protocol']
+                              'expenditure_protocol','travel_report',
+                              'withdrawn', 'total_cost_change_reason',
+                              'is_total_manual_cost_set']
     excluded_uc_travel_info = ['accommodation_local_cost',
                                'accommodation_cost',
                                'accommodation_payment_description',
@@ -1324,7 +1326,7 @@ class Applications(Petition):
                                'overnights_num_manual',
                                'transport_days_manual',
                                'compensation_days_manual',
-                               'distance']
+                               'distance','transportation_cost']
 
     excluded_scompensation = ['non_grnet_quota', 'participation_cost',
                 'participation_payment_description', 'deleted', 'travel_files',
@@ -1334,7 +1336,9 @@ class Applications(Petition):
                 'user_recommendation', 'compensation_alert',
                 'secretary_recommendation', 'manager_cost_approval',
                 'manager_movement_approval','timesheeted',
-                              'participation_local_currency']
+                              'participation_local_currency', 'travel_report'
+                              'withdrawn', 'total_cost_change_reason',
+                              'is_total_manual_cost_set']
     excluded_sc_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
                             'accommodation_payment_description',
@@ -1342,7 +1346,7 @@ class Applications(Petition):
                             'overnights_num_manual',
                             'transport_days_manual',
                             'compensation_days_manual',
-                            'distance']
+                            'distance','transportation_cost']
 
     excluded_usubmission = ['non_grnet_quota','expenditure_protocol',
                             'expenditure_date_protocol',
@@ -1463,6 +1467,16 @@ class Applications(Petition):
                 pass
 
         super(Applications, self).save(**kwargs)
+
+    def status_rollback(self):
+        """
+        Changes status of the petition to the previous one by marking current
+        as deleted and creating new one to the corresponding status.
+        """
+        if self.status in (Petition.SECRETARY_COMPENSATION_SUBMISSION,
+                           Petition.PETITION_FINAL_APPOVAL):
+            return self.status_transition(self.SECRETARY_COMPENSATION)
+        super(Applications, self).status_rollback()
 
 class UserPetition(Petition):
 
