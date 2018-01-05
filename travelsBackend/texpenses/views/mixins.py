@@ -417,7 +417,7 @@ class ApplicationMixin(object):
                          'compensation_final':
                          petition_object.compensation_final,
                          'transportation_compensation':
-                         petition_object.tranportation_cost_to_be_compensated(),
+                         petition_object.transportation_cost_to_be_compensated(),
                          'is_total_manual_cost_set':
                          petition_object.is_total_manual_cost_set,
                          'total_cost_change_reason': (
