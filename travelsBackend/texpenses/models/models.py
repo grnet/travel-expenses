@@ -1409,7 +1409,11 @@ class Applications(Petition):
                               'compensation_alert',
                               'travel_files',
                               'manager_movement_approval',
-                              'participation_local_currency']
+                              'participation_local_currency',
+                              'is_total_manual_cost_set',
+                              'total_cost_change_reason',
+                              'withdrawn',
+                              'total_cost_manual']
 
     excluded_sec_submission_ti =['accommodation_local_cost','distance',
                                  'accommodation_cost',
