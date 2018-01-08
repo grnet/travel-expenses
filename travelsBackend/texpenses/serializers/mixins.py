@@ -23,7 +23,7 @@ class PetitionMixin(object):
                                             deleted=False)
             if petition.withdrawn:
                 validated_data['withdrawn'] = True
-        except Petition.DoesNotExist:
+        except (Petition.DoesNotExist, KeyError):
             pass
 
         validated_data.update({'status': Petition.SAVED_BY_USER,
