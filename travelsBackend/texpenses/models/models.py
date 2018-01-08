@@ -1378,7 +1378,11 @@ class Applications(Petition):
                             'accommodation_payment_description',
                             'transportation_cost',
                             'transportation_payment_description',
-                            'distance']
+                            'distance',
+                            'is_total_manual_cost_set',
+                            'total_cost_change_reason',
+                            'withdrawn',
+                            'total_cost_manual']
     excluded_usubmission_ti = ['accommodation_cost',
                                'accommodation_local_cost',
                                'accommodation_payment_description',
