@@ -29,7 +29,6 @@ export default DS.Model.extend({
   transportation_cost: DS.attr(),
   accommodation_local_cost: DS.attr(),
   accommodation_local_currency: DS.attr({'choices': CHOICES.CURRENCIES}),
-  participation_local_currency: DS.attr({'choices': CHOICES.CURRENCIES}),
   transport_days_manual: DS.attr(),
   transport_days_proposed: DS.attr(),
   compensation_days_manual: DS.attr(),
