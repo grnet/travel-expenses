@@ -143,20 +143,19 @@ export const UIS = {
         'label': 'computed_data.label',
         'fields': [['trip_days_before', {attrs:{disabled: true}}], ['trip_days_after',{attrs:{disabled: true}}],
         ['same_day_return_task', {attrs:{disabled: true}}], ['overnights_sum_cost', {attrs:{disabled: true}}],
-        ['compensation_cost', {attrs:{disabled: true}}], ['total_cost_calculated', {attrs:{disabled: true}}], 'total_cost_manual', 'total_cost_change_reason']
+        ['compensation_cost', {attrs:{disabled: true}}], ['total_cost_calculated', {attrs:{disabled: true}}]]
       },
     ],
     layout: {
       flex: [
-        50, 50, 50, 50, 50, 50, 50, 50, 50, 100, 
-        100, 100, 50, 100, 100, 50, 50, 50, 50, 100, 
-        100, 50, 50, 50, 50, 50, 50, 50, 100, 50, 
-        50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 
-        50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 
-        50, 50, 50, 50, 50, 50, 50, 50, 50, 100, 
-        50, 50, 50, 50, 50, 50, 50, 40, 10, 50, 
-        50, 100,100, 50, 50, 50, 50, 50, 50, 50, 
-        40, 10,
+	    50, 50, 50, 50, 50, 50, 50, 100, 100, 100,   //10
+        50, 100, 100, 50, 50, 50, 50, 100, 100, 50,  //20
+        50, 50, 50, 50, 50, 50, 100, 50, 50, 50,     //30
+        50, 50, 50, 50, 50, 50, 50, 50, 50, 50,      //40
+        50, 50, 50, 50, 50, 50, 50, 50, 50, 50,      //50
+        50, 50, 50, 50, 50, 50, 50, 100, 50, 50,     //60
+        50, 50, 50, 50, 50, 40, 10, 50, 50, 100,     //70
+        100, 50, 50, 50, 50, 50, 50, 50, 40, 10,     //80
       ]
     }
   },

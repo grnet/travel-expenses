@@ -1,6 +1,6 @@
 Μετακινούμενος,Ιδιότητα,Ειδικότητα,Αναχώρηση,Επιστροφή,Έναρξη Εργασιών,Λήξη Εργασιών,Αφετηρία,Προορισμός,Έργο,Κόστος Μετακίνησης,Κόστος Διανυκτέρευσης,Ημερήσια αποζημίωση,Κόστος συμμετοχής,Λοιπά έξοδα μετακίνησης,Σύνολο
 {% spaceless %}
-{% for petition in petitions %}{{petition.first_name}} {{petition.last_name}},{{petition.kind}},{{petition.specialty}},{{petition.depart_date}},{{petition.return_date}},{{petition.task_start_date}},{{petition.task_end_date}},{{petition.departure_point}},{{petition.arrival_point}},{{petition.project}},{{petition.transportation_cost}},{{petition.overnights_sum_cost}},{{petition.compensation_cost}},{{petition.participation_cost}},{{petition.additional_expenses}},{{petition.total_cost_manual}}
+{% for petition in petitions %}{{petition.first_name}} {{petition.last_name}},{{petition.kind}},{{petition.specialty}},{{petition.depart_date}},{{petition.return_date}},{{petition.task_start_date}},{{petition.task_end_date}},{{petition.departure_point}},{{petition.arrival_point}},{{petition.project}},{{petition.transportation_cost}},{{petition.overnights_sum_cost}},{{petition.compensation_cost}},{{petition.participation_cost}},{{petition.additional_expenses}},{{petition.total_cost_calculated}}
 {% endfor %}
 {% endspaceless %}
 

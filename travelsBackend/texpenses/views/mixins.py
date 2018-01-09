@@ -71,7 +71,7 @@ class ProjectMixin(object):
                               petition.additional_expenses_default_currency,
                               'additional_expenses':
                               petition.additional_expenses,
-                              'total_cost': petition.total_cost_manual,
+                              'total_cost': petition.total_cost_calculated,
                               'project': petition.project.name,
                               'compensation_cost':
                               utils.get_compensation_cost(travel_info)
@@ -747,7 +747,7 @@ class SecretaryCompensationMixin(object):
                      additional_expenses_initial,
                      'additional_expenses_default_currency': petition_object.
                      additional_expenses_default_currency,
-                     'total_cost': petition_object.total_cost_manual,
+                     'total_cost': petition_object.total_cost_calculated,
                      'project': petition_object.project.name,
                      'compensation_string':
                      utils.get_compensation_levels_string(travel_info),

@@ -884,7 +884,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     def save(self, *args, **kwargs):
         self.updated = timezone.now()
         self._set_movement_id()
-        self._set_manual_total_cost()
+        # self._set_manual_total_cost()
         super(Petition, self).save(*args, **kwargs)
 
     def delete(self):
@@ -1278,7 +1278,7 @@ class UserCompensation(Petition):
                 'manager_cost_approval', 'manager_movement_approval',
                 'compensation_alert','timesheeted','travel_report',
                 'withdrawn', 'total_cost_change_reason',
-                'is_total_manual_cost_set']
+                'is_total_manual_cost_set', 'total_cost_manual']
     excluded_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
                             'accommodation_payment_description',
@@ -1310,7 +1310,7 @@ class SecretaryCompensation(Petition):
                 'secretary_recommendation', 'manager_cost_approval',
                 'manager_movement_approval','timesheeted','travel_report',
                 'withdrawn', 'total_cost_change_reason',
-                'is_total_manual_cost_set']
+                'is_total_manual_cost_set', 'total_cost_manual']
     excluded_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
                             'accommodation_payment_description',
