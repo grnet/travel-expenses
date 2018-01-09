@@ -1031,6 +1031,10 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
         return missing_fields
 
+    def compensation_cost(self):
+        return sum([travel_obj.compensation_cost()
+                    for travel_obj in self.travel_info.all()])
+
     def revoke(self, **kwargs):
         """ Revoke a petition the previous status. """
         return self.status_transition(self.status - 1, **kwargs)

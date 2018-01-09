@@ -122,7 +122,7 @@ export default {
   'trip_days_after.label': 'Εναπομ. Ημ. Μετακ. Εργ.: Μετά',
   'overnights_sum_cost.label': 'Σύνολο Διανυκτέρευσης',
   'compensation_level.label': 'Αποζημίωση (Ημερήσια)',
-  'compensation_final.label': 'Σύνολο Ημερήσιας Αποζημίωσης',
+  'compensation_cost.label': 'Σύνολο Ημερήσιας Αποζημίωσης',
   'total_cost_calculated.label': 'ΣΥΝΟΛΟ (προτεινόμενη τιμή)',
   'total_cost_manual.label': 'ΣΥΝΟΛΟ',
   'total_cost_change_reason.label':'Αιτιολόγηση αλλαγής συνολικού κόστους',

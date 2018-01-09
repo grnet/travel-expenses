@@ -54,7 +54,7 @@ export const UIS = {
       {
         'label': 'computed_data.label',
         'fields': ['trip_days_before', ['trip_days_after',{attrs:{disabled: true}}], 
-        'same_day_return_task', 'overnights_sum_cost', 'compensation_final', 'total_cost_calculated']
+        'same_day_return_task', 'overnights_sum_cost', 'compensation_cost', 'total_cost_calculated']
       },
     ],
     layout: {
@@ -143,7 +143,7 @@ export const UIS = {
         'label': 'computed_data.label',
         'fields': [['trip_days_before', {attrs:{disabled: true}}], ['trip_days_after',{attrs:{disabled: true}}],
         ['same_day_return_task', {attrs:{disabled: true}}], ['overnights_sum_cost', {attrs:{disabled: true}}],
-        ['compensation_final', {attrs:{disabled: true}}], ['total_cost_calculated', {attrs:{disabled: true}}], 'total_cost_manual', 'total_cost_change_reason']
+        ['compensation_cost', {attrs:{disabled: true}}], ['total_cost_calculated', {attrs:{disabled: true}}], 'total_cost_manual', 'total_cost_change_reason']
       },
     ],
     layout: {
@@ -206,7 +206,7 @@ export const UIS = {
       ['compensation_days_manual', {attrs:{disabled: true}}], ['compensation_days_proposed', {attrs:{disabled: true}}], 
       ['trip_days_before', {attrs:{disabled: true}}], ['trip_days_after',{attrs:{disabled: true}}], 
       ['same_day_return_task', {attrs:{disabled: true}}], ['overnights_sum_cost', {attrs:{disabled: true}}], 
-      ['compensation_final', {attrs:{disabled: true}}], ['compensation_level', {attrs:{disabled: true}}], 
+      ['compensation_cost', {attrs:{disabled: true}}], ['compensation_level', {attrs:{disabled: true}}], 
       ['total_cost_calculated', {attrs:{disabled: true}}]]
     },
   ],
@@ -269,7 +269,7 @@ export const UIS = {
       ['compensation_days_manual', {attrs:{disabled: true}}], ['compensation_days_proposed', {attrs:{disabled: true}}], 
       ['trip_days_before', {attrs:{disabled: true}}], ['trip_days_after',{attrs:{disabled: true}}], 
       ['same_day_return_task', {attrs:{disabled: true}}], ['overnights_sum_cost', {attrs:{disabled: true}}], 
-      ['compensation_final', {attrs:{disabled: true}}], ['compensation_level', {attrs:{disabled: true}}], 
+      ['compensation_cost', {attrs:{disabled: true}}], ['compensation_level', {attrs:{disabled: true}}], 
       ['total_cost_calculated', {attrs:{disabled: true}}]]
     },
   ],
