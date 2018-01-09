@@ -564,11 +564,15 @@ class TravelInfo(Accommodation, Transportation):
             [task_end_date] - [task_start_date] + 1
             +1 if { [depart_date] < [task_start_date] }
         """
-        task_start_date = self.travel_petition.task_start_date
-        task_end_date = self.travel_petition.task_end_date
+        task_start_date = self.travel_petition.task_start_date.replace(
+            hour=0, minute=0)
+        task_end_date = self.travel_petition.task_end_date.replace(hour=0,
+                                                                   minute=0)
+        depart_date = self.depart_date.replace(hour=0, minute=0)
+        return_date = self.return_date.replace(hour=0, minute=0)
 
-        if not (self.depart_date and self.return_date and
-                task_start_date and task_end_date):
+        if not (depart_date and return_date and task_start_date and
+                task_end_date):
             return 0
 
         if self.same_day_return_task():
@@ -576,27 +580,27 @@ class TravelInfo(Accommodation, Transportation):
 
         compensation_days = 0
 
-        start_date_delta = (task_start_date - self.depart_date).days
+        start_date_delta = (task_start_date - depart_date).days
 
 
-        if self.return_date <= task_end_date:
+        if return_date <= task_end_date:
             if start_date_delta == 0:
                 compensation_days = (
-                    self.return_date - task_start_date).days + 1
+                    return_date - task_start_date).days + 1
             if start_date_delta > 0:
                 compensation_days = (
-                    self.return_date - task_start_date).days + 1 if (
+                    return_date - task_start_date).days + 1 if (
                     self.travel_petition.has_multiple_destinations()) else (
-                        self.return_date - task_start_date).days + 2
+                        return_date - task_start_date).days + 2
 
             if start_date_delta < 0:
                 compensation_days = (
-                    self.return_date - self.depart_date).days + 1 if (
-                        self.return_date == task_end_date) else (
-                            (self.return_date - self.depart_date).days if (
+                    return_date - depart_date).days + 1 if (
+                        return_date == task_end_date) else (
+                            (return_date - depart_date).days if (
                             self.travel_petition.has_multiple_destinations())\
                             else (
-                                (self.return_date - self.depart_date).days + 1)
+                                (return_date - depart_date).days + 1)
                         )
         else:
             if start_date_delta > 0:
@@ -605,7 +609,7 @@ class TravelInfo(Accommodation, Transportation):
                 compensation_days = (task_end_date - task_start_date).days + 1
             if start_date_delta < 0:
                 compensation_days = (
-                    task_end_date - self.depart_date).days + 1
+                    task_end_date - depart_date).days + 1
 
         return compensation_days
 
