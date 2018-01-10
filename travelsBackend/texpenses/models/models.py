@@ -565,11 +565,16 @@ class TravelInfo(Accommodation, Transportation):
             +1 if { [depart_date] < [task_start_date] }
         """
         task_start_date = self.travel_petition.task_start_date.replace(
-            hour=0, minute=0)
-        task_end_date = self.travel_petition.task_end_date.replace(hour=0,
-                                                                   minute=0)
-        depart_date = self.depart_date.replace(hour=0, minute=0)
-        return_date = self.return_date.replace(hour=0, minute=0)
+            hour=0, minute=0) if self.travel_petition.task_start_date else (
+                self.travel_petition.task_start_date)
+        task_end_date = self.travel_petition.task_end_date.replace(
+            hour=0, minute=0) if self.travel_petition.task_end_date else (
+            self.travel_petition.task_end_date)
+
+        depart_date = self.depart_date.replace(
+            hour=0, minute=0) if self.depart_date else self.depart_date
+        return_date = self.return_date.replace(
+            hour=0, minute=0) if self.return_date else self.return_date
 
         if not (depart_date and return_date and task_start_date and
                 task_end_date):
