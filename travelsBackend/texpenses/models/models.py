@@ -388,7 +388,10 @@ class TravelInfo(Accommodation, Transportation):
                     MEANS_OF_TRANSPORT_DISTANCE_FACTOR[self.means_of_transport]
                 self.transportation_cost = 2 * distance_factor * self.distance
 
-        self._set_travel_manual_field_defaults()
+        if self.travel_petition.status not in (
+            Petition.SAVED_BY_USER, Petition.SUBMITTED_BY_USER,
+            Petition.USER_COMPENSATION, Petition.USER_COMPENSATION_SUBMISSION):
+            self._set_travel_manual_field_defaults()
         super(TravelInfo, self).save(*args, **kwargs)
 
     def validate_overnight_cost(self, petition):
