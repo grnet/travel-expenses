@@ -120,8 +120,11 @@ DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 USE_I18N = True
 
+
+#===Create migrations on value changes===
 DECIMAL_MAX_DIGITS = 8
 DECIMAL_PLACES = 3
+#=======================================
 DECIMAL_SEPARATOR = ','
 
 # A workaround setting for translations bug [1]
