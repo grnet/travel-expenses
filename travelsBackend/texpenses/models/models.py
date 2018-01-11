@@ -313,17 +313,16 @@ class TravelInfo(Accommodation, Transportation):
                 raise ValidationError(u"Departure city and arrival city should"
                                       " not be the same.")
 
-    def _set_travel_manual_fields(self):
-
-        self.transport_days_manual = self.transport_days_proposed()
-        self.overnights_num_manual = self.overnights_num_proposed()
-        self.compensation_days_manual = self.compensation_days_proposed()
-
     def _set_travel_manual_field_defaults(self):
 
-        if sum([self.transport_days_manual, self.overnights_num_manual,
-                self.compensation_days_manual]) == 0:
-            self._set_travel_manual_fields()
+        if self.transport_days_manual == 0:
+            self.transport_days_manual = self.transport_days_proposed()
+
+        if self.overnights_num_manual == 0:
+            self.overnights_num_manual = self.overnights_num_proposed()
+
+        if self.compensation_days_manual == 0:
+            self.compensation_days_manual = self.compensation_days_proposed()
 
     def is_abroad(self):
 
