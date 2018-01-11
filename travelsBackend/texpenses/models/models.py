@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 # -*- coding: utf-8 -*-
 
 from datetime import timedelta
@@ -199,12 +199,16 @@ class Accommodation(md.Model):
     An abstract model that represents the accommodation related info
     """
 
-    accommodation_cost = md.DecimalField(max_digits=8, decimal_places=3,
-        blank=False, default=0.0, validators=[MinValueValidator(0.0)])
+    accommodation_cost = md.DecimalField(max_digits=settings.DECIMAL_MAX_DIGITS,
+                                         decimal_places=settings.DECIMAL_PLACES,
+                                         blank=False, default=0.0,
+                                         validators=[MinValueValidator(0.0)])
     accommodation_default_currency = md.CharField(
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
-    accommodation_local_cost = md.DecimalField(max_digits=8, decimal_places=3,
-        blank=False, default=0.0, validators=[MinValueValidator(0.0)])
+    accommodation_local_cost = md.DecimalField(
+        max_digits=settings.DECIMAL_MAX_DIGITS,
+        decimal_places=settings.DECIMAL_PLACES, blank=False, default=0.0,
+        validators=[MinValueValidator(0.0)])
     accommodation_local_currency = md.CharField(
         max_length=3, blank=True, choices=common.CURRENCIES)
     accommodation_payment_way = md.CharField(
@@ -222,7 +226,9 @@ class Transportation(md.Model):
     """
     An abstract model that represents the transportation related info
     """
-    transportation_cost = md.DecimalField(max_digits=8, decimal_places=3,
+    transportation_cost = md.DecimalField(
+        max_digits=settings.DECIMAL_MAX_DIGITS,
+        decimal_places=settings.DECIMAL_PLACES,
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
     transportation_default_currency = md.CharField(
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
@@ -720,12 +726,16 @@ class ParticipationInfo(md.Model):
     """
     An abstract model that represents the participation cost related info
     """
-    participation_cost = md.DecimalField(max_digits=8, decimal_places=3,
+    participation_cost = md.DecimalField(
+        max_digits=settings.DECIMAL_MAX_DIGITS,
+        decimal_places=settings.DECIMAL_PLACES,
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
 
     participation_default_currency = md.CharField(
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
-    participation_local_cost = md.DecimalField(max_digits=8, decimal_places=3,
+    participation_local_cost = md.DecimalField(
+        max_digits=settings.DECIMAL_MAX_DIGITS,
+        decimal_places=settings.DECIMAL_PLACES,
         blank=True, default=0.0, validators=[MinValueValidator(0.0)])
     participation_local_currency = md.CharField(
         max_length=3, blank=True, choices=common.CURRENCIES)
@@ -745,14 +755,17 @@ class AdditionalCosts(md.Model):
     An abstract model that represents the additional costs related info
     """
     additional_expenses_initial = md.DecimalField(
-        max_digits=8, decimal_places=3, blank=False, default=0.0,
+        max_digits=settings.DECIMAL_MAX_DIGITS,
+        decimal_places=settings.DECIMAL_PLACES, blank=False, default=0.0,
         validators=[MinValueValidator(0.0)])
     additional_expenses_default_currency = md.CharField(
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
     additional_expenses_initial_description = md.CharField(
         max_length=400, blank=True, null=True)
 
-    additional_expenses = md.DecimalField(max_digits=8, decimal_places=3,
+    additional_expenses = md.DecimalField(
+        max_digits=settings.DECIMAL_MAX_DIGITS,
+        decimal_places=settings.DECIMAL_PLACES,
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
     additional_expenses_local_currency = md.CharField(
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
@@ -829,7 +842,9 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     travel_files = md.FileField(upload_to=common.user_directory_path,
                                 null=True, blank=True)
 
-    total_cost_manual = md.DecimalField(max_digits=8, decimal_places=3,
+    total_cost_manual = md.DecimalField(
+        max_digits=settings.DECIMAL_MAX_DIGITS,
+        decimal_places=settings.DECIMAL_PLACES,
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
     total_cost_change_reason = md.CharField(max_length=1000, blank=True,
                                             null=True)
@@ -1150,8 +1165,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
                 self.status <= self.APPROVED_BY_PRESIDENT) else (
                     self.additional_expenses)
 
-        return sum([Decimal(compensation_cost_sum), additional_expenses,
-                    self.transportation_cost_to_be_compensated()])
+        return sum([Decimal(compensation_cost_sum), Decimal(additional_expenses),
+                    Decimal(self.transportation_cost_to_be_compensated())])
 
 
 
@@ -1163,9 +1178,10 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         compensation, partication and accommodation costs.
         """
 
-        return sum([self.transportation_cost_not_to_be_compensated(),
-                    self.participation_cost,
-                    self.compensation_final(), self.overnights_sum_cost()])
+        return sum([Decimal(self.transportation_cost_not_to_be_compensated()),
+                    Decimal(self.participation_cost),
+                    Decimal(self.compensation_final()),
+                    Decimal(self.overnights_sum_cost())])
 
     def __unicode__(self):
         return str(self.dse) + "-" + self.project.name + '-' + str(self.id)

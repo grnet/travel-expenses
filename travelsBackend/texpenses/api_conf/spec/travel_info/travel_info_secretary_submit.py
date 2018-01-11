@@ -1,11 +1,13 @@
+from django.conf import settings
+
 spec = {'.structarray': {'accommodation_cost': {'.cli_option': {},
                                                 '.drf_field': {'allow_null':
                                                                True,
                                                                'required':
                                                                False},
                                                 '.field': {},
-                                                '.decimal': {'max_digits': 8,
-                                                             'decimal_places':3}},
+                                                '.decimal': {'max_digits': settings.DECIMAL_MAX_DIGITS,
+                                                             'decimal_places':settings.DECIMAL_PLACES}},
                          'accommodation_default_currency': {'.cli_option': {},
                                                             '.drf_field':
                                                             {'allow_blank':
@@ -47,8 +49,8 @@ spec = {'.structarray': {'accommodation_cost': {'.cli_option': {},
                          'compensation_level': {'.cli_option': {},
                                                 '.drf_field': {},
                                                 '.field': {},
-                                                '.decimal': {'max_digits': 8,
-                                                             'decimal_places':3},
+                                                '.decimal': {'max_digits': settings.DECIMAL_MAX_DIGITS,
+                                                             'decimal_places':settings.DECIMAL_PLACES},
                                                 '.readonly': {}},
                          'depart_date': {'.cli_option': {},
                                          '.datetime': {'format':
@@ -79,8 +81,8 @@ spec = {'.structarray': {'accommodation_cost': {'.cli_option': {},
                          'overnight_cost': {'.cli_option': {},
                                             '.drf_field': {},
                                             '.field': {},
-                                            '.decimal': {'max_digits': 8,
-                                                         'decimal_places':3},
+                                            '.decimal': {'max_digits': settings.DECIMAL_MAX_DIGITS,
+                                                         'decimal_places':settings.DECIMAL_PLACES},
                                             '.readonly': {}},
                          'return_date': {'.cli_option': {},
                                          '.datetime': {'format':
@@ -105,8 +107,8 @@ spec = {'.structarray': {'accommodation_cost': {'.cli_option': {},
                                                                 True,
                                                                 },
                                                  '.field': {},
-                                                 '.decimal': {'max_digits': 8,
-                                                              'decimal_places':3}},
+                                                 '.decimal': {'max_digits': settings.DECIMAL_MAX_DIGITS,
+                                                              'decimal_places':settings.DECIMAL_PLACES}},
                          'transportation_default_currency': {'.cli_option': {},
                                                              '.drf_field':
                                                              {'allow_blank':
