@@ -1,7 +1,7 @@
 import DS from 'ember-data';
 
 export default DS.Transform.extend({
-//sent data
+//send data
   serialize: function(value) {
     if (typeof value === "string") {
       return value.replace(",", ".");

@@ -9,7 +9,7 @@ const CHOICES = ENV.APP.resource_choices,
 export var Compensation = SecretaryPetition.extend({
 
   //compensation - user fields
-  additional_expenses: DS.attr('number', {attrs: {required: true}}),
+  additional_expenses: DS.attr('formatted-number', {attrs: {required: true}}),
   additional_expenses_local_currency: DS.attr({'choices': CURRENCY, 'component': 'petition-currency'}),
   additional_expenses_description: DS.attr({attrs:{textarea: true}}),
   travel_files: DS.attr('file', {attrs: {required: true}}),

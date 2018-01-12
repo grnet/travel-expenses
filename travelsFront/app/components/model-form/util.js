@@ -42,7 +42,7 @@ const TYPE_COMPONENT_MAP = {
   'select': ['model-form/fields/select', {}],
   'date': ['model-form/fields/date', {time: false}],
   'date-simple': ['model-form/fields/date', {time: false}],
-  'number': ['model-form/fields/input', {type: "text"}],
+  'formatted-number': ['model-form/fields/input', {type: "text"}],
   'datetime': ['model-form/fields/date', {time: 'local'}],
   'select': ['model-form/fields/select'],
   'file': ['model-form/fields/file'],
