@@ -48,9 +48,9 @@ export var Petition = DS.Model.extend({
     // return just the status id
     return _.last(this.get('id').replace(/\/$/, '').split('/'));
   }),
-  participation_local_cost: DS.attr({attrs: {required: true}}),
+  participation_local_cost: DS.attr('number'),
   participation_local_currency: DS.attr({'choices': CURRENCY, 'component': 'petition-currency'}),
-  additional_expenses_initial: DS.attr({attrs: {required: true}}),
+  additional_expenses_initial: DS.attr('number', {attrs: {required: true}}),
   additional_expenses_initial_description: DS.attr({attrs:{textarea: true}}),
   user_recommendation: DS.attr({attrs:{textarea: true}}),
 
