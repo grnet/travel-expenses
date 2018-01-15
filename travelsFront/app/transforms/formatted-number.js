@@ -9,8 +9,8 @@ export default DS.Transform.extend({
     return value;
   },
 //receive data
-  deserialize: function(value) {
-    if (typeof value === "number") {
+  deserialize: function(value) { 
+    if (typeof value === "string" || typeof value === "number") {
       return value.toString().replace(".", ",");
     }
     return value;
