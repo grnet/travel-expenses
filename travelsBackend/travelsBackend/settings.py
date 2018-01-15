@@ -123,7 +123,7 @@ USE_I18N = True
 
 #===Create migrations on value changes===
 DECIMAL_MAX_DIGITS = 8
-DECIMAL_PLACES = 3
+DECIMAL_PLACES = 2
 #=======================================
 DECIMAL_SEPARATOR = ','
 
