@@ -28,7 +28,7 @@ export var SecretaryPetition = Petition.extend({
   overnights_sum_cost: DS.attr('formatted-number', {attrs: {disabled: true}}),
   overnights_proposed: DS.attr({attrs: {disabled: true}}),
   overnights_num: DS.attr(),
-  compensation_cost: DS.attr({attrs: {disabled: true}}),
+  compensation_cost: DS.attr('formatted-number', {attrs: {disabled: true}}),
   total_cost_calculated: DS.attr('formatted-number', {attrs: {disabled: true}}),
 
   //Travel_info DATA
@@ -45,7 +45,7 @@ export var SecretaryPetition = Petition.extend({
   transportation_payment_description: DS.attr(),
   overnights_num_manual: DS.attr(),
   overnight_cost: DS.attr('formatted-number'),
-  compensation_level: DS.attr({attrs: {disabled: true}}),
+  compensation_level: DS.attr('formatted-number', {attrs: {disabled: true}}),
   same_day_return_task: DS.attr('boolean', {attrs: {disabled: true}}),
 
   passedAccommodationLimit: Ember.computed('movement_category', 'accommodation_cost', function() {

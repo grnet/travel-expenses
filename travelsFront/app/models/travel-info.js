@@ -158,7 +158,7 @@ export default DS.Model.extend({
   transportation_payment_description: DS.attr(),
   overnights_num_manual: DS.attr(),
   overnight_cost: DS.attr('formatted-number'),
-  compensation_level: DS.attr(),
+  compensation_level: DS.attr('formatted-number'),
   same_day_return_task: DS.attr('boolean', {attrs: {disabled: true}}),
   index: DS.attr(),
   overnights_num_proposed: DS.attr(),
