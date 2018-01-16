@@ -27,11 +27,10 @@ export default Ember.Component.extend({
     return store.findAll('project');
   }),
   withdrawns: Ember.computed(function(){
-    var options = [
-      {id: 2, name: 'option.withdrawned'},
+    return [
+      {id: 2, name: 'option.withdrawn'},
       {id: 3, name: 'option.active'}
     ];
-    return options;
   }),
 
   actions: {

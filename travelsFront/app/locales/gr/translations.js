@@ -237,6 +237,6 @@ export default {
   //placeholders
   'time_placeholder': 'Ώρα',
   //select options
-  'option.withdrawned': 'Ακυρωμένες Αιτήσεις',
+  'option.withdrawn': 'Ακυρωμένες Αιτήσεις',
   'option.active': 'Ενεργές Αιτήσεις',
 };
