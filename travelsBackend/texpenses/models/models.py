@@ -1126,6 +1126,23 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         return sum(travel.overnight_cost()
                    for travel in self.travel_info.all())
 
+    def overnights_to_be_compensated(self):
+        """ Total accommodation compensation for all destinations. """
+        overnights_compensation = 0
+        for travel in self.travel_info.all():
+            if travel.accommodation_payment_way == u'VISA':
+                overnights_compensation += travel.overnight_cost()
+
+        return overnights_compensation
+
+    def overnights_not_to_be_compensated(self):
+        overnights_compensation = 0
+        for travel in self.travel_info.all():
+            if travel.accommodation_payment_way != u'VISA':
+                overnights_compensation += travel.overnight_cost()
+
+        return overnights_compensation
+
     def task_duration(self):
         """ Gets the duration of task. """
         if not (self.task_start_date and self.task_end_date):
@@ -1137,7 +1154,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         transportation_compensation = 0
 
         for travel_obj in self.travel_info.all():
-            if travel_obj.means_of_transport_is_car_or_bike():
+            if travel_obj.means_of_transport_is_car_or_bike() or (
+                travel_obj.transportation_payment_way == u'VISA'):
                 transportation_compensation += travel_obj.transportation_cost
 
         return transportation_compensation
@@ -1147,7 +1165,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         transportation_compensation = 0
 
         for travel_obj in self.travel_info.all():
-            if not travel_obj.means_of_transport_is_car_or_bike():
+            if not travel_obj.means_of_transport_is_car_or_bike() and (
+                travel_obj.transportation_payment_way != u'VISA'):
                 transportation_compensation += travel_obj.transportation_cost
 
         return transportation_compensation
@@ -1157,16 +1176,21 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         :returns: TODO
 
         """
-        compensation_cost_sum = sum(travel_obj.compensation_cost()
-                                    for travel_obj in self.travel_info.all())
+        compensation_cost_sum = Decimal(sum(travel_obj.compensation_cost()
+                                            for travel_obj in
+                                            self.travel_info.all()))
         additional_expenses = 0
         if not self.withdrawn:
             additional_expenses = self.additional_expenses_initial if (
                 self.status <= self.APPROVED_BY_PRESIDENT) else (
                     self.additional_expenses)
 
+        if self.participation_payment_way == u'VISA':
+            compensation_cost_sum += self.participation_cost
+
         return sum([Decimal(compensation_cost_sum), Decimal(additional_expenses),
-                    Decimal(self.transportation_cost_to_be_compensated())])
+                    Decimal(self.transportation_cost_to_be_compensated()),
+                    Decimal(self.overnights_to_be_compensated())])
 
 
 
@@ -1179,9 +1203,11 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         """
 
         return sum([Decimal(self.transportation_cost_not_to_be_compensated()),
-                    Decimal(self.participation_cost),
+                    Decimal(self.participation_cost) if (
+                        self.participation_payment_way != u'VISA') else
+                    Decimal(0),
                     Decimal(self.compensation_final()),
-                    Decimal(self.overnights_sum_cost())])
+                    Decimal(self.overnights_not_to_be_compensated())])
 
     def __unicode__(self):
         return str(self.dse) + "-" + self.project.name + '-' + str(self.id)
