@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { translationMacro as t } from "ember-i18n";
-import ENV from 'travels-front/config/environment'; 
+import ENV from 'travels-front/config/environment';
 
 const CHOICES = ENV.APP.resource_choices;
 
@@ -10,12 +10,10 @@ const {
 
 export default Ember.Component.extend({
 
-	store: Ember.inject.service(),
-	
+ store: Ember.inject.service(),
+
   classNames: ['list-filter'],
-  filters: {dse: '', last_name: '', project: '', status: '', depart_date__gte: null, depart_date__lte: null, return_date__lte: null},
-  placeholderLabel: t('placeholder.filterByProject'),
-  placeholderLabelS: t('placeholder.filterByStatus'),
+  filters: {dse: '', last_name: '', project: '', status: '', depart_date__gte: null, depart_date__lte: null, return_date__lte: null, withdrawn: ''},
   statuses: Ember.computed(function(){
     var status = CHOICES.STATUS;
     var statusLabel = [];
@@ -23,15 +21,20 @@ export default Ember.Component.extend({
       statusLabel[i] = status[i][0] + ":" + status[i][1]; 
     }
     return statusLabel;
-  }),  
+  }),
   projects: Ember.computed(function(){
-  	var store = this.get('store');
-  	return store.findAll('project');
+    var store = this.get('store');
+    return store.findAll('project');
+  }),
+  withdrawns: Ember.computed(function(){
+    var options = [
+      {id: 2, name: 'option.withdrawned'},
+      {id: 3, name: 'option.active'}
+    ];
+    return options;
   }),
 
-
   actions: {
-
     handleFilterEntry() {
       this.updateFilters(assign({}, this.get('filters')));
     },
@@ -45,6 +48,7 @@ export default Ember.Component.extend({
         depart_date__gte: this.set('filters.depart_date__gte', null),
         depart_date__gte: this.set('filters.depart_date__lte', null),
         return_date__lte: this.set('filters.return_date__lte', null),
+        withdrawn: this.set('filters.withdrawn', ''),
       };
       this.updateFilters(emptyFilters);
     }

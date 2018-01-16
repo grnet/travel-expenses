@@ -140,11 +140,12 @@ export default {
   //placeholders
   'placeholder.filterByProject': 'Έργο',
   'placeholder.filterByName': 'Επώνυμο',
-  'placeholder.filterByStatus': 'Κατάσταση',
+  'placeholder.filterByStatus': 'Ιστορικό',
   'placeholder.filterByDSE': 'ΔΣΕ',
   'placeholder.filterByStartDateFrom': 'Ημ/νία Αναχώρησης - Από',
   'placeholder.filterByStartDateTo': 'Ημ/νία Αναχώρησης - Έως',
   'placeholder.filterByEndDate': 'Ημ/νία Επιστροφής',
+  'placeholder.filterWithdrawn': 'Κατάσταση Αίτησης',
  	//tabs
  	'login.tab': 'Είσοδος',
  	'signup.tab': 'Εγγραφή',
@@ -235,4 +236,7 @@ export default {
   'profile_saved': 'Τα στοιχεία του προφίλ σας έχουν ενημερωθεί επιτυχώς',
   //placeholders
   'time_placeholder': 'Ώρα',
+  //select options
+  'option.withdrawned': 'Ακυρωμένες Αιτήσεις',
+  'option.active': 'Ενεργές Αιτήσεις',
 };
