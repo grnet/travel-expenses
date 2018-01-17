@@ -151,10 +151,12 @@
 			<td>Ημερήσια Αποζημίωση</td>
 			<td>{{compensation_string}} = {{compensation_cost}} ευρώ </td>
 		</tr>
+		{% if transportation_compensation > 0 %}
 		<tr>
 			<td>Έξοδα μετακίνησης προς αποζημίωση</td>
 			<td>{{transportation_compensation}} ευρώ</td>
 		</tr>
+		{% endif %}
 		{% if travel_info_with_visa_accommodation_payment %}
 			<tr>
 				<td>Έξοδα διανυκτέρευσης προς αποζημίωση</td>
@@ -167,10 +169,12 @@
 				<td>{{participation_cost}} ευρώ</td>
 			</tr>
 		{% endif %}
+		{% if additional_expenses > 0 %}
 		<tr>
 			<td>Λοιπά έξοδα μετακίνησης</td>
 			<td>{{additional_expenses}} ευρώ</td>
 		</tr>
+		{% endif %}
 		<tr>
 			<td><b>Σύνολο Αποζημίωσης</td>
 			<td><b>{{compensation_final}} ευρώ</b></td>
