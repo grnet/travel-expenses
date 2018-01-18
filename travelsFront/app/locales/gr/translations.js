@@ -159,6 +159,7 @@ export default {
  	'petitions_list.tab': 'Λίστα Αιτήσεων',
   'manager_petitions_list.tab': 'Λίστα Αιτήσεων προς Έγκριση',
   'statistics.tab': 'Εξαγωγή Στατιστικών',
+  'reset-password.tab':'Υπενθύμιση Κωδικού Πρόσβασης',
  	//titles
  	'login.title': 'Είσοδος',
  	'logged_in_as.title': 'Συνδεθήκατε ως: ',

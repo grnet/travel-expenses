@@ -23,6 +23,7 @@ Router.map(function() {
   this.route('manager-list');
   this.route('statistics');
   this.route('president-list');
+  this.route('reset-password');
 });
 
 export default Router;
