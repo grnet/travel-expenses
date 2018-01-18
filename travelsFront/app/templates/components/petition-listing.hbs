@@ -1,5 +1,5 @@
 {{#component wrapper as |row|}}
-{{#row.cell class="icon-cell"}}
+{{#row.cell class="icon-cell" class=petition.addCSSClass}}
 {{#if (can "approve petition")}}
   {{#if (or (eq petition.status 2) (eq petition.status 3))}}
     {{list-action action=(action "edit" petition) icon='create' tooltip-message=(t 'tooltip_edit')  iconButton=true confirm=false}}
@@ -69,18 +69,15 @@
   {{/if}}
 {{/if}}
 {{/row.cell}}
-{{#if (can "compensate petition")}}
-  {{#row.cell}}{{petition.timesheeted}}{{/row.cell}}
-{{/if}}
-{{#row.cell}}{{petition.dse}}{{/row.cell}}
-{{#row.cell}}{{petition.first_name}}{{/row.cell}}
-{{#row.cell}}{{petition.last_name}}{{/row.cell}}
-{{#row.cell}}{{petition.project.name}}{{/row.cell}}
-{{#row.cell}}{{petition.travel_info.lastObject.arrival_point.name}}{{/row.cell}}
-{{#row.cell}}{{to-date petition.created}}{{/row.cell}}
-{{#row.cell}}{{to-date petition.updated}}{{/row.cell}}
-{{#row.cell}}{{to-date petition.travel_info.firstObject.depart_date}}{{/row.cell}}
-{{#row.cell}}{{to-date petition.travel_info.lastObject.return_date}}{{/row.cell}}
-{{#row.cell}}{{petition.status_label}}{{/row.cell}}
-{{#row.cell}}{{petition.total_cost_calculated}}{{/row.cell}}
+{{#row.cell class=petition.addCSSClass}}{{petition.dse}}{{/row.cell}}
+{{#row.cell class=petition.addCSSClass}}{{petition.first_name}}{{/row.cell}}
+{{#row.cell class=petition.addCSSClass}}{{petition.last_name}}{{/row.cell}}
+{{#row.cell class=petition.addCSSClass}}{{petition.project.name}}{{/row.cell}}
+{{#row.cell class=petition.addCSSClass}}{{petition.travel_info.lastObject.arrival_point.name}}{{/row.cell}}
+{{#row.cell class=petition.addCSSClass}}{{to-date petition.created}}{{/row.cell}}
+{{#row.cell class=petition.addCSSClass}}{{to-date petition.updated}}{{/row.cell}}
+{{#row.cell class=petition.addCSSClass}}{{to-date petition.travel_info.firstObject.depart_date}}{{/row.cell}}
+{{#row.cell class=petition.addCSSClass}}{{to-date petition.travel_info.lastObject.return_date}}{{/row.cell}}
+{{#row.cell class=petition.addCSSClass}}{{petition.status_label}}{{/row.cell}}
+{{#row.cell class=petition.addCSSClass}}{{petition.total_cost_calculated}}{{/row.cell}}
 {{/component}}

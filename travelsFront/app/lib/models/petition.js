@@ -92,6 +92,13 @@ export var Petition = DS.Model.extend({
   }),
 
   withdrawn: DS.attr('boolean'),
+
+  addCSSClass: Ember.computed('withdrawn', 'timesheeted', function(){
+    let withdrawn = this.get('withdrawn');
+    let timesheeted = this.get('timesheeted');
+    if (withdrawn) { return 'withdrawn'; }
+    if (timesheeted) { return 'timesheeted'; }
+  }),
   // propagate travel_info errors to the related travel info local model fields
   observeTravelInfoErrors: Ember.observer('errors.travel_info', function() {
     let errors = this.get('errors.travel_info');
