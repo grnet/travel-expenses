@@ -9,6 +9,11 @@ from .models import TravelInfo
 from .models import CityDistances
 
 
+class TravelInfoInLine(admin.TabularInline):
+    model = TravelInfo
+    extra = 0
+
+
 class PetitionAdmin(admin.ModelAdmin):
     search_fields = ['dse']
     list_display = ('dse', 'project', 'user', 'created', 'deleted',
@@ -18,6 +23,7 @@ class PetitionAdmin(admin.ModelAdmin):
                    'project', 'user', 'withdrawn')
     date_hierarchy = 'updated'
     ordering = ('-updated', '-task_start_date', '-task_end_date')
+    inlines = [TravelInfoInLine]
 
 
 class CityAdmin(admin.ModelAdmin):
