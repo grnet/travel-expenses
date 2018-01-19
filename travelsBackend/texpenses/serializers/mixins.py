@@ -108,12 +108,20 @@ class PetitionMixin(object):
         - If data include less nested objects than the currenly which are
         stored, then redundant model instances are deleted.
         """
+        request_user_group = self.context['request'].user.user_group()
         model_instances = instance.travel_info.all()
         for i, travel in enumerate(nested_objects):
             if i < len(model_instances) and model_instances:
                 current_travel_obj = model_instances[i]
                 for k, v in travel.iteritems():
                     setattr(current_travel_obj, k, v)
+
+                if instance.status not in (
+                    Petition.SAVED_BY_USER, Petition.SUBMITTED_BY_USER,
+                    Petition.USER_COMPENSATION,
+                    Petition.USER_COMPENSATION_SUBMISSION) and (
+                        request_user_group != 'MANAGER'):
+                        current_travel_obj._set_travel_manual_field_defaults()
                 current_travel_obj.save()
             else:
                 instance.travel_info.create(travel_petition=instance, **travel)
