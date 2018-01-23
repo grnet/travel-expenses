@@ -244,6 +244,10 @@ table.responsive {
   text-transform: capitalize;
 }
 
+.destination-label.md-accent.md-raised {
+  background-color: color('pink', '700') !important;
+}
+
 .timesheeted {
   background-color: plum !important;
 }
