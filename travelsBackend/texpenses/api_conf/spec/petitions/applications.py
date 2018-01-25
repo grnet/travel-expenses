@@ -32,16 +32,15 @@ spec = {'*': {
                               '.field': {},
                               '.decimal': {
                                   'max_digits': settings.DECIMAL_MAX_DIGITS,
-                                  'decimal_places':settings.DECIMAL_PLACES}},
+                                  'decimal_places':settings.DECIMAL_PLACES},
                               '.readonly': {}},
     'total_cost_calculated': {'.cli_option': {},
                               '.drf_field': {},
                               '.field': {},
                               '.decimal': {
                                   'max_digits': settings.DECIMAL_MAX_DIGITS,
-                                  'decimal_places':settings.DECIMAL_PLACES}},
+                                  'decimal_places':settings.DECIMAL_PLACES},
                               '.readonly': {}},
-
     'additional_expenses': {'.cli_option': {},
                             '.drf_field': {},
                             '.field': {},
@@ -126,9 +125,9 @@ spec = {'*': {
     'compensation_final': {'.cli_option': {},
                            '.drf_field': {},
                            '.field': {},
-                            '.decimal': {
+                           '.decimal': {
                                 'max_digits': settings.DECIMAL_MAX_DIGITS,
-                                'decimal_places':settings.DECIMAL_PLACES}},
+                                'decimal_places':settings.DECIMAL_PLACES},
                            '.readonly':{}},
     'created': {'.cli_option': {},
                 '.datetime': {},
@@ -184,7 +183,7 @@ spec = {'*': {
                             '.field': {},
                             '.decimal': {
                                 'max_digits': settings.DECIMAL_MAX_DIGITS,
-                                'decimal_places':settings.DECIMAL_PLACES}},
+                                'decimal_places':settings.DECIMAL_PLACES},
                             '.readonly': {}},
     'participation_cost': {'.cli_option': {},
                            '.drf_field': {},

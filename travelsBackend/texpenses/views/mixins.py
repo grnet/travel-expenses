@@ -430,7 +430,7 @@ class ApplicationMixin(object):
                          'transportation_compensation':
                          petition_object.transportation_cost_to_be_compensated(),
                          'participation_payment_way': (
-                             petition_object.participation_payment_way)
+                             petition_object.participation_payment_way),
                          'is_total_manual_cost_set':
                          petition_object.is_total_manual_cost_set,
                          'total_cost_change_reason': (
