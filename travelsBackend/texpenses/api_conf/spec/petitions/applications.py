@@ -1,3 +1,5 @@
+from django.conf import settings
+
 spec = {'*': {
 
 
@@ -25,24 +27,27 @@ spec = {'*': {
                   '.drf_field': {},
                   '.field': {},
                   '.boolean': {}},
+    'compensation_cost': {'.cli_option': {},
+                              '.drf_field': {},
+                              '.field': {},
+                              '.decimal': {
+                                  'max_digits': settings.DECIMAL_MAX_DIGITS,
+                                  'decimal_places':settings.DECIMAL_PLACES}},
+                              '.readonly': {}},
     'total_cost_calculated': {'.cli_option': {},
                               '.drf_field': {},
                               '.field': {},
-                              '.float': {},
+                              '.decimal': {
+                                  'max_digits': settings.DECIMAL_MAX_DIGITS,
+                                  'decimal_places':settings.DECIMAL_PLACES}},
                               '.readonly': {}},
-    'total_cost_manual': {'.cli_option': {},
-                          '.drf_field': {},
-                          '.field': {},
-                          '.float': {}},
-    'total_cost_change_reason': {'.cli_option': {},
-                                 '.drf_field': {},
-                                 '.field': {},
-                                 '.string': {}},
 
     'additional_expenses': {'.cli_option': {},
                             '.drf_field': {},
                             '.field': {},
-                            '.float': {}},
+                            '.decimal': {
+                                'max_digits': settings.DECIMAL_MAX_DIGITS,
+                                'decimal_places':settings.DECIMAL_PLACES}},
     'additional_expenses_description': {'.cli_option': {},
                                         '.drf_field': {},
                                         '.field': {},
@@ -102,7 +107,9 @@ spec = {'*': {
     'additional_expenses_initial': {'.cli_option': {},
                                     '.drf_field': {},
                                     '.field': {},
-                                    '.float': {}},
+                                    '.decimal': {
+                                        'max_digits': settings.DECIMAL_MAX_DIGITS,
+                                        'decimal_places':settings.DECIMAL_PLACES}},
     'additional_expenses_initial_description': {'.cli_option': {},
                                                 '.drf_field': {},
                                                 '.field': {},
@@ -119,7 +126,9 @@ spec = {'*': {
     'compensation_final': {'.cli_option': {},
                            '.drf_field': {},
                            '.field': {},
-                           '.float': {},
+                            '.decimal': {
+                                'max_digits': settings.DECIMAL_MAX_DIGITS,
+                                'decimal_places':settings.DECIMAL_PLACES}},
                            '.readonly':{}},
     'created': {'.cli_option': {},
                 '.datetime': {},
@@ -173,12 +182,16 @@ spec = {'*': {
     'overnights_sum_cost': {'.cli_option': {},
                             '.drf_field': {},
                             '.field': {},
-                            '.float': {},
+                            '.decimal': {
+                                'max_digits': settings.DECIMAL_MAX_DIGITS,
+                                'decimal_places':settings.DECIMAL_PLACES}},
                             '.readonly': {}},
     'participation_cost': {'.cli_option': {},
                            '.drf_field': {},
                            '.field': {},
-                           '.float': {}},
+                           '.decimal': {
+                               'max_digits': settings.DECIMAL_MAX_DIGITS,
+                               'decimal_places':settings.DECIMAL_PLACES}},
     'participation_default_currency': {'.cli_option': {},
                                        '.drf_field': {},
                                        '.field': {},
@@ -186,7 +199,9 @@ spec = {'*': {
     'participation_local_cost': {'.cli_option': {},
                                  '.drf_field': {},
                                  '.field': {},
-                                 '.float': {}},
+                                 '.decimal': {
+                                     'max_digits': settings.DECIMAL_MAX_DIGITS,
+                                     'decimal_places':settings.DECIMAL_PLACES}},
     'participation_local_currency': {'.choices': {},
                                      '.cli_option': {},
                                      '.drf_field': {},

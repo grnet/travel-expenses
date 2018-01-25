@@ -1318,7 +1318,7 @@ class Applications(Petition):
                               'expenditure_date_protocol',
                               'expenditure_protocol','travel_report',
                               'withdrawn', 'total_cost_change_reason',
-                              'is_total_manual_cost_set']
+                              'is_total_manual_cost_set', 'total_cost_manual']
     excluded_uc_travel_info = ['accommodation_local_cost',
                                'accommodation_cost',
                                'accommodation_payment_description',
@@ -1338,7 +1338,7 @@ class Applications(Petition):
                 'manager_movement_approval','timesheeted',
                               'participation_local_currency', 'travel_report'
                               'withdrawn', 'total_cost_change_reason',
-                              'is_total_manual_cost_set']
+                              'is_total_manual_cost_set', 'total_cost_manual']
     excluded_sc_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
                             'accommodation_payment_description',
