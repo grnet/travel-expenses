@@ -1336,7 +1336,7 @@ class Applications(Petition):
                 'user_recommendation', 'compensation_alert',
                 'secretary_recommendation', 'manager_cost_approval',
                 'manager_movement_approval','timesheeted',
-                              'participation_local_currency', 'travel_report'
+                              'participation_local_currency', 'travel_report',
                               'withdrawn', 'total_cost_change_reason',
                               'is_total_manual_cost_set', 'total_cost_manual']
     excluded_sc_travel_info = ['accommodation_local_cost',
@@ -1390,7 +1390,8 @@ class Applications(Petition):
                                'transportation_payment_description',
                                'distance', 'overnights_num_manual',
                                'transport_days_manual',
-                               'accommodation_local_currency']
+                               'accommodation_local_currency',
+                               'compensation_days_manual']
 
     excluded_sec_submission =['non_grnet_quota',
                               'compensation_petition_protocol',
