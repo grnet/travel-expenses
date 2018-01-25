@@ -1,14 +1,14 @@
 from datetime import datetime, timedelta
 from django.core.exceptions import ValidationError
 from django.test import TestCase
+from django.utils import timezone
 from texpenses.validators import date_validator, start_end_date_validator,\
     iban_validation, afm_validator
-
 
 class ValidatorTest(TestCase):
 
     def test_date_validaror(self):
-        date = datetime.now()
+        date = timezone.now()
         self.assertRaises(ValidationError, date_validator, 'date', date)
         self.assertRaises(ValidationError, date_validator, 'date', date.date())
 
@@ -17,8 +17,8 @@ class ValidatorTest(TestCase):
         date_validator('', None)
 
     def test_start_end_date_validator(self):
-        start = datetime.now()
-        end = datetime.now()
+        start = timezone.now()
+        end = timezone.now()
         start_end_date_validator(((start, end),), (('', ''),))
 
         end -= timedelta(days=1)
