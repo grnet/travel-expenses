@@ -1,11 +1,8 @@
 from datetime import datetime, timedelta
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.test import TestCase
-from texpenses.models import (
-    Country,
-    City, TravelInfo, Petition, UserPetition, Project,Applications,
-    UserProfile, TaxOffice, UserPetitionSubmission, SecretaryPetition,
-    SecretaryPetitionSubmission)
+from texpenses.models import (Country, City, TravelInfo, Petition,
+                              Project,Applications, UserProfile, TaxOffice)
 
 
 class TravelInfoTest(TestCase):

@@ -1,6 +1,4 @@
-from apimas import documents as doc
 from texpenses.models import Petition
-from rest_framework import serializers
 from rest_framework.filters import DjangoFilterBackend, SearchFilter
 from texpenses.validators import required_validator
 from texpenses.pagination import TexpensesPagination
@@ -9,18 +7,8 @@ from texpenses.models import common
 from texpenses.permissions.permission_rules import PERMISSION_RULES
 from texpenses.api_conf.spec.spec import (countries_conf, city_conf, user_conf,
                                           tax_office_conf, project_conf,
-                                          petition_save, applications,
-                                          petition_submit,
-                                          petition_secretary_save,
-                                          petition_secretary_submit,
-                                          petition_user_compensation,
-                                          petition_secretary_compensation,
-                                          travel_info,
-                                          travel_info_save, travel_info_submit,
-                                          travel_info_secretary_save,
-                                          travel_info_secretary_submit,
-                                          travel_info_compensations,
-                                          travel_info_secretary_compensations)
+                                          applications,
+                                          travel_info)
 import functools
 import copy
 
@@ -40,27 +28,6 @@ class Configuration(object):
 
     def apply_permissions(self):
         self.spec['api']['.endpoint']['permissions'] = PERMISSION_RULES
-
-    def _compose_petition(self, petition_additional, travel_info_additional):
-        """
-        A utility method for creating a petition using a base petition object
-        and injecting an additional one.
-        """
-        travel_base = copy.deepcopy(travel_info_save)
-
-        for key in travel_info_additional.keys():
-            try:
-                travel_base[key].update(travel_info_additional[key])
-            except KeyError:
-                travel_base[key] = travel_info_additional[key]
-
-        petition_additional['*']['travel_info'] = travel_base
-
-        petition_base = copy.deepcopy(petition_save)
-        petition_base['*'].update(petition_additional['*'])
-        petition_base['.drf_collection'].\
-            update(petition_additional['.drf_collection'])
-        return petition_base
 
     def _inject_choices_petition_fields(self, endpoint):
 
@@ -158,21 +125,6 @@ class Configuration(object):
     def ProjectConfig(self):
         self.spec['api']['project'] = project_conf
 
-    def UserPetitionConfig(self):
-
-        petition_save['*']['travel_info'] = copy.deepcopy(travel_info_save)
-        endpoint = copy.deepcopy(petition_save)
-
-        endpoint['*']['status']['.drf_field']['default'] = Petition.SAVED_BY_USER
-        endpoint['*']['user']['.drf_field']['default'] =\
-            serializers.CurrentUserDefault()
-        endpoint['*']['user']['.drf_field']['validators'] =\
-            [functools.partial(required_validator,
-                               fields=Petition.USER_FIELDS)]
-        self._inject_standard_configuration(endpoint)
-        self._inject_choices_petition_fields(endpoint)
-        self.spec['api']['petition-user-saved'] = endpoint
-
     def ApplicationConfig(self):
 
         applications['*']['travel_info'] = copy.deepcopy(travel_info)
@@ -185,74 +137,6 @@ class Configuration(object):
         self._inject_choices_petition_fields(endpoint)
         self.spec['api']['applications'] = endpoint
 
-    def UserPetitionSubmitConfig(self):
-        endpoint = self._compose_petition(petition_submit, travel_info_submit)
-
-        endpoint['*']['status']['.drf_field']['default'] = \
-            Petition.SUBMITTED_BY_USER
-        endpoint['*']['user']['.drf_field']['default'] =\
-            serializers.CurrentUserDefault()
-        endpoint['*']['user']['.drf_field']['validators'] =\
-            [functools.partial(required_validator,
-                               fields=Petition.USER_FIELDS)]
-
-        self._inject_standard_configuration(endpoint)
-        self._inject_choices_petition_fields(endpoint)
-
-        self.spec['api']['petition-user-submitted'] = endpoint
-
-    def SecretaryPetitionSaveConfig(self):
-        endpoint = self._compose_petition(petition_secretary_save,
-                                          travel_info_secretary_save)
-
-        endpoint['*']['user']['.drf_field']['validators'] = \
-            [functools.partial(required_validator, fields=Petition.USER_FIELDS)]
-        endpoint['*']['status']['.drf_field']['default'] =\
-            Petition.SAVED_BY_SECRETARY
-
-        self._inject_standard_configuration(endpoint)
-        self._inject_choices_petition_fields(endpoint)
-        self.spec['api']['petition-secretary-saved'] = endpoint
-
-    def SecretaryPetitionSubmitConfig(self):
-
-        endpoint = self._compose_petition(petition_secretary_submit,
-                                          travel_info_secretary_submit)
-
-        endpoint['*']['user']['.drf_field']['validators'] = \
-            [functools.partial(required_validator, fields=Petition.USER_FIELDS)]
-        endpoint['*']['status']['.drf_field']['default'] = \
-            Petition.SUBMITTED_BY_SECRETARY
-
-        self._inject_standard_configuration(endpoint)
-        self._inject_choices_petition_fields(endpoint)
-        self.spec['api']['petition-secretary-submitted'] = endpoint
-
-    def UserCompensationConfig(self):
-
-        endpoint = self._compose_petition(petition_user_compensation,
-                                          travel_info_compensations)
-        endpoint['*']['user']['.drf_field']['validators'] =\
-            [functools.partial(required_validator, fields=Petition.USER_FIELDS)]
-        endpoint['*']['status']['.drf_field']['default'] =\
-            Petition.USER_COMPENSATION
-
-        self._inject_standard_configuration(endpoint)
-        self._inject_choices_petition_fields(endpoint)
-        self.spec['api']['petition-user-compensations'] = endpoint
-
-    def SecretaryCompensationConfig(self):
-
-        endpoint = self._compose_petition(petition_secretary_compensation,
-                                          travel_info_secretary_compensations)
-
-        endpoint['*']['status']['.drf_field']['default'] =\
-            Petition.SECRETARY_COMPENSATION
-
-        self._inject_standard_configuration(endpoint)
-        self._inject_choices_petition_fields(endpoint)
-        self.spec['api']['petition-secretary-compensations'] = endpoint
-
     def configure_spec(self):
         self.apply_permissions()
         self.TaxOfficeConfig()
@@ -261,9 +145,3 @@ class Configuration(object):
         self.CitiesConfig()
         self.CountriesConfig()
         self.ApplicationConfig()
-        self.UserPetitionConfig()
-        self.UserPetitionSubmitConfig()
-        self.SecretaryPetitionSaveConfig()
-        self.SecretaryPetitionSubmitConfig()
-        self.UserCompensationConfig()
-        self.SecretaryCompensationConfig()
