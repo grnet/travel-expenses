@@ -72,8 +72,8 @@ class TestApi(APITestCase):
 
         # User updates data with mandatory fields and save
 
-        departure_city = reverse('api_city-detail', args=['4269'])
-        arrival_city = reverse('api_city-detail', args=['4372'])
+        departure_city = reverse('api_city-detail', args=['204'])
+        arrival_city = reverse('api_city-detail', args=['124'])
 
         travel_info = [{'depart_date': depart_date,
                         'return_date': return_date,
@@ -88,7 +88,6 @@ class TestApi(APITestCase):
 
         url_retrieve = reverse('api_applications-detail',
                                args=[application_id])
-
         response = self.client.put(url_retrieve, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Applications.objects.count(), 1)
