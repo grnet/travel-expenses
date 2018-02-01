@@ -345,6 +345,7 @@ PERMISSION_RULES = [
     #president-secretary
     ('applications', 'cancel', 'PRESIDENT_SECRETARY', '*', 'presidentapproved', '*'),
     ('applications', 'cancel', 'PRESIDENT_SECRETARY', '*', 'presidentcompensationapproved', '*'),
+    ('applications', 'president_approval', 'PRESIDENT_SECRETARY', '*', 'secretarysubmitted', '*'),
     ('applications', 'list', 'PRESIDENT_SECRETARY', '*', '*', '*'),
     ('applications', 'retrieve', 'PRESIDENT_SECRETARY', '*', '*', '*'),
 ]

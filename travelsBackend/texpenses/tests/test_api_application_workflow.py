@@ -33,6 +33,7 @@ class TestApi(APITestCase):
         self.controller = UserProfile.objects.get(username='klykou')
         self.viewer = UserProfile.objects.get(username='eutuxia')
         self.manager = UserProfile.objects.get(username='ilias')
+        self.president_secretary = UserProfile.objects.get(username='dimitra')
         self.admin = UserProfile.objects.get(username='admin')
 
         self.user_token = Token.objects.create(user=self.user)
@@ -40,6 +41,8 @@ class TestApi(APITestCase):
         self.controller_token = Token.objects.create(user=self.controller)
         self.manager_token = Token.objects.create(user=self.manager)
         self.viewer_token = Token.objects.create(user=self.viewer)
+        self.president_secretary_token = Token.objects.create(
+            user=self.president_secretary)
         self.admin_token = Token.objects.create(user=self.admin)
 
     def _set_up_manager_testing(self):
@@ -150,11 +153,11 @@ class TestApi(APITestCase):
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def _secretary_testing(self):
+    def _secretary_testing(self, president_approval=True):
 
         self.client.logout()
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' +
-                                self.secretary_token.key)
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Token ' + self.secretary_token.key)
         application_id = Applications.objects.get(
             status=Petition.SUBMITTED_BY_USER).id
         url = reverse('api_applications-detail', args=[application_id])
@@ -246,10 +249,63 @@ class TestApi(APITestCase):
         response = self.client.get(url_decision_report, format='pdf')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+
         # Secretary runs president approval action
 
-        url_president_approval = reverse('api_applications-president-approval',
-                                         args=[application_id])
+        url_president_approval = reverse(
+            'api_applications-president-approval', args=[application_id])
+        response = self.client.post(url_president_approval, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Applications.objects.count(), 1)
+
+        # Secretary cancels president approval
+
+        application_id = Applications.objects.get(
+            status=Petition.APPROVED_BY_PRESIDENT).id
+
+        url_president_approval_cancel = reverse(
+            'api_applications-cancel', args=[application_id])
+        response = self.client.post(url_president_approval_cancel,
+                                    format='json')
+        self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
+
+    def _president_secretary_testing(self):
+
+        # president secretary approves an application
+
+        self.client.logout()
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' +
+                                self.president_secretary_token.key)
+
+        application_id = Applications.objects.get(
+            status=Petition.SUBMITTED_BY_SECRETARY).id
+
+        # President secretary runs president approval action
+
+        url_president_approval = reverse(
+            'api_applications-president-approval', args=[application_id])
+        response = self.client.post(url_president_approval, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Applications.objects.count(), 1)
+
+        # President secretary cancels president approval
+
+        application_id = Applications.objects.get(
+            status=Petition.APPROVED_BY_PRESIDENT).id
+
+        url_president_approval_cancel = reverse(
+            'api_applications-cancel', args=[application_id])
+        response = self.client.post(url_president_approval_cancel,
+                                    format='json')
+        self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
+
+        # President secretary resubmits president approval
+
+        application_id = Applications.objects.get(
+            status=Petition.SUBMITTED_BY_SECRETARY).id
+
+        url_president_approval = reverse(
+            'api_applications-president-approval', args=[application_id])
         response = self.client.post(url_president_approval, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Applications.objects.count(), 1)
@@ -443,6 +499,7 @@ class TestApi(APITestCase):
         self._manager_testing()
         self._viewer_testing()
         self._secretary_testing()
+        self._president_secretary_testing()
         self._user_compensation_testing()
         self._controller_testing()
 
@@ -454,6 +511,8 @@ class TestApi(APITestCase):
         self._set_up()
         self._test_workflow()
 
+    # We test manager separately because he is also a user, so we need to know
+    # everything that runs for user runs for manager as well.
     def test_application_per_usergroup_manager(self):
 
         """
