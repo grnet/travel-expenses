@@ -303,10 +303,13 @@ spec = {'*': {
                             'model_serializers':
                             ['texpenses.serializers.mixins.PetitionMixin'],
                             'ordering_fields': ['id'],
+                            'apimas_permission_class': 
+                             'texpenses.serializers.permissions.NestedPermissions',
                             'permission_classes':
                             ['rest_framework.permissions.IsAuthenticated',
                              "rest_framework.permissions."
-                             "DjangoModelPermissions"],
+                             "DjangoModelPermissions",
+                            ],
                             'search_fields': ['first_name',
                                               'last_name',
                                               ]},
