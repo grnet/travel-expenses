@@ -153,13 +153,14 @@ class TestApi(APITestCase):
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def _secretary_testing(self, president_approval=True):
+    def _secretary_testing(self, withdraw=False):
 
         self.client.logout()
         self.client.credentials(
             HTTP_AUTHORIZATION='Token ' + self.secretary_token.key)
+
         application_id = Applications.objects.get(
-            status=Petition.SUBMITTED_BY_USER).id
+            status__gte=Petition.SUBMITTED_BY_USER).id
         url = reverse('api_applications-detail', args=[application_id])
 
         # SECRETARY GETs created application
@@ -180,10 +181,12 @@ class TestApi(APITestCase):
         # Secretary Submits application. It should fail and ask for mandatory
         # elements to be filled
         application_id = response.data['id']
+        protocol_exists = response.data['compensation_decision_protocol']
         url_submit = reverse('api_applications-submit',
                              args=[application_id])
         response = self.client.post(url_submit, self.data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER if
+                         protocol_exists else status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Applications.objects.count(), 1)
 
         # Secretary updates application. Insert mandatory fields to self.data
@@ -249,7 +252,6 @@ class TestApi(APITestCase):
         response = self.client.get(url_decision_report, format='pdf')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-
         # Secretary runs president approval action
 
         url_president_approval = reverse(
@@ -269,10 +271,30 @@ class TestApi(APITestCase):
                                     format='json')
         self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
 
-    def _president_secretary_testing(self):
+        if withdraw:
+
+            # withdraw application
+            application_id = Applications.objects.get(
+                status=Petition.SUBMITTED_BY_SECRETARY).id
+
+            url = reverse('api_applications-withdraw', args=[application_id])
+            response = self.client.post(url, format='json')
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+            # cancel withdrawal
+            url = reverse('api_applications-cancel-withdrawal',
+                          args=[application_id])
+            response = self.client.post(url, format='json')
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+            # withdraw again
+            url = reverse('api_applications-withdraw', args=[application_id])
+            response = self.client.post(url, format='json')
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def _president_secretary_testing(self, withdraw=False):
 
         # president secretary approves an application
-
         self.client.logout()
         self.client.credentials(HTTP_AUTHORIZATION='Token ' +
                                 self.president_secretary_token.key)
@@ -287,6 +309,9 @@ class TestApi(APITestCase):
         response = self.client.post(url_president_approval, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Applications.objects.count(), 1)
+
+        if withdraw:
+            return
 
         # President secretary cancels president approval
 
@@ -315,7 +340,6 @@ class TestApi(APITestCase):
         self.client.logout()
         self.client.credentials(HTTP_AUTHORIZATION='Token ' +
                                 self.user_token.key)
-
         # User gets related application
         url = reverse('api_applications-list')
         response = self.client.get(url, format='json')
@@ -326,8 +350,8 @@ class TestApi(APITestCase):
         # User gets movement application report
         application_id = response.data[0]['id']
 
-        url_application_report = reverse('api_applications-application-report',
-                                         args=[application_id])
+        url_application_report = reverse(
+            'api_applications-application-report', args=[application_id])
         response = self.client.get(url_application_report, format='pdf')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -338,13 +362,13 @@ class TestApi(APITestCase):
         response = self.client.put(url_retrieve, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Applications.objects.count(), 1)
-        self.assertEqual(response.data['status'], Petition.USER_COMPENSATION)
+        self.assertEqual(response.data['status'],
+                         Petition.USER_COMPENSATION)
 
         # User Submits application. It should fail and ask for mandatory
         # elements to be filled
         application_id = response.data['id']
-        url_submit = reverse('api_applications-submit',
-                             args=[application_id])
+        url_submit = reverse('api_applications-submit', args=[application_id])
         response = self.client.post(url_submit, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Applications.objects.count(), 1)
@@ -370,7 +394,8 @@ class TestApi(APITestCase):
 
         # User Submits application
 
-        url_submit = reverse('api_applications-submit', args=[application_id])
+        url_submit = reverse('api_applications-submit',
+                             args=[application_id])
         response = self.client.post(url_submit, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
         self.assertEqual(Applications.objects.count(), 1)
@@ -391,16 +416,16 @@ class TestApi(APITestCase):
         application_id = Applications.objects.get(
             status=Petition.USER_COMPENSATION).id
 
-        url_submit = reverse('api_applications-submit', args=[application_id])
+        url_submit = reverse('api_applications-submit',
+                             args=[application_id])
         response = self.client.post(url_submit, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
 
-    def _controller_testing(self):
+    def _controller_testing(self, withdraw=False):
 
         self.client.logout()
         self.client.credentials(HTTP_AUTHORIZATION='Token ' +
                                 self.controller_token.key)
-
         # CONTROLLER GETs created application
         url = reverse('api_applications-list')
 
@@ -441,6 +466,20 @@ class TestApi(APITestCase):
 
         response = self.client.put(url_retrieve, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        if withdraw:
+            # withdraw application
+
+            url = reverse('api_applications-withdraw', args=[application_id])
+            response = self.client.post(url, format='json')
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+            # cancel withdrawal
+            url = reverse('api_applications-cancel-withdrawal',
+                          args=[application_id])
+            response = self.client.post(url, format='json')
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            return
 
         # Controller Submits application
 
@@ -503,6 +542,14 @@ class TestApi(APITestCase):
         self._user_compensation_testing()
         self._controller_testing()
 
+    def _test_workflow_withdraw(self):
+        self._user_testing()
+        self._manager_testing()
+        self._viewer_testing()
+        self._secretary_testing(withdraw=True)
+        self._president_secretary_testing(withdraw=True)
+        self._controller_testing(withdraw=False)
+
     def test_application_per_usergroup(self):
         """
         Test workflow for case of distinct users per role
@@ -510,6 +557,14 @@ class TestApi(APITestCase):
 
         self._set_up()
         self._test_workflow()
+
+    def test_application_per_usergroup_withdraw(self):
+        """
+        Test workflow for case of distinct users per role
+        """
+
+        self._set_up()
+        self._test_workflow_withdraw()
 
     # We test manager separately because he is also a user, so we need to know
     # everything that runs for user runs for manager as well.

@@ -257,7 +257,9 @@ PERMISSION_RULES = [
     ('applications', 'cancel', 'SECRETARY', '*', 'secretarysubmitted', '*'),
     ('applications', 'cancel', 'SECRETARY', '*', 'presidentapproved', '*'),
     ('applications', 'president_approval', 'SECRETARY', '*', '*', '*'),
+    ('applications', 'withdraw', 'SECRETARY', '*', 'secretarysaved', '*'),
     ('applications', 'withdraw', 'SECRETARY', '*', 'secretarysubmitted', '*'),
+    ('applications', 'cancel_withdrawal', 'SECRETARY', '*', 'secretarysaved', '*'),
     ('applications', 'cancel_withdrawal', 'SECRETARY', '*', 'secretarysubmitted', '*'),
 
     #controller
@@ -327,6 +329,8 @@ PERMISSION_RULES = [
     ('applications', 'decision_report', 'CONTROLLER', '*', 'secretarycompensationsubmitted', '*'),
     ('applications', 'cancel', 'CONTROLLER', '*', 'secretarycompensationsubmitted', '*'),
     ('applications', 'cancel', 'CONTROLLER', '*', 'presidentcompensationapproved', '*'),
+    ('applications', 'withdraw', 'CONTROLLER', '*', 'secretarycompensationsaved', '*'),
+    ('applications', 'withdraw', 'CONTROLLER', '*', 'secretarycompensationsubmitted', '*'),
     ('applications', 'cancel_withdrawal', 'CONTROLLER', '*', '*', '*'),
 
     #admin
