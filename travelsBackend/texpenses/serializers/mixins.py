@@ -106,6 +106,7 @@ class PetitionMixin(object):
 
         if travel_info:
             self._update_nested_objects(instance, travel_info)
+            instance.travel_info.update()
 
         return instance
 
