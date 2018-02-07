@@ -3,6 +3,7 @@ import gen from 'ember-gen/lib/gen';
 import {field} from 'ember-gen';
 import meta from 'travel/lib/meta';
 import moment from 'moment';
+import ENV from 'travel/config/environment';
 
 const {
   get
@@ -81,13 +82,26 @@ export default gen.CRUDGen.extend({
 
     getModel() {
       let model = this.store.createRecord(get(this, 'modelName'));
+
+      // prepare model defaults
       model.set('task_start_date', moment(new Date()).add(1, 'days').toDate());
       model.set('task_end_date', moment(new Date()).add(2, 'days').toDate());
+
       return this.store.findAll('project').then((projects) => {
-        let defaults = {};
-        let travel = this.store.createRecord('travel-info', defaults)
-        model.get('travel_info').addObject(travel);
-        return model;
+        let cityId = ENV.APP.default_city || null;
+        if (cityId) {
+          return this.store.findRecord('city', cityId).then((city) => {
+            let defaults = { departure_point: city }
+            let travel = this.store.createRecord('travel-info', defaults)
+            model.get('travel_info').addObject(travel);
+            return model;
+          }).catch(() => {
+            // in case the cityId does not exist
+            return model;
+          });
+        } else {
+          return model;
+        }
       });
     },
 
