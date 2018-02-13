@@ -50,7 +50,7 @@ spec = {'*': {
     'additional_expenses_description': {'.cli_option': {},
                                         '.drf_field': {},
                                         '.field': {},
-                                        '.string': {}},
+                                        '.string': {'max_length': 400}},
     'additional_expenses_local_currency': {'.cli_option': {},
                                            '.drf_field': {},
                                            '.field': {},
@@ -62,7 +62,7 @@ spec = {'*': {
     'travel_report': {'.cli_option': {},
                       '.drf_field': {},
                       '.field': {},
-                      '.string': {}},
+                      '.string': {'max_length': 1000}},
 
     'expenditure_date_protocol': {'.cli_option': {},
                                   '.date': {},
@@ -112,11 +112,12 @@ spec = {'*': {
     'additional_expenses_initial_description': {'.cli_option': {},
                                                 '.drf_field': {},
                                                 '.field': {},
-                                                '.string': {}},
+                                                '.string': {
+                                                    'max_length': 400}},
     'secretary_recommendation': {'.cli_option': {},
                                  '.drf_field': {},
                                  '.field': {},
-                                 '.string': {}},
+                                 '.string': {'max_length': 500}},
 
     'additional_expenses_default_currency': {'.cli_option': {},
                                              '.drf_field': {},
@@ -221,7 +222,7 @@ spec = {'*': {
     'reason': {'.cli_option': {},
                '.drf_field': {},
                '.field': {},
-               '.string': {}},
+               '.string': {'max_length': 500}},
     'specialty': {'.choices': {},
                   '.cli_option': {},
                   '.drf_field': {},
@@ -288,7 +289,7 @@ spec = {'*': {
     'user_recommendation': {'.cli_option': {},
                             '.drf_field': {},
                             '.field': {},
-                            '.string': {}}},
+                            '.string': {'max_length': 500}}},
         '.cli_auth': {'format': 'yaml', 'schema': {'token': ['token']}},
         '.cli_commands': {},
         '.collection': {},
@@ -303,7 +304,7 @@ spec = {'*': {
                             'model_serializers':
                             ['texpenses.serializers.mixins.PetitionMixin'],
                             'ordering_fields': ['id'],
-                            'apimas_permission_class': 
+                            'apimas_permission_class':
                              'texpenses.serializers.permissions.NestedPermissions',
                             'permission_classes':
                             ['rest_framework.permissions.IsAuthenticated',
