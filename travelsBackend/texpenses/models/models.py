@@ -861,9 +861,18 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         return obj.status == cls.APPROVED_BY_PRESIDENT
 
     @classmethod
+    def check_resource_state_usercompensation(cls, obj, row, request, view):
+        return obj.status == cls.USER_COMPENSATION
+
+    @classmethod
     def check_resource_state_secretarycompensationsubmitted(cls, obj, row,
                                                             request, view):
         return obj.status == cls.SECRETARY_COMPENSATION_SUBMISSION
+
+    @classmethod
+    def check_resource_state_presidentcompensationapproved(cls, obj, row,
+                                                           request, view):
+        return obj.status == cls.PETITION_FINAL_APPOVAL
 
     @classmethod
     def check_resource_state_presidentcompensationapproved(cls, obj, row,
