@@ -55,8 +55,9 @@ spec = {'.cli_option': {},
                                                 '.decimal': {'max_digits': settings.DECIMAL_MAX_DIGITS,
                                                              'decimal_places':settings.DECIMAL_PLACES}},
                          'depart_date': {'.cli_option': {},
-                                         '.datetime': {'format':
-                                                       ['%Y-%m-%dT%H:%M']},
+                                        '.datetime': {
+                                            'input_formats': ['%Y-%m-%dT%H:%M']
+                                        },
                                          '.drf_field': {},
                                          '.field': {}},
                          'departure_point': {'.cli_option': {},
@@ -86,8 +87,9 @@ spec = {'.cli_option': {},
                                                    '.field': {},
                                                    '.integer': {}},
                          'return_date': {'.cli_option': {},
-                                         '.datetime': {'format':
-                                                       ['%Y-%m-%dT%H:%M']},
+                                        '.datetime': {
+                                            'input_formats': ['%Y-%m-%dT%H:%M']
+                                        },
                                          '.drf_field': {},
                                          '.field': {}},
                          'same_day_return_task': {'.boolean': {},
