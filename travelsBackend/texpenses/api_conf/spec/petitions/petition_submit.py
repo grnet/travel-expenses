@@ -42,13 +42,17 @@ spec = {'*': {'additional_expenses_default_currency': {'.cli_option': {},
                                            '.field': {},
                                            '.string': {'max_length':500}},
               'task_end_date': {'.cli_option': {},
-                                '.datetime': {'format': ['%Y-%m-%dT%H:%M']},
+                                '.datetime': {
+                                    'input_formats': ['%Y-%m-%dT%H:%M']
+                                },
                                 '.drf_field': {'allow_null': False,
                                                'required': True},
                                 '.field': {},
                                 '.required': {}},
               'task_start_date': {'.cli_option': {},
-                                  '.datetime': {'format': ['%Y-%m-%dT%H:%M']},
+                                '.datetime': {
+                                    'input_formats': ['%Y-%m-%dT%H:%M']
+                                },
                                   '.drf_field': {'allow_null': False,
                                                  'required': True},
                                   '.field': {},

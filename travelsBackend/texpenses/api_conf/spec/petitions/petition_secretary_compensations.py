@@ -134,12 +134,16 @@ spec = {'*': {'additional_expenses': {'.cli_option': {},
                                            '.field': {},
                                            '.string': {'max_length':500}},
               'task_end_date': {'.cli_option': {},
-                                '.datetime': {'format': ['%Y-%m-%dT%H:%M']},
+                                '.datetime': {
+                                    'input_formats': ['%Y-%m-%dT%H:%M']
+                                },
                                 '.drf_field': {'required': False},
                                 '.field': {},
                                 '.readonly': {}},
               'task_start_date': {'.cli_option': {},
-                                  '.datetime': {'format': ['%Y-%m-%dT%H:%M']},
+                                '.datetime': {
+                                    'input_formats': ['%Y-%m-%dT%H:%M']
+                                },
                                   '.drf_field': {'required': False},
                                   '.field': {},
                                   '.readonly': {}},

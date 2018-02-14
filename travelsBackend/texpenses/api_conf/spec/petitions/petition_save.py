@@ -136,11 +136,15 @@ spec = {'*': {'additional_expenses_default_currency': {'.cli_option': {},
                                 '.field': {},
                                 '.integer': {}},
               'task_end_date': {'.cli_option': {},
-                                '.datetime': {'format': ['%Y-%m-%dT%H:%M']},
+                                '.datetime': {
+                                    'input_formats': ['%Y-%m-%dT%H:%M']
+                                },
                                 '.drf_field': {'required': False},
                                 '.field': {}},
               'task_start_date': {'.cli_option': {},
-                                  '.datetime': {'format': ['%Y-%m-%dT%H:%M']},
+                                '.datetime': {
+                                    'input_formats': ['%Y-%m-%dT%H:%M']
+                                },
                                   '.drf_field': {'required': False},
                                   '.field': {}},
               'tax_office': {'.cli_option': {},

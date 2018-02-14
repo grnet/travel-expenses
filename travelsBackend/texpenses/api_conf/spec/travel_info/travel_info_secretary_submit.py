@@ -62,8 +62,9 @@ spec = {'.structarray': {'accommodation_cost': {'.cli_option': {},
                                                              'decimal_places':settings.DECIMAL_PLACES},
                                                 '.readonly': {}},
                          'depart_date': {'.cli_option': {},
-                                         '.datetime': {'format':
-                                                       ['%Y-%m-%dT%H:%M']},
+                                         '.datetime': {
+                                             'input_formats': ['%Y-%m-%dT%H:%M']
+                                        },
                                          '.drf_field': {'allow_null': False,
                                                         'required': True},
                                          '.field': {}},
@@ -94,8 +95,9 @@ spec = {'.structarray': {'accommodation_cost': {'.cli_option': {},
                                                          'decimal_places':settings.DECIMAL_PLACES},
                                             '.readonly': {}},
                          'return_date': {'.cli_option': {},
-                                         '.datetime': {'format':
-                                                       ['%Y-%m-%dT%H:%M']},
+                                         '.datetime': {
+                                             'input_formats': ['%Y-%m-%dT%H:%M']
+                                        },
                                          '.drf_field': {'allow_null': False,
                                                         'required': True},
                                          '.field': {}},
