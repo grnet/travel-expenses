@@ -14,27 +14,8 @@ class Command(BaseCommand):
 
     def preprocess(self, input):
         data = input.strip().split(',')
-
         data = [item.replace('"', '') for item in data]
-
         return data
-
-    def get_or_create_extended(self, model, **kwargs):
-        try:
-            obj = model.objects.get(**kwargs)
-            created = False
-        except model.DoesNotExist:
-            obj = model(**kwargs)
-            obj.clean_fields()
-            try:
-                obj.save()
-            except Exception:
-                print "Record for project:" + str(kwargs['name']) + \
-                    " will be updated."
-                model.objects.get(name=kwargs['name']).delete()
-                obj.save()
-            created = True
-        return (obj, created)
 
     def handle(self, *args, **options):
         location_file_path = args[0]
@@ -47,18 +28,18 @@ class Command(BaseCommand):
                 try:
                     manager = UserProfile.objects.get(email=manager_email)
                 except UserProfile.DoesNotExist:
-                    raise CommandError(
-                        "Manager does not exist %s" % manager_email)
+                    manager = None
 
-                project_data = {
-                    'name': name,
-                    'accounting_code': accounting_code,
-                    'manager': manager
-                }
-
-                project_obj, project_created = self.\
-                    get_or_create_extended(Project, **project_data)
-
-                if project_created:
+                try:
+                    p = Project.objects.get(name=name)
+                    p.accounting_code = accounting_code
+                    if manager:
+                        p.manager = manager
+                    p.save()
+                except Project.DoesNotExist:
+                    Project.objects.create(
+                        name=name,
+                        accounting_code=accounting_code,
+                        manager=manager)
                     self.stdout.write("Project:{0} is created.".
                                       format(name))
