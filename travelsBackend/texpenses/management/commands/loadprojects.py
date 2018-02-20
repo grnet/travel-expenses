@@ -1,8 +1,8 @@
 import sys
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from optparse import make_option
 
-from texpenses.models import Project
+from texpenses.models import Project, UserProfile
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -44,9 +44,18 @@ class Command(BaseCommand):
                 name, accounting_code, manager_surname, manager_name,\
                     manager_email = self.preprocess(project_record)
 
-                project_data = {'name': name,
-                                'accounting_code': accounting_code,
-                                }
+                try:
+                    manager = UserProfile.objects.get(email=manager_email)
+                except UserProfile.DoesNotExist:
+                    raise CommandError(
+                        "Manager does not exist %s" % manager_email)
+
+                project_data = {
+                    'name': name,
+                    'accounting_code': accounting_code,
+                    'manager': manager
+                }
+
                 project_obj, project_created = self.\
                     get_or_create_extended(Project, **project_data)
 
