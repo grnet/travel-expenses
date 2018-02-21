@@ -76,7 +76,8 @@ class TravelUserProfile(md.Model):
         max_length=100, choices=common.SPECIALTY, blank=False, null=True)
     tax_reg_num = md.CharField(max_length=9, blank=False, null=True,
                                unique=True, validators=[afm_validator])
-    tax_office = md.ForeignKey(TaxOffice, blank=False, null=True)
+    tax_office = md.ForeignKey(
+        TaxOffice, blank=False, null=True, on_delete=md.SET_NULL)
     kind = md.CharField(max_length=100, choices=common.KIND, blank=False,
                         null=True)
     user_category = md.CharField(
@@ -138,8 +139,9 @@ class Project(md.Model):
     name = md.CharField(max_length=500, blank=False, unique=True)
     accounting_code = md.CharField(max_length=20, blank=False)
     active = md.BooleanField(default=True)
-    manager = md.ForeignKey(UserProfile, null=True, blank=True,
-                            validators=[is_manager])
+    manager = md.ForeignKey(
+        UserProfile, null=True, blank=True, validators=[is_manager],
+        on_delete=md.SET_NULL)
 
     def __unicode__(self):
         return self.name
@@ -172,7 +174,7 @@ class City(md.Model):
     """Model for cities. """
     id = md.AutoField(primary_key=True)
     name = md.CharField(max_length=100, blank=False)
-    country = md.ForeignKey(Country, blank=False)
+    country = md.ForeignKey(Country, blank=False, on_delete=md.PROTECT)
     timezone = md.CharField(max_length=100)
 
     def __unicode__(self):
@@ -253,9 +255,11 @@ class TravelInfo(Accommodation, Transportation):
     depart_date = md.DateTimeField(null=True)
     return_date = md.DateTimeField(null=True)
     departure_point = md.ForeignKey(
-        City, blank=True, null=True, related_name='travel_departure_point')
-    arrival_point = md.ForeignKey(City, blank=True, null=True,
-                                  related_name='travel_arrival_point')
+        City, blank=True, null=True, related_name='travel_departure_point',
+        on_delete=md.PROTECT)
+    arrival_point = md.ForeignKey(
+        City, blank=True, null=True, related_name='travel_arrival_point',
+        on_delete=md.PROTECT)
     means_of_transport = md.CharField(
         choices=common.TRANSPORTATION, max_length=10, blank=False,
         default='AIR')
@@ -267,7 +271,8 @@ class TravelInfo(Accommodation, Transportation):
         blank=False, default=0)
     meals = md.CharField(max_length=10, choices=common.MEALS,
                          blank=False, default='NON')
-    travel_petition = md.ForeignKey('Petition', related_name='travel_info')
+    travel_petition = md.ForeignKey(
+        'Petition', related_name='travel_info', on_delete=md.PROTECT)
     distance = md.FloatField(blank=False, default=0.0,
                              validators=[MinValueValidator(0.0)])
 
@@ -800,7 +805,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         max_length=100, choices=common.SPECIALTY, blank=False)
     tax_reg_num = md.CharField(max_length=9, blank=False,
                                validators=[afm_validator])
-    tax_office = md.ForeignKey(TaxOffice, blank=False)
+    tax_office = md.ForeignKey(TaxOffice, blank=False, on_delete=md.PROTECT)
     kind = md.CharField(max_length=100, choices=common.KIND, blank=False)
     user_category = md.CharField(
         max_length=1, choices=common.USER_CATEGORIES,
@@ -809,7 +814,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     dse = md.IntegerField(
         blank=False, validators=[MinValueValidator(1)])
 
-    user = md.ForeignKey(UserProfile, blank=False)
+    user = md.ForeignKey(UserProfile, blank=False, on_delete=md.PROTECT)
     task_start_date = md.DateTimeField(
         blank=True, null=True)
     task_end_date = md.DateTimeField(
@@ -817,7 +822,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     created = md.DateTimeField(blank=False, default=timezone.now)
     updated = md.DateTimeField(blank=False, default=timezone.now)
     deleted = md.BooleanField(default=False, db_index=True)
-    project = md.ForeignKey(Project, blank=False)
+    project = md.ForeignKey(Project, blank=False, on_delete=md.PROTECT)
     reason = md.CharField(max_length=500, blank=True, null=True)
     user_recommendation = md.CharField(
         max_length=500, blank=True, null=True)
