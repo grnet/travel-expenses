@@ -219,6 +219,12 @@ class Accommodation(md.Model):
     accommodation_payment_description = md.CharField(
         max_length=200, null=True)
 
+    accommodation_total_cost = md.DecimalField(
+            max_digits=settings.DECIMAL_MAX_DIGITS,
+            decimal_places=settings.DECIMAL_PLACES,
+            blank=False, default=0.0,
+            validators=[MinValueValidator(0.0)])
+
     class Meta:
         abstract = True
 
@@ -306,7 +312,10 @@ class TravelInfo(Accommodation, Transportation):
                 date_validator('return_date', self.return_date)
 
             start_end_date_validator(dates, labels)
-        self.validate_overnight_cost(petition)
+
+        # T2860: Remove validation
+        #self.validate_overnight_cost(petition)
+
         super(TravelInfo, self).clean()
 
     def _endpoints_are_set(self):
@@ -518,7 +527,8 @@ class TravelInfo(Accommodation, Transportation):
 
     def overnight_cost(self):
         """ Returns total overnight cost. """
-        return self.accommodation_cost * self.overnights_num_manual
+        #return self.accommodation_cost * self.overnights_num_manual
+        return self.accommodation_total_cost
 
     def is_city_ny(self):
         """
@@ -1345,6 +1355,7 @@ class UserCompensation(Petition):
                 'is_total_manual_cost_set', 'total_cost_manual']
     excluded_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
+                            'accommodation_total_cost',
                             'accommodation_payment_description',
                             'overnights_num_manual',
                             'transport_days_manual',
@@ -1377,6 +1388,7 @@ class SecretaryCompensation(Petition):
                 'is_total_manual_cost_set', 'total_cost_manual']
     excluded_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
+                            'accommodation_total_cost',
                             'accommodation_payment_description',
                             'overnights_num_manual',
                             'transport_days_manual',

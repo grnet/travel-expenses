@@ -8,6 +8,15 @@ spec = {'.cli_option': {},
                                                 '.field': {},
                                                 '.decimal': {'max_digits': settings.DECIMAL_MAX_DIGITS,
                                                              'decimal_places':settings.DECIMAL_PLACES}},
+                        'accommodation_total_cost': {
+                            '.cli_option': {},
+                            '.drf_field': {},
+                            '.field': {},
+                            '.decimal': {
+                                'max_digits': settings.DECIMAL_MAX_DIGITS,
+                                'decimal_places':settings.DECIMAL_PLACES
+                            }
+                        },
                          'accommodation_default_currency': {'.cli_option': {},
                                                             '.drf_field': {},
                                                             '.field': {},

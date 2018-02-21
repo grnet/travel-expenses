@@ -69,7 +69,7 @@ export default {
  	'means_of_transport.label': 'Μέσο Μετακίνησης',
  	'transportation_cost.label': 'Τιμή Εισιτηρίου',
  	'meals.label': 'Κάλυψη Διατροφής',
-  'accommodation_cost.label': 'Διανυκτέρευση (Ημερήσια) - Ευρώ',
+  'accommodation_total_cost.label': 'Διανυκτέρευση - Ευρώ',
  	'accommodation_local_cost.label': 'Διανυκτέρευση (Ημερήσια) - Τοπικό Νόμισμα',
  	'accommodation_local_currency.label': 'Νόμισμα',
  	'additional_expenses_initial.label': 'Λοιπά Έξοδα Μετακίνησης',

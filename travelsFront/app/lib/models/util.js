@@ -21,7 +21,7 @@ const TRAVEL_INFO_FIELDS = [
   'transport_days_proposed',
   'compensation_days_manual',
   'compensation_days_proposed', 
-  'accommodation_cost',
+  'accommodation_total_cost',
   'accommodation_default_currency',
   'accommodation_payment_way',
   'accommodation_payment_description',

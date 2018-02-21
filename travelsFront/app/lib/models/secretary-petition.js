@@ -36,7 +36,7 @@ export var SecretaryPetition = Petition.extend({
   transport_days_proposed: DS.attr({attrs: {disabled: true}}),
   compensation_days_manual: DS.attr(),
   compensation_days_proposed: DS.attr({attrs: {disabled: true}}), 
-  accommodation_cost: DS.attr('formatted-number'),
+  accommodation_total_cost: DS.attr('formatted-number'),
   accommodation_default_currency: DS.attr({'choices': CHOICES.CURRENCIES}),
   accommodation_payment_way: DS.attr({'choices': CHOICES.WAYS_OF_PAYMENT}),
   accommodation_payment_description: DS.attr(),
