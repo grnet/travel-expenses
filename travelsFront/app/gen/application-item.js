@@ -66,14 +66,16 @@ export default gen.CRUDGen.extend({
       fields: [
         'dse',
         'project.name',
+        'reason',
         'task_start_date_format',
         'task_end_date_format',
-        'reason',
+        'participation_local_cost',
+        'participation_local_currency',
         'user_recommendation',
         'status_label',
       ],
       layout: {
-        flex: [50, 50, 50, 50, 100, 100, 50]
+        flex: [50, 50, 100, 50, 50, 50, 50, 100, 50]
       }
     }],
   },
@@ -110,14 +112,16 @@ export default gen.CRUDGen.extend({
       fields: [
         field('dse', {disabled: true}),
         'project',
+        'reason',
         'task_start_date',
         'task_end_date',
-        'reason',
+        'participation_local_cost',
+        'participation_local_currency',
         'user_recommendation',
         meta.forms.travel_info
       ],
       layout: {
-        flex: [50, 50, 50, 50, 100, 100]
+        flex: [50, 50, 100, 50, 50, 50, 50, 100]
       }
     }],
   },
@@ -128,14 +132,16 @@ export default gen.CRUDGen.extend({
       fields: [
         field('dse', {disabled: true}),
         'project',
+        'reason',
         'task_start_date',
         'task_end_date',
-        'reason',
+        'participation_local_cost',
+        'participation_local_currency',
         'user_recommendation',
         meta.forms.travel_info
       ],
       layout: {
-        flex: [50, 50, 50, 50, 100, 100]
+        flex: [50, 50, 100, 50, 50, 50, 50, 100]
       }
     }],
   },

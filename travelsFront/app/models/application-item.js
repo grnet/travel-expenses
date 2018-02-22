@@ -4,8 +4,8 @@ import gen from 'ember-gen/lib/attrs';
 import {computeDateFormat} from '../lib/common';
 
 
-const CHOICES = ENV.APP.resources,
-      CURRENCY = [[ENV.default_currency, ENV.default_currency]];
+const CHOICES = ENV.APP.resources;
+const CURRENCY = ENV.APP.currency || ['EUR', 'Euro'];
 
 
 export default DS.Model.extend({
@@ -29,6 +29,8 @@ export default DS.Model.extend({
   reason: DS.attr({attrs: {required: true, textarea: true}}),
   created: DS.attr('date', {time: true, required: true}),
   updated: DS.attr('date', {time: true, required: true}),
+  participation_local_cost: DS.attr(),
+  participation_local_currency: DS.attr({'choices': CHOICES.CURRENCIES}),
   task_start_date: DS.attr('date', {time: true, required: true}),
   task_end_date: DS.attr('date', {time: true, required: true}),
   task_start_date_format: computeDateFormat('task_start_date'),

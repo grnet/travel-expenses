@@ -18,7 +18,7 @@ const travel_info = field('travel_info', {
   }),
 
   // field label
-  label: 'trave.info.destinations.label',
+  label: 'trave.info.label',
   createEntry: function(field, store) {
     // `this` is the component context
     let last = this.get('value.lastObject');
@@ -40,20 +40,14 @@ const travel_info = field('travel_info', {
   modelMeta: {
     fieldsets: [
       {
-        label: 'travel.info.travel',
         fields: [
           field('departure_point', { required: true }),
-          field('arrival_point', { required: true })
+          field('arrival_point', { required: true }),
+          field('depart_date', { required: true }),
+          field('return_date', { required: true }),
         ],
-        layout: { flex: [50, 50] }
+        layout: { flex: [50, 50, 50, 50] }
       },
-      {
-        label: 'travel.info.costs',
-        fields: [
-          field('accommodation_cost', { required: true })
-        ],
-        layout: { flex: [100] }
-      }
     ]
   }
 })
