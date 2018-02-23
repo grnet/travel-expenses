@@ -88,6 +88,7 @@ export default gen.CRUDGen.extend({
       // prepare model defaults
       model.set('task_start_date', moment(new Date()).add(1, 'days').toDate());
       model.set('task_end_date', moment(new Date()).add(2, 'days').toDate());
+      model.set('participation_local_currency', 'EUR');
 
       return this.store.findAll('project').then((projects) => {
         let cityId = ENV.APP.default_city || null;
