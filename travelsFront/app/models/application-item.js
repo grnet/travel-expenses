@@ -41,7 +41,7 @@ export default DS.Model.extend({
   // return just the status id
     return _.last(this.get('id').replace(/\/$/, '').split('/'));
   }),
-  travel_info: DS.hasMany('travel-info'),
+  travel_info: DS.hasMany('travel-info', {displayComponent: 'display-travel-info'}),
   // set status label value
   status_label: Ember.computed('status', function() {
     var status =this.get('status');
