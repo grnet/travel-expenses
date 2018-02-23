@@ -72,10 +72,11 @@ export default gen.CRUDGen.extend({
         'participation_local_cost',
         'participation_local_currency',
         'user_recommendation',
+        meta.forms.travel_info,
         'status_label',
       ],
       layout: {
-        flex: [50, 50, 100, 50, 50, 50, 50, 100, 50]
+        flex: [50, 50, 100, 50, 50, 50, 50, 100, 100, 100]
       }
     }],
   },
@@ -114,13 +115,13 @@ export default gen.CRUDGen.extend({
         'reason',
         'task_start_date',
         'task_end_date',
+        meta.forms.travel_info,
         'participation_local_cost',
         'participation_local_currency',
         'user_recommendation',
-        meta.forms.travel_info
       ],
       layout: {
-        flex: [50, 50, 100, 50, 50, 50, 50, 100]
+        flex: [50, 50, 100, 50, 50, 100, 50, 50, 100]
       }
     }],
   },
@@ -134,13 +135,13 @@ export default gen.CRUDGen.extend({
         'reason',
         'task_start_date',
         'task_end_date',
+        meta.forms.travel_info,
         'participation_local_cost',
         'participation_local_currency',
         'user_recommendation',
-        meta.forms.travel_info
       ],
       layout: {
-        flex: [50, 50, 100, 50, 50, 50, 50, 100]
+        flex: [50, 50, 100, 50, 50, 100, 50, 50, 100]
       }
     }],
   },
