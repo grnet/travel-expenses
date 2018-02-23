@@ -31,8 +31,20 @@ export default DS.Model.extend({
   updated: DS.attr('date', {time: true, required: true}),
   participation_local_cost: DS.attr(),
   participation_local_currency: DS.attr({'choices': CHOICES.CURRENCIES, autocomplete: true}),
-  task_start_date: DS.attr('date', {time: true, required: true}),
-  task_end_date: DS.attr('date', {time: true, required: true}),
+  task_start_date: DS.attr('date', {
+    formAttrs: {
+      time: true,
+      format: "dd mmmm yyyy"
+    },
+    required: true
+  }),
+  task_end_date: DS.attr('date', {
+    formAttrs: {
+      time: true,
+      format: "dd mmmm yyyy"
+    },
+    required: true
+  }),
   task_start_date_format: computeDateFormat('task_start_date'),
   task_end_date_format: computeDateFormat('task_end_date'),
   user_recommendation: DS.attr({attrs:{textarea: true}}),

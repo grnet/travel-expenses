@@ -12,12 +12,12 @@ module.exports = function(environment) {
     moment: {
       outputFormat: 'DD/MM/YYYY HH:mm'
     },
-    'ember-cli-pickadate': {
-      date: {
-        format: 'dd/mm/yyyy',
-        formatSubmit: 'dd/mm/yyyy',
-      }
-    },
+    // 'ember-cli-pickadate': {
+    //   date: {
+    //     format: 'dd/mm/yyyy',
+    //     formatSubmit: 'dd/mm/yyyy',
+    //   }
+    // },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build

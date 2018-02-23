@@ -15,13 +15,15 @@ export default DS.Model.extend({
   departure_point: DS.belongsTo('city', {required: true, autocomplete: true, displayAttr: 'labelWithCountry'}),
   arrival_point: DS.belongsTo('city', {required: true, autocomplete: true, displayAttr: 'labelWithCountry'}),
   depart_date: DS.attr('date', {
-    attrs: {
-      time: true
+    formAttrs: {
+      time: true,
+      format: "dd mmmm yyyy"
     }
   }),
   return_date: DS.attr('date', {
-    attrs: {
-      time: true
+    formAttrs: {
+      time: true,
+      format: "dd mmmm yyyy"
     }
   }),
   meals: DS.attr({'choices': CHOICES.MEALS, defaultValue: 'NON'}),
