@@ -43,8 +43,8 @@ const travel_info = field('travel_info', {
         fields: [
           field('departure_point', { required: true }),
           field('arrival_point', { required: true }),
-          field('depart_date', { required: true }),
-          field('return_date', { required: true }),
+          field('depart_date'),
+          field('return_date'),
         ],
         layout: { flex: [50, 50, 50, 50] }
       },

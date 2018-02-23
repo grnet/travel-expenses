@@ -86,8 +86,6 @@ export default gen.CRUDGen.extend({
       let model = this.store.createRecord(get(this, 'modelName'));
 
       // prepare model defaults
-      model.set('task_start_date', moment(new Date()).add(1, 'days').toDate());
-      model.set('task_end_date', moment(new Date()).add(2, 'days').toDate());
       model.set('participation_local_currency', 'EUR');
 
       return this.store.findAll('project').then((projects) => {

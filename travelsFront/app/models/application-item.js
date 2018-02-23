@@ -24,8 +24,8 @@ export default DS.Model.extend({
   user_category: DS.attr({'choices': CHOICES.USER_CATEGORY, attrs: {disabled: true}}),
   //application fields
   user: DS.attr('string'),
-  dse: DS.attr('string', {attrs: {required: true}}),
-  project: DS.belongsTo('project', {required: true, formAttrs: {optionLabelAttr: 'name'}}),
+  dse: DS.attr('string', {required: true}),
+  project: DS.belongsTo('project', {required: true, autocomplete: true, formAttrs: {optionLabelAttr: 'name'}}),
   reason: DS.attr({attrs: {required: true, textarea: true}}),
   created: DS.attr('date', {time: true, required: true}),
   updated: DS.attr('date', {time: true, required: true}),
