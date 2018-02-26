@@ -67,16 +67,16 @@ export default gen.CRUDGen.extend({
         'dse',
         'project.name',
         'reason',
-        'task_start_date_format',
-        'task_end_date_format',
+        'task_start_date_time_format',
+        'task_end_date_time_format',
+        meta.forms.travel_info,
         'participation_local_cost',
         'participation_local_currency',
         'user_recommendation',
-        meta.forms.travel_info,
         'status_label',
       ],
       layout: {
-        flex: [50, 50, 100, 50, 50, 50, 50, 100, 100, 100]
+        flex: [50, 50, 100, 50, 50, 100, 50, 50, 100, 100]
       }
     }],
   },

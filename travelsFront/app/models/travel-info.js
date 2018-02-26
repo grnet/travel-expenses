@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import ENV from 'travel/config/environment';
+import {computeDateTimeFormat} from '../lib/common';
 
 const {
   get, set
@@ -26,6 +27,8 @@ export default DS.Model.extend({
       format: "dd mmmm yyyy"
     }
   }),
+  depart_date_time_format: computeDateTimeFormat('depart_date'),
+  return_date_time_format: computeDateTimeFormat('return_date'),
   meals: DS.attr({'choices': CHOICES.MEALS, defaultValue: 'NON'}),
   means_of_transport: DS.attr({'choices': CHOICES.TRANSPORTATION, defaultValue: 'AIR'}),
   transportation_cost: DS.attr(),

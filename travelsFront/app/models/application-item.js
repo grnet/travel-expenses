@@ -2,6 +2,7 @@ import DS from 'ember-data';
 import ENV from 'travel/config/environment';
 import gen from 'ember-gen/lib/attrs';
 import {computeDateFormat} from '../lib/common';
+import {computeDateTimeFormat} from '../lib/common';
 
 
 const CHOICES = ENV.APP.resources;
@@ -47,6 +48,8 @@ export default DS.Model.extend({
   }),
   task_start_date_format: computeDateFormat('task_start_date'),
   task_end_date_format: computeDateFormat('task_end_date'),
+  task_start_date_time_format: computeDateTimeFormat('task_start_date'),
+  task_end_date_time_format: computeDateTimeFormat('task_end_date'),
   user_recommendation: DS.attr({attrs:{textarea: true}}),
   status: DS.attr({'choices': CHOICES.STATUS, attrs: {disabled: true}}),
   petition_id: Ember.computed('id', function(){

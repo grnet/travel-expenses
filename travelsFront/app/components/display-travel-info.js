@@ -11,8 +11,8 @@ export default Ember.Component.extend({
         fields: [
           field('departure_point', { required: true }),
           field('arrival_point', { required: true }),
-          field('depart_date', {}),
-          field('return_date', {}),
+          field('depart_date_time_format', {}),
+          field('return_date_time_format', {}),
         ],
         layout: { flex: [50, 50, 50, 50] }
       },
