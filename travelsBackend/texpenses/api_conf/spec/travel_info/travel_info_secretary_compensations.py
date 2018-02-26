@@ -12,6 +12,16 @@ spec = {
             },
             '.readonly': {}
         },
+        'accommodation_total_local_cost': {
+            '.cli_option': {},
+            '.drf_field': {},
+            '.field': {},
+            '.decimal': {
+                'max_digits': settings.DECIMAL_MAX_DIGITS,
+                'decimal_places':settings.DECIMAL_PLACES
+            },
+            '.readonly': {}
+        },
         'accommodation_local_currency': {
             '.choices': {},
             '.cli_option': {},

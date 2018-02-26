@@ -224,6 +224,10 @@ class Accommodation(md.Model):
             decimal_places=settings.DECIMAL_PLACES,
             blank=False, default=0.0,
             validators=[MinValueValidator(0.0)])
+    accommodation_total_local_cost = md.DecimalField(
+        max_digits=settings.DECIMAL_MAX_DIGITS,
+        decimal_places=settings.DECIMAL_PLACES, blank=False, default=0.0,
+        validators=[MinValueValidator(0.0)])
 
     class Meta:
         abstract = True
@@ -1354,6 +1358,7 @@ class UserCompensation(Petition):
                 'withdrawn', 'total_cost_change_reason',
                 'is_total_manual_cost_set', 'total_cost_manual']
     excluded_travel_info = ['accommodation_local_cost',
+                            'accommodation_total_local_cost',
                             'accommodation_cost',
                             'accommodation_total_cost',
                             'accommodation_payment_description',
@@ -1387,6 +1392,7 @@ class SecretaryCompensation(Petition):
                 'withdrawn', 'total_cost_change_reason',
                 'is_total_manual_cost_set', 'total_cost_manual']
     excluded_travel_info = ['accommodation_local_cost',
+                            'accommodation_total_local_cost',
                             'accommodation_cost',
                             'accommodation_total_cost',
                             'accommodation_payment_description',
