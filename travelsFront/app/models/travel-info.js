@@ -31,7 +31,7 @@ const UI_SECRETARY = {
     },
     {
       'label': 'travel_info.accommodation',
-      'fields': [['compensation_level', {attrs:{disabled: true}}], 'meals', 'accommodation_total_cost', 'accommodation_local_cost', 'accommodation_local_currency',
+      'fields': [['compensation_level', {attrs:{disabled: true}}], 'meals', 'accommodation_total_cost', 'accommodation_total_local_cost', 'accommodation_local_currency',
                  'accommodation_payment_way', 'accommodation_payment_description']
     },
     {
@@ -60,7 +60,7 @@ const UI_CONTROLLER = {
     },
     {
       'label': 'travel_info.accommodation',
-      'fields': [['compensation_level', {attrs:{disabled: true}}], 'meals', 'accommodation_total_cost', 'accommodation_local_cost', 'accommodation_local_currency',
+      'fields': [['compensation_level', {attrs:{disabled: true}}], 'meals', 'accommodation_total_cost', 'accommodation_total_local_cost', 'accommodation_local_currency',
                  'accommodation_payment_way', 'accommodation_payment_description']
     },
     {
@@ -142,7 +142,7 @@ export default DS.Model.extend({
   meals: DS.attr({'choices': CHOICES.MEALS, defaultValue: 'NON'}),
   means_of_transport: DS.attr({'choices': CHOICES.TRANSPORTATION, defaultValue: 'AIR'}),
   transportation_cost: DS.attr('formatted-number'),
-  accommodation_local_cost: DS.attr('formatted-number'),
+  accommodation_total_local_cost: DS.attr('formatted-number'),
   accommodation_local_currency: DS.attr({'choices': CHOICES.CURRENCIES}),
   participation_local_currency: DS.attr({'choices': CHOICES.CURRENCIES}),
   transport_days_manual: DS.attr(),

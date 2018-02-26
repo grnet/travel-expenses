@@ -15,7 +15,7 @@ const TRAVEL_INFO_FIELDS = [
   'meals',
   'means_of_transport',
   'transportation_cost',
-  'accommodation_local_cost',
+  'accommodation_total_local_cost',
   'accommodation_local_currency',
   'transport_days_manual',
   'transport_days_proposed',
