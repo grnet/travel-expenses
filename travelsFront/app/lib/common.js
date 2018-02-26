@@ -20,4 +20,11 @@ function computeDateFormat(key) {
   });
 };
 
-export { computeDateFormat };
+function computeDateTimeFormat(key) {
+  return computed(key, function() {
+    let date = get(this, key)
+    return date ? moment(date).format(DATE_TIME_FORMAT) : '-';
+  });
+};
+
+export { computeDateFormat, computeDateTimeFormat};
