@@ -30,6 +30,28 @@ export default gen.CRUDGen.extend({
       icon: 'description',
       label: 'appications_list.tab',
     },
+    filter: {
+      active: true,
+      meta: {
+        fields: [
+          field('dse', {type: 'text'}),
+          field('project', {modelName:'project', type: 'model', displayAttr: 'name'}),
+        ]
+      },
+      serverSide: true,
+      search: true,
+      searchFields: ['dse', 'last_name']
+    },
+    sort: {
+      active: true,
+      serverSide: true,
+      fields: ['dse']
+    },
+    paginate: {
+      limits: [ 10, 50],
+      serverSide: true,
+      active: true
+    },
     row: {
       fields: [
         'dse',

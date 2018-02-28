@@ -18,6 +18,11 @@ export default {
   'new_password.label': 'Νέος Κωδικός Πρόσβασης', 
   're_new_password.label': 'Επιβεβαίωση νέου Κωδικού Πρόσβασης', 
   'current_password.label': 'Τρέχων Κωδικός Πρόσβασης',
+  //search and filter
+  'search.input.placeholder': 'Εισάγετε κριτήριο αναζήτησης',
+  'list.filters.apply.label': 'ΕΦΑΡΜΟΓΗ',
+  'list.filters.clear.label': 'ΚΑΘΑΡΙΣΜΟΣ',
+  'list.filters.title': 'Φίλτρα',
   //profile labels
   'username.label': 'Όνομα Χρήστη (username)',
   'email.label': 'Email',
