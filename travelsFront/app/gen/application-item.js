@@ -4,6 +4,7 @@ import {field} from 'ember-gen';
 import meta from 'travel/lib/meta';
 import moment from 'moment';
 import ENV from 'travel/config/environment';
+import { applicationActions } from '../utils/common/actions';
 
 const {
   get
@@ -62,7 +63,11 @@ export default gen.CRUDGen.extend({
         'task_end_date_format',
         'status_label',
       ],
-      actions: ['gen:details', 'gen:edit'],
+      actions: ['gen:details', 'gen:edit', 'submit', 'undo'],
+      actionsMap: {
+        submit: applicationActions.submit,
+        undo: applicationActions.undo,
+      }
     }
   },
 

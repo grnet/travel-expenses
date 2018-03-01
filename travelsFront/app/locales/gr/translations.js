@@ -114,11 +114,14 @@ export default {
   'add': 'Προσθηκη',
   'remove': 'Αφαιρεση',
   'form.button.signup': 'Εγγραφη',
+  'form.button.undo': 'OK',
+  'form.button.cancel': 'Ακύρωση',
   'file.button.delete': 'Διαγραφη',
   'file.button.download': 'Ληψη',
   'password.button.change': 'Αλλαγη',
   'list.button.search': 'Αναζητηση',
   'list.button.clear': 'Καθαρισμος Φιλτρων',
+
   //placeholders
   'placeholder.filterByProject': 'Έργο',
   'placeholder.filterByName': 'Επώνυμο',
@@ -195,6 +198,8 @@ export default {
   //success messages
   'petition_saved': 'Η αίτησή σας έχει αποθηκευτεί επιτυχώς',
   'profile_saved': 'Τα στοιχεία του προφίλ σας έχουν ενημερωθεί επιτυχώς',
+  'submit.application.success': 'Επιτυχής υποβολή αίτησης',
+  'submit.application.error': 'Σφάλμα κατά την υποβολή της αίτησης',
   //placeholders
   'time_placeholder': 'Ώρα',
 };
