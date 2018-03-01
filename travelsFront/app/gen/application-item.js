@@ -5,6 +5,8 @@ import meta from 'travel/lib/meta';
 import moment from 'moment';
 import ENV from 'travel/config/environment';
 import { applicationActions } from '../utils/common/actions';
+import PROFILE from '../utils/common/profile';
+import USER from '../utils/application/user';
 
 const {
   get,
@@ -77,40 +79,14 @@ export default gen.CRUDGen.extend({
   },
 
   details: {
-    fieldsets: [{
-      label: 'personal_info.label',
-      fields: [
-        'first_name',
-        'last_name',
-        'specialty',
-        'kind',
-        'tax_reg_num',
-        'tax_office.name',
-        'iban',
-        'user_category',
-      ],
-      layout: {
-        flex: [50, 50, 50, 50, 50, 50, 50,50]
+    fieldsets: computed('role', function() {
+      let role = get(this, 'role');
+      let res = [];
+      if (role === 'USER' || role === 'MANAGER') {
+        res = [PROFILE.FS_DETAILS, USER.FS_VIEW_1]
       }
-    },
-    {
-      label: 'application.label',
-      fields: [
-        'dse',
-        'project.name',
-        'reason',
-        'task_start_date_time_format',
-        'task_end_date_time_format',
-        meta.forms.travel_info,
-        'participation_local_cost',
-        'participation_local_currency',
-        'user_recommendation',
-        'status_label',
-      ],
-      layout: {
-        flex: [50, 50, 100, 50, 50, 100, 50, 50, 100, 100]
-      }
-    }],
+      return res;
+    }),
   },
 
   create: {
@@ -139,42 +115,24 @@ export default gen.CRUDGen.extend({
       });
     },
 
-    fieldsets: [{
-      label: 'application_create.title',
-      fields: [
-        field('dse', {disabled: true}),
-        'project',
-        'reason',
-        'task_start_date',
-        'task_end_date',
-        meta.forms.travel_info,
-        'participation_local_cost',
-        'participation_local_currency',
-        'user_recommendation',
-      ],
-      layout: {
-        flex: [50, 50, 100, 50, 50, 100, 50, 50, 100]
+    fieldsets: computed('role', function() {
+      let role = get(this, 'role');
+      let res = [];
+      if (role === 'USER' || role === 'MANAGER') {
+        res = [ USER.FS_CREATE_1 ]
       }
-    }],
+      return res;
+    }),
   },
 
   edit: {
-    fieldsets: [{
-      label: 'application_create.title',
-      fields: [
-        field('dse', {disabled: true}),
-        'project',
-        'reason',
-        'task_start_date',
-        'task_end_date',
-        meta.forms.travel_info,
-        'participation_local_cost',
-        'participation_local_currency',
-        'user_recommendation',
-      ],
-      layout: {
-        flex: [50, 50, 100, 50, 50, 100, 50, 50, 100]
-      }
-    }],
+  fieldsets: computed('role', function() {
+    let role = get(this, 'role');
+    let res = [];
+    if (role === 'USER' || role === 'MANAGER') {
+      res = [ USER.FS_EDIT_1 ]
+    }
+    return res;
+  }),
   },
 });
