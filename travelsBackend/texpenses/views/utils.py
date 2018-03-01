@@ -61,7 +61,7 @@ def get_overnights_sum_cost_string(travel_info):
     return '+'.join(
         [str(ti.accommodation_total_cost).replace('.', ',') +
         ' ευρώ (' + str(ti.overnights_num_manual)  +
-        (' ημέρες )' if ti.overnights_num_manual > 1 else ' ημέρα )')
+        (' ημέρες)' if ti.overnights_num_manual > 1 else ' ημέρα)')
             for ti in travel_info]
     )
 
