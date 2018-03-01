@@ -7,7 +7,9 @@ import ENV from 'travel/config/environment';
 import { applicationActions } from '../utils/common/actions';
 
 const {
-  get
+  get,
+  computed,
+  computed: { reads },
 } = Ember;
 
 
@@ -17,7 +19,10 @@ export default gen.CRUDGen.extend({
   auth: true,
   path: 'applications',
   resourceName: 'applications',
-  session: Ember.inject.service(),
+  _metaMixin: {
+    session: Ember.inject.service(),
+    role: reads('session.session.authenticated.user_group')
+  },
 
   common: {
     preloadModels: [ 'city' ]
