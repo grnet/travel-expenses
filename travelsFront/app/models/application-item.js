@@ -63,4 +63,22 @@ export default DS.Model.extend({
     var label=CHOICES.STATUS[status-1];
     return label[1] || status;
   }),
+
+  specialty_label: Ember.computed('specialty', function() {
+    let specialty =this.get('specialty');
+    for (let pair of CHOICES.SPECIALTY) {
+      if (pair[0] === specialty) {
+        return pair[1] || specialty;
+      }
+    }
+  }),
+
+  kind_label: Ember.computed('kind', function() {
+    let kind =this.get('kind');
+    for (let pair of CHOICES.KIND) {
+      if (pair[0] === kind) {
+        return pair[1] || kind;
+      }
+    }
+  }),
 });

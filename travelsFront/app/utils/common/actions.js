@@ -15,7 +15,7 @@ const submit = {
   label: 'prompt_submit_title',
   icon: 'assignment_returned',
   accent: true,
-  hidden: computed('model.status', 'role',  function(){
+  hidden: computed('model.status', 'role', function(){
     let status = this.get('model.status');
     let role = this.get('role');
     if (role === 'USER' || role === 'MANAGER') {

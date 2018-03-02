@@ -6,10 +6,10 @@ const FS_DETAILS = {
   fields: [
    field('first_name', { disabled: true }),
    field('last_name', { disabled: true }),
-   field('specialty', { disabled: true }),
-   field('kind', { disabled: true }),
+   field('specialty_label', { disabled: true }),
+   field('kind_label', { disabled: true }),
    field('tax_reg_num', { disabled: true }),
-   field('tax_office', { disabled: true }),
+   field('tax_office.name', { disabled: true }),
    field('iban', { disabled: true }),
    field('user_category', { disabled: true }),
   ],
