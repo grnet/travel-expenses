@@ -13,16 +13,8 @@ depending on whether the respective button should be shown or not*/
 
 const submit = {
   label: 'prompt_submit_title',
-  icon: 'assignment_returned',
-  accent: true,
-  hidden: computed('model.status', 'role', function(){
-    let status = this.get('model.status');
-    let role = this.get('role');
-    if (role === 'USER' || role === 'MANAGER') {
-      let showButtonBy = [false, true, true, true, true, false, true, true, true, true];
-      return showButtonBy[status-1];
-    }
-  }),
+  icon: 'send',
+  classNames: 'md-success',
   action: function(route, model) {
     let messages = route.get('messageService');
     let token = get(route, 'user.auth_token');
@@ -37,9 +29,9 @@ const submit = {
       },
     }).then((resp) => {
       if (resp.status === 200) {
-        model.reload().then(() => {
+        route.refresh().then(() => {
           messages.setSuccess('submit.application.success');
-        });
+        })
       } else {
         throw new Error('error');
       }
@@ -47,7 +39,14 @@ const submit = {
       messages.setError('submit.application.error');
     });
   },
-
+  hidden: computed('model.status', 'role', function(){
+    let status = this.get('model.status');
+    let role = this.get('role');
+    if (role === 'USER' || role === 'MANAGER') {
+      let showButtonBy = [false, true, true, true, true, false, true, true, true, true];
+      return showButtonBy[status-1];
+    }
+  }),
   confirm: true,
   prompt: {
     ok: 'form.button.submit',
@@ -61,14 +60,6 @@ const undo = {
   label: 'prompt_undo_title',
   icon: 'undo',
   accent: true,
-  hidden: computed('model.status', 'role', function(){
-    let status = this.get('model.status');
-    let role = this.get('role');
-    if (role === 'USER' || role === 'MANAGER') {
-      let showButtonBy = [true, false, true, true, true, true, false, true, true, true];
-      return showButtonBy[status-1];
-    }
-  }),
   action: function(route, model) {
     let messages = route.get('messageService');
     let token = get(route, 'user.auth_token');
@@ -83,9 +74,9 @@ const undo = {
       },
     }).then((resp) => {
       if (resp.status === 200) {
-        model.reload().then(() => {
+        route.refresh().then(() => {
           messages.setSuccess('undo.application.success');
-        });
+        })
       } else {
         throw new Error('error');
       }
@@ -93,7 +84,14 @@ const undo = {
       messages.setError('undo.application.error');
     });
   },
-
+  hidden: computed('model.status', 'role', function(){
+    let status = this.get('model.status');
+    let role = this.get('role');
+    if (role === 'USER' || role === 'MANAGER') {
+      let showButtonBy = [true, false, true, true, true, true, false, true, true, true];
+      return showButtonBy[status-1];
+    }
+  }),
   confirm: true,
   prompt: {
     ok: 'form.button.undo',

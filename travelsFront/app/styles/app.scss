@@ -4,8 +4,17 @@
 //$background: "grey" !default;
 //$link: "light-blue" !default;
 
+
 @import "ember-gen";
+
+$success-color: color($color-light-green, '600');
 
 .flex-grow {
   text-transform: capitalize;
+}
+
+.md-success {
+  md-icon {
+    color: $success-color !important;
+  }
 }

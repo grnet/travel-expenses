@@ -117,7 +117,7 @@ export default {
   'remove': 'Αφαιρεση',
   'form.button.signup': 'Εγγραφη',
   'form.button.undo': 'OK',
-  'form.button.cancel': 'Ακύρωση',
+  'form.button.cancel': 'Ακυρωση',
   'file.button.delete': 'Διαγραφη',
   'file.button.download': 'Ληψη',
   'password.button.change': 'Αλλαγη',
@@ -201,6 +201,8 @@ export default {
   'petition_saved': 'Η αίτησή σας έχει αποθηκευτεί επιτυχώς',
   'profile_saved': 'Τα στοιχεία του προφίλ σας έχουν ενημερωθεί επιτυχώς',
   'submit.application.success': 'Επιτυχής υποβολή αίτησης',
+  'undo.application.success': 'Επιτυχής αναίρεση υποβολής',
+  //error messages
   'submit.application.error': 'Σφάλμα κατά την υποβολή της αίτησης',
   //placeholders
   'time_placeholder': 'Ώρα',
