@@ -14,6 +14,19 @@ const {
   computed: { reads },
 } = Ember;
 
+const STATUS_MAP = {
+  'SAVED_BY_USER': 1,
+  'SUBMITTED_BY_USER': 2,
+  'SAVED_BY_SECRETARY': 3,
+  'SUBMITTED_BY_SECRETARY': 4,
+  'APPROVED_BY_PRESIDENT': 5,
+  'USER_COMPENSATION': 6,
+  'USER_COMPENSATION_SUBMISSION': 7,
+  'SECRETARY_COMPENSATION': 8,
+  'SECRETARY_COMPENSATION_SUBMISSION': 9,
+  'PETITION_FINAL_APPOVAL': 10,
+}
+
 
 export default gen.CRUDGen.extend({
   order: 200,
@@ -25,6 +38,17 @@ export default gen.CRUDGen.extend({
     session: Ember.inject.service(),
     role: reads('session.session.authenticated.user_group')
   },
+
+abilityStates: {
+  usersaved: computed('model.status', function(){
+    let status = this.get('model.status');
+      return status === STATUS_MAP["SAVED_BY_USER"];
+  }),
+  secretarysaved: computed('model.status', function(){
+    let status = this.get('model.status');
+      return status === STATUS_MAP["SAVED_BY_SECRETARY"];
+  }),
+},
 
   common: {
     preloadModels: [ 'city' ]
