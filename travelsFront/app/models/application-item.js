@@ -15,6 +15,7 @@ export default DS.Model.extend({
   },
 
   session: Ember.inject.service('session'),
+  //profile fields
   first_name: DS.attr(),
   last_name: DS.attr(),
   specialty: DS.attr({'choices': CHOICES.SPECIALTY}),
@@ -27,7 +28,7 @@ export default DS.Model.extend({
   user: DS.attr('string'),
   dse: DS.attr('string', {required: true}),
   project: DS.belongsTo('project', {required: true, autocomplete: true, formAttrs: {optionLabelAttr: 'name'}}),
-  reason: DS.attr({attrs: {required: true, textarea: true}}),
+  reason: DS.attr({required: true}),
   created: DS.attr('date', {time: true, required: true}),
   updated: DS.attr('date', {time: true, required: true}),
   participation_local_cost: DS.attr(),
@@ -51,12 +52,30 @@ export default DS.Model.extend({
   task_start_date_time_format: computeDateTimeFormat('task_start_date'),
   task_end_date_time_format: computeDateTimeFormat('task_end_date'),
   user_recommendation: DS.attr({attrs:{textarea: true}}),
-  status: DS.attr({'choices': CHOICES.STATUS, attrs: {disabled: true}}),
+  status: DS.attr({'choices': CHOICES.STATUS}),
   petition_id: Ember.computed('id', function(){
   // return just the status id
     return _.last(this.get('id').replace(/\/$/, '').split('/'));
   }),
   travel_info: DS.hasMany('travel-info', {displayComponent: 'display-travel-info'}),
+  //secretary fields
+  additional_expenses_initial: DS.attr({required: true}),
+  additional_expenses_initial_description: DS.attr(),
+  expenditure_date_protocol: DS.attr('date'),
+  expenditure_protocol: DS.attr(),
+  movement_date_protocol: DS.attr('date'),
+  movement_protocol: DS.attr(),
+  non_grnet_quota: DS.attr(),
+  manager_movement_approval: DS.attr('boolean'),
+  participation_cost: DS.attr(),
+  participation_payment_way: DS.attr({'choices': CHOICES.WAYS_OF_PAYMENT}),
+  participation_payment_description: DS.attr(),
+  trip_days_before: DS.attr(),
+  trip_days_after: DS.attr({disabled: true}),
+  overnights_sum_cost: DS.attr({disabled: true}),
+  compensation_cost: DS.attr({disabled: true}),
+  total_cost_calculated: DS.attr({disabled: true}),
+
   // set status label value
   status_label: Ember.computed('status', function() {
     var status =this.get('status');

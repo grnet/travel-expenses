@@ -7,6 +7,7 @@ import ENV from 'travel/config/environment';
 import { applicationActions } from '../utils/common/actions';
 import PROFILE from '../utils/common/profile';
 import USER from '../utils/application/user';
+import SECRETARY from '../utils/application/secretary';
 
 const {
   get,
@@ -51,7 +52,7 @@ abilityStates: {
 },
 
   common: {
-    preloadModels: [ 'city' ]
+    preloadModels: ['city']
   },
 
   list: {
@@ -143,7 +144,7 @@ abilityStates: {
       let role = get(this, 'role');
       let res = [];
       if (role === 'USER' || role === 'MANAGER') {
-        res = [ USER.FS_CREATE_1 ]
+        res = [USER.FS_CREATE_1]
       }
       return res;
     }),
@@ -154,7 +155,13 @@ abilityStates: {
     let role = get(this, 'role');
     let res = [];
     if (role === 'USER' || role === 'MANAGER') {
-      res = [ USER.FS_EDIT_1 ]
+      res = [USER.FS_EDIT_1]
+    } else if (role === 'SECRETARY') {
+      res = [
+        SECRETARY.FS_EDIT_3_COMMON,
+        SECRETARY.FS_EDIT_3_PROTOCOL,
+        SECRETARY.FS_EDIT_3_COMPUTED
+      ];
     }
     return res;
   }),
