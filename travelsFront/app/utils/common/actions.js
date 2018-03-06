@@ -45,6 +45,9 @@ const submit = {
     if (role === 'USER' || role === 'MANAGER') {
       let showButtonBy = [false, true, true, true, true, false, true, true, true, true];
       return showButtonBy[status-1];
+    } else if (role === 'SECRETARY') {
+      let showButtonBy = [true, true, false, true, true, true, true, true, true, true];
+      return showButtonBy[status-1];
     }
   }),
   confirm: true,
@@ -89,6 +92,9 @@ const undo = {
     let role = this.get('role');
     if (role === 'USER' || role === 'MANAGER') {
       let showButtonBy = [true, false, true, true, true, true, false, true, true, true];
+      return showButtonBy[status-1];
+    } else if (role === 'SECRETARY') {
+      let showButtonBy = [true, true, true, false, true, true, true, true, true, true];
       return showButtonBy[status-1];
     }
   }),
