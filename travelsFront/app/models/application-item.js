@@ -100,4 +100,13 @@ export default DS.Model.extend({
       }
     }
   }),
+
+  participation_payment_way_label: Ember.computed('participation_payment_way', function() {
+    let participation_payment_way =this.get('participation_payment_way');
+    for (let pair of CHOICES.WAYS_OF_PAYMENT) {
+      if (pair[0] === participation_payment_way) {
+        return pair[1] || participation_payment_way;
+      }
+    }
+  })
 });
