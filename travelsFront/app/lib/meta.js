@@ -19,7 +19,7 @@ const travel_info = field('travel_info', {
   }),
 
   // field label
-  label: 'trave.info.label',
+  label: 'travel.info.label',
   createEntry: function(field, store) {
     // `this` is the component context
     let last = this.get('value.lastObject');
@@ -51,6 +51,16 @@ const travel_info = field('travel_info', {
           'means_of_transport',
           'transportation_cost',
           'transportation_payment_way',
+        ],
+        layout: {
+          flex: [
+            50, 50, 50, 50, 50, 50, 50, 50, 100
+          ]
+        }
+      },
+      {
+        label: 'travel_info.accommodation.label',
+        fields: [
           'overnights_num_manual',
           'overnights_num_proposed',
           'accommodation_cost',
@@ -58,14 +68,23 @@ const travel_info = field('travel_info', {
           'accommodation_local_currency',
           'meals',
           'accommodation_payment_way',
+        ],
+        layout: {
+          flex: [
+            50, 50, 50, 30, 20, 50, 50
+          ]
+        }
+      },
+      {
+        label: 'travel_info.compensation.label',
+        fields: [
           'compensation_days_manual',
           'compensation_days_proposed',
           'compensation_level',
         ],
         layout: {
           flex: [
-            50, 50, 50, 50, 50, 50, 50, 50, 100, 50,
-            50, 50, 30, 20, 50, 50, 50, 50, 50
+            50, 50, 50
           ]
         }
       },
