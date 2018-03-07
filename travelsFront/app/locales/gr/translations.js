@@ -100,7 +100,7 @@ export default {
   'transport_days_manual.label': 'Ημέρες Μετακίνησης Εργασιών',
   'transport_days_proposed.label': 'Ημέρες Μετακίνησης Εργασιών (προτεινόμενη τιμή)',
   'overnights_num_manual.label': 'Διανυκτερεύσεις',
-  'overnights_proposed.label': 'Διανυκτερεύσεις (προτεινόμενη τιμή)',
+  'overnights_num_proposed.label': 'Διανυκτερεύσεις (προτεινόμενη τιμή)',
   'compensation_days_manual.label': 'Ημέρες Αποζημίωσης',
   'compensation_days_proposed.label': 'Ημέρες Αποζημίωσης (προτεινόμενη τιμή)',
   'same_day_return_task.label': 'Αυθημερόν Επιστροφή',

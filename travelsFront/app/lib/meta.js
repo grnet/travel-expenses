@@ -2,6 +2,7 @@ import Ember from 'ember';
 import gen from 'ember-gen/lib/gen';
 import {field} from 'ember-gen';
 
+
 const {
   get
 } = Ember;
@@ -23,7 +24,7 @@ const travel_info = field('travel_info', {
     // `this` is the component context
     let last = this.get('value.lastObject');
     if (last) {
-      return store.createRecord('travel-info', {
+      return store.createRecord('travel-info', { 
         departure_point: last.get('changeset.arrival_point') || undefined
       });
     } else {
@@ -45,8 +46,28 @@ const travel_info = field('travel_info', {
           field('arrival_point', { required: true }),
           field('depart_date', {}),
           field('return_date', {}),
+          'transport_days_manual',
+          'transport_days_proposed',
+          'means_of_transport',
+          'transportation_cost',
+          'transportation_payment_way',
+          'overnights_num_manual',
+          'overnights_num_proposed',
+          'accommodation_cost',
+          'accommodation_local_cost',
+          'accommodation_local_currency',
+          'meals',
+          'accommodation_payment_way',
+          'compensation_days_manual',
+          'compensation_days_proposed',
+          'compensation_level',
         ],
-        layout: { flex: [50, 50, 50, 50] }
+        layout: {
+          flex: [
+            50, 50, 50, 50, 50, 50, 50, 50, 100, 50,
+            50, 50, 30, 20, 50, 50, 50, 50, 50
+          ]
+        }
       },
     ]
   }
