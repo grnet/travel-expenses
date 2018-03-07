@@ -8,9 +8,11 @@ const {
 export default ApimasAuthenticator.extend({
   profilePath: '/auth/me/detailed',
   processProfileData(data, profile) {
-    data['role'] = 'anonymous';
-    if (data.hasOwnProperty('user_group')) {
-      data['role'] = data.user_group;
+    if (!data['role']) {
+      data['role'] = 'anonymous';
+      if (profile.hasOwnProperty('user_group')) {
+        data['role'] = profile.user_group;
+      }
     }
     merge(data, profile);
     return data;
