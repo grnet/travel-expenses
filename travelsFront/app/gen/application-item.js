@@ -5,7 +5,6 @@ import meta from 'travel/lib/meta';
 import moment from 'moment';
 import ENV from 'travel/config/environment';
 import { applicationActions } from '../utils/common/actions';
-import PROFILE from '../utils/common/profile';
 import USER from '../utils/application/user';
 import SECRETARY from '../utils/application/secretary';
 
@@ -108,14 +107,9 @@ abilityStates: {
       let role = get(this, 'role');
       let res = [];
       if (role === 'USER' || role === 'MANAGER') {
-        res = [PROFILE.FS_DETAILS, USER.FS_VIEW_1]
+        res = USER.FS_VIEW_1;
       } else if (role === 'SECRETARY') {
-      res = [
-        PROFILE.FS_DETAILS,
-        SECRETARY.FS_VIEW_3_COMMON,
-        SECRETARY.FS_EDIT_3_PROTOCOL,
-        SECRETARY.FS_EDIT_3_COMPUTED
-      ];
+        res = SECRETARY.FS_VIEW_3;
     }
       return res;
     }),
@@ -151,7 +145,7 @@ abilityStates: {
       let role = get(this, 'role');
       let res = [];
       if (role === 'USER' || role === 'MANAGER') {
-        res = [USER.FS_CREATE_1]
+        res = USER.FS_CREATE_1;
       }
       return res;
     }),
@@ -162,13 +156,9 @@ abilityStates: {
     let role = get(this, 'role');
     let res = [];
     if (role === 'USER' || role === 'MANAGER') {
-      res = [USER.FS_EDIT_1]
+      res = USER.FS_EDIT_1;
     } else if (role === 'SECRETARY') {
-      res = [
-        SECRETARY.FS_EDIT_3_COMMON,
-        SECRETARY.FS_EDIT_3_PROTOCOL,
-        SECRETARY.FS_EDIT_3_COMPUTED
-      ];
+      res = SECRETARY.FS_EDIT_3;
     }
     return res;
   }),
