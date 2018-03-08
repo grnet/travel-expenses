@@ -109,7 +109,14 @@ abilityStates: {
       let res = [];
       if (role === 'USER' || role === 'MANAGER') {
         res = [PROFILE.FS_DETAILS, USER.FS_VIEW_1]
-      }
+      } else if (role === 'SECRETARY') {
+      res = [
+        PROFILE.FS_DETAILS,
+        SECRETARY.FS_VIEW_3_COMMON,
+        SECRETARY.FS_EDIT_3_PROTOCOL,
+        SECRETARY.FS_EDIT_3_COMPUTED
+      ];
+    }
       return res;
     }),
   },
