@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import gen from 'ember-gen/lib/gen';
 import {field} from 'ember-gen';
+import TRAVEL_INFO from '../utils/application/travel-info';
 
 
 const {
@@ -44,70 +45,9 @@ const travel_info = field('travel_info', {
       let role = session.get('session.authenticated.user_group');
       let res = [];
       if (role === 'USER' || role === 'MANAGER') {
-        res = [{
-        fields: [
-          field('departure_point', { required: true }),
-          field('arrival_point', { required: true }),
-          field('depart_date', {}),
-          field('return_date', {}),
-        ],
-        layout: {
-          flex: [
-            50, 50, 50, 50
-          ]
-        }
-      }]
+        res = [TRAVEL_INFO.FS_EDIT_1_USER];
       } else if (role === 'SECRETARY') {
-      res = [
-      {
-        fields: [
-          field('departure_point', { required: true }),
-          field('arrival_point', { required: true }),
-          field('depart_date', {}),
-          field('return_date', {}),
-          'transport_days_manual',
-          'transport_days_proposed',
-          'means_of_transport',
-          'transportation_cost',
-          'transportation_payment_way',
-        ],
-        layout: {
-          flex: [
-            50, 50, 50, 50, 50, 50, 50, 50, 100
-          ]
-        }
-      },
-      {
-        label: 'travel_info.accommodation.label',
-        fields: [
-          'overnights_num_manual',
-          'overnights_num_proposed',
-          'accommodation_cost',
-          'accommodation_local_cost',
-          'accommodation_local_currency',
-          'meals',
-          'accommodation_payment_way',
-        ],
-        layout: {
-          flex: [
-            50, 50, 50, 30, 20, 50, 50
-          ]
-        }
-      },
-      {
-        label: 'travel_info.compensation.label',
-        fields: [
-          'compensation_days_manual',
-          'compensation_days_proposed',
-          'compensation_level',
-        ],
-        layout: {
-          flex: [
-            50, 50, 50
-          ]
-        }
-      },
-      ];
+      res = TRAVEL_INFO.FS_EDIT_3_SECRETARY;
     }
       return res;
     }),
