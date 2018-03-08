@@ -27,7 +27,7 @@ const FS_VIEW_1 = {
   label: 'application_create.title',
   fields: [
     field('dse', {disabled: true}),
-    'project',
+    'project.name',
     'reason',
     'task_start_date_time_format',
     'task_end_date_time_format',
