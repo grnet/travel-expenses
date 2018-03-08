@@ -4,12 +4,12 @@ import {field} from 'ember-gen';
 
 
 const {
-  get
+  get,
+  computed,
 } = Ember;
 
 
 const travel_info = field('travel_info', {
-
   // travel-info entry label
   entryLabel: Ember.computed('changeset.departure_point.name', 'changeset.arrival_point.name', function() {
     let changeset = get(this, 'changeset');
@@ -39,7 +39,26 @@ const travel_info = field('travel_info', {
   },
 
   modelMeta: {
-    fieldsets: [
+    fieldsets: computed(function() {
+      let session = this.container.lookup('service:session');
+      let role = session.get('session.authenticated.user_group');
+      let res = [];
+      if (role === 'USER' || role === 'MANAGER') {
+        res = [{
+        fields: [
+          field('departure_point', { required: true }),
+          field('arrival_point', { required: true }),
+          field('depart_date', {}),
+          field('return_date', {}),
+        ],
+        layout: {
+          flex: [
+            50, 50, 50, 50
+          ]
+        }
+      }]
+      } else if (role === 'SECRETARY') {
+      res = [
       {
         fields: [
           field('departure_point', { required: true }),
@@ -88,9 +107,11 @@ const travel_info = field('travel_info', {
           ]
         }
       },
-    ]
+      ];
+    }
+      return res;
+    }),
   }
 })
-
 
 export let forms = { travel_info }
