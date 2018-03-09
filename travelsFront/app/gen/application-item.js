@@ -127,8 +127,8 @@ abilityStates: {
         let cityId = ENV.APP.default_city || null;
         if (cityId) {
           return this.store.findRecord('city', cityId).then((city) => {
-            let defaults = { departure_point: city }
-            let travel = this.store.createRecord('travel-info', defaults)
+            let defaults = { departure_point: city, accommodation_local_currency: 'EUR' };
+            let travel = this.store.createRecord('travel-info', defaults);
             model.get('travel_info').addObject(travel);
             return model;
           }).catch(() => {

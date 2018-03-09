@@ -25,15 +25,17 @@ const travel_info = field('travel_info', {
     // `this` is the component context
     let last = this.get('value.lastObject');
     if (last) {
-      return store.createRecord('travel-info', { 
-        departure_point: last.get('changeset.arrival_point') || undefined
+      return store.createRecord('travel-info', {
+        departure_point: last.get('changeset.arrival_point') || undefined,
+        accommodation_local_currency: 'EUR'
       });
     } else {
-      let default_departure_point_id = 15; //TODO: make this dynamic using config/environment
+      let default_departure_point_id = 204; //TODO: make this dynamic using config/environment
       // cities may not be loaded yet, use findRecord to ensure resolved city record
       return store.findRecord('city', default_departure_point_id).then((city) => {
         return store.createRecord('travel-info', {
-          departure_point: city
+          departure_point: city,
+          accommodation_local_currency: 'EUR'
         })
       });
     }
