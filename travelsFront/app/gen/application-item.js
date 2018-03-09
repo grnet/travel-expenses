@@ -40,11 +40,15 @@ export default gen.CRUDGen.extend({
   },
 
 abilityStates: {
-  usersaved: computed('model.status', function(){
+  usersaved: computed('model.status', function() {
     let status = this.get('model.status');
       return status === STATUS_MAP["SAVED_BY_USER"];
   }),
-  secretarysaved: computed('model.status', function(){
+  usersubmitted: computed('model.status', function() {
+    let status = this.get('model.status');
+      return status === STATUS_MAP["SUBMITTED_BY_USER"];
+  }),
+  secretarysaved: computed('model.status', function() {
     let status = this.get('model.status');
       return status === STATUS_MAP["SAVED_BY_SECRETARY"];
   }),
