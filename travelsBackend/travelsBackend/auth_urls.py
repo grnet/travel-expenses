@@ -11,7 +11,7 @@ auth_urlpatterns = (
         name='user_detailed'),
     url(r'^register/$', views.CustomUserRegistrationView.as_view(),
         name='register'),
-    url(r'^activate/(?P<uid>\w{2,3})\/(?P<token>.*)',
+    url(r'^activate/(?P<uid>\w{2,4})\/(?P<token>.*)',
         views.custom_activation_view, name='url_activation'),
     url(r'^activate/$', views.CustomActivationView.as_view(), name='activate'),
     url(r'^{0}/$'.format(User.USERNAME_FIELD),
