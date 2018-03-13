@@ -3,18 +3,25 @@
 {{#paper-content classNames="md-padding"}}
   {{#if (can "see petition")}}
     {{partial 'traveler-manual'}}
+    {{partial 'support'}}
   {{else if (can "approve petition")}}
     {{partial 'secretary-manual'}}
+    {{partial 'support'}}
   {{else if (can "compensate petition")}}
     {{partial 'controller-manual'}}
+    {{partial 'support'}}
   {{else if (can "managerApprove petition")}}
     {{partial 'manager-manual'}}
+    {{partial 'support'}}
   {{else if (can "view petition")}}
     {{partial 'viewer-manual'}}
+    {{partial 'support'}}
   {{else if (can "presidentApprove petition")}}
     {{partial 'president-manual'}}
+    {{partial 'support'}}
   {{else}}
     {{partial 'user-manual'}}
     {{partial 'reset-password'}}
+    {{partial 'support'}}
   {{/if}}
 {{/paper-content}}
