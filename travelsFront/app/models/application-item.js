@@ -28,7 +28,7 @@ export default DS.Model.extend({
   user: DS.attr('string'),
   dse: DS.attr('string', {required: true}),
   project: DS.belongsTo('project', {required: true, autocomplete: true, formAttrs: {optionLabelAttr: 'name'}}),
-  reason: DS.attr({required: true}),
+  reason: DS.attr({required: true, type: 'text'}),
   created: DS.attr('date', {time: true, required: true}),
   updated: DS.attr('date', {time: true, required: true}),
   participation_local_cost: DS.attr(),
@@ -51,7 +51,7 @@ export default DS.Model.extend({
   task_end_date_format: computeDateFormat('task_end_date'),
   task_start_date_time_format: computeDateTimeFormat('task_start_date'),
   task_end_date_time_format: computeDateTimeFormat('task_end_date'),
-  user_recommendation: DS.attr({attrs:{textarea: true}}),
+  user_recommendation: DS.attr({type: 'text'}),
   status: DS.attr({'choices': CHOICES.STATUS}),
   petition_id: Ember.computed('id', function(){
   // return just the status id
