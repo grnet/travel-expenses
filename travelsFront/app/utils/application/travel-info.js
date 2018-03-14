@@ -1,5 +1,11 @@
 import Ember from 'ember';
 import {field} from 'ember-gen';
+import validate from 'ember-gen/validate';
+
+const FS_USER_VALIDATORS = {
+  departure_point: [validate.presence(true)],
+  arrival_point: [validate.presence(true)],
+}
 
 const FS_EDIT_1_USER = [
   {
@@ -129,4 +135,4 @@ const FS_VIEW_3_SECRETARY = [
   },
 ];
 
-export { FS_EDIT_1_USER, FS_VIEW_1_USER, FS_EDIT_3_SECRETARY, FS_VIEW_3_SECRETARY };
+export { FS_EDIT_1_USER, FS_VIEW_1_USER, FS_EDIT_3_SECRETARY, FS_VIEW_3_SECRETARY, FS_USER_VALIDATORS};

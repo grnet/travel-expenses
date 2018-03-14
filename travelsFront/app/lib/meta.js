@@ -53,6 +53,15 @@ const travel_info = field('travel_info', {
     }
       return res;
     }),
+    validators: computed(function() {
+      let session = this.container.lookup('service:session');
+      let role = session.get('session.authenticated.user_group');
+      let val = {};
+      if (role === 'USER') {
+        val = TRAVEL_INFO.FS_USER_VALIDATORS;
+      }
+      return val;
+    }),
   }
 })
 

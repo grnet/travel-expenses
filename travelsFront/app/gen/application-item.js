@@ -55,7 +55,15 @@ abilityStates: {
 },
 
   common: {
-    preloadModels: ['city']
+    preloadModels: ['city'],
+    validators: computed('role', function() {
+      let role = get(this, 'role');
+      let val = {};
+      if (role === 'USER') {
+        val = USER.FS_VALIDATORS;
+      }
+      return val;
+    }),
   },
 
   list: {
