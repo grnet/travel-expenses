@@ -29,8 +29,6 @@ export default DS.Model.extend({
   dse: DS.attr('string', {required: true}),
   project: DS.belongsTo('project', {required: true, autocomplete: true, formAttrs: {optionLabelAttr: 'name'}}),
   reason: DS.attr({required: true, type: 'text'}),
-  created: DS.attr('date', {time: true, required: true}),
-  updated: DS.attr('date', {time: true, required: true}),
   participation_local_cost: DS.attr(),
   participation_local_currency: DS.attr({'choices': CHOICES.CURRENCIES, autocomplete: true}),
   task_start_date: DS.attr('date', {
@@ -52,11 +50,7 @@ export default DS.Model.extend({
   task_start_date_time_format: computeDateTimeFormat('task_start_date'),
   task_end_date_time_format: computeDateTimeFormat('task_end_date'),
   user_recommendation: DS.attr({type: 'text'}),
-  status: DS.attr({'choices': CHOICES.STATUS}),
-  petition_id: Ember.computed('id', function(){
-  // return just the status id
-    return _.last(this.get('id').replace(/\/$/, '').split('/'));
-  }),
+  status: DS.attr({type: 'select', 'choices': CHOICES.STATUS}),
   travel_info: DS.hasMany('travel-info', {displayComponent: 'display-travel-info'}),
   //secretary fields
   additional_expenses_initial: DS.attr({required: true}),
@@ -69,7 +63,6 @@ export default DS.Model.extend({
   manager_movement_approval: DS.attr('boolean'),
   participation_cost: DS.attr(),
   participation_payment_way: DS.attr({'choices': CHOICES.WAYS_OF_PAYMENT}),
-  participation_payment_description: DS.attr(),
   trip_days_before: DS.attr(),
   trip_days_after: DS.attr({disabled: true}),
   overnights_sum_cost: DS.attr({disabled: true}),
