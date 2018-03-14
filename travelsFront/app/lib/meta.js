@@ -47,7 +47,7 @@ const travel_info = field('travel_info', {
       let role = session.get('session.authenticated.user_group');
       let res = [];
       if (role === 'USER' || role === 'MANAGER') {
-        res = [TRAVEL_INFO.FS_EDIT_1_USER];
+        res = TRAVEL_INFO.FS_EDIT_1_USER;
       } else if (role === 'SECRETARY') {
       res = TRAVEL_INFO.FS_EDIT_3_SECRETARY;
     }

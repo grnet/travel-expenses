@@ -1,33 +1,37 @@
 import Ember from 'ember';
 import {field} from 'ember-gen';
 
-const FS_EDIT_1_USER = {
-  fields: [
-    field('departure_point', { required: true }),
-    field('arrival_point', { required: true }),
-    field('depart_date', {}),
-    field('return_date', {}),
-  ],
-  layout: {
-    flex: [
-      50, 50, 50, 50
-    ]
+const FS_EDIT_1_USER = [
+  {
+    fields: [
+      field('departure_point', { required: true }),
+      field('arrival_point', { required: true }),
+      field('depart_date', {}),
+      field('return_date', {}),
+    ],
+    layout: {
+      flex: [
+        50, 50, 50, 50
+      ]
+    }
   }
-};
+];
 
-const FS_VIEW_1_USER = {
-  fields: [
-    field('departure_point', { required: true }),
-    field('arrival_point', { required: true }),
-    'depart_date_time_format',
-    'return_date_time_format',
-  ],
-  layout: {
-    flex: [
-      50, 50, 50, 50
-    ]
+const FS_VIEW_1_USER = [
+  {
+    fields: [
+      field('departure_point', { required: true }),
+      field('arrival_point', { required: true }),
+      'depart_date_time_format',
+      'return_date_time_format',
+    ],
+    layout: {
+      flex: [
+        50, 50, 50, 50
+      ]
+    }
   }
-};
+];
 
 const FS_EDIT_3_SECRETARY = [
   {

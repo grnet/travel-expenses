@@ -13,7 +13,7 @@ export default Ember.Component.extend({
       let role = session.get('session.authenticated.user_group');
       let res = [];
       if (role === 'USER' || role === 'MANAGER') {
-        res = [TRAVEL_INFO.FS_VIEW_1_USER];
+        res = TRAVEL_INFO.FS_VIEW_1_USER;
       } else if (role === 'SECRETARY') {
       res = TRAVEL_INFO.FS_VIEW_3_SECRETARY;
     }
