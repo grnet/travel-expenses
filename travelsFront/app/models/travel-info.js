@@ -15,8 +15,8 @@ export default DS.Model.extend({
   session: Ember.inject.service('session'),
 
   url: DS.attr(),
-  departure_point: DS.belongsTo('city', {required: true, autocomplete: true, displayAttr: 'labelWithCountry'}),
-  arrival_point: DS.belongsTo('city', {required: true, autocomplete: true, displayAttr: 'labelWithCountry'}),
+  departure_point: DS.belongsTo('city', {autocomplete: true, displayAttr: 'labelWithCountry'}),
+  arrival_point: DS.belongsTo('city', {autocomplete: true, displayAttr: 'labelWithCountry'}),
   depart_date: DS.attr('date', {
     formAttrs: {
       time: true,

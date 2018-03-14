@@ -4,8 +4,8 @@ import {field} from 'ember-gen';
 const FS_EDIT_1_USER = [
   {
     fields: [
-      field('departure_point', { required: true }),
-      field('arrival_point', { required: true }),
+      field('departure_point', {}),
+      field('arrival_point', {}),
       field('depart_date', {}),
       field('return_date', {}),
     ],

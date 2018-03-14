@@ -23,27 +23,25 @@ export default DS.Model.extend({
   tax_reg_num: DS.attr(),
   tax_office: DS.belongsTo('tax-office', {formAttrs: {optionLabelAttr: 'full_label'}}),
   iban: DS.attr(),
-  user_category: DS.attr({'choices': CHOICES.USER_CATEGORY, attrs: {disabled: true}}),
+  user_category: DS.attr({'choices': CHOICES.USER_CATEGORY, disabled: true}),
   //application fields
   user: DS.attr('string'),
-  dse: DS.attr('string', {required: true}),
-  project: DS.belongsTo('project', {required: true, autocomplete: true, formAttrs: {optionLabelAttr: 'name'}}),
-  reason: DS.attr({required: true, type: 'text'}),
+  dse: DS.attr('string'),
+  project: DS.belongsTo('project', {autocomplete: true, formAttrs: {optionLabelAttr: 'name'}}),
+  reason: DS.attr({type: 'text'}),
   participation_local_cost: DS.attr(),
   participation_local_currency: DS.attr({'choices': CHOICES.CURRENCIES, autocomplete: true}),
   task_start_date: DS.attr('date', {
     formAttrs: {
       time: true,
       format: "dd mmmm yyyy"
-    },
-    required: true
+    }
   }),
   task_end_date: DS.attr('date', {
     formAttrs: {
       time: true,
       format: "dd mmmm yyyy"
-    },
-    required: true
+    }
   }),
   task_start_date_format: computeDateFormat('task_start_date'),
   task_end_date_format: computeDateFormat('task_end_date'),
@@ -53,7 +51,7 @@ export default DS.Model.extend({
   status: DS.attr({type: 'select', 'choices': CHOICES.STATUS}),
   travel_info: DS.hasMany('travel-info', {displayComponent: 'display-travel-info'}),
   //secretary fields
-  additional_expenses_initial: DS.attr({required: true}),
+  additional_expenses_initial: DS.attr(),
   additional_expenses_initial_description: DS.attr(),
   expenditure_date_protocol: DS.attr('date'),
   expenditure_protocol: DS.attr(),
