@@ -1321,6 +1321,8 @@ class Applications(Petition):
                               'is_total_manual_cost_set', 'total_cost_manual']
     excluded_uc_travel_info = ['accommodation_local_cost',
                                'accommodation_cost',
+                               'accommodation_total_cost',
+                               'accommodation_total_local_cost',
                                'accommodation_payment_description',
                                'accommodation_local_currency',
                                'overnights_num_manual',
@@ -1341,6 +1343,8 @@ class Applications(Petition):
                               'is_total_manual_cost_set', 'total_cost_manual']
     excluded_sc_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
+                            'accommodation_total_cost',
+                            'accommodation_total_local_cost',
                             'accommodation_payment_description',
                             'accommodation_local_currency',
                             'overnights_num_manual',
@@ -1375,6 +1379,8 @@ class Applications(Petition):
                             'travel_files',
                             'accommodation_cost',
                             'accommodation_local_cost',
+                            'accommodation_total_cost',
+                            'accommodation_total_local_cost',
                             'accommodation_payment_description',
                             'transportation_cost',
                             'transportation_payment_description',
@@ -1385,6 +1391,8 @@ class Applications(Petition):
                             'total_cost_manual']
     excluded_usubmission_ti = ['accommodation_cost',
                                'accommodation_local_cost',
+                               'accommodation_total_cost',
+                               'accommodation_total_local_cost',
                                'accommodation_payment_description',
                                'transportation_cost',
                                'transportation_payment_description',
@@ -1422,6 +1430,8 @@ class Applications(Petition):
 
     excluded_sec_submission_ti =['accommodation_local_cost','distance',
                                  'accommodation_cost',
+                                 'accommodation_total_cost',
+                                 'accommodation_total_local_cost',
                                  'manager_movement_approval',
                                  'accommodation_payment_description',
                                  'accommodation_local_currency',
