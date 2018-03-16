@@ -62,8 +62,8 @@ const FS_EDIT_3_SECRETARY = [
     fields: [
       'overnights_num_proposed',
       'meals',
-      'accommodation_cost',
-      'accommodation_local_cost',
+      'accommodation_total_cost',
+      'accommodation_total_local_cost',
       'accommodation_local_currency',
       'accommodation_payment_way',
     ],
@@ -110,8 +110,8 @@ const FS_VIEW_3_SECRETARY = [
     fields: [
       'overnights_num_proposed',
       'meals_label',
-      'accommodation_cost',
-      'accommodation_local_cost',
+      'accommodation_total_cost',
+      'accommodation_total_local_cost',
       'accommodation_local_currency',
       'accommodation_payment_way_label',
     ],
