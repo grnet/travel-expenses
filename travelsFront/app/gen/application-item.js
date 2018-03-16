@@ -14,6 +14,8 @@ const {
   computed: { reads },
 } = Ember;
 
+const CHOICES = ENV.APP.resources;
+
 const STATUS_MAP = {
   'SAVED_BY_USER': 1,
   'SUBMITTED_BY_USER': 2,
@@ -80,6 +82,7 @@ abilityStates: {
         fields: [
           field('dse', {type: 'text'}),
           field('project', {modelName:'project', type: 'model', displayAttr: 'name'}),
+          field('status', {type:'select', choices: CHOICES.STATUS})
         ]
       },
       serverSide: true,

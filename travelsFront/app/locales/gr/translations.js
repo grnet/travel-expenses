@@ -77,6 +77,7 @@ export default {
   'travel_info.label': 'Στοιχεία Αίτησης Μετακίνησης',
   'travel.info.label': 'Στοιχεία Μετακίνησης',
   'user_data.label': 'Στοιχεία χρήστη',
+  'status.label':'Κατάσταση',
   'status_label.label':'Κατάσταση',
   'travel_info.accommodation.label': 'Στοιχεία Διαμονής',
   'travel_info.transportation.label': 'Στοιχεία Ταξιδιού',
