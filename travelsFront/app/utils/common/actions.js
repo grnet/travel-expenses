@@ -52,8 +52,8 @@ const submit = {
   }),
   confirm: true,
   prompt: {
-    ok: 'form.button.submit',
-    cancel: 'form.button.cancel',
+    ok: 'form.submit.label',
+    cancel: 'form.cancel.label',
     message: 'prompt_submit_message',
     title: 'prompt_submit_title',
   }
@@ -100,8 +100,8 @@ const undo = {
   }),
   confirm: true,
   prompt: {
-    ok: 'form.button.undo',
-    cancel: 'form.button.cancel',
+    ok: 'form.undo.label',
+    cancel: 'form.cancel.label',
     message: 'prompt_undo_message',
     title: 'prompt_undo_title',
   }

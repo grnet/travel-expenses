@@ -10,6 +10,9 @@ const {
 export default AuthGen.extend({
   order: 100,
   login: {
+    page: {
+      title: 'login.label',
+    },
     config: {
       authenticator: 'travel'
     }
@@ -21,6 +24,9 @@ export default AuthGen.extend({
 
   profile: {
     modelName: 'profile',
+    page: {
+      title: 'profile.menu_label',
+    },
     menu: {
       display: true,
       icon: 'portrait',
