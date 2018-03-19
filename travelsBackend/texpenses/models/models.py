@@ -1328,7 +1328,9 @@ class Applications(Petition):
                                'overnights_num_manual',
                                'transport_days_manual',
                                'compensation_days_manual',
-                               'distance','transportation_cost']
+                               'distance',
+                               'transportation_cost',
+                               'transportation_payment_description']
 
     excluded_scompensation = ['non_grnet_quota', 'participation_cost',
                 'participation_payment_description', 'deleted', 'travel_files',
@@ -1350,7 +1352,9 @@ class Applications(Petition):
                             'overnights_num_manual',
                             'transport_days_manual',
                             'compensation_days_manual',
-                            'distance','transportation_cost']
+                            'distance',
+                            'transportation_cost',
+                            'transportation_payment_description']
 
     excluded_usubmission = ['non_grnet_quota','expenditure_protocol',
                             'expenditure_date_protocol',
@@ -1436,6 +1440,7 @@ class Applications(Petition):
                                  'accommodation_total_local_cost',
                                  'manager_movement_approval',
                                  'accommodation_payment_description',
+                                 'transportation_payment_description',
                                  'accommodation_local_currency',
                                  ]
 
