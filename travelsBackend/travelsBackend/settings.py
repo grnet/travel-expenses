@@ -86,6 +86,7 @@ DJOSER = {
 }
 
 MIDDLEWARE_CLASSES = (
+    'texpenses.middleware.ExceptionLoggingMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
