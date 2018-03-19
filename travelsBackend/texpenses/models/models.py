@@ -1399,7 +1399,9 @@ class Applications(Petition):
                                'distance', 'overnights_num_manual',
                                'transport_days_manual',
                                'accommodation_local_currency',
-                               'compensation_days_manual']
+                               'compensation_days_manual',
+                               'depart_date',
+                               'return_date']
 
     excluded_sec_submission =['non_grnet_quota',
                               'compensation_petition_protocol',
