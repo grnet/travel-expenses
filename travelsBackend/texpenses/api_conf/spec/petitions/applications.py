@@ -4,7 +4,7 @@ spec = {'*': {
 
 
     'compensation_decision_date': {'.cli_option': {},
-                                   '.date': {},
+                                   '.datetime': {'format': '%Y-%m-%dT%H:%M'},
                                    '.drf_field': {},
                                    '.field': {}},
     'compensation_decision_protocol': {'.cli_option': {},
@@ -12,8 +12,8 @@ spec = {'*': {
                                        '.field': {},
                                        '.string': {}},
     'compensation_petition_date': {'.cli_option': {},
-                                   '.date': {},
                                    '.drf_field': {},
+                                   '.datetime': {'format': '%Y-%m-%dT%H:%M'},
                                    '.field': {}},
     'compensation_petition_protocol': {'.cli_option': {},
                                        '.drf_field': {},
@@ -65,7 +65,7 @@ spec = {'*': {
                       '.string': {'max_length': 1000}},
 
     'expenditure_date_protocol': {'.cli_option': {},
-                                  '.date': {},
+                                  '.datetime': {'format': '%Y-%m-%dT%H:%M'},
                                   '.drf_field': {},
                                   '.field': {}},
     'expenditure_protocol': {'.cli_option': {},
@@ -86,7 +86,7 @@ spec = {'*': {
                                   '.field': {},
                                   '.boolean': {}},
     'movement_date_protocol': {'.cli_option': {},
-                               '.date': {},
+                               '.datetime': {'format': '%Y-%m-%dT%H:%M'},
                                '.drf_field': {},
                                '.field': {}},
     'movement_id': {'.cli_option': {},
