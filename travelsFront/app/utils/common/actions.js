@@ -172,17 +172,61 @@ const pdf = {
   hidden: computed('model.status', 'role', function(){
     let status = this.get('model.status');
     let role = this.get('role');
-    if (role === 'USER' || role === 'MANAGER') {
-      let showButtonBy = [true, true, true, true, true, true, true, true, true, true];
-      return showButtonBy[status-1];
-    } else if (role === 'SECRETARY') {
+    if (role === 'SECRETARY') {
       let showButtonBy = [true, true, true, false, true, true, true, true, true, true];
       return showButtonBy[status-1];
+    } else {
+      return true;
     }
   }),
   confirm: false,
 };
 
-let applicationActions = { submit: submit, undo: undo, pdf: pdf };
+const approve = {
+  label: 'prompt_approve_title',
+  icon: 'verified_user',
+  classNames: 'md-approve',
+  action: function(route, model) {
+    let messages = action_utils(route, model).messages;
+    let token = action_utils(route, model).token;
+    let url = action_utils(route, model).url;
+    return fetch(url + 'president_approval/', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Token ${token}`
+      },
+    }).then((resp) => {
+      if (resp.status === 200) {
+        route.refresh().then(() => {
+          messages.setSuccess('approve.application.success');
+        })
+      } else {
+        throw new Error('error');
+      }
+    }).catch((err) => {
+      messages.setError('approve.application.error');
+    });
+  },
+  hidden: computed('model.status', 'role', function(){
+    let status = this.get('model.status');
+    let role = this.get('role');
+    if (role === 'SECRETARY') {
+      let showButtonBy = [true, true, true, false, true, true, true, true, true, true];
+      return showButtonBy[status-1];
+    } else {
+      return true;
+    }
+  }),
+  confirm: true,
+  prompt: {
+    ok: 'form.approve.label',
+    cancel: 'form.cancel.label',
+    message: 'prompt_approve_message',
+    title: 'prompt_approve_title',
+  }
+};
+
+let applicationActions = { submit: submit, undo: undo, pdf: pdf, approve: approve };
 
 export { applicationActions };

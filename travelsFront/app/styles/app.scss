@@ -9,6 +9,7 @@
 
 $success-color: color($color-light-green, '600');
 $action-color: color($color-orange, '600');
+$approve-color: color($color-cyan, '600');
 
 .flex-grow {
   text-transform: capitalize;
@@ -23,5 +24,11 @@ $action-color: color($color-orange, '600');
 .md-action {
   md-icon {
     color: $action-color !important;
+  }
+}
+
+.md-approve {
+  md-icon {
+    color: $approve-color !important;
   }
 }
