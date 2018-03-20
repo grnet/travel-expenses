@@ -25,9 +25,7 @@ const submit = {
   icon: 'flight',
   classNames: 'md-success',
   action: function(route, model) {
-    let messages = action_utils(route, model).messages;
-    let token = action_utils(route, model).token;
-    let url = action_utils(route, model).url;
+    let {messages, token, url} = action_utils(route, model);
     return fetch(url + 'submit/', {
       method: 'POST',
       headers: {
@@ -73,9 +71,7 @@ const undo = {
   icon: 'reply',
   accent: true,
   action: function(route, model) {
-    let messages = action_utils(route, model).messages;
-    let token = action_utils(route, model).token;
-    let url = action_utils(route, model).url;
+    let {messages, token, url} = action_utils(route, model);
     return fetch(url + 'cancel/', {
       method: 'POST',
       headers: {
@@ -122,9 +118,7 @@ const pdf = {
   accent: true,
   classNames: 'md-action',
   action: function(route, model) {
-    let messages = action_utils(route, model).messages;
-    let token = action_utils(route, model).token;
-    let url = action_utils(route, model).url;
+    let {messages, token, url} = action_utils(route, model);
     var dse = model.get('dse');
     return $.ajax({
       headers:{
@@ -194,9 +188,7 @@ const approve = {
   icon: 'verified_user',
   classNames: 'md-approve',
   action: function(route, model) {
-    let messages = action_utils(route, model).messages;
-    let token = action_utils(route, model).token;
-    let url = action_utils(route, model).url;
+    let {messages, token, url} = action_utils(route, model);
     return fetch(url + 'president_approval/', {
       method: 'POST',
       headers: {
