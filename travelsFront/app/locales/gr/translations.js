@@ -169,13 +169,17 @@ export default {
   +'(γ) Ημέρες Αποζημίωσης',
   'prompt_done_title': 'Έγκριση από Πρόεδρο',
   'prompt_done_message': 'Με τη συγκεκριμένη ενέργεια η αίτηση θα περάσει στην κατάσταση "εγκεκριμένη από Πρόεδρο"',
+  'prompt_pdf_title': 'Κατέβασμα αίτησης/απόφασης μετακίνησης',
   //success messages
   'petition_saved': 'Η αίτησή σας έχει αποθηκευτεί επιτυχώς',
   'profile_saved': 'Τα στοιχεία του προφίλ σας έχουν ενημερωθεί επιτυχώς',
   'submit.application.success': 'Επιτυχής υποβολή αίτησης',
   'undo.application.success': 'Επιτυχής αναίρεση υποβολής',
+  'pdf.success': 'Επιτυχής εξαγωγή αρχείων',
   //error messages
   'submit.application.error': 'Σφάλμα κατά την υποβολή της αίτησης',
+  'pdf.decision.error': 'Σφάλμα κατά την εξαγωγή της απόφασης μετακίνησης',
+  'pdf.application.error': 'Σφάλμα κατά την εξαγωγή της αίτησης μετακίνησης',
   //placeholders
   'time_placeholder': 'Ώρα',
 };

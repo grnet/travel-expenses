@@ -8,6 +8,7 @@
 @import "ember-gen";
 
 $success-color: color($color-light-green, '600');
+$action-color: color($color-orange, '600');
 
 .flex-grow {
   text-transform: capitalize;
@@ -16,5 +17,11 @@ $success-color: color($color-light-green, '600');
 .md-success {
   md-icon {
     color: $success-color !important;
+  }
+}
+
+.md-action {
+  md-icon {
+    color: $action-color !important;
   }
 }

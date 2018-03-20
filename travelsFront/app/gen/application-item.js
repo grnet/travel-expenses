@@ -109,10 +109,11 @@ abilityStates: {
         'task_end_date_format',
         'status_label',
       ],
-      actions: ['gen:details', 'gen:edit', 'submit', 'undo'],
+      actions: ['gen:details', 'gen:edit', 'submit', 'undo', 'pdf'],
       actionsMap: {
         submit: applicationActions.submit,
         undo: applicationActions.undo,
+        pdf: applicationActions.pdf,
       }
     }
   },

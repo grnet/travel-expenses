@@ -107,6 +107,82 @@ const undo = {
   }
 };
 
-let applicationActions = { submit: submit, undo: undo };
+const pdf = {
+  label: 'prompt_pdf_title',
+  icon: 'file_download',
+  accent: true,
+  classNames: 'md-action',
+  action: function(route, model) {
+    let messages = route.get('messageService');
+    let token = get(route, 'user.auth_token');
+    let store = get(route, 'store');
+    let adapter = store.adapterFor('application-item');
+    let url = adapter.buildURL('application-item', get(model, 'id'), 'findRecord');
+    var dse = model.get('dse');
+    return $.ajax({
+      headers:{
+        Authorization: 'Token ' + token
+      },
+      xhrFields : {
+        responseType : 'arraybuffer'
+      },
+      url: url + 'application_report/',
+      success: function(data) {
+          var blob=new Blob([data], { type: "application/pdf" });
+          var link=document.createElement('a');
+          link.href=window.URL.createObjectURL(blob);
+          link.download="application_"+"dse["+dse+"]"+".pdf";
+          link.click();
+      }
+    }).then((resp) => {
+      if (resp.byteLength > 0) {
+        return $.ajax({
+          headers:{
+            Authorization: 'Token ' + token
+          },
+          xhrFields : {
+            responseType : 'arraybuffer'
+          },
+          url: url + 'decision_report/',
+          success: function(data) {
+              var blob=new Blob([data], { type: "application/pdf" });
+              var link=document.createElement('a');
+              link.href=window.URL.createObjectURL(blob);
+              link.download="decision_"+"dse["+dse+"]"+".pdf";
+              link.click();
+          }
+        }).then((resp) => {
+          if (resp.byteLength > 0) {
+            route.refresh().then(() => {
+              messages.setSuccess('pdf.success');
+          })
+          } else {
+            throw new Error('error');
+          }
+        }).catch((err) => {
+           messages.setError('pdf.decision.error');
+        })
+      } else {
+        throw new Error('error');
+      }
+    }).catch((err) => {
+      messages.setError('pdf.application.error');
+    });
+  },
+  hidden: computed('model.status', 'role', function(){
+    let status = this.get('model.status');
+    let role = this.get('role');
+    if (role === 'USER' || role === 'MANAGER') {
+      let showButtonBy = [true, true, true, true, true, true, true, true, true, true];
+      return showButtonBy[status-1];
+    } else if (role === 'SECRETARY') {
+      let showButtonBy = [true, true, true, false, true, true, true, true, true, true];
+      return showButtonBy[status-1];
+    }
+  }),
+  confirm: false,
+};
+
+let applicationActions = { submit: submit, undo: undo, pdf: pdf };
 
 export { applicationActions };
