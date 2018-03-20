@@ -11,16 +11,23 @@ and the status of the application. We have also mapped the status number with th
 in the array showButtonBy. We have set the value of each of the array's elements,
 depending on whether the respective button should be shown or not*/
 
+function action_utils(route, model) {
+  let messages = route.get('messageService');
+  let token = get(route, 'user.auth_token');
+  let store = get(route, 'store');
+  let adapter = store.adapterFor('application-item');
+  let url = adapter.buildURL('application-item', get(model, 'id'), 'findRecord');
+  return {messages, token, url};
+};
+
 const submit = {
   label: 'prompt_submit_title',
-  icon: 'send',
+  icon: 'flight',
   classNames: 'md-success',
   action: function(route, model) {
-    let messages = route.get('messageService');
-    let token = get(route, 'user.auth_token');
-    let store = get(route, 'store');
-    let adapter = store.adapterFor('application-item');
-    let url = adapter.buildURL('application-item', get(model, 'id'), 'findRecord');
+    let messages = action_utils(route, model).messages;
+    let token = action_utils(route, model).token;
+    let url = action_utils(route, model).url;
     return fetch(url + 'submit/', {
       method: 'POST',
       headers: {
@@ -48,6 +55,8 @@ const submit = {
     } else if (role === 'SECRETARY') {
       let showButtonBy = [true, true, false, true, true, true, true, true, true, true];
       return showButtonBy[status-1];
+    } else {
+      return true;
     }
   }),
   confirm: true,
@@ -61,14 +70,12 @@ const submit = {
 
 const undo = {
   label: 'prompt_undo_title',
-  icon: 'undo',
+  icon: 'reply',
   accent: true,
   action: function(route, model) {
-    let messages = route.get('messageService');
-    let token = get(route, 'user.auth_token');
-    let store = get(route, 'store');
-    let adapter = store.adapterFor('application-item');
-    let url = adapter.buildURL('application-item', get(model, 'id'), 'findRecord');
+    let messages = action_utils(route, model).messages;
+    let token = action_utils(route, model).token;
+    let url = action_utils(route, model).url;
     return fetch(url + 'cancel/', {
       method: 'POST',
       headers: {
@@ -94,8 +101,10 @@ const undo = {
       let showButtonBy = [true, false, true, true, true, true, false, true, true, true];
       return showButtonBy[status-1];
     } else if (role === 'SECRETARY') {
-      let showButtonBy = [true, true, true, false, true, true, true, true, true, true];
+      let showButtonBy = [true, true, true, false, false, true, true, true, true, true];
       return showButtonBy[status-1];
+    } else {
+      return true;
     }
   }),
   confirm: true,
@@ -113,11 +122,9 @@ const pdf = {
   accent: true,
   classNames: 'md-action',
   action: function(route, model) {
-    let messages = route.get('messageService');
-    let token = get(route, 'user.auth_token');
-    let store = get(route, 'store');
-    let adapter = store.adapterFor('application-item');
-    let url = adapter.buildURL('application-item', get(model, 'id'), 'findRecord');
+    let messages = action_utils(route, model).messages;
+    let token = action_utils(route, model).token;
+    let url = action_utils(route, model).url;
     var dse = model.get('dse');
     return $.ajax({
       headers:{
@@ -154,7 +161,7 @@ const pdf = {
         }).then((resp) => {
           if (resp.byteLength > 0) {
             route.refresh().then(() => {
-              messages.setSuccess('pdf.success');
+              messages.setSuccess('pdf.application.success');
           })
           } else {
             throw new Error('error');
