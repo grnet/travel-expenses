@@ -2,7 +2,21 @@ import Ember from 'ember';
 import {field} from 'ember-gen';
 import meta from 'travel/lib/meta';
 import PROFILE from '../common/profile';
+import validate from 'ember-gen/validate';
 
+const FS_VALIDATORS = {
+    project: [validate.presence(true)],
+    reason: [validate.presence(true)],
+    task_start_date: [validate.presence(true)],
+    task_end_date: [validate.presence(true)],
+    participation_cost: [validate.number({allowBlank: true})],
+    participation_local_cost: [validate.number({allowBlank: true})],
+    additional_expenses_initial: [validate.number()],
+    expenditure_date_protocol: [validate.presence(true)],
+    expenditure_protocol: [validate.presence(true)],
+    movement_date_protocol: [validate.presence(true)],
+    movement_protocol: [validate.presence(true)],
+};
 
 const FS_EDIT_3 = [
   {
@@ -121,4 +135,4 @@ const FS_VIEW_3 = [
   }
 ];
 
-export { FS_EDIT_3, FS_VIEW_3 };
+export { FS_EDIT_3, FS_VIEW_3, FS_VALIDATORS };

@@ -41,20 +41,20 @@ export default gen.CRUDGen.extend({
     role: reads('session.session.authenticated.user_group')
   },
 
-abilityStates: {
-  usersaved: computed('model.status', function() {
-    let status = this.get('model.status');
-      return status === STATUS_MAP["SAVED_BY_USER"];
-  }),
-  usersubmitted: computed('model.status', function() {
-    let status = this.get('model.status');
-      return status === STATUS_MAP["SUBMITTED_BY_USER"];
-  }),
-  secretarysaved: computed('model.status', function() {
-    let status = this.get('model.status');
-      return status === STATUS_MAP["SAVED_BY_SECRETARY"];
-  }),
-},
+  abilityStates: {
+    usersaved: computed('model.status', function() {
+      let status = this.get('model.status');
+        return status === STATUS_MAP["SAVED_BY_USER"];
+    }),
+    usersubmitted: computed('model.status', function() {
+      let status = this.get('model.status');
+        return status === STATUS_MAP["SUBMITTED_BY_USER"];
+    }),
+    secretarysaved: computed('model.status', function() {
+      let status = this.get('model.status');
+        return status === STATUS_MAP["SAVED_BY_SECRETARY"];
+    }),
+  },
 
   common: {
     preloadModels: ['city'],
@@ -63,6 +63,8 @@ abilityStates: {
       let val = {};
       if (role === 'USER') {
         val = USER.FS_VALIDATORS;
+      } else if (role === 'SECRETARY') {
+        val = SECRETARY.FS_VALIDATORS;
       }
       return val;
     }),

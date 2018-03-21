@@ -49,8 +49,8 @@ const travel_info = field('travel_info', {
       if (role === 'USER' || role === 'MANAGER') {
         res = TRAVEL_INFO.FS_EDIT_1_USER;
       } else if (role === 'SECRETARY') {
-      res = TRAVEL_INFO.FS_EDIT_3_SECRETARY;
-    }
+        res = TRAVEL_INFO.FS_EDIT_3_SECRETARY;
+      }
       return res;
     }),
     validators: computed(function() {
@@ -59,6 +59,8 @@ const travel_info = field('travel_info', {
       let val = {};
       if (role === 'USER') {
         val = TRAVEL_INFO.FS_USER_VALIDATORS;
+      } else if (role === 'SECRETARY') {
+        val = TRAVEL_INFO.FS_SECRETARY_VALIDATORS;
       }
       return val;
     }),
