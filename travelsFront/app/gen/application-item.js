@@ -169,15 +169,18 @@ abilityStates: {
   },
 
   edit: {
-  fieldsets: computed('role', function() {
-    let role = get(this, 'role');
-    let res = [];
-    if (role === 'USER' || role === 'MANAGER') {
-      res = USER.FS_EDIT_1;
-    } else if (role === 'SECRETARY') {
-      res = SECRETARY.FS_EDIT_3;
-    }
-    return res;
-  }),
+    onSubmit(model) {
+      this.transitionTo('application-item.index')
+    },
+    fieldsets: computed('role', function() {
+      let role = get(this, 'role');
+      let res = [];
+      if (role === 'USER' || role === 'MANAGER') {
+        res = USER.FS_EDIT_1;
+      } else if (role === 'SECRETARY') {
+        res = SECRETARY.FS_EDIT_3;
+      }
+      return res;
+    }),
   },
 });
