@@ -2,6 +2,7 @@ import Ember from 'ember';
 import gen from 'ember-gen/lib/gen';
 import AuthGen from 'ember-gen/lib/auth';
 import {Register} from '../lib/register';
+import PROFILE from '../utils/common/profile';
 
 const {
   get, computed
@@ -32,22 +33,8 @@ export default AuthGen.extend({
       icon: 'portrait',
       label: 'profile.tab',
     },
-    fieldsets: [
-      {
-        label: 'my_account.label',
-        fields: ['username', 'email'],
-        layout: {
-          flex: [50, 50]
-        }
-      },
-      {
-        label: 'personal_info.label',
-        fields: ['first_name', 'last_name', 'specialty', 'kind', 'tax_reg_num', 'tax_office', 'iban', 'user_category'],
-        layout: {
-          flex: [50, 50, 50, 50, 50, 50, 50, 50]
-        }
-      }
-    ],
+    fieldsets: PROFILE.FS_EDIT,
+    validators: PROFILE.FS_VALIDATORS,
 
     getModel() {
       return get(this, 'store').findRecord('profile', 'me');
