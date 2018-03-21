@@ -22,7 +22,7 @@ function action_utils(route, model) {
 
 const submit = {
   label: 'prompt_submit_title',
-  icon: 'flight',
+  icon: 'send',
   classNames: 'md-success',
   action: function(route, model) {
     let {messages, token, url} = action_utils(route, model);
