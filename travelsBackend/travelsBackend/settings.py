@@ -73,6 +73,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.LimitOffsetPagination',
 }
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': API_PREFIX + '/auth/password/reset/confirm/{uid}/{token}',

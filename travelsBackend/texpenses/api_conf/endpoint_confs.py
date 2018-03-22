@@ -91,7 +91,6 @@ class Configuration(object):
             ['meals']['.choices']['allowed'] = values
 
     def _inject_standard_configuration(self, endpoint):
-        endpoint['.drf_collection']['pagination_class'] = TexpensesPagination
         endpoint['.drf_collection']['filter_class'] = PetitionFilter
         endpoint['.drf_collection']['filter_backends'] = (DjangoFilterBackend,
                                                           SearchFilter,)
