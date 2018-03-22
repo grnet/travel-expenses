@@ -68,6 +68,9 @@ export default gen.CRUDGen.extend({
       }
       return val;
     }),
+    onSubmit(model) {
+      this.transitionTo('application-item.index')
+    },
   },
 
   list: {
@@ -171,9 +174,6 @@ export default gen.CRUDGen.extend({
   },
 
   edit: {
-    onSubmit(model) {
-      this.transitionTo('application-item.index')
-    },
     fieldsets: computed('role', function() {
       let role = get(this, 'role');
       let res = [];
