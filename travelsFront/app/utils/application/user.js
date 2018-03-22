@@ -15,7 +15,7 @@ const FS_VALIDATORS = {
 
 const FS_CREATE_1 = [
   {
-    label: 'application_create.title',
+    label: 'application.label',
     fields: [
       field('dse', {disabled: true}),
       'project',
@@ -38,7 +38,7 @@ const FS_EDIT_1 = FS_CREATE_1;
 const FS_VIEW_1 = [
   PROFILE.FS_DETAILS,
   {
-    label: 'application_create.title',
+    label: 'application.label',
     fields: [
       field('dse', {disabled: true}),
       'project.name',
