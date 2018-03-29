@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import {field} from 'ember-gen';
+import { field } from 'ember-gen';
 import validate from 'ember-gen/validate';
 
 const FS_VALIDATORS = {
@@ -15,18 +15,18 @@ const FS_VALIDATORS = {
 const FS_DETAILS = {
   label: 'user_data.label',
   fields: [
-   field('first_name', { disabled: true }),
-   field('last_name', { disabled: true }),
-   field('specialty_label', { disabled: true }),
-   field('kind_label', { disabled: true }),
-   field('tax_reg_num', { disabled: true }),
-   field('tax_office.name', { disabled: true }),
-   field('iban', { disabled: true }),
-   field('user_category', { disabled: true }),
+    field('first_name', { disabled: true }),
+    field('last_name', { disabled: true }),
+    field('specialty_label', { disabled: true }),
+    field('kind_label', { disabled: true }),
+    field('tax_reg_num', { disabled: true }),
+    field('tax_office.name', { disabled: true }),
+    field('iban', { disabled: true }),
+    field('user_category', { disabled: true }),
   ],
   layout: {
-    flex: [50, 50, 50, 50, 50, 50, 50, 50]
-  }
+    flex: [50, 50, 50, 50, 50, 50, 50, 50],
+  },
 };
 
 const FS_EDIT = [
@@ -34,8 +34,8 @@ const FS_EDIT = [
     label: 'my_account.label',
     fields: ['username', 'email'],
     layout: {
-      flex: [50, 50]
-    }
+      flex: [50, 50],
+    },
   },
   {
     label: 'user_data.label',
@@ -50,9 +50,9 @@ const FS_EDIT = [
       'user_category',
     ],
     layout: {
-      flex: [50, 50, 50, 50, 50, 50, 50, 50]
-    }
-  }
+      flex: [50, 50, 50, 50, 50, 50, 50, 50],
+    },
+  },
 ];
 
 export { FS_DETAILS, FS_EDIT, FS_VALIDATORS };

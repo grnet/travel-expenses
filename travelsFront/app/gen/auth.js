@@ -1,11 +1,11 @@
 import Ember from 'ember';
 import gen from 'ember-gen/lib/gen';
 import AuthGen from 'ember-gen/lib/auth';
-import {Register} from '../lib/register';
+import { Register } from '../lib/register';
 import PROFILE from '../utils/common/profile';
 
 const {
-  get, computed
+  get, computed,
 } = Ember;
 
 export default AuthGen.extend({
@@ -15,12 +15,12 @@ export default AuthGen.extend({
       title: 'login.label',
     },
     config: {
-      authenticator: 'travel'
-    }
+      authenticator: 'travel',
+    },
   },
 
   gens: {
-    register: Register
+    register: Register,
   },
 
   profile: {
@@ -38,6 +38,6 @@ export default AuthGen.extend({
 
     getModel() {
       return get(this, 'store').findRecord('profile', 'me');
-    }
-  }
+    },
+  },
 })

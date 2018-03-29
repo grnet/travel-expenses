@@ -9,7 +9,7 @@ export default gen.CRUDGen.extend({
   // require authenticated user
   auth: true,
   menu: {
-    display: true
-  }
+    display: true,
+  },
 });
 

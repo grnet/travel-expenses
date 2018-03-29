@@ -2,7 +2,7 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   __api__: {
-    path: 'tax-office'
+    path: 'tax-office',
   },
   full_label: Ember.computed('name', function(){
     return this.get('name');
@@ -12,5 +12,5 @@ export default DS.Model.extend({
   address:  DS.attr(),
   email:  DS.attr(),
   phone:  DS.attr(),
-  url: DS.attr()
+  url: DS.attr(),
 });

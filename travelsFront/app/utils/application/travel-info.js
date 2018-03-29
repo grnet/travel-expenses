@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import {field} from 'ember-gen';
+import { field } from 'ember-gen';
 import validate from 'ember-gen/validate';
 
 const FS_USER_VALIDATORS = {
@@ -26,10 +26,10 @@ const FS_EDIT_1_USER = [
     ],
     layout: {
       flex: [
-        50, 50, 50, 50
-      ]
-    }
-  }
+        50, 50, 50, 50,
+      ],
+    },
+  },
 ];
 
 const FS_VIEW_1_USER = [
@@ -42,10 +42,10 @@ const FS_VIEW_1_USER = [
     ],
     layout: {
       flex: [
-        50, 50, 50, 50
-      ]
-    }
-  }
+        50, 50, 50, 50,
+      ],
+    },
+  },
 ];
 
 const FS_EDIT_3_SECRETARY = [
@@ -62,9 +62,9 @@ const FS_EDIT_3_SECRETARY = [
     ],
     layout: {
       flex: [
-        50, 50, 50, 50, 50, 50, 50, 50
-      ]
-    }
+        50, 50, 50, 50, 50, 50, 50, 50,
+      ],
+    },
   },
   {
     label: 'travel_info.accommodation.label',
@@ -78,9 +78,9 @@ const FS_EDIT_3_SECRETARY = [
     ],
     layout: {
       flex: [
-        50, 50, 50, 30, 20, 50
-      ]
-    }
+        50, 50, 50, 30, 20, 50,
+      ],
+    },
   },
   {
     label: 'travel_info.compensation.label',
@@ -90,10 +90,10 @@ const FS_EDIT_3_SECRETARY = [
     ],
     layout: {
       flex: [
-        50, 50
-      ]
-    }
-  }
+        50, 50,
+      ],
+    },
+  },
 ];
 
 const FS_VIEW_3_SECRETARY = [
@@ -110,9 +110,9 @@ const FS_VIEW_3_SECRETARY = [
     ],
     layout: {
       flex: [
-        50, 50, 50, 50, 50, 50, 50, 50
-      ]
-    }
+        50, 50, 50, 50, 50, 50, 50, 50,
+      ],
+    },
   },
   {
     label: 'travel_info.accommodation.label',
@@ -126,9 +126,9 @@ const FS_VIEW_3_SECRETARY = [
     ],
     layout: {
       flex: [
-        50, 50, 50, 30, 20, 50
-      ]
-    }
+        50, 50, 50, 30, 20, 50,
+      ],
+    },
   },
   {
     label: 'travel_info.compensation.label',
@@ -138,9 +138,9 @@ const FS_VIEW_3_SECRETARY = [
     ],
     layout: {
       flex: [
-        50, 50
-      ]
-    }
+        50, 50,
+      ],
+    },
   },
 ];
 

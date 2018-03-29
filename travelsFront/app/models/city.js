@@ -3,7 +3,7 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   __api__: {
-    path: 'city'
+    path: 'city',
   },
   name: DS.attr(),
   url: DS.attr(),
@@ -11,5 +11,5 @@ export default DS.Model.extend({
   timezone: DS.attr(),
   labelWithCountry: Ember.computed('country', function() {
     return `${this.get('name')}, ${this.get('country.name')}`
-  })
+  }),
 });

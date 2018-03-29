@@ -3,7 +3,6 @@ import DS from 'ember-data';
 import gen from 'ember-gen/lib/gen';
 import routes from 'ember-gen/lib/routes';
 
-
 const Register = gen.GenRoutedObject.extend({
   auth: false,
   menu: {
@@ -18,13 +17,13 @@ const Register = gen.GenRoutedObject.extend({
   onSubmit(model) {
     this.controllerFor('auth.register.index').set('registeredModel', model);
     this.transitionTo('auth.login.index');
+
     return false;
   },
 
   messages: {
-    success: 'user.created'
+    success: 'user.created',
   },
 });
-
 
 export { Register };

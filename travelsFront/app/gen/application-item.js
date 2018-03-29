@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import gen from 'ember-gen/lib/gen';
-import {field} from 'ember-gen';
+import { field } from 'ember-gen';
 import meta from 'travel/lib/meta';
 import moment from 'moment';
 import ENV from 'travel/config/environment';
@@ -29,7 +29,6 @@ const STATUS_MAP = {
   'PETITION_FINAL_APPOVAL': 10,
 }
 
-
 export default gen.CRUDGen.extend({
   order: 200,
   modelName: 'application_item',
@@ -38,21 +37,24 @@ export default gen.CRUDGen.extend({
   resourceName: 'applications',
   _metaMixin: {
     session: Ember.inject.service(),
-    role: reads('session.session.authenticated.user_group')
+    role: reads('session.session.authenticated.user_group'),
   },
 
   abilityStates: {
     usersaved: computed('model.status', function() {
       let status = this.get('model.status');
-        return status === STATUS_MAP["SAVED_BY_USER"];
+
+      return status === STATUS_MAP['SAVED_BY_USER'];
     }),
     usersubmitted: computed('model.status', function() {
       let status = this.get('model.status');
-        return status === STATUS_MAP["SUBMITTED_BY_USER"];
+
+      return status === STATUS_MAP['SUBMITTED_BY_USER'];
     }),
     secretarysaved: computed('model.status', function() {
       let status = this.get('model.status');
-        return status === STATUS_MAP["SAVED_BY_SECRETARY"];
+
+      return status === STATUS_MAP['SAVED_BY_SECRETARY'];
     }),
   },
 
@@ -61,11 +63,13 @@ export default gen.CRUDGen.extend({
     validators: computed('role', function() {
       let role = get(this, 'role');
       let val = {};
+
       if (role === 'USER') {
         val = USER.FS_VALIDATORS;
       } else if (role === 'SECRETARY') {
         val = SECRETARY.FS_VALIDATORS;
       }
+
       return val;
     }),
     onSubmit(model) {
@@ -85,24 +89,24 @@ export default gen.CRUDGen.extend({
       active: true,
       meta: {
         fields: [
-          field('dse', {type: 'text'}),
-          field('project', {modelName:'project', type: 'model', displayAttr: 'name'}),
-          field('status', {type:'select', choices: CHOICES.STATUS})
-        ]
+          field('dse', { type: 'text' }),
+          field('project', { modelName:'project', type: 'model', displayAttr: 'name' }),
+          field('status', { type:'select', choices: CHOICES.STATUS }),
+        ],
       },
       serverSide: true,
       search: true,
-      searchFields: ['dse', 'last_name']
+      searchFields: ['dse', 'last_name'],
     },
     sort: {
       active: true,
       serverSide: true,
-      fields: ['dse']
+      fields: ['dse'],
     },
     paginate: {
       limits: [ 10, 50],
       serverSide: true,
-      active: true
+      active: true,
     },
     row: {
       fields: [
@@ -120,19 +124,21 @@ export default gen.CRUDGen.extend({
         undo: applicationActions.undo,
         pdf: applicationActions.pdf,
         approve: applicationActions.approve,
-      }
-    }
+      },
+    },
   },
 
   details: {
     fieldsets: computed('role', function() {
       let role = get(this, 'role');
       let res = [];
+
       if (role === 'USER' || role === 'MANAGER') {
         res = USER.FS_VIEW_1;
       } else if (role === 'SECRETARY') {
         res = SECRETARY.FS_VIEW_3;
-    }
+      }
+
       return res;
     }),
   },
@@ -147,11 +153,14 @@ export default gen.CRUDGen.extend({
 
       return this.store.findAll('project').then((projects) => {
         let cityId = ENV.APP.default_city || null;
+
         if (cityId) {
           return this.store.findRecord('city', cityId).then((city) => {
             let defaults = { departure_point: city, accommodation_local_currency: 'EUR' };
             let travel = this.store.createRecord('travel-info', defaults);
+
             model.get('travel_info').addObject(travel);
+
             return model;
           }).catch(() => {
             // in case the cityId does not exist
@@ -166,9 +175,11 @@ export default gen.CRUDGen.extend({
     fieldsets: computed('role', function() {
       let role = get(this, 'role');
       let res = [];
+
       if (role === 'USER' || role === 'MANAGER') {
         res = USER.FS_CREATE_1;
       }
+
       return res;
     }),
   },
@@ -177,11 +188,13 @@ export default gen.CRUDGen.extend({
     fieldsets: computed('role', function() {
       let role = get(this, 'role');
       let res = [];
+
       if (role === 'USER' || role === 'MANAGER') {
         res = USER.FS_EDIT_1;
       } else if (role === 'SECRETARY') {
         res = SECRETARY.FS_EDIT_3;
       }
+
       return res;
     }),
   },

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import {field} from 'ember-gen';
+import { field } from 'ember-gen';
 import meta from 'travel/lib/meta';
 import PROFILE from '../common/profile';
 import validate from 'ember-gen/validate';
@@ -9,15 +9,15 @@ const FS_VALIDATORS = {
   reason: [validate.presence(true)],
   task_start_date: [validate.presence(true)],
   task_end_date: [validate.presence(true)],
-  user_recommendation: [validate.length({max: 255, allowBlank: true})],
-  participation_local_cost: [validate.number({allowBlank: true})],
+  user_recommendation: [validate.length({ max: 255, allowBlank: true })],
+  participation_local_cost: [validate.number({ allowBlank: true })],
 }
 
 const FS_CREATE_1 = [
   {
     label: 'application.label',
     fields: [
-      field('dse', {disabled: true}),
+      field('dse', { disabled: true }),
       'project',
       'reason',
       'task_start_date',
@@ -28,9 +28,9 @@ const FS_CREATE_1 = [
       'user_recommendation',
     ],
     layout: {
-      flex: [50, 50, 100, 50, 50, 100, 50, 50, 100]
-    }
-  }
+      flex: [50, 50, 100, 50, 50, 100, 50, 50, 100],
+    },
+  },
 ];
 
 const FS_EDIT_1 = FS_CREATE_1;
@@ -40,7 +40,7 @@ const FS_VIEW_1 = [
   {
     label: 'application.label',
     fields: [
-      field('dse', {disabled: true}),
+      field('dse', { disabled: true }),
       'project.name',
       'reason',
       'task_start_date_time_format',
@@ -49,12 +49,12 @@ const FS_VIEW_1 = [
       'participation_local_cost',
       'participation_local_currency',
       'user_recommendation',
-      'status_label'
+      'status_label',
     ],
     layout: {
-      flex: [50, 50, 100, 50, 50, 100, 50, 50, 100, 100]
-    }
-  }
+      flex: [50, 50, 100, 50, 50, 100, 50, 50, 100, 100],
+    },
+  },
 ];
 
-export { FS_CREATE_1, FS_EDIT_1, FS_VIEW_1, FS_VALIDATORS};
+export { FS_CREATE_1, FS_EDIT_1, FS_VIEW_1, FS_VALIDATORS };

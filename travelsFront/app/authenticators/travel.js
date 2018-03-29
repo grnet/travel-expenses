@@ -2,7 +2,7 @@ import Ember from 'ember';
 import ApimasAuthenticator from 'ember-gen-apimas/authenticators/apimas';
 
 const {
-  merge
+  merge,
 } = Ember;
 
 export default ApimasAuthenticator.extend({
@@ -15,6 +15,7 @@ export default ApimasAuthenticator.extend({
       }
     }
     merge(data, profile);
+
     return data;
-  }
+  },
 });

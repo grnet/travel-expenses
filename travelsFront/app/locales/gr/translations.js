@@ -1,5 +1,5 @@
 export default {
-  //page titles
+  // page titles
   'create': 'ΔΗΜΙΟΥΡΓΙΑ',
   'edit': 'ΕΠΕΞΕΡΓΑΣΙΑ',
   'details': 'ΛΕΠΤΟΜΕΡΕΙΕΣ',
@@ -13,20 +13,20 @@ export default {
   'Auth': 'Χρήστης',
   'profile.menu_label': 'Προφίλ',
   'login.label': 'Είσοδος',
-  //account labels
+  // account labels
   'login_pass.label': 'Κωδικός Πρόσβασης',
   'password.label': 'Κωδικός Πρόσβασης',
   'username': 'Όνομα Χρήστη (username)',
-  //password labels
-  'new_password.label': 'Νέος Κωδικός Πρόσβασης', 
-  're_new_password.label': 'Επιβεβαίωση νέου Κωδικού Πρόσβασης', 
+  // password labels
+  'new_password.label': 'Νέος Κωδικός Πρόσβασης',
+  're_new_password.label': 'Επιβεβαίωση νέου Κωδικού Πρόσβασης',
   'current_password.label': 'Τρέχων Κωδικός Πρόσβασης',
-  //search and filter
+  // search and filter
   'search.input.placeholder': 'Εισάγετε κριτήριο αναζήτησης',
   'list.filters.apply.label': 'ΕΦΑΡΜΟΓΗ',
   'list.filters.clear.label': 'ΚΑΘΑΡΙΣΜΟΣ',
   'list.filters.title': 'Φίλτρα',
-  //profile labels
+  // profile labels
   'username.label': 'Όνομα Χρήστη (username)',
   'email.label': 'Email',
   'first_name.label': 'Όνομα',
@@ -41,7 +41,7 @@ export default {
   'user_category.label': 'Κατηγορία Χρήστη',
   'my_account.label': 'Στοιχεία Λογαριασμού',
   'personal_info.label': 'Προσωπικά Στοιχεία',
-  //application labels
+  // application labels
   'application.label': 'Αίτηση Μετακίνησης',
   'dse.label': 'ΔΣΕ',
   'project.label': 'Έργο',
@@ -81,7 +81,7 @@ export default {
   'travel_info.accommodation.label': 'Στοιχεία Διαμονής',
   'travel_info.transportation.label': 'Στοιχεία Ταξιδιού',
   'travel_info.compensation.label': 'Στοιχεία Αποζημίωσης',
-  //secretary application labels
+  // secretary application labels
   'non_grnet_quota.label': 'Κάλυψη ημερήσιας αποζημίωσης από άλλο φορέα',
   'manager_approval.label': 'Έγκριση της Μετακίνησης από τον Υπεύθυνο Έργου',
   'manager_travel_approval.label': 'Έγκριση Αίτησης Μετακίνησης από τον Υπεύθυνο Έργου',
@@ -98,7 +98,7 @@ export default {
   'accommodation_payment_way_label.label': 'Τρόπος Πληρωμής',
   'participation_payment_way.label': 'Τρόπος Πληρωμής',
   'participation_payment_way_label.label': 'Τρόπος Πληρωμής',
-  //computational data labels
+  // computational data labels
   'transport_days_proposed.label': 'Ημέρες Μετακίνησης Εργασιών',
   'overnights_num_proposed.label': 'Διανυκτερεύσεις',
   'compensation_days_proposed.label': 'Ημέρες Αποζημίωσης',
@@ -108,7 +108,7 @@ export default {
   'compensation_level.label': 'Αποζημίωση (Ημερήσια)',
   'compensation_cost.label': 'Σύνολο Ημερήσιας Αποζημίωσης',
   'total_cost_calculated.label': 'ΣΥΝΟΛΟ',
-  //buttons
+  // buttons
   'form.save.label': 'Αποθηκευση',
   'form.submit.label': 'Υποβολη',
   'form.undo.label': 'OK',
@@ -117,7 +117,7 @@ export default {
   'login': 'Εισοδος',
   'add': 'Προσθηκη',
   'remove': 'Αφαιρεση',
-   //tabs
+  // tabs
   'login.label': 'Είσοδος',
   'signup.tab': 'Εγγραφή',
   'logout': 'Eξοδος',
@@ -125,21 +125,21 @@ export default {
   'password.change.tab': 'Αλλαγή Κωδικού Πρόσβασης',
   'help.tab': 'Οδηγίες Χρήσης',
   'appications_list.tab': 'Λίστα Αιτήσεων',
-  //travel_report labels
+  // travel_report labels
   'travel_report.label': 'Απολογισμός Ταξιδιού',
   'travel_files.label': 'Ανέβασμα Αρχείων (μέγιστο μέγεθος 8MB)',
   'travel_report.label': 'Απολογισμός Μετακίνησης',
   'additional_expenses.label': 'Λοιπά Έξοδα Μετακίνησης',
   'additional_expenses_local_currency.label': 'Νόμισμα',
   'additional_expenses_description.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή',
-  'compensation_petition_date.label': 'Ημ. Πρ. Αίτησης Αποζημίωσης Μετακίνησης', 
-  'compensation_petition_protocol.label': 'Αρ. Πρ. Αίτησης Αποζημίωσης Μετακίνησης', 
-  'compensation_decision_date.label': 'Ημ. Πρ. Απόφασης Αποζημίωσης Μετακίνησης', 
+  'compensation_petition_date.label': 'Ημ. Πρ. Αίτησης Αποζημίωσης Μετακίνησης',
+  'compensation_petition_protocol.label': 'Αρ. Πρ. Αίτησης Αποζημίωσης Μετακίνησης',
+  'compensation_decision_date.label': 'Ημ. Πρ. Απόφασης Αποζημίωσης Μετακίνησης',
   'compensation_decision_protocol.label': 'Αρ. Πρ. Απόφασης Αποζημίωσης Μετακίνησης',
-  //compensation labels
+  // compensation labels
   'additional_expenses_description_user.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή - Καταχώρηση Χρήστη',
   'additional_expenses_user.label': 'Λοιπά Έξοδα Μετακίνησης - Καταχώρηση Χρήστη',
-  //tooltips
+  // tooltips
   'tooltip_edit': 'Επεξεργασία Αίτησης',
   'tooltip_delete': 'Διαγραφή Αίτησης',
   'tooltip_undo': 'Αναίρεση Υποβολής',
@@ -152,7 +152,7 @@ export default {
   'compensation_presidentApproval': 'Η αποζημίωση έχει λάβει την έγκριση του Προέδρου',
   'del_action_info_message': 'Αφού επιλέξετε την "ΔΙΑΓΡΑΦΗ" του αρχείου, στη συνέχεια πατήστε το κουμπί "ΑΠΟΘΗΚΕΥΣΗ" προκειμένου να πραγματοποιηθεί η ενέργεια της διαγραφής',
   'tooltip_save_b4_submit': 'Για να υποβάλετε την αίτησή σας θα πρέπει πρώτα να αποθηκεύσετε τις αλλαγές σας',
-  //prompt messages
+  // prompt messages
   'confirm.title': 'Διαγραφή Αίτησης',
   'confirm.message': 'Είστε βέβαιοι ότι θέλετε να διαγράψετε την αίτηση σας;',
   'confirm.ok': 'OK',
@@ -161,25 +161,25 @@ export default {
   'prompt_undo_message': 'Είστε βέβαιοι ότι θέλετε να αναιρέσετε την υποβολή την αίτηση σας;',
   'prompt_submit_title': 'Υποβολή Αίτησης',
   'prompt_submit_message': 'Είστε βέβαιοι ότι θέλετε να υποβάλετε την αίτηση σας;',
-  'prompt_submit_comp_message': 'Είστε βέβαιοι ότι θέλετε να υποβάλετε την αίτηση σας;'+'<br>'+'<br>'
-  +'Σημειώνεται ότι πριν την τελική υποβολή θα πρέπει να κατεβάσετε την Αίτηση Αποζημίωσης Μετακίνησης, μέσω της επιλογής που δίνεται από τη λίστα των αιτήσεων.'+'<br>'+'<br>'
-  +'Το συγκεκριμένο έγγραφο θα πρέπει να επισυνάπτεται πάντοτε στον φυσικό φάκελο με τα αποδεικτικά έγγραφα των εξόδων που προσκομίζεται στο Λογιστήριο.',
+  'prompt_submit_comp_message': 'Είστε βέβαιοι ότι θέλετε να υποβάλετε την αίτηση σας;' + '<br>' + '<br>'
+  + 'Σημειώνεται ότι πριν την τελική υποβολή θα πρέπει να κατεβάσετε την Αίτηση Αποζημίωσης Μετακίνησης, μέσω της επιλογής που δίνεται από τη λίστα των αιτήσεων.' + '<br>' + '<br>'
+  + 'Το συγκεκριμένο έγγραφο θα πρέπει να επισυνάπτεται πάντοτε στον φυσικό φάκελο με τα αποδεικτικά έγγραφα των εξόδων που προσκομίζεται στο Λογιστήριο.',
   'prompt_approve_message': 'Με τη συγκεκριμένη ενέργεια η αίτηση θα περάσει στην κατάσταση "εγκεκριμένη από Πρόεδρο"',
   'prompt_pdf_title': 'Εξαγωγή αίτησης/απόφασης μετακίνησης',
   'prompt_approve_title': 'Έγκριση Μετακίνησης',
-  //success messages
+  // success messages
   'petition_saved': 'Η αίτησή σας έχει αποθηκευτεί επιτυχώς',
   'profile_saved': 'Τα στοιχεία του προφίλ σας έχουν ενημερωθεί επιτυχώς',
   'submit.application.success': 'Επιτυχής υποβολή αίτησης',
   'undo.application.success': 'Επιτυχής αναίρεση υποβολής',
   'pdf.application.success': 'Επιτυχής εξαγωγή αρχείων',
   'approve.application.success': 'Επιτυχής έγκριση μετακίνησης',
-  //error messages
+  // error messages
   'submit.application.error': 'Σφάλμα κατά την υποβολή της αίτησης',
   'pdf.decision.error': 'Σφάλμα κατά την εξαγωγή της απόφασης μετακίνησης',
   'pdf.application.error': 'Σφάλμα κατά την εξαγωγή της αίτησης μετακίνησης',
   'approve.application.error': 'Σφάλμα κατά την έγκριση μετακίνησης',
-  //placeholders
+  // placeholders
   'time_placeholder': 'Ώρα',
 };
 

@@ -1,2 +1,3 @@
-import {missingMessage} from 'ember-gen/lib/i18n';
+import { missingMessage } from 'ember-gen/lib/i18n';
+
 export default missingMessage;
