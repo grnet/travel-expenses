@@ -5,7 +5,7 @@ import { Register } from '../lib/register';
 import PROFILE from '../utils/common/profile';
 
 const {
-  get, computed,
+  get,
 } = Ember;
 
 export default AuthGen.extend({

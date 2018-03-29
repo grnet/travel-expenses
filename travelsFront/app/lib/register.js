@@ -1,5 +1,3 @@
-import Ember from 'ember';
-import DS from 'ember-data';
 import gen from 'ember-gen/lib/gen';
 import routes from 'ember-gen/lib/routes';
 

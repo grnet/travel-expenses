@@ -9,10 +9,8 @@ export default {
   'edit.page.title': 'Επεξεργασία',
   'details.page.title': 'Λεπτομέρειες',
   'list.page.title': 'Αιτήσεις Μετακίνησης',
-  'delete': 'Διαγραφη',
   'Auth': 'Χρήστης',
   'profile.menu_label': 'Προφίλ',
-  'login.label': 'Είσοδος',
   // account labels
   'login_pass.label': 'Κωδικός Πρόσβασης',
   'password.label': 'Κωδικός Πρόσβασης',
@@ -126,7 +124,6 @@ export default {
   'help.tab': 'Οδηγίες Χρήσης',
   'appications_list.tab': 'Λίστα Αιτήσεων',
   // travel_report labels
-  'travel_report.label': 'Απολογισμός Ταξιδιού',
   'travel_files.label': 'Ανέβασμα Αρχείων (μέγιστο μέγεθος 8MB)',
   'travel_report.label': 'Απολογισμός Μετακίνησης',
   'additional_expenses.label': 'Λοιπά Έξοδα Μετακίνησης',

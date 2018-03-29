@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import { field } from 'ember-gen';
 import TravelInfo from 'travel/models/travel-info';
 import { resourceMetaFrom } from 'ember-gen/lib/meta';
 import TRAVEL_INFO from '../utils/application/travel-info';

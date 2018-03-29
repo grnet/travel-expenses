@@ -1,8 +1,6 @@
 import Ember from 'ember';
 import gen from 'ember-gen/lib/gen';
 import { field } from 'ember-gen';
-import meta from 'travel/lib/meta';
-import moment from 'moment';
 import ENV from 'travel/config/environment';
 import { applicationActions } from '../utils/common/actions';
 import USER from '../utils/application/user';

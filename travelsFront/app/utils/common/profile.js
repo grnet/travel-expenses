@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { field } from 'ember-gen';
 import validate from 'ember-gen/validate';
 

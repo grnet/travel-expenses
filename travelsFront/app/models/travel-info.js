@@ -4,11 +4,10 @@ import ENV from 'travel/config/environment';
 import { computeDateTimeFormat } from '../lib/common';
 
 const {
-  get, set,
+  get,
 } = Ember;
 
 const CHOICES = ENV.APP.resources;
-const CURRENCY = ENV.APP.currency || ['EUR', 'Euro'];
 
 export default DS.Model.extend({
   session: Ember.inject.service('session'),

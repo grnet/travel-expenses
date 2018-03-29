@@ -1,8 +1,7 @@
-import Ember from 'ember';
+import validate from 'ember-gen/validate';
 import { field } from 'ember-gen';
 import meta from 'travel/lib/meta';
 import PROFILE from '../common/profile';
-import validate from 'ember-gen/validate';
 
 const FS_VALIDATORS = {
   project: [validate.presence(true)],

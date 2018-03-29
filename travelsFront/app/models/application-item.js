@@ -1,11 +1,11 @@
 import DS from 'ember-data';
+import Ember from 'ember';
 import ENV from 'travel/config/environment';
 import gen from 'ember-gen/lib/attrs';
 import { computeDateFormat } from '../lib/common';
 import { computeDateTimeFormat } from '../lib/common';
 
 const CHOICES = ENV.APP.resources;
-const CURRENCY = ENV.APP.currency || ['EUR', 'Euro'];
 
 export default DS.Model.extend({
   __api__: {
