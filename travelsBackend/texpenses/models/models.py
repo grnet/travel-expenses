@@ -1439,6 +1439,7 @@ class Applications(Petition):
                                  'accommodation_total_cost',
                                  'accommodation_total_local_cost',
                                  'manager_movement_approval',
+                                 'transportation_cost',
                                  'accommodation_payment_description',
                                  'transportation_payment_description',
                                  'accommodation_local_currency',
