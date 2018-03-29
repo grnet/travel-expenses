@@ -184,16 +184,17 @@ class ApplicationMixin(object):
 
             per_status_email_confs = {
                 Petition.SUBMITTED_BY_USER: [
-                    application, 'CANCELLATION', False, False],
+                    application, 'CANCELLATION', False, False, request.user],
                 Petition.USER_COMPENSATION_SUBMISSION: [
-                    application, 'USER_COMPENSATION_CANCELLATION', False, True],
+                    application, 'USER_COMPENSATION_CANCELLATION',
+                    False, True, request.user],
                 Petition.SECRETARY_COMPENSATION_SUBMISSION: [
-                    application, 'CANCELLATION', False, True],
+                    application, 'CANCELLATION', False, True, request.user],
             }
-            args = per_status_email_confs.get(application_status, None)
+            email_args = per_status_email_confs.get(application_status, None)
 
-            if args:
-                inform(*args)
+            if email_args:
+                inform(*email_args)
 
             headers = {'location': reverse('api_applications-detail',
                                            args=[application_id])}
@@ -215,14 +216,15 @@ class ApplicationMixin(object):
 
         per_status_email_confs = {
             Petition.SUBMITTED_BY_USER: [
-                application, 'SUBMISSION', False, False],
+                application, 'SUBMISSION', False, False, request.user],
             Petition.USER_COMPENSATION: [
-                application, 'USER_COMPENSATION_SUBMISSION', False, True]
+                application, 'USER_COMPENSATION_SUBMISSION',
+                False, True, request.user]
         }
-        args = per_status_email_confs.get(application_status, None)
+        email_args = per_status_email_confs.get(application_status, None)
 
-        if args:
-            inform(*args)
+        if email_args:
+            inform(*email_args)
 
         headers = {'location': reverse('api_applications-detail',
                                        args=[application_id])}
@@ -248,14 +250,15 @@ class ApplicationMixin(object):
 
                 per_status_email_confs = {
                     Petition.SUBMITTED_BY_SECRETARY: [
-                        application, 'PETITION_PRESIDENT_APPROVAL', True, True],
+                        application, 'PETITION_PRESIDENT_APPROVAL',
+                        True, True, request.user],
                     Petition.SECRETARY_COMPENSATION_SUBMISSION: [
                         application, 'COMPENSATION_PRESIDENT_APPROVAL',
-                        True, True]
+                        True, True, request.user]
                 }
-                args = per_status_email_confs[application_status]
+                email_args = per_status_email_confs[application_status]
 
-                inform(*args)
+                inform(*email_args)
 
                 return Response(
                     {'message': 'The application is approved by the president'},

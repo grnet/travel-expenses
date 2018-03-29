@@ -59,7 +59,7 @@ def send_email(subject, template, params, sender, to, bcc=(), cc=(),
         logger.error(e)
 
 
-def inform(petition, action, target_user, inform_controller):
+def inform(petition, action, target_user, inform_controller, request_user=None):
     """
     Inform about action applied to a specific petition with an informative
     email.
@@ -78,7 +78,15 @@ def inform(petition, action, target_user, inform_controller):
     travel_info_last = petition.travel_info.last()
     travel_info = petition.travel_info.all()
 
+    request_user_first_name = ''
+    request_user_last_name = ''
+    if request_user:
+        request_user_first_name = request_user.first_name
+        request_user_last_name = request_user.last_name
+
     params = {
+        'request_user_first_name': request_user_first_name,
+        'request_user_last_name': request_user_last_name,
         'first_name': petition.first_name,
         'last_name': petition.last_name,
         'dse': petition.dse,
