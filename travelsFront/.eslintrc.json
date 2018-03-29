@@ -1,0 +1,92 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "parser": "babel-eslint",
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    },
+    "sourceType": "module"
+  },
+  "plugins": [
+    "import"
+  ],
+  "rules": {
+
+    // general
+
+    "comma-dangle": ["warn", "always-multiline"],
+    "indent": ["warn", 2, { "VariableDeclarator": 2 }],
+    "linebreak-style": ["warn", "unix"],
+    "default-case": "error",
+    "eqeqeq": "error",
+    "quotes": ["warn", "single"],
+    "no-control-regex": ["off"],
+    "no-useless-escape": ["off"],
+    "no-extra-semi": ["off"],
+    "array-callback-return": "error",
+    "no-const-assign": "error",
+    "no-this-before-super": "error",
+    "no-undef": "error",
+    "no-unreachable": "warn",
+    "no-unused-vars": [
+      "warn",
+      {
+        "args": "none",
+        "ignoreRestSiblings": true
+      }
+    ],
+
+    // spaces
+
+    "no-multi-spaces": "warn",
+    "no-trailing-spaces": "warn",
+    "block-spacing": ["warn", "always"],
+    "no-whitespace-before-property": "error",
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "space-before-function-paren": ["warn", {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "always"
+    }],
+    "space-in-parens": ["error", "never"],
+    "space-infix-ops": "warn",
+    "spaced-comment": ["warn", "always", { "block": { "balanced": true }}],
+    "object-curly-spacing": ["error", "always"],
+
+    // empty lines
+
+    "lines-between-class-members": ["warn", "always"],
+    "no-multiple-empty-lines": ["warn", {
+      "max": 1,
+      "maxEOF": 1,
+      "maxBOF": 0
+    }],
+    "padding-line-between-statements": ["warn",
+      { "blankLine": "always", "prev": ["var", "let", "const"], "next": "*" },
+      { "blankLine": "any",
+        "prev": ["var", "let", "const"],
+        "next": ["var", "let", "const"] },
+      { "blankLine": "always", "prev": "*", "next": "return" },
+      { "blankLine": "always", "prev": "import", "next": "*" },
+      { "blankLine": "never", "prev": "import", "next": "import" },
+      { "blankLine": "always", "prev": "*", "next": "function" },
+      { "blankLine": "always", "prev": "*", "next": "export" },
+      { "blankLine": "any", "prev": "export", "next": "export" },
+      { "blankLine": "always", "prev": "*", "next": "class" }
+    ],
+    "padded-blocks": ["warn", {
+      "blocks": "never",
+      "switches": "never",
+      "classes": "always"
+    }],
+
+    //import
+
+    "import/first": ["error", "absolute-first"],
+    "import/no-amd": "error"
+  }
+}
