@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import gen from 'ember-gen/lib/gen';
 import { field } from 'ember-gen';
 import TRAVEL_INFO from '../utils/application/travel-info';
 

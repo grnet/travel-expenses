@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import gen from 'ember-gen/lib/gen';
 import AuthGen from 'ember-gen/lib/auth';
 import { Register } from '../lib/register';
 import PROFILE from '../utils/common/profile';

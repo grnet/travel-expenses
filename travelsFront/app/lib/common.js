@@ -4,7 +4,6 @@ import moment from 'moment';
 
 const {
   get,
-  computed: { reads },
   computed,
 } = Ember;
 

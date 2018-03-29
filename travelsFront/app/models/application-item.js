@@ -1,7 +1,6 @@
 import DS from 'ember-data';
 import Ember from 'ember';
 import ENV from 'travel/config/environment';
-import gen from 'ember-gen/lib/attrs';
 import { computeDateFormat } from '../lib/common';
 import { computeDateTimeFormat } from '../lib/common';
 
