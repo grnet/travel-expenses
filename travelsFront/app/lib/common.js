@@ -1,10 +1,12 @@
 import Ember from 'ember';
 import ENV from 'travel/config/environment';
 import moment from 'moment';
+import { field } from 'ember-gen';
 
 const {
   get,
   computed,
+  assign,
 } = Ember;
 
 const DATE_FORMAT = ENV.APP.date_format,
@@ -26,4 +28,15 @@ function computeDateTimeFormat(key) {
   });
 };
 
-export { computeDateFormat, computeDateTimeFormat };
+function fileField(key, path, kind, attrs, formAttrs) {
+  return field(key, assign({}, {
+    type: 'file',
+    formComponent: 'travel-file-field',
+    displayComponent: 'travel-file-field',
+    displayAttrs: assign({ hideLabel: true }, { path, kind }, formAttrs || {}),
+    sortBy: 'filename',
+    formAttrs: assign({}, { path, kind }, formAttrs || {}),
+  }, attrs || {}));
+}
+
+export { computeDateFormat, computeDateTimeFormat, fileField };

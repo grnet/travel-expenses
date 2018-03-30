@@ -2,6 +2,7 @@ import validate from 'ember-gen/validate';
 import { field } from 'ember-gen';
 import meta from 'travel/lib/meta';
 import PROFILE from '../common/profile';
+import { fileField } from '../../lib/common';
 
 const FS_VALIDATORS = {
   project: [validate.presence(true)],
@@ -52,7 +53,7 @@ const FS_EDIT_6 = [
   {
     label: 'compensation.label',
     fields: [
-      'travel_files',
+      fileField('travel_files', 'application-item', 'travel_files'),
       'additional_expenses',
       'additional_expenses_local_currency',
       'additional_expenses_description',

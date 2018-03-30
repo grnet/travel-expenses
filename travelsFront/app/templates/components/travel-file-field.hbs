@@ -1,0 +1,73 @@
+<md-container class={{concat 'layout-row ' (if disabled 'field-disabled') (if errors.length ' ng-invalid')}} >
+<label class={{concat 'md-label raised nowrap padded table-label' (if errors.length ' invalid' '')}}>{{ label }}</label>
+
+{{#if inProgress}}
+{{paper-icon "rotate-right" spin=true size=25}}
+{{/if}}
+<span class="flex-grow"></span>
+{{#if (and canAdd (not readonly) (not disabled))}}
+<md-container class="layout-row layout-align-end">
+{{#paper-button disabled=inProgress onClick=(action 'handleAddClick')}}{{t 'file.field.add.file' }}{{/paper-button}}
+</md-container>
+{{/if}}
+
+</md-container>
+
+<md-input-container class={{concat 'fullwidth ' (if disabled 'field-disabled')}} style="margin-top: 0; padding: 0;">
+{{#paper-data-table as |table|}}
+{{#table.body as |body|}}
+  {{#if file}}
+    {{#body.row as |row|}}
+      {{#row.cell}}
+        {{#if img }}
+          <img src="{{ fileURL }}" />
+        {{else}}
+          {{ fileURL }}
+        {{/if}}
+
+      {{/row.cell}}
+
+      {{#row.cell class="fullwidth"}}
+          {{ fileName }}
+      {{/row.cell}}
+
+
+
+      {{#row.cell class="nowrap"}}
+        {{#if canReplace}}
+          {{#paper-button disabled=inProgress iconButton=true onClick=(action "handleAddClick")}}{{paper-icon "file_upload"}}{{/paper-button}}
+        {{/if}}
+        {{#if canDelete}}
+          {{#paper-button disabled=inProgress iconButton=true onClick=(action "deleteFile" file)}}{{paper-icon "delete"}}{{/paper-button}}
+        {{/if}}
+        {{#if (not disabled) }}
+          {{#paper-button href=fileURL disabled=inProgress iconButton=true onClick=(action "downloadFile" fileURL)}}
+            {{paper-icon (if generatingLink "rotate-right" "get_app") spin=generatingLink }}
+          {{/paper-button}}
+        {{/if}}
+      {{/row.cell}}
+    {{/body.row}}
+  {{else}}
+    {{#body.row as |row|}}
+      {{#row.cell class="fullwidth"}}{{t 'file.field.no.files' }}{{/row.cell}}
+    {{/body.row}}
+  {{/if}}
+{{/table.body}}
+{{/paper-data-table}}
+
+<input type="file" onchange={{ action "handleFile" }} style="display: none" class="file-input"/>
+{{paper-divider}}
+<div class="md-errors-spacer"></div>
+{{#if errors.length }}
+<div class="md-input-messages-animation md-auto-hide" ng-messages>
+  {{#each errors as |error index|}}
+    <div
+      id="error-{{index}}"
+      class="md-input-error no-position">
+      {{error}}
+    </div>
+  {{/each}}
+</div>
+{{/if}}
+</md-input-container>
+{{yield}}
