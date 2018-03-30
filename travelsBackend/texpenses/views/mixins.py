@@ -244,9 +244,6 @@ class ApplicationMixin(object):
                     application.proceed(delete=True)
                 else:
                     application.withdraw(proceed=True)
-                return Response({'message':
-                                 'The petition is approved by the president'},
-                                status=status.HTTP_200_OK)
 
                 per_status_email_confs = {
                     Petition.SUBMITTED_BY_SECRETARY: [
