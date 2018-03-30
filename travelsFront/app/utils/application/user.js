@@ -34,6 +34,35 @@ const FS_CREATE_1 = [
 
 const FS_EDIT_1 = FS_CREATE_1;
 
+const FS_EDIT_6 = [
+  {
+    label: 'application.label',
+    fields: [
+      field('dse', { disabled: true }),
+      field('project', { disabled: true }),
+      field('reason', { disabled: true }),
+      field('task_start_date', { disabled: true }),
+      field('task_end_date', { disabled: true }),
+      meta.forms.travel_info,
+    ],
+    layout: {
+      flex: [50, 50, 100, 50, 50, 100],
+    },
+  },
+  {
+    label: 'compensation.label',
+    fields: [
+      'travel_files',
+      'additional_expenses',
+      'additional_expenses_local_currency',
+      'additional_expenses_description',
+    ],
+    layout: {
+      flex: [100, 50, 50, 100],
+    },
+  },
+];
+
 const FS_VIEW_1 = [
   PROFILE.FS_DETAILS,
   {
@@ -56,4 +85,4 @@ const FS_VIEW_1 = [
   },
 ];
 
-export { FS_CREATE_1, FS_EDIT_1, FS_VIEW_1, FS_VALIDATORS };
+export { FS_CREATE_1, FS_EDIT_1, FS_EDIT_6, FS_VIEW_1, FS_VALIDATORS };

@@ -54,6 +54,26 @@ export default gen.CRUDGen.extend({
 
       return status === STATUS_MAP['SAVED_BY_SECRETARY'];
     }),
+    secretarysubmitted: computed('model.status', function() {
+      let status = this.get('model.status');
+
+      return status === STATUS_MAP['SUBMITTED_BY_SECRETARY'];
+    }),
+    presidentapproved: computed('model.status', function() {
+      let status = this.get('model.status');
+
+      return status === STATUS_MAP['APPROVED_BY_PRESIDENT'];
+    }),
+    usercompensationsaved: computed('model.status', function() {
+      let status = this.get('model.status');
+
+      return status === STATUS_MAP['USER_COMPENSATION'];
+    }),
+    usercompensationsubmitted: computed('model.status', function() {
+      let status = this.get('model.status');
+
+      return status === STATUS_MAP['USER_COMPENSATION_SUBMISSION'];
+    }),
   },
 
   common: {
@@ -183,12 +203,17 @@ export default gen.CRUDGen.extend({
   },
 
   edit: {
-    fieldsets: computed('role', function() {
+    fieldsets: computed('role', 'model.status', function() {
       let role = get(this, 'role');
+      let status = this.get('model.status');
       let res = [];
 
       if (role === 'USER' || role === 'MANAGER') {
-        res = USER.FS_EDIT_1;
+        if (status < 5) {
+          res = USER.FS_EDIT_1;
+        } else if (status >= 5) {
+          res = USER.FS_EDIT_6;
+        }
       } else if (role === 'SECRETARY') {
         res = SECRETARY.FS_EDIT_3;
       }

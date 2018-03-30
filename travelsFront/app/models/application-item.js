@@ -21,7 +21,7 @@ export default DS.Model.extend({
   tax_office: DS.belongsTo('tax-office', { formAttrs: { optionLabelAttr: 'full_label' } }),
   iban: DS.attr(),
   user_category: DS.attr({ 'choices': CHOICES.USER_CATEGORY, disabled: true }),
-  // application fields
+  // application - user fields
   user: DS.attr('string'),
   dse: DS.attr('string'),
   project: DS.belongsTo('project', { autocomplete: true, formAttrs: { optionLabelAttr: 'name' } }),
@@ -47,7 +47,7 @@ export default DS.Model.extend({
   user_recommendation: DS.attr({ type: 'text' }),
   status: DS.attr({ type: 'select', 'choices': CHOICES.STATUS }),
   travel_info: DS.hasMany('travel-info', { displayComponent: 'display-travel-info' }),
-  // secretary fields
+  // application - secretary fields
   additional_expenses_initial: DS.attr(),
   additional_expenses_initial_description: DS.attr(),
   expenditure_date_protocol: DS.attr('date'),
@@ -63,6 +63,11 @@ export default DS.Model.extend({
   overnights_sum_cost: DS.attr({ disabled: true }),
   compensation_cost: DS.attr({ disabled: true }),
   total_cost_calculated: DS.attr({ disabled: true }),
+  // compensation - user fields
+  additional_expenses: DS.attr(),
+  additional_expenses_local_currency: DS.attr({ 'choices': CHOICES.CURRENCIES, autocomplete: true }),
+  additional_expenses_description: DS.attr({ type: 'text' }),
+  travel_files: DS.attr(),
 
   // set status label value
   status_label: Ember.computed('status', function() {

@@ -96,6 +96,8 @@ export default {
   'accommodation_payment_way_label.label': 'Τρόπος Πληρωμής',
   'participation_payment_way.label': 'Τρόπος Πληρωμής',
   'participation_payment_way_label.label': 'Τρόπος Πληρωμής',
+  // compensation labels
+  'compensation.label': 'Απολογισμός Μετακίνησης',
   // computational data labels
   'transport_days_proposed.label': 'Ημέρες Μετακίνησης Εργασιών',
   'overnights_num_proposed.label': 'Διανυκτερεύσεις',
