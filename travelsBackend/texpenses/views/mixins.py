@@ -459,14 +459,8 @@ class ApplicationMixin(object):
                                   Q(status__gte=Petition.SUBMITTED_BY_USER) &
                                   Q(status__lt=Petition.SUBMITTED_BY_SECRETARY)))
 
-        if user.user_group() == "SECRETARY":
-            query = query.filter(status__gte=Petition.SUBMITTED_BY_USER,
-                                 status__lte=Petition.APPROVED_BY_PRESIDENT)
-
-        if user.user_group() == "CONTROLLER":
-            query = \
-                query.filter(status__gte=Petition.USER_COMPENSATION_SUBMISSION,
-                             status__lte=Petition.PETITION_FINAL_APPOVAL)
+        if user.user_group() in ["SECRETARY", "CONTROLLER"]:
+            query = query.filter(status__gte=Petition.SUBMITTED_BY_USER)
 
         if user.user_group() == "ADMIN":
             query = query.all()
