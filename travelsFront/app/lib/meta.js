@@ -51,6 +51,8 @@ const travel_info = field('travel_info', {
         res = TRAVEL_INFO.FS_EDIT_1_USER;
       } else if (role === 'SECRETARY') {
         res = TRAVEL_INFO.FS_EDIT_3_SECRETARY;
+      } else if (role === 'CONTROLLER') {
+        res = TRAVEL_INFO.FS_EDIT_8_CONTROLLER;
       }
 
       return res;

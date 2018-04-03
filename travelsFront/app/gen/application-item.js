@@ -5,6 +5,7 @@ import ENV from 'travel/config/environment';
 import { applicationActions } from '../utils/common/actions';
 import USER from '../utils/application/user';
 import SECRETARY from '../utils/application/secretary';
+import CONTROLLER from '../utils/application/controller';
 
 const {
   get,
@@ -74,6 +75,21 @@ export default gen.CRUDGen.extend({
 
       return status === STATUS_MAP['USER_COMPENSATION_SUBMISSION'];
     }),
+    secretarycompensationsaved: computed('model.status', function() {
+      let status = this.get('model.status');
+
+      return status === STATUS_MAP['SECRETARY_COMPENSATION'];
+    }),
+    secretarycompensationsubmitted: computed('model.status', function() {
+      let status = this.get('model.status');
+
+      return status === STATUS_MAP['SECRETARY_COMPENSATION_SUBMISSION'];
+    }),
+    presidentcompensationapproved: computed('model.status', function() {
+      let status = this.get('model.status');
+
+      return status === STATUS_MAP['PETITION_FINAL_APPOVAL'];
+    }),
   },
 
   common: {
@@ -86,6 +102,8 @@ export default gen.CRUDGen.extend({
         val = USER.FS_VALIDATORS;
       } else if (role === 'SECRETARY') {
         val = SECRETARY.FS_VALIDATORS;
+      } else if (role === 'CONTROLLER') {
+        val = CONTROLLER.FS_VALIDATORS;
       }
 
       return val;
@@ -155,6 +173,8 @@ export default gen.CRUDGen.extend({
         res = USER.FS_VIEW_1;
       } else if (role === 'SECRETARY') {
         res = SECRETARY.FS_VIEW_3;
+      } else if (role === 'CONTROLLER') {
+        res = CONTROLLER.FS_VIEW_8;
       }
 
       return res;
@@ -216,6 +236,8 @@ export default gen.CRUDGen.extend({
         }
       } else if (role === 'SECRETARY') {
         res = SECRETARY.FS_EDIT_3;
+      } else if (role === 'CONTROLLER') {
+        res = CONTROLLER.FS_EDIT_8;
       }
 
       return res;
