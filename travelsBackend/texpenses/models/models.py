@@ -1502,5 +1502,5 @@ class Applications(Petition):
         """
         if self.status in (Petition.SECRETARY_COMPENSATION_SUBMISSION,
                            Petition.PETITION_FINAL_APPOVAL):
-            return self.status_transition(self.SECRETARY_COMPENSATION)
+            return self.status_transition(self.status - 1)
         super(Applications, self).status_rollback()
