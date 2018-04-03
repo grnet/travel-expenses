@@ -68,6 +68,12 @@ export default DS.Model.extend({
   additional_expenses_local_currency: DS.attr({ 'choices': CHOICES.CURRENCIES, autocomplete: true }),
   additional_expenses_description: DS.attr({ type: 'text' }),
   travel_files: DS.attr(),
+  // compensation - controller fields
+  compensation_petition_date: DS.attr('date'),
+  compensation_petition_protocol: DS.attr(),
+  compensation_decision_date: DS.attr('date'),
+  compensation_decision_protocol: DS.attr(),
+  timesheeted: DS.attr('boolean'),
 
   // set status label value
   status_label: Ember.computed('status', function() {
