@@ -27,7 +27,6 @@ const FS_EDIT_8 = [
       'dse',
       'project',
       'reason',
-      field('user_recommendation', { disabled: true }),
       'task_start_date',
       'task_end_date',
       meta.forms.travel_info,
@@ -39,7 +38,7 @@ const FS_EDIT_8 = [
     ],
     layout: {
       flex: [
-        50, 50, 50, 50, 100, 100, 50, 50,
+        50, 50, 50, 50, 100, 50, 50,
         100, 50, 30, 20, 50, 50,
       ],
     },
@@ -99,12 +98,9 @@ const FS_VIEW_8 = [
       'dse',
       'project.name',
       'reason',
-      field('user_recommendation', { disabled: true }),
       'task_start_date_time_format',
       'task_end_date_time_format',
       meta.forms.travel_info,
-      'additional_expenses_initial',
-      'additional_expenses_initial_description',
       'participation_cost',
       'participation_local_cost',
       'participation_local_currency',
@@ -113,9 +109,21 @@ const FS_VIEW_8 = [
     ],
     layout: {
       flex: [
-        50, 50, 100, 100, 50, 50,
-        100, 50, 50, 50, 30, 20, 50, 50, 15,
+        50, 50, 100, 50, 50,
+        100, 50, 30, 20, 50, 50, 15,
       ],
+    },
+  },
+  {
+    label: 'compensation.label',
+    fields: [
+      fileField('travel_files', 'application-item', 'travel_files'),
+      'additional_expenses',
+      'additional_expenses_local_currency',
+      'additional_expenses_description',
+    ],
+    layout: {
+      flex: [100, 50, 50, 100],
     },
   },
   {

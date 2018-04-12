@@ -15,6 +15,8 @@ export default Ember.Component.extend({
           res = TRAVEL_INFO.FS_VIEW_1_USER;
         } else if (role === 'SECRETARY') {
           res = TRAVEL_INFO.FS_VIEW_3_SECRETARY;
+        } else if (role === 'CONTROLLER') {
+          res = TRAVEL_INFO.FS_VIEW_8_CONTROLLER;
         }
 
         return res;
