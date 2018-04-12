@@ -51,8 +51,10 @@ export default DS.Model.extend({
   additional_expenses_initial: DS.attr(),
   additional_expenses_initial_description: DS.attr(),
   expenditure_date_protocol: DS.attr('date'),
+  expenditure_date_protocol_format: computeDateFormat('expenditure_date_protocol'),
   expenditure_protocol: DS.attr(),
   movement_date_protocol: DS.attr('date'),
+  movement_date_protocol_format: computeDateFormat('movement_date_protocol'),
   movement_protocol: DS.attr(),
   non_grnet_quota: DS.attr(),
   manager_movement_approval: DS.attr('boolean'),
@@ -70,8 +72,10 @@ export default DS.Model.extend({
   travel_files: DS.attr(),
   // compensation - controller fields
   compensation_petition_date: DS.attr('date'),
+  compensation_petition_date_format: computeDateFormat('compensation_petition_date'),
   compensation_petition_protocol: DS.attr(),
   compensation_decision_date: DS.attr('date'),
+  compensation_decision_date_format: computeDateFormat('compensation_decision_date'),
   compensation_decision_protocol: DS.attr(),
   timesheeted: DS.attr('boolean'),
 

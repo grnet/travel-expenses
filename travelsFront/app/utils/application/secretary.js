@@ -106,9 +106,9 @@ const FS_VIEW_3 = [
   {
     label: 'protocol.label',
     fields: [
-      'expenditure_date_protocol',
+      'expenditure_date_protocol_format',
       'expenditure_protocol',
-      'movement_date_protocol',
+      'movement_date_protocol_format',
       'movement_protocol',
     ],
     layout: {

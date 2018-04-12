@@ -121,14 +121,18 @@ const FS_VIEW_8 = [
   {
     label: 'protocol.label',
     fields: [
-      'expenditure_date_protocol',
+      'expenditure_date_protocol_format',
       'expenditure_protocol',
-      'movement_date_protocol',
+      'movement_date_protocol_format',
       'movement_protocol',
+      'compensation_petition_date_format',
+      'compensation_petition_protocol',
+      'compensation_decision_date_format',
+      'compensation_decision_protocol',
     ],
     layout: {
       flex: [
-        50, 50, 50, 50,
+        50, 50, 50, 50, 50, 50, 50, 50,
       ],
     },
   },
