@@ -84,7 +84,7 @@ const FS_VIEW_3 = [
       'dse',
       'project.name',
       'reason',
-      field('user_recommendation', { disabled: true }),
+      'user_recommendation',
       'task_start_date_time_format',
       'task_end_date_time_format',
       meta.forms.travel_info,
