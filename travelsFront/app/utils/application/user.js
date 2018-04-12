@@ -2,6 +2,8 @@ import validate from 'ember-gen/validate';
 import { field } from 'ember-gen';
 import meta from 'travel/lib/meta';
 import PROFILE from '../common/profile';
+import SECRETARY from '../application/secretary';
+import CONTROLLER from '../application/controller';
 import { fileField } from '../../lib/common';
 
 const FS_VALIDATORS = {
@@ -69,7 +71,7 @@ const FS_VIEW_1 = [
   {
     label: 'application.label',
     fields: [
-      field('dse', { disabled: true }),
+      'dse',
       'project.name',
       'reason',
       'task_start_date_time_format',
@@ -86,4 +88,37 @@ const FS_VIEW_1 = [
   },
 ];
 
-export { FS_CREATE_1, FS_EDIT_1, FS_EDIT_6, FS_VIEW_1, FS_VALIDATORS };
+const FS_VIEW_4 = SECRETARY.FS_VIEW_3;
+
+const FS_VIEW_6 = [
+  {
+    label: 'application.label',
+    fields: [
+      'dse',
+      'project',
+      'reason',
+      'task_start_date',
+      'task_end_date',
+      meta.forms.travel_info,
+    ],
+    layout: {
+      flex: [50, 50, 100, 50, 50, 100],
+    },
+  },
+  {
+    label: 'compensation.label',
+    fields: [
+      fileField('travel_files', 'application-item', 'travel_files'),
+      'additional_expenses',
+      'additional_expenses_local_currency',
+      'additional_expenses_description',
+    ],
+    layout: {
+      flex: [100, 50, 50, 100],
+    },
+  },
+];
+
+const FS_VIEW_8 = CONTROLLER.FS_VIEW_8;
+
+export { FS_CREATE_1, FS_EDIT_1, FS_EDIT_6, FS_VIEW_1, FS_VIEW_4, FS_VIEW_6, FS_VIEW_8, FS_VALIDATORS };

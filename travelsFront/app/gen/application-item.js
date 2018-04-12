@@ -167,10 +167,19 @@ export default gen.CRUDGen.extend({
   details: {
     fieldsets: computed('role', function() {
       let role = get(this, 'role');
+      let status = this.get('model.status');
       let res = [];
 
       if (role === 'USER' || role === 'MANAGER') {
-        res = USER.FS_VIEW_1;
+        if (status >= 1 && status <= 3) {
+          res = USER.FS_VIEW_1;
+        } else if (status >= 4 && status <= 5) {
+          res = USER.FS_VIEW_4;
+        } else if (status >= 6 && status <= 8) {
+          res = USER.FS_VIEW_6;
+        } else if (status >= 9 && status <= 10) {
+          res = USER.FS_VIEW_8;
+        }
       } else if (role === 'SECRETARY') {
         res = SECRETARY.FS_VIEW_3;
       } else if (role === 'CONTROLLER') {
