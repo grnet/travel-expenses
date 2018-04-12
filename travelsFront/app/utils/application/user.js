@@ -112,9 +112,10 @@ const FS_VIEW_6 = [
       'additional_expenses',
       'additional_expenses_local_currency',
       'additional_expenses_description',
+      'status_label',
     ],
     layout: {
-      flex: [100, 50, 50, 100],
+      flex: [100, 50, 50, 100, 100],
     },
   },
 ];

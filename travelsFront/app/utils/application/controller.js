@@ -152,10 +152,11 @@ const FS_VIEW_8 = [
       'compensation_cost',
       'trip_days_after',
       'total_cost_calculated',
+      'status_label',
     ],
     layout: {
       flex: [
-        50, 50, 50, 50, 100,
+        50, 50, 50, 50, 100, 100
       ],
     },
   },
