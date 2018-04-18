@@ -144,7 +144,7 @@ const undo = {
   }),
   confirm: true,
   prompt: {
-    ok: 'form.undo.label',
+    ok: 'form.ok.label',
     cancel: 'form.cancel.label',
     message: 'prompt_undo_message',
     title: 'prompt_undo_title',
@@ -322,6 +322,82 @@ const addToTimesheets = {
   }),
 };
 
-let applicationActions = { submit: submit, undo: undo, pdf: pdf, approve: approve, addToTimesheets: addToTimesheets };
+const withdraw = {
+  label: computed('model.withdrawn', function(){
+    let withdrawn = this.get('model.withdrawn');
+    if (withdrawn == true) {
+      return 'tooltip_withdraw_cancel';
+    } else if (withdrawn ==false) {
+      return 'tooltip_withdraw';
+    }
+  }),
+  icon: computed('model.withdrawn', function(){
+    let withdrawn = this.get('model.withdrawn');
+    if (withdrawn == true) {
+      return 'do_not_disturb_off';
+    } else if (withdrawn ==false) {
+      return 'do_not_disturb_on';
+    }
+  }),
+  classNames: computed('model.withdrawn', function(){
+    let withdrawn = this.get('model.withdrawn');
+    if (withdrawn == true) {
+      return 'md-neutral';
+    } else if (withdrawn ==false) {
+      return 'md-withdrawn';
+    }
+  }),
+  action: function(route, model) {
+    let withdrawn = model.get('withdrawn');
+    let endpoint = '';
+    let msgSuccess = '';
+    let msgError = '';
+    if (withdrawn == true) {
+      endpoint = 'cancel_withdrawal';
+      msgSuccess = 'cancel.withdraw.application.success';
+      msgError = 'cancel.withdraw.application.error';
+    } else if (withdrawn ==false) {
+      endpoint = 'withdraw';
+      msgSuccess = 'withdraw.application.success';
+      msgError = 'withdraw.application.error';
+    }
+    return ajax_call(route, model, endpoint, msgSuccess, msgError);
+  },
+  hidden: computed('model.status', 'role', function(){
+    let status = this.get('model.status');
+    let role = this.get('role');
+
+    if (role === 'SECRETARY') {
+      let showButtonBy = [true, true, false, false, false, true, true, true, true, true];
+
+      return showButtonBy[status - 1];
+    } else {
+      return true;
+    }
+  }),
+  confirm: true,
+  prompt: {
+    ok: 'form.ok.label',
+    cancel: 'form.cancel.label',
+    message:  computed('model.withdrawn', function(){
+    let withdrawn = this.get('model.withdrawn');
+    if (withdrawn == true) {
+      return 'prompt_withdrawCancel_message';
+    } else if (withdrawn ==false) {
+      return 'prompt_withdraw_message';
+    }
+  }),
+    title:  computed('model.withdrawn', function(){
+    let withdrawn = this.get('model.withdrawn');
+    if (withdrawn == true) {
+      return 'prompt_withdrawCancel_title';
+    } else if (withdrawn ==false) {
+      return 'prompt_withdraw_title';
+    }
+  }),
+  },
+};
+
+let applicationActions = { submit: submit, undo: undo, pdf: pdf, approve: approve, addToTimesheets: addToTimesheets, withdraw: withdraw };
 
 export { applicationActions };

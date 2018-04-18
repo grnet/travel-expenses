@@ -12,6 +12,7 @@ $action-color: color($color-orange, '600');
 $approve-color: color($color-cyan, '600');
 $neutral-color: color($color-grey, '600');
 $timesheets-color: color($color-purple, 'A400');
+$withdrawn-color:  color($color-red, '600');
 
 .flex-grow {
   text-transform: capitalize;
@@ -44,5 +45,11 @@ $timesheets-color: color($color-purple, 'A400');
 .md-addToTimesheets {
   md-icon {
     color: $timesheets-color !important;
+  }
+}
+
+.md-withdrawn {
+  md-icon {
+    color: $withdrawn-color !important;
   }
 }

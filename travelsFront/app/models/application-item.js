@@ -65,6 +65,7 @@ export default DS.Model.extend({
   overnights_sum_cost: DS.attr({ disabled: true }),
   compensation_cost: DS.attr({ disabled: true }),
   total_cost_calculated: DS.attr({ disabled: true }),
+  withdrawn: DS.attr('boolean'),
   // compensation - user fields
   additional_expenses: DS.attr(),
   additional_expenses_local_currency: DS.attr({ 'choices': CHOICES.CURRENCIES, autocomplete: true }),

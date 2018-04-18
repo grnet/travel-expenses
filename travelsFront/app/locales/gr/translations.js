@@ -113,7 +113,7 @@ export default {
   // buttons
   'form.save.label': 'Αποθηκευση',
   'form.submit.label': 'Υποβολη',
-  'form.undo.label': 'OK',
+  'form.ok.label': 'OK',
   'form.cancel.label': 'Ακυρωση',
   'form.approve.label': 'Εγκριση',
   'login': 'Εισοδος',
@@ -154,6 +154,8 @@ export default {
   'del_action_info_message': 'Αφού επιλέξετε την "ΔΙΑΓΡΑΦΗ" του αρχείου, στη συνέχεια πατήστε το κουμπί "ΑΠΟΘΗΚΕΥΣΗ" προκειμένου να πραγματοποιηθεί η ενέργεια της διαγραφής',
   'tooltip_save_b4_submit': 'Για να υποβάλετε την αίτησή σας θα πρέπει πρώτα να αποθηκεύσετε τις αλλαγές σας',
   'tooltip_addToTimesheets': 'Μεταφορά στην εφαρμογή timesheets',
+  'tooltip_withdraw': 'Ακύρωση Αίτησης',
+  'tooltip_withdraw_cancel': 'Επαναφορά Αίτησης',
   // prompt messages
   'confirm.title': 'Διαγραφή Αίτησης',
   'confirm.message': 'Είστε βέβαιοι ότι θέλετε να διαγράψετε την αίτηση σας;',
@@ -169,6 +171,10 @@ export default {
   'prompt_approve_message': 'Με τη συγκεκριμένη ενέργεια η αίτηση θα περάσει στην κατάσταση "εγκεκριμένη από Πρόεδρο"',
   'prompt_pdf_title': 'Εξαγωγή αίτησης/απόφασης μετακίνησης',
   'prompt_approve_title': 'Έγκριση Μετακίνησης',
+  'prompt_withdraw_title': 'Ακύρωση Αίτησης',
+  'prompt_withdraw_message': 'Είστε βέβαιοι ότι θέλετε να ακυρώσετε την αίτηση μετακίνησης;',
+  'prompt_withdrawCancel_title': 'Επαναφορά Ακυρωμένης Αίτησης',
+  'prompt_withdrawCancel_message': 'Είστε βέβαιοι ότι θέλετε να επαναφέρετε την ακυρωμένη αίτηση μετακίνησης;',
   // success messages
   'petition_saved': 'Η αίτησή σας έχει αποθηκευτεί επιτυχώς',
   'profile_saved': 'Τα στοιχεία του προφίλ σας έχουν ενημερωθεί επιτυχώς',
@@ -176,11 +182,15 @@ export default {
   'undo.application.success': 'Επιτυχής αναίρεση υποβολής',
   'pdf.application.success': 'Επιτυχής εξαγωγή αρχείων',
   'approve.application.success': 'Επιτυχής έγκριση μετακίνησης',
+  'withdraw.application.success': 'Επιτυχής ακύρωση μετακίνησης',
+  'cancel.withdraw.application.success': 'Επιτυχής επαναφορά ακυρωμένης αίτησης μετακίνησης',
   // error messages
   'submit.application.error': 'Σφάλμα κατά την υποβολή της αίτησης',
   'pdf.decision.error': 'Σφάλμα κατά την εξαγωγή της απόφασης μετακίνησης',
   'pdf.application.error': 'Σφάλμα κατά την εξαγωγή της αίτησης μετακίνησης',
   'approve.application.error': 'Σφάλμα κατά την έγκριση μετακίνησης',
+  'withdraw.application.error': 'Σφάλμα κατά την ακύρωση μετακίνησης',
+  'withdraw.application.error': 'Σφάλμα κατά την επαναφορά της ακυρωμένης αίτησης μετακίνησης',
   // placeholders
   'time_placeholder': 'Ώρα',
 };
