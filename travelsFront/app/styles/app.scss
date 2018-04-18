@@ -10,9 +10,17 @@
 $success-color: color($color-light-green, '600');
 $action-color: color($color-orange, '600');
 $approve-color: color($color-cyan, '600');
+$neutral-color: color($color-grey, '600');
+$timesheets-color: color($color-purple, 'A400');
 
 .flex-grow {
   text-transform: capitalize;
+}
+
+.md-neutral {
+  md-icon {
+    color: $neutral-color !important;
+  }
 }
 
 .md-success {
@@ -30,5 +38,11 @@ $approve-color: color($color-cyan, '600');
 .md-approve {
   md-icon {
     color: $approve-color !important;
+  }
+}
+
+.md-addToTimesheets {
+  md-icon {
+    color: $timesheets-color !important;
   }
 }

@@ -259,6 +259,47 @@ const approve = {
   },
 };
 
-let applicationActions = { submit: submit, undo: undo, pdf: pdf, approve: approve };
+const addToTimesheets = {
+  label: 'tooltip_addToTimesheets',
+  icon: 'today',
+  classNames: computed('model.timesheeted', function(){
+    let timesheeted = this.get('model.timesheeted');
+    if (timesheeted == true) {
+      return 'md-addToTimesheets';
+    } else if (timesheeted ==false) {
+      return 'md-neutral';
+    }
+  }),
+  action: function(route, model) {
+    if (model.get('timesheeted') == false) {
+      model.set('timesheeted', true);
+    } else if (model.get('timesheeted') == true) {
+      model.set('timesheeted', false);
+    }
+    let m = route.get('messageService');
+    model.save().then((value) => {
+      m.setSuccess('form.saved');
+      return value;
+    }, (reason) => {
+      model.rollbackAttributes();
+      m.setError('reason.errors');
+      return reason.errors;
+    });
+  },
+  hidden: computed('model.status', 'role', function(){
+    let status = this.get('model.status');
+    let role = this.get('role');
+
+    if (role === 'CONTROLLER') {
+      let showButtonBy = [true, true, true, true, true, true, true, false, false, false];
+
+      return showButtonBy[status - 1];
+    } else {
+      return true;
+    }
+  }),
+};
+
+let applicationActions = { submit: submit, undo: undo, pdf: pdf, approve: approve, addToTimesheets: addToTimesheets };
 
 export { applicationActions };
