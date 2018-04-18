@@ -21,6 +21,28 @@ function action_utils(route, model) {
   return { messages, token, url };
 };
 
+function ajax_call(route, model, endpoint, msgSuccess, msgError) {
+  let { messages, token, url } = action_utils(route, model);
+
+  return fetch(url + endpoint + '/', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Authorization': `Token ${token}`,
+    },
+  }).then((resp) => {
+    if (resp.status === 200) {
+      route.refresh().then(() => {
+        messages.setSuccess(msgSuccess);
+      })
+    } else {
+      throw new Error('error');
+    }
+  }).catch((err) => {
+    messages.setError(msgError);
+  });
+};
+
 const submit = {
   label: 'prompt_submit_title',
   icon: 'send',
