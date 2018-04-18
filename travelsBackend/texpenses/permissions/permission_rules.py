@@ -299,6 +299,8 @@ PERMISSION_RULES = [
     ('applications', 'update', 'CONTROLLER', 'compensation_petition_protocol', 'usercompensationsubmitted', '*'),
 
     ('applications', 'update', 'CONTROLLER', 'timesheeted', 'secretarycompensationsaved', '*'),
+    ('applications', 'update', 'CONTROLLER', 'timesheeted', 'secretarycompensationsubmitted', '*'),
+    ('applications', 'update', 'CONTROLLER', 'timesheeted', 'presidentcompensationapproved', '*'),
     ('applications', 'update', 'CONTROLLER', 'additional_expenses', 'secretarycompensationsaved', '*'),
     ('applications', 'update', 'CONTROLLER', 'additional_expenses_default_currency', 'secretarycompensationsaved', '*'),
     ('applications', 'update', 'CONTROLLER', 'additional_expenses_description', 'secretarycompensationsaved', '*'),
