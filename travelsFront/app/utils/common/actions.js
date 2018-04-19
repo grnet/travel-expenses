@@ -48,25 +48,11 @@ const submit = {
   icon: 'send',
   classNames: 'md-success',
   action: function(route, model) {
-    let { messages, token, url } = action_utils(route, model);
+    let endpoint = 'submit';
+    let msgSuccess = 'submit.application.success';
+    let msgError = 'submit.application.error';
 
-    return fetch(url + 'submit/', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Token ${token}`,
-      },
-    }).then((resp) => {
-      if (resp.status === 200) {
-        route.refresh().then(() => {
-          messages.setSuccess('submit.application.success');
-        })
-      } else {
-        throw new Error('error');
-      }
-    }).catch((err) => {
-      messages.setError('submit.application.error');
-    });
+    return ajax_call(route, model, endpoint, msgSuccess, msgError);
   },
   hidden: computed('model.status', 'role', function(){
     let status = this.get('model.status');
@@ -102,25 +88,11 @@ const undo = {
   icon: 'reply',
   accent: true,
   action: function(route, model) {
-    let { messages, token, url } = action_utils(route, model);
+    let endpoint = 'cancel';
+    let msgSuccess = 'undo.application.success';
+    let msgError = 'undo.application.error';
 
-    return fetch(url + 'cancel/', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Token ${token}`,
-      },
-    }).then((resp) => {
-      if (resp.status === 200) {
-        route.refresh().then(() => {
-          messages.setSuccess('undo.application.success');
-        })
-      } else {
-        throw new Error('error');
-      }
-    }).catch((err) => {
-      messages.setError('undo.application.error');
-    });
+    return ajax_call(route, model, endpoint, msgSuccess, msgError);
   },
   hidden: computed('model.status', 'role', function(){
     let status = this.get('model.status');
@@ -236,25 +208,11 @@ const approve = {
   icon: 'verified_user',
   classNames: 'md-approve',
   action: function(route, model) {
-    let { messages, token, url } = action_utils(route, model);
+    let endpoint = 'president_approval';
+    let msgSuccess = 'approve.application.success';
+    let msgError = 'approve.application.error';
 
-    return fetch(url + 'president_approval/', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Token ${token}`,
-      },
-    }).then((resp) => {
-      if (resp.status === 200) {
-        route.refresh().then(() => {
-          messages.setSuccess('approve.application.success');
-        })
-      } else {
-        throw new Error('error');
-      }
-    }).catch((err) => {
-      messages.setError('approve.application.error');
-    });
+    return ajax_call(route, model, endpoint, msgSuccess, msgError);
   },
   hidden: computed('model.status', 'role', function(){
     let status = this.get('model.status');
@@ -380,21 +338,21 @@ const withdraw = {
     ok: 'form.ok.label',
     cancel: 'form.cancel.label',
     message:  computed('model.withdrawn', function(){
-    let withdrawn = this.get('model.withdrawn');
-    if (withdrawn == true) {
-      return 'prompt_withdrawCancel_message';
-    } else if (withdrawn ==false) {
-      return 'prompt_withdraw_message';
-    }
-  }),
+      let withdrawn = this.get('model.withdrawn');
+      if (withdrawn == true) {
+        return 'prompt_withdrawCancel_message';
+      } else if (withdrawn ==false) {
+        return 'prompt_withdraw_message';
+      }
+    }),
     title:  computed('model.withdrawn', function(){
-    let withdrawn = this.get('model.withdrawn');
-    if (withdrawn == true) {
-      return 'prompt_withdrawCancel_title';
-    } else if (withdrawn ==false) {
-      return 'prompt_withdraw_title';
-    }
-  }),
+      let withdrawn = this.get('model.withdrawn');
+      if (withdrawn == true) {
+        return 'prompt_withdrawCancel_title';
+      } else if (withdrawn ==false) {
+        return 'prompt_withdraw_title';
+      }
+    }),
   },
 };
 
