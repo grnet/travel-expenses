@@ -326,7 +326,11 @@ const withdraw = {
     let role = this.get('role');
 
     if (role === 'SECRETARY') {
-      let showButtonBy = [true, true, false, false, false, true, true, true, true, true];
+      let showButtonBy = [true, true, false, true, true, true, true, true, true, true];
+
+      return showButtonBy[status - 1];
+    } else if (role === 'CONTROLLER') {
+      let showButtonBy = [true, true, true, true, true, true, true, false, true, true];
 
       return showButtonBy[status - 1];
     } else {
