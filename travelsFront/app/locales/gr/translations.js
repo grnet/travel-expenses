@@ -20,7 +20,7 @@ export default {
   're_new_password.label': 'Επιβεβαίωση νέου Κωδικού Πρόσβασης',
   'current_password.label': 'Τρέχων Κωδικός Πρόσβασης',
   // search and filter
-  'search.input.placeholder': 'Εισάγετε κριτήριο αναζήτησης',
+  'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',
   'list.filters.apply.label': 'ΕΦΑΡΜΟΓΗ',
   'list.filters.clear.label': 'ΚΑΘΑΡΙΣΜΟΣ',
   'list.filters.title': 'Φίλτρα',
