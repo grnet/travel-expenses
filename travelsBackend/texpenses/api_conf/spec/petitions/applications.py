@@ -313,6 +313,7 @@ spec = {'*': {
                             ],
                             'search_fields': ['first_name',
                                               'last_name',
+                                              'dse'
                                               ]},
         '.actions': {'.create': {},
                      '.delete': {},
