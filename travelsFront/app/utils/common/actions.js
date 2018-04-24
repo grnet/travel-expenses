@@ -70,7 +70,7 @@ const submit = {
       let showButtonBy = [true, true, true, true, true, true, true, false, true, true];
 
       return showButtonBy[status - 1];
-    }  else {
+    } else {
       return true;
     }
   }),
@@ -244,9 +244,10 @@ const addToTimesheets = {
   icon: 'today',
   classNames: computed('model.timesheeted', function(){
     let timesheeted = this.get('model.timesheeted');
+
     if (timesheeted == true) {
       return 'md-addToTimesheets';
-    } else if (timesheeted ==false) {
+    } else if (timesheeted == false) {
       return 'md-neutral';
     }
   }),
@@ -257,12 +258,15 @@ const addToTimesheets = {
       model.set('timesheeted', false);
     }
     let m = route.get('messageService');
+
     model.save().then((value) => {
       m.setSuccess('form.saved');
+
       return value;
     }, (reason) => {
       model.rollbackAttributes();
       m.setError('reason.errors');
+
       return reason.errors;
     });
   },
@@ -283,25 +287,28 @@ const addToTimesheets = {
 const withdraw = {
   label: computed('model.withdrawn', function(){
     let withdrawn = this.get('model.withdrawn');
+
     if (withdrawn == true) {
       return 'tooltip_withdraw_cancel';
-    } else if (withdrawn ==false) {
+    } else if (withdrawn == false) {
       return 'tooltip_withdraw';
     }
   }),
   icon: computed('model.withdrawn', function(){
     let withdrawn = this.get('model.withdrawn');
+
     if (withdrawn == true) {
       return 'do_not_disturb_off';
-    } else if (withdrawn ==false) {
+    } else if (withdrawn == false) {
       return 'do_not_disturb_on';
     }
   }),
   classNames: computed('model.withdrawn', function(){
     let withdrawn = this.get('model.withdrawn');
+
     if (withdrawn == true) {
       return 'md-neutral';
-    } else if (withdrawn ==false) {
+    } else if (withdrawn == false) {
       return 'md-withdrawn';
     }
   }),
@@ -310,15 +317,17 @@ const withdraw = {
     let endpoint = '';
     let msgSuccess = '';
     let msgError = '';
+
     if (withdrawn == true) {
       endpoint = 'cancel_withdrawal';
       msgSuccess = 'cancel.withdraw.application.success';
       msgError = 'cancel.withdraw.application.error';
-    } else if (withdrawn ==false) {
+    } else if (withdrawn == false) {
       endpoint = 'withdraw';
       msgSuccess = 'withdraw.application.success';
       msgError = 'withdraw.application.error';
     }
+
     return ajax_call(route, model, endpoint, msgSuccess, msgError);
   },
   hidden: computed('model.status', 'role', function(){
@@ -343,17 +352,19 @@ const withdraw = {
     cancel: 'form.cancel.label',
     message:  computed('model.withdrawn', function(){
       let withdrawn = this.get('model.withdrawn');
+
       if (withdrawn == true) {
         return 'prompt_withdrawCancel_message';
-      } else if (withdrawn ==false) {
+      } else if (withdrawn == false) {
         return 'prompt_withdraw_message';
       }
     }),
     title:  computed('model.withdrawn', function(){
       let withdrawn = this.get('model.withdrawn');
+
       if (withdrawn == true) {
         return 'prompt_withdrawCancel_title';
-      } else if (withdrawn ==false) {
+      } else if (withdrawn == false) {
         return 'prompt_withdraw_title';
       }
     }),

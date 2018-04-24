@@ -12,6 +12,7 @@ function profileIsFilled(session) {
       return false;
     }
   }
+
   return true;
 };
 
