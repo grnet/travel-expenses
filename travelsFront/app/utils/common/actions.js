@@ -360,6 +360,57 @@ const withdraw = {
   },
 };
 
-let applicationActions = { submit: submit, undo: undo, pdf: pdf, approve: approve, addToTimesheets: addToTimesheets, withdraw: withdraw };
+const exportStats = {
+  label: 'tooltip_stats_title',
+  icon: 'file_download',
+  action: function(route, model) {
+    let messages = route.get('messageService');
+    let token = get(route, 'user.auth_token');
+    let store = get(route, 'store');
+    let adapter = store.adapterFor('project');
+    let url = adapter.buildURL('project');
+    var filename = 'travel_statistics';
+
+    return $.ajax({
+      headers:{
+        Authorization: 'Token ' + token,
+      },
+      xhrFields : {
+        responseType : 'arraybuffer',
+      },
+      url: url + 'stats/?response_format=csv',
+      success: function(data) {
+        var blob = new Blob([data], { type: 'text/csv' });
+        var link = document.createElement('a');
+
+        link.href = window.URL.createObjectURL(blob);
+        link.download = filename + '.csv';
+        link.click();
+      },
+    }).then((resp) => {
+      if (resp.byteLength > 0) {
+        route.refresh().then(() => {
+          messages.setSuccess('stats.export.success');
+        })
+      } else {
+        throw new Error('error');
+      }
+    }).catch((err) => {
+      messages.setError('stats.export.error');
+    });
+  },
+  hidden: computed('role', function(){
+    let role = this.get('role');
+
+    if (role === 'CONTROLLER') {
+      return false;
+    } else {
+      return true;
+    }
+  }),
+  confirm: false,
+};
+
+let applicationActions = { submit: submit, undo: undo, pdf: pdf, approve: approve, addToTimesheets: addToTimesheets, withdraw: withdraw, exportStats: exportStats };
 
 export { applicationActions };

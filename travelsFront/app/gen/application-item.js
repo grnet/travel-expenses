@@ -114,6 +114,10 @@ export default gen.CRUDGen.extend({
   },
 
   list: {
+    actions: ['exportStats'],
+    actionsMap: {
+      exportStats: applicationActions.exportStats
+    },
     preloadModels: ['project'],
     layout: 'table',
     menu: {

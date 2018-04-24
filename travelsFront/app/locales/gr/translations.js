@@ -156,6 +156,7 @@ export default {
   'tooltip_addToTimesheets': 'Μεταφορά στην εφαρμογή timesheets',
   'tooltip_withdraw': 'Ακύρωση Αίτησης',
   'tooltip_withdraw_cancel': 'Επαναφορά Αίτησης',
+  'tooltip_stats_title': 'Εξαγωγη Στατιστικων',
   // prompt messages
   'confirm.title': 'Διαγραφή Αίτησης',
   'confirm.message': 'Είστε βέβαιοι ότι θέλετε να διαγράψετε την αίτηση σας;',
@@ -181,6 +182,7 @@ export default {
   'submit.application.success': 'Επιτυχής υποβολή αίτησης',
   'undo.application.success': 'Επιτυχής αναίρεση υποβολής',
   'pdf.application.success': 'Επιτυχής εξαγωγή αρχείων',
+  'stats.export.success': 'Επιτυχής εξαγωγή αρχείου',
   'approve.application.success': 'Επιτυχής έγκριση μετακίνησης',
   'withdraw.application.success': 'Επιτυχής ακύρωση μετακίνησης',
   'cancel.withdraw.application.success': 'Επιτυχής επαναφορά ακυρωμένης αίτησης μετακίνησης',
@@ -188,6 +190,7 @@ export default {
   'submit.application.error': 'Σφάλμα κατά την υποβολή της αίτησης',
   'pdf.decision.error': 'Σφάλμα κατά την εξαγωγή της απόφασης μετακίνησης',
   'pdf.application.error': 'Σφάλμα κατά την εξαγωγή της αίτησης μετακίνησης',
+  'stats.export.error': 'Σφάλμα κατά την εξαγωγή αρχείου',
   'approve.application.error': 'Σφάλμα κατά την έγκριση μετακίνησης',
   'withdraw.application.error': 'Σφάλμα κατά την ακύρωση μετακίνησης',
   'withdraw.application.error': 'Σφάλμα κατά την επαναφορά της ακυρωμένης αίτησης μετακίνησης',
