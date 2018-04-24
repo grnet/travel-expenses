@@ -114,7 +114,7 @@ export default gen.CRUDGen.extend({
   },
 
   list: {
-    actions: ['exportStats'],
+    actions: ['exportStats', 'gen:create'],
     actionsMap: {
       exportStats: applicationActions.exportStats,
     },
