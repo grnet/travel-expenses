@@ -66,6 +66,8 @@ const travel_info = field('travel_info', {
         val = TRAVEL_INFO.FS_USER_VALIDATORS;
       } else if (role === 'SECRETARY') {
         val = TRAVEL_INFO.FS_SECRETARY_VALIDATORS;
+      } else if (role === 'CONTROLLER') {
+        val = TRAVEL_INFO.FS_CONTROLLER_VALIDATORS;
       }
 
       return val;
