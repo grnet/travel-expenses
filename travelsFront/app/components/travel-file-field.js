@@ -15,7 +15,6 @@ export default Ember.Component.extend(BaseFieldMixin, {
   tagName: 'div',
   multiple: reads('fattrs.multiple'),
   replace: reads('fattrs.replace'),
-  img: reads('fattrs.img'),
   readonly: reads('field.readonly'),
   disabled: reads('field.disabled'),
   preventDelete: reads('fattrs.preventDelete'),
