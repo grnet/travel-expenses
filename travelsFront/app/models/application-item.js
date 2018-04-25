@@ -9,6 +9,15 @@ const CHOICES = ENV.APP.resources;
 export default DS.Model.extend({
   __api__: {
     path: 'applications',
+
+    serialize(hash, snapshot, serializer) {
+      console.log(hash['travel_files']);
+      if (hash['travel_files'] === '') {
+        return hash;
+      }
+      delete hash['travel_files'];
+      return hash;
+    }
   },
 
   session: Ember.inject.service('session'),
