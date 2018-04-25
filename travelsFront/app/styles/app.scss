@@ -53,3 +53,11 @@ $withdrawn-color:  color($color-red, '600');
     color: $withdrawn-color !important;
   }
 }
+
+.fullwidth {
+  width: 100%;
+}
+
+.nowrap {
+  white-space: nowrap;
+}

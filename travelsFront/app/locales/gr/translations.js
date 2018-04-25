@@ -190,6 +190,8 @@ export default {
   'approve.application.success': 'Επιτυχής έγκριση μετακίνησης',
   'withdraw.application.success': 'Επιτυχής ακύρωση μετακίνησης',
   'cancel.withdraw.application.success': 'Επιτυχής επαναφορά ακυρωμένης αίτησης μετακίνησης',
+  'file.upload.success': 'Επιτυχές ανέβασμα αρχείου',
+  'file.delete.success': 'Επιτυχής διαγραφή αρχείου',
   // error messages
   'submit.application.error': 'Σφάλμα κατά την υποβολή της αίτησης',
   'pdf.decision.error': 'Σφάλμα κατά την εξαγωγή της απόφασης μετακίνησης',
@@ -198,7 +200,11 @@ export default {
   'approve.application.error': 'Σφάλμα κατά την έγκριση μετακίνησης',
   'withdraw.application.error': 'Σφάλμα κατά την ακύρωση μετακίνησης',
   'withdraw.application.error': 'Σφάλμα κατά την επαναφορά της ακυρωμένης αίτησης μετακίνησης',
+  'file.upload.error': 'Σφάλμα κατά το ανέβασμα αρχείου',
+  'file.delete.error': 'Σφάλμα κατά την διαγραφή αρχείου',
   // placeholders
   'time_placeholder': 'Ώρα',
+  //plain text
+  'file.field.no.files': 'Δεν έχετε ανεβάσει κάποιο αρχείο',
 };
 
