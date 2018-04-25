@@ -269,7 +269,7 @@ PERMISSION_RULES = [
     #controller
     ('applications', 'list', 'CONTROLLER', '*','*','*'),
     ('applications', 'retrieve', 'CONTROLLER', '*','*','*'),
-    ('applications', 'update', 'CONTROLLER', 'timesheeted', 'usercompensationsubmitted', '*'),
+    ('applications', 'update_timesheeted', 'CONTROLLER', '*', 'usercompensationsubmitted', '*'),
     ('applications', 'update', 'CONTROLLER', 'additional_expenses', 'usercompensationsubmitted', '*'),
     ('applications', 'update', 'CONTROLLER', 'additional_expenses_default_currency', 'usercompensationsubmitted', '*'),
     ('applications', 'update', 'CONTROLLER', 'additional_expenses_description', 'usercompensationsubmitted', '*'),
@@ -298,9 +298,9 @@ PERMISSION_RULES = [
     ('applications', 'update', 'CONTROLLER', 'compensation_petition_date', 'usercompensationsubmitted', '*'),
     ('applications', 'update', 'CONTROLLER', 'compensation_petition_protocol', 'usercompensationsubmitted', '*'),
 
-    ('applications', 'update', 'CONTROLLER', 'timesheeted', 'secretarycompensationsaved', '*'),
-    ('applications', 'update', 'CONTROLLER', 'timesheeted', 'secretarycompensationsubmitted', '*'),
-    ('applications', 'update', 'CONTROLLER', 'timesheeted', 'presidentcompensationapproved', '*'),
+    ('applications', 'update_timesheeted', 'CONTROLLER', '*', 'secretarycompensationsaved', '*'),
+    ('applications', 'update_timesheeted', 'CONTROLLER', '*', 'secretarycompensationsubmitted', '*'),
+    ('applications', 'update_timesheeted', 'CONTROLLER', '*', 'presidentcompensationapproved', '*'),
     ('applications', 'update', 'CONTROLLER', 'additional_expenses', 'secretarycompensationsaved', '*'),
     ('applications', 'update', 'CONTROLLER', 'additional_expenses_default_currency', 'secretarycompensationsaved', '*'),
     ('applications', 'update', 'CONTROLLER', 'additional_expenses_description', 'secretarycompensationsaved', '*'),
