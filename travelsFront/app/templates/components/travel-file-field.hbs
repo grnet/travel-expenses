@@ -23,7 +23,7 @@
 
         {{#row.cell class="nowrap"}}
           {{#if canReplace}}
-            {{#paper-button disabled=inProgress iconButton=true onClick=(action "handleAddClick")}}{{paper-icon "file_upload"}}{{/paper-button}}
+            {{#paper-button disabled=inProgress iconButton=true onClick=(action "handleAddClick")}}{{paper-icon "restore_page"}}{{/paper-button}}
           {{/if}}
           {{#if canDelete}}
             {{#paper-button disabled=inProgress iconButton=true onClick=(action "deleteFile" file)}}{{paper-icon "delete"}}{{/paper-button}}
