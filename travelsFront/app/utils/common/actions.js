@@ -252,30 +252,18 @@ const addToTimesheets = {
     }
   }),
   action: function(route, model) {
-    if (model.get('timesheeted') == false) {
-      model.set('timesheeted', true);
-    } else if (model.get('timesheeted') == true) {
-      model.set('timesheeted', false);
-    }
-    let m = route.get('messageService');
+    let endpoint = 'update_timesheeted';
+    let msgSuccess = 'add.to.timesheets.success';
+    let msgError = 'add.to.timesheets.error';
 
-    model.save().then((value) => {
-      m.setSuccess('form.saved');
-
-      return value;
-    }, (reason) => {
-      model.rollbackAttributes();
-      m.setError('reason.errors');
-
-      return reason.errors;
-    });
+    return ajax_call(route, model, endpoint, msgSuccess, msgError);
   },
   hidden: computed('model.status', 'role', function(){
     let status = this.get('model.status');
     let role = this.get('role');
 
     if (role === 'CONTROLLER') {
-      let showButtonBy = [true, true, true, true, true, true, true, false, false, false];
+      let showButtonBy = [true, true, true, true, true, true, false, false, false, false];
 
       return showButtonBy[status - 1];
     } else {

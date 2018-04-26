@@ -192,6 +192,7 @@ export default {
   'cancel.withdraw.application.success': 'Επιτυχής επαναφορά ακυρωμένης αίτησης μετακίνησης',
   'file.upload.success': 'Επιτυχές ανέβασμα αρχείου',
   'file.delete.success': 'Επιτυχής διαγραφή αρχείου',
+  'add.to.timesheets.success': 'Η ενέργεια πραγματοποιήθηκε επιτυχώς',
   // error messages
   'submit.application.error': 'Σφάλμα κατά την υποβολή της αίτησης',
   'pdf.decision.error': 'Σφάλμα κατά την εξαγωγή της απόφασης μετακίνησης',
@@ -202,6 +203,7 @@ export default {
   'withdraw.application.error': 'Σφάλμα κατά την επαναφορά της ακυρωμένης αίτησης μετακίνησης',
   'file.upload.error': 'Σφάλμα κατά το ανέβασμα αρχείου',
   'file.delete.error': 'Σφάλμα κατά την διαγραφή αρχείου',
+  'add.to.timesheets.error': 'Σφάλμα κατά την εκτέλεση της ενέργειας',
   // placeholders
   'time_placeholder': 'Ώρα',
   //plain text
