@@ -46,7 +46,10 @@ const FS_EDIT_8 = [
   {
     label: 'compensation.label',
     fields: [
-      fileField('travel_files', 'application-item', 'travel_files'),
+      fileField('travel_files', 'application-item', 'travel_files', {},
+      {
+        preventDelete: true
+      }),
       'additional_expenses',
       'additional_expenses_local_currency',
       'additional_expenses_description',
