@@ -269,6 +269,8 @@ PERMISSION_RULES = [
     #controller
     ('applications', 'list', 'CONTROLLER', '*','*','*'),
     ('applications', 'retrieve', 'CONTROLLER', '*','*','*'),
+    ('applications', 'update_timesheeted', 'CONTROLLER', '*', 'presidentapproved', '*'),
+    ('applications', 'update_timesheeted', 'CONTROLLER', '*', 'usercompensationsaved', '*'),
     ('applications', 'update_timesheeted', 'CONTROLLER', '*', 'usercompensationsubmitted', '*'),
     ('applications', 'update', 'CONTROLLER', 'additional_expenses', 'usercompensationsubmitted', '*'),
     ('applications', 'update', 'CONTROLLER', 'additional_expenses_default_currency', 'usercompensationsubmitted', '*'),
