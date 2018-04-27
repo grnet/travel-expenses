@@ -8,7 +8,7 @@ from texpenses.permissions.permission_rules import PERMISSION_RULES
 from texpenses.api_conf.spec.spec import (countries_conf, city_conf, user_conf,
                                           tax_office_conf, project_conf,
                                           applications,
-                                          travel_info)
+                                          travel_info, city_distances_conf)
 import functools
 import copy
 
@@ -110,6 +110,10 @@ class Configuration(object):
             ['.choices']['allowed'] = self.categories
         self.spec['api']['city'] = endpoint
 
+    def CityDistancesConfig(self):
+        endpoint = city_distances_conf
+        self.spec['api']['city-distances'] = endpoint
+
     def UsersConfig(self):
         endpoint = user_conf
         endpoint['*']['specialty']['.choices']['allowed'] = self.specialties
@@ -145,3 +149,4 @@ class Configuration(object):
         self.CitiesConfig()
         self.CountriesConfig()
         self.ApplicationConfig()
+        self.CityDistancesConfig()

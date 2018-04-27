@@ -9,7 +9,8 @@ spec = {'api': {'.endpoint': {},
                 'applications': {},
                 'project': {},
                 'tax-office': {},
-                'users': {}}}
+                'users': {},
+                'city-distances': {}}}
 
 tax_office_conf = {'*': {'address': {'.cli_option': {},
                                      '.drf_field': {},
@@ -233,3 +234,55 @@ city_conf = {'*': {'country': {'.cli_option': {},
                'texpenses.views.mixins.CityMixin'],
               'model': 'texpenses.models.City'},
              '.actions': {'.list': {}, '.retrieve': {}}}
+
+city_distances_conf = {
+    '.cli_commands': {},
+    '.collection': {},
+    '.drf_collection': {
+        'mixins': [
+            'rest_framework_extensions.cache.mixins.CacheResponseMixin'],
+        'model': 'texpenses.models.CityDistances'
+    },
+    '.actions': {
+        '.list': {},
+        '.retrieve': {}
+    },
+    '*': {
+        'id': {
+            '.cli_option': {},
+            '.drf_field': {},
+            '.field': {},
+            '.readonly': {},
+            '.serial': {}
+        },
+       'url': {
+            '.drf_field': {},
+            '.identity': {},
+            '.readonly': {}
+        },
+        'distance': {
+            '.cli_option': {},
+            '.drf_field': {},
+            '.field': {},
+            '.float': {}
+        },
+        'from_city': {
+            '.cli_option': {},
+            '.drf_field': {},
+            '.field': {},
+            '.readonly': {},
+            '.ref': {
+                'to': 'api/city'
+            }
+        },
+        'to_city': {
+            '.cli_option': {},
+            '.drf_field': {},
+            '.field': {},
+            '.readonly': {},
+            '.ref': {
+                'to': 'api/city'
+            }
+        },
+    }
+}
