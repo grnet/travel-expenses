@@ -263,7 +263,7 @@ const addToTimesheets = {
     let role = this.get('role');
 
     if (role === 'CONTROLLER') {
-      let showButtonBy = [true, true, true, true, true, true, false, false, false, false];
+      let showButtonBy = [true, true, true, true, false, false, false, false, false, false];
 
       return showButtonBy[status - 1];
     } else {
