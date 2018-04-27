@@ -11,7 +11,6 @@ export default DS.Model.extend({
     path: 'applications',
 
     serialize(hash, snapshot, serializer) {
-      console.log(hash['travel_files']);
       if (hash['travel_files'] === '') {
         return hash;
       }
