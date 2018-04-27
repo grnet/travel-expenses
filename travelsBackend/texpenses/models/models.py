@@ -18,9 +18,8 @@ from texpenses.models import common
 from texpenses.validators import (
     afm_validator, iban_validation, date_validator,
     start_end_date_validator)
-import googlemaps
-from geopy.geocoders import Nominatim
 from decimal import Decimal
+
 
 def update_instance(instance, updated_fields):
     for field, value in updated_fields.iteritems():
@@ -192,7 +191,7 @@ class CityDistances(md.Model):
     id = md.AutoField(primary_key=True)
     from_city = md.ForeignKey(City, related_name='from_city')
     to_city = md.ForeignKey(City, related_name='to_city')
-    distance = md.PositiveSmallIntegerField(blank=True)
+    distance = md.FloatField()
 
     def __unicode__(self):
         return str(self.id) + '-' + self.from_city.name + ' to ' + \
@@ -388,32 +387,23 @@ class TravelInfo(Accommodation, Transportation):
             return True
         return False
 
+    def calculate_transportation_cost(self):
+        if self.means_of_transport_is_car_or_bike():
+            if not self.distance or self.locations_have_changed():
+                try:
+                    self.distance = CityDistances.objects.get(
+                        from_city=self.departure_point,
+                        to_city=self.arrival_point).distance
+                except CityDistances.DoesNotExist:
+                    self.distance = 0.0
+
+            distance_factor = common.\
+                MEANS_OF_TRANSPORT_DISTANCE_FACTOR[self.means_of_transport]
+            self.transportation_cost = 2 * distance_factor * self.distance
+
     def save(self, *args, **kwargs):
         new_object = kwargs.pop('new_object', False)
-
-        changed = any(self.tracker.has_changed(field)
-                      for field in self.tracked_date_fields)
-        petition_dates_changed = any(
-            self.travel_petition.tracker.has_changed(field)
-            for field in self.travel_petition.tracked_fields)
-
-        if not self.is_abroad():
-            if self.means_of_transport in ('BIKE', 'CAR'):
-
-                if self.means_of_transport_have_changed():
-                    print 'Calculating distance'
-                    self.distance = self.\
-                        calculate_city_distance(self.departure_point,
-                                                self.arrival_point)
-                if self.locations_have_changed():
-                    print 'Calculating distance'
-                    self.distance = self.\
-                        calculate_city_distance(self.departure_point,
-                                                self.arrival_point)
-
-                distance_factor = common.\
-                    MEANS_OF_TRANSPORT_DISTANCE_FACTOR[self.means_of_transport]
-                self.transportation_cost = 2 * distance_factor * self.distance
+        self.calculate_transportation_cost()
         super(TravelInfo, self).save(*args, **kwargs)
 
     def validate_overnight_cost(self, petition):
@@ -440,48 +430,6 @@ class TravelInfo(Accommodation, Transportation):
             raise ValidationError('This is a same day return travel,'
                                   ' overnight cost is not acceptable.')
 
-
-    def calculate_city_distance(self, departure_point, arrival_point):
-
-        # Search in the db if the distance between cities is already calculated
-
-        city_distance_record = CityDistances.objects.\
-            filter(from_city=departure_point, to_city=arrival_point)
-
-        # if exists return the saved distance value
-        if city_distance_record:
-            return city_distance_record[0].distance
-
-        # else create a new city distance object
-        city_distance_record = CityDistances(from_city=departure_point,
-                                             to_city=arrival_point)
-
-        # and use google maps client
-        try:
-            city_name_from = departure_point.name
-            city_name_to = arrival_point.name
-            geolocator = Nominatim()
-            _from = geolocator.geocode(city_name_from)
-            _to = geolocator.geocode(city_name_to)
-            _from = (_from.latitude, _from.longitude)
-            _to = (_to.latitude, _to.longitude)
-
-            gmaps = googlemaps.Client(key=settings.GOOGLE_MAPS_KEY)
-            distance_result = gmaps.distance_matrix(_from,
-                                                    _to,
-                                                    mode="driving")
-
-            distance = distance_result['rows'][0]['elements'][0]['distance']\
-                ['value']
-            distance /= 1000
-
-            # and save the calculated value to db
-            city_distance_record.distance = distance
-            city_distance_record.save()
-            return distance
-        except Exception as ex:
-            print ex.message
-            return 0
 
     def transport_days_proposed(self):
         """
