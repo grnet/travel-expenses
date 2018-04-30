@@ -108,9 +108,6 @@ export default gen.CRUDGen.extend({
 
       return val;
     }),
-    onSubmit(model) {
-      this.transitionTo('application-item.index')
-    },
   },
 
   list: {
