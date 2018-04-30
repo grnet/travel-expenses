@@ -303,7 +303,7 @@ spec = {'*': {
                             'model': 'texpenses.models.Applications',
                             'model_serializers':
                             ['texpenses.serializers.mixins.PetitionMixin'],
-                            'ordering_fields': ['id'],
+                            'ordering_fields': ['id', 'dse'],
                             'apimas_permission_class':
                              'texpenses.serializers.permissions.NestedPermissions',
                             'permission_classes':

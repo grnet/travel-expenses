@@ -1,5 +1,5 @@
 from texpenses.models import Petition
-from rest_framework.filters import DjangoFilterBackend, SearchFilter
+from rest_framework.filters import DjangoFilterBackend, SearchFilter, OrderingFilter
 from texpenses.validators import required_validator
 from texpenses.pagination import TexpensesPagination
 from texpenses.filters import PetitionFilter
@@ -93,7 +93,8 @@ class Configuration(object):
     def _inject_standard_configuration(self, endpoint):
         endpoint['.drf_collection']['filter_class'] = PetitionFilter
         endpoint['.drf_collection']['filter_backends'] = (DjangoFilterBackend,
-                                                          SearchFilter,)
+                                                          SearchFilter,
+                                                          OrderingFilter, )
 
     def CountriesConfig(self):
         endpoint = countries_conf
