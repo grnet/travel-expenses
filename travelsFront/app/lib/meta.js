@@ -40,7 +40,15 @@ const travel_info = field('travel_info', {
       });
     }
   },
-
+  disabled: computed(function() {
+    let role = this.get('user.user_group');
+    let status = this.get('model.status');
+    if (role === 'USER' || role === 'MANAGER') {
+      if (status >= 5 && status <= 6) {
+        return true;
+      }
+    }
+  }),
   modelMeta: {
     fieldsets: computed(function() {
       let session = this.container.lookup('service:session');
