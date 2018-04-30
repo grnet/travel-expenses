@@ -154,6 +154,7 @@ export default gen.CRUDGen.extend({
         'first_name',
         'last_name',
         'project.name',
+        'travel_info.lastObject.arrival_point.name',
         'task_start_date_format',
         'task_end_date_format',
         'status_label',

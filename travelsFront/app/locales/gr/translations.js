@@ -47,6 +47,7 @@ export default {
   'reason.label': 'Αιτιολογία Μετακίνησης',
   'departure_point.label': 'Από:',
   'arrival_point.label': 'Προς:',
+  'arrival_point.name.label': 'Προορισμός',
   'task_start_date.label': 'Έναρξη Εργασιών',
   'task_end_date.label': 'Λήξη Εργασιών',
   'task_start_date_format.label': 'Έναρξη Εργασιών',
