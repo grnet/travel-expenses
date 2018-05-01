@@ -87,6 +87,7 @@ export default DS.Model.extend({
   compensation_decision_date_format: computeDateFormat('compensation_decision_date'),
   compensation_decision_protocol: DS.attr(),
   timesheeted: DS.attr('boolean'),
+  new_id: DS.attr(),
 
   // set status label value
   status_label: Ember.computed('status', function() {
