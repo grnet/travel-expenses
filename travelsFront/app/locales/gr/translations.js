@@ -124,6 +124,7 @@ export default {
   'login': 'Εισοδος',
   'add': 'Προσθηκη',
   'remove': 'Αφαιρεση',
+  'message.close': 'Κλεισιμο',
   // tabs
   'login.label': 'Είσοδος',
   'signup.tab': 'Εγγραφή',
@@ -182,8 +183,8 @@ export default {
   'prompt_withdrawCancel_title': 'Επαναφορά Ακυρωμένης Αίτησης',
   'prompt_withdrawCancel_message': 'Είστε βέβαιοι ότι θέλετε να επαναφέρετε την ακυρωμένη αίτηση μετακίνησης;',
   // success messages
-  'petition_saved': 'Η αίτησή σας έχει αποθηκευτεί επιτυχώς',
-  'profile_saved': 'Τα στοιχεία του προφίλ σας έχουν ενημερωθεί επιτυχώς',
+  'login.success': 'Επιτυχής είσοδος',
+  'form.saved': 'Τα στοιχεία σας έχουν αποθηκευτεί επιτυχώς',
   'submit.application.success': 'Επιτυχής υποβολή αίτησης',
   'undo.application.success': 'Επιτυχής αναίρεση υποβολής',
   'pdf.application.success': 'Επιτυχής εξαγωγή αρχείων',
@@ -194,7 +195,10 @@ export default {
   'file.upload.success': 'Επιτυχές ανέβασμα αρχείου',
   'file.delete.success': 'Επιτυχής διαγραφή αρχείου',
   'add.to.timesheets.success': 'Η ενέργεια πραγματοποιήθηκε επιτυχώς',
-  // error messages
+  // error message
+  'login.error': 'Σφάλμα εισόδου',
+  'form.error': 'Σφάλμα κατά την καταχώριση των στοιχείων σας',
+  'form.invalid': 'Σφάλμα κατά την καταχώριση των στοιχείων σας',
   'submit.application.error': 'Σφάλμα κατά την υποβολή της αίτησης',
   'pdf.decision.error': 'Σφάλμα κατά την εξαγωγή της απόφασης μετακίνησης',
   'pdf.application.error': 'Σφάλμα κατά την εξαγωγή της αίτησης μετακίνησης',
