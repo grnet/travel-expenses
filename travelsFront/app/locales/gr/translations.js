@@ -213,5 +213,12 @@ export default {
   'time_placeholder': 'Ώρα',
   //plain text
   'file.field.no.files': 'Δεν έχετε ανεβάσει κάποιο αρχείο',
+  '{description} can\'t be blank': 'Tο πεδίο δεν μπορεί να είναι κενό',
+  '{description} is invalid': 'To πεδίο δεν είναι έγκυρο',
+  '{description} is too short (minimum is {min} characters)': 'To πεδίο χρειάζεται τουλάχιστον {min} χαρακτήρες',
+  '{description} must be a number': 'To πεδίο πρέπει να είναι αριθμός',
+  '{description} must be a valid url':  'Tο πεδίο πρέπει να είναι σύνδεσμος',
+  '{description} must be an integer': 'To πεδίο δέχεται μόνο αριθμητικούς χαρακτήρες',
+  '{description} must be between {min} and {max} characters': 'To πεδίο πρέπει να είναι μεταξύ {min} και {max} χαρακτήρων',
 };
 
