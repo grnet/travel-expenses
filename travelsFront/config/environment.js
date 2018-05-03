@@ -7,7 +7,8 @@ module.exports = function(environment) {
     appURL: '/api/',
     locationType: 'auto',
     i18n : {
-      defaultLocale: 'gr'
+      defaultLocale: 'gr',
+      locales: ['gr', 'en']
     },
     moment: {
       outputFormat: 'DD/MM/YYYY HH:mm'
