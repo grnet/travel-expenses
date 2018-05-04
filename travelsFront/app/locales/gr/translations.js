@@ -195,7 +195,7 @@ export default {
   'file.upload.success': 'Επιτυχές ανέβασμα αρχείου',
   'file.delete.success': 'Επιτυχής διαγραφή αρχείου',
   'add.to.timesheets.success': 'Η ενέργεια πραγματοποιήθηκε επιτυχώς',
-  // error message
+  // error messages
   'login.error': 'Σφάλμα εισόδου',
   'form.error': 'Σφάλμα κατά την καταχώριση των στοιχείων σας',
   'form.invalid': 'Σφάλμα κατά την καταχώριση των στοιχείων σας',
@@ -205,7 +205,7 @@ export default {
   'stats.export.error': 'Σφάλμα κατά την εξαγωγή αρχείου',
   'approve.application.error': 'Σφάλμα κατά την έγκριση μετακίνησης',
   'withdraw.application.error': 'Σφάλμα κατά την ακύρωση μετακίνησης',
-  'withdraw.application.error': 'Σφάλμα κατά την επαναφορά της ακυρωμένης αίτησης μετακίνησης',
+  'cancel.withdraw.application.error': 'Σφάλμα κατά την επαναφορά της ακυρωμένης αίτησης μετακίνησης',
   'file.upload.error': 'Σφάλμα κατά το ανέβασμα αρχείου',
   'file.delete.error': 'Σφάλμα κατά την διαγραφή αρχείου',
   'add.to.timesheets.error': 'Σφάλμα κατά την εκτέλεση της ενέργειας',
