@@ -8,5 +8,5 @@ Standards-Version: 3.9.6
 
 Package: travel
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-apimas (= 0.3.1), python-apimas-drf (= 0.3.1), python-django (>= 1.8), python-django (< 1.9), python-django-crontab (= 0.6.0), python-django-filter (<= 1.0.0), python-django-model-utils (<= 2.5), python-djangorestframework (<= 3.3.3), python-djoser (<= 0.4.3), python-drf-extensions (<= 0.3.1), python-geopy (<= 1.11.0), googlemaps (<= 2.4.5), python-stdnum (<= 1.5), python-requests (<= 2.9.1), python-cairocffi (<= 0.6), python-weasyprint (= 0.31), python-psycopg2 (<= 2.6.2), python-memcache (<= 1.58), python-tz (<= 2016.3)
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-apimas (= 0.3.3), python-apimas-drf (= 0.3.3), python-django (>= 1.8), python-django (< 1.9), python-django-crontab (= 0.6.0), python-django-filter (<= 1.0.0), python-django-model-utils (<= 2.5), python-djangorestframework (<= 3.3.3), python-djoser (<= 0.4.3), python-drf-extensions (<= 0.3.1), python-geopy (<= 1.11.0), googlemaps (<= 2.4.5), python-stdnum (<= 1.5), python-requests (<= 2.9.1), python-cairocffi (<= 0.6), python-weasyprint (= 0.31), python-psycopg2 (<= 2.6.2), python-memcache (<= 1.58), python-tz (<= 2016.3)
 Description: Software for GRNET's Travel Expenses service.
