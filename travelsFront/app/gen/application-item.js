@@ -7,6 +7,7 @@ import USER from '../utils/application/user';
 import SECRETARY from '../utils/application/secretary';
 import CONTROLLER from '../utils/application/controller';
 import {abilityStates} from 'travel/lib/application/abilityStates';
+import moment from 'moment';
 
 const {
   get,
@@ -60,6 +61,12 @@ export default gen.CRUDGen.extend({
       icon: 'description',
       label: 'appications_list.tab',
     },
+    getModelQueryParams(qs) {
+      if (qs && qs.depart_date__gte) {
+        qs.depart_date__gte = moment(qs.depart_date__gte).format("YYYY-MM-DD")
+      }
+      return qs
+    },
     filter: {
       active: true,
       meta: {
@@ -67,6 +74,7 @@ export default gen.CRUDGen.extend({
           field('dse', { type: 'text' }),
           field('project', { modelName:'project', type: 'model', displayAttr: 'name' }),
           field('status', { type:'select', choices: CHOICES.STATUS }),
+          field('depart_date', { type: 'date', filterKey: 'depart_date__gte' }),
         ],
       },
       serverSide: true,
