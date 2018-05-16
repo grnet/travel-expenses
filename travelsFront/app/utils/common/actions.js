@@ -410,6 +410,27 @@ const exportStats = {
   confirm: false,
 };
 
-let applicationActions = { submit: submit, undo: undo, pdf: pdf, approve: approve, addToTimesheets: addToTimesheets, withdraw: withdraw, exportStats: exportStats };
+const change_password = {
+  raised: false,
+  label: 'password.change',
+  confirm: true,
+  action: function() {},
+  prompt: {
+    title: 'password.change.title',
+    contentComponent: 'change-password',
+    noControls: true
+  }
+};
+
+let applicationActions = {
+  submit: submit,
+  undo: undo,
+  pdf: pdf,
+  approve: approve,
+  addToTimesheets: addToTimesheets,
+  withdraw: withdraw,
+  exportStats: exportStats,
+  change_password: change_password,
+};
 
 export { applicationActions };
