@@ -15,10 +15,20 @@ export default {
   'login_pass.label': 'Κωδικός Πρόσβασης',
   'password.label': 'Κωδικός Πρόσβασης',
   'username': 'Όνομα Χρήστη (username)',
-  // password labels
+  // change password
   'new_password.label': 'Νέος Κωδικός Πρόσβασης',
   're_new_password.label': 'Επιβεβαίωση νέου Κωδικού Πρόσβασης',
   'current_password.label': 'Τρέχων Κωδικός Πρόσβασης',
+  'password.change': 'Αλλαγη συνθηματικου',
+  'password.change.error': 'Σφάλμα κατά την αλλαγή συνθηματικού',
+  'password.change.submit': 'Αλλαγη',
+  'password.change.success': 'Επιτυχής αλλαγή συνθηματικού',
+  'password.change.title': 'Αλλαγή συνθηματικού',
+  //forgot password
+  'password.forgot': 'ΥΠΕΝΘΥΜΙΣΗ ΣΥΝΘΗΜΑΤΙΚΟΥ',
+  'password.forgot.submit': 'Υπενθυμιση',
+  'password.forgot.success': 'Επιτυχής υπενθύμιση συνθηματικου',
+  'password.forgot.title': 'Υπενθύμιση συνθηματικού',
   // search and filter
   'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',
   'list.filters.apply.label': 'ΕΦΑΡΜΟΓΗ',
@@ -36,6 +46,7 @@ export default {
   'kind_label.label': 'Ιδιότητα',
   'tax_reg_num.label': 'ΑΦΜ',
   'tax_office.label': 'ΔΟΥ',
+  'tax_office.name.label': 'ΔΟΥ',
   'user_category.label': 'Κατηγορία Χρήστη',
   'my_account.label': 'Στοιχεία Λογαριασμού',
   'personal_info.label': 'Προσωπικά Στοιχεία',

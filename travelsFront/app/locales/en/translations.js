@@ -15,10 +15,20 @@ export default {
   'login_pass.label': 'Password',
   'password.label': 'Password',
   'username': 'Username',
-  // password labels
+  // change password
   'new_password.label': 'New password',
   're_new_password.label': 'Confirm new password',
   'current_password.label': 'Current password',
+  'password.change': 'Change password',
+  'password.change.error': 'Error in password change',
+  'password.change.submit': 'Change',
+  'password.change.success': 'Password has been successfully changed',
+  'password.change.title': 'Change password',
+  //forgot password
+  'password.forgot': 'Forgot password',
+  'password.forgot.submit': 'Submit',
+  'password.forgot.success': 'successful password reset',
+  'password.forgot.title': 'Forgot password',
   // search and filter
   'search.input.placeholder': 'Search with DSE / Name',
   'list.filters.apply.label': 'APPLY',
