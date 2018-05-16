@@ -15,5 +15,5 @@ cairocffi==0.6
 WeasyPrint==0.31
 psycopg2==2.6.2
 python-memcached==1.58
-pytz==2016.3
+pytz
 
