@@ -11,6 +11,18 @@ const {
 export default AuthGen.extend({
   order: 100,
   login: {
+    extraActions: [
+      {
+        label: 'password.forgot',
+        confirm: true,
+        action: function() {},
+        prompt: {
+          title: 'password.forgot.title',
+          contentComponent: 'forgot-password',
+          noControls: true
+        }
+      }
+    ],
     page: {
       title: 'login.label',
     },
