@@ -71,12 +71,28 @@ export default gen.CRUDGen.extend({
     filter: {
       active: true,
       meta: {
-        fields: [
-          field('dse', { type: 'text' }),
-          field('project', { modelName:'project', type: 'model', displayAttr: 'name' }),
-          field('status', { type:'select', choices: CHOICES.STATUS }),
-          field('depart_date', { type: 'date', filterKey: 'depart_date__gte' }),
-        ],
+        fields: computed(function() {
+          let session = this.container.lookup('service:session');
+          let role = session.get('session.authenticated.user_group');
+          let res = [];
+
+          if (role === 'SECRETARY' || role === 'CONTROLLER') {
+            res = [
+              field('dse', { type: 'text' }),
+              field('project', { modelName:'project', type: 'model', displayAttr: 'name' }),
+              field('status', { type:'select', choices: CHOICES.STATUS }),
+              field('depart_date__gte', { type: 'date' }),
+              field('depart_date__lte', { type: 'date' }),
+            ]
+          } else if (role === 'USER' || role === 'MANAGER') {
+            res = [
+              field('dse', { type: 'text' }),
+              field('project', { modelName:'project', type: 'model', displayAttr: 'name' }),
+              field('status', { type:'select', choices: CHOICES.STATUS }),
+            ]
+          }
+          return res;
+        }),
       },
       serverSide: true,
       search: true,
