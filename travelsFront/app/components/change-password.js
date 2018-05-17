@@ -53,7 +53,6 @@ export default Ember.Component.extend({
   tagName: '',
 
   passwordModel: computed(function() {
-    console.log("PasswordModel", PasswordModel.toString());
     return PasswordModel.create({container: getOwner(this)});
   }),
 
