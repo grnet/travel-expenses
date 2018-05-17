@@ -69,6 +69,8 @@ export default {
   'return_date.label': 'Επιστροφή',
   'depart_date_time_format.label': 'Αναχώρηση',
   'return_date_time_format.label': 'Επιστροφή',
+  'depart_date__gte.label': 'Ημ/νία Αναχώρησης - Από',
+  'depart_date__lte.label': 'Ημ/νία Αναχώρησης - Έως',
   'means_of_transport.label': 'Μέσο Μετακίνησης',
   'means_of_transport_label.label': 'Μέσο Μετακίνησης',
   'transportation_cost.label': 'Τιμή Εισιτηρίου',

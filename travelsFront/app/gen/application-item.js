@@ -62,8 +62,9 @@ export default gen.CRUDGen.extend({
       label: 'appications_list.tab',
     },
     getModelQueryParams(qs) {
-      if (qs && qs.depart_date__gte) {
-        qs.depart_date__gte = moment(qs.depart_date__gte).format("YYYY-MM-DD")
+      if (qs && (qs.depart_date__gte || qs.depart_date__lte)) {
+        qs.depart_date__gte = moment(qs.depart_date__gte).format("YYYY-MM-DD");
+        qs.depart_date__lte = moment(qs.depart_date__lte).format("YYYY-MM-DD");
       }
       return qs
     },

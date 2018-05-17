@@ -68,6 +68,8 @@ export default {
   'return_date.label': 'Return',
   'depart_date_time_format.label': 'Departure',
   'return_date_time_format.label': 'Return',
+  'depart_date__gte.label': 'Departure - From',
+  'depart_date__lte.label': 'Departure - Until',
   'means_of_transport.label': 'Transportation Means',
   'means_of_transport_label.label': 'Transportation Means',
   'transportation_cost.label': 'Ticket Price',
