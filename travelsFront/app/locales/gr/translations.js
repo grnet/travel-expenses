@@ -24,11 +24,17 @@ export default {
   'password.change.submit': 'Αλλαγη',
   'password.change.success': 'Επιτυχής αλλαγή συνθηματικού',
   'password.change.title': 'Αλλαγή συνθηματικού',
-  //forgot password
+  // forgot password
   'password.forgot': 'ΥΠΕΝΘΥΜΙΣΗ ΣΥΝΘΗΜΑΤΙΚΟΥ',
   'password.forgot.submit': 'Υπενθυμιση',
   'password.forgot.success': 'Επιτυχής υπενθύμιση συνθηματικου',
   'password.forgot.title': 'Υπενθύμιση συνθηματικού',
+  // password reset
+  'password.reset': 'Αλλαγή συνθηματικού',
+  'password.reset.error': 'Σφάλμα κατά την αλλαγή συνθηματικού',
+  'password.reset.message': 'Εισάγετε εδώ το νέο συνθηματικό',
+  'password.reset.submit': 'Υποβολη',
+  'password.reset.success': 'Επιτυχής αλλαγή συνθηματικού',
   // search and filter
   'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',
   'list.filters.apply.label': 'ΕΦΑΡΜΟΓΗ',
