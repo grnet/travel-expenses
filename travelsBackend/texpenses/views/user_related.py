@@ -71,22 +71,7 @@ class CustomPasswordResetView(djoser_views.PasswordResetView):
 class PasswordResetView(djoser_views.PasswordResetConfirmView):
 
     """Use this endpoint to finish reset password process"""
-
-    def post(self, request, **kwargs):
-
-        uid = djoser_utils.decode_uid(kwargs['uid'])
-        self.user = User.objects.get(pk=uid)
-
-        return super(PasswordResetView, self).post(request)
-
-    def action(self, serializer):
-        self.user.set_password(serializer.data['new_password'])
-        self.user.save()
-        return response.Response(status=status.HTTP_200_OK)
-
-    def get_serializer_class(self):
-        return PasswordResetConfirmRetypeSerializer
-
+    pass
 
 class CustomLoginView(djoser_views.LoginView):
 

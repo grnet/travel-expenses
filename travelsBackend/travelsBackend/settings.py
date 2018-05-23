@@ -77,7 +77,7 @@ REST_FRAMEWORK = {
         'rest_framework.pagination.LimitOffsetPagination',
 }
 DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': API_PREFIX + '/auth/password/reset/confirm/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'ui/auth/login#reset={uid}|{token}',
     'ACTIVATION_URL': API_PREFIX + '/auth/activate/{uid}/{token}',
     'PASSWORD_VALIDATORS': [],
     'SERIALIZERS': {},

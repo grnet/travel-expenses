@@ -20,7 +20,7 @@ auth_urlpatterns = (
         name='set_password'),
     url(r'^password/reset/$', views.CustomPasswordResetView.as_view(),
         name='password_reset'),
-    url(r'^password/reset/confirm/(?P<uid>\w{2,3})\/(?P<token>.*)',
+    url(r'^password/reset/confirm/$',
         views.PasswordResetView.as_view(),
         name='password_reset_confirm'),
     url(r'^login/$', views.CustomLoginView.as_view(), name='login'),
