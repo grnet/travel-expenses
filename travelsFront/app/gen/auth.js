@@ -8,6 +8,14 @@ const {
   get,
 } = Ember;
 
+function extractError(loc) {
+  return loc.hash && loc.hash.split("error=")[1];
+};
+
+function extractReset(loc) {
+  return loc.hash && loc.hash.split("reset=")[1];
+};
+
 export default AuthGen.extend({
   order: 100,
   login: {
@@ -29,6 +37,18 @@ export default AuthGen.extend({
     config: {
       authenticator: 'travel',
     },
+    templateName: 'travel-login',
+    routeMixins: [{
+      setupController(controller, model) {
+        this._super(controller, model);
+
+        let error = extractError(window.location);
+        error = decodeURI(error);
+
+        let reset = extractReset(window.location);
+        if (reset) { controller.set('resetToken', decodeURI(reset)); }
+      },
+     }]
   },
 
   gens: {
@@ -57,3 +77,4 @@ export default AuthGen.extend({
     },
   },
 })
+

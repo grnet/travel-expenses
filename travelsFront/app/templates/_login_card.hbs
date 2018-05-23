@@ -1,0 +1,26 @@
+<md-content class="flex layout-row">
+  <md-card class="flex-100">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-title">{{t 'login.label'}}</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      {{ component gen.component
+         model
+         fieldsetFieldsComponent='paper-content'
+         flat=true
+         modelMeta=(readonly gen.resource)
+         validators=(readonly gen.resource.validators)
+         messages=(readonly gen.messages)
+         labels=(readonly gen.labels)
+         beforeFormComponent=(readonly gen.components.beforeForm)
+         _controller=this
+         extraActions=(readonly gen.extraActions)
+         onInvalid=(route-action 'onFormInvalid')
+         onSubmit=(route-action 'onFormSubmit')
+      }}
+    </md-card-content>
+  </md-card>
+</md-content>
+

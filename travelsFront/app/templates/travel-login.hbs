@@ -1,0 +1,25 @@
+{{#gen-page classNames=(if gen.nested 'nested' '') as |page|}}
+  {{page.toolbar
+    pageTitle=(t gen.page.title model)
+    breadcrumbs=gen.breadcrumbs
+    toolbarActions=gen.toolbarActions
+    model=model
+    tabs=gen.tabs
+  }}
+
+  {{#if resetToken}}
+    {{reset-password token=resetToken visiblePopup=true }}
+  {{/if}}
+
+  {{#page.content}}
+    <md-content>
+      {{#paper-content class="md-padding"}}
+          <p class="md-padding">
+            {{t 'old.user.info'}}
+          </p>
+          {{ partial '_login_card' }}
+      {{/paper-content}}
+    </md-content>
+  {{/page.content}}
+{{/gen-page}}
+
