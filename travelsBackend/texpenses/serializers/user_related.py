@@ -1,5 +1,7 @@
+from django.db import transaction
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
+from django.http import HttpResponse
 from djoser import settings, serializers as djoser_serializers
 from rest_framework import serializers
 from texpenses.models import UserProfile
@@ -10,7 +12,22 @@ User = get_user_model()
 class CustomUserRegistrationSerializer(
         djoser_serializers.UserRegistrationSerializer):
 
+    def resend_verification(self, request, email):
+        try:
+            user = User.objects.get(email=email, is_active=False)
+        except User.DoesNotExist:
+            raise PermissionDenied("user.invalid.or.activated")
+
+        if settings.get('SEND_ACTIVATION_EMAIL'):
+            self.send_email(**self.get_send_email_kwargs(user))
+        return HttpResponse(status=202)
+
+    @transaction.atomic
     def create(self, validated_data):
+        resend_email = request.data.get('resend_verification', None)
+        if resend_email:
+            return self.resend_verification(request, resend_email)
+
         user = User.objects.create_user(**validated_data)
         group, created = Group.objects.get_or_create(name='USER')
         group.user_set.add(user)
