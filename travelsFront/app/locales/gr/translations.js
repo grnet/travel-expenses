@@ -35,6 +35,12 @@ export default {
   'password.reset.message': 'Εισάγετε εδώ το νέο συνθηματικό',
   'password.reset.submit': 'Υποβολη',
   'password.reset.success': 'Επιτυχής αλλαγή συνθηματικού',
+  // resend activation email
+  'resend.activation.dialog.title': 'Επαναποστολή e-mail ενεργοποίησης',
+  'resend.activation.prompt.message': 'Εισάγετε τη διεύθυνση e-mail που είχατε δηλώσει<br> κατά τη δημιουργία του λογαριασμού σας',
+  'resend.email.verification': 'Δεν έλαβα το e-mail ενεργοποίησης',
+  'resend.verification.button.label': 'Επαναποστολη',
+  'send.verification.email': 'Αποστολη',
   // search and filter
   'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',
   'list.filters.apply.label': 'ΕΦΑΡΜΟΓΗ',

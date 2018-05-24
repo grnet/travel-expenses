@@ -29,6 +29,17 @@ export default {
   'password.forgot.submit': 'Submit',
   'password.forgot.success': 'successful password reset',
   'password.forgot.title': 'Forgot password',
+  // password reset
+  'password.reset': 'Password reset',
+  'password.reset.error': 'Error in password reset',
+  'password.reset.submit': 'Submit',
+  'password.reset.success': 'Password has been successfully reset',
+  // resend activation email
+  'resend.activation.dialog.title': 'Resend activation link',
+  'resend.activation.prompt.message': 'Insert the e-mail address you had provided when creating your account',
+  'resend.email.verification': 'I did not receive the verification e-mail',
+  'resend.verification.button.label': 'Resend verification e-mail',
+  'send.verification.email': 'Send',
   // search and filter
   'search.input.placeholder': 'Search with DSE / Name',
   'list.filters.apply.label': 'APPLY',
