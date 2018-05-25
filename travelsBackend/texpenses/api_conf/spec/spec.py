@@ -146,8 +146,7 @@ user_conf = {'*': {'email': {'.cli_option': {},
               'model': 'texpenses.models.UserProfile',
               'permission_classes':
                   ['rest_framework.permissions.IsAuthenticated',
-                   'rest_framework.permissions.DjangoModelPermissions',
-                   'texpenses.permissions.custom_permissions.IsOwner']},
+                   'rest_framework.permissions.DjangoModelPermissions']},
              '.actions': {'.list': {}, '.retrieve': {}}}
 
 countries_conf = {'*': {'category': {'.choices': {},
