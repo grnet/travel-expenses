@@ -204,9 +204,9 @@ export default gen.CRUDGen.extend({
       // which is the case for some status changes, redirect to new instance
       let new_id = model.get('new_id');
       if (new_id) {
-        this.transitionTo('application-item.record.edit.index', new_id)
+        this.transitionTo('application-item.record.edit.index', new_id);
       } else {
-        this.transitionTo('application-item.record.edit.index', model)
+        this.refresh();
       }
     },
     fieldsets: computed('role', 'model.status', function() {
