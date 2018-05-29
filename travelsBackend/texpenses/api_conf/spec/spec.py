@@ -60,7 +60,6 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                       'manager': {'.cli_option': {},
                                   '.drf_field': {},
                                   '.field': {},
-                                  '.readonly': {},
                                   '.ref': {'to': 'api/users'}},
                       'name': {'.cli_option': {},
                                '.drf_field': {},
@@ -80,7 +79,13 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                   "cache.mixins.CacheResponseMixin",
                   'texpenses.views.mixins.ProjectMixin'],
                  'model': 'texpenses.models.Project'},
-                '.actions': {'.list': {}, '.retrieve': {}}}
+                '.actions': {
+                    '.list': {},
+                    '.retrieve': {},
+                    '.create': {},
+                    '.update': {},
+                }
+            }
 
 user_conf = {'*': {'email': {'.cli_option': {},
                              '.drf_field': {},
