@@ -152,7 +152,12 @@ user_conf = {'*': {'email': {'.cli_option': {},
               'permission_classes':
                   ['rest_framework.permissions.IsAuthenticated',
                    'rest_framework.permissions.DjangoModelPermissions']},
-             '.actions': {'.list': {}, '.retrieve': {}}}
+             '.actions': {
+                     '.list': {},
+                     '.retrieve': {},
+                     '.update': {},
+                     }
+        }
 
 countries_conf = {'*': {'category': {'.choices': {},
                                      '.cli_option': {},
