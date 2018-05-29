@@ -214,7 +214,8 @@ city_conf = {'*': {'country': {'.cli_option': {},
              },
              '.actions': {'.list': {},
                           '.retrieve': {},
-                          '.create': {}}}
+                          '.create': {},
+                          '.update': {}}}
 
 city_distances_conf = {
     '.cli_commands': {},

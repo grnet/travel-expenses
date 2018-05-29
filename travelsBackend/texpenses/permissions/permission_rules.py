@@ -80,6 +80,7 @@ PERMISSION_RULES = [
     ('city', 'retrieve', 'PRESIDENT_SECRETARY', '*', '*', '*'),
     ('city', 'retrieve', 'HELPDESK', '*', '*', '*'),
     ('city', 'create', 'HELPDESK', '*', '*', '*'),
+    ('city', 'update', 'HELPDESK', '*', '*', '*'),
 
     ('users', 'list', 'HELPDESK', '*', '*', '*'),
     ('users', 'retrieve', 'USER', '*', 'isme', '*'),
