@@ -1,5 +1,5 @@
 {{#each locales as |loc|}}
   <a href="" {{action "setLocale" loc.id}} title={{loc.id}}>
-    <img src='/ui/assets/flag_{{loc.id}}.png' />
+    {{loc.id}}
   </a>
 {{/each}}
