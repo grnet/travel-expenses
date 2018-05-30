@@ -501,3 +501,25 @@ class ApplicationMixin(object):
             return query
         else:
             return query.select_for_update(nowait=True)
+
+class UserMixin(object):
+
+    @detail_route(methods=['put', 'delete'])
+    def activation(self, request, pk=None):
+        if request.method == 'PUT':
+            newStatus = True
+            responseMessage = 'Activated user'
+        else:
+            newStatus = False
+            responseMessage = 'Deactivated user'
+
+        try:
+            user = self.get_object()
+            user.is_active = newStatus
+            user.save()
+            return Response(
+                {'message': responseMessage},
+                status=status.HTTP_200_OK)
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)

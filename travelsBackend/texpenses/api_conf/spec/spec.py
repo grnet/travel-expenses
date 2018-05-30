@@ -149,9 +149,9 @@ user_conf = {'*': {'email': {'.cli_option': {},
               ['rest_framework.authentication.SessionAuthentication',
                'rest_framework.authentication.TokenAuthentication'],
               'model': 'texpenses.models.UserProfile',
+              'mixins': ['texpenses.views.mixins.UserMixin'],
               'permission_classes':
-                  ['rest_framework.permissions.IsAuthenticated',
-                   'rest_framework.permissions.DjangoModelPermissions']},
+                  ['rest_framework.permissions.IsAuthenticated',]},
              '.actions': {
                      '.list': {},
                      '.retrieve': {},

@@ -94,6 +94,7 @@ PERMISSION_RULES = [
     ('users', 'retrieve', 'PRESIDENT_SECRETARY', '*', 'isme', '*'),
     ('users', 'retrieve', 'HELPDESK', '*', '*', '*'),
     ('users', 'update', 'HELPDESK', 'email', '*', '*'),
+    ('users', 'activation', 'HELPDESK', '*', '*', '*'),
 
 #==============================================================================
 
