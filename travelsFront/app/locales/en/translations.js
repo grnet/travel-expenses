@@ -24,6 +24,7 @@ export default {
   'password.change.submit': 'Change',
   'password.change.success': 'Password has been successfully changed',
   'password.change.title': 'Change password',
+  'Re New Password Field doesn\'t match new_password': 'Passwords don\'t match',
   //forgot password
   'password.forgot': 'Forgot password',
   'password.forgot.submit': 'Submit',

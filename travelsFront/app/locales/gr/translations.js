@@ -24,6 +24,7 @@ export default {
   'password.change.submit': 'Αλλαγη',
   'password.change.success': 'Επιτυχής αλλαγή συνθηματικού',
   'password.change.title': 'Αλλαγή συνθηματικού',
+  'Re New Password Field doesn\'t match new_password': 'Τα δύο συνθηματικά δεν ταιριάζουν',
   // forgot password
   'password.forgot': 'ΥΠΕΝΘΥΜΙΣΗ ΣΥΝΘΗΜΑΤΙΚΟΥ',
   'password.forgot.submit': 'Υπενθυμιση',
