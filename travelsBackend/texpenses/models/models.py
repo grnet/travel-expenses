@@ -124,7 +124,12 @@ class UserProfile(AbstractUser, TravelUserProfile):
 
 
 def is_manager(manager_id):
-    manager = UserProfile.objects.get(id=manager_id)
+    # DRF API creates and updates call the validator with the object
+    # instead of the id for some reason
+    if isinstance(manager_id, UserProfile):
+        manager = manager_id
+    else:
+        manager = UserProfile.objects.get(id=manager_id)
     manager_group = manager.user_group()
     if manager_group != "MANAGER":
         raise ValidationError('The chosen user must be a MANAGER')
