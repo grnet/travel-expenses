@@ -393,6 +393,7 @@ PERMISSION_RULES = [
     ('applications', 'application_report', 'HELPDESK', '*', '*', '*'),
     ('applications', 'decision_report', 'HELPDESK', '*', '*', '*'),
     ('applications', 'cancel_withdrawal', 'HELPDESK', '*', '*', '*'),
+    ('applications', 'reset', 'HELPDESK', '*', '*', '*'),
 
     #president-secretary
     ('applications', 'cancel', 'PRESIDENT_SECRETARY', '*', 'presidentapproved', '*'),

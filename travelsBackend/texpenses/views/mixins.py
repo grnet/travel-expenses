@@ -516,6 +516,40 @@ class ApplicationMixin(object):
         else:
             return query.select_for_update(nowait=True)
 
+    @detail_route(methods=['post'])
+    @transaction.atomic
+    def reset(self, request, pk=None):
+        """
+        Reset an application with a status greater than 3 (SAVED_BY_SECRETARY)
+        to that one, allowing to correct any mistakes in the process.
+        """
+        REJECTED_STATUSES = (Petition.SAVED_BY_USER,
+                             Petition.SUBMITTED_BY_USER,
+                             Petition.SAVED_BY_SECRETARY)
+        try:
+            application = self.get_object()
+            if application.status in REJECTED_STATUSES:
+                return Response(status=status.HTTP_403_FORBIDDEN)
+
+            for travel in application.travel_info.all():
+                travel.delete()
+
+            application.delete()
+
+            restoredApplication = Petition.objects.get(dse=application.dse,
+                    status=Petition.SAVED_BY_SECRETARY)
+            restoredApplication.deleted = False
+            restoredApplication.save()
+
+            return Response(
+                {'message': 'The application has been reset to status 3.'},
+                status=status.HTTP_200_OK)
+
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
+
+
 class UserMixin(object):
 
     @detail_route(methods=['put', 'delete'])
