@@ -196,6 +196,10 @@ export default {
   'confirm.cancel': 'CANCEL',
   'prompt_undo_title': 'Αναίρεση Υποβολής',
   'prompt_undo_message': 'Είστε βέβαιοι ότι θέλετε να αναιρέσετε την υποβολή την αίτηση σας;',
+  'prompt_undo_approve_application_title': 'Αναίρεση Έγκρισης Μετακίνησης',
+  'prompt_undo_approve_application_message': 'Είστε βέβαιοι ότι θέλετε να αναιρέσετε την έγκριση της μετακίνησης;',
+  'prompt_undo_approve_compensation_title': 'Αναίρεση Έγκρισης Αποζημίωσης',
+  'prompt_undo_approve_compensation_message': 'Είστε βέβαιοι ότι θέλετε να αναιρέσετε την έγκριση της αποζημίωσης;',
   'prompt_submit_title': 'Υποβολή Αίτησης',
   'prompt_submit_message': 'Είστε βέβαιοι ότι θέλετε να υποβάλετε την αίτηση σας;',
   'prompt_submit_comp_message': 'Είστε βέβαιοι ότι θέλετε να υποβάλετε την αίτηση σας;' + '<br>' + '<br>'

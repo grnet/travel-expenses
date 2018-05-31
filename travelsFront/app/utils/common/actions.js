@@ -123,7 +123,26 @@ const undo = {
     ok: 'form.ok.label',
     cancel: 'form.cancel.label',
     message: 'prompt_undo_message',
-    title: 'prompt_undo_title',
+    message: computed('model.status', function(){
+      let status = this.get('model.status');
+      if (status === 5) {
+        return  'prompt_undo_approve_application_message';
+      } else if (status === 10) {
+        return 'prompt_undo_approve_compensation_message';
+      } else {
+        return'prompt_undo_message';
+      }
+    }),
+    title: computed('model.status', function(){
+      let status = this.get('model.status');
+      if (status === 5) {
+        return  'prompt_undo_approve_application_title';
+      } else if (status === 10) {
+        return 'prompt_undo_approve_compensation_title';
+      } else {
+        return 'prompt_undo_title';
+      }
+    }),
   },
 };
 
