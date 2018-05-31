@@ -119,6 +119,20 @@ class ProjectMixin(object):
         else:
             return Response(data)
 
+    @detail_route(methods=['post'])
+    @transaction.atomic
+    def deactivate(self, request, pk=None):
+        try:
+            project = self.get_object()
+            project.active = False
+            project.save()
+            return Response(
+                {'message': 'Deactivated project'},
+                status=status.HTTP_200_OK)
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
+
     def get_queryset(self):
         return Project.objects.filter(active=True)
 
