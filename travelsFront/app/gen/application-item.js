@@ -6,6 +6,7 @@ import { applicationActions } from '../utils/common/actions';
 import USER from '../utils/application/user';
 import SECRETARY from '../utils/application/secretary';
 import CONTROLLER from '../utils/application/controller';
+import VIEWER from '../utils/application/viewer';
 import {abilityStates} from 'travel/lib/application/abilityStates';
 import moment from 'moment';
 
@@ -76,7 +77,7 @@ export default gen.CRUDGen.extend({
           let role = session.get('session.authenticated.user_group');
           let res = [];
 
-          if (role === 'SECRETARY' || role === 'CONTROLLER') {
+          if (role === 'SECRETARY' || role === 'CONTROLLER' || role === 'VIEWER') {
             res = [
               field('dse', { type: 'text' }),
               field('project', { modelName:'project', type: 'model', displayAttr: 'name' }),
@@ -151,6 +152,8 @@ export default gen.CRUDGen.extend({
         res = SECRETARY.FS_VIEW_3;
       } else if (role === 'CONTROLLER') {
         res = CONTROLLER.FS_VIEW_8;
+      } else if (role === 'VIEWER') {
+        res = VIEWER.FS_VIEW;
       }
 
       return res;
