@@ -70,14 +70,17 @@ $withdrawn-color:  color($color-red, '600');
   a {
     padding: 5px;
     text-decoration: none;
-    color: #ebeef0;
     font-size: small;
+    color: #607d8b;
   }
   @media('min-width: 960px') {
     right: auto;
     top: 10px;
     left: 10px;
     bottom: auto;
+    a {
+      color: #ebeef0;
+    }
   }
 }
 
