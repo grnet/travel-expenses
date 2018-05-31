@@ -110,6 +110,10 @@ const undo = {
       let showButtonBy = [true, true, true, true, true, true, true, true, false, false];
 
       return showButtonBy[status - 1];
+    } else if (role === 'PRESIDENT_SECRETARY') {
+      let showButtonBy = [true, true, true, true, false, true, true, true, true, false];
+
+      return showButtonBy[status - 1];
     } else {
       return true;
     }
@@ -226,6 +230,10 @@ const approve = {
       let showButtonBy = [true, true, true, true, true, true, true, true, false, true];
 
       return showButtonBy[status - 1];
+    } else if (role === 'PRESIDENT_SECRETARY') {
+      let showButtonBy = [true, true, true, false, true, true, true, true, false, true];
+
+      return showButtonBy[status - 1];
     } else {
       return true;
     }
@@ -235,7 +243,14 @@ const approve = {
     ok: 'form.approve.label',
     cancel: 'form.cancel.label',
     message: 'prompt_approve_message',
-    title: 'prompt_approve_title',
+    title: computed('model.status', function(){
+      let status = this.get('model.status');
+      if (status === 4) {
+        return  'prompt_approve_application_title';
+      } else if (status === 9) {
+        return 'prompt_approve_compensation_title';
+      }
+    }),
   },
 };
 
