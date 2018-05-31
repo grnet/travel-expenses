@@ -19,9 +19,6 @@ class CityMixin(object):
     def get_queryset(self):
         return City.objects.select_related('country').all()
 
-    @transaction.atomic
-    def update(self, request, pk=None, **kwargs):
-        return super(CityMixin, self).update(request, pk, **kwargs)
 
 class ProjectMixin(object):
 
