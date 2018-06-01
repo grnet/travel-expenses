@@ -130,9 +130,6 @@ class ProjectMixin(object):
             return Response({'detail': e.message},
                             status=status.HTTP_403_FORBIDDEN)
 
-    def get_queryset(self):
-        return Project.objects.filter(active=True)
-
 
 class ApplicationMixin(object):
 

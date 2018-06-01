@@ -1235,8 +1235,8 @@ class PetitionManager(md.Manager):
         """
         base_queryset = super(PetitionManager, self).get_queryset()
         status_dse_map = base_queryset.filter(
-            status__in=self.status_list, deleted=False,
-            project__active=True).values('dse').annotate(Max('status'))
+            status__in=self.status_list,
+            deleted=False).values('dse').annotate(Max('status'))
         q = Q()
         for status_dse in status_dse_map:
             q |= Q(status=status_dse['status__max'],
