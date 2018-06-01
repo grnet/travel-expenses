@@ -420,4 +420,6 @@ PERMISSION_RULES = [
     ('city-distances', 'retrieve', 'VIEWER', '*', '*', '*'),
     ('city-distances', 'retrieve', 'PRESIDENT_SECRETARY', '*', '*', '*'),
     ('city-distances', 'retrieve', 'HELPDESK', '*', '*', '*'),
+    ('city-distances', 'create', 'HELPDESK', '*', '*', '*'),
+    ('city-distances', 'update', 'HELPDESK', '*', '*', '*'),
 ]

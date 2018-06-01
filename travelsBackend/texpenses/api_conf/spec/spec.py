@@ -233,11 +233,16 @@ city_distances_conf = {
     '.drf_collection': {
         'mixins': [
             'rest_framework_extensions.cache.mixins.CacheResponseMixin'],
-        'model': 'texpenses.models.CityDistances'
+        'model': 'texpenses.models.CityDistances',
+        'authentication_classes':
+          ['rest_framework.authentication.SessionAuthentication',
+           'rest_framework.authentication.TokenAuthentication'],
     },
     '.actions': {
         '.list': {},
-        '.retrieve': {}
+        '.retrieve': {},
+        '.create': {},
+        '.update': {},
     },
     '*': {
         'id': {
@@ -262,7 +267,6 @@ city_distances_conf = {
             '.cli_option': {},
             '.drf_field': {},
             '.field': {},
-            '.readonly': {},
             '.ref': {
                 'to': 'api/city'
             }
@@ -271,7 +275,6 @@ city_distances_conf = {
             '.cli_option': {},
             '.drf_field': {},
             '.field': {},
-            '.readonly': {},
             '.ref': {
                 'to': 'api/city'
             }
