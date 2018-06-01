@@ -37,12 +37,15 @@ PERMISSION_RULES = [
     ('project', 'retrieve', 'VIEWER', '*', '*', '*'),
     ('project', 'retrieve', 'PRESIDENT_SECRETARY', '*', '*', '*'),
     ('project', 'retrieve', 'HELPDESK', '*', '*', '*'),
+    ('project', 'create', 'ADMIN', '*', '*', '*'),
     ('project', 'create', 'HELPDESK', '*', '*', '*'),
+    ('project', 'update', 'ADMIN', '*', '*', '*'),
     ('project', 'update', 'HELPDESK', '*', '*', '*'),
     ('project', 'project_stats', 'CONTROLLER', '*', '*', '*'),
     ('project', 'project_stats', 'ADMIN', '*', '*', '*'),
     ('project', 'stats', 'ADMIN', '*', '*', '*'),
     ('project', 'stats', 'CONTROLLER', '*', '*', '*'),
+    ('project', 'activation', 'ADMIN', '*', '*', '*'),
     ('project', 'activation', 'HELPDESK', '*', '*', '*'),
 
     ('countries', 'list', 'ADMIN', '*', '*', '*'),
@@ -82,9 +85,12 @@ PERMISSION_RULES = [
     ('city', 'retrieve', 'VIEWER', '*', '*', '*'),
     ('city', 'retrieve', 'PRESIDENT_SECRETARY', '*', '*', '*'),
     ('city', 'retrieve', 'HELPDESK', '*', '*', '*'),
+    ('city', 'create', 'ADMIN', '*', '*', '*'),
     ('city', 'create', 'HELPDESK', '*', '*', '*'),
+    ('city', 'update', 'ADMIN', '*', '*', '*'),
     ('city', 'update', 'HELPDESK', '*', '*', '*'),
 
+    ('users', 'list', 'ADMIN', '*', '*', '*'),
     ('users', 'list', 'HELPDESK', '*', '*', '*'),
     ('users', 'retrieve', 'USER', '*', 'isme', '*'),
     ('users', 'retrieve', 'ADMIN', '*', '*', '*'),
@@ -94,7 +100,9 @@ PERMISSION_RULES = [
     ('users', 'retrieve', 'VIEWER', '*', 'isme', '*'),
     ('users', 'retrieve', 'PRESIDENT_SECRETARY', '*', 'isme', '*'),
     ('users', 'retrieve', 'HELPDESK', '*', '*', '*'),
+    ('users', 'update', 'ADMIN', 'email', '*', '*'),
     ('users', 'update', 'HELPDESK', 'email', '*', '*'),
+    ('users', 'activation', 'ADMIN', '*', '*', '*'),
     ('users', 'activation', 'HELPDESK', '*', '*', '*'),
 
 #==============================================================================
@@ -380,8 +388,9 @@ PERMISSION_RULES = [
     ('applications', 'application_report', 'ADMIN', '*', '*', '*'),
     ('applications', 'decision_report', 'ADMIN', '*', '*', '*'),
     ('applications', 'cancel_withdrawal', 'ADMIN', '*', '*', '*'),
+    ('applications', 'reset', 'ADMIN', '*', '*', '*'),
 
-    #admin
+    #helpdesk
     ('applications', 'create', 'HELPDESK', '*', '*', '*'),
     ('applications', 'list', 'HELPDESK', '*', '*', '*'),
     ('applications', 'retrieve', 'HELPDESK', '*', '*', '*'),
@@ -420,6 +429,8 @@ PERMISSION_RULES = [
     ('city-distances', 'retrieve', 'VIEWER', '*', '*', '*'),
     ('city-distances', 'retrieve', 'PRESIDENT_SECRETARY', '*', '*', '*'),
     ('city-distances', 'retrieve', 'HELPDESK', '*', '*', '*'),
+    ('city-distances', 'create', 'ADMIN', '*', '*', '*'),
     ('city-distances', 'create', 'HELPDESK', '*', '*', '*'),
+    ('city-distances', 'update', 'ADMIN', '*', '*', '*'),
     ('city-distances', 'update', 'HELPDESK', '*', '*', '*'),
 ]
