@@ -116,15 +116,22 @@ class ProjectMixin(object):
         else:
             return Response(data)
 
-    @detail_route(methods=['post'])
+    @detail_route(methods=['put', 'delete'])
     @transaction.atomic
-    def deactivate(self, request, pk=None):
+    def activation(self, request, pk=None):
+        if request.method == 'PUT':
+            newStatus = True
+            responseMessage = 'Activated project'
+        else:
+            newStatus = False
+            responseMessage = 'Deactivated project'
+
         try:
             project = self.get_object()
-            project.active = False
+            project.active = newStatus
             project.save()
             return Response(
-                {'message': 'Deactivated project'},
+                {'message': responseMessage},
                 status=status.HTTP_200_OK)
         except PermissionDenied as e:
             return Response({'detail': e.message},
