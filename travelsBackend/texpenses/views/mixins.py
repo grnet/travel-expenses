@@ -527,10 +527,6 @@ class ApplicationMixin(object):
             application = self.get_object()
             if application.status in REJECTED_STATUSES:
                 return Response(status=status.HTTP_403_FORBIDDEN)
-
-            for travel in application.travel_info.all():
-                travel.delete()
-
             application.delete()
 
             restoredApplication = Petition.objects.get(dse=application.dse,
