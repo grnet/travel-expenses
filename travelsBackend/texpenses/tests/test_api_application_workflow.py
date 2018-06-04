@@ -6,7 +6,7 @@ from rest_framework.authtoken.models import Token
 from django.core.urlresolvers import reverse
 from texpenses.models import (Petition, Project, UserProfile, Applications)
 
-DATE_FORMAT = '%Y-%m-%dT%H:%M'
+DATE_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
 
 task_start_date = datetime.now() + timedelta(days=2)
 task_end_date = datetime.now() + timedelta(days=4)
@@ -195,9 +195,9 @@ class TestApi(APITestCase):
                                args=[application_id])
 
         self.data.update({
-            'movement_date_protocol': datetime.now().strftime('%Y-%m-%d'),
+            'movement_date_protocol': datetime.now().strftime(DATE_FORMAT),
             'movement_protocol': '1234',
-            'expenditure_date_protocol': datetime.now().strftime('%Y-%m-%d'),
+            'expenditure_date_protocol': datetime.now().strftime(DATE_FORMAT),
             'expenditure_protocol': '4567',
         })
 
@@ -458,9 +458,9 @@ class TestApi(APITestCase):
                                args=[application_id])
 
         self.data.update({
-            'compensation_decision_date': datetime.now().strftime('%Y-%m-%d'),
+            'compensation_decision_date': datetime.now().strftime(DATE_FORMAT),
             'compensation_decision_protocol': '1234',
-            'compensation_petition_date': datetime.now().strftime('%Y-%m-%d'),
+            'compensation_petition_date': datetime.now().strftime(DATE_FORMAT),
             'compensation_petition_protocol': '4321',
         })
 

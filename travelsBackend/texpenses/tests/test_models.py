@@ -70,8 +70,8 @@ class TravelInfoTest(TestCase):
         self.travel_obj.depart_date = date
         self.assertEqual(self.travel_obj.transport_days_proposed(), 0)
         self.travel_obj.return_date = date + timedelta(days=7)
-        # We remove weekends, that's why five.
-        self.assertEqual(self.travel_obj.transport_days_proposed(), 5)
+        # We remove weekends, that's why six (depart and return counted)
+        self.assertEqual(self.travel_obj.transport_days_proposed(), 6)
 
     def test_compensation_level(self):
 
@@ -244,56 +244,6 @@ class PetitionTest(TestCase):
         self.petition.task_start_date = self.start_date
         self.petition.task_end_date = None
         self.assertEqual(self.petition.task_duration(), 0)
-
-
-
-    def test_user_petition_manager(self):
-        user_petition = UserPetition.objects.create(
-            task_start_date=self.start_date, task_end_date=self.end_date,
-            user=self.user, project=self.project, status=1)
-        self.assertEqual(user_petition.status, Petition.SAVED_BY_USER)
-        self.petition.deleted = True
-        self.petition.save()
-        for petition in UserPetition.objects.all():
-            self.assertEqual(petition.status, Petition.SAVED_BY_USER)
-
-    def test_user_submission_manager(self):
-        user_petition = UserPetitionSubmission.objects.create(
-            task_start_date=self.start_date, task_end_date=self.end_date,
-            user=self.user, project=self.project, status=2)
-        self.assertEqual(user_petition.status, Petition.SUBMITTED_BY_USER)
-        for petition in UserPetitionSubmission.objects.all():
-            self.assertEqual(petition.status, Petition.SUBMITTED_BY_USER)
-
-    def test_secretary_petition_manager(self):
-        user_petition = SecretaryPetition.objects.create(
-            task_start_date=self.start_date, task_end_date=self.end_date,
-            user=self.user, project=self.project, status=3)
-        self.assertEqual(user_petition.status, Petition.SAVED_BY_SECRETARY)
-        for petition in SecretaryPetition.objects.all():
-            self.assertEqual(petition.status, Petition.SAVED_BY_SECRETARY)
-
-    def test_secretary_petition_submission_manager(self):
-        user_petition = SecretaryPetitionSubmission.objects.create(
-            task_start_date=self.start_date, task_end_date=self.end_date,
-            user=self.user, project=self.project, status=4)
-        self.assertEqual(user_petition.status, Petition.SUBMITTED_BY_SECRETARY)
-        for petition in SecretaryPetitionSubmission.objects.all():
-            self.assertEqual(petition.status, Petition.SUBMITTED_BY_SECRETARY)
-
-    def test_petition_submission(self):
-        petition = Petition.objects.get(id=self.petition.id)
-        self.assertIsNotNone(petition)
-        self.assertEqual(petition.status, Petition.SAVED_BY_USER)
-
-        UserPetitionSubmission.objects.create(
-            dse=petition.dse,
-            task_start_date=self.start_date, task_end_date=self.end_date,
-            user=self.user, project=self.project, status='2')
-
-        petition = Petition.objects.get(id=self.petition.id)
-        self.assertIsNotNone(petition)
-        self.assertTrue(petition.deleted)
 
     def test_status_transition(self):
         data = {
