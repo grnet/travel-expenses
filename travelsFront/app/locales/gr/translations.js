@@ -42,6 +42,7 @@ export default {
   'resend.email.verification': 'Δεν έλαβα το e-mail ενεργοποίησης',
   'resend.verification.button.label': 'Επαναποστολη',
   'send.verification.email': 'Αποστολη',
+  'email.verification.sent': 'Το e-mail ενεργοποίησης έχει σταλεί',
   // search and filter
   'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',
   'list.filters.apply.label': 'ΕΦΑΡΜΟΓΗ',

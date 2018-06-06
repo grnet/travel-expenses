@@ -1,0 +1,27 @@
+<md-content class="flex layout-row">
+  <md-card class="flex-100">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-title">{{t 'signup.tab'}}</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      {{ component gen.component
+         model
+         fieldsetFieldsComponent='paper-content'
+         flat=true
+         modelMeta=(readonly gen.resource)
+         validators=(readonly gen.resource.validators)
+         messages=(readonly gen.messages)
+         labels=(readonly gen.labels)
+         beforeFormComponent=(readonly gen.components.beforeForm)
+         _controller=this
+         onInvalid=(route-action 'onFormInvalid')
+         onSubmit=(route-action 'onFormSubmit')
+      }}
+      <h5 style="display:inline-block;">{{t 'resend.email.verification'}}</h5>
+      <span style="display:inline-block;">{{resend-verification-action}}</span>
+    </md-card-content>
+  </md-card>
+</md-content>
+

@@ -1,0 +1,36 @@
+{{#paper-button
+  onClick=(toggle-action "visiblePopup" this)
+  raised=true}}{{paper-icon 'redo'}}{{t 'resend.verification.button.label' }}{{/paper-button}}
+
+{{#if visiblePopup}}
+{{#paper-dialog fullscreen=true onClose=(toggle-action 'visiblePopup' this) clickOutsideToClose=true}}
+  {{#paper-toolbar warn=warn accent=accent primary=primary}}
+    {{#paper-toolbar-tools}}
+      <h2>{{t "resend.activation.dialog.title" }}</h2>
+      <span class="flex"></span>
+      {{#paper-button iconButton=true onClick=(toggle-action "visiblePopup" this)}}{{paper-icon icon="close"}}{{/paper-button}}
+    {{/paper-toolbar-tools}}
+  {{/paper-toolbar}}
+  {{#paper-dialog-content classNames="md-padding"}}
+  <md-content class="prompt-message">
+  {{t "resend.activation.prompt.message" }}
+  </md-content>
+  {{gen-form
+    verificationModel
+    flat=true
+    fieldsetFieldsComponent='paper-content'
+    onSubmit=(action (toggle 'visiblePopup' this))
+    messages=(hash success='email.verification.sent')
+    labels=(hash submit=(t 'send.verification.email'))
+    modelMeta=(gen-resource-meta (hash
+      fields=(array
+        (array 'email' (hash type='string' required=true disabled=isAuthenticated formAttrs=(hash type='email')))
+      )
+    ))
+  }}
+  {{/paper-dialog-content}}
+
+{{/paper-dialog}}
+{{/if}}
+
+

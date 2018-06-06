@@ -11,7 +11,7 @@ const Register = gen.GenRoutedObject.extend({
   modelName: 'account',
   routeBaseClass: routes.CreateRoute.extend(),
   component: 'gen-form',
-
+  templateName: 'travel-register',
   onSubmit(model) {
     this.controllerFor('auth.register.index').set('registeredModel', model);
     this.transitionTo('auth.login.index');

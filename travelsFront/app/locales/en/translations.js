@@ -41,6 +41,7 @@ export default {
   'resend.email.verification': 'I did not receive the verification e-mail',
   'resend.verification.button.label': 'Resend verification e-mail',
   'send.verification.email': 'Send',
+  'email.verification.sent': 'Verification e-mail has been sent',
   // search and filter
   'search.input.placeholder': 'Search with DSE / Name',
   'list.filters.apply.label': 'APPLY',

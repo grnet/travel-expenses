@@ -7,6 +7,9 @@
     tabs=gen.tabs
   }}
 
+  {{#if userNotEmailVerified }}
+    {{toolbar-message warn=true message='user.not.email_verified.error' buttonComponent=(component 'resend-verification-action')}}
+  {{/if}}
   {{#if resetToken}}
     {{reset-password token=resetToken visiblePopup=true }}
   {{/if}}
