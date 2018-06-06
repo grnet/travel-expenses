@@ -134,6 +134,8 @@ PERMISSION_RULES = [
     #manager
     ('applications', 'create', 'MANAGER', '*', '*', '*'),
     ('applications', 'list', 'MANAGER', '*', '*', '*'),
+    ('applications', 'update_manager_movement_approval', 'MANAGER', '*', 'usersubmitted', '*'),
+    ('applications', 'update_manager_movement_approval', 'MANAGER', '*', 'secretarysaved', '*'),
     ('applications', 'application_report', 'MANAGER', '*', 'usercompensationsaved', '*'),
     ('applications', 'application_report', 'MANAGER', '*', 'presidentapproved', '*'),
 
