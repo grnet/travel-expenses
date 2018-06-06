@@ -259,11 +259,12 @@ PERMISSION_RULES = [
     ('applications', 'update', 'SECRETARY', 'expenditure_date_protocol', 'usersubmitted', '*'),
 
     ('applications', 'submit', 'SECRETARY', '*', 'secretarysaved', '*'),
+    ('applications', 'president_approval', 'SECRETARY', '*', 'secretarysubmitted', '*'),
+    ('applications', 'president_approval', 'SECRETARY', '*', 'secretarycompensationsubmitted', '*'),
     ('applications', 'application_report', 'SECRETARY', '*', 'secretarysubmitted', '*'),
     ('applications', 'decision_report', 'SECRETARY', '*', 'secretarysubmitted', '*'),
     ('applications', 'cancel', 'SECRETARY', '*', 'secretarysubmitted', '*'),
     ('applications', 'cancel', 'SECRETARY', '*', 'presidentapproved', '*'),
-    ('applications', 'president_approval', 'SECRETARY', '*', '*', '*'),
     ('applications', 'withdraw', 'SECRETARY', '*', 'secretarysaved', '*'),
     ('applications', 'withdraw', 'SECRETARY', '*', 'secretarysubmitted', '*'),
     ('applications', 'cancel_withdrawal', 'SECRETARY', '*', 'secretarysaved', '*'),
