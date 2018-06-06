@@ -531,12 +531,12 @@ class ApplicationMixin(object):
             application = self.get_object()
             if application.status in REJECTED_STATUSES:
                 return Response(status=status.HTTP_403_FORBIDDEN)
+            # This marks application as deleted
             application.delete()
 
             restoredApplication = Petition.objects.filter(dse=application.dse,
                     status=Petition.SAVED_BY_SECRETARY).order_by('-updated')[0]
-            restoredApplication.deleted = False
-            restoredApplication.save()
+            restoredApplication.undelete()
 
             return Response(
                 {'message': 'The application has been reset to status 3.'},

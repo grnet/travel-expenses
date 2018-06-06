@@ -933,6 +933,13 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         self.deleted = True
         self.save()
 
+    def undelete(self):
+        """
+        Restore a previously "deleted" petition.
+        """
+        self.deleted = False
+        self.save()
+
     def transition_is_allowed(self, new_status):
         """
         Check if the transition of a petition is  allowed.
