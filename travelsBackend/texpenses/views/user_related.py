@@ -7,10 +7,12 @@ import requests
 from django.http import HttpResponse, HttpResponseRedirect
 from djoser import views as djoser_views
 from djoser import utils as djoser_utils
+from djoser import settings as djoser_settings
 from texpenses.serializers import CustomUserRegistrationSerializer,\
     PasswordResetConfirmRetypeSerializer, UserProfileSerializer
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework import response, status
+from rest_framework.exceptions import PermissionDenied
 
 logger = logging.getLogger(__name__)
 
@@ -96,6 +98,22 @@ class CustomUserRegistrationView(djoser_views.RegistrationView):
     """API endpoint for registering a new user"""
     serializer_class = CustomUserRegistrationSerializer
 
+    def resend_verification(self, request, email):
+        try:
+            user = User.objects.get(email=email, is_active=False)
+        except User.DoesNotExist:
+            raise PermissionDenied("user.invalid.or.activated")
+
+        if djoser_settings.get('SEND_ACTIVATION_EMAIL'):
+            self.send_email(**self.get_send_email_kwargs(user))
+        return HttpResponse(status=202)
+
+    def create(self, request, *args, **kwargs):
+        resend_email = request.data.get('resend_verification', None)
+        if resend_email:
+            return self.resend_verification(request, resend_email)
+        return super(CustomUserRegistrationView, self).create(
+            request, *args, **kwargs)
 
 class CustomUserDetailedView(djoser_views.UserView):
 

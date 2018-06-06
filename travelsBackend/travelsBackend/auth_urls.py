@@ -1,5 +1,4 @@
 from django.conf.urls import url
-from djoser import views as djoser_views
 from django.contrib.auth import get_user_model
 from texpenses import views
 
