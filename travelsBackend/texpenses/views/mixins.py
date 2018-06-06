@@ -533,8 +533,8 @@ class ApplicationMixin(object):
                 return Response(status=status.HTTP_403_FORBIDDEN)
             application.delete()
 
-            restoredApplication = Petition.objects.get(dse=application.dse,
-                    status=Petition.SAVED_BY_SECRETARY)
+            restoredApplication = Petition.objects.filter(dse=application.dse,
+                    status=Petition.SAVED_BY_SECRETARY).order_by('-updated')[0]
             restoredApplication.deleted = False
             restoredApplication.save()
 
