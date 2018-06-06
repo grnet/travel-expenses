@@ -220,6 +220,7 @@ export default {
   'file.upload.success': 'The file has been uploaded',
   'file.delete.success': 'The file has been deleted',
   'add.to.timesheets.success': 'The action was successful',
+  'user.created': 'User has been created',
   // error messages
   'login.error': 'Error on login',
   'form.error': 'Error on form save',

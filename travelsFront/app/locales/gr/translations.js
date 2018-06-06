@@ -227,6 +227,7 @@ export default {
   'file.upload.success': 'Επιτυχές ανέβασμα αρχείου',
   'file.delete.success': 'Επιτυχής διαγραφή αρχείου',
   'add.to.timesheets.success': 'Η ενέργεια πραγματοποιήθηκε επιτυχώς',
+  'user.created': 'Ο λογαριασμός δημιουργήθηκε',
   // error messages
   'login.error': 'Σφάλμα εισόδου',
   'form.error': 'Σφάλμα κατά την καταχώριση των στοιχείων σας',
