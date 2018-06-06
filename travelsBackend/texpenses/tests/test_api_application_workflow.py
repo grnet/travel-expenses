@@ -35,6 +35,7 @@ class TestApi(APITestCase):
         self.manager = UserProfile.objects.get(username='ilias')
         self.president_secretary = UserProfile.objects.get(username='dimitra')
         self.admin = UserProfile.objects.get(username='admin')
+        self.helpdesk = UserProfile.objects.get(username='nmorfi')
 
         self.user_token = Token.objects.create(user=self.user)
         self.secretary_token = Token.objects.create(user=self.secretary)
@@ -44,6 +45,7 @@ class TestApi(APITestCase):
         self.president_secretary_token = Token.objects.create(
             user=self.president_secretary)
         self.admin_token = Token.objects.create(user=self.admin)
+        self.helpdesk_token = Token.objects.create(user=self.helpdesk)
 
     def _set_up_manager_testing(self):
 
@@ -173,6 +175,15 @@ class TestApi(APITestCase):
 
         url_retrieve = reverse('api_applications-detail',
                                args=[application_id])
+
+        # Make sure required fields are cleared in case this has been
+        # run again (application reset)
+        self.data.update({
+            'movement_date_protocol': None,
+            'movement_protocol': None,
+            'expenditure_date_protocol': None,
+            'expenditure_protocol': None,
+        })
 
         response = self.client.put(url_retrieve, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -533,6 +544,38 @@ class TestApi(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Applications.objects.count(), 1)
 
+    def _helpdesk_reset_testing(self, permitted=True):
+
+        self.client.logout()
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' +
+                                self.helpdesk_token.key)
+        # HELPDESK GETs created application
+        url = reverse('api_applications-list')
+
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Applications.objects.count(), 1)
+
+        # HELPDESK checks application
+        application_id = response.data[0]['id']
+        url_retrieve = reverse('api_applications-detail',
+                               args=[application_id])
+
+        response = self.client.get(url_retrieve, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Applications.objects.count(), 1)
+
+        # HELPDESK tries to reset the application to status 3
+
+        application_id = response.data['id']
+        url_reset = reverse('api_applications-reset',
+                             args=[application_id])
+        response = self.client.post(url_reset, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK if
+                         permitted else status.HTTP_403_FORBIDDEN)
+        self.assertEqual(Applications.objects.count(), 1)
+
+
     def _test_workflow(self):
         self._user_testing()
         self._manager_testing()
@@ -549,6 +592,19 @@ class TestApi(APITestCase):
         self._secretary_testing(withdraw=True)
         self._president_secretary_testing(withdraw=True)
         self._controller_testing(withdraw=False)
+
+    def _test_reset_workflow(self):
+        self._user_testing()
+        self._helpdesk_reset_testing(permitted=False)
+        self._manager_testing()
+        self._viewer_testing()
+        self._secretary_testing()
+        self._president_secretary_testing()
+        self._helpdesk_reset_testing(permitted=True)
+        self._secretary_testing()
+        self._president_secretary_testing()
+        self._user_compensation_testing()
+        self._controller_testing()
 
     def test_application_per_usergroup(self):
         """
@@ -576,3 +632,17 @@ class TestApi(APITestCase):
 
         self._set_up_manager_testing()
         self._test_workflow()
+
+    def test_api_calls(self):
+        """
+        Test api calls and permissions
+        """
+        pass
+
+    def test_helpdesk_application_reset_workflow(self):
+        """
+        Test workflow for the case of an application that
+        has been reset and processed again
+        """
+        self._set_up()
+        self._test_reset_workflow()
