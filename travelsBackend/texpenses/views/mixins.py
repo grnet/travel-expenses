@@ -453,6 +453,21 @@ class ApplicationMixin(object):
             return Response({'detail': e.message},
                             status=status.HTTP_403_FORBIDDEN)
 
+    @detail_route(methods=['post'])
+    @transaction.atomic
+    def update_manager_movement_approval(self, request, pk=None):
+        try:
+            application = self.get_object()
+            application.manager_movement_approval = \
+                not application.manager_movement_approval
+            application.save()
+            return Response(
+                {'message': 'Successfully updated manager movement approval'},
+                status=status.HTTP_200_OK)
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
+
     def get_queryset(self):
         non_atomic_requests = permissions.SAFE_METHODS
         user = self.request.user
