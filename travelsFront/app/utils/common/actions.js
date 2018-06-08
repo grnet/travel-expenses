@@ -306,6 +306,48 @@ const addToTimesheets = {
   }),
 };
 
+
+const managerApproval = {
+  label: computed('model.manager_movement_approval', function() {
+    let managerApproval = this.get('model.manager_movement_approval');
+
+    if (managerApproval == true) {
+      return 'tooltip_managerApprovalUndo';
+    } else if (managerApproval == false) {
+      return 'tooltip_managerApproval';
+    }
+  }),
+  icon: 'check_circle',
+  classNames: computed('model.manager_movement_approval', function() {
+    let managerApproval = this.get('model.manager_movement_approval');
+
+    if (managerApproval == true) {
+      return 'md-success';
+    } else if (managerApproval == false) {
+      return 'md-neutral';
+    }
+  }),
+  action: function(route, model) {
+    let endpoint = 'update_manager_movement_approval';
+    let msgSuccess = 'manager.approval.success';
+    let msgError = 'manager.approval.error';
+
+    return ajax_call(route, model, endpoint, msgSuccess, msgError);
+  },
+  hidden: computed('model.status', 'role', function(){
+    let status = this.get('model.status');
+    let role = this.get('role');
+
+    if (role === 'MANAGER') {
+      let showButtonBy = [true, false, false, true, true, true, true, true, true, true];
+
+      return showButtonBy[status - 1];
+    } else {
+      return true;
+    }
+  }),
+};
+
 const withdraw = {
   label: computed('model.withdrawn', function(){
     let withdrawn = this.get('model.withdrawn');
@@ -465,6 +507,7 @@ let applicationActions = {
   withdraw: withdraw,
   exportStats: exportStats,
   change_password: change_password,
+  managerApproval: managerApproval,
 };
 
 export { applicationActions };

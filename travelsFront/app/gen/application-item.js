@@ -121,7 +121,7 @@ export default gen.CRUDGen.extend({
         'task_end_date_format',
         'status_label',
       ],
-      actions: ['gen:details', 'gen:edit', 'submit', 'undo', 'pdf', 'approve', 'addToTimesheets', 'withdraw'],
+      actions: ['gen:details', 'gen:edit', 'submit', 'undo', 'pdf', 'approve', 'addToTimesheets', 'withdraw', 'managerApproval'],
       actionsMap: {
         submit: applicationActions.submit,
         undo: applicationActions.undo,
@@ -129,6 +129,7 @@ export default gen.CRUDGen.extend({
         approve: applicationActions.approve,
         addToTimesheets: applicationActions.addToTimesheets,
         withdraw: applicationActions.withdraw,
+        managerApproval: applicationActions.managerApproval,
       },
     },
   },

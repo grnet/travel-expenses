@@ -187,6 +187,8 @@ export default {
   'del_action_info_message': 'Αφού επιλέξετε την "ΔΙΑΓΡΑΦΗ" του αρχείου, στη συνέχεια πατήστε το κουμπί "ΑΠΟΘΗΚΕΥΣΗ" προκειμένου να πραγματοποιηθεί η ενέργεια της διαγραφής',
   'tooltip_save_b4_submit': 'Για να υποβάλετε την αίτησή σας θα πρέπει πρώτα να αποθηκεύσετε τις αλλαγές σας',
   'tooltip_addToTimesheets': 'Μεταφορά στην εφαρμογή timesheets',
+  'tooltip_managerApproval': 'Έγκριση Μετακίνησης',
+  'tooltip_managerApprovalUndo': 'Αναίρεση Έγκρισης Μετακίνησης',
   'tooltip_withdraw': 'Ακύρωση Αίτησης',
   'tooltip_withdraw_cancel': 'Επαναφορά Αίτησης',
   'tooltip_stats_title': 'Εξαγωγη Στατιστικων',
@@ -227,6 +229,7 @@ export default {
   'file.upload.success': 'Επιτυχές ανέβασμα αρχείου',
   'file.delete.success': 'Επιτυχής διαγραφή αρχείου',
   'add.to.timesheets.success': 'Η ενέργεια πραγματοποιήθηκε επιτυχώς',
+  'manager.approval.success': 'Η ενέργεια πραγματοποιήθηκε επιτυχώς',
   'user.created': 'Ο λογαριασμός δημιουργήθηκε',
   // error messages
   'login.error': 'Σφάλμα εισόδου',
@@ -242,6 +245,7 @@ export default {
   'file.upload.error': 'Σφάλμα κατά το ανέβασμα αρχείου',
   'file.delete.error': 'Σφάλμα κατά την διαγραφή αρχείου',
   'add.to.timesheets.error': 'Σφάλμα κατά την εκτέλεση της ενέργειας',
+  'manager.approval.error': 'Σφάλμα κατά την εκτέλεση της ενέργειας',
   // placeholders
   'time_placeholder': 'Ώρα',
   //plain text
