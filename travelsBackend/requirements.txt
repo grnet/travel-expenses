@@ -13,7 +13,6 @@ python-stdnum>=1.0
 requests==2.9.1
 cairocffi==0.6
 WeasyPrint==0.31
-psycopg2==2.6.2
 python-memcached>=1.53
 pytz
 
