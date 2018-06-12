@@ -1,19 +1,19 @@
-apimas-drf==0.3.3
-apimas==0.3.3
-Django==1.8
-django-crontab==0.6.0
-django-filter==0.15
-django-model-utils==2.5
+apimas-drf>=0.3.3
+apimas>=0.3.3
+Django>=1.8,<1.9
+django-crontab>=0.6.0
+django-filter>=0.12
+django-model-utils>=2.0.3
 djangorestframework==3.3.3
 djoser==0.4.3
 drf-extensions==0.3.1
 geopy==1.11.0
 googlemaps==2.4.5
-python-stdnum==1.5
+python-stdnum>=1.0
 requests==2.9.1
 cairocffi==0.6
 WeasyPrint==0.31
 psycopg2==2.6.2
-python-memcached==1.58
+python-memcached>=1.53
 pytz
 
