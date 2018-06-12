@@ -752,6 +752,15 @@ class TestApi(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['active'], True)
 
+        url_project_stats = reverse('api_project-project-stats',
+                      args=[project_id])
+        response = self.client.get(url_project_stats, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        url_stats = reverse('api_project-stats')
+        response = self.client.get(url_stats, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
         # City testing
         url_list = reverse('api_city-list')
         response = self.client.get(url_list, format='json')
@@ -853,6 +862,31 @@ class TestApi(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['distance'], new_distance)
 
+    def _api_testing_as_controller(self):
+        self.client.logout()
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' +
+                                self.controller_token.key)
+
+        # Project testing
+        url_list = reverse('api_project-list')
+        response = self.client.get(url_list, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        project_id = response.data[0]['id']
+        url_detail = reverse('api_project-detail',
+                      args=[project_id])
+        response = self.client.get(url_detail, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        url_project_stats = reverse('api_project-project-stats',
+                      args=[project_id])
+        response = self.client.get(url_project_stats, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        url_stats = reverse('api_project-stats')
+        response = self.client.get(url_stats, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     def _test_workflow(self):
         self._user_testing()
         self._manager_testing()
@@ -917,6 +951,7 @@ class TestApi(APITestCase):
         self._set_up()
         self._api_testing_as_user()
         self._api_testing_as_helpdesk()
+        self._api_testing_as_controller()
 
     def test_helpdesk_application_reset_workflow(self):
         """
