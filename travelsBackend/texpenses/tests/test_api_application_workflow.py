@@ -575,6 +575,173 @@ class TestApi(APITestCase):
                          permitted else status.HTTP_403_FORBIDDEN)
         self.assertEqual(Applications.objects.count(), 1)
 
+    def _api_testing_as_user(self):
+        self.client.logout()
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' +
+                                self.user_token.key)
+
+        # Tax office testing
+        url = reverse('api_tax-office-list')
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        tax_office_id = response.data[0]['id']
+        url = reverse('api_tax-office-detail',
+                      args=[tax_office_id])
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Project testing
+        url = reverse('api_project-list')
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        project_id = response.data[0]['id']
+        url = reverse('api_project-detail',
+                      args=[project_id])
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Country testing
+        url = reverse('api_countries-list')
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        country_id = response.data[0]['id']
+        url = reverse('api_countries-detail',
+                      args=[tax_office_id])
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # City testing
+        url = reverse('api_city-list')
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        city_id = response.data[0]['id']
+        url = reverse('api_city-detail',
+                      args=[city_id])
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # User testing
+        url_list = reverse('api_users-list')
+        response = self.client.get(url_list, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        url_detail = reverse('api_users-detail',
+                             args=[self.user.id])
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.data = {'email': 'newmail@example.com'}
+
+        response = self.client.put(url_detail, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        url_activation = reverse('api_users-activation',
+                                 args=[self.user.id])
+        response = self.client.delete(url_activation, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        response = self.client.get(url_detail, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['is_active'], True)
+
+        # City-distances testing
+        url_list = reverse('api_city-distances-list')
+        response = self.client.get(url_list, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        distance_id = response.data[0]['id']
+        url_detail = reverse('api_city-distances-detail',
+                      args=[distance_id])
+        response = self.client.get(url_detail, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        to_city = reverse('api_city-detail', args=['199'])
+        from_city = reverse('api_city-detail', args=['192'])
+
+        self.data.update({'from_city': to_city,
+                          'to_city': from_city,
+                          'distance': 1231.4})
+        response = self.client.post(url_list, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        response = self.client.put(url_detail, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+
+    def _api_testing_as_helpdesk(self):
+        self.client.logout()
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' +
+                                self.helpdesk_token.key)
+
+        # User testing
+        url_list = reverse('api_users-list')
+        response = self.client.get(url_list, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        url_detail = reverse('api_users-detail',
+                      args=[self.user.id])
+        response = self.client.get(url_detail, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.data = {'email': 'newmail@example.com'}
+
+        response = self.client.put(url_detail, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        url_activation = reverse('api_users-activation',
+                                 args=[self.user.id])
+        response = self.client.delete(url_activation, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.get(url_detail, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['is_active'], False)
+
+        response = self.client.put(url_activation, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.get(url_detail, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['is_active'], True)
+
+        # City-distances testing
+        url_list = reverse('api_city-distances-list')
+        response = self.client.get(url_list, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        distance_id = response.data[0]['id']
+        url_detail = reverse('api_city-distances-detail',
+                      args=[distance_id])
+        response = self.client.get(url_detail, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        to_city = reverse('api_city-detail', args=['104'])
+        from_city = reverse('api_city-detail', args=['24'])
+
+        self.data.update({'from_city': to_city,
+                          'to_city': from_city,
+                          'distance': 1231.4})
+        response = self.client.post(url_list, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        distance_id = response.data['id']
+        url_detail = reverse('api_city-distances-detail',
+                      args=[distance_id])
+        response = self.client.get(url_detail, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        new_distance = 135
+        self.data.update({'distance': new_distance})
+        response = self.client.put(url_detail, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.get(url_detail, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['distance'], new_distance)
 
     def _test_workflow(self):
         self._user_testing()
@@ -637,7 +804,9 @@ class TestApi(APITestCase):
         """
         Test api calls and permissions
         """
-        pass
+        self._set_up()
+        self._api_testing_as_user()
+        self._api_testing_as_helpdesk()
 
     def test_helpdesk_application_reset_workflow(self):
         """
