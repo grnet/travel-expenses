@@ -592,15 +592,36 @@ class TestApi(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Project testing
-        url = reverse('api_project-list')
-        response = self.client.get(url, format='json')
+        url_list = reverse('api_project-list')
+        response = self.client.get(url_list, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         project_id = response.data[0]['id']
-        url = reverse('api_project-detail',
+        url_detail = reverse('api_project-detail',
                       args=[project_id])
-        response = self.client.get(url, format='json')
+        response = self.client.get(url_detail, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        manager = reverse('api_users-detail', args=[self.manager.id])
+
+        self.data.clear()
+        self.data.update({'manager': manager,
+                          'accounting_code': 12321,
+                          'name': 'NewProject'})
+        response = self.client.post(url_list, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        response = self.client.put(url_detail, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        url_activation = reverse('api_project-activation',
+                                 args=[project_id])
+        response = self.client.delete(url_activation, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        response = self.client.get(url_detail, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['active'], True)
 
         # Country testing
         url = reverse('api_countries-list')
@@ -614,15 +635,27 @@ class TestApi(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # City testing
-        url = reverse('api_city-list')
-        response = self.client.get(url, format='json')
+        url_list = reverse('api_city-list')
+        response = self.client.get(url_list, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         city_id = response.data[0]['id']
-        url = reverse('api_city-detail',
+        url_detail = reverse('api_city-detail',
                       args=[city_id])
-        response = self.client.get(url, format='json')
+        response = self.client.get(url_detail, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        country = reverse('api_countries-detail', args=[42])
+
+        self.data.clear()
+        self.data.update({'country': country,
+                          'timezone': 'Europe/Athens',
+                          'name': 'Larissa'})
+        response = self.client.post(url_list, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        response = self.client.put(url_detail, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
         # User testing
         url_list = reverse('api_users-list')
@@ -676,6 +709,83 @@ class TestApi(APITestCase):
         self.client.logout()
         self.client.credentials(HTTP_AUTHORIZATION='Token ' +
                                 self.helpdesk_token.key)
+
+        # Project testing
+        url_list = reverse('api_project-list')
+        response = self.client.get(url_list, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        project_id = response.data[0]['id']
+        url_detail = reverse('api_project-detail',
+                      args=[project_id])
+        response = self.client.get(url_detail, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        manager = reverse('api_users-detail', args=[self.manager.id])
+
+        self.data.clear()
+        self.data.update({'manager': manager,
+                          'accounting_code': 12345,
+                          'name': 'NeoProject'})
+        response = self.client.post(url_list, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        new_project_id = response.data['id']
+        url_detail = reverse('api_project-detail',
+                      args=[new_project_id])
+        response = self.client.put(url_detail, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        url_activation = reverse('api_project-activation',
+                                 args=[new_project_id])
+        response = self.client.delete(url_activation, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.get(url_detail, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['active'], False)
+
+        response = self.client.put(url_activation, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.get(url_detail, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['active'], True)
+
+        # City testing
+        url_list = reverse('api_city-list')
+        response = self.client.get(url_list, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        city_id = response.data[0]['id']
+        url_detail = reverse('api_city-detail',
+                      args=[city_id])
+        response = self.client.get(url_detail, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        country = reverse('api_countries-detail', args=[42])
+
+        self.data.clear()
+        self.data.update({'country': country,
+                          'timezone': 'Europe/Athens',
+                          'name': 'Larissa'})
+        response = self.client.post(url_list, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        city_id = response.data['id']
+        url_detail = reverse('api_city-detail',
+                      args=[city_id])
+        response = self.client.get(url_detail, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        new_timezone = 'Europe/Madrid'
+        self.data.update({'timezone': new_timezone})
+        response = self.client.put(url_detail, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.get(url_detail, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['timezone'], new_timezone)
 
         # User testing
         url_list = reverse('api_users-list')
