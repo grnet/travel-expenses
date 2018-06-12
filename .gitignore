@@ -21,10 +21,9 @@ travelsBackend/uploads/
 travelsBackend/.cache/*
 travelsBackend/.coverage
 travelsBackend/htmlcov/*
+debian/*~
 
 instructions.txt~
-travelsBackend/texpenses/migrations/
-travelsBackend/texpenses/migrations/*
 resources/.*.swo
 uploads/
 #backend sqlite testing db

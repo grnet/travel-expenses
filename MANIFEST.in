@@ -1,0 +1,9 @@
+include *.txt *.md
+recursive-include resources *
+recursive-include travelsBackend/texpenses/data *
+recursive-include travelsBackend/texpenses/static *
+recursive-include travelsBackend/visualizations *
+recursive-include docs *
+recursive-include travelsFront/dist *
+recursive-include travelsBackend/texpenses/templates *
+prune travelsBackend/texpenses/tests

@@ -1,0 +1,420 @@
+[
+  {
+    "_id": "Travel_Expenses_Dashboard",
+    "_type": "dashboard",
+    "_source": {
+      "title": "Travel_Expenses_Dashboard",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"col\":1,\"id\":\"Σύνολο-αποζημιώσεων\",\"panelIndex\":1,\"row\":1,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":1,\"id\":\"Σύνολο-εξόδων\",\"panelIndex\":2,\"row\":3,\"size_x\":6,\"size_y\":2,\"type\":\"visualization\"},{\"col\":7,\"id\":\"Σύνολο-εξόδων-διανυκτέρευσης\",\"panelIndex\":3,\"row\":1,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":10,\"id\":\"Σύνολο-εξόδων-μετακίνησης\",\"panelIndex\":4,\"row\":1,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":4,\"id\":\"Σύνολο-εξόδων-συμμετοχής\",\"panelIndex\":5,\"row\":1,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":1,\"id\":\"Σύνολο-επιπροσθέτων-εξόδων-ανα-μήνα\",\"panelIndex\":6,\"row\":5,\"size_x\":6,\"size_y\":3,\"type\":\"visualization\"},{\"col\":7,\"id\":\"Σύνολο-εξόδων-ανα-μήνα\",\"panelIndex\":7,\"row\":5,\"size_x\":6,\"size_y\":3,\"type\":\"visualization\"},{\"id\":\"Είδος-ταξιδιών\",\"type\":\"visualization\",\"panelIndex\":8,\"size_x\":6,\"size_y\":2,\"col\":7,\"row\":3}]",
+      "optionsJSON": "{\"darkTheme\":false}",
+      "uiStateJSON": "{}",
+      "version": 1,
+      "timeRestore": false,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}}}]}"
+      }
+    }
+  },
+  {
+    "_id": "Travel_per_project",
+    "_type": "dashboard",
+    "_source": {
+      "title": "Travel_per_project",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"id\":\"Συνολικό-κόστος-ανα-Project\",\"type\":\"visualization\",\"panelIndex\":1,\"size_x\":3,\"size_y\":4,\"col\":1,\"row\":1},{\"id\":\"Συνολικό-κόστος-αποζημίωσης-ανα-Project\",\"type\":\"visualization\",\"panelIndex\":2,\"size_x\":3,\"size_y\":4,\"col\":4,\"row\":1},{\"id\":\"Συνολικό-κόστος-διανυκτέρευσης-ανα-Project\",\"type\":\"visualization\",\"panelIndex\":3,\"size_x\":3,\"size_y\":4,\"col\":7,\"row\":1},{\"id\":\"Συνολικό-κόστος-μετακίνησης-ανα-Project\",\"type\":\"visualization\",\"panelIndex\":4,\"size_x\":3,\"size_y\":4,\"col\":10,\"row\":1},{\"id\":\"Συνολικό-κόστος-συμμετοχής-ανα-project\",\"type\":\"visualization\",\"panelIndex\":5,\"size_x\":3,\"size_y\":4,\"col\":1,\"row\":5},{\"id\":\"Σύνολο-λοιπών-εξόδων-ανα-project\",\"type\":\"visualization\",\"panelIndex\":6,\"size_x\":3,\"size_y\":4,\"col\":4,\"row\":5},{\"id\":\"Σύνολο-μετακινήσεων-ανα-project\",\"type\":\"visualization\",\"panelIndex\":7,\"size_x\":3,\"size_y\":4,\"col\":7,\"row\":5}]",
+      "optionsJSON": "{\"darkTheme\":false}",
+      "uiStateJSON": "{}",
+      "version": 1,
+      "timeRestore": false,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}}}]}"
+      }
+    }
+  },
+  {
+    "_id": "Travel_Per_Cities",
+    "_type": "dashboard",
+    "_source": {
+      "title": "Travel_Per_Cities",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"col\":1,\"id\":\"Επισκεψιμότητα-ανα-πόλη\",\"panelIndex\":1,\"row\":1,\"size_x\":4,\"size_y\":4,\"type\":\"visualization\"},{\"col\":5,\"id\":\"Συνολικά-έξοδα-ανα-πόλη\",\"panelIndex\":2,\"row\":1,\"size_x\":4,\"size_y\":4,\"type\":\"visualization\"},{\"id\":\"Σύνολο-επιπροσθέτων-εξόδων-ανα-πόλη\",\"type\":\"visualization\",\"panelIndex\":3,\"size_x\":4,\"size_y\":4,\"col\":9,\"row\":1}]",
+      "optionsJSON": "{\"darkTheme\":false}",
+      "uiStateJSON": "{}",
+      "version": 1,
+      "timeRestore": false,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}}}]}"
+      }
+    }
+  },
+  {
+    "_id": "Travel_per_traveller",
+    "_type": "dashboard",
+    "_source": {
+      "title": "Travel_per_traveller",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"col\":1,\"id\":\"Σύνολο-επιπροσθέτων-εξόδων-ανα-εργαζόμενο\",\"panelIndex\":1,\"row\":1,\"size_x\":6,\"size_y\":5,\"type\":\"visualization\"},{\"col\":7,\"id\":\"Ταξίδια-ανα-εργαζόμενο\",\"panelIndex\":2,\"row\":1,\"size_x\":6,\"size_y\":5,\"type\":\"visualization\"},{\"col\":1,\"id\":\"Μέρες-μετακίνησης-ανα-εργαζόμενο\",\"panelIndex\":3,\"row\":6,\"size_x\":6,\"size_y\":4,\"type\":\"visualization\"},{\"col\":7,\"id\":\"Σύνολο-ημερών-διανυκτέρευσης-ανα-εργαζόμενο\",\"panelIndex\":4,\"row\":6,\"size_x\":6,\"size_y\":4,\"type\":\"visualization\"},{\"id\":\"Σύνολο-εξόδων-ανα-εργαζόμενο-κ-ανα-ταξίδι\",\"type\":\"visualization\",\"panelIndex\":5,\"size_x\":6,\"size_y\":4,\"col\":1,\"row\":10}]",
+      "optionsJSON": "{\"darkTheme\":false}",
+      "uiStateJSON": "{}",
+      "version": 1,
+      "timeRestore": false,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}}}]}"
+      }
+    }
+  },
+  {
+    "_id": "Συνολικό-κόστος-διανυκτέρευσης-ανα-Project",
+    "_type": "visualization",
+    "_source": {
+      "title": "Συνολικό κόστος διανυκτέρευσης ανα Project",
+      "visState": "{\"title\":\"Συνολικό κόστος διανυκτέρευσης ανα Project\",\"type\":\"histogram\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"scale\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"overnights_sum_cost\",\"customLabel\":\"Συνολικό κόστος διανυκτέρευσης (Ευρώ)\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"project\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Project\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Σύνολο-επιπροσθέτων-εξόδων-ανα-πόλη",
+    "_type": "visualization",
+    "_source": {
+      "title": "Σύνολο επιπροσθέτων εξόδων ανα πόλη",
+      "visState": "{\"title\":\"Σύνολο επιπροσθέτων εξόδων ανα πόλη\",\"type\":\"histogram\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"scale\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"additional_expenses\",\"customLabel\":\"Σύνολο επιπροσθέτων εξόδων (Ευρώ)\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"arrival_point\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Πόλη\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Συνολικό-κόστος-ανα-Project",
+    "_type": "visualization",
+    "_source": {
+      "title": "Συνολικό κόστος ανα Project",
+      "visState": "{\"title\":\"Συνολικό κόστος ανα Project\",\"type\":\"histogram\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"scale\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"total_cost\",\"customLabel\":\"Συνολικό κόστος (Ευρώ)\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"project\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Project\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Σύνολο-επιπροσθέτων-εξόδων-ανα-εργαζόμενο",
+    "_type": "visualization",
+    "_source": {
+      "title": "Σύνολο επιπροσθέτων εξόδων ανα εργαζόμενο",
+      "visState": "{\"title\":\"Σύνολο επιπροσθέτων εξόδων ανα εργαζόμενο\",\"type\":\"histogram\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"scale\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"additional_expenses\",\"customLabel\":\"Σύνολο επιπρόσθετων εξόδων (Ευρώ)\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"last_name\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Επίθετο εργαζομένου\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Ταξίδια-ανα-εργαζόμενο",
+    "_type": "visualization",
+    "_source": {
+      "title": "Ταξίδια ανα εργαζόμενο",
+      "visState": "{\"title\":\"Ταξίδια ανα εργαζόμενο\",\"type\":\"histogram\",\"params\":{\"addLegend\":true,\"addTimeMarker\":false,\"addTooltip\":true,\"defaultYExtents\":false,\"mode\":\"stacked\",\"scale\":\"linear\",\"setYExtents\":false,\"shareYAxis\":true,\"times\":[],\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"Αριθμός ταξιδιών\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"last_name\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Επίθετο εργαζομένου\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Συνολικά-έξοδα-ανα-πόλη",
+    "_type": "visualization",
+    "_source": {
+      "title": "Συνολικά έξοδα ανα πόλη",
+      "visState": "{\"title\":\"Συνολικά έξοδα ανα πόλη\",\"type\":\"histogram\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"scale\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"total_cost\",\"customLabel\":\"Συνολικά έξοδα (Ευρώ)\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"arrival_point\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Πόλη\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Επισκεψιμότητα-ανα-πόλη",
+    "_type": "visualization",
+    "_source": {
+      "title": "Επισκεψιμότητα ανα πόλη",
+      "visState": "{\"title\":\"Επισκεψιμότητα ανα πόλη\",\"type\":\"histogram\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"scale\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"Σύνολο επισκέψεων\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"arrival_point\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Πόλη\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Σύνολο-ημερών-διανυκτέρευσης-ανα-εργαζόμενο",
+    "_type": "visualization",
+    "_source": {
+      "title": "Σύνολο ημερών διανυκτέρευσης ανα εργαζόμενο",
+      "visState": "{\"title\":\"Σύνολο ημερών διανυκτέρευσης ανα εργαζόμενο\",\"type\":\"histogram\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"scale\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"overnights_num\",\"customLabel\":\"Διανυκτερεύσεις\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"last_name\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Εργαζόμενος\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Σύνολο-μετακινήσεων-ανα-project",
+    "_type": "visualization",
+    "_source": {
+      "title": "Σύνολο μετακινήσεων ανα project",
+      "visState": "{\"title\":\"Σύνολο μετακινήσεων ανα project\",\"type\":\"histogram\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"scale\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"Σύνολο μετακινήσεων\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"project\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Project\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Συνολικό-κόστος-μετακίνησης-ανα-Project",
+    "_type": "visualization",
+    "_source": {
+      "title": "Συνολικό κόστος μετακίνησης ανα Project",
+      "visState": "{\"title\":\"Συνολικό κόστος μετακίνησης ανα Project\",\"type\":\"histogram\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"scale\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"transportation_cost\",\"customLabel\":\"Συνολικό κόστος μετακίνησης (Ευρώ)\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"project\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Project\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Συνολικό-κόστος-συμμετοχής-ανα-project",
+    "_type": "visualization",
+    "_source": {
+      "title": "Συνολικό κόστος συμμετοχής ανα project",
+      "visState": "{\"title\":\"Συνολικό κόστος συμμετοχής ανα project\",\"type\":\"histogram\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"scale\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"participation_cost\",\"customLabel\":\"Συνολικό κόστος συμμετοχής (Ευρώ)\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"project\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Project\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Σύνολο-λοιπών-εξόδων-ανα-project",
+    "_type": "visualization",
+    "_source": {
+      "title": "Σύνολο λοιπών εξόδων ανα project",
+      "visState": "{\"title\":\"Σύνολο λοιπών εξόδων ανα project\",\"type\":\"histogram\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"scale\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"additional_expenses\",\"customLabel\":\"Συνολικό λοιπών εξόδων (Ευρώ)\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"project\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Project\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Μέρες-μετακίνησης-ανα-εργαζόμενο",
+    "_type": "visualization",
+    "_source": {
+      "title": "Μέρες μετακίνησης ανα εργαζόμενο",
+      "visState": "{\"title\":\"Μέρες μετακίνησης ανα εργαζόμενο\",\"type\":\"histogram\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"scale\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"transport_days\",\"customLabel\":\"Μέρες μετακίνησης\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"last_name\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Εργαζόμενος\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Σύνολο-εξόδων-διανυκτέρευσης",
+    "_type": "visualization",
+    "_source": {
+      "title": "Σύνολο εξόδων διανυκτέρευσης",
+      "visState": "{\"title\":\"Σύνολο εξόδων διανυκτέρευσης\",\"type\":\"metric\",\"params\":{\"handleNoResults\":true,\"fontSize\":60},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"overnights_sum_cost\",\"customLabel\":\"Σύνολο εξόδων διανυκτέρευσης (Ευρώ)\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Σύνολο-εξόδων-μετακίνησης",
+    "_type": "visualization",
+    "_source": {
+      "title": "Σύνολο εξόδων μετακίνησης",
+      "visState": "{\"title\":\"Σύνολο εξόδων μετακίνησης\",\"type\":\"metric\",\"params\":{\"handleNoResults\":true,\"fontSize\":60},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"transportation_cost\",\"customLabel\":\"Σύνολο εξόδων μετακίνσησης (Ευρώ)\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Σύνολο-επιπροσθέτων-εξόδων",
+    "_type": "visualization",
+    "_source": {
+      "title": "Σύνολο επιπροσθέτων εξόδων",
+      "visState": "{\"title\":\"Σύνολο επιπροσθέτων εξόδων\",\"type\":\"metric\",\"params\":{\"handleNoResults\":true,\"fontSize\":60},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"additional_expenses\",\"customLabel\":\"Σύνολο επιπροσθέτων εξόδων (Ευρώ)\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Σύνολο-εξόδων-συμμετοχής",
+    "_type": "visualization",
+    "_source": {
+      "title": "Σύνολο εξόδων συμμετοχής",
+      "visState": "{\"title\":\"Σύνολο εξόδων συμμετοχής\",\"type\":\"metric\",\"params\":{\"handleNoResults\":true,\"fontSize\":60},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"participation_cost\",\"customLabel\":\"Σύνολο εξόδων συμμετοχής (Ευρω)\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Σύνολο-αποζημιώσεων",
+    "_type": "visualization",
+    "_source": {
+      "title": "Σύνολο αποζημιώσεων",
+      "visState": "{\"title\":\"Σύνολο αποζημιώσεων\",\"type\":\"metric\",\"params\":{\"handleNoResults\":true,\"fontSize\":60},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"compensation_cost\",\"customLabel\":\"Σύνολο αποζημιώσεων (Ευρώ)\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Σύνολο-εξόδων",
+    "_type": "visualization",
+    "_source": {
+      "title": "Σύνολο εξόδων",
+      "visState": "{\"title\":\"Σύνολο εξόδων\",\"type\":\"metric\",\"params\":{\"handleNoResults\":true,\"fontSize\":60},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"total_cost\",\"customLabel\":\"Σύνολο εξόδων (Ευρώ)\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Σύνολο-επιπροσθέτων-εξόδων-ανα-μήνα",
+    "_type": "visualization",
+    "_source": {
+      "title": "Σύνολο επιπροσθέτων εξόδων ανα μήνα",
+      "visState": "{\"title\":\"Σύνολο επιπροσθέτων εξόδων ανα μήνα\",\"type\":\"line\",\"params\":{\"addLegend\":true,\"addTimeMarker\":false,\"addTooltip\":true,\"defaultYExtents\":false,\"drawLinesBetweenPoints\":true,\"interpolate\":\"linear\",\"radiusRatio\":9,\"scale\":\"linear\",\"setYExtents\":false,\"shareYAxis\":true,\"showCircles\":true,\"smoothLines\":false,\"times\":[],\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"additional_expenses\",\"customLabel\":\"Σύνολο επιπροσθέτων εξόδων (Ευρώ)\"}},{\"id\":\"2\",\"type\":\"date_histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"return_date\",\"interval\":\"M\",\"customInterval\":\"2h\",\"min_doc_count\":1,\"extended_bounds\":{},\"customLabel\":\"Μήνας επιστροφής\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Σύνολο-εξόδων-ανα-μήνα",
+    "_type": "visualization",
+    "_source": {
+      "title": "Σύνολο εξόδων ανα μήνα",
+      "visState": "{\"title\":\"Σύνολο εξόδων ανα μήνα\",\"type\":\"line\",\"params\":{\"addLegend\":true,\"addTimeMarker\":false,\"addTooltip\":true,\"defaultYExtents\":false,\"drawLinesBetweenPoints\":true,\"interpolate\":\"linear\",\"radiusRatio\":9,\"scale\":\"linear\",\"setYExtents\":false,\"shareYAxis\":true,\"showCircles\":true,\"smoothLines\":false,\"times\":[],\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"total_cost\",\"customLabel\":\"Σύνολο εξόδων (Ευρώ)\"}},{\"id\":\"2\",\"type\":\"date_histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"return_date\",\"interval\":\"M\",\"customInterval\":\"2h\",\"min_doc_count\":1,\"extended_bounds\":{},\"customLabel\":\"Μήνας επιστροφής\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Συνολικό-κόστος-αποζημίωσης-ανα-Project",
+    "_type": "visualization",
+    "_source": {
+      "title": "Συνολικό κόστος αποζημίωσης ανα Project",
+      "visState": "{\"title\":\"Συνολικό κόστος αποζημίωσης ανα Project\",\"type\":\"histogram\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"scale\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"compensation_cost\",\"customLabel\":\"Συνολοκό κόστος αποζημίωσης (Ευρώ)\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"project\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Project\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Είδος-ταξιδιών",
+    "_type": "visualization",
+    "_source": {
+      "title": "Είδος ταξιδιών",
+      "visState": "{\"title\":\"New Visualization\",\"type\":\"histogram\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"scale\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"Αριθμός ταξιδιών\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"is_abroad.raw\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Εξωτερικού?\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Σύνολο-εξόδων-ανα-εργαζόμενο-κ-ανα-ταξίδι",
+    "_type": "visualization",
+    "_source": {
+      "title": "Σύνολο εξόδων ανα εργαζόμενο κ ανα ταξίδι",
+      "visState": "{\"title\":\"Σύνολο εξόδων ανα εργαζόμενο κ ανα ταξίδι\",\"type\":\"line\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"showCircles\":true,\"smoothLines\":false,\"interpolate\":\"linear\",\"scale\":\"linear\",\"drawLinesBetweenPoints\":true,\"radiusRatio\":9,\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"additional_expenses\",\"customLabel\":\"Σύνολο επιπροσθέτων εξόδων (Ευρώ)\"}},{\"id\":\"2\",\"type\":\"date_histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"return_date\",\"interval\":\"auto\",\"customInterval\":\"2h\",\"min_doc_count\":1,\"extended_bounds\":{},\"customLabel\":\"Ημερομηνία επιστροφής\"}},{\"id\":\"3\",\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\"last_name\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Εργαζόμενος\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Σύνολο-επιπροσθέτων-εξόδων-ανα-εργαζόμενο-κ-ανα-ταξίδι",
+    "_type": "visualization",
+    "_source": {
+      "title": "Σύνολο επιπροσθέτων εξόδων ανα εργαζόμενο κ ανα ταξίδι",
+      "visState": "{\"title\":\"Σύνολο εξόδων ανα εργαζόμενο κ ανα ταξίδι\",\"type\":\"line\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"showCircles\":true,\"smoothLines\":false,\"interpolate\":\"linear\",\"scale\":\"linear\",\"drawLinesBetweenPoints\":true,\"radiusRatio\":9,\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"additional_expenses\",\"customLabel\":\"Σύνολο επιπροσθέτων εξόδων (Ευρώ)\"}},{\"id\":\"2\",\"type\":\"date_histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"return_date\",\"interval\":\"auto\",\"customInterval\":\"2h\",\"min_doc_count\":1,\"extended_bounds\":{},\"customLabel\":\"Ημερομηνία επιστροφής\"}},{\"id\":\"3\",\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\"last_name\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Εργαζόμενος\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"travel_expenses\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  }
+]

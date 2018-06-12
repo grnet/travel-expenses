@@ -1,0 +1,23 @@
+{% load tz %}
+Σας ενημερώνουμε ότι ο χρήστης {{ request_user_first_name }} {{ request_user_last_name }} αναίρεσε την Αίτηση Μετακίνησης με κωδικό {{ dse }}
+και Στοιχεία Μετακίνησης:
+
+- Μετακινούμενος: {{ first_name }} {{ last_name }}
+- Έργο: {{ project }}
+- Αιτιολογία Μετακίνησης: {{ reason }}
+- Προτάσεις χρήστη: {{ user_recommendation }}
+{% if travel_info.count > 1 %}
+- Ενδιάμεσοι προορισμοί:
+{% for travel_obj in travel_info %}
+	- Από(ημ/νια {{travel_obj.depart_date|timezone:timezone_depart|date:"d/m/Y, H:i"}}):{{travel_obj.departure_point}}
+	- Προς:{{travel_obj.arrival_point}}
+{% endfor %}
+{% else %}
+- Αναχώρηση: {{ departure_point }}
+- Άφιξη: {{ arrival_point }}
+{% endif %}
+- Έναρξη Εργασιών: {{ task_start_date|timezone:timezone_arrival|date:"d/m/Y, H:i" }}
+- Λήξη Εργασιών: {{ task_end_date|timezone:timezone_arrival|date:"d/m/Y, H:i"  }}
+
+Happy journeys!
+Η ομάδα ανάπτυξης
