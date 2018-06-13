@@ -486,10 +486,7 @@ class ApplicationMixin(object):
         if user.user_group() == "MANAGER":
             manager_projects = Project.objects.filter(manager=user)
             query = query.filter(Q(user=self.request.user) |
-                                 (Q(project__in=manager_projects) &
-                                  Q(manager_movement_approval=False) &
-                                  Q(status__gte=Petition.SUBMITTED_BY_USER) &
-                                  Q(status__lt=Petition.SUBMITTED_BY_SECRETARY)))
+                                 Q(project__in=manager_projects))
 
         if user.user_group() in ["SECRETARY", "CONTROLLER"]:
             query = query.filter(status__gte=Petition.SUBMITTED_BY_USER)
