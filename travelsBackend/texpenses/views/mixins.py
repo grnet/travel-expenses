@@ -458,6 +458,9 @@ class ApplicationMixin(object):
     def update_manager_movement_approval(self, request, pk=None):
         try:
             application = self.get_object()
+            if application.project.manager != request.user:
+                raise PermissionDenied(
+                        "You can't approve applications of that project")
             application.manager_movement_approval = \
                 not application.manager_movement_approval
             application.save()
