@@ -76,9 +76,7 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                   'rest_framework.authentication.BasicAuthentication',
                   'rest_framework.authentication.TokenAuthentication'],
                  'mixins':
-                 ["rest_framework_extensions."
-                  "cache.mixins.CacheResponseMixin",
-                  'texpenses.views.mixins.ProjectMixin'],
+                 ['texpenses.views.mixins.ProjectMixin'],
                  'model': 'texpenses.models.Project'},
                 '.actions': {'.list': {}, '.retrieve': {}}}
 
@@ -230,8 +228,7 @@ city_conf = {'*': {'country': {'.cli_option': {},
              '.collection': {},
              '.drf_collection':
              {'mixins':
-              ['rest_framework_extensions.cache.mixins.CacheResponseMixin',
-               'texpenses.views.mixins.CityMixin'],
+              ['texpenses.views.mixins.CityMixin'],
               'model': 'texpenses.models.City'},
              '.actions': {'.list': {}, '.retrieve': {}}}
 
@@ -239,8 +236,6 @@ city_distances_conf = {
     '.cli_commands': {},
     '.collection': {},
     '.drf_collection': {
-        'mixins': [
-            'rest_framework_extensions.cache.mixins.CacheResponseMixin'],
         'model': 'texpenses.models.CityDistances'
     },
     '.actions': {
