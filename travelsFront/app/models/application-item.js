@@ -31,7 +31,7 @@ export default DS.Model.extend({
   user_category: DS.attr({ 'choices': CHOICES.USER_CATEGORY, disabled: true }),
   // application - user fields
   user: DS.attr('string'),
-  dse: DS.attr('string'),
+  dse: DS.attr({ disabled: true }),
   project: DS.belongsTo('project', { autocomplete: true, formAttrs: { optionLabelAttr: 'name' } }),
   reason: DS.attr({ type: 'text' }),
   participation_local_cost: DS.attr(),
