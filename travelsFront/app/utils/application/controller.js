@@ -24,6 +24,8 @@ const FS_EDIT_8 = [
     fields: [
       field('first_name', { disabled: true }),
       field('last_name', { disabled: true }),
+      field('tax_reg_num', { disabled: true }),
+      field('iban', { disabled: true }),
       'dse',
       'project',
       'reason',
@@ -38,8 +40,8 @@ const FS_EDIT_8 = [
     ],
     layout: {
       flex: [
-        50, 50, 50, 50, 100, 50, 50,
-        100, 50, 30, 20, 50, 50,
+        50, 50, 50, 50, 50, 50, 100,
+        50, 50, 100, 50, 30, 20, 50, 50,
       ],
     },
   },
