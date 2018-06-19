@@ -35,7 +35,7 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
         model = UserProfile
         fields = ('username', 'first_name', 'last_name', 'email',
                   'iban', 'specialty', 'kind', 'tax_reg_num', 'tax_office',
-                  'user_category', 'user_group', 'trip_days_left')
-        read_only_fields = ('username', 'trip_days_left', 'user_category')
+                  'user_category', 'user_group', 'trip_days_left', 'id')
+        read_only_fields = ('username', 'trip_days_left', 'user_category', 'id')
         extra_kwargs = {'tax_office': {'view_name':
                                        'api_tax-office-detail'}}
