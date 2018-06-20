@@ -40,6 +40,9 @@ export default AuthGen.extend({
     page: {
       title: 'login.label',
     },
+    menu: {
+      icon: 'fingerprint',
+    },
     config: {
       authenticator: 'travel',
     },

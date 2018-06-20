@@ -15,6 +15,7 @@ const Register = gen.GenRoutedObject.extend({
     display: true,
     label: 'signup.tab',
     breadcrumb: { display: true },
+    icon: 'assignment_ind',
   },
   modelName: 'account',
   routeBaseClass: routes.CreateRoute.extend(),
