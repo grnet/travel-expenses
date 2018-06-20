@@ -179,6 +179,7 @@ export default {
   'profile.tab': 'Προφίλ',
   'password.change.tab': 'Αλλαγή Κωδικού Πρόσβασης',
   'help.tab': 'Οδηγίες Χρήσης',
+  'contact.tab': 'Επικοινωνία',
   'appications_list.tab': 'Λίστα Αιτήσεων',
   'users.tab': 'Χρήστες',
   'projects.tab': 'Έργα',

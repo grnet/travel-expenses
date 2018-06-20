@@ -1,0 +1,23 @@
+{{#gen-page classNames=(if gen.nested 'nested' '') as |page|}}
+  {{page.toolbar}}
+
+  {{#page.content}}
+    <md-content>
+      {{#paper-content class="md-padding"}}
+        {{#paper-card}}
+          {{#paper-card-title}}
+            {{#paper-card-title-text}}
+              <h4>Επικοινωνία</h4>
+              <p>
+              Για οποιαδήποτε απορία ή διευκρίνιση, μπορείτε να επικοινωνήσετε μαζί μας στην παρακάτω διεύθυνση ηλεκτρονικού ταχυδρομείου:
+              <br/>
+              <br/>
+              <a href="mailto:travel.helpdesk@lists.grnet.gr">travel.helpdesk@lists.grnet.gr</a>
+              </p>
+            {{/paper-card-title-text}}
+          {{/paper-card-title}}
+        {{/paper-card}}
+      {{/paper-content}}
+    </md-content>
+  {{/page.content}}
+{{/gen-page}}
