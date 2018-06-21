@@ -85,11 +85,12 @@ const FS_EDIT_8 = [
       'trip_days_before',
       'compensation_cost',
       'trip_days_after',
+      'compensation_final',
       'total_cost_calculated',
     ],
     layout: {
       flex: [
-        50, 50, 50, 50, 100,
+        50, 50, 50, 50, 50, 100,
       ],
     },
   },
@@ -159,12 +160,13 @@ const FS_VIEW_8 = [
       'trip_days_before',
       'compensation_cost',
       'trip_days_after',
+      'compensation_final',
       'total_cost_calculated',
       'status_label',
     ],
     layout: {
       flex: [
-        50, 50, 50, 50, 100, 100,
+        50, 50, 50, 50, 50, 100, 100,
       ],
     },
   },

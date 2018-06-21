@@ -86,6 +86,7 @@ export default DS.Model.extend({
   compensation_decision_date: DS.attr('date'),
   compensation_decision_date_format: computeDateFormat('compensation_decision_date'),
   compensation_decision_protocol: DS.attr(),
+  compensation_final: DS.attr(),
   timesheeted: DS.attr('boolean'),
   new_id: DS.attr(),
 

@@ -141,6 +141,7 @@ export default {
   'overnights_sum_cost.label': 'Σύνολο Διανυκτέρευσης',
   'compensation_level.label': 'Αποζημίωση (Ημερήσια)',
   'compensation_cost.label': 'Σύνολο Ημερήσιας Αποζημίωσης',
+  'compensation_final.label': 'Σύνολο Αποζημίωσης',
   'total_cost_calculated.label': 'ΣΥΝΟΛΟ',
   // buttons
   'form.save.label': 'Αποθηκευση',
