@@ -54,11 +54,17 @@ const submit = {
 
     return ajax_call(route, model, endpoint, msgSuccess, msgError);
   },
-  hidden: computed('model.status', 'role', function(){
+  hidden: computed('model.status', 'role', 'model.user', function(){
     let status = this.get('model.status');
     let role = this.get('role');
+    let userId = this.get('session.session.authenticated.id');
+    let applicationUserId = this.get('model.user').split('/').slice(-2)[0];
 
-    if (role === 'USER' || role === 'MANAGER') {
+    if (role === 'USER') {
+      let showButtonBy = [false, true, true, true, true, false, true, true, true, true];
+
+      return showButtonBy[status - 1];
+    } else if (role === 'MANAGER' && userId === applicationUserId) {
       let showButtonBy = [false, true, true, true, true, false, true, true, true, true];
 
       return showButtonBy[status - 1];
@@ -94,11 +100,17 @@ const undo = {
 
     return ajax_call(route, model, endpoint, msgSuccess, msgError);
   },
-  hidden: computed('model.status', 'role', function(){
+  hidden: computed('model.status', 'role', 'model.user', function(){
     let status = this.get('model.status');
     let role = this.get('role');
+    let userId = this.get('session.session.authenticated.id');
+    let applicationUserId = this.get('model.user').split('/').slice(-2)[0];
 
-    if (role === 'USER' || role === 'MANAGER') {
+    if (role === 'USER') {
+      let showButtonBy = [true, false, true, true, true, true, false, true, true, true];
+
+      return showButtonBy[status - 1];
+    } else if (role === 'MANAGER' && userId === applicationUserId) {
       let showButtonBy = [true, false, true, true, true, true, false, true, true, true];
 
       return showButtonBy[status - 1];
@@ -334,11 +346,13 @@ const managerApproval = {
 
     return ajax_call(route, model, endpoint, msgSuccess, msgError);
   },
-  hidden: computed('model.status', 'role', function(){
+  hidden: computed('model.status', 'role', 'session', 'model.project.manager_id',  function(){
     let status = this.get('model.status');
     let role = this.get('role');
+    let userId = this.get('session.session.authenticated.id');
+    let managerId = this.get('model.project.manager_id');
 
-    if (role === 'MANAGER') {
+    if (role === 'MANAGER' && userId === managerId) {
       let showButtonBy = [true, false, false, true, true, true, true, true, true, true];
 
       return showButtonBy[status - 1];

@@ -6,7 +6,6 @@ export default DS.Model.extend({
   },
   name: DS.attr(),
   accounting_code: DS.attr(),
-  manager_name: DS.attr(),
-  manager_surname: DS.attr(),
-  manager_email: DS.attr(),
+  manager: DS.attr(),
+  manager_id: DS.attr(),
 });
