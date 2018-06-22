@@ -11,7 +11,7 @@ geopy==1.11.0
 googlemaps==2.4.5
 python-stdnum>=1.0
 requests==2.9.1
-cairocffi==0.6
+cairocffi>=0.5
 WeasyPrint==0.31
 python-memcached>=1.53
 pytz
