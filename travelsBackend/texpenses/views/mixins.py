@@ -186,6 +186,18 @@ class ApplicationMixin(object):
             return Response({'detail': e.message},
                             status=status.HTTP_403_FORBIDDEN)
 
+    @detail_route(methods=['post'])
+    @transaction.atomic
+    def mark_as_deleted(self, request, pk=None):
+        try:
+            application = self.get_object()
+            application.mark_as_deleted()
+            return Response({'message': 'The petition was marked as deleted'},
+                            status=status.HTTP_200_OK)
+
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
 
     @detail_route(methods=['post'])
     @transaction.atomic
@@ -532,11 +544,11 @@ class ApplicationMixin(object):
             if application.status in REJECTED_STATUSES:
                 return Response(status=status.HTTP_403_FORBIDDEN)
             # This marks application as deleted
-            application.delete()
+            application.mark_as_deleted()
 
             restoredApplication = Petition.objects.filter(dse=application.dse,
                     status=Petition.SAVED_BY_SECRETARY).order_by('-updated')[0]
-            restoredApplication.undelete()
+            restoredApplication.unmark_deleted()
 
             return Response(
                 {'message': 'The application has been reset to status 3.'},

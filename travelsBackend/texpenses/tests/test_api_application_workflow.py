@@ -152,6 +152,10 @@ class TestApi(APITestCase):
         response = self.client.delete(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
+        url_delete = reverse('api_applications-mark-as-deleted', args=[application_id])
+        response = self.client.post(url_delete, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 

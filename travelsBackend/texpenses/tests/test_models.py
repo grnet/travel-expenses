@@ -224,10 +224,24 @@ class PetitionTest(TestCase):
         petition = Petition.objects.get(id=self.petition.id)
         self.assertIsNotNone(petition)
         self.assertEqual(self.petition.status, 1)
+        for travel in self.petition.travel_info.all():
+            travel.delete()
         self.petition.delete()
+        self.assertRaises(Petition.DoesNotExist, Petition.objects.get,
+                id=self.petition.id)
+
+    def test_mark_as_deleted(self):
+        petition = Petition.objects.get(id=self.petition.id)
+        self.assertIsNotNone(petition)
+        self.assertEqual(self.petition.status, 1)
+        self.petition.mark_as_deleted()
         petition = Petition.objects.get(id=self.petition.id)
         self.assertIsNotNone(petition)
         self.assertTrue(petition.deleted)
+        self.petition.unmark_deleted()
+        petition = Petition.objects.get(id=self.petition.id)
+        self.assertIsNotNone(petition)
+        self.assertFalse(petition.deleted)
 
     def test_set_next_dse(self):
         petition = Petition.objects.get(id=self.petition.id)

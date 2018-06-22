@@ -923,17 +923,14 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         # self._set_manual_total_cost()
         super(Petition, self).save(*args, **kwargs)
 
-    def delete(self):
+    def mark_as_deleted(self):
         """
-        Overrides the `delete` method of model.
-
-        It doesn't actually delete the object, but it sets its status as
-        `DELETED`.
+        Sets petition's status as `DELETED`.
         """
         self.deleted = True
         self.save()
 
-    def undelete(self):
+    def unmark_deleted(self):
         """
         Restore a previously "deleted" petition.
         """
@@ -979,7 +976,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             raise PermissionDenied('Petition transition is not allowed.')
         travel_info = self.travel_info.all()
         if delete:
-            self.delete()
+            self.mark_as_deleted()
         petition_modifications = kwargs.pop('petition_data', {})
         travel_info_modifications = kwargs.pop(
             'travel_info_data', [{}] * len(travel_info))
@@ -1449,7 +1446,7 @@ class Applications(Petition):
                            Petition.SUBMITTED_BY_SECRETARY):
             try:
                 Applications.objects.get(status=self.status-1,
-                                         dse=self.dse).delete()
+                                         dse=self.dse).mark_as_deleted()
             except ObjectDoesNotExist:
                 pass
 
