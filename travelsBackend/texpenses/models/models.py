@@ -827,10 +827,17 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     def check_resource_state_usersaved(cls, obj, row, request, view):
         return obj.status == cls.SAVED_BY_USER
 
+    @classmethod
+    def check_resource_state_ownedusersaved(cls, obj, row, request, view):
+        return request.user == obj.user and obj.status == cls.SAVED_BY_USER
 
     @classmethod
     def check_resource_state_usersubmitted(cls, obj, row, request, view):
         return obj.status == cls.SUBMITTED_BY_USER
+
+    @classmethod
+    def check_resource_state_ownedusersubmitted(cls, obj, row, request, view):
+        return request.user == obj.user and obj.status == cls.SUBMITTED_BY_USER
 
     @classmethod
     def check_resource_state_secretarysaved(cls, obj, row, request, view):
@@ -846,14 +853,28 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         return obj.status == cls.APPROVED_BY_PRESIDENT
 
     @classmethod
+    def check_resource_state_ownedpresidentapproved(cls, obj, row, request, view):
+        return request.user == obj.user and obj.status == cls.APPROVED_BY_PRESIDENT
+
+    @classmethod
     def check_resource_state_usercompensationsaved(cls, obj, row, request,
                                                    view):
         return obj.status == cls.USER_COMPENSATION
 
     @classmethod
+    def check_resource_state_ownedusercompensationsaved(cls, obj, row, request,
+                                                   view):
+        return request.user == obj.user and obj.status == cls.USER_COMPENSATION
+
+    @classmethod
     def check_resource_state_usercompensationsubmitted(cls, obj, row, request,
                                                        view):
         return obj.status == cls.USER_COMPENSATION_SUBMISSION
+
+    @classmethod
+    def check_resource_state_ownedusercompensationsubmitted(cls, obj, row, request,
+                                                       view):
+        return request.user == obj.user and obj.status == cls.USER_COMPENSATION_SUBMISSION
 
     @classmethod
     def check_resource_state_secretarycompensationsaved(cls, obj, row,
