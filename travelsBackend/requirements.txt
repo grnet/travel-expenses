@@ -7,8 +7,6 @@ django-model-utils>=2.0.3
 djangorestframework==3.3.3
 djoser==0.4.3
 drf-extensions==0.3.1
-geopy==1.11.0
-googlemaps==2.4.5
 python-stdnum>=1.0
 requests==2.9.1
 cairocffi>=0.5
