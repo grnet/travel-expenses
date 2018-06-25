@@ -6,6 +6,7 @@
 
 
 @import "ember-gen";
+@import 'paper-data-table';
 
 $success-color: color($color-light-green, '600');
 $action-color: color($color-orange, '600');
@@ -112,5 +113,35 @@ md-content[data-form-field-name="travel_info"] .layout-row button:first-child {
 @keyframes spin {
   to {
      transform: translateX(-50%);
+  }
+}
+
+.manualTable {
+  max-width: 100%;
+  width: 100%;
+  border-spacing: 0;
+  overflow: hidden;
+  height: 100%;
+  overflow-x: auto;
+  display: block;
+  th {
+    background-color: color($color-blue-grey, '500');
+    color: white;
+    padding: 12px 8px;
+    text-align: center;
+  }
+  th.link-tab {
+    text-align: center;
+  }
+  td {
+    padding: 6px 8px;
+    text-align: center;
+  }
+  td.icon-cell {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+  tr:nth-child(even) td {
+      background-color: color($color-blue-grey, '50');
   }
 }
