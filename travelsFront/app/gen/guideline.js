@@ -8,7 +8,7 @@ const {
 } = Ember;
 
 let guidelines = gen.GenRoutedObject.extend({
-  auth: null,
+  auth: false,
   name: 'guideline',
   resourceName: '',
   templateName: 'guideline',
