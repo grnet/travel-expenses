@@ -1,0 +1,11 @@
+{{#gen-page classNames=(if gen.nested 'nested' '') as |page|}}
+  {{page.toolbar}}
+
+  {{#page.content}}
+    <md-content>
+      {{#paper-content class="md-padding"}}
+        {{ help-manual }}
+      {{/paper-content}}
+    </md-content>
+  {{/page.content}}
+{{/gen-page}}

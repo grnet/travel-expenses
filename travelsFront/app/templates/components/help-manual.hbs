@@ -1,0 +1,11 @@
+{{#if (or (eq role 'USER') (eq role 'VIEWER'))}}
+  {{ partial '_user_manual' }}
+{{else if (eq role 'MANAGER')}}
+  {{ partial '_manager_manual' }}
+{{else if (eq role 'SECRETARY')}}
+  {{ partial '_secretary_manual' }}
+{{else if (eq role 'CONTROLLER')}}
+  {{ partial '_controller_manual' }}
+{{else if (eq role 'PRESIDENT_SECRETARY')}}
+  {{ partial '_president_secretary_manual' }}
+{{/if}}
