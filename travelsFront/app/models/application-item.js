@@ -21,6 +21,7 @@ export default DS.Model.extend({
 
   session: Ember.inject.service('session'),
   // profile fields
+  user_id: DS.attr(),
   first_name: DS.attr(),
   last_name: DS.attr(),
   specialty: DS.attr({ 'choices': CHOICES.SPECIALTY }),
