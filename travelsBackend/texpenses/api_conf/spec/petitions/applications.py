@@ -140,6 +140,13 @@ spec = {'*': {
             '.field': {},
             '.integer': {},
             '.nullable': {}},
+    'user_id': {'.cli_option': {},
+                '.drf_field': {
+                    'onmodel': False,
+                },
+                '.field': {},
+                '.readonly': {},
+                '.serial': {}},
     'first_name': {'.cli_option': {},
                    '.drf_field': {},
                    '.field': {},
