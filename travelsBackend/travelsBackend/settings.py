@@ -12,12 +12,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 import os
-# Build paths inside the dir manage commands are run from.
-BASE_DIR = os.path.abspath(os.getcwd())
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '26ch88!x45adfwl4-6vuh6@3z^-@8#^b8#a@)ty(tp^)1!za*x'
@@ -107,7 +102,7 @@ AUTH_USER_MODEL = 'texpenses.UserProfile'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'mydb.sqlite3'),
+        'NAME':  './mydb.sqlite3',
     }
 }
 
@@ -141,8 +136,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+LOGFILE = os.environ.get('TRAVEL_LOGFILE', '/var/log/travel/travelexpenses.log')
 
-# Logging configuration
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -159,7 +154,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'travelexpenses.log'),
+            'filename': LOGFILE,
             'formatter': 'verbose'
         },
         'console': {
@@ -189,8 +184,22 @@ LOGGING = {
     }
 }
 
-# Path to resources file.
-RESOURCES_FILE = os.path.join(BASE_DIR,'../resources/common.json')
+RESOURCES_DIR = os.environ.get('TRAVEL_RESOURCES_DIR',
+        '/usr/lib/travel/resources')
+RESOURCES_FILE = os.path.join(RESOURCES_DIR, 'common.json')
+
+SETTINGS_DIR = os.environ.get('TRAVEL_SETTINGS_DIR', '/etc/travel')
+SETTINGS_FILE = 'settings.conf'
+SETTINGS_PATH = os.path.join(SETTINGS_DIR, SETTINGS_FILE)
+
+if not os.path.isfile(SETTINGS_PATH):
+    m = "Cannot find settings file {0!r}. Consider using TRAVEL_SETTINGS_DIR "
+    m += "environment variable to set a custom path for settings.conf file."
+    m = m.format(SETTINGS_PATH)
+    raise RuntimeError(m)
+
+execfile(SETTINGS_PATH)
+
 try:
     from local_settings import *
 except ImportError, e:
