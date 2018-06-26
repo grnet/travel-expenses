@@ -54,11 +54,11 @@ const submit = {
 
     return ajax_call(route, model, endpoint, msgSuccess, msgError);
   },
-  hidden: computed('model.status', 'role', 'model.user', function(){
+  hidden: computed('model.status', 'role', 'model.user_id', function(){
     let status = this.get('model.status');
     let role = this.get('role');
     let userId = this.get('session.session.authenticated.id');
-    let applicationUserId = this.get('model.user').split('/').slice(-2)[0];
+    let applicationUserId = this.get('model.user_id');
 
     if (role === 'USER') {
       let showButtonBy = [false, true, true, true, true, false, true, true, true, true];
@@ -100,11 +100,11 @@ const undo = {
 
     return ajax_call(route, model, endpoint, msgSuccess, msgError);
   },
-  hidden: computed('model.status', 'role', 'model.user', function(){
+  hidden: computed('model.status', 'role', 'model.user_id', function(){
     let status = this.get('model.status');
     let role = this.get('role');
     let userId = this.get('session.session.authenticated.id');
-    let applicationUserId = this.get('model.user').split('/').slice(-2)[0];
+    let applicationUserId = this.get('model.user_id');
 
     if (role === 'USER') {
       let showButtonBy = [true, false, true, true, true, true, false, true, true, true];
