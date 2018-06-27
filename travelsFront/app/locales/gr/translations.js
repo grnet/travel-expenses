@@ -247,6 +247,10 @@ export default {
   'file.delete.error': 'Σφάλμα κατά την διαγραφή αρχείου',
   'add.to.timesheets.error': 'Σφάλμα κατά την εκτέλεση της ενέργειας',
   'manager.approval.error': 'Σφάλμα κατά την εκτέλεση της ενέργειας',
+  'This field may not be null.': 'Tο πεδίο δεν μπορεί να είναι κενό',
+  '\'return\' date should be after \'depart\' date.': 'Η ημέρα επιστροφής θα πρέπει να έπεται της ημέρας αναχώρησης',
+  '\'task end\' date should be after \'depart\' date.': 'Η ημέρα λήξης εργασιών θα πρέπει να έπεται της ημέρας αναχώρησης',
+  'The Task start date field should be after today.': 'Η ημέρα έναρξης εργασιών θα πρέπει να είναι μεταγενέστερη της σημερινής',
   // placeholders
   'time_placeholder': 'Ώρα',
   //plain text
