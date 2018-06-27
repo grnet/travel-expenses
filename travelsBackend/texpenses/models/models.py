@@ -347,14 +347,11 @@ class TravelInfo(Accommodation, Transportation):
 
     def _set_travel_manual_field_defaults(self):
 
-        if self.transport_days_manual == 0:
-            self.transport_days_manual = self.transport_days_proposed()
+        self.transport_days_manual = self.transport_days_proposed()
 
-        if self.overnights_num_manual == 0:
-            self.overnights_num_manual = self.overnights_num_proposed()
+        self.overnights_num_manual = self.overnights_num_proposed()
 
-        if self.compensation_days_manual == 0:
-            self.compensation_days_manual = self.compensation_days_proposed()
+        self.compensation_days_manual = self.compensation_days_proposed()
 
     def is_abroad(self):
 
