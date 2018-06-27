@@ -235,6 +235,7 @@ export default {
   'file.upload.error': 'Error on file upload',
   'file.delete.error': 'Error on file deletion',
   'add.to.timesheets.error': 'Error performing the action',
+  'No distance found for these cities.': 'No distance found for the specific destination',
   // placeholders
   'time_placeholder': 'Time',
   //plain text

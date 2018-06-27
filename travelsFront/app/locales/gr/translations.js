@@ -246,6 +246,7 @@ export default {
   'file.delete.error': 'Σφάλμα κατά την διαγραφή αρχείου',
   'add.to.timesheets.error': 'Σφάλμα κατά την εκτέλεση της ενέργειας',
   'manager.approval.error': 'Σφάλμα κατά την εκτέλεση της ενέργειας',
+  'No distance found for these cities.': 'Δεν υπάρχει διαθέσιμη απόσταση για τον συγκεκριμένο προορισμό',
   // placeholders
   'time_placeholder': 'Ώρα',
   //plain text
