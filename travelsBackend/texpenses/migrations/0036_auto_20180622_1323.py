@@ -5,9 +5,10 @@ from django.db import migrations
 from django.contrib.auth.models import Group
 
 def create_helpdesk_and_permissions(apps, schema_editor):
-    # Copy secretary's group permissions
-    # Let's hope there's one.
-    secretary = Group.objects.get(name='SECRETARY')
+    try:
+        secretary = Group.objects.get(name='SECRETARY')
+    except Group.DoesNotExist:
+        return
     permissions = secretary.permissions.all()
     helpdesk, _ = Group.objects.get_or_create(name='HELPDESK')
     helpdesk.permissions.add(*permissions)
