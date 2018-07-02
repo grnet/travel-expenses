@@ -251,6 +251,7 @@ export default {
   '\'return\' date should be after \'depart\' date.': 'Η ημέρα επιστροφής θα πρέπει να έπεται της ημέρας αναχώρησης',
   '\'task end\' date should be after \'depart\' date.': 'Η ημέρα λήξης εργασιών θα πρέπει να έπεται της ημέρας αναχώρησης',
   'The Task start date field should be after today.': 'Η ημέρα έναρξης εργασιών θα πρέπει να είναι μεταγενέστερη της σημερινής',
+  'No distance found for these cities.': 'Δεν υπάρχει διαθέσιμη απόσταση για τον συγκεκριμένο προορισμό',
   // placeholders
   'time_placeholder': 'Ώρα',
   //plain text

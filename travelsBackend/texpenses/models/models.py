@@ -308,6 +308,7 @@ class TravelInfo(Accommodation, Transportation):
                                         Petition.
                                         SECRETARY_COMPENSATION_SUBMISSION]
         self._validate_depart_arrival_points()
+        self._validate_city_distance_exists()
 
         if self.depart_date and self.return_date \
                 and petition.task_end_date:
@@ -339,6 +340,13 @@ class TravelInfo(Accommodation, Transportation):
             if departure_point_name == arrival_point_name:
                 raise ValidationError(u"Departure city and arrival city should"
                                       " not be the same.")
+
+    def _validate_city_distance_exists(self):
+        if self.is_abroad() or not self.means_of_transport_is_car_or_bike():
+            return
+        if not CityDistances.objects.filter(from_city=self.departure_point,
+                                        to_city=self.arrival_point).exists():
+            raise ValidationError(u'No distance found for these cities.')
 
     def _set_travel_manual_field_defaults(self):
 
