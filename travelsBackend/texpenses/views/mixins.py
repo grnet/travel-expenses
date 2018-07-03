@@ -342,9 +342,6 @@ class ApplicationMixin(object):
         # petition info
         travel_info_first = petition_object.travel_info.first()
         travel_info_last = petition_object.travel_info.last()
-        travel_info_with_visa_accommodation_payment = (
-            petition_object.travel_info.filter(
-                accommodation_payment_way='VISA').exists())
 
         if petition_object.status in (Petition.SUBMITTED_BY_SECRETARY,
                                       Petition.APPROVED_BY_PRESIDENT,
@@ -423,10 +420,6 @@ class ApplicationMixin(object):
                          petition_object.additional_expenses_local_currency,
                          'compensation_final':
                          petition_object.compensation_final,
-                         'travel_info_with_visa_accommodation_payment':
-                         travel_info_with_visa_accommodation_payment,
-                         'overnights_to_be_compensated':
-                         petition_object.overnights_to_be_compensated(),
                          'transportation_compensation':
                          petition_object.transportation_cost_to_be_compensated(),
                          'participation_payment_way': (

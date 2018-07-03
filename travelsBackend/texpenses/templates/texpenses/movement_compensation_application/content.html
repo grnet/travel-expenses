@@ -142,18 +142,6 @@
 			<td>{{transportation_compensation}} ευρώ</td>
 		</tr>
 		{% endif %}
-		{% if travel_info_with_visa_accommodation_payment %}
-			<tr>
-				<td>Έξοδα διανυκτέρευσης προς αποζημίωση</td>
-				<td>{{overnights_to_be_compensated}} ευρώ</td>
-			</tr>
-		{% endif %}
-		{% if participation_payment_way == 'VISA' %}
-			<tr>
-				<td>Κόστος συμμετοχής προς αποζημίωση</td>
-				<td>{{participation_cost}} ευρώ</td>
-			</tr>
-		{% endif %}
 		{% if additional_expenses > 0 %}
 		<tr>
 			<td>Λοιπά έξοδα μετακίνησης</td>
