@@ -314,10 +314,7 @@ spec = {'*': {
                             'apimas_permission_class':
                              'texpenses.serializers.permissions.NestedPermissions',
                             'permission_classes':
-                            ['rest_framework.permissions.IsAuthenticated',
-                             "rest_framework.permissions."
-                             "DjangoModelPermissions",
-                            ],
+                            ['rest_framework.permissions.IsAuthenticated',],
                             'search_fields': ['first_name',
                                               'last_name',
                                               'dse'

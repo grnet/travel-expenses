@@ -9,7 +9,7 @@ from djoser import utils as djoser_utils
 from djoser import settings as djoser_settings
 from texpenses.serializers import CustomUserRegistrationSerializer,\
     PasswordResetConfirmRetypeSerializer, UserProfileSerializer
-from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import response, status
 from rest_framework.exceptions import PermissionDenied
 
@@ -97,6 +97,6 @@ class CustomUserDetailedView(djoser_views.UserView):
 
     serializer_class = UserProfileSerializer
     permission_classes = (
-        IsAuthenticated, DjangoModelPermissions,
+        IsAuthenticated,
     )
     queryset = User.objects.select_related('tax_office').all()
