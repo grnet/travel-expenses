@@ -13,9 +13,10 @@ from texpenses.api_conf.spec.spec import spec
 import pprint
 
 DATE_FORMAT = '%Y-%m-%d'
-SENDER = settings.SERVER_EMAIL
+SENDER = settings.DEFAULT_FROM_EMAIL
 SECRETARY_EMAIL = settings.SECRETARY_EMAIL
 CONTROLLER_EMAIL = settings.CONTROLLER_EMAIL
+
 EMAIL_TEMPLATES = {
     'SUBMISSION': ('submission.txt', 'Υποβολή αίτησης μετακίνησης'),
     'CANCELLATION': ('cancellation.txt',
