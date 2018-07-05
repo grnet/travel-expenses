@@ -11,7 +11,6 @@ commands:
 * pip install djangorestframework==3.3.3
 * pip install markdown==2.6.6
 * pip install django-filter==0.13.0
-* pip install requests==2.9.1
 * pip install drf-tracking==0.2.5
 # pip install pytz==2016.3
 
