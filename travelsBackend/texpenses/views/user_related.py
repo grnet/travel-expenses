@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 from django.views.decorators.http import require_http_methods
 import urllib
 from django.conf import settings
-import requests
 from django.http import HttpResponse, HttpResponseRedirect
 from djoser import views as djoser_views
 from djoser import utils as djoser_utils
@@ -18,37 +17,14 @@ logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
-
-@require_http_methods(["GET", ])
-def custom_activation_view(request, uid=None, token=None):
-    if uid and token:
-        payload = {
-            'uid': uid,
-            'token': token
-        }
-        enc = urllib.urlencode(payload)
-        url = settings.HOST_URL + settings.API_PREFIX + '/auth/activate/'
-        headers = {'content-type': 'application/x-www-form-urlencoded'}
-        response = requests.post(url, data=enc, headers=headers)
-        if response.status_code == 200 or response.status_code == 204:
-            return HttpResponseRedirect("/")
-        elif response.status_code == 403:
-            return HttpResponseRedirect("/")
-        else:
-            return HttpResponse("Could not activate account with uid:" +
-                                uid + " and token:" + token)
+class CustomEmailActivationView(djoser_views.ActivationView):
+    pass
 
 
 class CustomUserView(djoser_views.UserView):
 
     """API endpoint that lets a user view and edit some basic\
         user related info"""
-    pass
-
-
-class CustomActivationView(djoser_views.ActivationView):
-
-    """API endpoint that activates a new user account"""
     pass
 
 
