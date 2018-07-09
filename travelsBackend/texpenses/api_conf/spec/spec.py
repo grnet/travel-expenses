@@ -238,7 +238,11 @@ city_conf = {'*': {'country': {'.cli_option': {},
              '.drf_collection':
              {'mixins':
               ['texpenses.views.mixins.CityMixin'],
-              'model': 'texpenses.models.City'},
+              'model': 'texpenses.models.City',
+              'authentication_classes':
+              ['rest_framework.authentication.SessionAuthentication',
+               'rest_framework.authentication.TokenAuthentication'],
+             },
              '.actions': {'.list': {},
                           '.retrieve': {},
                           '.create': {},
@@ -248,7 +252,10 @@ city_distances_conf = {
     '.cli_commands': {},
     '.collection': {},
     '.drf_collection': {
-        'model': 'texpenses.models.CityDistances'
+        'model': 'texpenses.models.CityDistances',
+        'authentication_classes':
+          ['rest_framework.authentication.SessionAuthentication',
+           'rest_framework.authentication.TokenAuthentication'],
     },
     '.actions': {
         '.list': {},

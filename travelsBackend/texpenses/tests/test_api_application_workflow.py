@@ -130,12 +130,25 @@ class TestApi(APITestCase):
 
         application_id = Applications.objects.get(
             status=Petition.SUBMITTED_BY_USER).id
-        url = reverse('api_applications-detail', args=[application_id])
 
-        self.data.update({'manager_movement_approval': True})
-
-        response = self.client.put(url, self.data, format='json')
+        url_retrieve = reverse('api_applications-detail',
+            args=[application_id])
+        response = self.client.get(url_retrieve, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        previous_status = response.data['manager_movement_approval']
+
+        url = reverse('api_applications-update-manager-movement-approval',
+            args=[application_id])
+        response = self.client.post(url, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        url_retrieve = reverse('api_applications-detail',
+            args=[application_id])
+        response = self.client.get(url_retrieve, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['manager_movement_approval'],
+            not previous_status)
+
 
     def _viewer_testing(self):
         self.client.logout()
