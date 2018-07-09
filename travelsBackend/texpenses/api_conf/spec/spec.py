@@ -82,9 +82,7 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                 '.collection': {},
                 '.drf_collection':
                 {'authentication_classes':
-                 ['rest_framework.authentication.SessionAuthentication',
-                  'rest_framework.authentication.BasicAuthentication',
-                  'rest_framework.authentication.TokenAuthentication'],
+                  ['rest_framework.authentication.TokenAuthentication'],
                  'mixins':
                  ['texpenses.views.mixins.ProjectMixin'],
                  'model': 'texpenses.models.Project'},
@@ -168,8 +166,7 @@ user_conf = {'*': {'email': {'.cli_option': {},
              '.collection': {},
              '.drf_collection':
              {'authentication_classes':
-              ['rest_framework.authentication.SessionAuthentication',
-               'rest_framework.authentication.TokenAuthentication'],
+               ['rest_framework.authentication.TokenAuthentication'],
               'model': 'texpenses.models.UserProfile',
               'mixins': ['texpenses.views.mixins.UserMixin'],
               'permission_classes':
