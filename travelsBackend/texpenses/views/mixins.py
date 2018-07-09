@@ -116,8 +116,26 @@ class ProjectMixin(object):
         else:
             return Response(data)
 
-    def get_queryset(self):
-        return Project.objects.filter(active=True)
+    @detail_route(methods=['put', 'delete'])
+    @transaction.atomic
+    def activation(self, request, pk=None):
+        if request.method == 'PUT':
+            newStatus = True
+            responseMessage = 'Activated project'
+        else:
+            newStatus = False
+            responseMessage = 'Deactivated project'
+
+        try:
+            project = self.get_object()
+            project.active = newStatus
+            project.save()
+            return Response(
+                {'message': responseMessage},
+                status=status.HTTP_200_OK)
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
 
 
 class ApplicationMixin(object):
@@ -168,6 +186,18 @@ class ApplicationMixin(object):
             return Response({'detail': e.message},
                             status=status.HTTP_403_FORBIDDEN)
 
+    @detail_route(methods=['post'])
+    @transaction.atomic
+    def mark_as_deleted(self, request, pk=None):
+        try:
+            application = self.get_object()
+            application.mark_as_deleted()
+            return Response({'message': 'The petition was marked as deleted'},
+                            status=status.HTTP_200_OK)
+
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
 
     @detail_route(methods=['post'])
     @transaction.atomic
@@ -491,3 +521,55 @@ class ApplicationMixin(object):
             return query
         else:
             return query.select_for_update(nowait=True)
+
+    @detail_route(methods=['post'])
+    @transaction.atomic
+    def reset(self, request, pk=None):
+        """
+        Reset an application with a status greater than 3 (SAVED_BY_SECRETARY)
+        to that one, allowing to correct any mistakes in the process.
+        """
+        REJECTED_STATUSES = (Petition.SAVED_BY_USER,
+                             Petition.SUBMITTED_BY_USER,
+                             Petition.SAVED_BY_SECRETARY)
+        try:
+            application = self.get_object()
+            if application.status in REJECTED_STATUSES:
+                return Response(status=status.HTTP_403_FORBIDDEN)
+            # This marks application as deleted
+            application.mark_as_deleted()
+
+            restoredApplication = Petition.objects.filter(dse=application.dse,
+                    status=Petition.SAVED_BY_SECRETARY).order_by('-updated')[0]
+            restoredApplication.unmark_deleted()
+
+            return Response(
+                {'message': 'The application has been reset to status 3.'},
+                status=status.HTTP_200_OK)
+
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
+
+
+class UserMixin(object):
+
+    @detail_route(methods=['put', 'delete'])
+    def activation(self, request, pk=None):
+        if request.method == 'PUT':
+            newStatus = True
+            responseMessage = 'Activated user'
+        else:
+            newStatus = False
+            responseMessage = 'Deactivated user'
+
+        try:
+            user = self.get_object()
+            user.is_active = newStatus
+            user.save()
+            return Response(
+                {'message': responseMessage},
+                status=status.HTTP_200_OK)
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)

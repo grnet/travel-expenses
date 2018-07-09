@@ -323,7 +323,6 @@ spec = {'*': {
                                               'dse'
                                               ]},
         '.actions': {'.create': {},
-                     '.delete': {},
                      '.list': {},
                      '.retrieve': {},
                      '.update': {}}}

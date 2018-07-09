@@ -60,7 +60,6 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                       'manager': {'.cli_option': {},
                                   '.drf_field': {},
                                   '.field': {},
-                                  '.readonly': {},
                                   '.ref': {'to': 'api/users'}},
                       'manager_id': {'.cli_option': {},
                                      '.drf_field': {
@@ -73,7 +72,12 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                                '.field': {},
                                '.string': {'max_length': 500}},
                       'url': {'.drf_field': {}, '.identity': {},
-                              '.readonly': {}}},
+                              '.readonly': {}},
+                      'active': {'.cli_option': {},
+                                 '.drf_field': {},
+                                 '.field': {},
+                                 '.readonly': {},
+                                 '.boolean': {}}},
                 '.cli_commands': {},
                 '.collection': {},
                 '.drf_collection':
@@ -84,7 +88,13 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                  'mixins':
                  ['texpenses.views.mixins.ProjectMixin'],
                  'model': 'texpenses.models.Project'},
-                '.actions': {'.list': {}, '.retrieve': {}}}
+                '.actions': {
+                    '.list': {},
+                    '.retrieve': {},
+                    '.create': {},
+                    '.update': {},
+                }
+            }
 
 user_conf = {'*': {'email': {'.cli_option': {},
                              '.drf_field': {},
@@ -147,7 +157,12 @@ user_conf = {'*': {'email': {'.cli_option': {},
                                 '.drf_field': {},
                                 '.field': {},
                                 '.readonly': {},
-                                '.string': {}}},
+                                '.string': {}},
+                   'is_active': {'.cli_option': {},
+                                 '.drf_field': {},
+                                 '.field': {},
+                                 '.readonly': {},
+                                 '.boolean': {}}},
              '.cli_auth': {'format': 'yaml', 'schema': {'token': ['token']}},
              '.cli_commands': {},
              '.collection': {},
@@ -156,11 +171,15 @@ user_conf = {'*': {'email': {'.cli_option': {},
               ['rest_framework.authentication.SessionAuthentication',
                'rest_framework.authentication.TokenAuthentication'],
               'model': 'texpenses.models.UserProfile',
+              'mixins': ['texpenses.views.mixins.UserMixin'],
               'permission_classes':
-                  ['rest_framework.permissions.IsAuthenticated',
-                   'rest_framework.permissions.DjangoModelPermissions',
-                   'texpenses.permissions.custom_permissions.IsOwner']},
-             '.actions': {'.list': {}, '.retrieve': {}}}
+                  ['rest_framework.permissions.IsAuthenticated',]},
+             '.actions': {
+                     '.list': {},
+                     '.retrieve': {},
+                     '.update': {},
+                     }
+        }
 
 countries_conf = {'*': {'category': {'.choices': {},
                                      '.cli_option': {},
@@ -196,30 +215,9 @@ countries_conf = {'*': {'category': {'.choices': {},
 city_conf = {'*': {'country': {'.cli_option': {},
                                '.drf_field': {},
                                '.field': {},
-                               '.readonly': {},
-                               '.struct': {'category': {'.choices': {},
-                                                        '.cli_option': {},
-                                                        '.drf_field': {},
-                                                        '.field': {},
-                                                        '.readonly': {}},
-                                           'currency': {'.choices': {},
-                                                        '.cli_option': {},
-                                                        '.drf_field': {},
-                                                        '.field': {},
-                                                        '.readonly': {}},
-                                           'id': {'.cli_option': {},
-                                                  '.drf_field': {},
-                                                  '.field': {},
-                                                  '.readonly': {},
-                                                  '.serial': {}},
-                                           'name': {'.cli_option': {},
-                                                    '.drf_field': {},
-                                                    '.field': {},
-                                                    '.readonly': {},
-                                                    '.string': {}},
-                                           'url': {'.drf_field': {},
-                                                   '.identity': {},
-                                                   '.readonly': {}}}},
+                               '.ref': {
+                                   'to': 'api/countries'
+                               }},
                    'id': {'.cli_option': {},
                           '.drf_field': {},
                           '.field': {},
@@ -228,13 +226,10 @@ city_conf = {'*': {'country': {'.cli_option': {},
                    'name': {'.cli_option': {},
                             '.drf_field': {},
                             '.field': {},
-                            '.readonly': {},
                             '.string': {}},
-
                    'timezone': {'.cli_option': {},
                                 '.drf_field': {},
                                 '.field': {},
-                                '.readonly': {},
                                 '.string': {}},
                    'url': {'.drf_field': {}, '.identity': {},
                            '.readonly': {}}},
@@ -244,7 +239,10 @@ city_conf = {'*': {'country': {'.cli_option': {},
              {'mixins':
               ['texpenses.views.mixins.CityMixin'],
               'model': 'texpenses.models.City'},
-             '.actions': {'.list': {}, '.retrieve': {}}}
+             '.actions': {'.list': {},
+                          '.retrieve': {},
+                          '.create': {},
+                          '.update': {}}}
 
 city_distances_conf = {
     '.cli_commands': {},
@@ -254,7 +252,9 @@ city_distances_conf = {
     },
     '.actions': {
         '.list': {},
-        '.retrieve': {}
+        '.retrieve': {},
+        '.create': {},
+        '.update': {},
     },
     '*': {
         'id': {
@@ -279,7 +279,6 @@ city_distances_conf = {
             '.cli_option': {},
             '.drf_field': {},
             '.field': {},
-            '.readonly': {},
             '.ref': {
                 'to': 'api/city'
             }
@@ -288,7 +287,6 @@ city_distances_conf = {
             '.cli_option': {},
             '.drf_field': {},
             '.field': {},
-            '.readonly': {},
             '.ref': {
                 'to': 'api/city'
             }

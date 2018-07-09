@@ -104,10 +104,6 @@ class Configuration(object):
 
     def CitiesConfig(self):
         endpoint = city_conf
-        endpoint['*']['country']['.struct']['currency']\
-            ['.choices']['allowed'] = self.currencies
-        endpoint['*']['country']['.struct']['category']\
-            ['.choices']['allowed'] = self.categories
         self.spec['api']['city'] = endpoint
 
     def CityDistancesConfig(self):

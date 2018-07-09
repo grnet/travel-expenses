@@ -124,7 +124,12 @@ class UserProfile(AbstractUser, TravelUserProfile):
 
 
 def is_manager(manager_id):
-    manager = UserProfile.objects.get(id=manager_id)
+    # DRF API creates and updates call the validator with the object
+    # instead of the id for some reason
+    if isinstance(manager_id, UserProfile):
+        manager = manager_id
+    else:
+        manager = UserProfile.objects.get(id=manager_id)
     manager_group = manager.user_group()
     if manager_group != "MANAGER":
         raise ValidationError('The chosen user must be a MANAGER')
@@ -350,14 +355,11 @@ class TravelInfo(Accommodation, Transportation):
 
     def _set_travel_manual_field_defaults(self):
 
-        if self.transport_days_manual == 0:
-            self.transport_days_manual = self.transport_days_proposed()
+        self.transport_days_manual = self.transport_days_proposed()
 
-        if self.overnights_num_manual == 0:
-            self.overnights_num_manual = self.overnights_num_proposed()
+        self.overnights_num_manual = self.overnights_num_proposed()
 
-        if self.compensation_days_manual == 0:
-            self.compensation_days_manual = self.compensation_days_proposed()
+        self.compensation_days_manual = self.compensation_days_proposed()
 
     def is_abroad(self):
 
@@ -947,14 +949,18 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         # self._set_manual_total_cost()
         super(Petition, self).save(*args, **kwargs)
 
-    def delete(self):
+    def mark_as_deleted(self):
         """
-        Overrides the `delete` method of model.
-
-        It doesn't actually delete the object, but it sets its status as
-        `DELETED`.
+        Sets petition's status as `DELETED`.
         """
         self.deleted = True
+        self.save()
+
+    def unmark_deleted(self):
+        """
+        Restore a previously "deleted" petition.
+        """
+        self.deleted = False
         self.save()
 
     def transition_is_allowed(self, new_status):
@@ -996,7 +1002,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             raise PermissionDenied('Petition transition is not allowed.')
         travel_info = self.travel_info.all()
         if delete:
-            self.delete()
+            self.mark_as_deleted()
         petition_modifications = kwargs.pop('petition_data', {})
         travel_info_modifications = kwargs.pop(
             'travel_info_data', [{}] * len(travel_info))
@@ -1241,8 +1247,8 @@ class PetitionManager(md.Manager):
         """
         base_queryset = super(PetitionManager, self).get_queryset()
         status_dse_map = base_queryset.filter(
-            status__in=self.status_list, deleted=False,
-            project__active=True).values('dse').annotate(Max('status'))
+            status__in=self.status_list,
+            deleted=False).values('dse').annotate(Max('status'))
         q = Q()
         for status_dse in status_dse_map:
             q |= Q(status=status_dse['status__max'],
@@ -1448,7 +1454,7 @@ class Applications(Petition):
                            Petition.SUBMITTED_BY_SECRETARY):
             try:
                 Applications.objects.get(status=self.status-1,
-                                         dse=self.dse).delete()
+                                         dse=self.dse).mark_as_deleted()
             except ObjectDoesNotExist:
                 pass
 
