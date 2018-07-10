@@ -43,6 +43,8 @@ export default {
   'resend.verification.button.label': 'Επαναποστολη',
   'send.verification.email': 'Αποστολη',
   'email.verification.sent': 'Το e-mail ενεργοποίησης έχει σταλεί',
+  'user.email_verification.error': 'Σφάλμα κατά την επαλήθευση του e-mail σας',
+  'user.email_verification.success': 'Το e-mail σας επαληθεύτηκε',
   // search and filter
   'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',
   'list.filters.apply.label': 'ΕΦΑΡΜΟΓΗ',

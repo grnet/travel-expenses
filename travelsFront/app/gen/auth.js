@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import AuthGen from 'ember-gen/lib/auth';
-import { Register } from '../lib/register';
+import { Register, resetHash } from '../lib/register';
 import PROFILE from '../utils/common/profile';
 import { applicationActions } from '../utils/common/actions';
+import ENV from 'travel/config/environment';
 
 const {
   get,
@@ -14,6 +15,10 @@ function extractError(loc) {
 
 function extractReset(loc) {
   return loc.hash && loc.hash.split("reset=")[1];
+};
+
+function extractActivate(loc) {
+  return loc.hash && loc.hash.split("activate=")[1];
 };
 
 export default AuthGen.extend({
@@ -39,6 +44,47 @@ export default AuthGen.extend({
     },
     templateName: 'travel-login',
     routeMixins: [{
+      handleActivate(activate) {
+        let [uid, token] = activate.split("|");
+        resetHash(window);
+        if (uid && token) {
+          let url = ENV.APP.backend_host + '/auth/activate/';
+          let data = {uid, token};
+          return fetch(url, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          }).then((resp) => {
+            let err, msg;
+            if (resp.status === 200) {
+              msg = 'user.email_verification.success';
+            } else {
+              err = 'user.email_verification.error';
+              resp.json().then((json) => {
+                if (!json.detail) { return; }
+                this.get('messageService').setError(json.detail);
+              });
+              resetHash(window, "error=user.email_verification.error");
+            }
+            if (msg) { this.get('messageService').setSuccess(msg); }
+            if (err) { this.get('messageService').setError(err); }
+          });
+        }
+      },
+
+      beforeModel(transition) {
+        let activate = extractActivate(window.location);
+        if (activate) {
+          return this.handleActivate(decodeURI(activate)).finally(() => {
+            return this.transitionTo('index');
+          });
+        }
+        return this._super(transition);
+      },
+
       setupController(controller, model) {
         this._super(controller, model);
 
