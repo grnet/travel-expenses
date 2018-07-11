@@ -666,19 +666,19 @@ class SecretarialInfo(md.Model):
 
     movement_id = md.CharField(max_length=200, null=True, blank=True)
     expenditure_protocol = md.CharField(
-        max_length=30, null=True, blank=True)
+        max_length=256, null=True, blank=True)
     expenditure_date_protocol = md.DateTimeField(
         blank=True, null=True)
     movement_protocol = md.CharField(
-        max_length=30, null=True, blank=True)
+        max_length=256, null=True, blank=True)
     movement_date_protocol = md.DateTimeField(
         blank=True, null=True)
     compensation_petition_protocol = md.CharField(
-        max_length=30, null=True, blank=True)
+        max_length=256, null=True, blank=True)
     compensation_petition_date = md.DateTimeField(
         blank=True, null=True)
     compensation_decision_protocol = md.CharField(
-        max_length=30, null=True, blank=True)
+        max_length=256, null=True, blank=True)
     compensation_decision_date = md.DateTimeField(
         blank=True, null=True)
     manager_movement_approval = md.BooleanField(default=False,
