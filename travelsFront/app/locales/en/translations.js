@@ -8,6 +8,7 @@ export default {
   'create.page.title': 'Create',
   'edit.page.title': 'Edit',
   'details.page.title': 'Details',
+  'users.page.title': 'Users',
   'list.page.title': 'Travel Applications',
   'Auth': 'User',
   'profile.menu_label': 'Profile',
@@ -162,6 +163,7 @@ export default {
   'password.change.tab': 'Password Change',
   'help.tab': 'Help',
   'appications_list.tab': 'Applications',
+  'users.tab': 'Users',
   // travel_report labels
   'travel_files.label': 'File Upload (max size 8MB)',
   'travel_report.label': 'Travel Report',

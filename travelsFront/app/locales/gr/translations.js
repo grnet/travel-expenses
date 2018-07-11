@@ -8,6 +8,7 @@ export default {
   'create.page.title': 'Δημιουργία',
   'edit.page.title': 'Επεξεργασία',
   'details.page.title': 'Λεπτομέρειες',
+  'users.page.title': 'Χρήστες',
   'list.page.title': 'Αιτήσεις Μετακίνησης',
   'Auth': 'Χρήστης',
   'profile.menu_label': 'Προφίλ',
@@ -64,6 +65,7 @@ export default {
   'tax_office.label': 'ΔΟΥ',
   'tax_office.name.label': 'ΔΟΥ',
   'user_category.label': 'Κατηγορία Χρήστη',
+  'user_group.label': 'Ρόλος',
   'my_account.label': 'Στοιχεία Λογαριασμού',
   'personal_info.label': 'Προσωπικά Στοιχεία',
   // application labels
@@ -165,6 +167,7 @@ export default {
   'password.change.tab': 'Αλλαγή Κωδικού Πρόσβασης',
   'help.tab': 'Οδηγίες Χρήσης',
   'appications_list.tab': 'Λίστα Αιτήσεων',
+  'users.tab': 'Χρήστες',
   // travel_report labels
   'travel_files.label': 'Ανέβασμα Αρχείων (μέγιστο μέγεθος 8MB)',
   'travel_report.label': 'Απολογισμός Μετακίνησης',
