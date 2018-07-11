@@ -4,6 +4,7 @@ import { Register, resetHash } from '../lib/register';
 import PROFILE from '../utils/common/profile';
 import { applicationActions } from '../utils/common/actions';
 import ENV from 'travel/config/environment';
+import fetch from "ember-network/fetch";
 
 const {
   get,
