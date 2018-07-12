@@ -677,9 +677,9 @@ class TestApi(APITestCase):
         response = self.client.put(url_detail, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-        url_activation = reverse('api_users-activation',
+        url_deactivate = reverse('api_users-deactivate',
                                  args=[self.user.id])
-        response = self.client.delete(url_activation, format='json')
+        response = self.client.post(url_deactivate, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
         response = self.client.get(url_detail, format='json')
@@ -706,16 +706,18 @@ class TestApi(APITestCase):
         response = self.client.put(url_detail, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        url_activation = reverse('api_users-activation',
+        url_deactivate = reverse('api_users-deactivate',
                                  args=[self.user.id])
-        response = self.client.delete(url_activation, format='json')
+        response = self.client.post(url_deactivate, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         response = self.client.get(url_detail, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['is_active'], False)
 
-        response = self.client.put(url_activation, format='json')
+        url_activate = reverse('api_users-activate',
+                                 args=[self.user.id])
+        response = self.client.post(url_activate, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         response = self.client.get(url_detail, format='json')
@@ -766,9 +768,9 @@ class TestApi(APITestCase):
         response = self.client.put(url_detail, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-        url_activation = reverse('api_project-activation',
+        url_activate = reverse('api_project-deactivate',
                                  args=[project_id])
-        response = self.client.delete(url_activation, format='json')
+        response = self.client.post(url_deactivate, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
         response = self.client.get(url_detail, format='json')
@@ -815,16 +817,18 @@ class TestApi(APITestCase):
         response = self.client.put(url_detail, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        url_activation = reverse('api_project-activation',
+        url_deactivate = reverse('api_project-deactivate',
                                  args=[new_project_id])
-        response = self.client.delete(url_activation, format='json')
+        response = self.client.post(url_deactivate, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         response = self.client.get(url_detail, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['active'], False)
 
-        response = self.client.put(url_activation, format='json')
+        url_activate = reverse('api_project-activate',
+                                 args=[new_project_id])
+        response = self.client.post(url_activate, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         response = self.client.get(url_detail, format='json')

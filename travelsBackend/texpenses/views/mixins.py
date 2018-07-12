@@ -116,22 +116,29 @@ class ProjectMixin(object):
         else:
             return Response(data)
 
-    @detail_route(methods=['put', 'delete'])
+    @detail_route(methods=['post'])
     @transaction.atomic
-    def activation(self, request, pk=None):
-        if request.method == 'PUT':
-            newStatus = True
-            responseMessage = 'Activated project'
-        else:
-            newStatus = False
-            responseMessage = 'Deactivated project'
-
+    def activate(self, request, pk=None):
         try:
             project = self.get_object()
-            project.active = newStatus
+            project.active = True
             project.save()
             return Response(
-                {'message': responseMessage},
+                {'message': 'Activated project'},
+                status=status.HTTP_200_OK)
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
+
+    @detail_route(methods=['post'])
+    @transaction.atomic
+    def deactivate(self, request, pk=None):
+        try:
+            project = self.get_object()
+            project.active = False
+            project.save()
+            return Response(
+                {'message': 'Deactivated project'},
                 status=status.HTTP_200_OK)
         except PermissionDenied as e:
             return Response({'detail': e.message},
@@ -554,21 +561,29 @@ class ApplicationMixin(object):
 
 class UserMixin(object):
 
-    @detail_route(methods=['put', 'delete'])
-    def activation(self, request, pk=None):
-        if request.method == 'PUT':
-            newStatus = True
-            responseMessage = 'Activated user'
-        else:
-            newStatus = False
-            responseMessage = 'Deactivated user'
-
+    @detail_route(methods=['post'])
+    @transaction.atomic
+    def activate(self, request, pk=None):
         try:
             user = self.get_object()
-            user.is_active = newStatus
+            user.is_active = True
             user.save()
             return Response(
-                {'message': responseMessage},
+                {'message': 'Activated user'},
+                status=status.HTTP_200_OK)
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
+
+    @detail_route(methods=['post'])
+    @transaction.atomic
+    def deactivate(self, request, pk=None):
+        try:
+            user = self.get_object()
+            user.is_active = False
+            user.save()
+            return Response(
+                {'message': 'Deactivated user'},
                 status=status.HTTP_200_OK)
         except PermissionDenied as e:
             return Response({'detail': e.message},
