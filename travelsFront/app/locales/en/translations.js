@@ -213,6 +213,8 @@ export default {
   'prompt_withdraw_message': 'Are you sure you want to cancel the application?',
   'prompt_withdrawCancel_title': 'Reinstate Application',
   'prompt_withdrawCancel_message': 'Are you sure you want to reinstate the application?',
+  'prompt_reset_title': 'Restore Application',
+  'prompt_reset_message': 'Are you sure you want to restore the application in status 3?',
   // success messages
   'login.success': 'Logged in successfully',
   'form.saved': 'Your data has been successfully saved',
@@ -226,6 +228,7 @@ export default {
   'file.upload.success': 'The file has been uploaded',
   'file.delete.success': 'The file has been deleted',
   'add.to.timesheets.success': 'The action was successful',
+  'reset.application.success': 'The application has been reset to status 3',
   'user.created': 'User has been created',
   // error messages
   'login.error': 'Error on login',
@@ -241,6 +244,7 @@ export default {
   'file.upload.error': 'Error on file upload',
   'file.delete.error': 'Error on file deletion',
   'add.to.timesheets.error': 'Error performing the action',
+  'reset.application.error': 'Error performing the action',
   'No distance found for these cities.': 'No distance found for the specific destination',
   // placeholders
   'time_placeholder': 'Time',

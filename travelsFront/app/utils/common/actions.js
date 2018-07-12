@@ -512,6 +512,38 @@ const change_password = {
   }
 };
 
+const reset = {
+  label: 'prompt_reset_title',
+  icon: 'filter_3',
+  classNames: 'md-success',
+  action: function(route, model) {
+    let endpoint = 'reset';
+    let msgSuccess = 'reset.application.success';
+    let msgError = 'reset.application.error';
+
+    return ajax_call(route, model, endpoint, msgSuccess, msgError);
+  },
+  hidden: computed('model.status', 'role', function(){
+    let status = this.get('model.status');
+    let role = this.get('role');
+
+    if (role === 'HELPDESK') {
+      let showButtonBy = [true, true, true, false, false, false, false, false, false, false];
+
+      return showButtonBy[status - 1];
+    } else {
+      return true;
+    }
+  }),
+  confirm: true,
+  prompt: {
+    ok: 'form.ok.label',
+    cancel: 'form.cancel.label',
+    message: 'prompt_reset_message',
+    title: 'prompt_reset_title',
+  },
+};
+
 let applicationActions = {
   submit: submit,
   undo: undo,
@@ -522,6 +554,7 @@ let applicationActions = {
   exportStats: exportStats,
   change_password: change_password,
   managerApproval: managerApproval,
+  reset: reset,
 };
 
 export { applicationActions };

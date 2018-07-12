@@ -224,6 +224,8 @@ export default {
   'prompt_withdraw_message': 'Είστε βέβαιοι ότι θέλετε να ακυρώσετε την αίτηση μετακίνησης;',
   'prompt_withdrawCancel_title': 'Επαναφορά Ακυρωμένης Αίτησης',
   'prompt_withdrawCancel_message': 'Είστε βέβαιοι ότι θέλετε να επαναφέρετε την ακυρωμένη αίτηση μετακίνησης;',
+  'prompt_reset_title': 'Επαναφορά Αίτησης',
+  'prompt_reset_message': 'Είστε βέβαιοι ότι θέλετε να επαναφέρετε την αίτηση σε status 3;',
   // success messages
   'login.success': 'Επιτυχής είσοδος',
   'form.saved': 'Τα στοιχεία σας έχουν αποθηκευτεί επιτυχώς',
@@ -238,6 +240,7 @@ export default {
   'file.delete.success': 'Επιτυχής διαγραφή αρχείου',
   'add.to.timesheets.success': 'Η ενέργεια πραγματοποιήθηκε επιτυχώς',
   'manager.approval.success': 'Η ενέργεια πραγματοποιήθηκε επιτυχώς',
+  'reset.application.success': 'Η επαναφορά πραγματοποιήθηκε επιτυχώς',
   'user.created': 'Ο λογαριασμός δημιουργήθηκε',
   // error messages
   'login.error': 'Σφάλμα εισόδου',
@@ -254,6 +257,7 @@ export default {
   'file.delete.error': 'Σφάλμα κατά την διαγραφή αρχείου',
   'add.to.timesheets.error': 'Σφάλμα κατά την εκτέλεση της ενέργειας',
   'manager.approval.error': 'Σφάλμα κατά την εκτέλεση της ενέργειας',
+  'reset.application.error': 'Σφάλμα κατά την επαναφορά της αίτησης',
   'This field may not be null.': 'Tο πεδίο δεν μπορεί να είναι κενό',
   '\'return\' date should be after \'depart\' date.': 'Η ημέρα επιστροφής θα πρέπει να έπεται της ημέρας αναχώρησης',
   '\'task end\' date should be after \'depart\' date.': 'Η ημέρα λήξης εργασιών θα πρέπει να έπεται της ημέρας αναχώρησης',
