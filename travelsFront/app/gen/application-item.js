@@ -8,6 +8,7 @@ import SECRETARY from '../utils/application/secretary';
 import CONTROLLER from '../utils/application/controller';
 import VIEWER from '../utils/application/viewer';
 import PRESIDENT_SECRETARY from '../utils/application/president-secretary';
+import HELPDESK from '../utils/application/helpdesk';
 import {abilityStates} from 'travel/lib/application/abilityStates';
 import moment from 'moment';
 
@@ -78,7 +79,7 @@ export default gen.CRUDGen.extend({
           let role = session.get('session.authenticated.user_group');
           let res = [];
 
-          if (role === 'SECRETARY' || role === 'CONTROLLER' || role === 'PRESIDENT_SECRETARY' || role === 'VIEWER') {
+          if (role === 'SECRETARY' || role === 'CONTROLLER' || role === 'PRESIDENT_SECRETARY' || role === 'VIEWER' || role === 'HELPDESK') {
             res = [
               field('project', { modelName:'project', type: 'model', displayAttr: 'name' }),
               field('status', { type:'select', choices: CHOICES.STATUS }),
@@ -156,6 +157,8 @@ export default gen.CRUDGen.extend({
         res = VIEWER.FS_VIEW;
       } else if (role === 'PRESIDENT_SECRETARY') {
         res = PRESIDENT_SECRETARY.FS_VIEW;
+      } else if (role === 'HELPDESK') {
+        res = HELPDESK.FS_VIEW;
       }
       return res;
     }),
