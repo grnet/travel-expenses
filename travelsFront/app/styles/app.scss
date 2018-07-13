@@ -11,8 +11,8 @@ $success-color: color($color-light-green, '600');
 $action-color: color($color-orange, '600');
 $approve-color: color($color-cyan, '600');
 $neutral-color: color($color-grey, '600');
-$timesheets-color: color($color-purple, 'A400');
-$withdrawn-color:  color($color-red, '600');
+$fancy-color: color($color-purple, 'A400');
+$danger-color:  color($color-red, '600');
 
 md-content[data-form-field-name="travel_info"] .layout-row button:first-child {
   text-transform: capitalize;
@@ -42,15 +42,15 @@ md-content[data-form-field-name="travel_info"] .layout-row button:first-child {
   }
 }
 
-.md-addToTimesheets {
+.md-fancy {
   md-icon {
-    color: $timesheets-color !important;
+    color: $fancy-color !important;
   }
 }
 
-.md-withdrawn {
+.md-danger {
   md-icon {
-    color: $withdrawn-color !important;
+    color: $danger-color !important;
   }
 }
 

@@ -293,7 +293,7 @@ const addToTimesheets = {
     let timesheeted = this.get('model.timesheeted');
 
     if (timesheeted == true) {
-      return 'md-addToTimesheets';
+      return 'md-fancy';
     } else if (timesheeted == false) {
       return 'md-neutral';
     }
@@ -388,7 +388,7 @@ const withdraw = {
     if (withdrawn == true) {
       return 'md-neutral';
     } else if (withdrawn == false) {
-      return 'md-withdrawn';
+      return 'md-danger';
     }
   }),
   action: function(route, model) {
