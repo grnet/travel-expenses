@@ -15,8 +15,9 @@ function action_utils(route, model) {
   let messages = route.get('messageService');
   let token = get(route, 'user.auth_token');
   let store = get(route, 'store');
+  let modelName = model.get('constructor.modelName');
   let adapter = store.adapterFor('application-item');
-  let url = adapter.buildURL('application-item', get(model, 'id'), 'findRecord');
+  let url = adapter.buildURL(modelName, get(model, 'id'), 'findRecord');
 
   return { messages, token, url };
 };
