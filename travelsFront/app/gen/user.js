@@ -51,6 +51,8 @@ export default gen.CRUDGen.extend({
     row: {
       fields: [
         'username',
+        'first_name',
+        'last_name',
         'email',
       ],
       actions: ['gen:details', 'gen:edit', 'activate'],
