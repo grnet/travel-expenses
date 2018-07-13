@@ -544,6 +544,82 @@ const reset = {
   },
 };
 
+const activate = {
+  label: computed('model.is_active', function() {
+    let userIsActive = this.get('model.is_active');
+    if (userIsActive) {
+      return 'prompt_deactivate_title';
+    } else {
+      return 'prompt_activate_title';
+    }
+  }),
+  icon: computed('model.is_active', function() {
+    let userIsActive = this.get('model.is_active');
+
+    if (userIsActive) {
+      return 'do_not_disturb_on';
+    } else {
+      return 'check_circle';
+    }
+  }),
+  classNames: computed('model.is_active', function(){
+    let userIsActive = this.get('model.is_active');
+    
+    if (userIsActive) {
+      return 'md-danger';
+    } else {
+      return 'md-success';
+    }
+  }),
+  action: function(route, model) {
+    let userIsActive = model. get('is_active');
+    let endpoint = 'toggle_active';
+    let msgSuccess = '';
+    let msgError = '';
+
+    if (userIsActive) {
+      msgSuccess = 'deactivate.user.success';
+      msgError = 'deactivate.user.error';
+    } else {
+      msgSuccess = 'activate.user.success';
+      msgError = 'activate.user.error';
+    }
+    return ajax_call(route, model, endpoint, msgSuccess, msgError);
+  },
+  hidden: computed('role', function(){
+    let role = this.get('role');
+
+    if (role === 'HELPDESK') {
+      return false;
+    } else {
+      return true;
+    }
+  }),
+  confirm: true,
+  prompt: {
+    ok: 'form.ok.label',
+    cancel: 'form.cancel.label',
+    message:  computed('model.is_active', function(){
+      let userIsActive = this.get('model.is_active');
+
+      if (userIsActive) {
+        return 'prompt_deactivate_message';
+      } else {
+        return 'prompt_activate_message';
+      }
+    }),
+    title:  computed('model.is_active', function(){
+      let userIsActive = this.get('model.is_active');
+
+      if (userIsActive) {
+        return 'prompt_deactivate_title';
+      } else {
+        return 'prompt_activate_title';
+      }
+    }),
+  },
+};
+
 let applicationActions = {
   submit: submit,
   undo: undo,
@@ -555,6 +631,7 @@ let applicationActions = {
   change_password: change_password,
   managerApproval: managerApproval,
   reset: reset,
+  activate: activate,
 };
 
 export { applicationActions };

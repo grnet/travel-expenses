@@ -15,6 +15,7 @@ export default DS.Model.extend({
   tax_office: DS.belongsTo('tax-office', { formAttrs: { optionLabelAttr: 'full_label' } }),
   user_category: DS.attr({ formAttrs: { disabled: true }, type: 'select', choices: CHOICES.USER_CATEGORY }),
   user_group: DS.attr(),
+  is_active: DS.attr('boolean'),
   specialty_label: Ember.computed('specialty', function() {
     let specialty = this.get('specialty');
 

@@ -226,6 +226,10 @@ export default {
   'prompt_withdrawCancel_message': 'Είστε βέβαιοι ότι θέλετε να επαναφέρετε την ακυρωμένη αίτηση μετακίνησης;',
   'prompt_reset_title': 'Επαναφορά Αίτησης',
   'prompt_reset_message': 'Είστε βέβαιοι ότι θέλετε να επαναφέρετε την αίτηση σε status 3;',
+  'prompt_activate_title': 'Ενεργοποίηση Χρήστη',
+  'prompt_activate_message': 'Είστε βέβαιοι ότι θέλετε να ενεργοποιήσετε τον χρήστη;',
+  'prompt_deactivate_title': 'Απενεργοποίηση Χρήστη',
+  'prompt_deactivate_message': 'Είστε βέβαιοι ότι θέλετε να απενεργοποιήσετε τον χρήστη;',
   // success messages
   'login.success': 'Επιτυχής είσοδος',
   'form.saved': 'Τα στοιχεία σας έχουν αποθηκευτεί επιτυχώς',
@@ -242,6 +246,8 @@ export default {
   'manager.approval.success': 'Η ενέργεια πραγματοποιήθηκε επιτυχώς',
   'reset.application.success': 'Η επαναφορά πραγματοποιήθηκε επιτυχώς',
   'user.created': 'Ο λογαριασμός δημιουργήθηκε',
+  'activate.user.success': 'Η ενεργοποίηση του χρήστη πραγματοποιήθηκε επιτυχώς',
+  'deactivate.user.success': 'Η απενεργοποίηση του χρήστη πραγματοποιήθηκε επιτυχώς',
   // error messages
   'login.error': 'Σφάλμα εισόδου',
   'form.error': 'Σφάλμα κατά την καταχώριση των στοιχείων σας',
@@ -258,6 +264,8 @@ export default {
   'add.to.timesheets.error': 'Σφάλμα κατά την εκτέλεση της ενέργειας',
   'manager.approval.error': 'Σφάλμα κατά την εκτέλεση της ενέργειας',
   'reset.application.error': 'Σφάλμα κατά την επαναφορά της αίτησης',
+  'activate.user.error': 'Σφάλμα κατά την ενεργοποίηση του χρήστη',
+  'deactivate.user.error': 'Σφάλμα κατά την απενεργοποίηση του χρήστη',
   'This field may not be null.': 'Tο πεδίο δεν μπορεί να είναι κενό',
   '\'return\' date should be after \'depart\' date.': 'Η ημέρα επιστροφής θα πρέπει να έπεται της ημέρας αναχώρησης',
   '\'task end\' date should be after \'depart\' date.': 'Η ημέρα λήξης εργασιών θα πρέπει να έπεται της ημέρας αναχώρησης',

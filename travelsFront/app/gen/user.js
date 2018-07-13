@@ -1,6 +1,7 @@
 import gen from 'ember-gen/lib/gen';
 import { field } from 'ember-gen';
 import PROFILE from '../utils/common/profile';
+import { applicationActions } from '../utils/common/actions';
 
 const {
   get,
@@ -12,6 +13,10 @@ export default gen.CRUDGen.extend({
   resourceName: 'users',
   modelName: 'user',
   auth: true,
+  _metaMixin: {
+    session: Ember.inject.service(),
+    role: reads('session.session.authenticated.user_group'),
+  },
   list: {
     layout: 'table',
     menu: {
@@ -48,7 +53,10 @@ export default gen.CRUDGen.extend({
         'username',
         'email',
       ],
-      actions: ['gen:details', 'gen:edit'],
+      actions: ['gen:details', 'gen:edit', 'activate'],
+      actionsMap: {
+        activate: applicationActions.activate,
+      },
     },
   },
   details: {

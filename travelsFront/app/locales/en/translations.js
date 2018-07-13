@@ -215,6 +215,10 @@ export default {
   'prompt_withdrawCancel_message': 'Are you sure you want to reinstate the application?',
   'prompt_reset_title': 'Restore Application',
   'prompt_reset_message': 'Are you sure you want to restore the application in status 3?',
+  'prompt_activate_title': 'Activate User',
+  'prompt_activate_message': 'Are you sure you want to activate the user?',
+  'prompt_deactivate_title': 'Deactivate User',
+  'prompt_deactivate_message': 'Are you sure you want to deactivate the user?',
   // success messages
   'login.success': 'Logged in successfully',
   'form.saved': 'Your data has been successfully saved',
@@ -230,6 +234,8 @@ export default {
   'add.to.timesheets.success': 'The action was successful',
   'reset.application.success': 'The application has been reset to status 3',
   'user.created': 'User has been created',
+  'activate.user.success': 'The user has been activated successfully',
+  'deactivate.user.success': 'The user has been deactivated successfully',
   // error messages
   'login.error': 'Error on login',
   'form.error': 'Error on form save',
@@ -245,6 +251,8 @@ export default {
   'file.delete.error': 'Error on file deletion',
   'add.to.timesheets.error': 'Error performing the action',
   'reset.application.error': 'Error performing the action',
+  'activate.user.error': 'Error on user activation',
+  'deactivate.user.error': 'Error on user deactivation',
   'No distance found for these cities.': 'No distance found for the specific destination',
   // placeholders
   'time_placeholder': 'Time',
