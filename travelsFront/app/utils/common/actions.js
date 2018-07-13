@@ -515,8 +515,8 @@ const change_password = {
 
 const reset = {
   label: 'prompt_reset_title',
-  icon: 'filter_3',
-  classNames: 'md-success',
+  icon: 'looks_3',
+  accent: true,
   action: function(route, model) {
     let endpoint = 'reset';
     let msgSuccess = 'reset.application.success';
