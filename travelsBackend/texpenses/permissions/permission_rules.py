@@ -45,10 +45,8 @@ PERMISSION_RULES = [
     ('project', 'project_stats', 'ADMIN', '*', '*', '*'),
     ('project', 'stats', 'ADMIN', '*', '*', '*'),
     ('project', 'stats', 'CONTROLLER', '*', '*', '*'),
-    ('project', 'activate', 'ADMIN', '*', '*', '*'),
-    ('project', 'activate', 'HELPDESK', '*', '*', '*'),
-    ('project', 'deactivate', 'ADMIN', '*', '*', '*'),
-    ('project', 'deactivate', 'HELPDESK', '*', '*', '*'),
+    ('project', 'toggle_active', 'ADMIN', '*', '*', '*'),
+    ('project', 'toggle_active', 'HELPDESK', '*', '*', '*'),
 
     ('countries', 'list', 'ADMIN', '*', '*', '*'),
     ('countries', 'list', 'anonymous', '*', '*', '*'),
@@ -104,10 +102,8 @@ PERMISSION_RULES = [
     ('users', 'retrieve', 'HELPDESK', '*', '*', '*'),
     ('users', 'update', 'ADMIN', 'email', '*', '*'),
     ('users', 'update', 'HELPDESK', 'email', '*', '*'),
-    ('users', 'activate', 'ADMIN', '*', '*', '*'),
-    ('users', 'activate', 'HELPDESK', '*', '*', '*'),
-    ('users', 'deactivate', 'ADMIN', '*', '*', '*'),
-    ('users', 'deactivate', 'HELPDESK', '*', '*', '*'),
+    ('users', 'toggle_active', 'ADMIN', '*', '*', '*'),
+    ('users', 'toggle_active', 'HELPDESK', '*', '*', '*'),
 
 #==============================================================================
 
