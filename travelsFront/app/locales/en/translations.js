@@ -9,6 +9,7 @@ export default {
   'edit.page.title': 'Edit',
   'details.page.title': 'Details',
   'users.page.title': 'Users',
+  'projects.page.title': 'Projects',
   'list.page.title': 'Travel Applications',
   'Auth': 'User',
   'profile.menu_label': 'Profile',
@@ -164,6 +165,7 @@ export default {
   'help.tab': 'Help',
   'appications_list.tab': 'Applications',
   'users.tab': 'Users',
+  'projects.tab': 'Projects',
   // travel_report labels
   'travel_files.label': 'File Upload (max size 8MB)',
   'travel_report.label': 'Travel Report',
@@ -177,6 +179,12 @@ export default {
   // compensation labels
   'additional_expenses_description_user.label': 'Additional Expenses - Description - User',
   'additional_expenses_user.label': 'Additional Expenses - User',
+  // helpdesk labels
+  'name.label': 'Project Name',
+  'accounting_code.label': 'Accounting Code',
+  'manager.full_name.label': 'Manager',
+  'manager.label': 'Manager',
+  'project_data.label': 'Project Details',
   // tooltips
   'tooltip_edit': 'Edit Application',
   'tooltip_delete': 'Delete Application',

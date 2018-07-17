@@ -25,7 +25,6 @@ export default DS.Model.extend({
       }
     }
   }),
-
   kind_label: Ember.computed('kind', function() {
     let kind = this.get('kind');
 
@@ -34,5 +33,11 @@ export default DS.Model.extend({
         return pair[1] || kind;
       }
     }
+  }),
+  full_name: Ember.computed('first_name', 'last_name', function() {
+    let firstName =  this.get('first_name');
+    let lastName = this.get('last_name');
+
+    return `${firstName} ${lastName}`;
   }),
 });

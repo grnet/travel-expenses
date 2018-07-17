@@ -6,6 +6,6 @@ export default DS.Model.extend({
   },
   name: DS.attr(),
   accounting_code: DS.attr(),
-  manager: DS.attr(),
+  manager: DS.belongsTo('user', {autocomplete: true, formAttrs: { optionLabelAttr: 'full_name' }}),
   manager_id: DS.attr(),
 });

@@ -9,6 +9,7 @@ export default {
   'edit.page.title': 'Επεξεργασία',
   'details.page.title': 'Λεπτομέρειες',
   'users.page.title': 'Χρήστες',
+  'projects.page.title': 'Έργα',
   'list.page.title': 'Αιτήσεις Μετακίνησης',
   'Auth': 'Χρήστης',
   'profile.menu_label': 'Προφίλ',
@@ -138,6 +139,12 @@ export default {
   'participation_payment_way_label.label': 'Τρόπος Πληρωμής',
   // compensation labels
   'compensation.label': 'Απολογισμός Μετακίνησης',
+  // helpdesk labels
+  'name.label': 'Όνομα Έργου',
+  'accounting_code.label': 'Κωδικός Λογιστικής',
+  'manager.full_name.label': 'Υπεύθυνος Έργου',
+  'manager.label': 'Υπεύθυνος Έργου',
+  'project_data.label': 'Στοιχεία Έργου',
   // computational data labels
   'transport_days_proposed.label': 'Ημέρες Μετακίνησης Εργασιών',
   'overnights_num_proposed.label': 'Διανυκτερεύσεις',
@@ -168,6 +175,7 @@ export default {
   'help.tab': 'Οδηγίες Χρήσης',
   'appications_list.tab': 'Λίστα Αιτήσεων',
   'users.tab': 'Χρήστες',
+  'projects.tab': 'Έργα',
   // travel_report labels
   'travel_files.label': 'Ανέβασμα Αρχείων (μέγιστο μέγεθος 8MB)',
   'travel_report.label': 'Απολογισμός Μετακίνησης',
