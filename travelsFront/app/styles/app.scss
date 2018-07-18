@@ -14,7 +14,7 @@ $neutral-color: color($color-grey, '600');
 $timesheets-color: color($color-purple, 'A400');
 $withdrawn-color:  color($color-red, '600');
 
-.flex-grow {
+md-content[data-form-field-name="travel_info"] .layout-row button:first-child {
   text-transform: capitalize;
 }
 
