@@ -70,6 +70,8 @@ export default {
   'project.label': 'Project',
   'project.name.label': 'Project',
   'reason.label': 'Travel Reason',
+  'manager_movement_approval.label': 'Approved Application',
+  'withdrawn.label': 'Withdrawn Application',
   'departure_point.label': 'From:',
   'arrival_point.label': 'To:',
   'arrival_point.name.label': 'Destination',

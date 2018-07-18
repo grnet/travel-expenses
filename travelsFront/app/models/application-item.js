@@ -66,7 +66,7 @@ export default DS.Model.extend({
   movement_date_protocol_format: computeDateFormat('movement_date_protocol'),
   movement_protocol: DS.attr(),
   non_grnet_quota: DS.attr(),
-  manager_movement_approval: DS.attr('boolean'),
+  manager_movement_approval: DS.attr('boolean', { disabled: true,  displayComponent: 'display-boolean'}),
   participation_cost: DS.attr(),
   participation_payment_way: DS.attr({ 'choices': CHOICES.WAYS_OF_PAYMENT }),
   trip_days_before: DS.attr(),
@@ -74,7 +74,7 @@ export default DS.Model.extend({
   overnights_sum_cost: DS.attr({ disabled: true }),
   compensation_cost: DS.attr({ disabled: true }),
   total_cost_calculated: DS.attr({ disabled: true }),
-  withdrawn: DS.attr('boolean'),
+  withdrawn: DS.attr('boolean', { disabled: true, displayComponent: 'display-boolean' }),
   // compensation - user fields
   additional_expenses: DS.attr(),
   additional_expenses_local_currency: DS.attr({ 'choices': CHOICES.CURRENCIES, autocomplete: true }),

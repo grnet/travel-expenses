@@ -45,12 +45,14 @@ const FS_EDIT_6 = [
       field('dse', { disabled: true }),
       field('project', { disabled: true }),
       field('reason', { disabled: true }),
+      'manager_movement_approval',
+      'withdrawn',
       field('task_start_date', { disabled: true }),
       field('task_end_date', { disabled: true }),
       meta.forms.travel_info,
     ],
     layout: {
-      flex: [50, 50, 100, 50, 50, 100],
+      flex: [50, 50, 100, 50, 50, 50, 50, 100],
     },
   },
   {
@@ -102,12 +104,14 @@ const FS_VIEW_6 = [
       'dse',
       'project',
       'reason',
+      'manager_movement_approval',
+      'withdrawn',
       'task_start_date',
       'task_end_date',
       meta.forms.travel_info,
     ],
     layout: {
-      flex: [50, 50, 100, 50, 50, 100],
+      flex: [50, 50, 100, 50, 50, 50, 50, 100],
     },
   },
   {

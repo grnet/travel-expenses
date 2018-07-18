@@ -11,13 +11,15 @@ const FS_VIEW = [
       'dse',
       'project.name',
       'reason',
+      'manager_movement_approval',
+      'withdrawn',
       'task_start_date_time_format',
       'task_end_date_time_format',
       meta.forms.travel_info,
       'status_label',
     ],
     layout: {
-      flex: [50, 50, 50, 50, 100, 50, 50, 100, 100],
+      flex: [50, 50, 50, 50, 100, 50, 50, 50, 50, 100, 100],
     },
   },
 ];

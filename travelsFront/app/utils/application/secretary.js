@@ -27,6 +27,8 @@ const FS_EDIT_3 = [
       'project',
       'reason',
       field('user_recommendation', { disabled: true }),
+      'manager_movement_approval',
+      'withdrawn',
       'task_start_date',
       'task_end_date',
       meta.forms.travel_info,
@@ -40,7 +42,7 @@ const FS_EDIT_3 = [
     ],
     layout: {
       flex: [
-        50, 50, 50, 50, 100, 100, 50, 50,
+        50, 50, 50, 50, 100, 100, 50, 50, 50, 50,
         100, 50, 50, 50, 30, 20, 50, 50, 15,
       ],
     },
@@ -85,6 +87,8 @@ const FS_VIEW_3 = [
       'project.name',
       'reason',
       'user_recommendation',
+      'manager_movement_approval',
+      'withdrawn',
       'task_start_date_time_format',
       'task_end_date_time_format',
       meta.forms.travel_info,
@@ -98,7 +102,7 @@ const FS_VIEW_3 = [
     ],
     layout: {
       flex: [
-        50, 50, 100, 100, 50, 50,
+        50, 50, 100, 100, 50, 50, 50, 50,
         100, 50, 50, 50, 30, 20, 50, 50, 15,
       ],
     },

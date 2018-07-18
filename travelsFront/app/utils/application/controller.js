@@ -29,6 +29,8 @@ const FS_EDIT_8 = [
       'dse',
       'project',
       'reason',
+      'manager_movement_approval',
+      'withdrawn',
       'task_start_date',
       'task_end_date',
       meta.forms.travel_info,
@@ -40,7 +42,7 @@ const FS_EDIT_8 = [
     ],
     layout: {
       flex: [
-        50, 50, 50, 50, 50, 50, 100,
+        50, 50, 50, 50, 50, 50, 100, 50, 50,
         50, 50, 100, 50, 30, 20, 50, 50,
       ],
     },
@@ -104,6 +106,8 @@ const FS_VIEW_8 = [
       'dse',
       'project.name',
       'reason',
+      'manager_movement_approval',
+      'withdrawn',
       'task_start_date_time_format',
       'task_end_date_time_format',
       meta.forms.travel_info,
@@ -115,8 +119,8 @@ const FS_VIEW_8 = [
     ],
     layout: {
       flex: [
-        50, 50, 100, 50, 50,
-        100, 50, 30, 20, 50, 50, 15,
+        50, 50, 100, 50, 50, 100, 50, 50,
+        50, 30, 20, 50, 50, 15,
       ],
     },
   },

@@ -72,6 +72,8 @@ export default {
   'project.label': 'Έργο',
   'project.name.label': 'Έργο',
   'reason.label': 'Αιτιολογία Μετακίνησης',
+  'manager_movement_approval.label': 'Εγκεκριμένη Αίτηση από τον Υπεύθυνο του Έργου',
+  'withdrawn.label': 'Ακυρωμένη Αίτηση',
   'departure_point.label': 'Από:',
   'arrival_point.label': 'Προς:',
   'arrival_point.name.label': 'Προορισμός',
