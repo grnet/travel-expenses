@@ -240,7 +240,7 @@ class ApplicationMixin(object):
         per_status_email_confs = {
             Petition.SUBMITTED_BY_USER: [
                 application, 'SUBMISSION', False, False, request.user],
-            Petition.USER_COMPENSATION: [
+            Petition.USER_COMPENSATION_SUBMISSION: [
                 application, 'USER_COMPENSATION_SUBMISSION',
                 False, True, request.user]
         }
