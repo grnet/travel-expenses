@@ -2,6 +2,7 @@ import validate from 'ember-gen/validate';
 import { field } from 'ember-gen';
 import meta from 'travel/lib/meta';
 import PROFILE from '../common/profile';
+import USER from '../application/user';
 import { fileField } from '../../lib/common';
 
 
@@ -81,4 +82,10 @@ const FS_VIEW = [
   },
 ];
 
-export { FS_VIEW };
+const FS_CREATE_1 = USER.FS_CREATE_1;
+
+const FS_EDIT_1 = USER.FS_EDIT_1;
+
+const FS_EDIT_6 = USER.FS_EDIT_6;
+ 
+export { FS_VIEW, FS_CREATE_1, FS_EDIT_1, FS_EDIT_6 };

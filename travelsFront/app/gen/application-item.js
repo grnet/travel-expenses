@@ -40,7 +40,7 @@ export default gen.CRUDGen.extend({
       let role = get(this, 'role');
       let val = {};
 
-      if (role === 'USER') {
+      if (role === 'USER' || role === 'MANAGER' || role === 'HELPDESK') {
         val = USER.FS_VALIDATORS;
       } else if (role === 'SECRETARY') {
         val = SECRETARY.FS_VALIDATORS;
@@ -200,6 +200,8 @@ export default gen.CRUDGen.extend({
 
       if (role === 'USER' || role === 'MANAGER') {
         res = USER.FS_CREATE_1;
+      } else if (role === 'HELPDESK') {
+        res = HELPDESK.FS_CREATE_1;
       }
 
       return res;
@@ -227,6 +229,12 @@ export default gen.CRUDGen.extend({
           res = USER.FS_EDIT_1;
         } else if (status >= 5) {
           res = USER.FS_EDIT_6;
+        }
+      } else if (role === 'HELPDESK') {
+        if (status < 5) {
+          res = HELPDESK.FS_EDIT_1;
+        } else if (status >= 5) {
+          res = HELPDESK.FS_EDIT_6;
         }
       } else if (role === 'SECRETARY') {
         res = SECRETARY.FS_EDIT_3;

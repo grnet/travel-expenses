@@ -56,6 +56,8 @@ const travel_info = field('travel_info', {
       let res = [{}];
       if (role === 'USER' || role === 'MANAGER') {
         res = TRAVEL_INFO.FS_EDIT_1_USER;
+      } else if (role === 'HELPDESK') {
+        res = TRAVEL_INFO.FS_EDIT_1_HELPDESK;
       } else if (role === 'SECRETARY') {
         res = TRAVEL_INFO.FS_EDIT_3_SECRETARY;
       } else if (role === 'CONTROLLER') {
@@ -71,7 +73,7 @@ const travel_info = field('travel_info', {
       let role = session.get('session.authenticated.user_group');
       let val = {};
 
-      if (role === 'USER') {
+      if (role === 'USER' || role === 'MANAGER' || role === 'HELPDESK') {
         val = TRAVEL_INFO.FS_USER_VALIDATORS;
       } else if (role === 'SECRETARY') {
         val = TRAVEL_INFO.FS_SECRETARY_VALIDATORS;

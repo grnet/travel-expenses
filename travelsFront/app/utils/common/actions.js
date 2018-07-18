@@ -65,7 +65,7 @@ const submit = {
       let showButtonBy = [false, true, true, true, true, false, true, true, true, true];
 
       return showButtonBy[status - 1];
-    } else if (role === 'MANAGER' && userId === applicationUserId) {
+    } else if (role === 'MANAGER' || role === 'HELPDESK' && userId === applicationUserId) {
       let showButtonBy = [false, true, true, true, true, false, true, true, true, true];
 
       return showButtonBy[status - 1];
@@ -111,7 +111,7 @@ const undo = {
       let showButtonBy = [true, false, true, true, true, true, false, true, true, true];
 
       return showButtonBy[status - 1];
-    } else if (role === 'MANAGER' && userId === applicationUserId) {
+    } else if (role === 'MANAGER' || role === 'HELPDESK' && userId === applicationUserId) {
       let showButtonBy = [true, false, true, true, true, true, false, true, true, true];
 
       return showButtonBy[status - 1];
