@@ -9,7 +9,7 @@ export default Ember.Component.extend({
       fieldsets: Ember.computed(function() {
         let session = this.container.lookup('service:session');
         let role = session.get('session.authenticated.user_group');
-        let res = [];
+        let res = [{}];
 
         if (role === 'USER' || role === 'MANAGER') {
           res = TRAVEL_INFO.FS_VIEW_1_USER;

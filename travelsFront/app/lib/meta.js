@@ -53,7 +53,7 @@ const travel_info = field('travel_info', {
     fieldsets: computed(function() {
       let session = this.container.lookup('service:session');
       let role = session.get('session.authenticated.user_group');
-      let res = [];
+      let res = [{}];
       if (role === 'USER' || role === 'MANAGER') {
         res = TRAVEL_INFO.FS_EDIT_1_USER;
       } else if (role === 'SECRETARY') {

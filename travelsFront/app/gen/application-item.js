@@ -136,7 +136,7 @@ export default gen.CRUDGen.extend({
     fieldsets: computed('role', function() {
       let role = get(this, 'role');
       let status = this.get('model.status');
-      let res = [];
+      let res = [{}];
 
       if (role === 'USER' || role === 'MANAGER') {
         if (status >= 1 && status <= 3) {
@@ -192,7 +192,7 @@ export default gen.CRUDGen.extend({
 
     fieldsets: computed('role', function() {
       let role = get(this, 'role');
-      let res = [];
+      let res = [{}];
 
       if (role === 'USER' || role === 'MANAGER') {
         res = USER.FS_CREATE_1;
@@ -216,7 +216,7 @@ export default gen.CRUDGen.extend({
     fieldsets: computed('role', 'model.status', function() {
       let role = get(this, 'role');
       let status = this.get('model.status');
-      let res = [];
+      let res = [{}];
 
       if (role === 'USER' || role === 'MANAGER') {
         if (status < 5) {
