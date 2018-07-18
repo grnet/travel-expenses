@@ -80,7 +80,6 @@ export default gen.CRUDGen.extend({
 
           if (role === 'SECRETARY' || role === 'CONTROLLER' || role === 'PRESIDENT_SECRETARY' || role === 'VIEWER') {
             res = [
-              field('dse', { type: 'text' }),
               field('project', { modelName:'project', type: 'model', displayAttr: 'name' }),
               field('status', { type:'select', choices: CHOICES.STATUS }),
               field('depart_date__gte', { type: 'date' }),
@@ -88,7 +87,6 @@ export default gen.CRUDGen.extend({
             ]
           } else if (role === 'USER' || role === 'MANAGER') {
             res = [
-              field('dse', { type: 'text' }),
               field('project', { modelName:'project', type: 'model', displayAttr: 'name' }),
               field('status', { type:'select', choices: CHOICES.STATUS }),
             ]
