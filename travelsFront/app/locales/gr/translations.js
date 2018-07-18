@@ -10,6 +10,7 @@ export default {
   'details.page.title': 'Λεπτομέρειες',
   'users.page.title': 'Χρήστες',
   'projects.page.title': 'Έργα',
+  'cities.page.title': 'Πόλεις',
   'list.page.title': 'Αιτήσεις Μετακίνησης',
   'Auth': 'Χρήστης',
   'profile.menu_label': 'Προφίλ',
@@ -145,6 +146,11 @@ export default {
   'manager.full_name.label': 'Υπεύθυνος Έργου',
   'manager.label': 'Υπεύθυνος Έργου',
   'project_data.label': 'Στοιχεία Έργου',
+  'city_data.label': 'Στοιχεία Πόλης',
+  'city_name.label': 'Πόλη',
+  'country.name.label': 'Χώρα',
+  'country.label': 'Χώρα',
+  'timezone.label': 'Ζώνη Ώρας',
   // computational data labels
   'transport_days_proposed.label': 'Ημέρες Μετακίνησης Εργασιών',
   'overnights_num_proposed.label': 'Διανυκτερεύσεις',
@@ -176,6 +182,7 @@ export default {
   'appications_list.tab': 'Λίστα Αιτήσεων',
   'users.tab': 'Χρήστες',
   'projects.tab': 'Έργα',
+  'cities.tab': 'Πόλεις',
   // travel_report labels
   'travel_files.label': 'Ανέβασμα Αρχείων (μέγιστο μέγεθος 8MB)',
   'travel_report.label': 'Απολογισμός Μετακίνησης',

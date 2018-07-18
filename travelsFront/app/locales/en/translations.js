@@ -10,6 +10,7 @@ export default {
   'details.page.title': 'Details',
   'users.page.title': 'Users',
   'projects.page.title': 'Projects',
+  'cities.page.title': 'Cities',
   'list.page.title': 'Travel Applications',
   'Auth': 'User',
   'profile.menu_label': 'Profile',
@@ -166,6 +167,7 @@ export default {
   'appications_list.tab': 'Applications',
   'users.tab': 'Users',
   'projects.tab': 'Projects',
+  'cities.tab': 'Cities',
   // travel_report labels
   'travel_files.label': 'File Upload (max size 8MB)',
   'travel_report.label': 'Travel Report',
@@ -185,6 +187,11 @@ export default {
   'manager.full_name.label': 'Manager',
   'manager.label': 'Manager',
   'project_data.label': 'Project Details',
+  'city_data.label': 'City Details',
+  'city_name.label': 'City',
+  'country.name.label': 'Country',
+  'country.label': 'Country',
+  'timezone.label': 'Timezone',
   // tooltips
   'tooltip_edit': 'Edit Application',
   'tooltip_delete': 'Delete Application',
