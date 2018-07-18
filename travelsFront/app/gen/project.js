@@ -42,8 +42,6 @@ export default gen.CRUDGen.extend({
         'manager.full_name',
       ],
       actions: ['gen:details', 'gen:edit'],
-      actionsMap: {
-      },
     },
   },
   details: {
