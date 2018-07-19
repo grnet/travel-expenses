@@ -621,6 +621,38 @@ const activate = {
   },
 };
 
+const markAsDeleted = {
+  label: 'prompt_delete_title',
+  icon: 'delete_forever',
+  classNames:'md-danger',
+  action: function(route, model) {
+    let endpoint = 'mark_as_deleted';
+    let msgSuccess = 'delete.application.success';
+    let msgError = 'delete.application.error';
+
+    return ajax_call(route, model, endpoint, msgSuccess, msgError);
+  },
+  hidden: computed('role', 'model.status', function(){
+    let status = this.get('model.status');
+    let role = this.get('role');
+
+    if (role === 'USER' || role === 'MANAGER'  || role === 'HELPDESK') {
+      let showButtonBy = [false, true, true, true, true, true, true, true, true, true];
+
+      return showButtonBy[status - 1];
+    } else {
+      return true;
+    }
+  }),
+  confirm: true,
+  prompt: {
+    ok: 'form.ok.label',
+    cancel: 'form.cancel.label',
+    message: 'prompt_delete_message',
+    title: 'prompt_delete_title',
+  },
+};
+
 let applicationActions = {
   submit: submit,
   undo: undo,
@@ -633,6 +665,7 @@ let applicationActions = {
   managerApproval: managerApproval,
   reset: reset,
   activate: activate,
+  markAsDeleted: markAsDeleted,
 };
 
 export { applicationActions };

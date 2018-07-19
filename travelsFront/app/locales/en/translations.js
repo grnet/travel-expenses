@@ -234,6 +234,8 @@ export default {
   'prompt_activate_message': 'Are you sure you want to activate the user?',
   'prompt_deactivate_title': 'Deactivate User',
   'prompt_deactivate_message': 'Are you sure you want to deactivate the user?',
+  'prompt_delete_title': 'Delete Application',
+  'prompt_delete_message': 'Are you sure you want to delete the application?',
   // success messages
   'login.success': 'Logged in successfully',
   'form.saved': 'Your data has been successfully saved',
@@ -251,6 +253,7 @@ export default {
   'user.created': 'User has been created',
   'activate.user.success': 'The user has been activated successfully',
   'deactivate.user.success': 'The user has been deactivated successfully',
+  'delete.application.success': 'The application has been deleted successfully',
   // error messages
   'login.error': 'Error on login',
   'form.error': 'Error on form save',
@@ -268,6 +271,7 @@ export default {
   'reset.application.error': 'Error performing the action',
   'activate.user.error': 'Error on user activation',
   'deactivate.user.error': 'Error on user deactivation',
+  'delete.application.error': 'Error on application deletion',
   'No distance found for these cities.': 'No distance found for the specific destination',
   // placeholders
   'time_placeholder': 'Time',
