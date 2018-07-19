@@ -41,7 +41,7 @@ export default gen.CRUDGen.extend({
         'country.name',
         'timezone',
       ],
-      actions: ['gen:details', 'gen:edit'],
+      actions: ['gen:details'],
     },
   },
   details: {
