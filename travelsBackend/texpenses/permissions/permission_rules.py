@@ -401,7 +401,7 @@ PERMISSION_RULES = [
     ('applications', 'cancel', 'HELPDESK', '*', 'ownedusersubmitted', '*'),
     ('applications', 'cancel', 'HELPDESK', '*', 'ownedusercompensationsubmitted', '*'),
 
-    ('applications', 'application_report', 'USER', '*', 'ownedusercompensationsaved', '*'),
+    ('applications', 'application_report', 'HELPDESK', '*', 'ownedusercompensationsaved', '*'),
     ('applications', 'application_report', 'HELPDESK', '*', 'ownedpresidentapproved', '*'),
 
     ('applications', 'update', 'HELPDESK', 'project', 'ownedusersaved', '*'),

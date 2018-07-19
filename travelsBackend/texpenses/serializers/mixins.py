@@ -92,6 +92,7 @@ class PetitionMixin(object):
         proceed_status = [
             ("USER", Petition.APPROVED_BY_PRESIDENT),
             ("MANAGER", Petition.APPROVED_BY_PRESIDENT),
+            ("HELPDESK", Petition.APPROVED_BY_PRESIDENT),
             ("SECRETARY", Petition.SUBMITTED_BY_USER),
             ("CONTROLLER", Petition.USER_COMPENSATION_SUBMISSION)]
 
