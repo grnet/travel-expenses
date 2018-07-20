@@ -1,4 +1,4 @@
-{{#if (or (eq role 'USER') (eq role 'VIEWER'))}}
+{{#if (or (eq role 'USER') (eq role 'VIEWER') (eq role 'HELPDESK'))}}
   {{ partial '_user_manual' }}
 {{else if (eq role 'MANAGER')}}
   {{ partial '_manager_manual' }}
