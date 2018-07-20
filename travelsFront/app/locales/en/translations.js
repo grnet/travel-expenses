@@ -1,7 +1,9 @@
 import { guide } from './_general_guide';
+import { manual } from './_user_manual';
 
 export default {
   'guide': guide,
+  'manual': manual,
   // page titles
   'create': 'CREATE',
   'edit': 'EDIT',

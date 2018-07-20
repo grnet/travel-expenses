@@ -1,6 +1,8 @@
 import { guide } from './_general_guide';
+import { manual } from './_user_manual';
 
 export default {
+  'manual': manual,
   'guide': guide,
   // page titles
   'create': 'ΔΗΜΙΟΥΡΓΙΑ',
