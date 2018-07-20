@@ -1,13 +1,30 @@
 import gen from 'ember-gen/lib/gen';
 import { field } from 'ember-gen';
 
+const {
+  get,
+  computed,
+  computed: { reads },
+} = Ember;
+
 export default gen.CRUDGen.extend({
   modelName: 'project',
   auth: true,
+  _metaMixin: {
+    session: Ember.inject.service(),
+    role: reads('session.session.authenticated.user_group'),
+  },
   list: {
     layout: 'table',
     menu: {
-      display: true,
+      display: computed('role', function() {
+        let role = get(this, 'role');
+        if (role === 'HELPDESK') {
+          return true;
+        } else {
+          return false;
+        }
+      }),
       icon: 'work',
       label: 'projects.tab',
     },
