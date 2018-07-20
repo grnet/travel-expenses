@@ -15,7 +15,7 @@ let manual = gen.GenRoutedObject.extend({
   templateName: 'manual',
   path: 'manual',
   menu: {
-    order: 300,
+    order: 600,
     display: true,
     icon: 'help',
     label: 'help.tab',

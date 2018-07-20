@@ -14,7 +14,7 @@ let contact = gen.GenRoutedObject.extend({
   templateName: 'contact',
   path: "contact",
   menu: {
-    order: 400,
+    order: 700,
     display: true,
     icon: 'mail',
     label: 'contact.tab',

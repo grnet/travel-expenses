@@ -20,6 +20,7 @@ export default gen.CRUDGen.extend({
   list: {
     layout: 'table',
     menu: {
+      order: 300,
       display: true,
       icon: 'supervisor_account',
       label: 'users.tab',

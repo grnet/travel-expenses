@@ -17,6 +17,7 @@ export default gen.CRUDGen.extend({
   list: {
     layout: 'table',
     menu: {
+      order: 500,
       display: computed('role', function() {
         let role = get(this, 'role');
         if (role === 'HELPDESK') {
