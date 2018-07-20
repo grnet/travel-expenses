@@ -289,6 +289,7 @@ export default {
   '{description} must be a valid url':  'The field must be a valid url',
   '{description} must be an integer': 'The field must be an integer',
   '{description} must be between {min} and {max} characters': 'The field must be between {min} and {max} characters',
-
+  'contact-us': 'Contact us',
+  'contact-text': 'In case you have questions, please contact us at:',
 };
 

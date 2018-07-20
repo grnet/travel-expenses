@@ -307,5 +307,7 @@ export default {
   '{description} must be a valid url':  'Tο πεδίο πρέπει να είναι σύνδεσμος',
   '{description} must be an integer': 'To πεδίο δέχεται μόνο αριθμητικούς χαρακτήρες',
   '{description} must be between {min} and {max} characters': 'To πεδίο πρέπει να είναι μεταξύ {min} και {max} χαρακτήρων',
+  'contact-us': 'Επικοινωνία',
+  'contact-text': 'Για οποιαδήποτε απορία ή διευκρίνιση, μπορείτε να επικοινωνήσετε μαζί μας στην παρακάτω διεύθυνση ηλεκτρονικού ταχυδρομείου:',
 };
 
