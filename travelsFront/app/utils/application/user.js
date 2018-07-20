@@ -102,7 +102,7 @@ const FS_VIEW_6 = [
     label: 'application.label',
     fields: [
       'dse',
-      'project',
+      'project.name',
       'reason',
       'manager_movement_approval',
       'withdrawn',
