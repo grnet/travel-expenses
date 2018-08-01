@@ -170,6 +170,7 @@ export default {
   'password.change.tab': 'Password Change',
   'help.tab': 'Help',
   'appications_list.tab': 'Applications',
+  'my.appications.tab': 'My Applications',
   'users.tab': 'Users',
   'projects.tab': 'Projects',
   'cities.tab': 'Cities',
