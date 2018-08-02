@@ -186,6 +186,7 @@ export default {
   'help.tab': 'Οδηγίες Χρήσης',
   'contact.tab': 'Επικοινωνία',
   'appications_list.tab': 'Λίστα Αιτήσεων',
+  'my.appications.tab': 'Οι Αιτήσεις μου',
   'users.tab': 'Χρήστες',
   'projects.tab': 'Έργα',
   'cities.tab': 'Πόλεις',

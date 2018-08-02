@@ -4,11 +4,6 @@ import { field } from 'ember-gen';
 import ENV from 'travel/config/environment';
 import { applicationActions } from '../utils/common/actions';
 import USER from '../utils/application/user';
-import SECRETARY from '../utils/application/secretary';
-import CONTROLLER from '../utils/application/controller';
-import VIEWER from '../utils/application/viewer';
-import PRESIDENT_SECRETARY from '../utils/application/president-secretary';
-import HELPDESK from '../utils/application/helpdesk';
 import {abilityStates} from 'travel/lib/application/abilityStates';
 import moment from 'moment';
 
@@ -25,7 +20,8 @@ export default gen.CRUDGen.extend({
   order: 200,
   modelName: 'application_item',
   auth: true,
-  path: 'applications',
+  path: 'manager-applications',
+  name: 'manager-applications',
   resourceName: 'applications',
   _metaMixin: {
     session: Ember.inject.service(),
@@ -40,12 +36,8 @@ export default gen.CRUDGen.extend({
       let role = get(this, 'role');
       let val = {};
 
-      if (role === 'USER' || role === 'MANAGER' || role === 'HELPDESK') {
+      if (role === 'MANAGER') {
         val = USER.FS_VALIDATORS;
-      } else if (role === 'SECRETARY') {
-        val = SECRETARY.FS_VALIDATORS;
-      } else if (role === 'CONTROLLER') {
-        val = CONTROLLER.FS_VALIDATORS;
       }
 
       return val;
@@ -53,16 +45,23 @@ export default gen.CRUDGen.extend({
   },
 
   list: {
-    actions: ['exportStats', 'gen:create'],
+    actions: ['gen:create'],
     actionsMap: {
       exportStats: applicationActions.exportStats,
     },
     preloadModels: ['project'],
     layout: 'table',
     menu: {
-      display: true,
-      icon: 'assignment',
-      label: 'appications_list.tab',
+      display: computed('role', function() {
+        let role = get(this, 'role');
+        if (role === 'MANAGER') {
+          return true;
+        } else {
+          return false;
+        }
+      }),
+      icon: 'assignment_ind',
+      label: 'my.appications.tab',
     },
     getModelQueryParams(qs) {
       if (qs && (qs.depart_date__gte || qs.depart_date__lte)) {
@@ -70,6 +69,10 @@ export default gen.CRUDGen.extend({
         qs.depart_date__lte = moment(qs.depart_date__lte).format("YYYY-MM-DD");
       }
       return qs
+    },
+    getModel(params, model) {
+      let id = get(this, 'session.session.authenticated.id');
+      return get(this, 'store').query('application-item', {user: id});
     },
     filter: {
       active: true,
@@ -79,14 +82,7 @@ export default gen.CRUDGen.extend({
           let role = session.get('session.authenticated.user_group');
           let res = [];
 
-          if (role === 'SECRETARY' || role === 'CONTROLLER' || role === 'PRESIDENT_SECRETARY' || role === 'VIEWER' || role === 'HELPDESK') {
-            res = [
-              field('project', { modelName:'project', type: 'model', displayAttr: 'name' }),
-              field('status', { type:'select', choices: CHOICES.STATUS }),
-              field('depart_date__gte', { type: 'date' }),
-              field('depart_date__lte', { type: 'date' }),
-            ]
-          } else if (role === 'USER' || role === 'MANAGER') {
+          if (role === 'MANAGER') {
             res = [
               field('project', { modelName:'project', type: 'model', displayAttr: 'name' }),
               field('status', { type:'select', choices: CHOICES.STATUS }),
@@ -141,7 +137,7 @@ export default gen.CRUDGen.extend({
       let status = this.get('model.status');
       let res = [{}];
 
-      if (role === 'USER' || role === 'MANAGER') {
+      if (role === 'MANAGER') {
         if (status >= 1 && status <= 3) {
           res = USER.FS_VIEW_1;
         } else if (status >= 4 && status <= 5) {
@@ -151,16 +147,6 @@ export default gen.CRUDGen.extend({
         } else if (status >= 9 && status <= 10) {
           res = USER.FS_VIEW_8;
         }
-      } else if (role === 'SECRETARY') {
-        res = SECRETARY.FS_VIEW_3;
-      } else if (role === 'CONTROLLER') {
-        res = CONTROLLER.FS_VIEW_8;
-      } else if (role === 'VIEWER') {
-        res = VIEWER.FS_VIEW;
-      } else if (role === 'PRESIDENT_SECRETARY') {
-        res = PRESIDENT_SECRETARY.FS_VIEW;
-      } else if (role === 'HELPDESK') {
-        res = HELPDESK.FS_VIEW;
       }
       return res;
     }),
@@ -199,10 +185,8 @@ export default gen.CRUDGen.extend({
       let role = get(this, 'role');
       let res = [{}];
 
-      if (role === 'USER' || role === 'MANAGER') {
+      if (role === 'MANAGER') {
         res = USER.FS_CREATE_1;
-      } else if (role === 'HELPDESK') {
-        res = HELPDESK.FS_CREATE_1;
       }
 
       return res;
@@ -225,22 +209,12 @@ export default gen.CRUDGen.extend({
       let status = this.get('model.status');
       let res = [{}];
 
-      if (role === 'USER' || role === 'MANAGER') {
+      if (role === 'MANAGER') {
         if (status < 5) {
           res = USER.FS_EDIT_1;
         } else if (status >= 5) {
           res = USER.FS_EDIT_6;
         }
-      } else if (role === 'HELPDESK') {
-        if (status < 5) {
-          res = HELPDESK.FS_EDIT_1;
-        } else if (status >= 5) {
-          res = HELPDESK.FS_EDIT_6;
-        }
-      } else if (role === 'SECRETARY') {
-        res = SECRETARY.FS_EDIT_3;
-      } else if (role === 'CONTROLLER') {
-        res = CONTROLLER.FS_EDIT_8;
       }
 
       return res;
