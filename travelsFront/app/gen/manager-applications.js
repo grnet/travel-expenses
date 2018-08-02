@@ -65,7 +65,7 @@ export default gen.CRUDGen.extend({
     },
     getModel(params, model) {
       let id = get(this, 'session.session.authenticated.id');
-      return get(this, 'store').query('application-item', {user_id: id});
+      return get(this, 'store').query('application-item', {user: id});
     },
     filter: {
       active: true,
