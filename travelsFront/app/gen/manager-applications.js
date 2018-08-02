@@ -11,6 +11,7 @@ const {
   get,
   computed,
   computed: { reads },
+  assign,
 } = Ember;
 
 const CHOICES = ENV.APP.resources;
@@ -71,8 +72,12 @@ export default gen.CRUDGen.extend({
       return qs
     },
     getModel(params, model) {
+      params = params || {};
+      let query_manager_applications = {};
       let id = get(this, 'session.session.authenticated.id');
-      return get(this, 'store').query('application-item', {user: id});
+
+      assign(query_manager_applications, {user: id}, params);
+      return get(this, 'store').query('application-item', query_manager_applications);
     },
     filter: {
       active: true,
