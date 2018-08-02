@@ -52,7 +52,14 @@ export default gen.CRUDGen.extend({
     preloadModels: ['project'],
     layout: 'table',
     menu: {
-      display: true,
+      display: computed('role', function() {
+        let role = get(this, 'role');
+        if (role === 'MANAGER') {
+          return true;
+        } else {
+          return false;
+        }
+      }),
       icon: 'assignment_ind',
       label: 'my.appications.tab',
     },
