@@ -61,7 +61,7 @@ export default gen.CRUDGen.extend({
     layout: 'table',
     menu: {
       display: true,
-      icon: 'description',
+      icon: 'assignment',
       label: 'appications_list.tab',
     },
     getModelQueryParams(qs) {
