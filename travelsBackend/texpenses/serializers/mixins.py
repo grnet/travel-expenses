@@ -96,8 +96,9 @@ class PetitionMixin(object):
             ("SECRETARY", Petition.SUBMITTED_BY_USER),
             ("CONTROLLER", Petition.USER_COMPENSATION_SUBMISSION)]
 
-        if (user.user_group(), instance.status) in proceed_status:
-            instance.proceed()
+        if 'travel_files' not in validated_data.keys():
+            if (user.user_group(), instance.status) in proceed_status:
+                instance.proceed()
 
         travel_info = validated_data.pop('travel_info', [])
         for k, v in validated_data.iteritems():
