@@ -53,7 +53,6 @@ export default {
   'user.email_verification.error': 'E-mail verification error',
   'user.email_verification.success': 'Your e-mail has been successfully verified',
   // search and filter
-  'search.input.placeholder': 'Search with DSE / Name',
   'list.filters.apply.label': 'APPLY',
   'list.filters.clear.label': 'CLEAR',
   'list.filters.title': 'Filters',
@@ -281,6 +280,10 @@ export default {
   'No distance found for these cities.': 'No distance found for the specific destination',
   // placeholders
   'time_placeholder': 'Time',
+  'search.input.placeholder': 'Search with DSE / Name',
+  'search.placeholder.users': 'Search with user name',
+  'search.placeholder.projects': 'Search with project name/ accounting code',
+  'search.placeholder.city': 'Search with city/ country',
   //plain text
   'file.field.no.files': 'No file has been uploaded',
   '{description} can\'t be blank': 'The field cannot be blank',
