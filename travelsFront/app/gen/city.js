@@ -36,7 +36,7 @@ export default gen.CRUDGen.extend({
       active: true,
       meta: {
         fields: [
-          field('name', { modelName:'city', type: 'model', displayAttr: 'name', label: 'city_name.label', autocomplete: true }),
+          field('name', { modelName:'city', type: 'model', displayAttr: 'name', label: 'city_name.label', autocomplete: true, dataKey: 'id'}),
           'country',
         ]
       },
