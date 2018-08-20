@@ -54,7 +54,6 @@ export default {
   'user.email_verification.error': 'Σφάλμα κατά την επαλήθευση του e-mail σας',
   'user.email_verification.success': 'Το e-mail σας επαληθεύτηκε',
   // search and filter
-  'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',
   'list.filters.apply.label': 'ΕΦΑΡΜΟΓΗ',
   'list.filters.clear.label': 'ΚΑΘΑΡΙΣΜΟΣ',
   'list.filters.title': 'Φίλτρα',
@@ -75,6 +74,7 @@ export default {
   'user_group.label': 'Ρόλος',
   'my_account.label': 'Στοιχεία Λογαριασμού',
   'personal_info.label': 'Προσωπικά Στοιχεία',
+  'is_active.label': 'Ενεργός χρήστης',
   // application labels
   'application.label': 'Αίτηση Μετακίνησης',
   'dse.label': 'ΔΣΕ',
@@ -299,6 +299,10 @@ export default {
   'No distance found for these cities.': 'Δεν υπάρχει διαθέσιμη απόσταση για τον συγκεκριμένο προορισμό',
   // placeholders
   'time_placeholder': 'Ώρα',
+  'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',
+  'search.placeholder.users': 'Αναζήτηση με Ονοματεπώνυμο',
+  'search.placeholder.projects': 'Αναζήτηση με Όνομα Έργου/ Κωδικό Λογιστικής',
+  'search.placeholder.city': 'Αναζήτηση με Πόλη/ Χώρα',
   //plain text
   'file.field.no.files': 'Δεν έχετε ανεβάσει κάποιο αρχείο',
   '{description} can\'t be blank': 'Tο πεδίο δεν μπορεί να είναι κενό',

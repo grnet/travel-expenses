@@ -33,16 +33,18 @@ export default gen.CRUDGen.extend({
       meta: {
         fields: [
           field('email'),
+          field('is_active', {type: 'boolean'}),
         ]
       },
       serverSide: true,
       search: true,
-      searchFields: ['email'],
+      searchFields: ['first_name', 'last_name'],
+      searchPlaceholder: 'search.placeholder.users',
     },
     sort: {
       active: true,
       serverSide: true,
-      fields: ['email'],
+      fields: ['first_name', 'last_name'],
     },
     paginate: {
       limits: [ 10, 50],

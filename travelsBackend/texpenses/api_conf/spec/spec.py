@@ -83,6 +83,9 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                 '.drf_collection':
                 {'authentication_classes':
                   ['rest_framework.authentication.TokenAuthentication'],
+                 'ordering_fields': ['name', 'accounting_code'],
+                 'search_fields': ['name', 'accounting_code'],
+                 'filter_fields': ['id', 'manager'],
                  'mixins':
                  ['texpenses.views.mixins.ProjectMixin'],
                  'model': 'texpenses.models.Project'},
@@ -168,6 +171,9 @@ user_conf = {'*': {'email': {'.cli_option': {},
              {'authentication_classes':
                ['rest_framework.authentication.TokenAuthentication'],
               'model': 'texpenses.models.UserProfile',
+              'ordering_fields': ['first_name', 'last_name'],
+              'search_fields': ['first_name', 'last_name'],
+              'filter_fields': ['email', 'is_active'],
               'mixins': ['texpenses.views.mixins.UserMixin'],
               'permission_classes':
                   ['rest_framework.permissions.IsAuthenticated',]},
@@ -236,6 +242,9 @@ city_conf = {'*': {'country': {'.cli_option': {},
              {'mixins':
               ['texpenses.views.mixins.CityMixin'],
               'model': 'texpenses.models.City',
+              'ordering_fields': ['name', 'country'],
+              'search_fields': ['name', 'country__name'],
+              'filter_fields': ['id', 'country'],
               'authentication_classes':
               ['rest_framework.authentication.SessionAuthentication',
                'rest_framework.authentication.TokenAuthentication'],

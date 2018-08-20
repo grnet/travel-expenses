@@ -36,17 +36,19 @@ export default gen.CRUDGen.extend({
       active: true,
       meta: {
         fields: [
-          field('project', { modelName:'project', type: 'model', displayAttr: 'name' }),
+          field('name', { modelName:'project', type: 'model', displayAttr: 'name', dataKey: 'id'}),
+          'manager'
         ]
       },
       serverSide: true,
       search: true,
-      searchFields: ['name'],
+      searchFields: ['name', 'accounting_code'],
+      searchPlaceholder: 'search.placeholder.projects',
     },
     sort: {
       active: true,
       serverSide: true,
-      fields: ['name'],
+      fields: ['name', 'accounting_code'],
     },
     paginate: {
       limits: [ 10, 50],
