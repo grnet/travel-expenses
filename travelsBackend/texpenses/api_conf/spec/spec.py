@@ -85,7 +85,7 @@ project_conf = {'*': {'accounting_code': {'.cli_option': {},
                   ['rest_framework.authentication.TokenAuthentication'],
                  'ordering_fields': ['name', 'accounting_code'],
                  'search_fields': ['name', 'accounting_code'],
-                 'filter_fields': ['name', 'manager'],
+                 'filter_fields': ['id', 'manager'],
                  'mixins':
                  ['texpenses.views.mixins.ProjectMixin'],
                  'model': 'texpenses.models.Project'},
