@@ -243,7 +243,7 @@ city_conf = {'*': {'country': {'.cli_option': {},
               ['texpenses.views.mixins.CityMixin'],
               'model': 'texpenses.models.City',
               'ordering_fields': ['name', 'country'],
-              'search_fields': ['name', 'country'],
+              'search_fields': ['name', 'country__name'],
               'filter_fields': ['id', 'country'],
               'authentication_classes':
               ['rest_framework.authentication.SessionAuthentication',
