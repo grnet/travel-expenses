@@ -244,7 +244,7 @@ city_conf = {'*': {'country': {'.cli_option': {},
               'model': 'texpenses.models.City',
               'ordering_fields': ['name', 'country'],
               'search_fields': ['name', 'country'],
-              'filter_fields': ['name', 'country'],
+              'filter_fields': ['id', 'country'],
               'authentication_classes':
               ['rest_framework.authentication.SessionAuthentication',
                'rest_framework.authentication.TokenAuthentication'],
