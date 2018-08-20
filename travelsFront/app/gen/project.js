@@ -36,7 +36,7 @@ export default gen.CRUDGen.extend({
       active: true,
       meta: {
         fields: [
-          field('name', { modelName:'project', type: 'model', displayAttr: 'name'}),
+          field('name', { modelName:'project', type: 'model', displayAttr: 'name', dataKey: 'id'}),
           'manager'
         ]
       },
