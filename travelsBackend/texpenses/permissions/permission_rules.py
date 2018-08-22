@@ -137,6 +137,7 @@ PERMISSION_RULES = [
     ('applications', 'update', 'USER', 'travel_files','ownedusercompensationsaved', '*'),
     ('applications', 'update', 'USER', 'travel_report','ownedusercompensationsaved', '*'),
     ('applications', 'update', 'USER', 'additional_expenses','ownedusercompensationsaved', '*'),
+    ('applications', 'update', 'USER', 'additional_expenses_local_currency','ownedusercompensationsaved', '*'),
     ('applications', 'update', 'USER', 'additional_expenses_default_currency','ownedusercompensationsaved', '*'),
     ('applications', 'update', 'USER', 'additional_expenses_description','ownedusercompensationsaved', '*'),
 
@@ -147,6 +148,7 @@ PERMISSION_RULES = [
     ('applications', 'update', 'USER', 'travel_files','ownedpresidentapproved', '*'),
     ('applications', 'update', 'USER', 'travel_report','ownedpresidentapproved', '*'),
     ('applications', 'update', 'USER', 'additional_expenses','ownedpresidentapproved', '*'),
+    ('applications', 'update', 'USER', 'additional_expenses_local_currency','ownedpresidentapproved', '*'),
     ('applications', 'update', 'USER', 'additional_expenses_default_currency','ownedpresidentapproved', '*'),
     ('applications', 'update', 'USER', 'additional_expenses_description','ownedpresidentapproved', '*'),
 
@@ -189,6 +191,7 @@ PERMISSION_RULES = [
     ('applications', 'update', 'MANAGER', 'travel_files','ownedusercompensationsaved', '*'),
     ('applications', 'update', 'MANAGER', 'travel_report','ownedusercompensationsaved', '*'),
     ('applications', 'update', 'MANAGER', 'additional_expenses','ownedusercompensationsaved', '*'),
+    ('applications', 'update', 'MANAGER', 'additional_expenses_local_currency','ownedusercompensationsaved', '*'),
     ('applications', 'update', 'MANAGER', 'additional_expenses_default_currency','ownedusercompensationsaved', '*'),
     ('applications', 'update', 'MANAGER', 'additional_expenses_description','ownedusercompensationsaved', '*'),
 
@@ -199,6 +202,7 @@ PERMISSION_RULES = [
     ('applications', 'update', 'MANAGER', 'travel_files','ownedpresidentapproved', '*'),
     ('applications', 'update', 'MANAGER', 'travel_report','ownedpresidentapproved', '*'),
     ('applications', 'update', 'MANAGER', 'additional_expenses','ownedpresidentapproved', '*'),
+    ('applications', 'update', 'MANAGER', 'additional_expenses_local_currency','ownedpresidentapproved', '*'),
     ('applications', 'update', 'MANAGER', 'additional_expenses_default_currency','ownedpresidentapproved', '*'),
     ('applications', 'update', 'MANAGER', 'additional_expenses_description','ownedpresidentapproved', '*'),
 
@@ -339,6 +343,7 @@ PERMISSION_RULES = [
     ('applications', 'update_timesheeted', 'CONTROLLER', '*', 'secretarycompensationsubmitted', '*'),
     ('applications', 'update_timesheeted', 'CONTROLLER', '*', 'presidentcompensationapproved', '*'),
     ('applications', 'update', 'CONTROLLER', 'additional_expenses', 'secretarycompensationsaved', '*'),
+    ('applications', 'update', 'CONTROLLER', 'additional_expenses_local_currency', 'secretarycompensationsaved', '*'),
     ('applications', 'update', 'CONTROLLER', 'additional_expenses_default_currency', 'secretarycompensationsaved', '*'),
     ('applications', 'update', 'CONTROLLER', 'additional_expenses_description', 'secretarycompensationsaved', '*'),
     ('applications', 'update', 'CONTROLLER', 'participation_cost', 'secretarycompensationsaved', '*'),
@@ -431,6 +436,7 @@ PERMISSION_RULES = [
     ('applications', 'update', 'HELPDESK', 'travel_files','ownedusercompensationsaved', '*'),
     ('applications', 'update', 'HELPDESK', 'travel_report','ownedusercompensationsaved', '*'),
     ('applications', 'update', 'HELPDESK', 'additional_expenses','ownedusercompensationsaved', '*'),
+    ('applications', 'update', 'HELPDESK', 'additional_expenses_local_currency','ownedusercompensationsaved', '*'),
     ('applications', 'update', 'HELPDESK', 'additional_expenses_default_currency','ownedusercompensationsaved', '*'),
     ('applications', 'update', 'HELPDESK', 'additional_expenses_description','ownedusercompensationsaved', '*'),
 
@@ -441,6 +447,7 @@ PERMISSION_RULES = [
     ('applications', 'update', 'HELPDESK', 'travel_files','ownedpresidentapproved', '*'),
     ('applications', 'update', 'HELPDESK', 'travel_report','ownedpresidentapproved', '*'),
     ('applications', 'update', 'HELPDESK', 'additional_expenses','ownedpresidentapproved', '*'),
+    ('applications', 'update', 'HELPDESK', 'additional_expenses_local_currency','ownedpresidentapproved', '*'),
     ('applications', 'update', 'HELPDESK', 'additional_expenses_default_currency','ownedpresidentapproved', '*'),
     ('applications', 'update', 'HELPDESK', 'additional_expenses_description','ownedpresidentapproved', '*'),
 
