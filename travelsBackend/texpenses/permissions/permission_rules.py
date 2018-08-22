@@ -233,6 +233,7 @@ PERMISSION_RULES = [
     ('applications', 'update', 'SECRETARY', 'travel_info/accommodation_default_currency', 'secretarysaved', '*'),
     ('applications', 'update', 'SECRETARY', 'travel_info/accommodation_local_cost', 'secretarysaved', '*'),
     ('applications', 'update', 'SECRETARY', 'travel_info/accommodation_total_local_cost', 'secretarysaved', '*'),
+    ('applications', 'update', 'SECRETARY', 'travel_info/accommodation_local_currency', 'secretarysaved', '*'),
     ('applications', 'update', 'SECRETARY', 'travel_info/accommodation_payment_way', 'secretarysaved', '*'),
     ('applications', 'update', 'SECRETARY', 'travel_info/accommodation_payment_description', 'secretarysaved', '*'),
     ('applications', 'update', 'SECRETARY', 'travel_info/transport_days_manual', 'secretarysaved', '*'),
