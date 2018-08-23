@@ -65,7 +65,11 @@ const submit = {
       let showButtonBy = [false, true, true, true, true, false, true, true, true, true];
 
       return showButtonBy[status - 1];
-    } else if (role === 'MANAGER' || role === 'HELPDESK' && userId === applicationUserId) {
+    } else if (role === 'MANAGER' && userId === applicationUserId) {
+      let showButtonBy = [false, true, true, true, true, false, true, true, true, true];
+
+      return showButtonBy[status - 1];
+    } else if (role === 'HELPDESK' && userId === applicationUserId) {
       let showButtonBy = [false, true, true, true, true, false, true, true, true, true];
 
       return showButtonBy[status - 1];
@@ -111,7 +115,11 @@ const undo = {
       let showButtonBy = [true, false, true, true, true, true, false, true, true, true];
 
       return showButtonBy[status - 1];
-    } else if (role === 'MANAGER' || role === 'HELPDESK' && userId === applicationUserId) {
+    } else if (role === 'MANAGER' && userId === applicationUserId) {
+      let showButtonBy = [true, false, true, true, true, true, false, true, true, true];
+
+      return showButtonBy[status - 1];
+    } else if (role === 'HELPDESK' && userId === applicationUserId) {
       let showButtonBy = [true, false, true, true, true, true, false, true, true, true];
 
       return showButtonBy[status - 1];
@@ -635,8 +643,18 @@ const markAsDeleted = {
   hidden: computed('role', 'model.status', function(){
     let status = this.get('model.status');
     let role = this.get('role');
+    let userId = this.get('session.session.authenticated.id');
+    let applicationUserId = this.get('model.user_id');
 
-    if (role === 'USER' || role === 'MANAGER'  || role === 'HELPDESK') {
+    if (role === 'USER') {
+      let showButtonBy = [false, true, true, true, true, true, true, true, true, true];
+
+      return showButtonBy[status - 1];
+    } else if (role === 'MANAGER' && userId === applicationUserId) {
+      let showButtonBy = [false, true, true, true, true, true, true, true, true, true];
+
+      return showButtonBy[status - 1];
+    } else if (role === 'HELPDESK' && userId === applicationUserId) {
       let showButtonBy = [false, true, true, true, true, true, true, true, true, true];
 
       return showButtonBy[status - 1];
