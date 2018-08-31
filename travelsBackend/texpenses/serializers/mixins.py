@@ -1,9 +1,26 @@
 from django.core.exceptions import ValidationError
 from rest_framework.exceptions import PermissionDenied
+from rest_framework import serializers
 from texpenses.models import Petition
+from texpenses.validators import date_validator
 
 
 class PetitionMixin(object):
+
+    def validate_task_dates(self, start_date, end_date):
+        if start_date:
+            try:
+                date_validator('Task start', start_date)
+            except ValidationError as ve:
+                raise serializers.ValidationError(
+                    {'task_start_date': ve.message})
+
+        if end_date:
+            try:
+                date_validator('Task end', end_date)
+            except ValidationError as ve:
+                raise serializers.ValidationError(
+                    {'task_end_date': ve.message})
 
     def create(self, validated_data):
         """
@@ -25,6 +42,10 @@ class PetitionMixin(object):
                 validated_data['withdrawn'] = True
         except (Petition.DoesNotExist, KeyError):
             pass
+
+        self.validate_task_dates(
+            validated_data.get('task_start_date', None),
+            validated_data.get('task_end_date', None))
 
         validated_data.update({'status': Petition.SAVED_BY_USER,
                                'user': self.context['request'].user})
@@ -86,6 +107,10 @@ class PetitionMixin(object):
         models and it actually implements the nested serializationf for the
         update of objects.
         """
+        if instance.status < Petition.SAVED_BY_SECRETARY:
+            self.validate_task_dates(
+                validated_data.get('task_start_date', None),
+                validated_data.get('task_end_date', None))
 
         user = self.context['request'].user
 

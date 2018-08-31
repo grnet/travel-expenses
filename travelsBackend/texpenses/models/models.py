@@ -1444,12 +1444,9 @@ class Applications(Petition):
             start_end_date_validator(
                 ((self.task_start_date, self.task_end_date),),
                 (('task start', 'task end'),))
-            date_validator('Task start', self.task_start_date)
-            date_validator('Task end', self.task_end_date)
 
     def save(self, **kwargs):
         # Remove temporary saved petition with the corresponding dse.
-
         if self.status in (Petition.SUBMITTED_BY_USER,
                            Petition.SUBMITTED_BY_SECRETARY):
             try:
