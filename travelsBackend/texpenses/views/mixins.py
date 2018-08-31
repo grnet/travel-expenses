@@ -264,7 +264,7 @@ class ApplicationMixin(object):
         try:
             if application_status in ACCEPTED_STATUSES:
                 if not application.withdrawn:
-                    application.proceed(delete=True)
+                    application.proceed()
                 else:
                     application.withdraw(proceed=True)
 

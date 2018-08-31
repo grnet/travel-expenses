@@ -1065,8 +1065,10 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         if next_status == 0:
             next_status = self.status + 1
 
-        submit = next_status in Petition.SUBMISSION_STATUSES or\
-            kwargs.pop('delete', False)
+        #submit = next_status in Petition.SUBMISSION_STATUSES or\
+        #    kwargs.pop('delete', False)
+        # Always mark previous instances as deleted
+        submit = True
         missing_fields = self.get_missing_fields()
         if next_status in Petition.SUBMISSION_STATUSES \
                 and missing_fields:
