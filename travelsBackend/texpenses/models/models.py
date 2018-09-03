@@ -600,6 +600,8 @@ class TravelInfo(Accommodation, Transportation):
                 compensation_days = (
                     task_end_date - depart_date).days + 1
 
+        if compensation_days < 0:
+            return 0
         return compensation_days
 
     def compensation_cost_single_day(self):
