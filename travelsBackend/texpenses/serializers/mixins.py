@@ -107,7 +107,7 @@ class PetitionMixin(object):
         models and it actually implements the nested serializationf for the
         update of objects.
         """
-        if instance.status < Petition.SAVED_BY_SECRETARY:
+        if instance.status == Petition.SAVED_BY_USER:
             self.validate_task_dates(
                 validated_data.get('task_start_date', None),
                 validated_data.get('task_end_date', None))
