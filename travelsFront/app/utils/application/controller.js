@@ -27,8 +27,8 @@ const FS_EDIT_8 = [
       field('tax_reg_num', { disabled: true }),
       field('iban', { disabled: true }),
       'dse',
-      'project',
-      'reason',
+      field('project', { disabled: true }),
+      field('reason', { disabled: true }),
       'manager_movement_approval',
       'withdrawn',
       'task_start_date',
@@ -84,10 +84,10 @@ const FS_EDIT_8 = [
     label: 'computed_data.label',
     fields: [
       'overnights_sum_cost',
-      'trip_days_before',
+      field('trip_days_before', { disabled: true }),
       'compensation_cost',
       'trip_days_after',
-      'compensation_final',
+      field('compensation_final', { disabled: true }),
       'total_cost_calculated',
     ],
     layout: {
