@@ -230,9 +230,6 @@ class ApplicationMixin(object):
     @transaction.atomic
     def submit(self, request, pk=None):
         application = self.get_object()
-        if application.withdrawn:
-            return Response({'detail': 'Application is withdrawn'},
-                            status=status.HTTP_403_FORBIDDEN)
 
         application_id = application.proceed()
         application_status = application.status
