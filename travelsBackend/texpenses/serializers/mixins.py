@@ -52,6 +52,12 @@ class PetitionMixin(object):
 
         self.check_creation_allowed(validated_data)
         travel_info = validated_data.pop('travel_info', [])
+        user = validated_data.get('user', None)
+        if user:
+            validated_data['initial_user_days_left'] = \
+                user.trip_days_left
+        validated_data['transport_days_total'] = 0
+
         petition = self.Meta.model.objects.create(**validated_data)
         travel_info_model = self.fields['travel_info'].child.Meta.model
 
@@ -59,6 +65,7 @@ class PetitionMixin(object):
             travel_obj = travel_info_model(travel_petition=petition, **travel)
             travel_obj.save(new_object=True)
             petition.travel_info.add(travel_obj)
+
         return petition
 
     def check_creation_allowed(self, data):
@@ -134,7 +141,6 @@ class PetitionMixin(object):
         if travel_info:
             self._update_nested_objects(instance, travel_info)
             instance.travel_info.update()
-
         return instance
 
     def _update_nested_objects(self, instance, nested_objects):
