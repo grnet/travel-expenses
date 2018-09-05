@@ -357,8 +357,6 @@ class TravelInfo(Accommodation, Transportation):
 
         self.transport_days_manual = self.transport_days_proposed()
 
-        self.overnights_num_manual = self.overnights_num_proposed()
-
         self.compensation_days_manual = self.compensation_days_proposed()
 
     def is_abroad(self):
