@@ -143,7 +143,8 @@ export default {
   'compensation.label': 'Travel Report',
   // computational data labels
   'transport_days_proposed.label': 'Traveling Days',
-  'overnights_num_proposed.label': 'Overnights',
+  'overnights_num_proposed.label': 'Overnights (proposed)',
+  'overnights_num_manual.label': 'Overnights',
   'compensation_days_proposed.label': 'Compensation Days',
   'trip_days_before.label': 'Traveling Days Left: Before',
   'trip_days_after.label': 'Traveling Days Left: After',

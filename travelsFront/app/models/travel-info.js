@@ -31,6 +31,7 @@ export default DS.Model.extend({
   return_date_time_format: computeDateTimeFormat('return_date'),
   meals: DS.attr({ 'choices': CHOICES.MEALS, defaultValue: 'NON' }),
   overnights_num_proposed: DS.attr({ disabled: true }),
+  overnights_num_manual: DS.attr(),
   accommodation_total_cost: DS.attr(),
   accommodation_total_local_cost: DS.attr(),
   accommodation_local_currency: DS.attr({ 'choices': CHOICES.CURRENCIES, autocomplete: true }),
