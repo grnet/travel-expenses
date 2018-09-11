@@ -39,12 +39,6 @@ spec = {'.cli_option': {},
                                              '.cli_option': {},
                                              '.drf_field': {},
                                              '.field': {}},
-            'accommodation_payment_description': {'.cli_option':
-                                                  {},
-                                                  '.drf_field':
-                                                  {},
-                                                  '.field': {},
-                                                  '.string': {}},
             'accommodation_payment_way': {'.choices': {},
                                           '.cli_option': {},
                                           '.drf_field': {},
@@ -137,13 +131,6 @@ spec = {'.cli_option': {},
                                                 '.string':
                                                 {'max_length': 3}
                                                 },
-            'transportation_payment_description': {'.cli_option':
-                                                   {},
-                                                   '.drf_field':
-                                                   {},
-                                                   '.field': {},
-                                                   '.string': {}
-                                                   },
             'transportation_payment_way': {'.choices': {},
                                            '.cli_option': {},
                                            '.drf_field': {},
