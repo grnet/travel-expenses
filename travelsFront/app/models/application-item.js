@@ -69,7 +69,7 @@ export default DS.Model.extend({
   manager_movement_approval: DS.attr('boolean', { disabled: true,  displayComponent: 'display-boolean'}),
   participation_cost: DS.attr(),
   participation_payment_way: DS.attr({ 'choices': CHOICES.WAYS_OF_PAYMENT }),
-  trip_days_before: DS.attr(),
+  trip_days_before: DS.attr({ disabled: true }),
   trip_days_after: DS.attr({ disabled: true }),
   overnights_sum_cost: DS.attr({ disabled: true }),
   compensation_cost: DS.attr({ disabled: true }),
