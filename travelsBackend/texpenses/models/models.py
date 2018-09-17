@@ -1045,7 +1045,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         if proceed:
             self.proceed(status=self.SECRETARY_COMPENSATION, delete=True)
         self.withdrawn = True
-        self.user.trip_days_left -= self.transport_days()
+        self.user.trip_days_left += self.transport_days()
         self.user.save()
         self.save()
 
