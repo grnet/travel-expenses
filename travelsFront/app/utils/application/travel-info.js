@@ -13,6 +13,7 @@ const FS_SECRETARY_VALIDATORS = {
   return_date: [validate.presence(true)],
   transportation_cost: [validate.number()],
   accommodation_total_cost: [validate.number()],
+  overnights_num_manual: [validate.presence(true)],
 }
 
 const FS_CONTROLLER_VALIDATORS = FS_SECRETARY_VALIDATORS;
@@ -72,14 +73,15 @@ const FS_EDIT_3_SECRETARY = [
     fields: [
       'overnights_num_proposed',
       'meals',
-      'accommodation_total_cost',
+      'overnights_num_manual',
       'accommodation_total_local_cost',
       'accommodation_local_currency',
+      'accommodation_total_cost',
       'accommodation_payment_way',
     ],
     layout: {
       flex: [
-        50, 50, 50, 30, 20, 50,
+        50,  50, 50, 30, 20, 50, 50,
       ],
     },
   },
@@ -120,14 +122,15 @@ const FS_VIEW_3_SECRETARY = [
     fields: [
       'overnights_num_proposed',
       'meals_label',
-      'accommodation_total_cost',
+      'overnights_num_manual',
       'accommodation_total_local_cost',
       'accommodation_local_currency',
+      'accommodation_total_cost',
       'accommodation_payment_way_label',
     ],
     layout: {
       flex: [
-        50, 50, 50, 30, 20, 50,
+        50, 50, 50, 30, 20, 50, 50,
       ],
     },
   },

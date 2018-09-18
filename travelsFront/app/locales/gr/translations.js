@@ -158,7 +158,8 @@ export default {
   'timezone.label': 'Ζώνη Ώρας',
   // computational data labels
   'transport_days_proposed.label': 'Ημέρες Μετακίνησης Εργασιών',
-  'overnights_num_proposed.label': 'Διανυκτερεύσεις',
+  'overnights_num_proposed.label': 'Διανυκτερεύσεις (προτεινόμενη τιμή)',
+  'overnights_num_manual.label': 'Διανυκτερεύσεις',
   'compensation_days_proposed.label': 'Ημέρες Αποζημίωσης',
   'trip_days_before.label': 'Εναπομ. Ημ. Μετακ. Εργ.: Πριν',
   'trip_days_after.label': 'Εναπομ. Ημ. Μετακ. Εργ.: Μετά',

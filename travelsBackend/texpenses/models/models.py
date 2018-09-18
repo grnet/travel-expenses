@@ -357,8 +357,6 @@ class TravelInfo(Accommodation, Transportation):
 
         self.transport_days_manual = self.transport_days_proposed()
 
-        self.overnights_num_manual = self.overnights_num_proposed()
-
         self.compensation_days_manual = self.compensation_days_proposed()
 
     def is_abroad(self):
@@ -1294,7 +1292,6 @@ class Applications(Petition):
                                'accommodation_total_local_cost',
                                'accommodation_payment_description',
                                'accommodation_local_currency',
-                               'overnights_num_manual',
                                'transport_days_manual',
                                'compensation_days_manual',
                                'distance',
@@ -1318,7 +1315,6 @@ class Applications(Petition):
                             'accommodation_total_local_cost',
                             'accommodation_payment_description',
                             'accommodation_local_currency',
-                            'overnights_num_manual',
                             'transport_days_manual',
                             'compensation_days_manual',
                             'distance',
