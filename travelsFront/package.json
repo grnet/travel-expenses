@@ -55,7 +55,7 @@
     "loader.js": "^4.0.10"
   },
   "dependencies": {
-    "ember-cli-gen-apimas": "0.0.15",
+    "ember-cli-gen-apimas": "0.0.18",
     "moment": "^2.19.1"
   }
 }
