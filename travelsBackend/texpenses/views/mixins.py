@@ -530,6 +530,8 @@ class ApplicationMixin(object):
 
             restoredApplication = Petition.objects.filter(dse=application.dse,
                     status=Petition.SAVED_BY_SECRETARY).order_by('-updated')[0]
+            restoredApplication.transport_days_total = \
+                application.transport_days_total
             restoredApplication.unmark_deleted()
 
             return Response(
