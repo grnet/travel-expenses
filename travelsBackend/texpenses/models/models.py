@@ -1146,7 +1146,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         return self.initial_user_days_left
 
     def trip_days_after(self):
-        return self.initial_user_days_left - self.transport_days()
+        return self.initial_user_days_left - self.transport_days() \
+            if not self.withdrawn else self.initial_user_days_left
 
     def overnights_num(self):
         """ Gets the number of total overnight days for all destinations. """
