@@ -233,7 +233,8 @@ class ApplicationMixin(object):
 
         application_id = application.proceed()
         application_status = application.status
-        if application_status == Petition.SUBMITTED_BY_SECRETARY:
+        if application_status in [Petition.SUBMITTED_BY_SECRETARY,
+                Petition.SECRETARY_COMPENSATION_SUBMISSION]:
             application.set_trip_days_left()
 
         per_status_email_confs = {
