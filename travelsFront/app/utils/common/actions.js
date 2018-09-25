@@ -180,58 +180,37 @@ const pdf = {
   action: function(route, model) {
     let { messages, token, url } = action_utils(route, model);
     var dse = model.get('dse');
+    let applicationUrl = url + 'application_report/';
+    let decisionUrl = url + 'decision_report/';
+    let urls = [applicationUrl, decisionUrl];
+    messages.setWarning('downloading.started', { closeTimeout: 180000});
 
-    return $.ajax({
-      headers:{
-        Authorization: 'Token ' + token,
-      },
-      xhrFields : {
-        responseType : 'arraybuffer',
-      },
-      url: url + 'application_report/',
-      success: function(data) {
-        var blob = new Blob([data], { type: 'application/pdf' });
-        var link = document.createElement('a');
-
-        link.href = window.URL.createObjectURL(blob);
-        link.download = 'application_' + 'dse[' + dse + ']' + '.pdf';
-        link.click();
-      },
-    }).then((resp) => {
-      if (resp.byteLength > 0) {
-        return $.ajax({
-          headers:{
-            Authorization: 'Token ' + token,
-          },
-          xhrFields : {
-            responseType : 'arraybuffer',
-          },
-          url: url + 'decision_report/',
-          success: function(data) {
-            var blob = new Blob([data], { type: 'application/pdf' });
-            var link = document.createElement('a');
-
-            link.href = window.URL.createObjectURL(blob);
-            link.download = 'decision_' + 'dse[' + dse + ']' + '.pdf';
-            link.click();
-          },
-        }).then((resp) => {
-          if (resp.byteLength > 0) {
-            route.refresh().then(() => {
-              messages.setSuccess('pdf.application.success');
-            })
-          } else {
-            throw new Error('error');
-          }
-        }).catch((err) => {
-          messages.setError('pdf.decision.error');
-        })
-      } else {
-        throw new Error('error');
-      }
-    }).catch((err) => {
-      messages.setError('pdf.application.error');
-    });
+    return Promise.all(urls.map((url) => {
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Token ${token}`,
+        }
+      }).then((resp) => {
+         if (resp.status < 200 || resp.status > 299) {
+           throw resp;
+         }
+         let a = $("<a style='display: none;'/>");
+         let url = window.URL.createObjectURL(resp._bodyBlob);
+         let namePrefix = resp.url.split('/').slice(-2)[0];
+         let name = namePrefix + '_dse[' + dse + ']' + '.pdf';
+         a.attr("href", url);
+         a.attr("download", name);
+         $("body").append(a);
+         a[0].click();
+         window.URL.revokeObjectURL(url);
+         a.remove();
+         messages.setSuccess('downloading.finished');
+      }).catch((err) => {
+         messages.setError('reason.errors');
+         throw err;
+      });
+    }))
   },
   hidden: computed('model.status', 'role', function(){
     let status = this.get('model.status');
