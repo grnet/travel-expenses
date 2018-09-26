@@ -828,6 +828,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     tracked_cost_field = ['total_cost_manual']
     cost_tracker = FieldTracker(fields=tracked_cost_field)
     is_total_manual_cost_set = md.BooleanField(default=False, db_index=True)
+    initial_user_days_left = md.IntegerField(default=0)
+    transport_days_total = md.IntegerField(default=0)
 
     tracked_fields = ['task_start_date', 'task_end_date']
     tracker = FieldTracker()
@@ -978,8 +980,13 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             deleted=False).exists() and not new_status == self.status
 
     def set_trip_days_left(self):
-        self.user.trip_days_left -= self.transport_days()
-        self.user.save()
+        if self.transport_days() and \
+                self.transport_days_total != self.transport_days():
+            self.user.trip_days_left -= self.transport_days()
+            self.user.trip_days_left += self.transport_days_total
+            self.user.save()
+            self.transport_days_total = self.transport_days()
+            self.save()
 
     def status_transition(self, new_status, delete=True, **kwargs):
         """
@@ -1038,6 +1045,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         if proceed:
             self.proceed(status=self.SECRETARY_COMPENSATION, delete=True)
         self.withdrawn = True
+        self.user.trip_days_left += self.transport_days()
+        self.user.save()
         self.save()
 
     def cancel_withdrawal(self, **kwargs):
@@ -1051,6 +1060,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             self.status_transition(self.SAVED_BY_SECRETARY)
 
         self.withdrawn = False
+        self.user.trip_days_left -= self.transport_days()
+        self.user.save()
         self.save()
 
     def proceed(self, **kwargs):
@@ -1132,21 +1143,11 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
                    for travel in self.travel_info.all())
 
     def trip_days_before(self):
-        """ Gets the number of trip days of user before petition. """
-
-        if not self.withdrawn:
-            return self.user.trip_days_left \
-                if self.status < self.USER_COMPENSATION_SUBMISSION else \
-                self.user.trip_days_left + self.transport_days()
-        return self.user.trip_days_left
+        return self.initial_user_days_left
 
     def trip_days_after(self):
-        """ Gets the number of trip days of user after petition. """
-        if not self.withdrawn:
-            return self.user.trip_days_left - self.transport_days() \
-                if self.status < self.USER_COMPENSATION_SUBMISSION else \
-                self.user.trip_days_left
-        return self.user.trip_days_left
+        return self.initial_user_days_left - self.transport_days() \
+            if not self.withdrawn else self.initial_user_days_left
 
     def overnights_num(self):
         """ Gets the number of total overnight days for all destinations. """
@@ -1285,7 +1286,8 @@ class Applications(Petition):
                               'expenditure_date_protocol',
                               'expenditure_protocol','travel_report',
                               'withdrawn', 'total_cost_change_reason',
-                              'is_total_manual_cost_set', 'total_cost_manual']
+                              'is_total_manual_cost_set', 'total_cost_manual',
+                              'transport_days_total']
     excluded_uc_travel_info = ['accommodation_local_cost',
                                'accommodation_cost',
                                'accommodation_total_cost',
@@ -1308,7 +1310,8 @@ class Applications(Petition):
                 'manager_movement_approval','timesheeted',
                               'participation_local_currency', 'travel_report',
                               'withdrawn', 'total_cost_change_reason',
-                              'is_total_manual_cost_set', 'total_cost_manual']
+                              'is_total_manual_cost_set', 'total_cost_manual',
+                              'transport_days_total']
     excluded_sc_travel_info = ['accommodation_local_cost',
                             'accommodation_cost',
                             'accommodation_total_cost',
@@ -1357,7 +1360,8 @@ class Applications(Petition):
                             'is_total_manual_cost_set',
                             'total_cost_change_reason',
                             'withdrawn',
-                            'total_cost_manual']
+                            'total_cost_manual',
+                            'transport_days_total']
     excluded_usubmission_ti = ['accommodation_cost',
                                'accommodation_local_cost',
                                'accommodation_total_cost',
@@ -1397,7 +1401,8 @@ class Applications(Petition):
                               'is_total_manual_cost_set',
                               'total_cost_change_reason',
                               'withdrawn',
-                              'total_cost_manual']
+                              'total_cost_manual',
+                              'transport_days_total']
 
     excluded_sec_submission_ti =['accommodation_local_cost','distance',
                                  'accommodation_cost',

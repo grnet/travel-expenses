@@ -84,7 +84,7 @@ const FS_EDIT_8 = [
     label: 'computed_data.label',
     fields: [
       'overnights_sum_cost',
-      field('trip_days_before', { disabled: true }),
+      'trip_days_before',
       'compensation_cost',
       'trip_days_after',
       field('compensation_final', { disabled: true }),

@@ -233,8 +233,8 @@ class ApplicationMixin(object):
 
         application_id = application.proceed()
         application_status = application.status
-
-        if application_status == Petition.USER_COMPENSATION_SUBMISSION:
+        if application_status in [Petition.SUBMITTED_BY_SECRETARY,
+                Petition.SECRETARY_COMPENSATION_SUBMISSION]:
             application.set_trip_days_left()
 
         per_status_email_confs = {
@@ -531,6 +531,8 @@ class ApplicationMixin(object):
 
             restoredApplication = Petition.objects.filter(dse=application.dse,
                     status=Petition.SAVED_BY_SECRETARY).order_by('-updated')[0]
+            restoredApplication.transport_days_total = \
+                application.transport_days_total
             restoredApplication.unmark_deleted()
 
             return Response(
