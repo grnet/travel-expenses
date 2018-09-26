@@ -136,6 +136,9 @@ class PetitionMixin(object):
         for k, v in validated_data.iteritems():
             setattr(instance, k, v)
 
+        if not instance.initial_user_days_left:
+            instance.initial_user_days_left = instance.user.trip_days_left
+
         instance.save()
 
         if travel_info:
