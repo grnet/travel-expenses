@@ -296,8 +296,10 @@ export default {
   'This field may not be null.': 'Tο πεδίο δεν μπορεί να είναι κενό',
   '\'return\' date should be after \'depart\' date.': 'Η ημέρα επιστροφής θα πρέπει να έπεται της ημέρας αναχώρησης',
   '\'task end\' date should be after \'depart\' date.': 'Η ημέρα λήξης εργασιών θα πρέπει να έπεται της ημέρας αναχώρησης',
+  '\'task end\' date should be after \'task start\' date.': 'Η ημέρα λήξης εργασιών θα πρέπει να έπεται της ημέρας έναρξης εργασιών',
   'The Task start date field should be after today.': 'Η ημέρα έναρξης εργασιών θα πρέπει να είναι μεταγενέστερη της σημερινής',
   'No distance found for these cities.': 'Δεν υπάρχει διαθέσιμη απόσταση για τον συγκεκριμένο προορισμό',
+  'Departure city and arrival city should not be the same.': 'Η πόλη προορισμού δεν πρέπει να είναι η ίδια με την πόλη αναχώρησης.',
   // placeholders
   'time_placeholder': 'Ώρα',
   'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',
