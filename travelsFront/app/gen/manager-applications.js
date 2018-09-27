@@ -62,7 +62,7 @@ export default gen.CRUDGen.extend({
         }
       }),
       icon: 'assignment_ind',
-      label: 'my.appications.tab',
+      label: 'my.applications.tab',
     },
     getModelQueryParams(qs) {
       if (qs && (qs.depart_date__gte || qs.depart_date__lte)) {

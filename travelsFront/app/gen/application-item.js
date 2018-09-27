@@ -62,7 +62,17 @@ export default gen.CRUDGen.extend({
     menu: {
       display: true,
       icon: 'assignment',
-      label: 'appications_list.tab',
+      label: computed(function() {
+          let session = this.container.lookup('service:session');
+          let role = session.get('session.authenticated.user_group');
+          if (role === 'SECRETARY' || role === 'CONTROLLER' || role === 'PRESIDENT_SECRETARY' || role === 'VIEWER' || role === 'HELPDESK') {
+            return 'applications.list.tab';
+          } else if (role === 'MANAGER') {
+            return 'applications.list.approve.tab';
+          } else if (role === 'USER') {
+            return 'my.applications.tab';
+          }
+      }),
     },
     getModelQueryParams(qs) {
       if (qs && (qs.depart_date__gte || qs.depart_date__lte)) {
