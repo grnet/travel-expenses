@@ -507,6 +507,7 @@ class ApplicationMixin(object):
         if user.user_group() == "ADMIN":
             query = query.all()
 
+        query = query.order_by('-dse')
         if self.request.method in non_atomic_requests:
             return query
         else:
