@@ -22,12 +22,12 @@ const FS_EDIT_8 = [
   {
     label: 'travel_info.label',
     fields: [
+      'dse',
+      field('project', { disabled: true }),
       field('first_name', { disabled: true }),
       field('last_name', { disabled: true }),
       field('tax_reg_num', { disabled: true }),
       field('iban', { disabled: true }),
-      'dse',
-      field('project', { disabled: true }),
       field('reason', { disabled: true }),
       'manager_movement_approval',
       'withdrawn',
