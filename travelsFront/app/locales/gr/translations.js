@@ -169,7 +169,7 @@ export default {
   'compensation_final.label': 'Σύνολο Αποζημίωσης',
   'total_cost_calculated.label': 'ΣΥΝΟΛΟ',
   // buttons
-  'form.save.label': 'Προσωρινη Αποθηκευση',
+  'form.save.label': 'Αποθηκευση',
   'form.submit.label': 'Υποβολη',
   'form.ok.label': 'OK',
   'form.cancel.label': 'Ακυρωση',

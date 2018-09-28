@@ -153,7 +153,7 @@ export default {
   'compensation_cost.label': 'Total Daily Compensation Cost',
   'total_cost_calculated.label': 'TOTAL COST',
   // buttons
-  'form.save.label': 'Temporary Save',
+  'form.save.label': 'Save',
   'form.submit.label': 'Submit',
   'form.ok.label': 'OK',
   'form.cancel.label': 'Cancel',
