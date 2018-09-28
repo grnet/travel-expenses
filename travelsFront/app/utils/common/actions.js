@@ -33,9 +33,14 @@ function ajax_call(route, model, endpoint, msgSuccess, msgError) {
     },
   }).then((resp) => {
     if (resp.status === 200) {
-      route.refresh().then(() => {
-        messages.setSuccess(msgSuccess);
-      })
+        if (endpoint === 'submit') {
+          messages.setSuccess(msgSuccess);
+          route.transitionTo('application-item.index');
+        } else {
+          route.refresh().then(() => {
+            messages.setSuccess(msgSuccess);
+          })
+        }
     } else {
       throw new Error('error');
     }
