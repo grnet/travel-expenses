@@ -21,6 +21,7 @@ const FS_VALIDATORS = {
 const FS_EDIT_8 = [
   {
     label: 'travel_info.label',
+    text: 'submit.action.explanatory.text',
     fields: [
       'dse',
       field('project', { disabled: true }),

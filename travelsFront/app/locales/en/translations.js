@@ -297,5 +297,6 @@ export default {
   '{description} must be between {min} and {max} characters': 'The field must be between {min} and {max} characters',
   'contact-us': 'Contact us',
   'contact-text': 'In case you have questions, please contact us at:',
+  'submit.action.explanatory.text': 'After you "Save" the application you should submit it by clicking on "Submit" button',
 };
 

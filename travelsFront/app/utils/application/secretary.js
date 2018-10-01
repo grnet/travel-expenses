@@ -20,6 +20,7 @@ const FS_VALIDATORS = {
 const FS_EDIT_3 = [
   {
     label: 'travel_info.label',
+    text: 'submit.action.explanatory.text',
     fields: [
       field('first_name', { disabled: true }),
       field('last_name', { disabled: true }),
