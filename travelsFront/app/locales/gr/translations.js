@@ -104,11 +104,11 @@ export default {
   'meals.label': 'Κάλυψη Διατροφής',
   'meals_label.label': 'Κάλυψη Διατροφής',
   'accommodation_total_cost.label': 'Σύνολο Διανυκτέρευσης (ανά προορισμό) - €',
-  'accommodation_total_local_cost.label': 'Σύνολο Διανυκτέρευσης (ανά προορισμό) - Τοπικό Νόμισμα',
+  'accommodation_total_local_cost.label': 'Σύνολο Διανυκτέρευσης σε Τοπικό Νόμισμα',
   'accommodation_local_currency.label': 'Νόμισμα',
   'additional_expenses_initial.label': 'Λοιπά Έξοδα Μετακίνησης',
   'participation_cost.label': 'Κόστος Συμμετοχής - Ευρώ',
-  'participation_local_cost.label': 'Κόστος Συμμετοχής - Τοπικό Νόμισμα',
+  'participation_local_cost.label': 'Κόστος Συμμετοχής σε Τοπικό Νόμισμα',
   'participation_local_currency.label': 'Νόμισμα',
   'additional_expenses_initial_description.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή',
   'user_recommendation.label': 'Αρχικές Προτάσεις Μετακινούμενου (για κρατήσεις πτήσεων, ξενοδοχείου, κλπ)',
@@ -171,6 +171,7 @@ export default {
   // buttons
   'form.save.label': 'Αποθηκευση',
   'form.submit.label': 'Υποβολη',
+  'submit.label': 'Υποβολη Αιτησης',
   'form.ok.label': 'OK',
   'form.cancel.label': 'Ακυρωση',
   'form.approve.label': 'Εγκριση',
@@ -186,8 +187,9 @@ export default {
   'password.change.tab': 'Αλλαγή Κωδικού Πρόσβασης',
   'help.tab': 'Οδηγίες Χρήσης',
   'contact.tab': 'Επικοινωνία',
-  'appications_list.tab': 'Λίστα Αιτήσεων',
-  'my.appications.tab': 'Οι Αιτήσεις μου',
+  'applications.list.tab': 'Αιτήσεις',
+  'applications.list.approve.tab': 'Αιτήσεις προς έγκριση',
+  'my.applications.tab': 'Οι Αιτήσεις μου',
   'users.tab': 'Χρήστες',
   'projects.tab': 'Έργα',
   'cities.tab': 'Πόλεις',
@@ -300,6 +302,7 @@ export default {
   'The Task start date field should be after today.': 'Η ημέρα έναρξης εργασιών θα πρέπει να είναι μεταγενέστερη της σημερινής',
   'No distance found for these cities.': 'Δεν υπάρχει διαθέσιμη απόσταση για τον συγκεκριμένο προορισμό',
   'Departure city and arrival city should not be the same.': 'Η πόλη προορισμού δεν πρέπει να είναι η ίδια με την πόλη αναχώρησης.',
+  "Unable to login with provided credentials.": 'Μη εφικτή σύνδεση - Λάθος όνομα χρήστη ή κωδικός πρόσβασης',
   // placeholders
   'time_placeholder': 'Ώρα',
   'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',
@@ -317,5 +320,6 @@ export default {
   '{description} must be between {min} and {max} characters': 'To πεδίο πρέπει να είναι μεταξύ {min} και {max} χαρακτήρων',
   'contact-us': 'Επικοινωνία',
   'contact-text': 'Για οποιαδήποτε απορία ή διευκρίνιση, μπορείτε να επικοινωνήσετε μαζί μας στην παρακάτω διεύθυνση ηλεκτρονικού ταχυδρομείου:',
+  'submit.action.explanatory.text': 'Μετά την "Αποθήκευση" της αίτησης θα πρέπει να την υποβάλετε πατώντας το κουμπί "Υποβολή Αίτησης"',
 };
 

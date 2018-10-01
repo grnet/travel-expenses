@@ -19,6 +19,7 @@ const FS_VALIDATORS = {
 const FS_CREATE_1 = [
   {
     label: 'application.label',
+    text: 'submit.action.explanatory.text',
     fields: [
       field('dse', { disabled: true }),
       'project',
@@ -41,6 +42,7 @@ const FS_EDIT_1 = FS_CREATE_1;
 const FS_EDIT_6 = [
   {
     label: 'application.label',
+    text: 'submit.action.explanatory.text',
     fields: [
       field('dse', { disabled: true }),
       field('project', { disabled: true }),

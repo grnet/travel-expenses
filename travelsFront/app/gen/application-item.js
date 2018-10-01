@@ -62,7 +62,17 @@ export default gen.CRUDGen.extend({
     menu: {
       display: true,
       icon: 'assignment',
-      label: 'appications_list.tab',
+      label: computed(function() {
+          let session = this.container.lookup('service:session');
+          let role = session.get('session.authenticated.user_group');
+          if (role === 'SECRETARY' || role === 'CONTROLLER' || role === 'PRESIDENT_SECRETARY' || role === 'VIEWER' || role === 'HELPDESK') {
+            return 'applications.list.tab';
+          } else if (role === 'MANAGER') {
+            return 'applications.list.approve.tab';
+          } else if (role === 'USER') {
+            return 'my.applications.tab';
+          }
+      }),
     },
     getModelQueryParams(qs) {
       if (qs && (qs.depart_date__gte || qs.depart_date__lte)) {
@@ -136,6 +146,10 @@ export default gen.CRUDGen.extend({
   },
 
   details: {
+    actions: ['submit', 'gen:edit'],
+    actionsMap: {
+        submit: applicationActions.submit,
+    },
     fieldsets: computed('role', function() {
       let role = get(this, 'role');
       let status = this.get('model.status');
@@ -194,7 +208,14 @@ export default gen.CRUDGen.extend({
         }
       });
     },
-
+    onSubmit(model) {
+      let id = model.get('id');
+      if (id) {
+        this.transitionTo('application-item.record.index', id);
+      } else {
+        this.refresh();
+      }
+    },
     fieldsets: computed('role', function() {
       let role = get(this, 'role');
       let res = [{}];
@@ -214,8 +235,11 @@ export default gen.CRUDGen.extend({
       // If after editing, a new application-item instance is returned,
       // which is the case for some status changes, redirect to new instance
       let new_id = model.get('new_id');
+      let id = model.get('id');
       if (new_id) {
-        this.transitionTo('application-item.record.edit.index', new_id);
+        this.transitionTo('application-item.record.index', new_id);
+      } else if (id) {
+        this.transitionTo('application-item.record.index', id);
       } else {
         this.refresh();
       }

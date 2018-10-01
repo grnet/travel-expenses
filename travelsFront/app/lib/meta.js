@@ -7,14 +7,15 @@ const {
   computed,
 } = Ember;
 
+
 const travel_info = field('travel_info', {
   // travel-info entry label
   entryLabel: Ember.computed('changeset.departure_point.name', 'changeset.arrival_point.name', function() {
     let changeset = get(this, 'changeset');
     let departure = get(changeset, 'departure_point.name') || '';
     let arrival = get(changeset, 'arrival_point.name') || '';
-
-    return `${departure} → ${arrival}`;
+    let label = 'Προορισμός';
+    return `${label}: ${departure} → ${arrival}`;
   }),
 
   // field label
