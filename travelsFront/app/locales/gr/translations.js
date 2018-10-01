@@ -171,6 +171,7 @@ export default {
   // buttons
   'form.save.label': 'Αποθηκευση',
   'form.submit.label': 'Υποβολη',
+  'submit.label': 'Υποβολη Αιτησης',
   'form.ok.label': 'OK',
   'form.cancel.label': 'Ακυρωση',
   'form.approve.label': 'Εγκριση',
@@ -235,7 +236,7 @@ export default {
   'prompt_undo_approve_application_message': 'Είστε βέβαιοι ότι θέλετε να αναιρέσετε την έγκριση της μετακίνησης;',
   'prompt_undo_approve_compensation_title': 'Αναίρεση Έγκρισης Αποζημίωσης',
   'prompt_undo_approve_compensation_message': 'Είστε βέβαιοι ότι θέλετε να αναιρέσετε την έγκριση της αποζημίωσης;',
-  'prompt_submit_title': 'Υποβολη Αιτησης',
+  'prompt_submit_title': 'Υποβολή Αίτησης',
   'prompt_submit_message': 'Είστε βέβαιοι ότι θέλετε να υποβάλετε την αίτησή σας;',
   'prompt_submit_comp_message': 'Είστε βέβαιοι ότι θέλετε να υποβάλετε την αίτηση σας;' + '<br>' + '<br>'
   + 'Σημειώνεται ότι πριν την τελική υποβολή θα πρέπει να κατεβάσετε την Αίτηση Αποζημίωσης Μετακίνησης, μέσω της επιλογής που δίνεται από τη λίστα των αιτήσεων.' + '<br>' + '<br>'
