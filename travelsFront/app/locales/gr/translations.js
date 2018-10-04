@@ -188,7 +188,7 @@ export default {
   'help.tab': 'Οδηγίες Χρήσης',
   'contact.tab': 'Επικοινωνία',
   'applications.list.tab': 'Αιτήσεις',
-  'applications.list.approve.tab': 'Αιτήσεις προς έγκριση',
+  'applications.list.approve.tab': 'Αιτήσεις των έργων μου',
   'my.applications.tab': 'Οι Αιτήσεις μου',
   'users.tab': 'Χρήστες',
   'projects.tab': 'Έργα',
