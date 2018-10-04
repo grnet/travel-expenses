@@ -6,7 +6,7 @@ const {
 } = Ember;
 
 export default ApimasAuthenticator.extend({
-  profilePath: '/auth/me/detailed',
+  profilePath: '/auth/me/detailed/',
   processProfileData(data, profile) {
     if (!data['role']) {
       data['role'] = 'anonymous';

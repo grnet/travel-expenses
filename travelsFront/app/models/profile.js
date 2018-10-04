@@ -7,7 +7,7 @@ const CHOICES = ENV.APP.resources;
 export default Profile.extend({
   __api__: {
     buildURL(adapter) {
-      return adapter.host + '/auth/me/detailed';
+      return adapter.host + '/auth/me/detailed/';
     },
     normalize(user) {
       user.id = 'me';
