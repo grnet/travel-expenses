@@ -56,6 +56,8 @@ def send_email(subject, template, params, sender, to, bcc=(), cc=(),
                                connection=get_connection()
                                )
         message.send(fail_silently)
+        logger.info('%s email sent to: %s, cc: %s, bcc: %s' %
+            (template, ','.join(to), ','.join(cc), ','.join(bcc)))
     except Exception as e:
         logger.error(e)
 
