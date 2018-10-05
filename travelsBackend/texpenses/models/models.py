@@ -1143,11 +1143,14 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
                    for travel in self.travel_info.all())
 
     def trip_days_before(self):
-        return self.initial_user_days_left
+        return self.initial_user_days_left if self.initial_user_days_left \
+            else self.user.trip_days_left
 
     def trip_days_after(self):
-        return self.initial_user_days_left - self.transport_days() \
-            if not self.withdrawn else self.initial_user_days_left
+        days_before = self.initial_user_days_left \
+            if self.initial_user_days_left else self.user.trip_days_left
+        return days_before - self.transport_days() \
+            if not self.withdrawn else days_before
 
     def overnights_num(self):
         """ Gets the number of total overnight days for all destinations. """
