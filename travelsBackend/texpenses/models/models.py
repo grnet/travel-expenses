@@ -1418,6 +1418,7 @@ class Applications(Petition):
                                  'accommodation_payment_description',
                                  'transportation_payment_description',
                                  'accommodation_local_currency',
+                                 'overnights_num_manual',
                                  ]
 
 
