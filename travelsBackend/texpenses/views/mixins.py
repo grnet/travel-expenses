@@ -32,6 +32,8 @@ class ProjectMixin(object):
         # user info
         petition_info.update({'first_name': petition.first_name,
                               'last_name': petition.last_name,
+                              'full_name': petition.first_name + ' ' +
+                                           petition.last_name,
                               'kind': petition.get_kind_display(),
                               'specialty': petition.get_specialty_display(),
                               'dse': petition.dse,
@@ -78,7 +80,7 @@ class ProjectMixin(object):
                               petition.additional_expenses_default_currency,
                               'additional_expenses':
                               petition.additional_expenses,
-                              'total_cost': petition.total_cost_calculated,
+                              'total_cost': petition.total_cost_calculated(),
                               'project': petition.project.name,
                               'accommodation_cost':
                               utils.get_accommodation_cost(travel_info),
@@ -136,6 +138,34 @@ class ProjectMixin(object):
         for field in fields:
             ws.write(0, k, field.decode('utf-8'))
             k += 1
+
+        i = 1
+        for petition in data['petitions']:
+            row = [
+		petition['dse'],
+		petition['full_name'],
+		petition['tax_reg_num'],
+		petition['kind'],
+		petition['specialty'],
+		petition['project'],
+		petition['departure_point'],
+		petition['arrival_point'],
+		petition['task_start_date'],
+		petition['task_end_date'],
+		petition['depart_date'],
+		petition['return_date'],
+		petition['means_of_transport'],
+		petition['transportation_cost'],
+		petition['overnights_num'],
+		petition['compensation_cost'],
+		petition['accommodation_cost'],
+		petition['participation_cost'],
+		petition['additional_expenses'],
+		petition['total_cost'],
+            ]
+
+            utils.write_row(ws, row, i)
+            i += 1
 
         wb.close()
         xlsx_data = output.getvalue()

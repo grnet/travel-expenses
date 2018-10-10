@@ -83,3 +83,16 @@ def get_means_of_transport(travel_info):
 def get_transportation_cost(travel_info):
     return sum([travel_obj.transportation_cost
                 for travel_obj in travel_info])
+
+def escape(payload):
+    if (payload and isinstance(payload, basestring) and
+       payload[0] in ('@', '+', '-', '=', '|', '%')):
+        payload = payload.replace("|", "\|")
+        payload = "'" + payload
+    return payload
+
+def write_row(sheet, datarow, row):
+    col = 0
+    for d in datarow:
+        sheet.write(row, col, escape(d))
+        col += 1
