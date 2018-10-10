@@ -29,7 +29,9 @@ class ProjectMixin(object):
         petition_info.update({'first_name': petition.first_name,
                               'last_name': petition.last_name,
                               'kind': petition.get_kind_display(),
-                              'specialty': petition.get_specialty_display()
+                              'specialty': petition.get_specialty_display(),
+                              'dse': petition.dse,
+                              'tax_reg_num': petition.tax_reg_num,
                               })
         # petition info
         travel_info = petition.travel_info.all()
@@ -50,6 +52,8 @@ class ProjectMixin(object):
                               'is_abroad': travel_info_last.is_abroad(),
                               'arrival_point':
                               travel_info_last.arrival_point.name,
+                              'means_of_transport':
+                              utils.get_means_of_transport(travel_info),
                               'transportation_cost':
                               utils.get_transportation_cost(travel_info),
                               'transportation_default_currency':
@@ -72,6 +76,8 @@ class ProjectMixin(object):
                               petition.additional_expenses,
                               'total_cost': petition.total_cost_calculated,
                               'project': petition.project.name,
+                              'accommodation_cost':
+                              utils.get_accommodation_cost(travel_info),
                               'compensation_cost':
                               utils.get_compensation_cost(travel_info)
                               })
