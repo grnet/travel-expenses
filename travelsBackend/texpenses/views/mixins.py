@@ -1,8 +1,12 @@
+# -*- coding: utf-8 -*-
+import xlsxwriter
+import StringIO
 from rest_framework import permissions, status
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.conf import settings
+from django.http import HttpResponse
 
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
@@ -83,7 +87,7 @@ class ProjectMixin(object):
                               })
         return petition_info
 
-    def _get_related_petitions(self, project_name=None, format='csv'):
+    def _get_related_petitions(self, project_name=None):
 
         query = Applications.objects.filter(
             Q(status__gte=Petition.USER_COMPENSATION_SUBMISSION) &
@@ -98,7 +102,7 @@ class ProjectMixin(object):
         for petition in petitions:
             data.append(self._extract_info(petition))
 
-        return {'petitions': data} if format == 'csv' else data
+        return {'petitions': data}
 
     @detail_route(methods=['get'])
     def project_stats(self, request, pk=None):
@@ -110,17 +114,33 @@ class ProjectMixin(object):
 
     @list_route()
     def stats(self, request):
+        response = HttpResponse(content_type='application/ms-excel')
+        filename = 'all_applications.xlsx'
+        response['Content-Disposition'] = 'attachment; filename=' + filename
 
-        response_format = self.request.query_params.get(
-            'response_format', 'json')
-        data = self._get_related_petitions(format=response_format)
+	output = StringIO.StringIO()
+        wb = xlsxwriter.Workbook(
+            output, {'constant_memory': True})
+        ws = wb.add_worksheet('Applications')
 
-        if response_format == 'csv':
-            data = self._get_related_petitions()
-            template_path = "project_stats.csv"
-            return render_template2csv(data, template_path, 'all_project_stats')
-        else:
-            return Response(data)
+        data = self._get_related_petitions()
+
+        fields = ['ΔΣΕ', 'Μετακινούμενος', 'ΑΦΜ', 'Ιδιότητα', 'Ειδικότητα',
+                  'Έργο', 'Αφετηρία', 'Προορισμός', 'Έναρξη Εργασιών',
+                  'Λήξη Εργασιών', 'Αναχώρηση', 'Επιστροφή', 'Μέσο Μετακίνησης',
+                  'Εισιτήριο', 'Ημέρες Μετακίνησης', 'Σύνολο Ημερήσιας Αποζημίωσης',
+                  'Διανυκτέρευση', 'Κόστος συμμετοχής', 'Λοιπά Έξοδα Μετακίνησης',
+                  'Συνολικό Κόστος Μετακίνησης']
+
+        k = 0
+        for field in fields:
+            ws.write(0, k, field.decode('utf-8'))
+            k += 1
+
+        wb.close()
+        xlsx_data = output.getvalue()
+        response.write(xlsx_data)
+        return response
 
     @detail_route(methods=['post'])
     @transaction.atomic

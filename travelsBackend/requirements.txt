@@ -12,4 +12,4 @@ cairocffi>=0.5
 WeasyPrint==0.31
 python-memcached>=1.53
 pytz
-
+XlsxWriter>=0.5.2
