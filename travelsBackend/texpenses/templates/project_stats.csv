@@ -1,6 +1,0 @@
-ΔΣΕ,Μετακινούμενος,ΑΦΜ,Ιδιότητα,Ειδικότητα,Έργο,Αφετηρία,Προορισμός,Έναρξη Εργασιών,Λήξη Εργασιών,Αναχώρηση,Επιστροφή,Μέσο Μετακίνησης,Εισιτήριο,Ημέρες Μετακίνησης,Σύνολο Ημερήσιας Αποζημίωσης,Διανυκτέρευση,Κόστος συμμετοχής,Λοιπά Έξοδα Μετακίνησης,Συνολικό Κόστος Μετακίνησης
-{% spaceless %}
-{% for petition in petitions %}{{petition.dse}},{{petition.first_name}} {{petition.last_name}},{{petition.afm}},{{petition.kind}},{{petition.specialty}},{{petition.project}},{{petition.departure_point}},{{petition.arrival_point}},{{petition.task_start_date}},{{petition.task_end_date}},{{petition.depart_date}},{{petition.return_date}},{{petition.means_of_transport}},{{petition.ticket}},{{petition.overnights_num_manual}},{{petition.compensation_cost}},{{petition.overnights_cost}},{{petition.additional_expenses}},{{petition.total_cost_calculated}}
-{% endfor %}
-{% endspaceless %}
-

@@ -30,9 +30,7 @@ class ProjectMixin(object):
         petition_info = {}
 
         # user info
-        petition_info.update({'first_name': petition.first_name,
-                              'last_name': petition.last_name,
-                              'full_name': petition.first_name + ' ' +
+        petition_info.update({'full_name': petition.first_name + ' ' +
                                            petition.last_name,
                               'kind': petition.get_kind_display(),
                               'specialty': petition.get_specialty_display(),
@@ -51,33 +49,19 @@ class ProjectMixin(object):
                               strftime(settings.DATE_FORMAT),
                               'task_end_date': petition.task_end_date.
                               strftime(settings.DATE_FORMAT),
-                              'transport_days': petition.transport_days(),
                               'overnights_num': petition.overnights_num(),
                               'departure_point':
                               travel_info_first.departure_point.name,
-                              'is_abroad': travel_info_last.is_abroad(),
                               'arrival_point':
                               travel_info_last.arrival_point.name,
                               'means_of_transport':
                               utils.get_means_of_transport(travel_info),
                               'transportation_cost':
                               utils.get_transportation_cost(travel_info),
-                              'transportation_default_currency':
-                              travel_info_first.
-                              transportation_default_currency,
                               'overnights_sum_cost':
                               petition.overnights_sum_cost(),
-                              'accommodation_default_currency':
-                              travel_info_first.
-                              accommodation_default_currency,
                               'participation_cost':
                               petition.participation_cost,
-                              'participation_default_currency': petition.
-                              participation_default_currency,
-                              'additional_expenses_initial': petition.
-                              additional_expenses_initial,
-                              'additional_expenses_default_currency':
-                              petition.additional_expenses_default_currency,
                               'additional_expenses':
                               petition.additional_expenses,
                               'total_cost': petition.total_cost_calculated(),
@@ -104,15 +88,7 @@ class ProjectMixin(object):
         for petition in petitions:
             data.append(self._extract_info(petition))
 
-        return {'petitions': data}
-
-    @detail_route(methods=['get'])
-    def project_stats(self, request, pk=None):
-        template_path = "project_stats.csv"
-        project = self.get_object()
-        project_name = project.name
-        data = self._get_related_petitions(project_name)
-        return render_template2csv(data, template_path, project_name + '_stats')
+        return data
 
     @list_route()
     def stats(self, request):
@@ -140,7 +116,7 @@ class ProjectMixin(object):
             k += 1
 
         i = 1
-        for petition in data['petitions']:
+        for petition in data:
             row = [
 		petition['dse'],
 		petition['full_name'],
