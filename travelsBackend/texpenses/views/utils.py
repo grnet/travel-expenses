@@ -84,6 +84,9 @@ def get_transportation_cost(travel_info):
     return sum([travel_obj.transportation_cost
                 for travel_obj in travel_info])
 
+def get_arrival_points(travel_info):
+    return ','.join([t.arrival_point.name for t in travel_info])
+
 def escape(payload):
     if (payload and isinstance(payload, basestring) and
        payload[0] in ('@', '+', '-', '=', '|', '%')):

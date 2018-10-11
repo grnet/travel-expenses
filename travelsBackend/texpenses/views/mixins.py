@@ -52,8 +52,8 @@ class ProjectMixin(object):
                               'overnights_num': petition.overnights_num(),
                               'departure_point':
                               travel_info_first.departure_point.name,
-                              'arrival_point':
-                              travel_info_last.arrival_point.name,
+                              'arrival_points':
+                              utils.get_arrival_points(travel_info),
                               'means_of_transport':
                               utils.get_means_of_transport(travel_info),
                               'transportation_cost':
@@ -96,7 +96,7 @@ class ProjectMixin(object):
         filename = 'all_applications.xlsx'
         response['Content-Disposition'] = 'attachment; filename=' + filename
 
-	output = StringIO.StringIO()
+        output = StringIO.StringIO()
         wb = xlsxwriter.Workbook(
             output, {'constant_memory': True})
         ws = wb.add_worksheet('Applications')
@@ -104,10 +104,10 @@ class ProjectMixin(object):
         data = self._get_related_petitions()
 
         fields = ['ΔΣΕ', 'Μετακινούμενος', 'ΑΦΜ', 'Ιδιότητα', 'Ειδικότητα',
-                  'Έργο', 'Αφετηρία', 'Προορισμός', 'Έναρξη Εργασιών',
-                  'Λήξη Εργασιών', 'Αναχώρηση', 'Επιστροφή', 'Μέσο Μετακίνησης',
-                  'Εισιτήριο', 'Ημέρες Μετακίνησης', 'Σύνολο Ημερήσιας Αποζημίωσης',
-                  'Διανυκτέρευση', 'Κόστος συμμετοχής', 'Λοιπά Έξοδα Μετακίνησης',
+                  'Έργο', 'Αφετηρία', 'Προορισμοί', 'Έναρξη Εργασιών',
+                  'Λήξη Εργασιών', 'Αναχώρηση', 'Επιστροφή', 'Μέσα Μετακίνησης',
+                  'Κόστος Μετακίνησης', 'Ημέρες Μετακίνησης', 'Σύνολο Ημερήσιας Αποζημίωσης',
+                  'Διανυκτερεύσεις', 'Κόστος συμμετοχής', 'Λοιπά Έξοδα Μετακίνησης',
                   'Συνολικό Κόστος Μετακίνησης']
 
         k = 0
@@ -118,26 +118,26 @@ class ProjectMixin(object):
         i = 1
         for petition in data:
             row = [
-		petition['dse'],
-		petition['full_name'],
-		petition['tax_reg_num'],
-		petition['kind'],
-		petition['specialty'],
-		petition['project'],
-		petition['departure_point'],
-		petition['arrival_point'],
-		petition['task_start_date'],
-		petition['task_end_date'],
-		petition['depart_date'],
-		petition['return_date'],
-		petition['means_of_transport'],
-		petition['transportation_cost'],
-		petition['overnights_num'],
-		petition['compensation_cost'],
-		petition['accommodation_cost'],
-		petition['participation_cost'],
-		petition['additional_expenses'],
-		petition['total_cost'],
+                petition['dse'],
+                petition['full_name'],
+                petition['tax_reg_num'],
+                petition['kind'],
+                petition['specialty'],
+                petition['project'],
+                petition['departure_point'],
+                petition['arrival_points'],
+                petition['task_start_date'],
+                petition['task_end_date'],
+                petition['depart_date'],
+                petition['return_date'],
+                petition['means_of_transport'],
+                petition['transportation_cost'],
+                petition['overnights_num'],
+                petition['compensation_cost'],
+                petition['accommodation_cost'],
+                petition['participation_cost'],
+                petition['additional_expenses'],
+                petition['total_cost'],
             ]
 
             utils.write_row(ws, row, i)
