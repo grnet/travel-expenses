@@ -1043,7 +1043,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         """
         proceed = kwargs.pop('proceed', False)
         if proceed:
-            self.proceed(status=self.SECRETARY_COMPENSATION, delete=True)
+            self.proceed(status=self.SECRETARY_COMPENSATION)
         self.withdrawn = True
         self.user.trip_days_left += self.transport_days()
         self.user.save()
