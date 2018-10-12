@@ -41,14 +41,18 @@ class ProjectMixin(object):
         travel_info = petition.travel_info.all()
         travel_info_first = travel_info[0]
         travel_info_last = travel_info[len(travel_info) - 1]
-        petition_info.update({'depart_date': travel_info_first.depart_date.
-                              strftime(settings.DATE_FORMAT),
-                              'return_date': travel_info_last.return_date.
-                              strftime(settings.DATE_FORMAT),
-                              'task_start_date': petition.task_start_date.
-                              strftime(settings.DATE_FORMAT),
-                              'task_end_date': petition.task_end_date.
-                              strftime(settings.DATE_FORMAT),
+        depart_date = utils.get_local_depart_date(travel_info_first)
+        return_date = utils.get_local_return_date(travel_info_last)
+        task_start_date = utils.get_local_task_start_date(petition)
+        task_end_date = utils.get_local_task_end_date(petition)
+        petition_info.update({'depart_date': depart_date.
+                              strftime(settings.DATE_FORMAT_WITHOUT_TIME),
+                              'return_date': return_date.
+                              strftime(settings.DATE_FORMAT_WITHOUT_TIME),
+                              'task_start_date': task_start_date.
+                              strftime(settings.DATE_FORMAT_WITHOUT_TIME),
+                              'task_end_date': task_end_date.
+                              strftime(settings.DATE_FORMAT_WITHOUT_TIME),
                               'overnights_num': petition.overnights_num(),
                               'departure_point':
                               travel_info_first.departure_point.name,
@@ -559,7 +563,6 @@ class ApplicationMixin(object):
             application = self.get_object()
             if application.status in REJECTED_STATUSES:
                 return Response(status=status.HTTP_403_FORBIDDEN)
-            # This marks application as deleted
             application.mark_as_deleted()
 
             restoredApplication = Petition.objects.filter(dse=application.dse,
