@@ -1,8 +1,12 @@
+# -*- coding: utf-8 -*-
+import xlsxwriter
+import StringIO
 from rest_framework import permissions, status
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.conf import settings
+from django.http import HttpResponse
 
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
@@ -26,58 +30,54 @@ class ProjectMixin(object):
         petition_info = {}
 
         # user info
-        petition_info.update({'first_name': petition.first_name,
-                              'last_name': petition.last_name,
+        petition_info.update({'full_name': petition.first_name + ' ' +
+                                           petition.last_name,
                               'kind': petition.get_kind_display(),
-                              'specialty': petition.get_specialty_display()
+                              'specialty': petition.get_specialty_display(),
+                              'dse': petition.dse,
+                              'tax_reg_num': petition.tax_reg_num,
                               })
         # petition info
         travel_info = petition.travel_info.all()
         travel_info_first = travel_info[0]
         travel_info_last = travel_info[len(travel_info) - 1]
-        petition_info.update({'depart_date': travel_info_first.depart_date.
-                              strftime(settings.DATE_FORMAT),
-                              'return_date': travel_info_last.return_date.
-                              strftime(settings.DATE_FORMAT),
-                              'task_start_date': petition.task_start_date.
-                              strftime(settings.DATE_FORMAT),
-                              'task_end_date': petition.task_end_date.
-                              strftime(settings.DATE_FORMAT),
-                              'transport_days': petition.transport_days(),
+        depart_date = utils.get_local_depart_date(travel_info_first)
+        return_date = utils.get_local_return_date(travel_info_last)
+        task_start_date = utils.get_local_task_start_date(petition)
+        task_end_date = utils.get_local_task_end_date(petition)
+        petition_info.update({'depart_date': depart_date.
+                              strftime(settings.DATE_FORMAT_WITHOUT_TIME),
+                              'return_date': return_date.
+                              strftime(settings.DATE_FORMAT_WITHOUT_TIME),
+                              'task_start_date': task_start_date.
+                              strftime(settings.DATE_FORMAT_WITHOUT_TIME),
+                              'task_end_date': task_end_date.
+                              strftime(settings.DATE_FORMAT_WITHOUT_TIME),
                               'overnights_num': petition.overnights_num(),
                               'departure_point':
                               travel_info_first.departure_point.name,
-                              'is_abroad': travel_info_last.is_abroad(),
-                              'arrival_point':
-                              travel_info_last.arrival_point.name,
+                              'arrival_points':
+                              utils.get_arrival_points(travel_info),
+                              'means_of_transport':
+                              utils.get_means_of_transport(travel_info),
                               'transportation_cost':
                               utils.get_transportation_cost(travel_info),
-                              'transportation_default_currency':
-                              travel_info_first.
-                              transportation_default_currency,
                               'overnights_sum_cost':
                               petition.overnights_sum_cost(),
-                              'accommodation_default_currency':
-                              travel_info_first.
-                              accommodation_default_currency,
                               'participation_cost':
                               petition.participation_cost,
-                              'participation_default_currency': petition.
-                              participation_default_currency,
-                              'additional_expenses_initial': petition.
-                              additional_expenses_initial,
-                              'additional_expenses_default_currency':
-                              petition.additional_expenses_default_currency,
                               'additional_expenses':
                               petition.additional_expenses,
-                              'total_cost': petition.total_cost_calculated,
+                              'total_cost': petition.total_cost_calculated(),
                               'project': petition.project.name,
+                              'accommodation_cost':
+                              utils.get_accommodation_cost(travel_info),
                               'compensation_cost':
                               utils.get_compensation_cost(travel_info)
                               })
         return petition_info
 
-    def _get_related_petitions(self, project_name=None, format='csv'):
+    def _get_related_petitions(self, project_name=None):
 
         query = Applications.objects.filter(
             Q(status__gte=Petition.USER_COMPENSATION_SUBMISSION) &
@@ -92,29 +92,65 @@ class ProjectMixin(object):
         for petition in petitions:
             data.append(self._extract_info(petition))
 
-        return {'petitions': data} if format == 'csv' else data
-
-    @detail_route(methods=['get'])
-    def project_stats(self, request, pk=None):
-        template_path = "project_stats.csv"
-        project = self.get_object()
-        project_name = project.name
-        data = self._get_related_petitions(project_name)
-        return render_template2csv(data, template_path, project_name + '_stats')
+        return data
 
     @list_route()
     def stats(self, request):
+        response = HttpResponse(content_type='application/ms-excel')
+        filename = 'all_applications.xlsx'
+        response['Content-Disposition'] = 'attachment; filename=' + filename
 
-        response_format = self.request.query_params.get(
-            'response_format', 'json')
-        data = self._get_related_petitions(format=response_format)
+        output = StringIO.StringIO()
+        wb = xlsxwriter.Workbook(
+            output, {'constant_memory': True})
+        ws = wb.add_worksheet('Applications')
 
-        if response_format == 'csv':
-            data = self._get_related_petitions()
-            template_path = "project_stats.csv"
-            return render_template2csv(data, template_path, 'all_project_stats')
-        else:
-            return Response(data)
+        data = self._get_related_petitions()
+
+        fields = ['ΔΣΕ', 'Μετακινούμενος', 'ΑΦΜ', 'Ιδιότητα', 'Ειδικότητα',
+                  'Έργο', 'Αφετηρία', 'Προορισμοί', 'Έναρξη Εργασιών',
+                  'Λήξη Εργασιών', 'Αναχώρηση', 'Επιστροφή', 'Μέσα Μετακίνησης',
+                  'Κόστος Μετακίνησης', 'Ημέρες Μετακίνησης', 'Σύνολο Ημερήσιας Αποζημίωσης',
+                  'Διανυκτερεύσεις', 'Κόστος συμμετοχής', 'Λοιπά Έξοδα Μετακίνησης',
+                  'Συνολικό Κόστος Μετακίνησης']
+
+        k = 0
+        for field in fields:
+            ws.write(0, k, field.decode('utf-8'))
+            k += 1
+
+        i = 1
+        for petition in data:
+            row = [
+                petition['dse'],
+                petition['full_name'],
+                petition['tax_reg_num'],
+                petition['kind'],
+                petition['specialty'],
+                petition['project'],
+                petition['departure_point'],
+                petition['arrival_points'],
+                petition['task_start_date'],
+                petition['task_end_date'],
+                petition['depart_date'],
+                petition['return_date'],
+                petition['means_of_transport'],
+                petition['transportation_cost'],
+                petition['overnights_num'],
+                petition['compensation_cost'],
+                petition['accommodation_cost'],
+                petition['participation_cost'],
+                petition['additional_expenses'],
+                petition['total_cost'],
+            ]
+
+            utils.write_row(ws, row, i)
+            i += 1
+
+        wb.close()
+        xlsx_data = output.getvalue()
+        response.write(xlsx_data)
+        return response
 
     @detail_route(methods=['post'])
     @transaction.atomic
@@ -527,7 +563,6 @@ class ApplicationMixin(object):
             application = self.get_object()
             if application.status in REJECTED_STATUSES:
                 return Response(status=status.HTTP_403_FORBIDDEN)
-            # This marks application as deleted
             application.mark_as_deleted()
 
             restoredApplication = Petition.objects.filter(dse=application.dse,

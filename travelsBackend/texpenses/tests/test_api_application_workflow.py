@@ -775,11 +775,6 @@ class TestApi(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['active'], True)
 
-        url_project_stats = reverse('api_project-project-stats',
-                      args=[project_id])
-        response = self.client.get(url_project_stats, format='json')
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-
         url_stats = reverse('api_project-stats')
         response = self.client.get(url_stats, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -833,11 +828,6 @@ class TestApi(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['active'], True)
 
-        url_project_stats = reverse('api_project-project-stats',
-                      args=[project_id])
-        response = self.client.get(url_project_stats, format='json')
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-
         url_stats = reverse('api_project-stats')
         response = self.client.get(url_stats, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -856,11 +846,6 @@ class TestApi(APITestCase):
         url_detail = reverse('api_project-detail',
                       args=[project_id])
         response = self.client.get(url_detail, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-        url_project_stats = reverse('api_project-project-stats',
-                      args=[project_id])
-        response = self.client.get(url_project_stats, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         url_stats = reverse('api_project-stats')

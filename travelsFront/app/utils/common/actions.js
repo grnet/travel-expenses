@@ -481,13 +481,13 @@ const exportStats = {
       xhrFields : {
         responseType : 'arraybuffer',
       },
-      url: url + 'stats/?response_format=csv',
+      url: url + 'stats/?response_format=xlsx',
       success: function(data) {
-        var blob = new Blob([data], { type: 'text/csv' });
+        var blob = new Blob([data], { type: 'application/ms-excel' });
         var link = document.createElement('a');
 
         link.href = window.URL.createObjectURL(blob);
-        link.download = filename + '.csv';
+        link.download = filename + '.xlsx';
         link.click();
       },
     }).then((resp) => {
