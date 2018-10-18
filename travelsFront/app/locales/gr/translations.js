@@ -94,6 +94,8 @@ export default {
   'task_end_date_time_format.label': 'Λήξη Εργασιών',
   'depart_date.label': 'Αναχώρηση',
   'return_date.label': 'Επιστροφή',
+  'depart_date_format.label': 'Αναχώρηση',
+  'return_date_format.label': 'Επιστροφή',
   'depart_date_time_format.label': 'Αναχώρηση',
   'return_date_time_format.label': 'Επιστροφή',
   'depart_date__gte.label': 'Ημ/νία Αναχώρησης - Από',

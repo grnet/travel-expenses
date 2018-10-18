@@ -90,6 +90,8 @@ export default {
   'task_end_date_time_format.label': 'Task End Date',
   'depart_date.label': 'Departure',
   'return_date.label': 'Return',
+  'depart_date_format.label': 'Departure',
+  'return_date_format.label': 'Return',
   'depart_date_time_format.label': 'Departure',
   'return_date_time_format.label': 'Return',
   'depart_date__gte.label': 'Departure - From',
