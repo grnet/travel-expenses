@@ -49,7 +49,7 @@ def get_compensation_days(travel_info):
 
 
 def get_accommodation_cost(travel_info):
-    return sum([travel_obj.accommodation_cost
+    return sum([travel_obj.overnight_cost()
                 for travel_obj in travel_info])
 
 
