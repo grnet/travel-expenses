@@ -41,8 +41,8 @@ class ProjectMixin(object):
         travel_info = petition.travel_info.all()
         travel_info_first = travel_info[0]
         travel_info_last = travel_info[len(travel_info) - 1]
-        depart_date = utils.get_local_depart_date(travel_info_first)
-        return_date = utils.get_local_return_date(travel_info_last)
+        depart_date = travel_info_first.local_depart_date
+        return_date = travel_info_last.local_return_date
         task_start_date = utils.get_local_task_start_date(petition)
         task_end_date = utils.get_local_task_end_date(petition)
         petition_info.update({'depart_date': depart_date.

@@ -3,6 +3,7 @@
 
 from datetime import timedelta
 import functools
+import pytz
 from django.conf import settings
 from django.core.exceptions import (
     ValidationError, ObjectDoesNotExist, PermissionDenied)
@@ -403,6 +404,18 @@ class TravelInfo(Accommodation, Transportation):
         if self.no_transportation_calculation:
             return False
         return self.means_of_transport_is_car_or_bike()
+
+    @property
+    def local_depart_date(self):
+        city = self.departure_point
+        city_timezone = pytz.timezone(city.timezone)
+        return self.depart_date.astimezone(city_timezone)
+
+    @property
+    def local_return_date(self):
+        city = self.arrival_point
+        city_timezone = pytz.timezone(city.timezone)
+        return self.return_date.astimezone(city_timezone)
 
     def calculate_transportation_cost(self):
         # we cannot use location tracker as it's not guaranteed

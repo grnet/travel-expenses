@@ -89,18 +89,6 @@ def get_arrival_points(travel_info):
     return ','.join([t.arrival_point.name for t in travel_info])
 
 
-def get_local_depart_date(travel_obj):
-    city = travel_obj.departure_point
-    city_timezone = pytz.timezone(city.timezone)
-    return travel_obj.depart_date.astimezone(city_timezone)
-
-
-def get_local_return_date(travel_obj):
-    city = travel_obj.arrival_point
-    city_timezone = pytz.timezone(city.timezone)
-    return travel_obj.return_date.astimezone(city_timezone)
-
-
 def get_local_task_start_date(petition):
     task_start = petition.task_start_date
     travel_infos = list(petition.travel_info.all())
