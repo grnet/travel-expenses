@@ -89,36 +89,6 @@ def get_arrival_points(travel_info):
     return ','.join([t.arrival_point.name for t in travel_info])
 
 
-def get_local_task_start_date(petition):
-    task_start = petition.task_start_date
-    travel_infos = list(petition.travel_info.all())
-
-    # If task starts before, take first city's timezone
-    city = travel_infos[0].arrival_point
-
-    for travel in travel_infos:
-        if task_start >= travel.depart_date and task_start <= travel.return_date:
-            city = travel.arrival_point
-
-    city_timezone = pytz.timezone(city.timezone)
-    return petition.task_start_date.astimezone(city_timezone)
-
-
-def get_local_task_end_date(petition):
-    task_end = petition.task_end_date
-    travel_infos = list(petition.travel_info.all())
-
-    # If task starts after, take last city's timezone
-    city = travel_infos[-1].arrival_point
-
-    for travel in travel_infos:
-        if task_end >= travel.depart_date and task_end <= travel.return_date:
-            city = travel.arrival_point
-
-    city_timezone = pytz.timezone(city.timezone)
-    return petition.task_end_date.astimezone(city_timezone)
-
-
 def escape(payload):
     if (payload and isinstance(payload, basestring) and
        payload[0] in ('@', '+', '-', '=', '|', '%')):

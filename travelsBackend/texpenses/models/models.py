@@ -1141,6 +1141,38 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
         return missing_fields
 
+    @property
+    def local_task_start_date(self):
+        task_start = self.task_start_date
+        travel_infos = list(self.travel_info.all())
+
+        # If task starts before, take first city's timezone
+        city = travel_infos[0].arrival_point
+
+        for travel in travel_infos:
+            if task_start >= travel.depart_date and task_start <= travel.return_date:
+                city = travel.arrival_point
+                break
+
+        city_timezone = pytz.timezone(city.timezone)
+        return self.task_start_date.astimezone(city_timezone)
+
+    @property
+    def local_task_end_date(self):
+        task_end = self.task_end_date
+        travel_infos = list(self.travel_info.all())
+
+        # If task starts after, take last city's timezone
+        city = travel_infos[-1].arrival_point
+
+        for travel in travel_infos:
+            if task_end >= travel.depart_date and task_end <= travel.return_date:
+                city = travel.arrival_point
+                break
+
+        city_timezone = pytz.timezone(city.timezone)
+        return self.task_end_date.astimezone(city_timezone)
+
     def compensation_cost(self):
         return sum([travel_obj.compensation_cost()
                     for travel_obj in self.travel_info.all()])
