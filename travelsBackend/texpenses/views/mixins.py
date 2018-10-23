@@ -53,7 +53,7 @@ class ProjectMixin(object):
                               strftime(settings.DATE_FORMAT_WITHOUT_TIME),
                               'task_end_date': task_end_date.
                               strftime(settings.DATE_FORMAT_WITHOUT_TIME),
-                              'overnights_num': petition.overnights_num(),
+                              'transport_days': petition.transport_days(),
                               'departure_point':
                               travel_info_first.departure_point.name,
                               'arrival_points':
@@ -136,7 +136,7 @@ class ProjectMixin(object):
                 petition['return_date'],
                 petition['means_of_transport'],
                 petition['transportation_cost'],
-                petition['overnights_num'],
+                petition['transport_days'],
                 petition['compensation_cost'],
                 petition['accommodation_cost'],
                 petition['participation_cost'],
