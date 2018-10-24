@@ -1,6 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
+import pytz
 from datetime import datetime, timedelta
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.test import TestCase
@@ -33,13 +34,15 @@ class TravelInfoTest(TestCase):
         self.arrival_country = Country(name='FRANCE', category='A',
                                        currency='EUR')
         self.arrival_country.save()
-        self.arrival_point = City(name='PARIS', country=self.arrival_country)
+        self.arrival_point = City(name='PARIS', country=self.arrival_country,
+                                  timezone='Europe/Paris')
         self.arrival_point.save()
 
         self.departure_country = Country(name='GREECE', category='A')
         self.departure_country.save()
         self.departure_point = City(name='ATHENS',
-                                    country=self.departure_country)
+                                    country=self.departure_country,
+                                    timezone='Europe/Athens')
         self.departure_point.save()
 
         self.travel_obj = TravelInfo(accommodation_cost=0.0,
@@ -53,10 +56,10 @@ class TravelInfoTest(TestCase):
         import copy
         petition = copy.deepcopy(self.travel_petition)
 
-        task_start_date= datetime(2012,9,16)
-        task_end_date= datetime(2012,9,16)
-        return_date= datetime(2012,9,16)
-        depart_date= datetime(2012,9,16)
+        task_start_date= datetime(2012,9,16,0,0,0,tzinfo=pytz.utc)
+        task_end_date= datetime(2012,9,16,0,0,0,tzinfo=pytz.utc)
+        return_date= datetime(2012,9,16,0,0,0,tzinfo=pytz.utc)
+        depart_date= datetime(2012,9,16,0,0,0,tzinfo=pytz.utc)
 
         petition.task_start_date = task_start_date
         petition.task_end_date = task_end_date
@@ -70,7 +73,7 @@ class TravelInfoTest(TestCase):
                           petition)
 
     def test_transport_days_proposed(self):
-        date = datetime.now()
+        date = datetime.now(pytz.utc)
         self.assertEqual(self.travel_obj.transport_days_proposed(), 0)
         self.travel_obj.depart_date = date
         self.assertEqual(self.travel_obj.transport_days_proposed(), 0)
@@ -87,28 +90,30 @@ class TravelInfoTest(TestCase):
 
         arrival_country = Country(name='EGYPT', category='C')
         arrival_country.save()
-        arrival_point = City(name='CAIRO', country=arrival_country)
+        arrival_point = City(name='CAIRO', country=arrival_country,
+                             timezone='Africa/Cairo')
         arrival_point.save()
         self.travel_obj.arrival_point = arrival_point
         self.assertEqual(self.travel_obj.compensation_level(), 60)
 
         arrival_country = Country(name='RUSSIA', category='B')
         arrival_country.save()
-        arrival_point = City(name='MOSCHOW', country=arrival_country)
+        arrival_point = City(name='MOSCOW', country=arrival_country,
+                             timezone='Europe/Moscow')
         arrival_point.save()
         self.travel_obj.arrival_point = arrival_point
         self.assertEqual(self.travel_obj.compensation_level(), 80)
 
     def test_same_day_return(self):
-        end_date = datetime.now()
-        start_date = datetime.now() - timedelta(days=7)
+        end_date = datetime.now(pytz.utc)
+        start_date = datetime.now(pytz.utc) - timedelta(days=7)
         self.assertTrue(start_date, end_date)
 
         end_date = end_date + timedelta(days=2)
         self.assertNotEqual(start_date, end_date)
 
     def test_overnights_num_proposed(self):
-        start_date = datetime.now()
+        start_date = datetime.now(pytz.utc)
         end_date = start_date + timedelta(days=7)
         self.assertEqual(self.travel_obj.overnights_num_proposed(
             start_date, end_date), 0)
@@ -140,7 +145,8 @@ class TravelInfoTest(TestCase):
 
     def test_is_city_ny(self):
         self.assertFalse(self.travel_obj.is_city_ny())
-        city = City(name='ATHENS', country=self.departure_country)
+        city = City(name='ATHENS', country=self.departure_country,
+                    timezone='Europe/Athens')
         city.save()
         self.travel_obj.arrival_point = city
         self.assertFalse(self.travel_obj.is_city_ny())
@@ -149,7 +155,7 @@ class TravelInfoTest(TestCase):
         self.assertTrue(self.travel_obj.is_city_ny())
 
     def test_clean(self):
-        depart = datetime.now() + timedelta(days=3)
+        depart = datetime.now(pytz.utc) + timedelta(days=3)
         self.travel_obj.depart_date = depart
         self.travel_obj.return_date = depart + timedelta(days=3)
 
@@ -164,7 +170,7 @@ class TravelInfoTest(TestCase):
                           self.travel_petition)
 
     def test_compensation_days_proposed(self):
-        depart = datetime.now() + timedelta(days=3)
+        depart = datetime.now(pytz.utc) + timedelta(days=3)
         return_d = depart + timedelta(days=5)
         task_start = depart + timedelta(days=1)
         task_end = return_d - timedelta(days=1)
@@ -291,7 +297,7 @@ class TravelInfoTest(TestCase):
 
 class PetitionTest(TestCase):
 
-    end_date = datetime.now() + timedelta(days=10)
+    end_date = datetime.now(pytz.utc) + timedelta(days=10)
     start_date = end_date - timedelta(days=1)
 
     def setUp(self):
@@ -307,7 +313,8 @@ class PetitionTest(TestCase):
             trip_days_left=5)
 
         city = City.objects.create(
-            name='Athens', country=Country.objects.create(name='Greece'))
+            name='Athens', country=Country.objects.create(name='Greece'),
+            timezone='Europe/Athens')
         self.project = Project.objects.create(name='Test Project',
                                               accounting_code=1,
                                               manager=self.user)
