@@ -475,8 +475,8 @@ class TravelInfo(Accommodation, Transportation):
         WEEKENDS = [5, 6]
         if self.depart_date is None or self.return_date is None:
             return 0
-        time_period = (self.depart_date + timedelta(x) for x in xrange(
-            (self.return_date.date() - self.depart_date.date()).days + 1))
+        time_period = (self.local_depart_date + timedelta(x) for x in xrange(
+            (self.local_return_date.date() - self.local_depart_date.date()).days + 1))
 
         return sum(1 for day in time_period if day.weekday() not in WEEKENDS)
 
@@ -569,29 +569,20 @@ class TravelInfo(Accommodation, Transportation):
             [task_end_date] - [task_start_date] + 1
             +1 if { [depart_date] < [task_start_date] }
         """
-        task_start_date = self.travel_petition.task_start_date.replace(
-            hour=0, minute=0) if self.travel_petition.task_start_date else (
-                self.travel_petition.task_start_date)
-        task_end_date = self.travel_petition.task_end_date.replace(
-            hour=0, minute=0) if self.travel_petition.task_end_date else (
-            self.travel_petition.task_end_date)
-
-        depart_date = self.depart_date.replace(
-            hour=0, minute=0) if self.depart_date else self.depart_date
-        return_date = self.return_date.replace(
-            hour=0, minute=0) if self.return_date else self.return_date
-
-        if not (depart_date and return_date and task_start_date and
-                task_end_date):
+        if not all([self.task_start_date, self.task_end_date,
+                    self.depart_date, self.return_date]):
             return 0
 
         if self.same_day_return_task():
             return 1
 
+        task_start_date = self.petition.local_task_start_date
+        task_end_date = self.petition.local_task_end_date
+        depart_date = self.local_depart_date
+        return_date = self.local_return_date
+
         compensation_days = 0
-
         start_date_delta = (task_start_date - depart_date).days
-
 
         if return_date <= task_end_date:
             if start_date_delta == 0:
