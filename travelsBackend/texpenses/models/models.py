@@ -496,19 +496,18 @@ class TravelInfo(Accommodation, Transportation):
         :param task_end_date: Date when task ends.
         :returns: The proposed overinight days.
         """
-
         task_start_date = (task_start_date or
-                           self.travel_petition.task_start_date)
-        task_end_date = task_end_date or self.travel_petition.task_end_date
+                           self.travel_petition.local_task_start_date)
+        task_end_date = task_end_date or self.travel_petition.local_task_end_date
 
         if not (self.return_date and self.depart_date and
                 task_start_date and task_end_date):
             return 0
 
         first_day = task_start_date - timedelta(days=1) if (
-            task_start_date - self.depart_date).days >= 1 else self.depart_date
+            task_start_date - self.local_depart_date).days >= 1 else self.local_depart_date
         last_day = task_end_date + timedelta(days=1) if (
-            self.return_date - task_end_date).days >= 1 else self.return_date
+            self.local_return_date - task_end_date).days >= 1 else self.local_return_date
         return ((last_day.date() - first_day.date()).days
                 if first_day < last_day else 0)
 
@@ -1217,7 +1216,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     def overnights_proposed(self):
         return sum(travel.overnights_num_proposed(
-            self.task_start_date, self.task_end_date)
+            self.local_task_start_date, self.local_task_end_date)
             for travel in self.travel_info.all())
 
     def overnights_sum_cost(self):
@@ -1284,7 +1283,6 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         This value is calculated by adding the transportation,
         compensation, partication and accommodation costs.
         """
-
         return sum([Decimal(self.transportation_cost_not_to_be_compensated()),
                     Decimal(self.additional_expenses_grnet),
                     Decimal(self.participation_cost),
