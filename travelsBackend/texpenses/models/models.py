@@ -407,12 +407,16 @@ class TravelInfo(Accommodation, Transportation):
 
     @property
     def local_depart_date(self):
+        if not self.depart_date:
+            return self.depart_date
         city = self.departure_point
         city_timezone = pytz.timezone(city.timezone)
         return self.depart_date.astimezone(city_timezone)
 
     @property
     def local_return_date(self):
+        if not self.return_date:
+            return self.return_date
         city = self.arrival_point
         city_timezone = pytz.timezone(city.timezone)
         return self.return_date.astimezone(city_timezone)
@@ -1134,6 +1138,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     @property
     def local_task_start_date(self):
         task_start = self.task_start_date
+        if not task_start:
+            return task_start
         travel_infos = list(self.travel_info.all())
 
         # If task starts before, take first city's timezone
@@ -1150,6 +1156,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     @property
     def local_task_end_date(self):
         task_end = self.task_end_date
+        if not task_end:
+            return task_end
         travel_infos = list(self.travel_info.all())
 
         # If task starts after, take last city's timezone
