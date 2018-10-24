@@ -572,17 +572,16 @@ class TravelInfo(Accommodation, Transportation):
             [task_end_date] - [task_start_date] + 1
             +1 if { [depart_date] < [task_start_date] }
         """
-        if not all([self.task_start_date, self.task_end_date,
-                    self.depart_date, self.return_date]):
+        task_start_date = self.travel_petition.local_task_start_date
+        task_end_date = self.travel_petition.local_task_end_date
+        depart_date = self.local_depart_date
+        return_date = self.local_return_date
+
+        if not all([task_start_date, task_end_date, depart_date, return_date]):
             return 0
 
         if self.same_day_return_task():
             return 1
-
-        task_start_date = self.petition.local_task_start_date
-        task_end_date = self.petition.local_task_end_date
-        depart_date = self.local_depart_date
-        return_date = self.local_return_date
 
         compensation_days = 0
         start_date_delta = (task_start_date - depart_date).days
@@ -1138,9 +1137,9 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     @property
     def local_task_start_date(self):
         task_start = self.task_start_date
-        if not task_start:
-            return task_start
         travel_infos = list(self.travel_info.all())
+        if not task_start or not travel_infos:
+            return task_start
 
         # If task starts before, take first city's timezone
         city = travel_infos[0].arrival_point
@@ -1156,9 +1155,9 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     @property
     def local_task_end_date(self):
         task_end = self.task_end_date
-        if not task_end:
-            return task_end
         travel_infos = list(self.travel_info.all())
+        if not task_end or not travel_infos:
+            return task_end
 
         # If task starts after, take last city's timezone
         city = travel_infos[-1].arrival_point
