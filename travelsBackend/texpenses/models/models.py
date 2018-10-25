@@ -1419,6 +1419,8 @@ class Applications(Petition):
                                  'transportation_payment_description',
                                  'accommodation_local_currency',
                                  'overnights_num_manual',
+                                 'transport_days_manual',
+                                 'compensation_days_manual',
                                  ]
 
 
