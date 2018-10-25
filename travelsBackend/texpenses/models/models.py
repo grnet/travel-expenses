@@ -544,15 +544,15 @@ class TravelInfo(Accommodation, Transportation):
 
     def same_day_return_task(self, petition=None):
         """
-        This method checks that the t
+        This method checks if transportation and task start and end are all
+        on the same day
         """
-        task_start_date, task_end_date = None, None
         if petition is None:
-            task_start_date = self.travel_petition.task_start_date
-            task_end_date = self.travel_petition.task_end_date
+            task_start_date = self.travel_petition.local_task_start_date
+            task_end_date = self.travel_petition.local_task_end_date
         else:
-            task_start_date = petition.task_start_date
-            task_end_date = petition.task_end_date
+            task_start_date = petition.local_task_start_date
+            task_end_date = petition.local_task_end_date
 
         if task_end_date is None or \
                 self.return_date is None \
@@ -1242,7 +1242,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         """ Gets the duration of task. """
         if not (self.task_start_date and self.task_end_date):
             return 0
-        return (self.task_end_date - self.task_start_date).days
+        return (self.local_task_end_date - self.local_task_start_date).days
 
     def transportation_cost_to_be_compensated(self):
 
