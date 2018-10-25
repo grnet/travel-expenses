@@ -318,7 +318,13 @@ class TestApi(APITestCase):
             response = self.client.post(url, format='json')
             self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def _president_secretary_testing(self, withdraw=False):
+            # cancel withdrawal again
+            url = reverse('api_applications-cancel-withdrawal',
+                          args=[application_id])
+            response = self.client.post(url, format='json')
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def _president_secretary_testing(self):
 
         # president secretary approves an application
         self.client.logout()
@@ -335,9 +341,6 @@ class TestApi(APITestCase):
         response = self.client.post(url_president_approval, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Applications.objects.count(), 1)
-
-        if withdraw:
-            return
 
         # President secretary cancels president approval
 
@@ -604,8 +607,9 @@ class TestApi(APITestCase):
         self._manager_testing()
         self._viewer_testing()
         self._secretary_testing(withdraw=True)
-        self._president_secretary_testing(withdraw=True)
-        self._controller_testing(withdraw=False)
+        self._president_secretary_testing()
+        self._user_compensation_testing()
+        self._controller_testing(withdraw=True)
 
     def _test_reset_workflow(self):
         self._user_testing()
