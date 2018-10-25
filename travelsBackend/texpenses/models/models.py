@@ -407,17 +407,17 @@ class TravelInfo(Accommodation, Transportation):
 
     @property
     def local_depart_date(self):
-        if not self.depart_date:
-            return self.depart_date
         city = self.departure_point
+        if not self.depart_date or not city:
+            return self.depart_date
         city_timezone = pytz.timezone(city.timezone)
         return self.depart_date.astimezone(city_timezone)
 
     @property
     def local_return_date(self):
-        if not self.return_date:
-            return self.return_date
         city = self.arrival_point
+        if not self.return_date or not city:
+            return self.return_date
         city_timezone = pytz.timezone(city.timezone)
         return self.return_date.astimezone(city_timezone)
 
@@ -475,7 +475,6 @@ class TravelInfo(Accommodation, Transportation):
 
         :returns: Proposed transport_days.
         """
-
         WEEKENDS = [5, 6]
         if self.depart_date is None or self.return_date is None:
             return 0
@@ -1145,6 +1144,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         city = travel_infos[0].arrival_point
 
         for travel in travel_infos:
+            if not travel.depart_date or not travel.return_date:
+                continue
             if task_start >= travel.depart_date and task_start <= travel.return_date:
                 city = travel.arrival_point
                 break
@@ -1163,6 +1164,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         city = travel_infos[-1].arrival_point
 
         for travel in travel_infos:
+            if not travel.depart_date or not travel.return_date:
+                continue
             if task_end >= travel.depart_date and task_end <= travel.return_date:
                 city = travel.arrival_point
                 break
