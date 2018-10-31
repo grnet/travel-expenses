@@ -278,6 +278,10 @@ export default {
   'activate.user.success': 'Η ενεργοποίηση του χρήστη πραγματοποιήθηκε επιτυχώς',
   'deactivate.user.success': 'Η απενεργοποίηση του χρήστη πραγματοποιήθηκε επιτυχώς',
   'delete.application.success': 'Η διαγραφή της αίτησης πραγματοποιήθηκε επιτυχώς',
+  'downloading.started': 'Έναρξη εξαγωγής αρχείων',
+  'downloading.finished': 'Επιτυχής εξαγωγή αρχείων',
+  'downloading.file.started': 'Έναρξη εξαγωγής αρχείου',
+  'downloading.file.finished': 'Επιτυχής εξαγωγή αρχείου',
   // error messages
   'login.error': 'Σφάλμα εισόδου',
   'form.error': 'Σφάλμα κατά την καταχώριση των στοιχείων σας',

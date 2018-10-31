@@ -450,35 +450,31 @@ const exportStats = {
     let token = get(route, 'user.auth_token');
     let store = get(route, 'store');
     let adapter = store.adapterFor('project');
-    let url = adapter.buildURL('project');
-    var filename = 'travel_statistics';
+    let url = adapter.buildURL('project') + 'stats/';
+    messages.setWarning('downloading.file.started', { closeTimeout: 180000});
 
-    return $.ajax({
-      headers:{
-        Authorization: 'Token ' + token,
-      },
-      xhrFields : {
-        responseType : 'arraybuffer',
-      },
-      url: url + 'stats/?response_format=xlsx',
-      success: function(data) {
-        var blob = new Blob([data], { type: 'application/ms-excel' });
-        var link = document.createElement('a');
-
-        link.href = window.URL.createObjectURL(blob);
-        link.download = filename + '.xlsx';
-        link.click();
-      },
-    }).then((resp) => {
-      if (resp.byteLength > 0) {
-        route.refresh().then(() => {
-          messages.setSuccess('stats.export.success');
-        })
-      } else {
-        throw new Error('error');
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Token ${token}`,
       }
+    }).then((resp) => {
+       if (resp.status < 200 || resp.status > 299) {
+         throw resp;
+       }
+       let a = $("<a style='display: none;'/>");
+       let url = window.URL.createObjectURL(resp._bodyBlob);
+       let name = 'travel_statistics.xlsx';
+       a.attr("href", url);
+       a.attr("download", name);
+       $("body").append(a);
+       a[0].click();
+       window.URL.revokeObjectURL(url);
+       a.remove();
+       messages.setSuccess('downloading.file.finished');
     }).catch((err) => {
-      messages.setError('stats.export.error');
+       messages.setError('reason.errors');
+       throw err;
     });
   },
   hidden: computed('role', function(){
