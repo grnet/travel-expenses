@@ -354,33 +354,21 @@ class TravelInfo(Accommodation, Transportation):
             raise ValidationError(u'No distance found for these cities.')
 
     def _set_travel_manual_field_defaults(self):
-
         self.transport_days_manual = self.transport_days_proposed()
-
         self.compensation_days_manual = self.compensation_days_proposed()
 
     def is_abroad(self):
-
-        if self._endpoints_are_set():
-            base_country_name = settings.BASE_COUNTRY
-            arrival_country_name = self.arrival_point.country.name
-
-            if arrival_country_name == base_country_name:
-                return False
+        if not self._endpoints_are_set():
             return True
-        return True
+        base_country_name = settings.BASE_COUNTRY
+        arrival_country_name = self.arrival_point.country.name
+        return arrival_country_name != base_country_name
 
     def is_athens_or_thesniki(self):
-
-        if self._endpoints_are_set():
-            arrival_point_name = self.arrival_point.name
-
-            if not self.is_abroad() and arrival_point_name in (u'Αθήνα',
-                                                               u'Θεσσαλονίκη'):
-                return True
-
+        if not self._endpoints_are_set():
             return False
-        return False
+        return (not self.is_abroad() and
+                self.arrival_point_name in (u'Αθήνα', u'Θεσσαλονίκη'))
 
     def locations_have_changed(self):
         return any(self.location_tracker.has_changed(field)
