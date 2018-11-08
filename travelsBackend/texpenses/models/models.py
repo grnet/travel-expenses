@@ -391,9 +391,12 @@ class TravelInfo(Accommodation, Transportation):
                    for field in self.tracked_means_of_tranport_fields)
 
     def means_of_transport_is_car_or_bike(self):
-        if self.means_of_transport in ('BIKE', 'CAR'):
-            return True
-        return False
+        return self.means_of_transport in ('BIKE', 'CAR')
+
+    def transportation_should_be_compensated(self):
+        return self.means_of_transport in ('BIKE', 'CAR') or\
+               (self.means_of_transport in ('TRAIN', 'SHIP', 'BUS') and
+                self.transportation_payment_way == u'VISA')
 
     def calculate_transportation_cost(self):
         if self.means_of_transport_is_car_or_bike():
@@ -1190,7 +1193,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         transportation_compensation = 0
 
         for travel_obj in self.travel_info.all():
-            if travel_obj.means_of_transport_is_car_or_bike():
+            if travel_obj.transportation_should_be_compensated():
                 transportation_compensation += travel_obj.transportation_cost
 
         return transportation_compensation
@@ -1200,7 +1203,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         transportation_compensation = 0
 
         for travel_obj in self.travel_info.all():
-            if not travel_obj.means_of_transport_is_car_or_bike():
+            if not travel_obj.transportation_should_be_compensated():
                 transportation_compensation += travel_obj.transportation_cost
 
         return transportation_compensation
