@@ -367,8 +367,7 @@ class TravelInfo(Accommodation, Transportation):
     def is_athens_or_thesniki(self):
         if not self._endpoints_are_set():
             return False
-        return (not self.is_abroad() and
-                self.arrival_point_name in (u'Αθήνα', u'Θεσσαλονίκη'))
+        return self.arrival_point.name in (u'Αθήνα', u'Θεσσαλονίκη')
 
     def locations_have_changed(self):
         return any(self.location_tracker.has_changed(field)
@@ -381,9 +380,12 @@ class TravelInfo(Accommodation, Transportation):
     def means_of_transport_is_car_or_bike(self):
         return self.means_of_transport in ('BIKE', 'CAR')
 
+    def means_of_transport_is_train_ship_bus(self):
+        return self.means_of_transport in ('TRAIN', 'SHIP', 'BUS')
+
     def transportation_should_be_compensated(self):
-        return self.means_of_transport in ('BIKE', 'CAR') or\
-               (self.means_of_transport in ('TRAIN', 'SHIP', 'BUS') and
+        return self.means_of_transport_is_car_or_bike() or\
+               (self.means_of_transport_is_train_ship_bus() and
                 self.transportation_payment_way == u'VISA')
 
     def calculate_transportation_cost(self):
