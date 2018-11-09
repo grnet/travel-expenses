@@ -293,6 +293,7 @@ class TravelInfo(Accommodation, Transportation):
         'Petition', related_name='travel_info', on_delete=md.PROTECT)
     distance = md.FloatField(blank=False, default=0.0,
                              validators=[MinValueValidator(0.0)])
+    no_transportation_calculation = md.BooleanField(default=False)
 
     tracked_date_fields = ['depart_date', 'return_date']
     tracker = FieldTracker(fields=tracked_date_fields)
