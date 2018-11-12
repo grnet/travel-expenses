@@ -389,23 +389,29 @@ class TravelInfo(Accommodation, Transportation):
                (self.means_of_transport_is_train_ship_bus() and
                 self.transportation_payment_way == u'VISA')
 
-    def calculate_transportation_cost(self):
-        if self.means_of_transport_is_car_or_bike():
-            if not self.distance or self.locations_have_changed():
-                try:
-                    self.distance = CityDistances.objects.get(
-                        from_city=self.departure_point,
-                        to_city=self.arrival_point).distance
-                except CityDistances.DoesNotExist:
-                    self.distance = 0.0
+    def transportation_cost_should_be_calculated(self):
+        if self.no_transportation_calculation:
+            return False
+        return self.means_of_transport_is_car_or_bike()
 
-            distance_factor = common.\
-                MEANS_OF_TRANSPORT_DISTANCE_FACTOR[self.means_of_transport]
-            self.transportation_cost = 2 * distance_factor * self.distance
+    def calculate_transportation_cost(self):
+        # we cannot use location tracker as it's not guaranteed
+        # there will be a calculation on every save
+        try:
+            self.distance = CityDistances.objects.get(
+                from_city=self.departure_point,
+                to_city=self.arrival_point).distance
+        except CityDistances.DoesNotExist:
+            self.distance = 0.0
+
+        distance_factor = common.\
+            MEANS_OF_TRANSPORT_DISTANCE_FACTOR[self.means_of_transport]
+        self.transportation_cost = 2 * distance_factor * self.distance
 
     def save(self, *args, **kwargs):
         new_object = kwargs.pop('new_object', False)
-        self.calculate_transportation_cost()
+        if self.transportation_cost_should_be_calculated():
+            self.calculate_transportation_cost()
         super(TravelInfo, self).save(*args, **kwargs)
 
     def validate_overnight_cost(self, petition):
