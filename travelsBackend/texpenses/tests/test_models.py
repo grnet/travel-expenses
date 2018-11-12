@@ -29,6 +29,7 @@ class TravelInfoTest(TestCase):
         self.travel_petition = Petition(tax_office=tax_office,status=1,
                                         user_category='A', project=project,
                                         user=self.user)
+        self.travel_petition.save()
         self.arrival_country = Country(name='FRANCE', category='A',
                                        currency='EUR')
         self.arrival_country.save()
@@ -44,7 +45,8 @@ class TravelInfoTest(TestCase):
         self.travel_obj = TravelInfo(accommodation_cost=0.0,
                                      arrival_point=self.arrival_point,
                                      departure_point=self.departure_point,
-                                     meals='NON')
+                                     meals='NON',
+                                     travel_petition=self.travel_petition)
 
     def test_validate_overnight_cost(self):
         self.travel_obj.validate_overnight_cost(self.travel_petition)
@@ -256,6 +258,35 @@ class TravelInfoTest(TestCase):
 
         self.travel_obj.transportation_payment_way = u'VISA'
         self.assertTrue(self.travel_obj.transportation_should_be_compensated())
+
+    def test_transportation_cost_should_be_calculated(self):
+        travel = self.travel_obj
+        self.assertFalse(travel.transportation_cost_should_be_calculated())
+
+        travel.means_of_transport = 'BIKE'
+        self.assertTrue(travel.transportation_cost_should_be_calculated())
+
+        travel.means_of_transport = 'CAR'
+        self.assertTrue(travel.transportation_cost_should_be_calculated())
+
+        travel.no_transportation_calculation = True
+        self.assertFalse(travel.transportation_cost_should_be_calculated())
+
+    def test_save_and_transport_cost_calculation(self):
+        travel = self.travel_obj
+        travel.transportation_cost = 300
+        travel.save()
+        self.assertEqual(travel.transportation_cost, 300)
+
+        travel.means_of_transport = 'CAR'
+        travel.save()
+        # assert cost 0 because there's no distance in calculation
+        self.assertEqual(travel.transportation_cost, 0)
+
+        travel.transportation_cost = 300
+        travel.no_transportation_calculation = True
+        travel.save()
+        self.assertEqual(travel.transportation_cost, 300)
 
 
 class PetitionTest(TestCase):
