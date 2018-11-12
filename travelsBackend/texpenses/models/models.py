@@ -492,8 +492,8 @@ class TravelInfo(Accommodation, Transportation):
         WEEKENDS = [5, 6]
         if self.depart_date is None or self.return_date is None:
             return 0
-        time_period = (self.local_depart_date + timedelta(x) for x in xrange(
-            (self.local_return_date.date() - self.local_depart_date.date()).days + 1))
+        time_period = (self.base_tz_depart_date + timedelta(x) for x in xrange(
+            (self.base_tz_return_date.date() - self.base_tz_depart_date.date()).days + 1))
 
         return sum(1 for day in time_period if day.weekday() not in WEEKENDS)
 
@@ -514,17 +514,17 @@ class TravelInfo(Accommodation, Transportation):
         :returns: The proposed overinight days.
         """
         task_start_date = (task_start_date or
-                           self.travel_petition.local_task_start_date)
-        task_end_date = task_end_date or self.travel_petition.local_task_end_date
+                           self.travel_petition.base_tz_task_start_date)
+        task_end_date = task_end_date or self.travel_petition.base_tz_task_end_date
 
         if not (self.return_date and self.depart_date and
                 task_start_date and task_end_date):
             return 0
 
         first_day = task_start_date - timedelta(days=1) if (
-            task_start_date - self.local_depart_date).days >= 1 else self.local_depart_date
+            task_start_date - self.base_tz_depart_date).days >= 1 else self.base_tz_depart_date
         last_day = task_end_date + timedelta(days=1) if (
-            self.local_return_date - task_end_date).days >= 1 else self.local_return_date
+            self.base_tz_return_date - task_end_date).days >= 1 else self.base_tz_return_date
         return ((last_day.date() - first_day.date()).days
                 if first_day < last_day else 0)
 
@@ -561,11 +561,11 @@ class TravelInfo(Accommodation, Transportation):
         on the same day
         """
         if petition is None:
-            task_start_date = self.travel_petition.local_task_start_date
-            task_end_date = self.travel_petition.local_task_end_date
+            task_start_date = self.travel_petition.task_start_date
+            task_end_date = self.travel_petition.task_end_date
         else:
-            task_start_date = petition.local_task_start_date
-            task_end_date = petition.local_task_end_date
+            task_start_date = petition.task_start_date
+            task_end_date = petition.task_end_date
 
         if task_end_date is None or \
                 self.return_date is None \
@@ -585,8 +585,8 @@ class TravelInfo(Accommodation, Transportation):
             [task_end_date] - [task_start_date] + 1
             +1 if { [depart_date] < [task_start_date] }
         """
-        task_start_date = self.travel_petition.local_task_start_date
-        task_end_date = self.travel_petition.local_task_end_date
+        task_start_date = self.travel_petition.base_tz_task_start_date
+        task_end_date = self.travel_petition.base_tz_task_end_date
         depart_date = self.local_depart_date
         return_date = self.local_return_date
 
@@ -1236,7 +1236,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     def overnights_proposed(self):
         return sum(travel.overnights_num_proposed(
-            self.local_task_start_date, self.local_task_end_date)
+            self.base_tz_task_start_date, self.base_tz_task_end_date)
             for travel in self.travel_info.all())
 
     def overnights_sum_cost(self):
@@ -1255,7 +1255,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         """ Gets the duration of task. """
         if not (self.task_start_date and self.task_end_date):
             return 0
-        return (self.local_task_end_date - self.local_task_start_date).days
+        return (self.task_end_date - self.task_start_date).days
 
     def transportation_cost_to_be_compensated(self):
 
