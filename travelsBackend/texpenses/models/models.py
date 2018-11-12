@@ -1311,6 +1311,7 @@ class Applications(Petition):
                                'compensation_days_manual',
                                'distance',
                                'transportation_cost',
+                               'no_transportation_calculation',
                                'transportation_payment_description']
 
     excluded_scompensation = ['non_grnet_quota', 'participation_cost',
@@ -1337,6 +1338,7 @@ class Applications(Petition):
                             'compensation_days_manual',
                             'distance',
                             'transportation_cost',
+                            'no_transportation_calculation',
                             'transportation_payment_description']
 
     excluded_usubmission = ['non_grnet_quota','expenditure_protocol',
@@ -1371,6 +1373,7 @@ class Applications(Petition):
                             'accommodation_total_local_cost',
                             'accommodation_payment_description',
                             'transportation_cost',
+                            'no_transportation_calculation',
                             'transportation_payment_description',
                             'distance',
                             'is_total_manual_cost_set',
@@ -1384,6 +1387,7 @@ class Applications(Petition):
                                'accommodation_total_local_cost',
                                'accommodation_payment_description',
                                'transportation_cost',
+                               'no_transportation_calculation',
                                'transportation_payment_description',
                                'distance', 'overnights_num_manual',
                                'transport_days_manual',
@@ -1427,6 +1431,7 @@ class Applications(Petition):
                                  'accommodation_total_local_cost',
                                  'manager_movement_approval',
                                  'transportation_cost',
+                                 'no_transportation_calculation',
                                  'accommodation_payment_description',
                                  'transportation_payment_description',
                                  'accommodation_local_currency',
