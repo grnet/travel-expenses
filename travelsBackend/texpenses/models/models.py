@@ -414,12 +414,26 @@ class TravelInfo(Accommodation, Transportation):
         return self.depart_date.astimezone(city_timezone)
 
     @property
+    def base_tz_depart_date(self):
+        if not self.depart_date:
+            return self.depart_date
+        base_timezone = pytz.timezone(settings.BASE_TIMEZONE)
+        return self.depart_date.astimezone(base_timezone)
+
+    @property
     def local_return_date(self):
         city = self.arrival_point
         if not self.return_date or not city:
             return self.return_date
         city_timezone = pytz.timezone(city.timezone)
         return self.return_date.astimezone(city_timezone)
+
+    @property
+    def base_tz_return_date(self):
+        if not self.return_date:
+            return self.return_date
+        base_timezone = pytz.timezone(settings.BASE_TIMEZONE)
+        return self.return_date.astimezone(base_timezone)
 
     def calculate_transportation_cost(self):
         # we cannot use location tracker as it's not guaranteed
@@ -1139,19 +1153,17 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         travel_infos = list(self.travel_info.all())
         if not task_start or not travel_infos:
             return task_start
-
-        # If task starts before, take first city's timezone
         city = travel_infos[0].arrival_point
-
-        for travel in travel_infos:
-            if not travel.depart_date or not travel.return_date:
-                continue
-            if task_start >= travel.depart_date and task_start <= travel.return_date:
-                city = travel.arrival_point
-                break
-
         city_timezone = pytz.timezone(city.timezone)
         return self.task_start_date.astimezone(city_timezone)
+
+    @property
+    def base_tz_task_start_date(self):
+        task_start = self.task_start_date
+        if not task_start:
+            return task_start
+        base_timezone = pytz.timezone(settings.BASE_TIMEZONE)
+        return self.task_start_date.astimezone(base_timezone)
 
     @property
     def local_task_end_date(self):
@@ -1159,19 +1171,17 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         travel_infos = list(self.travel_info.all())
         if not task_end or not travel_infos:
             return task_end
-
-        # If task starts after, take last city's timezone
         city = travel_infos[-1].arrival_point
-
-        for travel in travel_infos:
-            if not travel.depart_date or not travel.return_date:
-                continue
-            if task_end >= travel.depart_date and task_end <= travel.return_date:
-                city = travel.arrival_point
-                break
-
         city_timezone = pytz.timezone(city.timezone)
         return self.task_end_date.astimezone(city_timezone)
+
+    @property
+    def base_tz_task_end_date(self):
+        task_end = self.task_end_date
+        if not task_end:
+            return task_end
+        base_timezone = pytz.timezone(settings.BASE_TIMEZONE)
+        return self.task_end_date.astimezone(base_timezone)
 
     def compensation_cost(self):
         return sum([travel_obj.compensation_cost()
