@@ -587,8 +587,8 @@ class TravelInfo(Accommodation, Transportation):
         """
         task_start_date = self.travel_petition.base_tz_task_start_date
         task_end_date = self.travel_petition.base_tz_task_end_date
-        depart_date = self.local_depart_date
-        return_date = self.local_return_date
+        depart_date = self.base_tz_depart_date
+        return_date = self.base_tz_return_date
 
         if not all([task_start_date, task_end_date, depart_date, return_date]):
             return 0
