@@ -38,7 +38,6 @@ const manual = {
     '</ul>' + 
     'The traveler should first save his/her changes and then submit the application. Note that there is no limit to how many times the application can be saved until it is submitted.' + 
     '<br>' + '<br>' + 
-    '<em>' + 'The traveler should download the Request for expenditure from the relevant button in the applications list. This document should always be attached to the physical envelope with proof of expenses that should be submitted to the Accounting department.' + '</em>' +  
     '</p>',
   'user.actions':
       '<h4>' + 'Traveler Actions' + '</h4>' + 
