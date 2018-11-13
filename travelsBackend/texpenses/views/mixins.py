@@ -14,7 +14,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from texpenses.models import Petition, City, Project, Applications
 from texpenses.actions import inform_on_action, inform
-from texpenses.views.utils import render_template2pdf, render_template2csv
+from texpenses.views.utils import render_template2pdf
 from texpenses.views import utils
 
 
