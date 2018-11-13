@@ -47,7 +47,8 @@ export default DS.Model.extend({
   compensation_level: DS.attr({ disabled: true }),
   same_day_return_task: DS.attr('boolean', { attrs: { disabled: true } }),
   index: DS.attr(),
-
+  no_transportation_calculation: DS.attr('boolean', { displayComponent: 'display-boolean' }),
+ 
   tabDisplay: Ember.computed('arrival_point.name', 'departure_point.name', function() {
     let departure = get(this, 'departure_point.name') || '';
     let destination = get(this, 'arrival_point.name') || '';

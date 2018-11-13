@@ -143,6 +143,7 @@ export default {
   'accommodation_payment_way_label.label': 'Way of Payment',
   'participation_payment_way.label': 'Way of Payment',
   'participation_payment_way_label.label': 'Way of Payment',
+  'no_transportation_calculation.label': 'Pay ticket of cheapest means of transport',
   // compensation labels
   'compensation.label': 'Travel Report',
   'additional_expenses_description_user.label': 'Additional Expenses - Description - User',

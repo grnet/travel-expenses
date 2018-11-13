@@ -59,12 +59,13 @@ const FS_EDIT_3_SECRETARY = [
       field('return_date', {}),
       'transport_days_proposed',
       'means_of_transport',
+      'no_transportation_calculation',
       'transportation_cost',
       'transportation_payment_way',
     ],
     layout: {
       flex: [
-        50, 50, 50, 50, 50, 50, 50, 50,
+        50, 50, 50, 50, 50, 50, 100, 50, 50, 50, 50,
       ],
     },
   },
@@ -108,12 +109,13 @@ const FS_VIEW_3_SECRETARY = [
       'return_date_time_format',
       'transport_days_proposed',
       'means_of_transport_label',
+      'no_transportation_calculation',
       'transportation_cost',
       'transportation_payment_way_label',
     ],
     layout: {
       flex: [
-        50, 50, 50, 50, 50, 50, 50, 50,
+        50, 50, 50, 50, 50, 50, 100, 50, 50,
       ],
     },
   },
