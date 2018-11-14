@@ -286,6 +286,8 @@ export default {
   'deactivate.user.error': 'Error on user deactivation',
   'delete.application.error': 'Error on application deletion',
   'No distance found for these cities.': 'No distance found for the specific destination',
+  'User account is disabled.': 'Your account isn\'t active. You should enable it, by selecting the link that\'s been sent to your email address ',
+  'table.is.empty': 'you haven\'t created an application yet',
   // placeholders
   'time_placeholder': 'Time',
   'search.input.placeholder': 'Search with DSE / Name',
