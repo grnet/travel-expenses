@@ -4,7 +4,7 @@
 import pytz
 from datetime import datetime, timedelta
 from django.core.exceptions import ValidationError, PermissionDenied
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from texpenses.models import (Country, City, TravelInfo, Petition,
                               Project,Applications, UserProfile, TaxOffice)
 
@@ -22,6 +22,8 @@ class TravelInfoTest(TestCase):
             specialty='1', tax_reg_num=011111111,
             tax_office=tax_office, user_category='A',
             trip_days_left=5)
+
+        self.base_tz = 'Europe/Athens'
 
         project = Project.objects.create(name='Test Project',
                                          accounting_code=1,
@@ -104,13 +106,26 @@ class TravelInfoTest(TestCase):
         self.travel_obj.arrival_point = arrival_point
         self.assertEqual(self.travel_obj.compensation_level(), 80)
 
+    @override_settings(BASE_TIMEZONE='Europe/Athens')
     def test_same_day_return(self):
-        end_date = datetime.now(pytz.utc)
-        start_date = datetime.now(pytz.utc) - timedelta(days=7)
-        self.assertTrue(start_date, end_date)
+        """
+        Same day return task should use base timezone for the checks
+        """
+        travel = self.travel_obj
+        travel.travel_petition.task_start_date = datetime(2012, 9, 15, 23, 0, 0,
+                                                          tzinfo=pytz.utc)
+        travel.depart_date = datetime(2012, 9, 15, 23, 0, 0, tzinfo=pytz.utc)
+        travel.travel_petition.task_end_date = datetime(2012, 9, 16, 20, 0, 0,
+                                                          tzinfo=pytz.utc)
+        travel.return_date = datetime(2012, 9, 16, 20, 0, 0, tzinfo=pytz.utc)
+        self.assertTrue(travel.same_day_return_task())
 
-        end_date = end_date + timedelta(days=2)
-        self.assertNotEqual(start_date, end_date)
+        travel.depart_date -= timedelta(days=1)
+        self.assertFalse(self.travel_obj.same_day_return_task())
+
+        travel.depart_date += timedelta(days=1)
+        travel.travel_petition.task_start_date -= timedelta(hours=3)
+        self.assertFalse(self.travel_obj.same_day_return_task())
 
     def test_overnights_num_proposed(self):
         start_date = datetime.now(pytz.utc)
