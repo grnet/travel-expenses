@@ -74,6 +74,7 @@ class TravelInfoTest(TestCase):
         self.assertRaises(ValidationError,travel_info.validate_overnight_cost,
                           petition)
 
+    @override_settings(BASE_TIMEZONE='Europe/Athens')
     def test_transport_days_proposed(self):
         date = datetime.now(pytz.utc)
         self.assertEqual(self.travel_obj.transport_days_proposed(), 0)
@@ -82,6 +83,27 @@ class TravelInfoTest(TestCase):
         self.travel_obj.return_date = date + timedelta(days=7)
         # We remove weekends, that's why six (depart and return counted)
         self.assertEqual(self.travel_obj.transport_days_proposed(), 6)
+
+        self.travel_obj.depart_date = datetime(2012, 9, 12, 21, 10, 0,
+                                               tzinfo=pytz.utc)
+        self.travel_obj.return_date = datetime(2012, 9, 14, 17, 0, 0,
+                                               tzinfo=pytz.utc)
+        # 21:10 utc on wed, 12/9, was 00:10 athens time th, 13/9, so 2 days
+        self.assertEqual(self.travel_obj.transport_days_proposed(), 2)
+
+        self.travel_obj.depart_date = datetime(2012, 9, 12, 9, 10, 0,
+                                               tzinfo=pytz.utc)
+        self.travel_obj.return_date = datetime(2012, 9, 14, 17, 0, 0,
+                                               tzinfo=pytz.utc)
+        self.assertEqual(self.travel_obj.transport_days_proposed(), 3)
+
+        self.travel_obj.depart_date = datetime(2012, 9, 12, 9, 10, 0,
+                                               tzinfo=pytz.utc)
+        self.travel_obj.return_date = datetime(2012, 9, 16, 17, 0, 0,
+                                               tzinfo=pytz.utc)
+        # 15 and 16 were sat and sun respectively
+        self.assertEqual(self.travel_obj.transport_days_proposed(), 3)
+
 
     def test_compensation_level(self):
 
@@ -167,6 +189,7 @@ class TravelInfoTest(TestCase):
         self.assertEqual(self.travel_obj.base_tz_return_date.date(),
                          base_tz_test_date)
 
+    @override_settings(BASE_TIMEZONE='Europe/Athens')
     def test_overnights_num_proposed(self):
         start_date = datetime.now(pytz.utc)
         end_date = start_date + timedelta(days=7)
@@ -198,6 +221,13 @@ class TravelInfoTest(TestCase):
         self.assertEqual(self.travel_obj.overnights_num_proposed(
             start_date, end_date), 9)
 
+        start_date = datetime(2012, 9, 12, 21, 10, 0, tzinfo=pytz.utc)
+        end_date = datetime(2012, 9, 14, 17, 0, 0, tzinfo=pytz.utc)
+        self.travel_obj.depart_date = start_date
+        self.travel_obj.return_date = end_date
+        self.assertEqual(self.travel_obj.overnights_num_proposed(
+            start_date, end_date), 1)
+
     def test_is_city_ny(self):
         self.assertFalse(self.travel_obj.is_city_ny())
         city = City(name='ATHENS', country=self.departure_country,
@@ -224,6 +254,7 @@ class TravelInfoTest(TestCase):
         self.assertRaises(ValidationError, self.travel_obj.clean,
                           self.travel_petition)
 
+    @override_settings(BASE_TIMEZONE='Europe/Athens')
     def test_compensation_days_proposed(self):
         depart = datetime.now(pytz.utc) + timedelta(days=3)
         return_d = depart + timedelta(days=5)
@@ -242,6 +273,21 @@ class TravelInfoTest(TestCase):
             task_start, task_end)
         self.travel_obj.compensation_days_manual = overnights
         self.assertEqual(self.travel_obj.compensation_days_proposed(), 5)
+
+        start_date = datetime(2012, 9, 12, 21, 10, 0, tzinfo=pytz.utc)
+        end_date = datetime(2012, 9, 14, 17, 0, 0, tzinfo=pytz.utc)
+        self.travel_obj.depart_date = start_date
+        self.travel_obj.return_date = None
+        self.travel_petition.task_start_date = start_date
+        self.travel_petition.task_end_date = end_date
+        self.assertEqual(self.travel_obj.compensation_days_proposed(), 0)
+
+        self.travel_obj.return_date = end_date
+        self.assertEqual(self.travel_obj.compensation_days_proposed(), 2)
+
+        self.travel_obj.return_date = start_date
+        self.travel_petition.task_end_date = start_date
+        self.assertEqual(self.travel_obj.compensation_days_proposed(), 1)
 
     def test_is_athens_or_thesniki(self):
         self.assertFalse(self.travel_obj.is_athens_or_thesniki())
