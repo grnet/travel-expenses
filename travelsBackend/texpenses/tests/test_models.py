@@ -127,6 +127,46 @@ class TravelInfoTest(TestCase):
         travel.travel_petition.task_start_date -= timedelta(hours=3)
         self.assertFalse(self.travel_obj.same_day_return_task())
 
+    def test_local_depart_date(self):
+        self.assertFalse(self.travel_obj.local_depart_date)
+
+        test_date = datetime(2012, 9, 15, 21, 10, 0, tzinfo=pytz.utc)
+        self.travel_obj.depart_date = test_date
+        local_test_date = datetime(2012, 9, 16).date()
+        self.assertEqual(self.travel_obj.local_depart_date.date(),
+                         local_test_date)
+
+    def test_local_return_date(self):
+        self.assertFalse(self.travel_obj.local_return_date)
+
+        test_date = datetime(2012, 9, 15, 21, 0, 0, tzinfo=pytz.utc)
+        self.travel_obj.return_date = test_date
+        local_test_date = datetime(2012, 9, 16).date()
+        self.assertNotEqual(self.travel_obj.local_return_date.date(),
+                            local_test_date)
+
+        self.travel_obj.return_date += timedelta(hours=2)
+        self.assertEqual(self.travel_obj.local_return_date.date(),
+                         local_test_date)
+
+    @override_settings(BASE_TIMEZONE='Europe/Athens')
+    def test_base_tz_depart_date(self):
+        self.assertFalse(self.travel_obj.base_tz_depart_date)
+        test_date = datetime(2012, 9, 15, 21, 10, 0, tzinfo=pytz.utc)
+        self.travel_obj.depart_date = test_date
+        base_tz_test_date = datetime(2012, 9, 16).date()
+        self.assertEqual(self.travel_obj.base_tz_depart_date.date(),
+                         base_tz_test_date)
+
+    @override_settings(BASE_TIMEZONE='Europe/Athens')
+    def test_base_tz_return_date(self):
+        self.assertFalse(self.travel_obj.base_tz_return_date)
+        test_date = datetime(2012, 9, 15, 21, 10, 0, tzinfo=pytz.utc)
+        self.travel_obj.return_date = test_date
+        base_tz_test_date = datetime(2012, 9, 16).date()
+        self.assertEqual(self.travel_obj.base_tz_return_date.date(),
+                         base_tz_test_date)
+
     def test_overnights_num_proposed(self):
         start_date = datetime.now(pytz.utc)
         end_date = start_date + timedelta(days=7)
@@ -312,7 +352,7 @@ class TravelInfoTest(TestCase):
 
 class PetitionTest(TestCase):
 
-    end_date = datetime.now(pytz.utc) + timedelta(days=10)
+    end_date = datetime(2012, 9, 16, 21, 10, 0, tzinfo=pytz.utc)
     start_date = end_date - timedelta(days=1)
 
     def setUp(self):
@@ -327,9 +367,12 @@ class PetitionTest(TestCase):
             tax_office=tax_office, user_category='A',
             trip_days_left=5)
 
-        city = City.objects.create(
+        departure_city = City.objects.create(
             name='Athens', country=Country.objects.create(name='Greece'),
             timezone='Europe/Athens')
+        arrival_city = City.objects.create(
+            name='Paris', country=Country.objects.create(name='France'),
+            timezone='Europe/Paris')
         self.project = Project.objects.create(name='Test Project',
                                               accounting_code=1,
                                               manager=self.user)
@@ -342,8 +385,8 @@ class PetitionTest(TestCase):
             accommodation_cost=10,
             transport_days_manual=4,
             overnights_num_manual=4,
-            arrival_point=city,
-            departure_point=city,
+            arrival_point=arrival_city,
+            departure_point=departure_city,
             travel_petition=self.petition)
 
         self.petition.travel_info.add(self.travel_info)
@@ -391,6 +434,40 @@ class PetitionTest(TestCase):
         self.petition.task_start_date = self.start_date
         self.petition.task_end_date = None
         self.assertEqual(self.petition.task_duration(), 0)
+
+    def test_local_task_start_date(self):
+        local_test_date = datetime(2012, 9, 15).date()
+        self.assertEqual(self.petition.local_task_start_date.date(),
+                         local_test_date)
+
+        self.petition.task_start_date = None
+        self.assertFalse(self.petition.local_task_start_date)
+
+    def test_local_task_end_date(self):
+        local_test_date = datetime(2012, 9, 16).date()
+        self.assertEqual(self.petition.local_task_end_date.date(),
+                         local_test_date)
+
+        self.petition.task_end_date = None
+        self.assertFalse(self.petition.local_task_end_date)
+
+    @override_settings(BASE_TIMEZONE='Europe/Athens')
+    def test_base_tz_task_start_date(self):
+        base_tz_test_date = datetime(2012, 9, 16).date()
+        self.assertEqual(self.petition.base_tz_task_start_date.date(),
+                         base_tz_test_date)
+
+        self.petition.task_start_date = None
+        self.assertFalse(self.petition.base_tz_task_start_date)
+
+    @override_settings(BASE_TIMEZONE='Europe/Athens')
+    def test_base_tz_task_end_date(self):
+        base_tz_test_date = datetime(2012, 9, 17).date()
+        self.assertEqual(self.petition.base_tz_task_end_date.date(),
+                         base_tz_test_date)
+
+        self.petition.task_end_date = None
+        self.assertFalse(self.petition.base_tz_task_end_date)
 
     def test_status_transition(self):
         data = {
