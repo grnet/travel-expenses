@@ -309,6 +309,13 @@ export default {
   'No distance found for these cities.': 'Δεν υπάρχει διαθέσιμη απόσταση για τον συγκεκριμένο προορισμό',
   'Departure city and arrival city should not be the same.': 'Η πόλη προορισμού δεν πρέπει να είναι η ίδια με την πόλη αναχώρησης.',
   "Unable to login with provided credentials.": 'Μη εφικτή σύνδεση - Λάθος όνομα χρήστη ή κωδικός πρόσβασης',
+  'A user with that username already exists.': 'Υπάρχει ήδη χρήστης με το ίδιο όνομα χρήστη (username)',
+  'User account is disabled.': 'Δεν έχετε ενεργοποιήσει τον λογαριασμό σας. Για να τον ενεργοποιήσετε θα πρέπει να επιλέξετε τον σύνδεσμο που έχει σταλεί στην ηλεκτρονική σας διεύθυνση (email)',
+  'The number has an invalid format.': 'Ο αριθμός δεν είναι έγκυρος',
+  'The number\'s checksum or check digit is invalid.': 'Ο αριθμός δεν είναι έγκυρος',
+  'Ensure this field has no more than 27 characters': 'Βεβαιωθείτε ότι ο αριθμός δεν έχει περισσότερα από 27 ψηφία',
+  'Ensure this field has no more than 9 characters.': 'Βεβαιωθείτε ότι ο αριθμός δεν έχει περισσότερα από 9 ψηφία',
+  'table.is.empty': 'Δεν έχετε δημιουργήσει ακόμη κάποια αίτηση μετακίνησης',
   // placeholders
   'time_placeholder': 'Ώρα',
   'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',
