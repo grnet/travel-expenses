@@ -278,9 +278,9 @@ export default {
   'activate.user.success': 'Η ενεργοποίηση του χρήστη πραγματοποιήθηκε επιτυχώς',
   'deactivate.user.success': 'Η απενεργοποίηση του χρήστη πραγματοποιήθηκε επιτυχώς',
   'delete.application.success': 'Η διαγραφή της αίτησης πραγματοποιήθηκε επιτυχώς',
-  'downloading.started': 'Έναρξη εξαγωγής αρχείων',
+  'downloading.started': 'Έναρξη εξαγωγής αρχείων <md-icon md-font-icon="rotate-left" aria-label="rotate-left" class="paper-icon md-font material-icons md-spin-reverse">rotate_left </md-icon>',
   'downloading.finished': 'Επιτυχής εξαγωγή αρχείων',
-  'downloading.file.started': 'Έναρξη εξαγωγής αρχείου',
+  'downloading.file.started': 'Έναρξη εξαγωγής αρχείου <md-icon md-font-icon="rotate-left" aria-label="rotate-left" class="paper-icon md-font material-icons md-spin-reverse">rotate_left </md-icon>',
   'downloading.file.finished': 'Επιτυχής εξαγωγή αρχείου',
   // error messages
   'login.error': 'Σφάλμα εισόδου',

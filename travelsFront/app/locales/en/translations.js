@@ -263,9 +263,9 @@ export default {
   'activate.user.success': 'The user has been activated successfully',
   'deactivate.user.success': 'The user has been deactivated successfully',
   'delete.application.success': 'The application has been deleted successfully',
-  'downloading.started': 'Downloading started',
+  'downloading.started': 'Downloading started <md-icon md-font-icon="rotate-left" aria-label="rotate-left" class="paper-icon md-font material-icons md-spin-reverse">rotate_left </md-icon>',
   'downloading.finished': 'Downloading finished',
-  'downloading.file.started': 'Downloading started',
+  'downloading.file.started': 'Downloading started <md-icon md-font-icon="rotate-left" aria-label="rotate-left" class="paper-icon md-font material-icons md-spin-reverse">rotate_left </md-icon>',
   'downloading.file.finished': 'Downloading finished',
   // error messages
   'login.error': 'Error on login',
