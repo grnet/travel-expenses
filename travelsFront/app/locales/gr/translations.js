@@ -315,7 +315,7 @@ export default {
   'User account is disabled.': 'Δεν έχετε ενεργοποιήσει τον λογαριασμό σας. Για να τον ενεργοποιήσετε θα πρέπει να επιλέξετε τον σύνδεσμο που έχει σταλεί στην ηλεκτρονική σας διεύθυνση (email)',
   'The number has an invalid format.': 'Ο αριθμός δεν είναι έγκυρος',
   'The number\'s checksum or check digit is invalid.': 'Ο αριθμός δεν είναι έγκυρος',
-  'Ensure this field has no more than 27 characters': 'Βεβαιωθείτε ότι ο αριθμός δεν έχει περισσότερα από 27 ψηφία',
+  'Ensure this field has no more than 27 characters.': 'Βεβαιωθείτε ότι ο αριθμός δεν έχει περισσότερα από 27 ψηφία',
   'Ensure this field has no more than 9 characters.': 'Βεβαιωθείτε ότι ο αριθμός δεν έχει περισσότερα από 9 ψηφία',
   'table.is.empty': 'Δεν έχετε δημιουργήσει ακόμη κάποια αίτηση μετακίνησης',
   // placeholders
