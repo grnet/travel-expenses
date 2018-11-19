@@ -1,9 +1,9 @@
 import DS from 'ember-data';
 import validate from 'ember-gen/validate';
 
-function samePassword({field, checkLen}) {
+function samePassword({field}) {
   return (key, value, old, changes, content) => {
-    if (changes.password && value && value.length >= (checkLen || 3)) {
+    if (changes.password && value) {
       if (value != changes.password) {
         return 'passwords.do.not.match'
       }
@@ -26,5 +26,5 @@ export default DS.Model.extend({
   username: DS.attr('string'),
   email: DS.attr('string'),
   password: DS.attr('string', { formAttrs: { type: 'password' }, validators: [validate.length({min: 6})] }),
-  password2: DS.attr('string', { formAttrs: { type: 'password' }, validators: [validate.presence(true), samePassword({field: 'password', checkLen: 1})] }),
+  password2: DS.attr('string', { formAttrs: { type: 'password' }, validators: [validate.presence(true), samePassword({field: 'password'})] }),
 });
