@@ -22,7 +22,9 @@ export default {
   // account labels
   'login_pass.label': 'Κωδικός Πρόσβασης',
   'password.label': 'Κωδικός Πρόσβασης',
+  'password2.label': 'Επαλήθευση Κωδικού Πρόσβασης',
   'username': 'Όνομα Χρήστη (username)',
+  'passwords.do.not.match': 'Τα δύο συνθηματικά δεν ταιριάζουν',
   // change password
   'new_password.label': 'Νέος Κωδικός Πρόσβασης',
   're_new_password.label': 'Επιβεβαίωση νέου Κωδικού Πρόσβασης',

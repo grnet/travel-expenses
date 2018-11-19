@@ -22,6 +22,8 @@ export default {
   // account labels
   'login_pass.label': 'Password',
   'password.label': 'Password',
+  'password2.label': 'Retype password',
+  'passwords.do.not.match': 'Passwords don\'t match',
   'username': 'Username',
   // change password
   'new_password.label': 'New password',
