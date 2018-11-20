@@ -22,7 +22,9 @@ export default {
   // account labels
   'login_pass.label': 'Κωδικός Πρόσβασης',
   'password.label': 'Κωδικός Πρόσβασης',
+  'password2.label': 'Επαλήθευση Κωδικού Πρόσβασης',
   'username': 'Όνομα Χρήστη (username)',
+  'passwords.do.not.match': 'Τα δύο συνθηματικά δεν ταιριάζουν',
   // change password
   'new_password.label': 'Νέος Κωδικός Πρόσβασης',
   're_new_password.label': 'Επιβεβαίωση νέου Κωδικού Πρόσβασης',
@@ -274,7 +276,7 @@ export default {
   'add.to.timesheets.success': 'Η ενέργεια πραγματοποιήθηκε επιτυχώς',
   'manager.approval.success': 'Η ενέργεια πραγματοποιήθηκε επιτυχώς',
   'reset.application.success': 'Η επαναφορά πραγματοποιήθηκε επιτυχώς',
-  'user.created': 'Ο λογαριασμός δημιουργήθηκε',
+  'user.created': 'Ο λογαριασμός δημιουργήθηκε. Θα πρέπει να τον ενεργοποιήσετε επιλέγοντας τον σύνδεσμο που έχει σταλεί στο email σας',
   'activate.user.success': 'Η ενεργοποίηση του χρήστη πραγματοποιήθηκε επιτυχώς',
   'deactivate.user.success': 'Η απενεργοποίηση του χρήστη πραγματοποιήθηκε επιτυχώς',
   'delete.application.success': 'Η διαγραφή της αίτησης πραγματοποιήθηκε επιτυχώς',
@@ -309,6 +311,13 @@ export default {
   'No distance found for these cities.': 'Δεν υπάρχει διαθέσιμη απόσταση για τον συγκεκριμένο προορισμό',
   'Departure city and arrival city should not be the same.': 'Η πόλη προορισμού δεν πρέπει να είναι η ίδια με την πόλη αναχώρησης.',
   "Unable to login with provided credentials.": 'Μη εφικτή σύνδεση - Λάθος όνομα χρήστη ή κωδικός πρόσβασης',
+  'A user with that username already exists.': 'Υπάρχει ήδη χρήστης με το ίδιο όνομα χρήστη (username)',
+  'User account is disabled.': 'Δεν έχετε ενεργοποιήσει τον λογαριασμό σας. Για να τον ενεργοποιήσετε θα πρέπει να επιλέξετε τον σύνδεσμο που έχει σταλεί στην ηλεκτρονική σας διεύθυνση (email)',
+  'The number has an invalid format.': 'Ο αριθμός δεν είναι έγκυρος',
+  'The number\'s checksum or check digit is invalid.': 'Ο αριθμός δεν είναι έγκυρος',
+  'Ensure this field has no more than 27 characters.': 'Βεβαιωθείτε ότι ο αριθμός δεν έχει περισσότερα από 27 ψηφία',
+  'Ensure this field has no more than 9 characters.': 'Βεβαιωθείτε ότι ο αριθμός δεν έχει περισσότερα από 9 ψηφία',
+  'table.is.empty': 'Δεν έχετε δημιουργήσει ακόμη κάποια αίτηση μετακίνησης',
   // placeholders
   'time_placeholder': 'Ώρα',
   'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',
@@ -327,5 +336,6 @@ export default {
   'contact-us': 'Επικοινωνία',
   'contact-text': 'Για οποιαδήποτε απορία ή διευκρίνιση, μπορείτε να επικοινωνήσετε μαζί μας στην παρακάτω διεύθυνση ηλεκτρονικού ταχυδρομείου:',
   'submit.action.explanatory.text': 'Μετά την "Αποθήκευση" της αίτησης θα πρέπει να την υποβάλετε πατώντας το κουμπί "Υποβολή Αίτησης"',
+  'signup.email.verification': 'Μετά την ολοκλήρωση της εγγραφής σας θα πρέπει να ενεργοποιήσετε τον λογαριασμό σας μέσω του συνδέσμου που θα σταλεί στο email σας.'
 };
 

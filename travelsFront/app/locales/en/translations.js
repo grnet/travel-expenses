@@ -22,6 +22,8 @@ export default {
   // account labels
   'login_pass.label': 'Password',
   'password.label': 'Password',
+  'password2.label': 'Retype password',
+  'passwords.do.not.match': 'Passwords don\'t match',
   'username': 'Username',
   // change password
   'new_password.label': 'New password',
@@ -259,7 +261,7 @@ export default {
   'file.delete.success': 'The file has been deleted',
   'add.to.timesheets.success': 'The action was successful',
   'reset.application.success': 'The application has been reset to status 3',
-  'user.created': 'User has been created',
+  'user.created': 'Account has been created. You should enable it by selecting the link that\'s been sent to your email address',
   'activate.user.success': 'The user has been activated successfully',
   'deactivate.user.success': 'The user has been deactivated successfully',
   'delete.application.success': 'The application has been deleted successfully',
@@ -286,6 +288,8 @@ export default {
   'deactivate.user.error': 'Error on user deactivation',
   'delete.application.error': 'Error on application deletion',
   'No distance found for these cities.': 'No distance found for the specific destination',
+  'User account is disabled.': 'Your account isn\'t active. You should enable it by selecting the link that\'s been sent to your email address',
+  'table.is.empty': 'you haven\'t created an application yet',
   // placeholders
   'time_placeholder': 'Time',
   'search.input.placeholder': 'Search with DSE / Name',
@@ -304,5 +308,6 @@ export default {
   'contact-us': 'Contact us',
   'contact-text': 'In case you have questions, please contact us at:',
   'submit.action.explanatory.text': 'After you "Save" the application you should submit it by clicking on "Submit" button',
+  'signup.email.verification': 'After you complete your registration, you should enable your account by selecting the link that\'s been sent to your email address'
 };
 
