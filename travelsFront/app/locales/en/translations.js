@@ -308,6 +308,6 @@ export default {
   'contact-us': 'Contact us',
   'contact-text': 'In case you have questions, please contact us at:',
   'submit.action.explanatory.text': 'After you "Save" the application you should submit it by clicking on "Submit" button',
-  'signup.email.verification': 'After you complete your registration, you should enable your account be selecting the link that\'s been sent to your email address'
+  'signup.email.verification': 'After you complete your registration, you should enable your account by selecting the link that\'s been sent to your email address'
 };
 
