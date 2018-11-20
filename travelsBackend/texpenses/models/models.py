@@ -1237,6 +1237,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         """
 
         return sum([Decimal(self.transportation_cost_not_to_be_compensated()),
+                    Decimal(self.additional_expenses_grnet),
                     Decimal(self.participation_cost),
                     Decimal(self.compensation_final()),
                     Decimal(self.overnights_not_to_be_compensated())])

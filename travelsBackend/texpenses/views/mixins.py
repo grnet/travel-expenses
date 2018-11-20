@@ -464,6 +464,8 @@ class ApplicationMixin(object):
                                  petition_object.additional_expenses_initial)),
                          'additional_expenses_default_currency':
                          petition_object.additional_expenses_default_currency,
+                         'additional_expenses_grnet':
+                         petition_object.additional_expenses_grnet,
                          'total_cost': petition_object.total_cost_calculated(),
                          'project': petition_object.project.name,
                          'compensation_string' :
