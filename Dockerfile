@@ -2,7 +2,10 @@ FROM debian:jessie
 MAINTAINER Antonis Angelakis "angelakis@grnet.gr"
 
 RUN apt-get -y update && apt-get -y install curl apt-utils apt-transport-https \
-                                            locales locales-all python python-pip git
+                                            locales locales-all python python-pip git \
+                                            libcairo2 libpango-1.0-0 pangocairo-1.0 \
+                                            zlib1g-dev python-dev libffi-dev libxml2 \
+                                            libxml2-dev libxslt-dev libyaml-dev
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN apt-get install -y locales locales-all
@@ -27,11 +30,7 @@ RUN yarn install --non-interactive
 RUN bower install --allow-root -q
 RUN ember build
 WORKDIR /srv/travel/travelsBackend
-RUN apt-get -y update && apt-get -y install libcairo2 libpango-1.0-0 pangocairo-1.0
-RUN apt-get -y install libxml2 libffi-dev python-dev
-RUN apt-get -y install python-setuptools
 RUN pip install --upgrade cffi --user
-RUN apt-get -y install libxml2-dev libxslt-dev libyaml-dev
 RUN pip install -r requirements.txt --user
 
 EXPOSE 8000
