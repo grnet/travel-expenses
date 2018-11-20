@@ -747,6 +747,10 @@ class AdditionalCosts(md.Model):
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
     additional_expenses_description = md.CharField(
         max_length=400, blank=True, null=True)
+    additional_expenses_grnet = md.DecimalField(
+        max_digits=settings.DECIMAL_MAX_DIGITS,
+        decimal_places=settings.DECIMAL_PLACES,
+        blank=False, default=0.0, validators=[MinValueValidator(0.0)])
 
     class Meta:
         abstract = True
