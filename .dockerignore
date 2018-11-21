@@ -6,3 +6,5 @@ Dockerfile
 ./travelsFront/tmp
 *.swp
 *.pyc
+*.sqlite3
+*.*~
