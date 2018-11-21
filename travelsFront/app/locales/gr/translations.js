@@ -147,6 +147,9 @@ export default {
   'participation_payment_way_label.label': 'Τρόπος Πληρωμής',
   // compensation labels
   'compensation.label': 'Απολογισμός Μετακίνησης',
+  'additional_expenses_description_user.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή - Καταχώρηση Χρήστη',
+  'additional_expenses_user.label': 'Λοιπά Έξοδα Μετακίνησης - Καταχώρηση Χρήστη',
+  'additional_expenses_grnet.label': 'Λοιπά έξοδα μετακίνησης ΕΔΕΤ',
   // helpdesk labels
   'name.label': 'Όνομα Έργου',
   'accounting_code.label': 'Κωδικός Λογιστικής',
@@ -205,9 +208,6 @@ export default {
   'compensation_petition_protocol.label': 'Αρ. Πρ. Αίτησης Αποζημίωσης Μετακίνησης',
   'compensation_decision_date_format.label': 'Ημ. Πρ. Απόφασης Αποζημίωσης Μετακίνησης',
   'compensation_decision_protocol.label': 'Αρ. Πρ. Απόφασης Αποζημίωσης Μετακίνησης',
-  // compensation labels
-  'additional_expenses_description_user.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή - Καταχώρηση Χρήστη',
-  'additional_expenses_user.label': 'Λοιπά Έξοδα Μετακίνησης - Καταχώρηση Χρήστη',
   // tooltips
   'tooltip_edit': 'Επεξεργασία Αίτησης',
   'tooltip_delete': 'Διαγραφή Αίτησης',

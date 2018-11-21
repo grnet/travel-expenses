@@ -143,6 +143,9 @@ export default {
   'participation_payment_way_label.label': 'Way of Payment',
   // compensation labels
   'compensation.label': 'Travel Report',
+  'additional_expenses_description_user.label': 'Additional Expenses - Description - User',
+  'additional_expenses_user.label': 'Additional Expenses - User',
+  'additional_expenses_grnet.label': 'Additional Expenses - GRNET',
   // computational data labels
   'transport_days_proposed.label': 'Traveling Days',
   'overnights_num_proposed.label': 'Overnights (proposed)',
@@ -187,9 +190,6 @@ export default {
   'compensation_petition_protocol.label': 'Claim for Compensation Protocol Number',
   'compensation_decision_date_format.label': 'Compensation Decision Protocol Date',
   'compensation_decision_protocol.label': 'Compensation Decision Protocol Number',
-  // compensation labels
-  'additional_expenses_description_user.label': 'Additional Expenses - Description - User',
-  'additional_expenses_user.label': 'Additional Expenses - User',
   // helpdesk labels
   'name.label': 'Project Name',
   'accounting_code.label': 'Accounting Code',
