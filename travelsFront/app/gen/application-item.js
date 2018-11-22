@@ -15,6 +15,7 @@ import moment from 'moment';
 const {
   get,
   computed,
+  inject,
   computed: { reads },
 } = Ember;
 
@@ -53,6 +54,24 @@ export default gen.CRUDGen.extend({
   },
 
   list: {
+    routeMixins: [{
+      messageService: inject.service('messages'),
+      beforeModel(transition) {
+        let session = get(this, 'session');
+        if (get(session, 'isAuthenticated')) {
+          let profile = get(session, 'session.authenticated');
+          const PROFILE_PARAMS = ['first_name', 'last_name', 'iban', 'specialty', 'kind', 'tax_reg_num'];
+          for (let value of PROFILE_PARAMS) {
+            if (profile[value] == null || value == null) {
+              transition.abort();
+              this.get('messageService').setError('profile.not.complete.error');
+              return this.transitionTo('auth.profile');
+            };
+          }
+        }
+        return this._super(transition);
+      }
+    }],
     actions: ['exportStats', 'gen:create'],
     actionsMap: {
       exportStats: applicationActions.exportStats,

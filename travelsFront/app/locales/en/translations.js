@@ -291,6 +291,7 @@ export default {
   'No distance found for these cities.': 'No distance found for the specific destination',
   'User account is disabled.': 'Your account isn\'t active. You should enable it by selecting the link that\'s been sent to your email address',
   'table.is.empty': 'you haven\'t created an application yet',
+  'profile.not.complete.error': 'You should fill in your profile info in order to create a new application',
   // placeholders
   'time_placeholder': 'Time',
   'search.input.placeholder': 'Search with DSE / Name',
