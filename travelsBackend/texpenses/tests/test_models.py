@@ -1,3 +1,6 @@
+
+# -*- coding: utf-8 -*-
+
 from datetime import datetime, timedelta
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.test import TestCase
@@ -176,6 +179,83 @@ class TravelInfoTest(TestCase):
             task_start, task_end)
         self.travel_obj.compensation_days_manual = overnights
         self.assertEqual(self.travel_obj.compensation_days_proposed(), 5)
+
+    def test_is_athens_or_thesniki(self):
+        self.assertFalse(self.travel_obj.is_athens_or_thesniki())
+
+        self.travel_obj.arrival_point = None
+        self.assertFalse(self.travel_obj.is_athens_or_thesniki())
+
+        greece = Country(name=u'Ελλάδα', category='B')
+        city = City(name=u'Χανιά', country=greece)
+        self.travel_obj.arrival_point = city
+        self.assertFalse(self.travel_obj.is_athens_or_thesniki())
+
+        self.travel_obj.arrival_point.name = u'Αθήνα'
+        self.assertTrue(self.travel_obj.is_athens_or_thesniki())
+
+        self.travel_obj.arrival_point.name = u'Θεσσαλονίκη'
+        self.assertTrue(self.travel_obj.is_athens_or_thesniki())
+
+    def test_is_abroad(self):
+        self.assertTrue(self.travel_obj.is_abroad())
+
+        self.travel_obj.arrival_point = None
+        self.assertTrue(self.travel_obj.is_abroad())
+
+        greece = Country(name=u'Ελλάδα', category='B')
+        city = City(name=u'Χανιά', country=greece)
+        self.travel_obj.arrival_point = city
+        self.assertFalse(self.travel_obj.is_abroad())
+
+        self.travel_obj.arrival_point.country.name = u'Γαλλία'
+        self.assertTrue(self.travel_obj.is_abroad())
+
+    def test_transport_car_or_bike(self):
+        self.assertFalse(self.travel_obj.means_of_transport_is_car_or_bike())
+
+        self.travel_obj.means_of_transport = 'BIKE'
+        self.assertTrue(self.travel_obj.means_of_transport_is_car_or_bike())
+
+        self.travel_obj.means_of_transport = 'CAR'
+        self.assertTrue(self.travel_obj.means_of_transport_is_car_or_bike())
+
+        self.travel_obj.means_of_transport = 'SHIP'
+        self.assertFalse(self.travel_obj.means_of_transport_is_car_or_bike())
+
+    def test_transport_train_ship_bus(self):
+        self.assertFalse(self.travel_obj.means_of_transport_is_train_ship_bus())
+
+        self.travel_obj.means_of_transport = 'BIKE'
+        self.assertFalse(self.travel_obj.means_of_transport_is_train_ship_bus())
+
+        self.travel_obj.means_of_transport = 'CAR'
+        self.assertFalse(self.travel_obj.means_of_transport_is_train_ship_bus())
+
+        self.travel_obj.means_of_transport = 'SHIP'
+        self.assertTrue(self.travel_obj.means_of_transport_is_train_ship_bus())
+
+        self.travel_obj.means_of_transport = 'TRAIN'
+        self.assertTrue(self.travel_obj.means_of_transport_is_train_ship_bus())
+
+        self.travel_obj.means_of_transport = 'BUS'
+        self.assertTrue(self.travel_obj.means_of_transport_is_train_ship_bus())
+
+    def test_transportation_should_be_compensated(self):
+        self.assertFalse(self.travel_obj.transportation_should_be_compensated())
+
+        self.travel_obj.means_of_transport = 'CAR'
+        self.assertTrue(self.travel_obj.transportation_should_be_compensated())
+
+        self.travel_obj.means_of_transport = 'BIKE'
+        self.assertTrue(self.travel_obj.transportation_should_be_compensated())
+
+        self.travel_obj.transportation_payment_way = u'GRNET'
+        self.travel_obj.means_of_transport = 'TRAIN'
+        self.assertFalse(self.travel_obj.transportation_should_be_compensated())
+
+        self.travel_obj.transportation_payment_way = u'VISA'
+        self.assertTrue(self.travel_obj.transportation_should_be_compensated())
 
 
 class PetitionTest(TestCase):

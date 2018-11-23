@@ -354,33 +354,20 @@ class TravelInfo(Accommodation, Transportation):
             raise ValidationError(u'No distance found for these cities.')
 
     def _set_travel_manual_field_defaults(self):
-
         self.transport_days_manual = self.transport_days_proposed()
-
         self.compensation_days_manual = self.compensation_days_proposed()
 
     def is_abroad(self):
-
-        if self._endpoints_are_set():
-            base_country_name = settings.BASE_COUNTRY
-            arrival_country_name = self.arrival_point.country.name
-
-            if arrival_country_name == base_country_name:
-                return False
+        if not self._endpoints_are_set():
             return True
-        return True
+        base_country_name = settings.BASE_COUNTRY
+        arrival_country_name = self.arrival_point.country.name
+        return arrival_country_name != base_country_name
 
     def is_athens_or_thesniki(self):
-
-        if self._endpoints_are_set():
-            arrival_point_name = self.arrival_point.name
-
-            if not self.is_abroad() and arrival_point_name in (u'Αθήνα',
-                                                               u'Θεσσαλονίκη'):
-                return True
-
+        if not self._endpoints_are_set():
             return False
-        return False
+        return self.arrival_point.name in (u'Αθήνα', u'Θεσσαλονίκη')
 
     def locations_have_changed(self):
         return any(self.location_tracker.has_changed(field)
@@ -391,9 +378,15 @@ class TravelInfo(Accommodation, Transportation):
                    for field in self.tracked_means_of_tranport_fields)
 
     def means_of_transport_is_car_or_bike(self):
-        if self.means_of_transport in ('BIKE', 'CAR'):
-            return True
-        return False
+        return self.means_of_transport in ('BIKE', 'CAR')
+
+    def means_of_transport_is_train_ship_bus(self):
+        return self.means_of_transport in ('TRAIN', 'SHIP', 'BUS')
+
+    def transportation_should_be_compensated(self):
+        return self.means_of_transport_is_car_or_bike() or\
+               (self.means_of_transport_is_train_ship_bus() and
+                self.transportation_payment_way == u'VISA')
 
     def calculate_transportation_cost(self):
         if self.means_of_transport_is_car_or_bike():
@@ -1190,7 +1183,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         transportation_compensation = 0
 
         for travel_obj in self.travel_info.all():
-            if travel_obj.means_of_transport_is_car_or_bike():
+            if travel_obj.transportation_should_be_compensated():
                 transportation_compensation += travel_obj.transportation_cost
 
         return transportation_compensation
@@ -1200,7 +1193,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         transportation_compensation = 0
 
         for travel_obj in self.travel_info.all():
-            if not travel_obj.means_of_transport_is_car_or_bike():
+            if not travel_obj.transportation_should_be_compensated():
                 transportation_compensation += travel_obj.transportation_cost
 
         return transportation_compensation
