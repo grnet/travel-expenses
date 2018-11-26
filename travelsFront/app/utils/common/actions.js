@@ -480,7 +480,7 @@ const exportStats = {
   hidden: computed('role', function(){
     let role = this.get('role');
 
-    if (role === 'CONTROLLER') {
+    if (role === 'CONTROLLER' || role === 'HELPDESK') {
       return false;
     } else {
       return true;
