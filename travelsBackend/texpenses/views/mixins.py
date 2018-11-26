@@ -80,10 +80,15 @@ class ProjectMixin(object):
 
     def _get_related_petitions(self, project_name=None):
 
-        query = Applications.objects.filter(
-            Q(status__gte=Petition.USER_COMPENSATION_SUBMISSION) &
-            Q(status__lte=Petition.PETITION_FINAL_APPOVAL)
-        )
+        user = self.request.user
+        if user.user_group() == "CONTROLLER":
+            query = Applications.objects.filter(
+                Q(status__gte=Petition.USER_COMPENSATION_SUBMISSION) &
+                Q(status__lte=Petition.PETITION_FINAL_APPOVAL)
+            )
+        elif user.user_group() == "HELPDESK":
+            query = Applications.objects.filter(
+                Q(status__gte=Petition.SUBMITTED_BY_SECRETARY))
 
         petitions =  query.filter(
             project__name=project_name) if project_name else (query)

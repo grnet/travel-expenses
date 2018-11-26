@@ -43,6 +43,7 @@ PERMISSION_RULES = [
     ('project', 'update', 'HELPDESK', '*', '*', '*'),
     ('project', 'stats', 'ADMIN', '*', '*', '*'),
     ('project', 'stats', 'CONTROLLER', '*', '*', '*'),
+    ('project', 'stats', 'HELPDESK', '*', '*', '*'),
     ('project', 'toggle_active', 'ADMIN', '*', '*', '*'),
     ('project', 'toggle_active', 'HELPDESK', '*', '*', '*'),
 
