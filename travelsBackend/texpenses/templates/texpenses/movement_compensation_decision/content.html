@@ -132,6 +132,12 @@
 			<td>Λοιπά έξοδα μετακίνησης</td>
 			<td>{{additional_expenses}} ευρώ  </td>
 		</tr>
+		{% if additional_expenses_grnet > 0 %}
+		<tr>
+			<td>Λοιπά έξοδα μετακίνησης ΕΔΕΤ</td>
+			<td>{{additional_expenses_grnet}} ευρώ</td>
+		</tr>
+		{% endif %}
 		<tr>
 			<td><b>Σύνολο</td>
 			<td><b>{{total_cost}} ευρώ </b></td>

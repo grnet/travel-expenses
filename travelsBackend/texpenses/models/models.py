@@ -740,6 +740,10 @@ class AdditionalCosts(md.Model):
         max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
     additional_expenses_description = md.CharField(
         max_length=400, blank=True, null=True)
+    additional_expenses_grnet = md.DecimalField(
+        max_digits=settings.DECIMAL_MAX_DIGITS,
+        decimal_places=settings.DECIMAL_PLACES,
+        blank=False, default=0.0, validators=[MinValueValidator(0.0)])
 
     class Meta:
         abstract = True
@@ -1226,6 +1230,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         """
 
         return sum([Decimal(self.transportation_cost_not_to_be_compensated()),
+                    Decimal(self.additional_expenses_grnet),
                     Decimal(self.participation_cost),
                     Decimal(self.compensation_final()),
                     Decimal(self.overnights_not_to_be_compensated())])
@@ -1276,6 +1281,7 @@ class Applications(Petition):
                 'additional_expenses_initial',
                 'additional_expenses_initial_description',
                 'additional_expenses', 'additional_expenses_description',
+                'additional_expenses_grnet',
                 'manager_cost_approval', 'manager_movement_approval',
                 'compensation_alert','timesheeted',
                               'participation_local_currency',
@@ -1302,6 +1308,7 @@ class Applications(Petition):
                 'participation_local_cost', 'additional_expenses_initial',
                 'additional_expenses_initial_description',
                 'additional_expenses', 'additional_expenses_description',
+                'additional_expenses_grnet',
                 'user_recommendation', 'compensation_alert',
                 'secretary_recommendation', 'manager_cost_approval',
                 'manager_movement_approval','timesheeted',
@@ -1340,6 +1347,7 @@ class Applications(Petition):
                             'additional_expenses_initial',
                             'additional_expenses_initial_description',
                             'additional_expenses',
+                            'additional_expenses_grnet',
                             'additional_expenses_description',
                             'deleted',
                             'user_recommendation',
@@ -1387,6 +1395,7 @@ class Applications(Petition):
                               'additional_expenses_initial',
                               'additional_expenses_initial_description',
                               'additional_expenses',
+                              'additional_expenses_grnet',
                               'additional_expenses_description',
                               'deleted',
                               'user_recommendation',

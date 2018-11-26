@@ -58,9 +58,10 @@ const FS_EDIT_8 = [
       'additional_expenses',
       'additional_expenses_local_currency',
       'additional_expenses_description',
+      'additional_expenses_grnet',
     ],
     layout: {
-      flex: [100, 50, 50, 100],
+      flex: [100, 50, 50, 100, 100],
     },
   },
   {
@@ -135,9 +136,10 @@ const FS_VIEW_8 = [
       'additional_expenses',
       'additional_expenses_local_currency',
       'additional_expenses_description',
+      'additional_expenses_grnet',
     ],
     layout: {
-      flex: [100, 50, 50, 100],
+      flex: [100, 50, 50, 100, 100],
     },
   },
   {

@@ -55,6 +55,12 @@ spec = {'*': {
                                            '.drf_field': {},
                                            '.field': {},
                                            '.string': {}},
+    'additional_expenses_grnet': {'.cli_option': {},
+                                   '.drf_field': {},
+                                   '.field': {},
+                                   '.decimal': {
+                                   'max_digits': settings.DECIMAL_MAX_DIGITS,
+                                   'decimal_places':settings.DECIMAL_PLACES}},
     'travel_files': {'.cli_option': {},
                      '.drf_field': {},
                      '.field': {},

@@ -90,6 +90,7 @@ export default DS.Model.extend({
   compensation_final: DS.attr(),
   timesheeted: DS.attr('boolean'),
   new_id: DS.attr(),
+  additional_expenses_grnet: DS.attr(),
 
   // set status label value
   status_label: Ember.computed('status', function() {
