@@ -147,7 +147,7 @@ export default {
   'participation_payment_way_label.label': 'Τρόπος Πληρωμής',
   // compensation labels
   'compensation.label': 'Απολογισμός Μετακίνησης',
-  'additional_expenses_description_user.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή - Καταχώρηση Χρήστη',
+  'additional_expenses_description_user.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή - Καταχώριση Χρήστη',
   'additional_expenses_user.label': 'Λοιπά Έξοδα Μετακίνησης - Καταχώρηση Χρήστη',
   'additional_expenses_grnet.label': 'Λοιπά έξοδα μετακίνησης ΕΔΕΤ',
   // helpdesk labels
