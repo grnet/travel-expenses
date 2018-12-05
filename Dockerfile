@@ -12,7 +12,7 @@ RUN apt-get install -y locales locales-all
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get -y update && apt-get install -y yarn
 RUN apt-get install -y make g++
-RUN yarn global add bower ember-cli@2.9.1 ember-cli-sass@5.6.0 ember-cli-gen@1.0.14 ember-cli-gen-apimas
+RUN yarn global add bower ember-cli@2.9.1 ember-cli-sass@5.6.0 ember-cli-gen@1.0.16 ember-cli-gen-apimas
 
 RUN mkdir /etc/travel
 RUN mkdir /var/log/travel/
@@ -31,7 +31,7 @@ RUN yarn install --non-interactive
 RUN bower install --allow-root -q
 RUN ember build
 WORKDIR /srv/travel/travelsBackend
-RUN apt-get -y install libpq-dev python-setuptools
+RUN apt-get -y update && apt-get -y install libpq-dev python-setuptools
 RUN easy_install pip
 RUN pip install --upgrade cffi==1.2.1 --user
 RUN pip install six --user
