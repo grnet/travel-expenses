@@ -19,9 +19,9 @@ RUN mkdir /var/log/travel/
 RUN touch /var/log/travel/travelexpenses.log
 RUN mkdir /usr/lib/travel
 RUN mkdir /srv/travel
-ADD . /srv/travel
-ADD ./deploy/settings.conf /etc/travel/
-ADD ./deploy/boot.sh /srv/boot.sh
+ADD ./travelsFront /srv/travel/travelsFront
+ADD ./travelsBackend /srv/travel/travelsBackend
+ADD ./resources /srv/travel/resources
 RUN cd /usr/lib/travel && ln -sf /srv/travel/resources
 
 ENV LC_ALL en_US.UTF-8
@@ -37,6 +37,8 @@ RUN pip install --upgrade cffi==1.2.1 --user
 RUN pip install six --user
 RUN pip install psycopg2 html5lib --user
 RUN pip install -r requirements.txt --user
+ADD ./deploy/settings.conf /etc/travel/
+ADD ./deploy/boot.sh /srv/boot.sh
 
 EXPOSE 8000
 CMD bash /srv/boot.sh
