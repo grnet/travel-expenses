@@ -1,19 +1,28 @@
-import sys
+import datetime
+import logging
 from django.core.management.base import BaseCommand
 from django.conf import settings
 
-from texpenses.models import UserProfile
+from texpenses.models import UserProfile, UserDaysLeft
 
-reload(sys)
-sys.setdefaultencoding('utf8')
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
     help = "Reset travel days for all users."
 
     def handle(self, *args, **options):
-        # Update all user records in bulk. We don't need to call save here.
-        number_of_updated_users = UserProfile.objects.all().update(
-            trip_days_left=settings.MAX_HOLIDAY_DAYS)
-        self.stdout.write("Number of updated user records:{0}".format(
-            number_of_updated_users))
+        users = UserProfile.objects.all()
+        now = datetime.datetime.utcnow()
+
+        for u in users:
+            if UserDaysLeft.objects.filter(user=u, created_at__year=now.year).exists():
+                logger.info('Already reset days for user %s' % u.username)
+                continue
+
+            UserDaysLeft.objects.create(
+                    user=u,
+                    created_at=now,
+                    days_left=u.trip_days_left)
+            u.trip_days_left = settings.MAX_HOLIDAY_DAYS
+            u.save()

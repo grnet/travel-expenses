@@ -135,6 +135,16 @@ def is_manager(manager_id):
         raise ValidationError('The chosen user must be a MANAGER')
 
 
+class UserDaysLeft(md.Model):
+    """
+    A model to store remaining trip days before resetting user's
+    trip_days_left field every new year.
+    """
+    user = md.ForeignKey(UserProfile)
+    created_at = md.DateField()
+    days_left = md.IntegerField()
+
+
 class Project(md.Model):
 
     """
