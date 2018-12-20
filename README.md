@@ -25,6 +25,7 @@ On a Debian Stretch system, the following packages are also required:
 * Clone this repo and checkout to `develop` branch
 * Install python dependencies (it's highly recommended to use a virtualenv)
 ```
+$ cd travelsBackend
 $ pip install -r requirements.txt
 ```
 
@@ -32,13 +33,14 @@ $ pip install -r requirements.txt
 
 * Create a `settings.conf` file. The default path for it is `/etc/travel`. The path can be overriden by setting the `TRAVEL_SETTINGS_DIR` shell variable. This file overrides Django's `settings.py` and it should contain at least the following lines (change IP accordingly):
 ```
+TODO: add more things here
 ALLOWED_HOSTS = [u'SERVICE.IP.HERE']
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = DATA_DIR
 ```
 Consider also setting `DEBUG` and `TEMPLATE_DEBUG` to True.
 
-* The service expects a resources directory at `/usr/lib/travel/resources`. Those resources can be found in the resources directory in the root folder of the repo. The path can be overriden by setting the `APELLA_RESOURCES_DIR` shell variable.
+* The service expects a resources directory at `/usr/lib/travel/resources`. Those resources can be found in the resources directory in the root folder of the repo. The path can be overriden by setting the `TRAVEL_RESOURCES_DIR` shell variable.
 
 #### Database initialization
 
@@ -64,3 +66,48 @@ $ python manage.py loadlocations texpenses/data/countriesTZ.csv
 $ python manage.py loadprojects texpenses/data/ListProjects.csv
 $ python manage.py loadtaxoffices texpenses/data/ListEfories.csv
 ```
+
+## Frontend installation
+
+### Install requirements
+
+* Install dependencies by running `yarn`
+```
+$ cd travelsFront
+$ yarn
+```
+* When yarn finishes, run `bower install` in order to install all bower components required (use the `--allow-root` option if required).
+```
+$ ./node_modules/.bin/bower install
+```
+
+* Build static files
+```
+$ ember build --watch --environment=development
+```
+
+You can now view the full app at [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+
+## Screenshots
+
+Below are some screenshots from an existing installation of Travel Expenses.
+
+TODO: add screenshots
+
+## Copyright and License
+
+TODO: investigate license
+Copyright (C) 2017-2018 GRNET S.A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see [http://www.gnu.org/licenses/](http://www.gnu.org/licenses/).
