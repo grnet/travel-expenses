@@ -1,6 +1,6 @@
 # Travel Expenses
 
-The electronic service [Travel Expenses](https://travelexpenses.grnet.gr/ui/auth/login) provides an easy way to manage professional trips and generates all the required documents for the user's compensation.
+The electronic service [Travel Expenses](https://travelexpenses.grnet.gr/ui/auth/login) provides a simple way to organize business trips (according to law 4336/2015) starting from the planning process to the final listing of the trips' expenses.
 
 ## Prerequisites
 
@@ -33,10 +33,13 @@ $ pip install -r requirements.txt
 
 * Create a `settings.conf` file. The default path for it is `/etc/travel`. The path can be overriden by setting the `TRAVEL_SETTINGS_DIR` shell variable. This file overrides Django's `settings.py` and it should contain at least the following lines (change IP accordingly):
 ```
-TODO: add more things here
-ALLOWED_HOSTS = [u'SERVICE.IP.HERE']
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = DATA_DIR
+EMAIL_FILE_PATH = './emails')
+
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+
+ALLOWED_HOSTS = [u'SERVICE.IP.HERE']
 ```
 Consider also setting `DEBUG` and `TEMPLATE_DEBUG` to True.
 
