@@ -34,16 +34,17 @@ $ pip install -r requirements.txt
 * Create a `settings.conf` file. The default path for it is `/etc/travel`. The path can be overriden by setting the `TRAVEL_SETTINGS_DIR` shell variable. This file overrides Django's `settings.py` and it should contain at least the following lines (change IP accordingly):
 ```
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = './emails')
+EMAIL_FILE_PATH = './emails'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = [u'SERVICE.IP.HERE']
 ```
-Consider also setting `DEBUG` and `TEMPLATE_DEBUG` to True.
 
 * The service expects a resources directory at `/usr/lib/travel/resources`. Those resources can be found in the resources directory in the root folder of the repo. The path can be overriden by setting the `TRAVEL_RESOURCES_DIR` shell variable.
+
+* The service will try to create a logfile at `/var/log/travel/travelexpenses.log`. This path can be overriden by setting the `TRAVEL_LOGFILE` shell variable.
 
 #### Database initialization
 
