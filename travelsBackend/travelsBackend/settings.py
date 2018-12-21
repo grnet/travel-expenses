@@ -225,8 +225,3 @@ TEMPLATES = [
 
 
 execfile(SETTINGS_PATH)
-
-try:
-    from local_settings import *
-except ImportError, e:
-    pass
