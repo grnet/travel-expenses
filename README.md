@@ -7,7 +7,6 @@ The electronic service [Travel Expenses](https://travelexpenses.grnet.gr/ui/auth
 * Python 2.7
 * git
 * pip
-* NodeJS
 * Yarn
 
 On a Debian Stretch system, the following packages are also required:
@@ -40,6 +39,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = [u'SERVICE.IP.HERE']
+HOST_URL = [u'SERVICE.IP.HERE-with-http-and-port']
 ```
 
 * The service expects a resources directory at `/usr/lib/travel/resources`. Those resources can be found in the resources directory in the root folder of the repo. The path can be overriden by setting the `TRAVEL_RESOURCES_DIR` shell variable.
@@ -85,9 +85,9 @@ $ yarn
 $ ./node_modules/.bin/bower install
 ```
 
-* Build static files
+* Build static files (use the --watch flag to keep the builder running and updating the build realtime)
 ```
-$ ember build --watch --environment=development
+$ ./node_modules/.bin/ember build --environment=development
 ```
 
 You can now view the full app at [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
