@@ -94,9 +94,25 @@ You can now view the full app at [http://127.0.0.1:8000/](http://127.0.0.1:8000/
 
 ## Screenshots
 
-Below are some screenshots from an existing installation of Travel Expenses.
+Below are some screenshots from an existing installation of Travel Expenses. You can view the login and register pages, as well as a list of a user's applications and an application form open for editing by a secretary role.
 
-TODO: add screenshots
+
+| ![Travel Expenses login screen](images/texpenses_login.png) |
+|:--:|
+| Login |
+
+| ![Travel Expenses register screen](images/texpenses_register.png) |
+|:--:|
+| Register |
+
+| ![Travel Expenses applications list](images/texpenses_applications_list.png) |
+|:--:|
+| Applications list |
+
+| ![Travel Expenses application screen](images/texpenses_application_edit.png) |
+|:--:|
+| Application form screen |
+
 
 ## Copyright and License
 
