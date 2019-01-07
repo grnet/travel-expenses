@@ -108,8 +108,8 @@ const FS_VIEW_6 = [
       'reason',
       'manager_movement_approval',
       'withdrawn',
-      'task_start_date',
-      'task_end_date',
+      'task_start_date_time_format',
+      'task_end_date_time_format',
       meta.forms.travel_info,
     ],
     layout: {
