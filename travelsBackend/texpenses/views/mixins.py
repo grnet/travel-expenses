@@ -435,11 +435,16 @@ class ApplicationMixin(object):
                  }
             )
             travel_info = petition_object.travel_info.all()
-            data.update({'depart_date': travel_info_first.local_depart_date.date(),
-                         'return_date': travel_info_last.local_return_date.date(),
+            data.update({'depart_date': travel_info_first.depart_date,
+                         'return_date': travel_info_last.return_date,
                          'travel_info': travel_info,
-                         'task_start_date': petition_object.local_task_start_date.date(),
-                         'task_end_date': petition_object.local_task_end_date.date(),
+                         'task_start_date': petition_object.task_start_date,
+                         'task_end_date': petition_object.task_end_date,
+                         'timezone_depart': travel_info_first.departure_point.timezone,
+                         'timezone_first_destination': travel_info_first.
+                         arrival_point.timezone,
+                         'timezone_last_destination': travel_info_last.
+                         arrival_point.timezone,
                          'trip_days_before': petition_object.trip_days_before,
                          'trip_days_after': petition_object.trip_days_after,
                          'transport_days': petition_object.transport_days,

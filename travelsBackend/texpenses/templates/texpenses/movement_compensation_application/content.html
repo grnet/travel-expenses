@@ -1,3 +1,5 @@
+{% load tz %}
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 {% extends "texpenses/content.html" %}
 
@@ -27,16 +29,16 @@
 	<tr>
 		<td>Ημερομηνία μετακίνησης</td>
 		<td>Αναχώρηση</td>
-		<td>{{depart_date|date:"d/m/Y"}}</td>
+		<td>{{depart_date|timezone:timezone_depart|date:"d/m/Y"}}</td>
 		<td>Επιστροφή</td>
-		<td>{{return_date|date:"d/m/Y"}}</td>
+		<td>{{return_date|timezone:timezone_last_destination|date:"d/m/Y"}}</td>
 	</tr>
 	<tr>
 		<td>Ημερομηνία εργασιών</td>
 		<td>Έναρξη</td>
-		<td>{{task_start_date|date:"d/m/Y"}}</td>
+		<td>{{task_start_date|timezone:timezone_first_destination|date:"d/m/Y"}}</td>
 		<td>Λήξη</td>
-		<td>{{task_end_date|date:"d/m/Y"}}</td>
+		<td>{{task_end_date|timezone:timezone_last_destination|date:"d/m/Y"}}</td>
 	</tr>
 	<tr>
 		<td>Εναπομείνασες ημέρες μετακίνησης εργασιών</td>
@@ -65,7 +67,7 @@
 		<td>Ενδιάμεσοι προορισμοί</td>
 		{% for travel_obj in travel_info %}
 		<tr>
-			<td>Από (ημ/νία {{travel_obj.depart_date|date:"d/m/Y"}}):</td>
+			<td>Από (ημ/νία {{travel_obj.depart_date|timezone:timezone_depart|date:"d/m/Y"}}):</td>
 			<td>{{travel_obj.departure_point}}</td>
 			<td>Προς:</td>
 			<td>{{travel_obj.arrival_point}}</td>
