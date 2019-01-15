@@ -424,6 +424,7 @@ class ApplicationMixin(object):
                  'expenditure_protocol': petition_object.expenditure_protocol,
                  'expenditure_date_protocol':
                  petition_object.expenditure_date_protocol,
+                 'base_timezone': settings.BASE_TIMEZONE,
                  'compensation_petition_protocol':
                  petition_object.compensation_petition_protocol,
                  'compensation_petition_date':

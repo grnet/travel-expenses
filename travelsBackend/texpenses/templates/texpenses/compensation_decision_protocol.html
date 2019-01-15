@@ -1,9 +1,11 @@
+{% load tz %}
+
 {% extends "texpenses/protocol.html" %}
 {% block protocol_content%}
 <h5 style="text-align: right;">
 	ΑΝΑΡΤΑΤΑΙ ΣΤΗ ΔΙΑΥΓΕΙΑ<br>
 	ΔΣΕ:&nbsp;{{dse}}<br>
-	Αθήνα,&nbsp;{{compensation_decision_date|date:"d/m/Y"}}<br>
+	Αθήνα,&nbsp;{{compensation_decision_date|timezone:base_timezone|date:"d/m/Y"}}<br>
 	Αρ.&nbsp;Πρωτ.&nbsp;:{{compensation_decision_protocol}}
 </h5>
 
