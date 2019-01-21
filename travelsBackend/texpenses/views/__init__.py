@@ -40,10 +40,11 @@ def config(request):
     prefix = getattr(settings, 'API_PREFIX', '')
     default_city = getattr(settings, 'DEFAULT_CITY_DB_ID', 1)
     default_currency = getattr(settings, 'DEFAULT_CURRENCY', 'EUR')
-    api_endpoint = urlparse.urljoin(host_url, prefix)
 
     if host_url is None:
         host_url = request.build_absolute_uri('/')
+
+    api_endpoint = urlparse.urljoin(host_url, prefix)
 
     permissions = load_permissions()
     resources = load_resources()

@@ -1,0 +1,11 @@
+Dockerfile
+.*/*git
+./travelsFront/dist
+./travelsFront/node_modules
+./travelsFront/bower_components
+./travelsFront/tmp
+**/*.swp
+**/*.pyc
+**/*.sqlite3
+**/*.*~
+*README*
