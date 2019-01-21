@@ -1,10 +1,8 @@
-apimas-drf>=0.3.3
-apimas>=0.3.3
-Django>=1.8,<1.9
+Django>=1.10,<1.11
 django-crontab>=0.6.0
 django-filter==0.15
 django-model-utils>=2.0.3
-djangorestframework==3.3.3
+djangorestframework==3.4
 djoser==0.4.3
 drf-extensions==0.3.1
 python-stdnum>=1.0
