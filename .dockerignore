@@ -1,5 +1,5 @@
 Dockerfile
-.*/*git
+**/*.git*
 ./travelsFront/dist
 ./travelsFront/node_modules
 ./travelsFront/bower_components
@@ -7,5 +7,7 @@ Dockerfile
 **/*.swp
 **/*.pyc
 **/*.sqlite3
-**/*.*~
+**/*~
+**/*.log
 *README*
+
