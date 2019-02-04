@@ -1,8 +1,10 @@
 
 # -*- coding: utf-8 -*-
-
-from datetime import timedelta
+import os
+from datetime import timedelta, datetime
 import functools
+from decimal import Decimal
+
 from django.conf import settings
 from django.core.exceptions import (
     ValidationError, ObjectDoesNotExist, PermissionDenied)
@@ -14,11 +16,11 @@ from django.db.models import Max
 from django.db.models import Q
 from model_utils import FieldTracker
 from rest_framework import serializers
+
 from texpenses.models import common
 from texpenses.validators import (
     afm_validator, iban_validation, date_validator,
     start_end_date_validator)
-from decimal import Decimal
 
 
 def update_instance(instance, updated_fields):
@@ -764,6 +766,30 @@ class AdditionalCosts(md.Model):
 
     class Meta:
         abstract = True
+
+
+def generate_filename(travelfile, filename):
+    ext = os.path.splitext(filename)[1]
+    if len(ext) >= 9:
+        ext = ''
+
+    path = "%s/%s%s" % (
+            travelfile.owner.username,
+            travelfile.id,
+            ext)
+    return path
+
+
+class TravelFile(md.Model):
+    id = md.BigIntegerField(primary_key=True)
+    owner = md.ForeignKey(UserProfile)
+    source = md.CharField(
+        choices=common.FILE_SOURCES, max_length=30)
+    source_id = md.IntegerField()
+    file_content = md.FileField(
+        upload_to=generate_filename, max_length=1024)
+    updated_at = md.DateTimeField(default=datetime.utcnow)
+    file_name = md.CharField(max_length=1024)
 
 
 class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):

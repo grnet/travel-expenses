@@ -47,6 +47,76 @@ tax_office_conf = {'*': {'address': {'.cli_option': {},
                                        'model': 'texpenses.models.TaxOffice'},
                    '.actions': {'.list': {}, '.retrieve': {}}}
 
+
+travel_files_conf = {
+    '*': {
+        'id': {
+            '.cli_option': {},
+            '.drf_field': {},
+            '.field': {},
+            '.readonly': {},
+            '.integer': {}
+        },
+        'url': {
+            '.drf_field': {},
+            '.identity': {},
+            '.readonly': {}
+        },
+        'owner': {
+            '.cli_option': {},
+            '.drf_field': {},
+            '.field': {},
+            '.ref': {
+                'to': 'api/users'
+            }
+        },
+        'source': {
+            '.cli_option': {},
+            '.field': {},
+            '.drf_field': {},
+            '.choices': {
+                'allowed': ['petition']
+            },
+            '.readonly': {}
+        },
+        'source_id': {
+            '.cli_option': {},
+            '.field': {},
+            '.drf_field': {},
+            '.integer': {}
+        },
+        'file_name': {
+            '.cli_option': {},
+            '.field': {},
+            '.drf_field': {},
+            '.string': {}
+        },
+        'file_content': {
+            '.cli_option' : {},
+            '.drf_field': {},
+            '.field': {},
+            '.file': {}
+        },
+        'updated_at': {
+            '.cli_option': {},
+            '.drf_field': {},
+            '.field': {},
+            '.datetime': {}
+        },
+    },
+    '.cli_commands': {},
+    '.collection': {},
+    '.drf_collection': {
+        'model': 'texpenses.models.TravelFile',
+    },
+    '.actions': {
+        '.list': {},
+        '.retrieve': {},
+        '.create': {},
+        '.update': {}
+    }
+}
+
 project_conf = {'*': {'accounting_code': {'.cli_option': {},
                                           '.drf_field': {},
                                           '.field': {},
