@@ -488,6 +488,11 @@ PERMISSION_RULES = [
     ('city-distances', 'update', 'ADMIN', '*', '*', '*'),
     ('city-distances', 'update', 'HELPDESK', '*', '*', '*'),
 
-    ('travel-files', 'retrieve', 'USER', '*', '*', '*'),
+    # TODO:add rules here
+    ('travel-files', 'list', 'anonymous', '*', '*', '*'),
+    ('travel-files', 'retrieve', 'anonymous', '*', '*', '*'),
+    ('travel-files', 'download_get', '*', '*', '*', ''),
+    ('travel-files', 'downloadfile', '*', '*', '*', ''),
+    ('travel-files', 'download_head', '*', '*', '*', ''),
     ('applications', 'upload', 'USER', '*', '*', '*'),
 ]

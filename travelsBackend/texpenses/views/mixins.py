@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import xlsxwriter
 import StringIO
 from rest_framework import permissions, status
@@ -7,7 +8,9 @@ from django.db import transaction
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, StreamingHttpResponse, Http404
+from django.shortcuts import get_object_or_404
+from wsgiref.util import FileWrapper
 
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
@@ -635,3 +638,68 @@ class UploadFilesViewSet(object):
 
         obj.travel_files.add(uploaded_file)
         return Response(status=status.HTTP_200_OK)
+
+
+USE_X_SEND_FILE = getattr(settings, 'USE_X_SEND_FILE', False)
+
+class FilesViewSet(object):
+
+    @detail_route(methods=['head'], url_path='download')
+    def download_head(self, request, pk=None):
+        response = HttpResponse(content_type='application/force-download')
+        assert request.method == 'HEAD'
+        user = request.user
+        file = self.get_object()
+        token = utils.generate_file_token(user, file)
+        url = utils.urljoin(settings.HOST_URL or '/',
+                      reverse('api_travel-files-downloadfile', args=(pk,)))
+        response['X-File-Location'] = "%s?token=%s" % (url, token)
+        return response
+
+    @detail_route(methods=['get'], url_path='downloadfile')
+    def download_get(self, request, pk=None):
+        token = request.GET.get('token', None)
+        if token is None:
+            raise PermissionDenied("no.token")
+            # url = reverse('apella-files-download', args=(pk,))
+            # ui_url = getattr(settings, 'DOWNLOAD_FILE_URL', '')
+            # ui_download_url = '%s?#download=%s' % (ui_url, url)
+            # return HttpResponseRedirect(ui_download_url)
+
+        file_id = utils.consume_file_token(token)
+        if not file_id == int(pk):
+            raise Http404
+
+        file = get_object_or_404(TravelFile, id=file_id)
+        filename = file.file_name
+        if isinstance(filename, unicode):
+            filename = filename.encode('utf-8')
+        filename = filename.replace('"', '')
+        disp = 'attachment; filename="%s"' % filename
+        if USE_X_SEND_FILE:
+            response['X-Sendfile'] = file.file_content.path
+        else:
+            chunk_size = 8192
+            response = StreamingHttpResponse(
+                           FileWrapper(
+                               open(file.file_content.path, 'rb'), chunk_size),
+                                  content_type="application/force-download")
+        response['Content-Disposition'] = disp
+        return response
+
+    def destroy(self, request, pk=None):
+        obj = self.get_object()
+        try:
+            f = utils.safe_path_join(
+                settings.MEDIA_ROOT, obj.file_content.name)
+            os.remove(f)
+            logger.info(
+                'user %s removed file: %s, path: %s source: %s, source_id: %s' %
+                (request.user.username,
+                obj.file_name,
+                obj.file_content.path,
+                obj.source,
+                obj.source_id,))
+        except OSError:
+            pass
+        return super(FilesViewSet, self).destroy(request, pk)

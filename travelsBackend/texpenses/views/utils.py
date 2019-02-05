@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
-
 import pytz
+import uuid
+from os import path
+
 from django.template.loader import get_template
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.template import loader, Context
+from django.conf import settings
+from django.core.cache import cache
 from weasyprint import HTML
+from rest_framework.exceptions import PermissionDenied
 
 
 def render_template2pdf(request, data, template_path,
@@ -144,3 +149,28 @@ def write_row(sheet, datarow, row):
     for d in datarow:
         sheet.write(row, col, escape(d))
         col += 1
+
+FILE_TOKEN_TIMEOUT = getattr(settings, 'FILE_TOKEN_TIMEOUT', 60)
+
+def generate_file_token(user, file):
+    if not user.is_authenticated():
+        raise PermissionDenied()
+
+    token = 'download-' + str(uuid.uuid4())
+    file_id = file.pk
+    cache.set(token, file_id, FILE_TOKEN_TIMEOUT)
+    return token
+
+def consume_file_token(token):
+    file_id = cache.get(token)
+    if file_id is None:
+        raise PermissionDenied()
+    cache.delete(token)
+    return file_id
+
+def safe_path_join(base, path, sep=path.sep):
+    safe_path = sep.join(x for x in path.split(sep) if x and x != '..')
+    return base.rstrip(sep) + sep + safe_path
+
+def urljoin(*args):
+    return path.join(args[0], *map(lambda x: x.lstrip('/'), args[1:]))

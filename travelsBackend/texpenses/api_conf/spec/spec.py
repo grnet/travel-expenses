@@ -109,6 +109,7 @@ travel_files_conf = {
     '.collection': {},
     '.drf_collection': {
         'model': 'texpenses.models.TravelFile',
+        'mixins': ['texpenses.views.mixins.FilesViewSet',],
     },
     '.actions': {
         '.list': {},
