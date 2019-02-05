@@ -63,6 +63,10 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS':
         'rest_framework.pagination.LimitOffsetPagination',
+    # Disable DRF Browsable API by default
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
 }
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': 'ui/auth/login#reset={uid}|{token}',
@@ -219,3 +223,10 @@ TEMPLATES = [
 IBAN_WHITELIST = ['GR0000000000000000000000000']
 
 execfile(SETTINGS_PATH)
+
+# Enable DRF Browsable API for Development
+if DEBUG:
+    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
+            'rest_framework.renderers.JSONRenderer',
+            'rest_framework.renderers.BrowsableAPIRenderer',
+	)
