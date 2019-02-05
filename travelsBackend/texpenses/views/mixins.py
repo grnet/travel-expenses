@@ -2,6 +2,7 @@
 import xlsxwriter
 import StringIO
 from rest_framework import permissions, status
+from datetime import datetime
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
@@ -12,10 +13,12 @@ from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
 
 from rest_framework.reverse import reverse
-from texpenses.models import Petition, City, Project, Applications
+from texpenses.models import Petition, City, Project, \
+    Applications, TravelFile
 from texpenses.actions import inform_on_action, inform
 from texpenses.views.utils import render_template2pdf, render_template2csv
 from texpenses.views import utils
+from texpenses.serials import get_serial
 
 
 class CityMixin(object):
@@ -603,3 +606,32 @@ class UserMixin(object):
         except PermissionDenied as e:
             return Response({'detail': e.message},
                             status=status.HTTP_403_FORBIDDEN)
+
+
+class UploadFilesViewSet(object):
+    FILE_SOURCE = {
+            'Applications': 'petition'
+    }
+
+    @detail_route(methods=['post'])
+    def upload(self, request, pk=None):
+        obj = self.get_object()
+        if 'travel_file' not in request.FILES:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        file_upload = request.FILES.get('travel_file', None)
+        if not file_upload:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        owner = request.user
+        uploaded_file = TravelFile.objects.create(
+            id=get_serial('travel_file'),
+            owner=owner,
+            source_id=obj.id,
+            source=self.FILE_SOURCE[obj.__class__.__name__],
+            file_content=file_upload,
+            file_name=file_upload.name,
+            updated_at=datetime.utcnow())
+
+        obj.travel_files.add(uploaded_file)
+        return Response(status=status.HTTP_200_OK)

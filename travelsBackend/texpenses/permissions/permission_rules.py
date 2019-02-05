@@ -487,4 +487,7 @@ PERMISSION_RULES = [
     ('city-distances', 'create', 'HELPDESK', '*', '*', '*'),
     ('city-distances', 'update', 'ADMIN', '*', '*', '*'),
     ('city-distances', 'update', 'HELPDESK', '*', '*', '*'),
+
+    ('travel-files', 'retrieve', 'USER', '*', '*', '*'),
+    ('applications', 'upload', 'USER', '*', '*', '*'),
 ]
