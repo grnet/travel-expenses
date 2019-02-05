@@ -855,8 +855,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     compensation_alert = md.BooleanField(default=False, db_index=True)
     withdrawn = md.BooleanField(default=False, db_index=True)
 
-    travel_files = md.FileField(upload_to=common.user_directory_path,
-                                null=True, blank=True)
+    travel_files = md.ManyToManyField(
+            TravelFile, blank=True)
 
     total_cost_manual = md.DecimalField(
         max_digits=settings.DECIMAL_MAX_DIGITS,

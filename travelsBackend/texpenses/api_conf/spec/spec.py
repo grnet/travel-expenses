@@ -101,6 +101,7 @@ travel_files_conf = {
             '.cli_option': {},
             '.drf_field': {},
             '.field': {},
+            '.readonly': {},
             '.datetime': {}
         },
     },
