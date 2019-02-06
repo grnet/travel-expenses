@@ -773,10 +773,31 @@ def generate_filename(travelfile, filename):
     if len(ext) >= 9:
         ext = ''
 
-    path = "%s/%s%s" % (
-            travelfile.owner.username,
-            travelfile.id,
-            ext)
+    arrival_point_id = 'unknown_arrival_id'
+    year = 'unknon_year'
+    month = 'unknown_month'
+    user = 'uknown_user'
+
+    if travelfile.source_id and travelfile.source and \
+            travelfile.source == 'petition':
+        p = Petition.objects.get(id=travelfile.source_id)
+        if p.travel_info.all():
+            arrival_point_id = p.travel_info.last().arrival_point.id
+            depart_date = p.travel_info.first().depart_date
+            year = depart_date.year
+            month = depart_date.month
+            user = p.user.username
+        filename = filename.encode('utf8')
+
+        path = '{0}/{1}/{2}_{3}/{4}'.format(user,
+                                            arrival_point_id, year,
+                                            month, filename)
+    else:
+        path = "%s/%s%s" % (
+                travelfile.owner.username,
+                travelfile.id,
+                ext)
+
     return path
 
 
