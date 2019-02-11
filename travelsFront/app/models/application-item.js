@@ -5,6 +5,37 @@ import { computeDateFormat } from '../lib/common';
 import { computeDateTimeFormat } from '../lib/common';
 
 const CHOICES = ENV.APP.resources;
+const BROWSER_TZ = moment.tz.guess();
+
+function findCityTZ(city, serializer) {
+  const cityID = city.split('/').slice(-2)[0];
+  if (!serializer.store.peekRecord('city', cityID)) {
+    return;
+  }
+  const cityName = serializer.store.peekRecord('city', cityID);
+  const cityTZ = cityName.data.timezone;
+  return cityTZ;
+};
+
+function dateToUTC(date, timezone) {
+  //Undo the transformation in UTC made by the browser based on its local time
+  const dateInForm = moment.tz(date, BROWSER_TZ).format().slice(0, -6);
+  //Transform the date in the correct timezone based on the arrival point
+  const dateInCityTZ = moment.tz(dateInForm, timezone).format();
+  //Transform date in UTC to send it to the server
+  const dateInUTC = moment.utc(dateInCityTZ).format();
+
+  return dateInUTC;
+};
+
+function dateToLocal(date, timezone) {
+  //Transform the date in the correct timezone based on the arrival point
+  const dateInCityTZ = moment.tz(date, timezone).format().slice(0, -6);
+  //Transform the date to the browser's local timezone
+  const dateInUI = moment(moment(dateInCityTZ).toDate()).format();
+
+  return dateInUI
+};
 
 export default DS.Model.extend({
   __api__: {
@@ -14,7 +45,52 @@ export default DS.Model.extend({
       if (hash['travel_files'] === '') {
         return hash;
       }
+      const arrivalPointFirstTZ = findCityTZ(hash.travel_info[0].arrival_point, serializer);
+      const arrivalPointLastTZ = findCityTZ(hash.travel_info[hash.travel_info.length - 1].arrival_point, serializer);
+      const taskStartDate = hash.task_start_date;
+      const taskEndDate = hash.task_end_date;
+      const travelInfo = hash.travel_info;
+
+      let travellingDatesFixed = travelInfo.map((travelInfo, i) => {
+        if (travelInfo.depart_date) {
+          const departurePointTZ = findCityTZ(travelInfo.departure_point, serializer);
+          hash.travel_info[i]['depart_date'] = dateToUTC(travelInfo.depart_date, departurePointTZ);
+        }
+        if (travelInfo.return_date) {
+          const arrivalPointTZ = findCityTZ(travelInfo.arrival_point, serializer);
+          hash.travel_info[i]['return_date'] = dateToUTC(travelInfo.return_date, arrivalPointTZ);
+        }
+      });
+
       delete hash['travel_files'];
+      hash['task_start_date'] = dateToUTC(taskStartDate, arrivalPointFirstTZ);
+      hash['task_end_date'] = dateToUTC(taskEndDate, arrivalPointLastTZ);
+      return hash;
+    },
+
+    normalize(hash, serializer) {
+      const arrivalPointFirstTZ = findCityTZ(hash.travel_info[0].arrival_point, serializer);
+      const arrivalPointLastTZ = findCityTZ(hash.travel_info[hash.travel_info.length - 1].arrival_point, serializer);
+      const taskStartDate = hash.task_start_date + 'Z';
+      const taskEndDate = hash.task_end_date + 'Z';
+      const travelInfo = hash.travel_info;
+
+      let travellingDatesFixed = travelInfo.map((travelInfo, i) => {
+        if (travelInfo.depart_date) {
+          const departDate = travelInfo.depart_date + 'Z';
+          const departurePointTZ = findCityTZ(travelInfo.departure_point, serializer);
+          hash.travel_info[i]['depart_date'] = dateToLocal(departDate, departurePointTZ);
+        }
+
+        if (travelInfo.return_date) {
+          const returnDate = travelInfo.return_date + 'Z';
+          const arrivalPointTZ = findCityTZ(travelInfo.arrival_point, serializer);
+          hash.travel_info[i]['return_date'] = dateToLocal(returnDate, arrivalPointTZ);
+        }
+      });
+
+      hash['task_start_date'] = dateToLocal(taskStartDate, arrivalPointFirstTZ);
+      hash['task_end_date'] = dateToLocal(taskEndDate, arrivalPointLastTZ);
       return hash;
     }
   },
