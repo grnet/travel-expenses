@@ -57,7 +57,7 @@ export default gen.CRUDGen.extend({
     actionsMap: {
       exportStats: applicationActions.exportStats,
     },
-    preloadModels: ['project'],
+    preloadModels: ['project', 'city'],
     layout: 'table',
     menu: {
       display: true,
