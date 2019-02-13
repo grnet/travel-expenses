@@ -15,10 +15,10 @@
 <md-input-container class={{concat 'fullwidth ' (if disabled 'field-disabled')}} style="margin-top: 0; padding: 0;">
   {{#paper-data-table as |table|}}
   {{#table.body as |body|}}
-    {{#if file}}
+    {{#each filesSorted as |file|}}
       {{#body.row as |row|}}
         {{#row.cell class="fullwidth"}}
-            {{ fileName }}
+            {{ file.filename }}
         {{/row.cell}}
 
         {{#row.cell class="nowrap"}}
@@ -29,9 +29,9 @@
             {{#paper-button disabled=inProgress iconButton=true onClick=(action "deleteFile" file)}}{{paper-icon "delete"}}{{/paper-button}}
           {{/if}}
           {{#if (not disabled) }}
-            {{#paper-button href=fileURL disabled=inProgress iconButton=true onClick=(action "downloadFile" fileURL)}}
-              {{paper-icon (if generatingLink "rotate-right" "get_app") spin=generatingLink }}
-            {{/paper-button}}
+            {{#paper-button href=file.downloadURL disabled=inProgress iconButton=true onClick=(action "downloadFile" file)}}
+              {{paper-icon (if file.generatingLink "rotate-right" "get_app") spin=file.generatingLink }}
+	    {{/paper-button}}
           {{/if}}
         {{/row.cell}}
       {{/body.row}}
@@ -39,7 +39,7 @@
       {{#body.row as |row|}}
         {{#row.cell class="fullwidth"}}{{t 'file.field.no.files' }}{{/row.cell}}
       {{/body.row}}
-    {{/if}}
+    {{/each}}
   {{/table.body}}
   {{/paper-data-table}}
 

@@ -62,8 +62,7 @@ const FS_EDIT_6 = [
     fields: [
       fileField('travel_files', 'application-item', 'travel_files', {},
       {
-        replace: true,
-        preventDelete: true
+	multiple: true
       }),
       'additional_expenses',
       'additional_expenses_local_currency',
