@@ -1,6 +1,8 @@
 import logging
 from django.contrib.auth import get_user_model
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_protect
+from django.utils.decorators import method_decorator
 import urllib
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
@@ -84,12 +86,14 @@ class CustomUserRegistrationView(djoser_views.RegistrationView):
             self.send_email(**self.get_send_email_kwargs(user))
         return HttpResponse(status=202)
 
+    @method_decorator(csrf_protect)
     def create(self, request, *args, **kwargs):
         resend_email = request.data.get('resend_verification', None)
         if resend_email:
             return self.resend_verification(request, resend_email)
         return super(CustomUserRegistrationView, self).create(
             request, *args, **kwargs)
+
 
 class CustomUserDetailedView(djoser_views.UserView):
 

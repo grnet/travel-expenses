@@ -33,7 +33,6 @@ if ui_prefix and ui_prefix != '/':
 if getattr(settings, 'SERVE_UI', True):
     # make django app serve ember dist files
     from django.conf.urls.static import static
-    from django.views.static import serve
     from os import path
 
     root = path.dirname(__file__)
@@ -48,8 +47,5 @@ if getattr(settings, 'SERVE_UI', True):
 
     # serve index.html for all paths
     urlpatterns += [
-        url('^%s.*' % ui_prefix, serve, {
-            'path': 'index.html',
-            'document_root': ui_root
-    }),
+        url('^%s.*' % ui_prefix, views.index),
     ]

@@ -224,6 +224,15 @@ IBAN_WHITELIST = ['GR0000000000000000000000000']
 
 execfile(SETTINGS_PATH)
 
+# Append ember's index.html after custom settings
+# Needed for rendering in order to set CSRF Token
+if UI_ROOT:
+    TEMPLATES[0]['DIRS'].append(UI_ROOT)
+else:
+    TEMPLATES[0]['DIRS'].append(os.path.abspath(
+        os.path.join(os.path.dirname(__file__),
+            '..', '..', 'travelsFront/dist')))
+
 # Enable DRF Browsable API for Development
 if DEBUG:
     REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (

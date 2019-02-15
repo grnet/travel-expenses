@@ -5,6 +5,8 @@ from collections import defaultdict
 from texpenses.permissions.permission_rules import PERMISSION_RULES
 from django.conf import settings
 from django.http import HttpResponse
+from django.shortcuts import render_to_response
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 
 def rule_to_dict(data, args):
@@ -60,3 +62,8 @@ def config(request):
     }
     return HttpResponse(json.dumps(config_data),
                         content_type='application/json')
+
+
+@ensure_csrf_cookie
+def index(request):
+    return render_to_response('index.html')
