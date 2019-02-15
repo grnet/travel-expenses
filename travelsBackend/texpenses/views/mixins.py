@@ -619,10 +619,10 @@ class UploadFilesViewSet(object):
     @detail_route(methods=['post'])
     def upload(self, request, pk=None):
         obj = self.get_object()
-        if 'travel_file' not in request.FILES:
+        if 'file_upload' not in request.FILES:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        file_upload = request.FILES.get('travel_file', None)
+        file_upload = request.FILES.get('file_upload', None)
         if not file_upload:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
