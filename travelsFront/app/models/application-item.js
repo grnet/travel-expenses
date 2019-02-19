@@ -30,11 +30,17 @@ function dateToUTC(date, timezone) {
 
 function dateToLocal(date, timezone) {
   //Transform the date in the correct timezone based on the arrival point
-  const dateInCityTZ = moment.tz(date, timezone).format().slice(0, -6);
+  const dateInCityTZ = moment.tz(date, timezone);
   //Transform the date to the browser's local timezone
-  const dateInUI = moment(moment(dateInCityTZ).toDate()).format();
+  let dateFormat = '';
+  if (dateInCityTZ._offset == -0) {
+    dateFormat = moment(dateInCityTZ).format().slice(0, -1);
+  } else {
+    dateFormat = moment(dateInCityTZ).format().slice(0, -6);
+  }
+  const dateInUI = moment(moment(dateFormat).toDate()).format();
 
-  return dateInUI
+  return dateInUI;
 };
 
 export default DS.Model.extend({
@@ -88,7 +94,6 @@ export default DS.Model.extend({
           hash.travel_info[i]['return_date'] = dateToLocal(returnDate, arrivalPointTZ);
         }
       });
-
       hash['task_start_date'] = dateToLocal(taskStartDate, arrivalPointFirstTZ);
       hash['task_end_date'] = dateToLocal(taskEndDate, arrivalPointLastTZ);
       return hash;
