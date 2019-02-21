@@ -45,7 +45,10 @@ class CustomSetPasswordView(djoser_views.SetPasswordView):
 class CustomPasswordResetView(djoser_views.PasswordResetView):
 
     """API endpoint that sends email to user with password reset link"""
-    pass
+
+    @method_decorator(csrf_protect)
+    def post(self, request):
+        return super(CustomPasswordResetView, self).post(request)
 
 
 class PasswordResetView(djoser_views.PasswordResetConfirmView):
