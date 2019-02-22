@@ -1,11 +1,11 @@
 
 # -*- coding: utf-8 -*-
-import os
-from datetime import timedelta, datetime
-import functools
-import pytz
-from decimal import Decimal
 
+import os
+import pytz
+import functools
+from decimal import Decimal
+from datetime import timedelta, datetime
 from django.conf import settings
 from django.core.exceptions import (
     ValidationError, ObjectDoesNotExist, PermissionDenied)
@@ -89,6 +89,8 @@ class TravelUserProfile(md.Model):
     user_category = md.CharField(
         max_length=1, choices=common.USER_CATEGORIES,
         blank=False, default='B')
+    last_resend_verification_email = md.DateTimeField(null=True)
+    last_reset_password_email = md.DateTimeField(null=True)
 
     class Meta:
         abstract = True
@@ -128,6 +130,32 @@ class UserProfile(AbstractUser, TravelUserProfile):
     def __unicode__(self):
         return self.first_name + " " + self.last_name + " (username:"\
             + self.username + ")"
+
+    def can_receive_verification_email(self):
+        now = datetime.utcnow()
+        if self.last_resend_verification_email:
+            last_mail = self.last_resend_verification_email.replace(tzinfo=None)
+            if now - last_mail < timedelta(hours=1):
+                return False
+        return True
+
+    def set_last_resend_verification_email(self):
+        now = datetime.utcnow()
+        self.last_resend_verification_email = pytz.utc.localize(now)
+        self.save()
+
+    def can_receive_reset_password_email(self):
+        now = datetime.utcnow()
+        if self.last_reset_password_email:
+            last_mail = self.last_reset_password_email.replace(tzinfo=None)
+            if now - last_mail < timedelta(hours=1):
+                return False
+        return True
+
+    def set_last_reset_password_email(self):
+        now = datetime.utcnow()
+        self.last_reset_password_email = pytz.utc.localize(now)
+        self.save()
 
 
 def is_manager(manager_id):

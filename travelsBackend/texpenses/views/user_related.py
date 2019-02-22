@@ -50,11 +50,24 @@ class CustomPasswordResetView(djoser_views.PasswordResetView):
     def post(self, request):
         return super(CustomPasswordResetView, self).post(request)
 
+    def get_users(self, email):
+        users = super(CustomPasswordResetView, self).get_users(email)
+        users_to_receive_email = [u for u in users
+                                  if u.can_receive_reset_password_email()]
+        for u in users_to_receive_email:
+            u.set_last_reset_password_email()
+        return users_to_receive_email
+
 
 class PasswordResetView(djoser_views.PasswordResetConfirmView):
 
     """Use this endpoint to finish reset password process"""
-    pass
+
+    def action(self, serializer):
+        serializer.user.last_reset_password_email = None
+        serializer.user.save()
+        return super(PasswordResetView, self).action(serializer)
+
 
 class CustomLoginView(djoser_views.LoginView):
 
@@ -84,6 +97,10 @@ class CustomUserRegistrationView(djoser_views.RegistrationView):
             user = User.objects.get(email=email, is_active=False)
         except User.DoesNotExist:
             raise PermissionDenied("user.invalid.or.activated")
+
+        if not user.can_receive_verification_email():
+            raise PermissionDenied("email.sent.already")
+        user.set_last_resend_verification_email()
 
         if djoser_settings.get('SEND_ACTIVATION_EMAIL'):
             self.send_email(**self.get_send_email_kwargs(user))
