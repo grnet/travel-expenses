@@ -811,6 +811,7 @@ class TravelFile(md.Model):
         upload_to=generate_filename, max_length=1024)
     updated_at = md.DateTimeField(default=datetime.utcnow)
     file_name = md.CharField(max_length=1024)
+    file_kind = md.CharField(max_length=128, default='travel_file')
 
 
 class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):

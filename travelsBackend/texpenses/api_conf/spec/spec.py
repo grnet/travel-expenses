@@ -97,6 +97,13 @@ travel_files_conf = {
             '.field': {},
             '.file': {}
         },
+        'file_kind': {
+            '.cli_option' : {},
+            '.drf_field': {},
+            '.field': {},
+            '.readonly': {},
+            '.string': {}
+        },
         'updated_at': {
             '.cli_option': {},
             '.drf_field': {},
