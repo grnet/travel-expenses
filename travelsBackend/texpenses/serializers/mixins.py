@@ -70,15 +70,18 @@ class PetitionMixin(object):
 
     def check_creation_allowed(self, data):
         """
-        This functions checks that the petition can be created with the given
-        dse value.
+        This functions checks if the petition can be created.
 
-        Typically, when dse is not specified on request is automatically
-        created by server. However, when dse is specified on request it must be
+        Apart from checking if travel infos exist, it ensures that the dse is correct.
+        Typically, when dse is not specified on request it is automatically
+        created by the server. However, when dse is specified on request it must be
         associated with a petition created by the same user and there is not
         already a petition with the same dse but on greater status than the one
         defined on request.
         """
+        if not data.get('travel_info', None):
+            raise PermissionDenied('Cannot create application with no travel infos')
+
         dse = data.get('dse', None)
         if not dse:
             return
