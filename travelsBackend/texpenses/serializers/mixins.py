@@ -1,5 +1,4 @@
 from django.core.exceptions import ValidationError
-from rest_framework.exceptions import PermissionDenied
 from rest_framework import serializers
 from texpenses.models import Petition
 from texpenses.validators import date_validator
@@ -80,7 +79,8 @@ class PetitionMixin(object):
         defined on request.
         """
         if not data.get('travel_info', None):
-            raise PermissionDenied('Cannot create application with no travel infos')
+            raise serializers.ValidationError(
+                'Cannot create application with no travel infos')
 
         dse = data.get('dse', None)
         if not dse:
@@ -100,13 +100,13 @@ class PetitionMixin(object):
                                                                deleted=False)
 
         if dse_already_used.exists():
-            raise PermissionDenied("A petition with dse:{0}, already exists."
-                                   ", with data:{1}".
-                                   format(dse, dse_already_used))
+            raise serializers.ValidationError(
+                "A petition with dse:{0}, already exists."
+                ", with data:{1}".format(dse, dse_already_used))
 
         if not relative_records.exists():
-            raise PermissionDenied('Cannot create petition with dse %s' % (
-                dse))
+            raise serializers.ValidationError(
+                'Cannot create petition with dse %s' % (dse))
 
     def update(self, instance, validated_data):
         """
@@ -228,7 +228,8 @@ class PetitionMixin(object):
         if not travel_info_field.required:
             return value
         if not value or any(not obj for obj in value):
-            raise ValidationError('This field must not include empty objects')
+            raise serializers.ValidationError(
+                'This field must not include empty objects')
         return value
 
     def validate_user(self, user_value):
@@ -244,5 +245,5 @@ class PetitionMixin(object):
         available trip days.
         """
         if user and user.trip_days_left < transport_days:
-            raise ValidationError(
+            raise serializers.ValidationError(
                 'You have exceeded the allowable number of trip days')
