@@ -51,12 +51,19 @@ export default DS.Model.extend({
       if (hash['travel_files'] === '') {
         return hash;
       }
-      const arrivalPointFirstTZ = findCityTZ(hash.travel_info[0].arrival_point, serializer);
-      const arrivalPointLastTZ = findCityTZ(hash.travel_info[hash.travel_info.length - 1].arrival_point, serializer);
-      const taskStartDate = hash.task_start_date;
-      const taskEndDate = hash.task_end_date;
-      const travelInfo = hash.travel_info;
+      if (!hash['travel_info'] || !hash['travel_info'].length) {
+        return hash;
+      }
+      else {
+        const arrivalPointFirstTZ = findCityTZ(hash.travel_info[0].arrival_point, serializer);
+        const arrivalPointLastTZ = findCityTZ(hash.travel_info[hash.travel_info.length - 1].arrival_point, serializer);
+        const taskStartDate = hash.task_start_date;
+        const taskEndDate = hash.task_end_date;
+        hash['task_start_date'] = dateToUTC(taskStartDate, arrivalPointFirstTZ);
+        hash['task_end_date'] = dateToUTC(taskEndDate, arrivalPointLastTZ);
+      }
 
+      const travelInfo = hash.travel_info;
       let travellingDatesFixed = travelInfo.map((travelInfo, i) => {
         if (travelInfo.depart_date) {
           const departurePointTZ = findCityTZ(travelInfo.departure_point, serializer);
@@ -69,18 +76,23 @@ export default DS.Model.extend({
       });
 
       delete hash['travel_files'];
-      hash['task_start_date'] = dateToUTC(taskStartDate, arrivalPointFirstTZ);
-      hash['task_end_date'] = dateToUTC(taskEndDate, arrivalPointLastTZ);
       return hash;
     },
 
     normalize(hash, serializer) {
-      const arrivalPointFirstTZ = findCityTZ(hash.travel_info[0].arrival_point, serializer);
-      const arrivalPointLastTZ = findCityTZ(hash.travel_info[hash.travel_info.length - 1].arrival_point, serializer);
-      const taskStartDate = hash.task_start_date + 'Z';
-      const taskEndDate = hash.task_end_date + 'Z';
-      const travelInfo = hash.travel_info;
+      if (!hash['travel_info'] || !hash['travel_info'].length) {
+        return hash;
+      }
+      else {
+        const arrivalPointFirstTZ = findCityTZ(hash.travel_info[0].arrival_point, serializer);
+        const arrivalPointLastTZ = findCityTZ(hash.travel_info[hash.travel_info.length - 1].arrival_point, serializer);
+        const taskStartDate = hash.task_start_date + 'Z';
+        const taskEndDate = hash.task_end_date + 'Z';
+        hash['task_start_date'] = dateToLocal(taskStartDate, arrivalPointFirstTZ);
+        hash['task_end_date'] = dateToLocal(taskEndDate, arrivalPointLastTZ);
+      }
 
+      const travelInfo = hash.travel_info;
       let travellingDatesFixed = travelInfo.map((travelInfo, i) => {
         if (travelInfo.depart_date) {
           const departDate = travelInfo.depart_date + 'Z';
@@ -94,8 +106,6 @@ export default DS.Model.extend({
           hash.travel_info[i]['return_date'] = dateToLocal(returnDate, arrivalPointTZ);
         }
       });
-      hash['task_start_date'] = dateToLocal(taskStartDate, arrivalPointFirstTZ);
-      hash['task_end_date'] = dateToLocal(taskEndDate, arrivalPointLastTZ);
       return hash;
     }
   },
