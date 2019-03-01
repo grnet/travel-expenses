@@ -319,6 +319,7 @@ export default {
   'Ensure this field has no more than 27 characters.': 'Βεβαιωθείτε ότι ο αριθμός δεν έχει περισσότερα από 27 ψηφία',
   'Ensure this field has no more than 9 characters.': 'Βεβαιωθείτε ότι ο αριθμός δεν έχει περισσότερα από 9 ψηφία',
   'table.is.empty': 'Δεν έχετε δημιουργήσει ακόμη κάποια αίτηση μετακίνησης',
+  'Cannot create application with no travel infos': 'Δεν έχετε προσθέσει στοιχεία μετακίνησης',
   // placeholders
   'time_placeholder': 'Ώρα',
   'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',
