@@ -4,7 +4,7 @@ from django.conf import settings
 from django.views.generic.base import RedirectView
 from . import auth_urls
 from django.conf.urls.static import static
-from texpenses.actions import load_apimas_urls
+from texpenses.actions import load_apimas_urls, tables_exist
 from texpenses import views
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browseable API.
@@ -18,7 +18,11 @@ urlpatterns = [
     url(r'^api/config.json$', views.config, name='config'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns.extend(load_apimas_urls())
+
+# Ugly workaround to circumvent loading of urls in first migration
+# Django 1.9+ checks url patterns and fails to find models' tables
+if tables_exist():
+    urlpatterns.extend(load_apimas_urls())
 
 ui_prefix = getattr(settings, 'UI_PREFIX', 'ui/')
 if ui_prefix and ui_prefix != '/':

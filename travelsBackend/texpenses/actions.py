@@ -3,8 +3,9 @@ import logging
 from django.conf import settings
 from django.core.mail import EmailMessage, get_connection
 from django.template.loader import render_to_string
+from django.db.utils import OperationalError
 from rest_framework import status
-from texpenses.models import Petition
+from texpenses.models import Petition, Applications
 from datetime import timedelta
 from django.utils import timezone
 from apimas.drf import django_rest
@@ -207,3 +208,11 @@ def load_apimas_urls():
 
     adapter.construct(spec)
     return adapter.urls.values()
+
+
+def tables_exist():
+    try:
+        Applications.objects.get_queryset()
+    except OperationalError:
+        return False
+    return True
