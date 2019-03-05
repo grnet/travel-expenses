@@ -226,7 +226,7 @@ execfile(SETTINGS_PATH)
 
 # Append ember's index.html after custom settings
 # Needed for rendering in order to set CSRF Token
-if UI_ROOT:
+if 'UI_ROOT' in locals():
     TEMPLATES[0]['DIRS'].append(UI_ROOT)
 else:
     TEMPLATES[0]['DIRS'].append(os.path.abspath(
