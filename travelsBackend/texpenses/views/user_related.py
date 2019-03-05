@@ -50,6 +50,8 @@ class CustomPasswordResetView(djoser_views.PasswordResetView):
     def post(self, request):
         return super(CustomPasswordResetView, self).post(request)
 
+    # Overwrite get_users to implement further filtering for rate limiting
+    # and set last reset password email
     def get_users(self, email):
         users = super(CustomPasswordResetView, self).get_users(email)
         users_to_receive_email = [u for u in users
@@ -63,6 +65,8 @@ class PasswordResetView(djoser_views.PasswordResetConfirmView):
 
     """Use this endpoint to finish reset password process"""
 
+    # Overwrite action method to reset rate limiting after
+    # a successful password reset.
     def action(self, serializer):
         serializer.user.last_reset_password_email = None
         serializer.user.save()

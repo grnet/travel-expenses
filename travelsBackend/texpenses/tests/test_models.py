@@ -777,3 +777,69 @@ class PetitionTest(TestCase):
         self.assertEqual(petition.status,
                          Petition.PETITION_FINAL_APPOVAL)
 
+
+class UserProfileTest(TestCase):
+
+    def setUp(self):
+        tax_office = TaxOffice.objects.create(
+            name='test', description='test', address='test',
+            email='test@example.com', phone='2104344444')
+
+        self.user = UserProfile.objects.create(
+            first_name='Nick', last_name='Jones', email='test@email.com',
+            iban='GR4902603280000910200635494', kind='1',
+            specialty='1', tax_reg_num=011111111,
+            tax_office=tax_office, user_category='A',
+            trip_days_left=5, username='njones')
+
+    def test_apimas_roles(self):
+        self.assertEqual(self.user.apimas_roles, ['Unknown'])
+
+        group, _ = Group.objects.get_or_create(name='USER')
+        group.user_set.add(self.user)
+
+        self.assertEqual(self.user.apimas_roles, ['USER'])
+
+    def test_user_group(self):
+        self.assertEqual(self.user.user_group(), 'Unknown')
+
+        group, _ = Group.objects.get_or_create(name='USER')
+        group.user_set.add(self.user)
+
+        self.assertEqual(self.user.user_group(), 'USER')
+
+        group, _ = Group.objects.get_or_create(name='SECRETARY')
+        group.user_set.add(self.user)
+
+        # Each user should have only one role, so adding
+        # someone in a second group should not matter
+        # and would probably be by mistake
+        self.assertEqual(self.user.user_group(), 'USER')
+
+        group, _ = Group.objects.get_or_create(name='USER')
+        group.user_set.remove(self.user)
+
+        self.assertEqual(self.user.user_group(), 'SECRETARY')
+
+    def test_verification_email_limit(self):
+        self.assertTrue(self.user.can_receive_verification_email())
+
+        self.user.set_last_resend_verification_email()
+        self.assertFalse(self.user.can_receive_verification_email())
+
+        self.user.last_resend_verification_email -= timedelta(hours=2)
+        self.user.save()
+        self.assertTrue(self.user.can_receive_verification_email())
+
+    def test_reset_password_limit(self):
+        self.assertTrue(self.user.can_receive_reset_password_email())
+
+        self.user.set_last_reset_password_email()
+        self.assertFalse(self.user.can_receive_reset_password_email())
+
+        self.user.last_reset_password_email -= timedelta(hours=2)
+        self.user.save()
+        self.assertTrue(self.user.can_receive_reset_password_email())
+
+    def test_unicode(self):
+        self.assertEqual(unicode(self.user), u'Nick Jones (username:njones)')
