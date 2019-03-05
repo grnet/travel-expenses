@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import fetch from "ember-network/fetch";
 import ENV from 'travel/config/environment';
+import { getCookie } from '../lib/common';
 
 const {
   computed,
@@ -8,6 +9,8 @@ const {
   inject,
   computed: { reads }
 } = Ember;
+
+var csrftoken = getCookie('csrftoken');
 
 const VerificationModel = Ember.Object.extend({
   save() {
@@ -17,7 +20,8 @@ const VerificationModel = Ember.Object.extend({
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
       },
       body: JSON.stringify({resend_verification: email})
     }).then((resp) => {

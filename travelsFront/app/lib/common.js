@@ -39,4 +39,13 @@ function fileField(key, path, kind, attrs, formAttrs) {
   }, attrs || {}));
 }
 
-export { computeDateFormat, computeDateTimeFormat, fileField };
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    var cookie = document.cookie;
+    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+  }
+  return cookieValue;
+}
+
+export { computeDateFormat, computeDateTimeFormat, fileField, getCookie };

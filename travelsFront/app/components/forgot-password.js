@@ -1,11 +1,14 @@
 import Ember from 'ember';
 import fetch from "ember-network/fetch";
 import ENV from 'travel/config/environment';
+import { getCookie } from '../lib/common';
 
 const {
   computed,
   get, set, inject, getOwner
 } = Ember;
+
+var csrftoken = getCookie('csrftoken');
 
 const PasswordModel = Ember.Object.extend({
   save() {
@@ -18,7 +21,8 @@ const PasswordModel = Ember.Object.extend({
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
       },
       body: JSON.stringify({email})
     }).then((resp) => {
