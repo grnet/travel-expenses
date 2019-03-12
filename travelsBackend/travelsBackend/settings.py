@@ -56,12 +56,6 @@ CRONJOBS = [
     ('0 0 * * *', 'texpenses.actions.compensation_alert',
      '>> /home/kostas/travelRepo/travelsBackend/logs/scheduled_job.log')
 ]
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-    }
-}
 PAGINATION_PAGE_SIZE = 0
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
