@@ -813,6 +813,9 @@ class TravelFile(md.Model):
     file_name = md.CharField(max_length=1024)
     file_kind = md.CharField(max_length=128, default='travel_file')
 
+    def check_resource_state_owned(self, row, request, view):
+        return request.user == self.owner
+
 
 class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     SAVED_BY_USER = 1
