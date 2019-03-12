@@ -115,6 +115,8 @@ travel_files_conf = {
     '.cli_commands': {},
     '.collection': {},
     '.drf_collection': {
+        'authentication_classes':
+            ['rest_framework.authentication.TokenAuthentication'],
         'model': 'texpenses.models.TravelFile',
         'mixins': ['texpenses.views.mixins.FilesViewSet',],
     },
