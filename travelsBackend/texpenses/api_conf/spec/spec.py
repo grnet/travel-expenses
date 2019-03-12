@@ -124,6 +124,7 @@ travel_files_conf = {
         '.list': {},
         '.retrieve': {},
         '.create': {},
+        '.delete': {},
         '.update': {}
     }
 }

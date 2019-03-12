@@ -693,13 +693,6 @@ class FilesViewSet(object):
             f = utils.safe_path_join(
                 settings.MEDIA_ROOT, obj.file_content.name)
             os.remove(f)
-            logger.info(
-                'user %s removed file: %s, path: %s source: %s, source_id: %s' %
-                (request.user.username,
-                obj.file_name,
-                obj.file_content.path,
-                obj.source,
-                obj.source_id,))
         except OSError:
             pass
         return super(FilesViewSet, self).destroy(request, pk)
