@@ -1073,6 +1073,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         if not self.transition_is_allowed(new_status):
             raise PermissionDenied('Petition transition is not allowed.')
         travel_info = self.travel_info.all()
+        travel_files = self.travel_files.all()
+
         if delete:
             self.mark_as_deleted()
         petition_modifications = kwargs.pop('petition_data', {})
@@ -1094,6 +1096,9 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             travel_obj.travel_petition = self
             travel_obj.save()
         self.travel_info.add(*travel_info)
+
+        self.travel_files = travel_files
+        self.save()
         return self.id
 
     def has_multiple_destinations(self):
