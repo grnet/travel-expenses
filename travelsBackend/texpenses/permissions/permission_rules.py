@@ -489,11 +489,6 @@ PERMISSION_RULES = [
     ('city-distances', 'update', 'HELPDESK', '*', '*', '*'),
 
     ('travel-files', 'list', 'ADMIN', '*', '*', '*'),
-    ('travel-files', 'list', 'USER', '*', '*', '*'),
-    ('travel-files', 'list', 'SECRETARY', '*', '*', '*'),
-    ('travel-files', 'list', 'CONTROLLER', '*', '*', '*'),
-    ('travel-files', 'list', 'MANAGER', '*', '*', '*'),
-    ('travel-files', 'list', 'VIEWER', '*', '*', '*'),
     ('travel-files', 'list', 'HELPDESK', '*', '*', '*'),
     ('travel-files', 'retrieve', 'ADMIN', '*', '*', '*'),
     ('travel-files', 'retrieve', 'USER', '*', '*', '*'),
