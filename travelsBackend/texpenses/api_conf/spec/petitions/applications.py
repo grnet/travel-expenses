@@ -66,53 +66,53 @@ spec = {'*': {
         '.drf_field': {},
         '.field': {},
         '.structarray': {
-	    'id': {
-		'.cli_option': {},
-		'.drf_field': {},
-		'.field': {},
-		'.readonly': {},
-		'.integer': {}
-	    },
-	    'url': {
-		'.drf_field': {},
-		'.identity': {},
-		'.readonly': {}
-	    },
-	    'owner': {
-		'.cli_option': {},
-		'.drf_field': {},
-		'.field': {},
-		'.ref': {
-		    'to': 'api/users'
-		}
-	    },
-	    'source': {
-		'.cli_option': {},
-		'.field': {},
-		'.drf_field': {},
-		'.choices': {
-		    'allowed': ['petition']
-		},
-		'.readonly': {}
-	    },
-	    'source_id': {
-		'.cli_option': {},
-		'.field': {},
-		'.drf_field': {},
-		'.integer': {}
-	    },
-	    'file_name': {
-		'.cli_option': {},
-		'.field': {},
-		'.drf_field': {},
-		'.string': {}
-	    },
-	    'file_content': {
-		'.cli_option' : {},
-		'.drf_field': {},
-		'.field': {},
-		'.file': {}
-	    },
+            'id': {
+                '.cli_option': {},
+                '.drf_field': {},
+                '.field': {},
+                '.readonly': {},
+                '.integer': {}
+            },
+            'url': {
+                '.drf_field': {},
+                '.identity': {},
+                '.readonly': {}
+            },
+            'owner': {
+                '.cli_option': {},
+                    '.drf_field': {},
+                '.field': {},
+                '.ref': {
+                    'to': 'api/users'
+                }
+            },
+            'source': {
+                '.cli_option': {},
+                '.field': {},
+                '.drf_field': {},
+                '.choices': {
+                    'allowed': ['petition']
+                },
+                '.readonly': {}
+            },
+            'source_id': {
+                '.cli_option': {},
+                '.field': {},
+                '.drf_field': {},
+                '.integer': {}
+            },
+            'file_name': {
+                '.cli_option': {},
+                '.field': {},
+                '.drf_field': {},
+                '.string': {}
+            },
+            'file_content': {
+                '.cli_option' : {},
+                '.drf_field': {},
+                '.field': {},
+                '.file': {}
+            },
             'file_kind': {
                 '.cli_option': {},
                 '.drf_field': {},
@@ -120,13 +120,13 @@ spec = {'*': {
                 '.readonly': {},
                 '.string': {}
             },
-	    'updated_at': {
-		'.cli_option': {},
-		'.drf_field': {},
-		'.field': {},
-		'.readonly': {},
-		'.datetime': {}
-	    },
+            'updated_at': {
+                '.cli_option': {},
+                '.drf_field': {},
+                '.field': {},
+                '.readonly': {},
+                '.datetime': {}
+            },
         }
     },
     'travel_report': {'.cli_option': {},
