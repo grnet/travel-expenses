@@ -7,26 +7,6 @@ def load_resources():
         return json.load(json_file)
 
 
-def user_directory_path(instance, filename):
-
-    arrival_point_id = 'unknown_arrival_id'
-    year = 'unknon_year'
-    month = 'unknown_month'
-    user = 'uknown_user'
-
-    if instance.travel_info.all():
-        arrival_point_id = instance.travel_info.last().arrival_point.id
-        depart_date = instance.travel_info.first().depart_date
-        year = depart_date.year
-        month = depart_date.month
-        user = instance.user.username
-    filename = filename.encode('utf8')
-
-    str_repr = '{0}/{1}/{2}_{3}/{4}'.format(user,
-                                            arrival_point_id, year,
-                                            month, filename)
-    return str_repr
-
 RESOURCES = load_resources()
 SPECIALTY = RESOURCES['SPECIALTY']
 KIND = RESOURCES['KIND']
