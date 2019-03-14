@@ -774,9 +774,9 @@ def generate_filename(travelfile, filename):
         ext = ''
 
     arrival_point_id = 'unknown_arrival_id'
-    year = 'unknon_year'
+    year = 'unknown_year'
     month = 'unknown_month'
-    user = 'uknown_user'
+    user = 'unknown_user'
 
     if travelfile.source_id and travelfile.source and \
             travelfile.source == 'petition':
