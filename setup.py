@@ -22,7 +22,9 @@ PACKAGES_ROOT = 'travelsBackend'
 PACKAGES = find_packages(PACKAGES_ROOT)
 
 # Package meta
-CLASSIFIERS = []
+CLASSIFIERS = [
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    ]
 
 EXTRAS_REQUIRES = {
 }
@@ -49,6 +51,7 @@ UI_DATA_FILES = get_all_data_files('lib/travel/www/ui', 'travelsFront/dist')
 TRAVEL_TEMPLATE_FILES = get_all_data_files('lib/travel/resources/templates',
                                            'travelsBackend/texpenses/templates')
 TRAVEL_VISUALIZATIONS_FILES = get_all_data_files('lib/travel/visualizations', 'travelsBackend/visualizations')
+
 
 class BuildUiCommand(_build_py):
     """ Extend build_py to build Travel UI. """
@@ -98,10 +101,10 @@ class InstallCommand(_install):
 
         _install.run(self)
 
+
 setup(
     name=PACKAGE_NAME,
     version=VERSION,
-    license='GPLv3',
     description=SHORT_DESCRIPTION,
     classifiers=CLASSIFIERS,
     packages=PACKAGES,
