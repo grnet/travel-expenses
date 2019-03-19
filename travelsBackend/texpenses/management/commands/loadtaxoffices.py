@@ -10,7 +10,9 @@ sys.setdefaultencoding('utf8')
 
 class Command(BaseCommand):
     help = "Loads tax office info from a .csv file"
-    args = '<taxoffices>'
+
+    def add_arguments(self, parser):
+        parser.add_argument('taxoffices_csv')
 
     def preprocess(self, input):
         data = input.strip().split(',')
@@ -37,7 +39,7 @@ class Command(BaseCommand):
         return (obj, created)
 
     def handle(self, *args, **options):
-        location_file_path = args[0]
+        location_file_path = options['taxoffices_csv']
         with open(location_file_path) as taxoffices_csv_file:
 
             for taxoffice_record in taxoffices_csv_file:

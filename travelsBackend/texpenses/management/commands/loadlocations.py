@@ -1,6 +1,5 @@
 import sys
 from django.core.management.base import BaseCommand
-from optparse import make_option
 
 from django.conf import settings
 from texpenses.models import (City, Country)
@@ -13,21 +12,22 @@ sys.setdefaultencoding('utf8')
 
 class Command(BaseCommand):
     help = "Loads location info (Countries,Cities etc) from a .csv file"
-    args = '<locations>'
-    option_list = BaseCommand.option_list + (
-        make_option('--delete',
-                    action='store_true',
-                    dest='delete',
-                    default=False,
-                    help="Delete all inserted locations prior to loading the"
-                    " data from CSV"),
 
-        make_option('--update',
-                    action='store_true',
-                    dest='update',
-                    default=False,
-                    help="Update all existing locations"),
-    )
+    def add_arguments(self, parser):
+        parser.add_argument('locations_csv')
+
+        parser.add_argument('--delete',
+            action='store_true',
+            dest='delete',
+            default=False,
+            help="Delete all inserted locations prior to loading the"
+            " data from CSV")
+
+        parser.add_argument('--update',
+            action='store_true',
+            dest='update',
+            default=False,
+            help="Update all existing locations")
 
     def preprocess(self, input):
         return input.strip().split(',')
@@ -64,7 +64,7 @@ class Command(BaseCommand):
         return (obj, created, updated)
 
     def handle(self, *args, **options):
-        location_file_path = args[0]
+        location_file_path = options['locations_csv']
         with open(location_file_path) as countries_csv_file:
 
             if options['delete']:
