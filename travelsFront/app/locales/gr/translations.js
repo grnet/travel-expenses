@@ -38,7 +38,7 @@ export default {
   // forgot password
   'password.forgot': 'ΥΠΕΝΘΥΜΙΣΗ ΣΥΝΘΗΜΑΤΙΚΟΥ',
   'password.forgot.submit': 'Υπενθυμιση',
-  'password.forgot.success': 'Επιτυχής υπενθύμιση συνθηματικου',
+  'password.forgot.success': 'Επιτυχής υπενθύμιση συνθηματικού',
   'password.forgot.title': 'Υπενθύμιση συνθηματικού',
   // password reset
   'password.reset': 'Αλλαγή συνθηματικού',
