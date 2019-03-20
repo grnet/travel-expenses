@@ -1,7 +1,7 @@
 Source: travel
 Section: contrib/python
 Priority: optional
-Maintainer: GRNET Travel Expenses Team <webapps@lists.grnet.gr>
+Maintainer: GRNET Travel Expenses Team <travel@dev.grnet.gr>
 Build-Depends: debhelper (>= 9), python-dev, dh-python
 XS-Python-Version: >= 2.7
 Standards-Version: 3.9.6
