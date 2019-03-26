@@ -1,6 +1,4 @@
 The Debian Package travel 
 ----------------------------
 
-Comments regarding the Package
-
- -- GRNET Development Team <team@dev.grnet.gr>  Tue, 18 Apr 2017 14:48:38 +0300
+The electronic service [Travel Expenses](https://travelexpenses.grnet.gr/ui/auth/login) provides a simple way to organize business trips (according to law 4336/2015) starting from the planning process to the final listing of the trips' expenses.

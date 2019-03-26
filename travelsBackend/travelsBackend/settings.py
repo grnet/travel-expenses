@@ -45,7 +45,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.postgres',
     'texpenses',
     'rest_framework',
     'rest_framework.authtoken',
@@ -224,8 +223,3 @@ TEMPLATES = [
 
 
 execfile(SETTINGS_PATH)
-
-try:
-    from local_settings import *
-except ImportError, e:
-    pass
