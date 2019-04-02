@@ -52,6 +52,9 @@ class TravelInfoTest(TestCase):
                                      departure_point=self.departure_point,
                                      meals='NON',
                                      travel_petition=self.travel_petition)
+        self.travel_obj.save()
+        self.travel_petition.travel_info.add(self.travel_obj)
+        self.travel_petition.save()
 
     def test_validate_overnight_cost(self):
         self.travel_obj.validate_overnight_cost(self.travel_petition)
