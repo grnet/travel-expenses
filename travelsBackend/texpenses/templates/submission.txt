@@ -1,23 +1,11 @@
-{% load tz %}
+{% extends "base_email.txt" %}
 
-Σας ενημερώνουμε ότι ο χρήστης {{ first_name }} {{ last_name }} υπέβαλε Αίτηση Μετακίνησης με κωδικό {{ dse }}.
+{% block header_message %}Σας ενημερώνουμε ότι ο χρήστης {{ first_name }} {{ last_name }} υπέβαλε Αίτηση Μετακίνησης με κωδικό {{ dse }}.{% endblock %}
 
-Στοιχεία Μετακίνησης:
+{% block optional_travel_data %}
+- Προτάσεις χρήστη: {{ user_recommendation }}{% endblock %}
 
-- Έργο: {{ project }}
-- Αιτιολογία Μετακίνησης: {{ reason }}
-- Προτάσεις χρήστη: {{ user_recommendation }}
-- Μετακινήσεις: {% for travel in travel_info %}
-    - Αναχώρηση από {{ travel.departure_point }}, ημ/νία {{travel.depart_date|timezone:travel.departure_point.timezone|date:"d/m/Y, H:i"}}
-    - Επιστροφή από {{ travel.arrival_point }}, ημ/νία {{travel.return_date|timezone:travel.arrival_point.timezone|date:"d/m/Y, H:i"}}
-{% endfor %}
-- Έναρξη Εργασιών: {{ task_start_date|timezone:timezone_first_destination|date:"d/m/Y, H:i" }}
-- Λήξη Εργασιών: {{ task_end_date|timezone:timezone_last_destination|date:"d/m/Y, H:i" }}
-
-Επισημαίνεται ότι ο Υπεύθυνος του Έργου θα πρέπει να συνδεθεί στην εφαρμογή (https://travel.admin.grnet.gr) και να εγκρίνει την Αίτηση Μετακίνησης.
+{% block footer_message %}Επισημαίνεται ότι ο Υπεύθυνος του Έργου θα πρέπει να συνδεθεί στην εφαρμογή (https://travel.admin.grnet.gr) και να εγκρίνει την Αίτηση Μετακίνησης.
 Διαφορετικά δεν μπορεί να ολοκληρωθεί η διαδικασία υποβολής και να προχωρήσει η Γραμματεία στα επόμενα βήματα (εισιτήρια, ξενοδοχεία, κλπ.).
 
-
-Travel Expenses
-Powered by GRNET www.grnet.gr
-Twitter: @grnet_gr || Facebook: @grnet.gr || LinkedIn: grnet || YouTube: GRNET EDET
+{% endblock %}

@@ -1,0 +1,19 @@
+{% load tz %}
+{% block header_message %}{% endblock %}
+
+
+Στοιχεία Μετακίνησης:
+
+- Έργο: {{ project }}
+- Αιτιολογία Μετακίνησης: {{ reason }}{% block optional_travel_data %}{% endblock %}
+- Μετακινήσεις: {% for travel in travel_info %}
+    - Αναχώρηση από {{ travel.departure_point }}, ημ/νία {{travel.depart_date|timezone:travel.departure_point.timezone|date:"d/m/Y, H:i"}}
+    - Επιστροφή από {{ travel.arrival_point }}, ημ/νία {{travel.return_date|timezone:travel.arrival_point.timezone|date:"d/m/Y, H:i"}}
+{% endfor %}
+- Έναρξη Εργασιών: {{ task_start_date|timezone:timezone_first_destination|date:"d/m/Y, H:i" }}
+- Λήξη Εργασιών: {{ task_end_date|timezone:timezone_last_destination|date:"d/m/Y, H:i" }}
+
+{% block footer_message %}{% endblock %}
+Travel Expenses
+Powered by GRNET www.grnet.gr
+Twitter: @grnet_gr || Facebook: @grnet.gr || LinkedIn: grnet || YouTube: GRNET EDET
