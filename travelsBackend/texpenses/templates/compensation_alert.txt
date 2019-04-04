@@ -10,5 +10,6 @@
 - Λήξη Εργασιών: {{task_end_date|timezone:timezone_last_destination|date:"d/m/Y, H:i"}}
 
 
-Happy journeys!
-Η ομάδα ανάπτυξης
+Travel Expenses
+Powered by GRNET www.grnet.gr
+Twitter: @grnet_gr || Facebook: @grnet.gr || LinkedIn: grnet || YouTube: GRNET EDET
