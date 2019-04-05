@@ -29,18 +29,18 @@ def shift_time(dt, correct_tz):
     base_tz = pytz.timezone('Europe/Athens')
     base_offset = dt.astimezone(base_tz).utcoffset()
     correct_offset = dt.astimezone(correct_tz).utcoffset()
-    shift_needed = base_offset - correct_offset
-    dt += shift_needed
-    return shift_needed
+    return base_offset - correct_offset
 
 
 def fix_task_dates(application):
     local_city = application.travel_info.first().arrival_point
     correct_tz = pytz.timezone(local_city.timezone)
     start_shifted = shift_time(application.task_start_date, correct_tz)
-    end_shifted = shift_time(application.task_end_date, correct_tz)
+    application.task_start_date += start_shifted
     logger.info('Application %s, task_start_date shifted %s' %
                 (application.id, start_shifted))
+    end_shifted = shift_time(application.task_end_date, correct_tz)
+    application.task_end_date += end_shifted
     logger.info('Application %s, task_end_date shifted %s' %
                 (application.id, end_shifted))
 
@@ -50,6 +50,7 @@ def fix_depart_date(travel):
         return
     correct_tz = pytz.timezone(travel.departure_point.timezone)
     shifted = shift_time(travel.depart_date, correct_tz)
+    travel.depart_date += shifted
     logger.info('Travel %s, depart_date shifted %s' %
                 (travel.id, shifted))
 
@@ -59,6 +60,7 @@ def fix_return_date(travel):
         return
     correct_tz = pytz.timezone(travel.arrival_point.timezone)
     shifted = shift_time(travel.return_date, correct_tz)
+    travel.return_date += shifted
     logger.info('Travel %s, return_date shifted %s' %
                 (travel.id, shifted))
 
