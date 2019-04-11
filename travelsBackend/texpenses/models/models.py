@@ -577,8 +577,7 @@ class TravelInfo(Accommodation, Transportation):
 
     def compensation_days_proposed(self):
         """
-        A method that calculates compensation days in case no related value is
-        inserted by secretary
+        A method that calculates compensation days.
 
         Algorithm description:
 
@@ -592,6 +591,9 @@ class TravelInfo(Accommodation, Transportation):
 
         if not all([task_start_date, task_end_date, depart_date, return_date]):
             return 0
+
+        task_start_date, task_end_date, depart_date, return_date = (d.date()
+            for d in (task_start_date, task_end_date, depart_date, return_date))
 
         if self.same_day_return_task():
             return 1
