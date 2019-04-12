@@ -45,6 +45,8 @@ class ProjectMixin(object):
         return_date = utils.get_local_return_date(travel_info_last)
         task_start_date = utils.get_local_task_start_date(petition)
         task_end_date = utils.get_local_task_end_date(petition)
+        compensation_days_proposed = \
+            sum([ti.compensation_days_proposed() for ti in travel_info])
         petition_info.update({'depart_date': depart_date.
                               strftime(settings.DATE_FORMAT_WITHOUT_TIME),
                               'return_date': return_date.
@@ -56,6 +58,7 @@ class ProjectMixin(object):
                               'transport_days': petition.transport_days(),
                               'compensation_days_num':
                               petition.compensation_days_num(),
+                              'compensation_days_proposed': compensation_days_proposed,
                               'departure_point':
                               travel_info_first.departure_point.name,
                               'arrival_points':
@@ -118,7 +121,8 @@ class ProjectMixin(object):
         fields = ['ΔΣΕ', 'Μετακινούμενος', 'ΑΦΜ', 'Ιδιότητα', 'Ειδικότητα',
                   'Status', 'Έργο', 'Αφετηρία', 'Προορισμοί', 'Έναρξη Εργασιών',
                   'Λήξη Εργασιών', 'Αναχώρηση', 'Επιστροφή', 'Μέσα Μετακίνησης',
-                  'Κόστος Μετακίνησης', 'Ημέρες Μετακίνησης', 'Σύνολο Ημερήσιας Αποζημίωσης',
+                  'Κόστος Μετακίνησης', 'Ημέρες Μετακίνησης', 'Ημέρες Αποζημίωσης',
+                  'Προτεινόμενες Ημέρες Αποζημίωσης', 'Σύνολο Ημερήσιας Αποζημίωσης',
                   'Κόστος Διανυκτέρευσης', 'Κόστος συμμετοχής', 'Λοιπά Έξοδα Μετακίνησης',
                   'Συνολικό Κόστος Μετακίνησης']
 
@@ -147,6 +151,7 @@ class ProjectMixin(object):
                 petition['transportation_cost'],
                 petition['transport_days'],
                 petition['compensation_days_num'],
+                petition['compensation_days_proposed'],
                 petition['compensation_cost'],
                 petition['accommodation_cost'],
                 petition['participation_cost'],
