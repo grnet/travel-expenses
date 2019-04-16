@@ -1,0 +1,25 @@
+{
+  "description": "Image description",
+  "variables": [
+    {
+      "name": "release",
+      "description": "Produce a release version",
+      "required": false
+    }
+  ],
+  "input_volumes": [
+    {
+      "path": "node_path",
+      "type": "directory",
+      "description": "node_modules cached",
+      "required": false
+    }
+  ],
+  "output": [
+    {
+      "path": ".",
+      "type": "directory",
+      "description": "The artifacts produced"
+    }
+  ]
+}
