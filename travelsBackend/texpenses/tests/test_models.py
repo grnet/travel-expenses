@@ -133,24 +133,25 @@ class TravelInfoTest(TestCase):
 
     @override_settings(BASE_TIMEZONE='Europe/Athens')
     def test_same_day_return(self):
-        """
-        Same day return task should use base timezone for the checks
-        """
         travel = self.travel_obj
+
+        travel.overnights_num_manual = 0
+        # Same day should return false, because there are no dates set
+        self.assertFalse(travel.same_day_return_task())
+
         travel.travel_petition.task_start_date = datetime(2012, 9, 15, 23, 0, 0,
                                                           tzinfo=pytz.utc)
         travel.depart_date = datetime(2012, 9, 15, 23, 0, 0, tzinfo=pytz.utc)
-        travel.travel_petition.task_end_date = datetime(2012, 9, 16, 20, 0, 0,
+        travel.travel_petition.task_end_date = datetime(2012, 9, 17, 20, 0, 0,
                                                           tzinfo=pytz.utc)
-        travel.return_date = datetime(2012, 9, 16, 20, 0, 0, tzinfo=pytz.utc)
-        self.assertTrue(travel.same_day_return_task())
+        travel.return_date = datetime(2012, 9, 17, 20, 0, 0, tzinfo=pytz.utc)
+        travel.overnights_num_manual = 2
+        # It should keep returning false, because of 2 overnights
+        self.assertFalse(travel.same_day_return_task())
 
-        travel.depart_date -= timedelta(days=1)
-        self.assertFalse(self.travel_obj.same_day_return_task())
-
-        travel.depart_date += timedelta(days=1)
-        travel.travel_petition.task_start_date -= timedelta(hours=3)
-        self.assertFalse(self.travel_obj.same_day_return_task())
+        travel.overnights_num_manual = 0
+        # Same day should return true now
+        self.assertTrue(self.travel_obj.same_day_return_task())
 
     def test_local_depart_date(self):
         self.assertFalse(self.travel_obj.local_depart_date)
@@ -274,6 +275,7 @@ class TravelInfoTest(TestCase):
 
         overnights = self.travel_obj.overnights_num_proposed(
             task_start, task_end)
+        self.travel_obj.overnights_num_manual = overnights
         self.travel_obj.compensation_days_manual = overnights
         self.assertEqual(self.travel_obj.compensation_days_proposed(), 5)
 
