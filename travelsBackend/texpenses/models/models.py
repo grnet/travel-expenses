@@ -561,19 +561,18 @@ class TravelInfo(Accommodation, Transportation):
         on the same day
         """
         if petition is None:
-            task_start_date = self.travel_petition.base_tz_task_start_date
-            task_end_date = self.travel_petition.base_tz_task_end_date
+            task_start_date = self.travel_petition.task_start_date
+            task_end_date = self.travel_petition.task_end_date
         else:
-            task_start_date = petition.base_tz_task_start_date
-            task_end_date = petition.base_tz_task_end_date
+            task_start_date = petition.task_start_date
+            task_end_date = petition.task_end_date
 
         if task_end_date is None or \
                 self.return_date is None \
                 or task_start_date is None \
                 or self.depart_date is None:
             return False
-        return task_end_date.date() == self.base_tz_return_date.date() \
-            == task_start_date.date() == self.base_tz_depart_date.date()
+        return self.overnights_num_manual == 0
 
     def compensation_days_proposed(self):
         """
