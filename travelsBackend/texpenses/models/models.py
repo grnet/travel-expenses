@@ -572,6 +572,10 @@ class TravelInfo(Accommodation, Transportation):
                 or task_start_date is None \
                 or self.depart_date is None:
             return False
+
+        # Eliminate most cases to avoid user errors
+        if (self.base_tz_return_date - self.base_tz_depart_date).days > 1:
+            return False
         return self.overnights_num_manual == 0
 
     def compensation_days_proposed(self):

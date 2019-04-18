@@ -142,15 +142,20 @@ class TravelInfoTest(TestCase):
         travel.travel_petition.task_start_date = datetime(2012, 9, 15, 23, 0, 0,
                                                           tzinfo=pytz.utc)
         travel.depart_date = datetime(2012, 9, 15, 23, 0, 0, tzinfo=pytz.utc)
-        travel.travel_petition.task_end_date = datetime(2012, 9, 17, 20, 0, 0,
+        travel.travel_petition.task_end_date = datetime(2012, 9, 16, 20, 0, 0,
                                                           tzinfo=pytz.utc)
-        travel.return_date = datetime(2012, 9, 17, 20, 0, 0, tzinfo=pytz.utc)
+        travel.return_date = datetime(2012, 9, 18, 20, 0, 0, tzinfo=pytz.utc)
         travel.overnights_num_manual = 2
         # It should keep returning false, because of 2 overnights
         self.assertFalse(travel.same_day_return_task())
 
         travel.overnights_num_manual = 0
-        # Same day should return true now
+        # Same day should keep returning false because return-depart
+        # difference is more than 1 day
+        self.assertFalse(self.travel_obj.same_day_return_task())
+
+        travel.return_date = datetime(2012, 9, 16, 20, 0, 0, tzinfo=pytz.utc)
+        # Now overnights are checked and they are 0, so it should be True
         self.assertTrue(self.travel_obj.same_day_return_task())
 
     def test_local_depart_date(self):
