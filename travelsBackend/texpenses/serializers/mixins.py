@@ -95,18 +95,10 @@ class PetitionMixin(object):
 
         relative_records = Petition.objects.filter(**relative_petition_filter)
 
-        dse_already_used = Petition.objects.\
-            exclude(**relative_petition_exclude_filter).filter(dse=dse,
-                                                               deleted=False)
-
-        if dse_already_used.exists():
-            raise serializers.ValidationError(
-                "A petition with dse:{0}, already exists."
-                ", with data:{1}".format(dse, dse_already_used))
-
         if not relative_records.exists():
             raise serializers.ValidationError(
-                'Cannot create petition with dse %s' % (dse))
+                'Cannot create petition with dse {},'
+                'no previous petition found with that dse.'.format(dse))
 
     def update(self, instance, validated_data):
         """
@@ -246,4 +238,6 @@ class PetitionMixin(object):
         """
         if user and user.trip_days_left < transport_days:
             raise serializers.ValidationError(
-                'You have exceeded the allowable number of trip days')
+                'You have exceeded the allowable number of trip days'
+                '(Remaining: {}, Needed: {})'.format(user.trip_days_left,
+                                                    transport_days))
