@@ -603,7 +603,9 @@ class TravelInfo(Accommodation, Transportation):
         if return_date <= task_end_date:
             if start_date_delta == 0:
                 compensation_days = (
-                    return_date - task_start_date).days + 1
+                    return_date - task_start_date).days if (
+                    self.travel_petition.has_multiple_destinations()) else (
+                        return_date - task_start_date).days + 1
             if start_date_delta > 0:
                 compensation_days = (
                     return_date - task_start_date).days + 1 if (
