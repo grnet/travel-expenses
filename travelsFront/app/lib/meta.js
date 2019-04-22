@@ -23,10 +23,11 @@ const travel_info = field('travel_info', {
   createEntry: function(field, store) {
     // `this` is the component context
     let last = this.get('value.lastObject');
-
     if (last) {
       return store.createRecord('travel-info', {
         departure_point: last.get('changeset.arrival_point') || undefined,
+        depart_date: last.get('changeset.return_date') || undefined,
+        return_date: last.get('changeset.return_date') || undefined,
         accommodation_local_currency: 'EUR',
       });
     } else {
