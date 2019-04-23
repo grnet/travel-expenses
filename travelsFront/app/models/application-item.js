@@ -39,6 +39,12 @@ export default DS.Model.extend({
   participation_local_currency: DS.attr({ 'choices': CHOICES.CURRENCIES, autocomplete: true }),
   task_start_date: DS.attr('date', {
     formAttrs: {
+      onChange(value, changeset) {
+        if (value && !changeset.get('task_end_date')) {
+          changeset.set('task_end_date', value);
+        }
+        return value;
+      },
       time: true,
       format: 'dd mmmm yyyy',
     },
