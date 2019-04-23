@@ -2508,9 +2508,10 @@ ember-cli-gen-apimas@0.0.18:
     ember-django-adapter "1.1.3"
     ember-lodash "0.0.10"
 
-ember-cli-gen@^1.0.16:
-  version "1.0.16"
-  resolved "https://registry.yarnpkg.com/ember-cli-gen/-/ember-cli-gen-1.0.16.tgz#3247459a17aa8f6aba6273f6214646272c5a0e14"
+ember-cli-gen@^1.0.17:
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/ember-cli-gen/-/ember-cli-gen-1.0.17.tgz#774b518c98e51336d8e3dc0adc6febd21d4db0d8"
+  integrity sha512-dOq6csz8DVi3FLEDwc19WmS8h1MHigtn6L74wqWHVB1yB6DHos0QZ8Hirb/RrTt8ilyNW4V36l209blDiFS+WQ==
   dependencies:
     ember-array-contains-helper "1.3.0"
     ember-can "0.8.1"
