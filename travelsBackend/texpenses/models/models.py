@@ -405,6 +405,9 @@ class TravelInfo(Accommodation, Transportation):
             return False
         return self.means_of_transport_is_car_or_bike()
 
+    def is_first_destination(self):
+        return self.travel_petition.travel_info.first() is self
+
     @property
     def local_depart_date(self):
         city = self.departure_point
@@ -599,44 +602,22 @@ class TravelInfo(Accommodation, Transportation):
             for d in (task_start_date, task_end_date, depart_date, return_date))
 
         if self.same_day_return_task():
-            return 1
+            # In case of multiple destinations, avoid counting days twice
+            return 1 if self.is_first_destination() else 0
 
         compensation_days = 0
-        start_date_delta = (task_start_date - depart_date).days
+        if depart_date < task_start_date:
+            compensation_days += 1
+        start_date = max(task_start_date, depart_date)
+        end_date = min(task_end_date, return_date)
 
-        if return_date <= task_end_date:
-            if start_date_delta == 0:
-                compensation_days = (
-                    return_date - task_start_date).days if (
-                    self.travel_petition.has_multiple_destinations()) else (
-                        return_date - task_start_date).days + 1
-            if start_date_delta > 0:
-                compensation_days = (
-                    return_date - task_start_date).days + 1 if (
-                    self.travel_petition.has_multiple_destinations()) else (
-                        return_date - task_start_date).days + 2
+        compensation_days += (end_date - start_date).days + 1
 
-            if start_date_delta < 0:
-                compensation_days = (
-                    return_date - depart_date).days + 1 if (
-                        return_date == task_end_date) else (
-                            (return_date - depart_date).days if (
-                            self.travel_petition.has_multiple_destinations())\
-                            else (
-                                (return_date - depart_date).days + 1)
-                        )
-        else:
-            if start_date_delta > 0:
-                compensation_days = (task_end_date - task_start_date).days + 2
-            if start_date_delta == 0:
-                compensation_days = (task_end_date - task_start_date).days + 1
-            if start_date_delta < 0:
-                compensation_days = (
-                    task_end_date - depart_date).days + 1
+        # In case of multiple destinations, avoid counting days twice
+        if not self.is_first_destination():
+            compensation_days -= 1
 
-        if compensation_days < 0:
-            return 0
-        return compensation_days
+        return max(compensation_days, 0)
 
     def compensation_cost_single_day(self):
         """
@@ -647,7 +628,8 @@ class TravelInfo(Accommodation, Transportation):
         percentage = 100
         max_compensation = self.compensation_level()
 
-        if self.is_abroad() and self.same_day_return_task():
+        if (self.is_abroad() and self.same_day_return_task()
+                and self.travel_petition.all_same_day()):
             max_compensation *= 0.5
 
         compensation_proportion = common.COMPENSATION_PROPORTION[self.meals] \
@@ -1075,6 +1057,9 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         if self.travel_info.count() > 1:
             return True
         return False
+
+    def all_same_day(self):
+        return all([t.same_day_return_task() for t in self.travel_info.all()])
 
     def withdraw(self, **kwargs):
         """
