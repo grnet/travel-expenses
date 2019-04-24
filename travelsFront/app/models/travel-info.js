@@ -18,6 +18,12 @@ export default DS.Model.extend({
   arrival_point: DS.belongsTo('city', { autocomplete: true, displayAttr: 'labelWithCountry' }),
   depart_date: DS.attr('date', {
     formAttrs: {
+      onChange(value, changeset) {
+        if (value && !changeset.get('return_date')) {
+          changeset.set('return_date', value);
+        }
+        return value;
+      },
       time: true,
       format: 'dd mmmm yyyy',
     },
