@@ -406,7 +406,7 @@ class TravelInfo(Accommodation, Transportation):
         return self.means_of_transport_is_car_or_bike()
 
     def is_first_destination(self):
-        return self.travel_petition.travel_info.first() is self
+        return self.travel_petition.travel_info.first() == self
 
     @property
     def local_depart_date(self):
