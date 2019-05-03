@@ -2,4 +2,4 @@
 
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 
-( cd ${script_dir} && find . -mindepth 2 -type d | sed 's,^\./,,' | sed 's,/,:,g' )
+( cd ${script_dir} && find . -mindepth 2 -maxdepth 2 -type d | sed 's,^\./,,' | sed 's,/,:,g' )
