@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -e
+list_file="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"/list
+
+for i in $(source ${list_file}) ; do
+    image=$(echo "${i}" | cut -d: -f1)
+    tag=$(echo "${i}" | cut -d: -f2)
+
+    sudo docker build --no-cache --build-arg path_prefix="${image}"/"${tag}" \
+      -t "${i}" -f "${image}"/"${tag}"/Dockerfile .
+done
