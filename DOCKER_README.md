@@ -17,12 +17,12 @@ The database will be created in ./travelsBackend (mydb-docker.sqlite3) and it wi
 
 If you want to run a shell in a container use
 ```
-$ docker exec -it travel-backend bash
+# docker exec -it travel-backend bash
 ```
 
 If you want to attach to the running process use:
 ```
-$ docker attach travel-backend
+# docker attach travel-backend
 ```
 
 ## Running without docker-compose:
