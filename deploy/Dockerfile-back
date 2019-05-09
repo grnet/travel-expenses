@@ -1,0 +1,19 @@
+FROM python:2
+MAINTAINER Antonis Angelakis "angelakis@grnet.gr"
+
+RUN mkdir /etc/travel
+RUN mkdir /var/log/travel/
+RUN touch /var/log/travel/travelexpenses.log
+RUN mkdir /usr/lib/travel
+RUN mkdir /srv/travel
+ADD ./travelsBackend /srv/travel/travelsBackend
+ADD ./resources /srv/travel/resources
+RUN cd /usr/lib/travel && ln -sf /srv/travel/resources
+
+WORKDIR /srv/travel/travelsBackend
+RUN pip install -r requirements.txt
+ADD ./deploy/settings.conf /etc/travel/
+ADD ./deploy/boot.sh /srv/boot.sh
+
+EXPOSE 8000
+CMD /srv/boot.sh

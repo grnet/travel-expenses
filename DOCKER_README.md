@@ -1,25 +1,29 @@
 # Docker instructions
 
-While on the root directory of the repo build the Docker image with the following command:
+You will need [docker-compose](https://docs.docker.com/compose/install/). 
+
+While on the root directory of the repo use the following command:
 ```
-$ docker build -t grnet/travel .
+# docker-compose up --build -d
 ```
 
-Run the following commands to create the container and bring it up:
-```
-$ docker create --name travel-dev -it -v `pwd`:/srv/travel -v /srv/travel/travelsFront/dist -v /srv/travel/travelsFront/tmp -v /srv/travel/travelsFront/node_modules -v /srv/travel/travelsFront/bower_components -p 127.0.0.1:8080:8000 grnet/travel
-$ docker start travel-dev
-```
+This will create a container for the backend (manage.py runserver) and the frontend (ember build --watch). The containers are named `travel-backend` and `travel-frontend` respectively.
 
 Travel can be accessed at localhost:8080.
-To check the output of ember builder and manage.py runserver, run `docker logs [-f] travel-dev`
+
+To check the output of the container use docker logs, e.g. `docker logs [-f] travel-backend`
 
 The database will be created in ./travelsBackend (mydb-docker.sqlite3) and it will be reused across docker builds. If you want to reset it, just remove the file. If you want to use an existing database, overwrite it. You'll probably need root, as Docker runs and therefore creates/modifies files as root.
 
-If you want to access the container directly you can use the following command
+If you want to run a shell in a container use
 ```
-$ docker exec -it travel-dev bash
+$ docker exec -it travel-backend bash
 ```
 
-# Troubleshooting:
-- If you get the error "docker: Error response from daemon: Conflict" you have to remove previously created containers before creating a new one. Use `docker rm -f travel-dev`.
+If you want to attach to the running process use:
+```
+$ docker attach travel-backend
+```
+
+## Running without docker-compose:
+- To use the containers without docker-compose, you will have to build the containers, create and start them. You can check docker-compose.yml for info on options to use during container creation.

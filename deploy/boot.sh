@@ -1,7 +1,4 @@
 #!/bin/bash
-cd /srv/travel/travelsFront
-echo "Starting ember build"
-ember build --watch --dev &
 cd /srv/travel/travelsBackend
 echo "Starting migrate"
 python manage.py migrate

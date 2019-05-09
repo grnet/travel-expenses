@@ -1,0 +1,30 @@
+version: '3'
+services:
+  backend:
+    container_name: travel-backend
+    build:
+      context: .
+      dockerfile: ./deploy/Dockerfile-back
+    ports:
+      - "127.0.0.1:8080:8000"
+    volumes:
+      - ./travelsBackend:/srv/travel/travelsBackend
+      - dist:/srv/travel/travelsFront/dist
+    stdin_open: true
+    tty: true
+  frontend:
+    container_name: travel-frontend
+    build:
+      context: .
+      dockerfile: ./deploy/Dockerfile-front
+    volumes:
+      - ./travelsFront:/srv/travel/travelsFront
+      - dist:/srv/travel/travelsFront/dist
+      - /srv/travel/travelsFront/tmp
+      - /srv/travel/travelsFront/node_modules
+      - /srv/travel/travelsFront/bower_components
+    stdin_open: true
+    tty: true
+
+volumes:
+  dist:
