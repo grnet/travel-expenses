@@ -1,6 +1,5 @@
 import sys
-from django.core.management.base import BaseCommand, CommandError
-from optparse import make_option
+from django.core.management.base import BaseCommand
 
 from texpenses.models import Project, UserProfile
 
@@ -10,7 +9,9 @@ sys.setdefaultencoding('utf8')
 
 class Command(BaseCommand):
     help = "Loads project info from a .csv file"
-    args = '<projects>'
+
+    def add_arguments(self, parser):
+        parser.add_argument('projects_csv')
 
     def preprocess(self, input):
         data = input.strip().split(',')
@@ -18,7 +19,7 @@ class Command(BaseCommand):
         return data
 
     def handle(self, *args, **options):
-        location_file_path = args[0]
+        location_file_path = options['projects_csv']
         with open(location_file_path) as projects_csv_file:
 
             for project_record in projects_csv_file:
