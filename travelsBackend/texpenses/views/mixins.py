@@ -14,7 +14,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from texpenses.models import Petition, City, Project, Applications
 from texpenses.actions import inform_on_action, inform
-from texpenses.views.utils import render_template2pdf, render_template2csv
+from texpenses.views.utils import render_template2pdf
 from texpenses.views import utils
 
 
@@ -41,10 +41,10 @@ class ProjectMixin(object):
         travel_info = petition.travel_info.all()
         travel_info_first = travel_info[0]
         travel_info_last = travel_info[len(travel_info) - 1]
-        depart_date = utils.get_local_depart_date(travel_info_first)
-        return_date = utils.get_local_return_date(travel_info_last)
-        task_start_date = utils.get_local_task_start_date(petition)
-        task_end_date = utils.get_local_task_end_date(petition)
+        depart_date = travel_info_first.local_depart_date
+        return_date = travel_info_last.local_return_date
+        task_start_date = petition.local_task_start_date
+        task_end_date = petition.local_task_end_date
         compensation_days_proposed = \
             sum([ti.compensation_days_proposed() for ti in travel_info])
         petition_info.update({'depart_date': depart_date.
@@ -432,6 +432,7 @@ class ApplicationMixin(object):
                  'expenditure_protocol': petition_object.expenditure_protocol,
                  'expenditure_date_protocol':
                  petition_object.expenditure_date_protocol,
+                 'base_timezone': settings.BASE_TIMEZONE,
                  'compensation_petition_protocol':
                  petition_object.compensation_petition_protocol,
                  'compensation_petition_date':
@@ -448,6 +449,11 @@ class ApplicationMixin(object):
                          'travel_info': travel_info,
                          'task_start_date': petition_object.task_start_date,
                          'task_end_date': petition_object.task_end_date,
+                         'timezone_depart': travel_info_first.departure_point.timezone,
+                         'timezone_first_destination': travel_info_first.
+                         arrival_point.timezone,
+                         'timezone_last_destination': travel_info_last.
+                         arrival_point.timezone,
                          'trip_days_before': petition_object.trip_days_before,
                          'trip_days_after': petition_object.trip_days_after,
                          'transport_days': petition_object.transport_days,

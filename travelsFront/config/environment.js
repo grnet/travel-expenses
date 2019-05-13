@@ -11,7 +11,8 @@ module.exports = function(environment) {
       locales: ['gr', 'en']
     },
     moment: {
-      outputFormat: 'DD/MM/YYYY HH:mm'
+      outputFormat: 'DD/MM/YYYY HH:mm',
+      includeTimezone: 'all'
     },
     // 'ember-cli-pickadate': {
     //   date: {

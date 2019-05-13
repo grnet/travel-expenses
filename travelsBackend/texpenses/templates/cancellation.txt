@@ -16,8 +16,8 @@
 - Αναχώρηση: {{ departure_point }}
 - Άφιξη: {{ arrival_point }}
 {% endif %}
-- Έναρξη Εργασιών: {{ task_start_date|timezone:timezone_arrival|date:"d/m/Y, H:i" }}
-- Λήξη Εργασιών: {{ task_end_date|timezone:timezone_arrival|date:"d/m/Y, H:i"  }}
+- Έναρξη Εργασιών: {{ task_start_date|timezone:timezone_first_destination|date:"d/m/Y, H:i" }}
+- Λήξη Εργασιών: {{ task_end_date|timezone:timezone_last_destination|date:"d/m/Y, H:i"  }}
 
 Happy journeys!
 Η ομάδα ανάπτυξης

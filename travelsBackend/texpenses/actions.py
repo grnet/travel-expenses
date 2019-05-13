@@ -100,8 +100,9 @@ def inform(petition, action, target_user, inform_controller, request_user=None):
         if travel_info_first else None,
         'arrival_point': travel_info_last.arrival_point.name \
         if travel_info_last else None,
-        'timezone_arrival': travel_info_last.arrival_point.timezone,
         'timezone_depart': travel_info_first.departure_point.timezone,
+        'timezone_first_destination': travel_info_first.arrival_point.timezone,
+        'timezone_last_destination': travel_info_last.arrival_point.timezone,
         'task_start_date': petition.task_start_date,
         'task_end_date': petition.task_end_date,
         'reason': petition.reason,

@@ -1,5 +1,4 @@
 from django.core.exceptions import ValidationError
-from rest_framework.exceptions import PermissionDenied
 from rest_framework import serializers
 from texpenses.models import Petition
 from texpenses.validators import date_validator
@@ -70,15 +69,19 @@ class PetitionMixin(object):
 
     def check_creation_allowed(self, data):
         """
-        This functions checks that the petition can be created with the given
-        dse value.
+        This functions checks if the petition can be created.
 
-        Typically, when dse is not specified on request is automatically
-        created by server. However, when dse is specified on request it must be
+        Apart from checking if travel infos exist, it ensures that the dse is correct.
+        Typically, when dse is not specified on request it is automatically
+        created by the server. However, when dse is specified on request it must be
         associated with a petition created by the same user and there is not
         already a petition with the same dse but on greater status than the one
         defined on request.
         """
+        if not data.get('travel_info', None):
+            raise serializers.ValidationError(
+                'Cannot create application with no travel infos')
+
         dse = data.get('dse', None)
         if not dse:
             return
@@ -92,18 +95,10 @@ class PetitionMixin(object):
 
         relative_records = Petition.objects.filter(**relative_petition_filter)
 
-        dse_already_used = Petition.objects.\
-            exclude(**relative_petition_exclude_filter).filter(dse=dse,
-                                                               deleted=False)
-
-        if dse_already_used.exists():
-            raise PermissionDenied("A petition with dse:{0}, already exists."
-                                   ", with data:{1}".
-                                   format(dse, dse_already_used))
-
         if not relative_records.exists():
-            raise PermissionDenied('Cannot create petition with dse %s' % (
-                dse))
+            raise serializers.ValidationError(
+                'Cannot create petition with dse {},'
+                'no previous petition found with that dse.'.format(dse))
 
     def update(self, instance, validated_data):
         """
@@ -225,7 +220,8 @@ class PetitionMixin(object):
         if not travel_info_field.required:
             return value
         if not value or any(not obj for obj in value):
-            raise ValidationError('This field must not include empty objects')
+            raise serializers.ValidationError(
+                'This field must not include empty objects')
         return value
 
     def validate_user(self, user_value):
@@ -241,5 +237,7 @@ class PetitionMixin(object):
         available trip days.
         """
         if user and user.trip_days_left < transport_days:
-            raise ValidationError(
-                'You have exceeded the allowable number of trip days')
+            raise serializers.ValidationError(
+                'You have exceeded the allowable number of trip days'
+                '(Remaining: {}, Needed: {})'.format(user.trip_days_left,
+                                                    transport_days))

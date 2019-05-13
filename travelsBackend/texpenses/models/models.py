@@ -3,6 +3,7 @@
 
 from datetime import timedelta
 import functools
+import pytz
 from django.conf import settings
 from django.core.exceptions import (
     ValidationError, ObjectDoesNotExist, PermissionDenied)
@@ -404,6 +405,39 @@ class TravelInfo(Accommodation, Transportation):
             return False
         return self.means_of_transport_is_car_or_bike()
 
+    def is_first_destination(self):
+        return self.travel_petition.travel_info.first() == self
+
+    @property
+    def local_depart_date(self):
+        city = self.departure_point
+        if not self.depart_date or not city:
+            return self.depart_date
+        city_timezone = pytz.timezone(city.timezone)
+        return self.depart_date.astimezone(city_timezone)
+
+    @property
+    def base_tz_depart_date(self):
+        if not self.depart_date:
+            return self.depart_date
+        base_timezone = pytz.timezone(settings.BASE_TIMEZONE)
+        return self.depart_date.astimezone(base_timezone)
+
+    @property
+    def local_return_date(self):
+        city = self.arrival_point
+        if not self.return_date or not city:
+            return self.return_date
+        city_timezone = pytz.timezone(city.timezone)
+        return self.return_date.astimezone(city_timezone)
+
+    @property
+    def base_tz_return_date(self):
+        if not self.return_date:
+            return self.return_date
+        base_timezone = pytz.timezone(settings.BASE_TIMEZONE)
+        return self.return_date.astimezone(base_timezone)
+
     def calculate_transportation_cost(self):
         # we cannot use location tracker as it's not guaranteed
         # there will be a calculation on every save
@@ -458,12 +492,11 @@ class TravelInfo(Accommodation, Transportation):
 
         :returns: Proposed transport_days.
         """
-
         WEEKENDS = [5, 6]
         if self.depart_date is None or self.return_date is None:
             return 0
-        time_period = (self.depart_date + timedelta(x) for x in xrange(
-            (self.return_date.date() - self.depart_date.date()).days + 1))
+        time_period = (self.base_tz_depart_date + timedelta(x) for x in xrange(
+            (self.base_tz_return_date.date() - self.base_tz_depart_date.date()).days + 1))
 
         return sum(1 for day in time_period if day.weekday() not in WEEKENDS)
 
@@ -483,19 +516,18 @@ class TravelInfo(Accommodation, Transportation):
         :param task_end_date: Date when task ends.
         :returns: The proposed overinight days.
         """
-
         task_start_date = (task_start_date or
-                           self.travel_petition.task_start_date)
-        task_end_date = task_end_date or self.travel_petition.task_end_date
+                           self.travel_petition.base_tz_task_start_date)
+        task_end_date = task_end_date or self.travel_petition.base_tz_task_end_date
 
         if not (self.return_date and self.depart_date and
                 task_start_date and task_end_date):
             return 0
 
         first_day = task_start_date - timedelta(days=1) if (
-            task_start_date - self.depart_date).days >= 1 else self.depart_date
+            task_start_date - self.base_tz_depart_date).days >= 1 else self.base_tz_depart_date
         last_day = task_end_date + timedelta(days=1) if (
-            self.return_date - task_end_date).days >= 1 else self.return_date
+            self.base_tz_return_date - task_end_date).days >= 1 else self.base_tz_return_date
         return ((last_day.date() - first_day.date()).days
                 if first_day < last_day else 0)
 
@@ -528,9 +560,9 @@ class TravelInfo(Accommodation, Transportation):
 
     def same_day_return_task(self, petition=None):
         """
-        This method checks that the t
+        This method checks if transportation and task start and end are all
+        on the same day
         """
-        task_start_date, task_end_date = None, None
         if petition is None:
             task_start_date = self.travel_petition.task_start_date
             task_end_date = self.travel_petition.task_end_date
@@ -543,74 +575,49 @@ class TravelInfo(Accommodation, Transportation):
                 or task_start_date is None \
                 or self.depart_date is None:
             return False
-        return task_end_date.date() == self.return_date.date() \
-            == task_start_date.date() == self.depart_date.date()
+
+        # Eliminate most cases to avoid user errors
+        if (self.base_tz_return_date - self.base_tz_depart_date).days > 1:
+            return False
+        return self.overnights_num_manual == 0
 
     def compensation_days_proposed(self):
         """
-        A method that calculates compensation days in case no related value is
-        inserted by secretary
+        A method that calculates compensation days.
 
         Algorithm description:
 
             [task_end_date] - [task_start_date] + 1
             +1 if { [depart_date] < [task_start_date] }
         """
-        task_start_date = self.travel_petition.task_start_date.replace(
-            hour=0, minute=0) if self.travel_petition.task_start_date else (
-                self.travel_petition.task_start_date)
-        task_end_date = self.travel_petition.task_end_date.replace(
-            hour=0, minute=0) if self.travel_petition.task_end_date else (
-            self.travel_petition.task_end_date)
+        task_start_date = self.travel_petition.base_tz_task_start_date
+        task_end_date = self.travel_petition.base_tz_task_end_date
+        depart_date = self.base_tz_depart_date
+        return_date = self.base_tz_return_date
 
-        depart_date = self.depart_date.replace(
-            hour=0, minute=0) if self.depart_date else self.depart_date
-        return_date = self.return_date.replace(
-            hour=0, minute=0) if self.return_date else self.return_date
-
-        if not (depart_date and return_date and task_start_date and
-                task_end_date):
+        if not all([task_start_date, task_end_date, depart_date, return_date]):
             return 0
+
+        task_start_date, task_end_date, depart_date, return_date = (d.date()
+            for d in (task_start_date, task_end_date, depart_date, return_date))
 
         if self.same_day_return_task():
-            return 1
+            # In case of multiple destinations, avoid counting days twice
+            return 1 if self.is_first_destination() else 0
 
         compensation_days = 0
+        if depart_date < task_start_date:
+            compensation_days += 1
+        start_date = max(task_start_date, depart_date)
+        end_date = min(task_end_date, return_date)
 
-        start_date_delta = (task_start_date - depart_date).days
+        compensation_days += (end_date - start_date).days + 1
 
+        # In case of multiple destinations, avoid counting days twice
+        if not self.is_first_destination():
+            compensation_days -= 1
 
-        if return_date <= task_end_date:
-            if start_date_delta == 0:
-                compensation_days = (
-                    return_date - task_start_date).days + 1
-            if start_date_delta > 0:
-                compensation_days = (
-                    return_date - task_start_date).days + 1 if (
-                    self.travel_petition.has_multiple_destinations()) else (
-                        return_date - task_start_date).days + 2
-
-            if start_date_delta < 0:
-                compensation_days = (
-                    return_date - depart_date).days + 1 if (
-                        return_date == task_end_date) else (
-                            (return_date - depart_date).days if (
-                            self.travel_petition.has_multiple_destinations())\
-                            else (
-                                (return_date - depart_date).days + 1)
-                        )
-        else:
-            if start_date_delta > 0:
-                compensation_days = (task_end_date - task_start_date).days + 2
-            if start_date_delta == 0:
-                compensation_days = (task_end_date - task_start_date).days + 1
-            if start_date_delta < 0:
-                compensation_days = (
-                    task_end_date - depart_date).days + 1
-
-        if compensation_days < 0:
-            return 0
-        return compensation_days
+        return max(compensation_days, 0)
 
     def compensation_cost_single_day(self):
         """
@@ -621,7 +628,8 @@ class TravelInfo(Accommodation, Transportation):
         percentage = 100
         max_compensation = self.compensation_level()
 
-        if self.is_abroad() and self.same_day_return_task():
+        if (self.is_abroad() and self.same_day_return_task()
+                and self.travel_petition.all_same_day()):
             max_compensation *= 0.5
 
         compensation_proportion = common.COMPENSATION_PROPORTION[self.meals] \
@@ -1050,6 +1058,9 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             return True
         return False
 
+    def all_same_day(self):
+        return all([t.same_day_return_task() for t in self.travel_info.all()])
+
     def withdraw(self, **kwargs):
         """
         Withdraw a petition.
@@ -1128,6 +1139,42 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
         return missing_fields
 
+    @property
+    def local_task_start_date(self):
+        task_start = self.task_start_date
+        travel_infos = list(self.travel_info.all())
+        if not task_start or not travel_infos:
+            return task_start
+        city = travel_infos[0].arrival_point
+        city_timezone = pytz.timezone(city.timezone)
+        return self.task_start_date.astimezone(city_timezone)
+
+    @property
+    def base_tz_task_start_date(self):
+        task_start = self.task_start_date
+        if not task_start:
+            return task_start
+        base_timezone = pytz.timezone(settings.BASE_TIMEZONE)
+        return self.task_start_date.astimezone(base_timezone)
+
+    @property
+    def local_task_end_date(self):
+        task_end = self.task_end_date
+        travel_infos = list(self.travel_info.all())
+        if not task_end or not travel_infos:
+            return task_end
+        city = travel_infos[-1].arrival_point
+        city_timezone = pytz.timezone(city.timezone)
+        return self.task_end_date.astimezone(city_timezone)
+
+    @property
+    def base_tz_task_end_date(self):
+        task_end = self.task_end_date
+        if not task_end:
+            return task_end
+        base_timezone = pytz.timezone(settings.BASE_TIMEZONE)
+        return self.task_end_date.astimezone(base_timezone)
+
     def compensation_cost(self):
         return sum([travel_obj.compensation_cost()
                     for travel_obj in self.travel_info.all()])
@@ -1181,7 +1228,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     def overnights_proposed(self):
         return sum(travel.overnights_num_proposed(
-            self.task_start_date, self.task_end_date)
+            self.base_tz_task_start_date, self.base_tz_task_end_date)
             for travel in self.travel_info.all())
 
     def overnights_sum_cost(self):
@@ -1248,7 +1295,6 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         This value is calculated by adding the transportation,
         compensation, partication and accommodation costs.
         """
-
         return sum([Decimal(self.transportation_cost_not_to_be_compensated()),
                     Decimal(self.additional_expenses_grnet),
                     Decimal(self.participation_cost),

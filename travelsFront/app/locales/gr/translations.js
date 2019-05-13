@@ -320,6 +320,7 @@ export default {
   'Ensure this field has no more than 9 characters.': 'Βεβαιωθείτε ότι ο αριθμός δεν έχει περισσότερα από 9 ψηφία',
   'table.is.empty': 'Δεν έχετε δημιουργήσει ακόμη κάποια αίτηση μετακίνησης',
   'profile.not.complete.error': 'Θα πρέπει να συμπληρώσετε τα στοιχεία του προφίλ σας για να δημιουργήσετε νέα αίτηση',
+  'Cannot create application with no travel infos': 'Δεν έχετε προσθέσει στοιχεία μετακίνησης',
   // placeholders
   'time_placeholder': 'Ώρα',
   'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',
