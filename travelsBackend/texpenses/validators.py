@@ -2,6 +2,7 @@ import logging
 from datetime import date
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+from django.conf.settings import IBAN_WHITELIST
 from stdnum import iban
 from stdnum.gr import vat
 logger = logging.getLogger(__name__)
@@ -14,6 +15,9 @@ def required_validator(obj, fields=()):
 
 
 def iban_validation(value):
+    if value in IBAN_WHITELIST:
+        return True
+
     try:
         iban.validate(value)
     except Exception as ex:
