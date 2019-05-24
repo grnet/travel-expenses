@@ -96,34 +96,78 @@ class TravelInfoTest(TestCase):
 
     @override_settings(BASE_TIMEZONE='Europe/Athens')
     def test_transport_days_proposed(self):
-        date = datetime.now(pytz.utc)
-        self.assertEqual(self.travel_obj.transport_days_proposed(), 0)
-        self.travel_obj.depart_date = date
-        self.assertEqual(self.travel_obj.transport_days_proposed(), 0)
-        self.travel_obj.return_date = date + timedelta(days=7)
-        # We remove weekends, that's why six (depart and return counted)
-        self.assertEqual(self.travel_obj.transport_days_proposed(), 6)
+        base_date = datetime.now(pytz.utc) + timedelta(days=3)
 
-        self.travel_obj.depart_date = datetime(2012, 9, 12, 21, 10, 0,
-                                               tzinfo=pytz.utc)
-        self.travel_obj.return_date = datetime(2012, 9, 14, 17, 0, 0,
-                                               tzinfo=pytz.utc)
-        # 21:10 utc on wed, 12/9, was 00:10 athens time th, 13/9, so 2 days
+        # D=depart date, R=return date, TS=task start date, TE=task end date
+        # D TS . . TE R -> 5 comp days
+        self.travel_obj.overnights_num_manual = 5
+        self.travel_obj.depart_date = base_date
+        self.travel_obj.return_date = base_date + timedelta(days=5)
+        self.travel_petition.task_start_date = base_date + timedelta(days=1)
+        self.travel_petition.task_end_date = base_date + timedelta(days=4)
+        self.assertEqual(self.travel_obj.transport_days_proposed(), 5)
+
+        # TS D . . TE R -> 4 comp days
+        self.travel_petition.task_start_date = base_date
+        self.travel_obj.depart_date = base_date + timedelta(days=1)
+        self.assertEqual(self.travel_obj.transport_days_proposed(), 4)
+
+        # TS D . R TE -> 3 comp days
+        self.travel_petition.task_end_date = base_date + timedelta(days=4)
+        self.travel_obj.return_date = base_date + timedelta(days=3)
+        self.assertEqual(self.travel_obj.transport_days_proposed(), 3)
+
+        # TS/D TE/R -> 2 comp days
+        self.travel_obj.depart_date = base_date
+        self.travel_obj.return_date = base_date + timedelta(days=1)
+        self.travel_petition.task_end_date = base_date + timedelta(days=1)
         self.assertEqual(self.travel_obj.transport_days_proposed(), 2)
 
-        self.travel_obj.depart_date = datetime(2012, 9, 12, 9, 10, 0,
-                                               tzinfo=pytz.utc)
-        self.travel_obj.return_date = datetime(2012, 9, 14, 17, 0, 0,
-                                               tzinfo=pytz.utc)
-        self.assertEqual(self.travel_obj.transport_days_proposed(), 3)
+        # D R TS . TE -> 0 comp days
+        self.travel_obj.depart_date = base_date
+        self.travel_obj.return_date = base_date + timedelta(days=1)
+        self.travel_petition.task_start_date = base_date + timedelta(days=2)
+        self.travel_petition.task_end_date = base_date + timedelta(days=4)
+        # self.assertEqual(self.travel_obj.transport_days_proposed(), 0)
 
-        self.travel_obj.depart_date = datetime(2012, 9, 12, 9, 10, 0,
-                                               tzinfo=pytz.utc)
-        self.travel_obj.return_date = datetime(2012, 9, 16, 17, 0, 0,
-                                               tzinfo=pytz.utc)
-        # 15 and 16 were sat and sun respectively
-        self.assertEqual(self.travel_obj.transport_days_proposed(), 3)
+        # TS . TE D . R -> 0 comp days
+        self.travel_petition.task_start_date = base_date
+        self.travel_petition.task_end_date = base_date + timedelta(days=2)
+        self.travel_obj.depart_date = base_date + timedelta(days=3)
+        self.travel_obj.return_date = base_date + timedelta(days=5)
+        self.assertEqual(self.travel_obj.transport_days_proposed(), 0)
 
+        # TS/TE/D/R -> 1 comp days
+        self.travel_obj.overnights_num_manual = 0
+        self.travel_petition.task_start_date = base_date
+        self.travel_petition.task_end_date = base_date
+        self.travel_obj.depart_date = base_date
+        self.travel_obj.return_date = base_date
+        self.assertEqual(self.travel_obj.transport_days_proposed(), 1)
+
+        # D TS/TE R -> 2 comp days
+        self.travel_obj.overnights_num_manual = 2
+        self.travel_petition.task_start_date = base_date + timedelta(days=1)
+        self.travel_petition.task_end_date = base_date + timedelta(days=1)
+        self.travel_obj.depart_date = base_date
+        self.travel_obj.return_date = base_date + timedelta(days=2)
+        self.assertEqual(self.travel_obj.transport_days_proposed(), 2)
+
+        # D TS/TE/R -> 2 comp days
+        self.travel_obj.overnights_num_manual = 1
+        self.travel_petition.task_start_date = base_date + timedelta(days=1)
+        self.travel_petition.task_end_date = base_date + timedelta(days=1)
+        self.travel_obj.depart_date = base_date
+        self.travel_obj.return_date = base_date + timedelta(days=1)
+        self.assertEqual(self.travel_obj.transport_days_proposed(), 2)
+
+        # D/TS/TE R -> 1 comp days
+        self.travel_obj.overnights_num_manual = 1
+        self.travel_petition.task_start_date = base_date
+        self.travel_petition.task_end_date = base_date
+        self.travel_obj.depart_date = base_date
+        self.travel_obj.return_date = base_date + timedelta(days=1)
+        self.assertEqual(self.travel_obj.transport_days_proposed(), 1)
 
     def test_compensation_level(self):
 

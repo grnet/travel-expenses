@@ -491,20 +491,14 @@ class TravelInfo(Accommodation, Transportation):
 
     def transport_days_proposed(self):
         """
-        Method which calculates the number of transport days based on the
-        return and departure dates specified on petition.
+        Method which calculates the number of transport days.
 
-        Weekends are ignored.
+        It currently matches the number of compensation days.
 
         :returns: Proposed transport_days.
         """
-        WEEKENDS = [5, 6]
-        if self.depart_date is None or self.return_date is None:
-            return 0
-        time_period = (self.base_tz_depart_date + timedelta(x) for x in xrange(
-            (self.base_tz_return_date.date() - self.base_tz_depart_date.date()).days + 1))
+        return self.compensation_days_proposed()
 
-        return sum(1 for day in time_period if day.weekday() not in WEEKENDS)
 
     def overnights_num_proposed(self, task_start_date=None, task_end_date=None):
         """
