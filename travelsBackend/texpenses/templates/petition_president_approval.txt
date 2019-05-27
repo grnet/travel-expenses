@@ -1,25 +1,3 @@
-{% load tz %}
+{% extends "base_email.txt" %}
 
-Σας ενημερώνουμε ότι η Αίτηση Μετακίνησης με κωδικό {{dse}} και Στοιχεία Μετακίνησης:
-
-- Έργο: {{ project }}
-- Αιτιολογία Μετακίνησης: {{ reason }}
-{% if travel_info.count > 1 %}
-- Ενδιάμεσοι προορισμοί:
-{% for travel_obj in travel_info %}
-	- Από(ημ/νια {{travel_obj.depart_date|timezone:timezone_depart|date:"d/m/Y, H:i"}}):{{travel_obj.departure_point}}
-	- Προς:{{travel_obj.arrival_point}}
-{% endfor %}
-{% else %}
-- Αναχώρηση: {{ departure_point }}
-- Άφιξη: {{ arrival_point }}
-{% endif %}
-- Έναρξη Εργασιών: {{ task_start_date|timezone:timezone_first_destination|date:"d/m/Y, H:i" }}
-- Λήξη Εργασιών: {{ task_end_date|timezone:timezone_last_destination|date:"d/m/Y, H:i" }}
-
-έχει λάβει την έγκριση του Προέδρου.
-
-
-Happy journeys!
-Η ομάδα ανάπτυξης
-
+{% block header_message %}Σας ενημερώνουμε ότι η Αίτηση Μετακίνησης με κωδικό {{dse}} έχει λάβει την έγκριση του Προέδρου.{% endblock %}
