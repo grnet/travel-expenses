@@ -125,6 +125,9 @@ export default AuthGen.extend({
     getModel() {
       return get(this, 'store').findRecord('profile', 'me');
     },
+    onSubmit(model) {
+      window.location.reload();
+    }
   },
 })
 
