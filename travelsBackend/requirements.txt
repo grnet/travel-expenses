@@ -8,7 +8,7 @@ djangorestframework==3.4
 djoser==0.4.3
 drf-extensions==0.3.1
 python-stdnum>=1.0
-cairocffi>=0.5
+cairocffi>=0.5,<1.0.0
 WeasyPrint==0.31
 python-memcached>=1.53
 pytz
