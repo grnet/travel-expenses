@@ -7,7 +7,7 @@ from texpenses.models import common
 from texpenses.permissions.permission_rules import PERMISSION_RULES
 from texpenses.api_conf.spec.spec import (countries_conf, city_conf, user_conf,
                                           tax_office_conf, project_conf,
-                                          applications,
+                                          applications, travel_files_conf,
                                           travel_info, city_distances_conf)
 import functools
 import copy
@@ -126,6 +126,9 @@ class Configuration(object):
     def TaxOfficeConfig(self):
         self.spec['api']['tax-office'] = tax_office_conf
 
+    def TravelFilesConfig(self):
+        self.spec['api']['travel-files'] = travel_files_conf
+
     def ProjectConfig(self):
         self.spec['api']['project'] = project_conf
 
@@ -150,3 +153,4 @@ class Configuration(object):
         self.CountriesConfig()
         self.ApplicationConfig()
         self.CityDistancesConfig()
+        self.TravelFilesConfig()

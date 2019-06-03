@@ -1,9 +1,11 @@
 
 # -*- coding: utf-8 -*-
-
-from datetime import timedelta
+import os
+from datetime import timedelta, datetime
 import functools
 import pytz
+from decimal import Decimal
+
 from django.conf import settings
 from django.core.exceptions import (
     ValidationError, ObjectDoesNotExist, PermissionDenied)
@@ -15,11 +17,11 @@ from django.db.models import Max
 from django.db.models import Q
 from model_utils import FieldTracker
 from rest_framework import serializers
+
 from texpenses.models import common
 from texpenses.validators import (
     afm_validator, iban_validation, date_validator,
     start_end_date_validator)
-from decimal import Decimal
 
 
 def update_instance(instance, updated_fields):
@@ -774,6 +776,55 @@ class AdditionalCosts(md.Model):
         abstract = True
 
 
+def generate_filename(travelfile, filename):
+    ext = os.path.splitext(filename)[1]
+    if len(ext) >= 9:
+        ext = ''
+
+    arrival_point_id = 'unknown_arrival_id'
+    year = 'unknown_year'
+    month = 'unknown_month'
+    user = 'unknown_user'
+
+    if travelfile.source_id and travelfile.source and \
+            travelfile.source == 'petition':
+        p = Petition.objects.get(id=travelfile.source_id)
+        if p.travel_info.all():
+            arrival_point_id = p.travel_info.last().arrival_point.id
+            depart_date = p.travel_info.first().depart_date
+            year = depart_date.year
+            month = depart_date.month
+            user = p.user.username
+        filename = filename.encode('utf8')
+
+        path = '{0}/{1}/{2}_{3}/{4}'.format(user,
+                                            arrival_point_id, year,
+                                            month, filename)
+    else:
+        path = "%s/%s%s" % (
+                travelfile.owner.username,
+                travelfile.id,
+                ext)
+
+    return path
+
+
+class TravelFile(md.Model):
+    id = md.BigIntegerField(primary_key=True)
+    owner = md.ForeignKey(UserProfile)
+    source = md.CharField(
+        choices=common.FILE_SOURCES, max_length=30)
+    source_id = md.IntegerField()
+    file_content = md.FileField(
+        upload_to=generate_filename, max_length=1024)
+    updated_at = md.DateTimeField(default=datetime.utcnow)
+    file_name = md.CharField(max_length=1024)
+    file_kind = md.CharField(max_length=128, default='travel_file')
+
+    def check_resource_state_owned(self, row, request, view):
+        return request.user == self.owner
+
+
 class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     SAVED_BY_USER = 1
     SUBMITTED_BY_USER = 2
@@ -837,8 +888,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     compensation_alert = md.BooleanField(default=False, db_index=True)
     withdrawn = md.BooleanField(default=False, db_index=True)
 
-    travel_files = md.FileField(upload_to=common.user_directory_path,
-                                null=True, blank=True)
+    travel_files = md.ManyToManyField(
+            TravelFile, blank=True)
 
     total_cost_manual = md.DecimalField(
         max_digits=settings.DECIMAL_MAX_DIGITS,
@@ -1030,6 +1081,8 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         if not self.transition_is_allowed(new_status):
             raise PermissionDenied('Petition transition is not allowed.')
         travel_info = self.travel_info.all()
+        travel_files = self.travel_files.all()
+
         if delete:
             self.mark_as_deleted()
         petition_modifications = kwargs.pop('petition_data', {})
@@ -1051,6 +1104,9 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             travel_obj.travel_petition = self
             travel_obj.save()
         self.travel_info.add(*travel_info)
+
+        self.travel_files = travel_files
+        self.save()
         return self.id
 
     def has_multiple_destinations(self):

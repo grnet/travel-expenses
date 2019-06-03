@@ -176,7 +176,7 @@ export default DS.Model.extend({
   additional_expenses: DS.attr(),
   additional_expenses_local_currency: DS.attr({ 'choices': CHOICES.CURRENCIES, autocomplete: true }),
   additional_expenses_description: DS.attr({ type: 'text' }),
-  travel_files: DS.attr(),
+  travel_files: DS.hasMany('travel-file'),
   // compensation - controller fields
   compensation_petition_date: DS.attr('date'),
   compensation_petition_date_format: computeDateFormat('compensation_petition_date'),
