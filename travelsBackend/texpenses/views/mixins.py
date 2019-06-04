@@ -632,6 +632,7 @@ class UploadFilesViewSet(object):
     }
 
     @detail_route(methods=['post'])
+    @transaction.atomic
     def upload(self, request, pk=None):
         obj = self.get_object()
         if 'file_upload' not in request.FILES:
