@@ -284,6 +284,7 @@ export default {
   'downloading.started': 'Έναρξη εξαγωγής αρχείων <md-icon md-font-icon="rotate-left" aria-label="rotate-left" class="paper-icon md-font material-icons md-spin-reverse">rotate_left </md-icon>',
   'downloading.finished': 'Επιτυχής εξαγωγή αρχείων',
   'downloading.file.started': 'Έναρξη εξαγωγής αρχείου <md-icon md-font-icon="rotate-left" aria-label="rotate-left" class="paper-icon md-font material-icons md-spin-reverse">rotate_left </md-icon>',
+  'delete.file.success': 'Επιτυχής διαγραφή αρχείου',
   'downloading.file.finished': 'Επιτυχής εξαγωγή αρχείου',
   // error messages
   'login.error': 'Σφάλμα εισόδου',

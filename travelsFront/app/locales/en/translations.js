@@ -270,6 +270,7 @@ export default {
   'downloading.finished': 'Downloading finished',
   'downloading.file.started': 'Downloading started <md-icon md-font-icon="rotate-left" aria-label="rotate-left" class="paper-icon md-font material-icons md-spin-reverse">rotate_left </md-icon>',
   'downloading.file.finished': 'Downloading finished',
+  'delete.file.success': 'Delete file success',
   // error messages
   'login.error': 'Error on login',
   'form.error': 'Error on form save',
