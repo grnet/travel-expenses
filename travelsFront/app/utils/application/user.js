@@ -118,7 +118,10 @@ const FS_VIEW_6 = [
   {
     label: 'compensation.label',
     fields: [
-      fileField('travel_files', 'application-item', 'travel_files', {},
+      fileField('travel_files', 'application-item', 'travel_files',
+      {
+        readonly: true
+      },
       {
         preventDelete: true
       }),
