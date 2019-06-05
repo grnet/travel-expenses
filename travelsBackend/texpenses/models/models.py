@@ -32,10 +32,14 @@ def update_instance(instance, updated_fields):
 def get_model_missing_fields(instance, excluded=()):
     missing_fields = []
 
-    for field in instance._meta.fields:
+    for field in instance._meta.get_fields():
         if field.name not in excluded:
-            if not bool(getattr(instance, field.name)):
-                missing_fields.append(field.name)
+            if field.many_to_many:
+                if not getattr(instance, field.name).exists():
+                    missing_fields.append(field.name)
+            else:
+                if not bool(getattr(instance, field.name)):
+                    missing_fields.append(field.name)
     return missing_fields
 
 
