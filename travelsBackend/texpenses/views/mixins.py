@@ -288,11 +288,16 @@ class ApplicationMixin(object):
     def submit(self, request, pk=None):
         application = self.get_object()
 
+        try:
+            application_status = application.status
+            if application_status in [Petition.SAVED_BY_SECRETARY,
+                    Petition.SECRETARY_COMPENSATION]:
+                application.set_trip_days_left()
+        except PermissionDenied as e:
+            return Response({'detail': e.message},
+                            status=status.HTTP_403_FORBIDDEN)
+
         application_id = application.proceed()
-        application_status = application.status
-        if application_status in [Petition.SUBMITTED_BY_SECRETARY,
-                Petition.SECRETARY_COMPENSATION_SUBMISSION]:
-            application.set_trip_days_left()
 
         per_status_email_confs = {
             Petition.SUBMITTED_BY_USER: [

@@ -1051,10 +1051,22 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             deleted=False).exists() and not new_status == self.status
 
     def set_trip_days_left(self):
+        """
+        Update user's trip_days_left based on the current application
+
+        This method calculates the difference between the transportation
+        days needed and the application's previously saved transport days
+        (transport_days_total) to modify user's trip_days_left.
+        """
         if self.transport_days() and \
                 self.transport_days_total != self.transport_days():
-            self.user.trip_days_left -= self.transport_days()
-            self.user.trip_days_left += self.transport_days_total
+            extra_days = self.transport_days() - self.transport_days_total
+            if self.user.trip_days_left < extra_days:
+                raise PermissionDenied(
+                    'You have exceeded the allowable number of trip days'
+                    '(Remaining: {}, Needed: {})'.format(self.user.trip_days_left,
+                                                         self.transport_days()))
+            self.user.trip_days_left -= extra_days
             self.user.save()
             self.transport_days_total = self.transport_days()
             self.save()

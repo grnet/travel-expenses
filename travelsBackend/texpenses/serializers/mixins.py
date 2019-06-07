@@ -189,12 +189,7 @@ class PetitionMixin(object):
         for nested in nested_attrs:
             nested_inst = travel_info_model(**nested)
             nested_inst.clean(model(**attrs))
-            total_transport_days += nested_inst.transport_days_manual\
-                if nested_inst.transport_days_manual\
-                else nested_inst.transport_days_proposed()
         model_inst = model(**attrs)
-        self.validate_transport_days(
-            attrs.get('user', None), total_transport_days)
         model_inst.clean()
 
         attrs['travel_info'] = nested_attrs
@@ -230,14 +225,3 @@ class PetitionMixin(object):
             assert user_value is not None
             user_field.run_validators(user_value)
         return user_value
-
-    def validate_transport_days(self, user, transport_days):
-        """
-        Check that total transport days don't surpass the number of user's
-        available trip days.
-        """
-        if user and user.trip_days_left < transport_days:
-            raise serializers.ValidationError(
-                'You have exceeded the allowable number of trip days'
-                '(Remaining: {}, Needed: {})'.format(user.trip_days_left,
-                                                    transport_days))
