@@ -289,8 +289,7 @@ class ApplicationMixin(object):
         application = self.get_object()
 
         try:
-            application_status = application.status
-            if application_status in [Petition.SAVED_BY_SECRETARY,
+            if application.status in [Petition.SAVED_BY_SECRETARY,
                     Petition.SECRETARY_COMPENSATION]:
                 application.set_trip_days_left()
         except PermissionDenied as e:
@@ -306,7 +305,7 @@ class ApplicationMixin(object):
                 application, 'USER_COMPENSATION_SUBMISSION',
                 False, True, request.user]
         }
-        email_args = per_status_email_confs.get(application_status, None)
+        email_args = per_status_email_confs.get(application.status, None)
 
         if email_args:
             inform(*email_args)
