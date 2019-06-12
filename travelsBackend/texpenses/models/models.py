@@ -491,20 +491,14 @@ class TravelInfo(Accommodation, Transportation):
 
     def transport_days_proposed(self):
         """
-        Method which calculates the number of transport days based on the
-        return and departure dates specified on petition.
+        Method which calculates the number of transport days.
 
-        Weekends are ignored.
+        It currently matches the number of compensation days.
 
         :returns: Proposed transport_days.
         """
-        WEEKENDS = [5, 6]
-        if self.depart_date is None or self.return_date is None:
-            return 0
-        time_period = (self.base_tz_depart_date + timedelta(x) for x in xrange(
-            (self.base_tz_return_date.date() - self.base_tz_depart_date.date()).days + 1))
+        return self.compensation_days_proposed()
 
-        return sum(1 for day in time_period if day.weekday() not in WEEKENDS)
 
     def overnights_num_proposed(self, task_start_date=None, task_end_date=None):
         """
@@ -1057,10 +1051,22 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             deleted=False).exists() and not new_status == self.status
 
     def set_trip_days_left(self):
+        """
+        Update user's trip_days_left based on the current application
+
+        This method calculates the difference between the transportation
+        days needed and the application's previously saved transport days
+        (transport_days_total) to modify user's trip_days_left.
+        """
         if self.transport_days() and \
                 self.transport_days_total != self.transport_days():
-            self.user.trip_days_left -= self.transport_days()
-            self.user.trip_days_left += self.transport_days_total
+            extra_days = self.transport_days() - self.transport_days_total
+            if self.user.trip_days_left < extra_days:
+                raise PermissionDenied(
+                    'You have exceeded the allowable number of trip days'
+                    '(Remaining: {}, Needed: {})'.format(self.user.trip_days_left,
+                                                         self.transport_days()))
+            self.user.trip_days_left -= extra_days
             self.user.save()
             self.transport_days_total = self.transport_days()
             self.save()
