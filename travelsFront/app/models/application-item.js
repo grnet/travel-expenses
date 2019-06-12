@@ -126,7 +126,7 @@ export default DS.Model.extend({
   dse: DS.attr({ disabled: true }),
   project: DS.belongsTo('project', { autocomplete: true, formAttrs: { optionLabelAttr: 'name' } }),
   reason: DS.attr({ type: 'text' }),
-  participation_local_cost: DS.attr(),
+  participation_local_cost: DS.attr('formatted-number'),
   participation_local_currency: DS.attr({ 'choices': CHOICES.CURRENCIES, autocomplete: true }),
   task_start_date: DS.attr('date', {
     formAttrs: {
@@ -154,7 +154,7 @@ export default DS.Model.extend({
   status: DS.attr({ type: 'select', 'choices': CHOICES.STATUS }),
   travel_info: DS.hasMany('travel-info', { displayComponent: 'display-travel-info' }),
   // application - secretary fields
-  additional_expenses_initial: DS.attr(),
+  additional_expenses_initial: DS.attr('formatted-number'),
   additional_expenses_initial_description: DS.attr(),
   expenditure_date_protocol: DS.attr('date'),
   expenditure_date_protocol_format: computeDateFormat('expenditure_date_protocol'),
@@ -164,16 +164,16 @@ export default DS.Model.extend({
   movement_protocol: DS.attr(),
   non_grnet_quota: DS.attr(),
   manager_movement_approval: DS.attr('boolean', { disabled: true,  displayComponent: 'display-boolean'}),
-  participation_cost: DS.attr(),
+  participation_cost: DS.attr('formatted-number'),
   participation_payment_way: DS.attr({ 'choices': CHOICES.WAYS_OF_PAYMENT }),
   trip_days_before: DS.attr({ disabled: true }),
   trip_days_after: DS.attr({ disabled: true }),
-  overnights_sum_cost: DS.attr({ disabled: true }),
-  compensation_cost: DS.attr({ disabled: true }),
-  total_cost_calculated: DS.attr({ disabled: true }),
+  overnights_sum_cost: DS.attr('formatted-number', { disabled: true }),
+  compensation_cost: DS.attr('formatted-number', { disabled: true }),
+  total_cost_calculated: DS.attr('formatted-number', { disabled: true }),
   withdrawn: DS.attr('boolean', { disabled: true, displayComponent: 'display-boolean' }),
   // compensation - user fields
-  additional_expenses: DS.attr(),
+  additional_expenses: DS.attr('formatted-number'),
   additional_expenses_local_currency: DS.attr({ 'choices': CHOICES.CURRENCIES, autocomplete: true }),
   additional_expenses_description: DS.attr({ type: 'text' }),
   travel_files: DS.hasMany('travel-file'),
@@ -184,10 +184,10 @@ export default DS.Model.extend({
   compensation_decision_date: DS.attr('date'),
   compensation_decision_date_format: computeDateFormat('compensation_decision_date'),
   compensation_decision_protocol: DS.attr(),
-  compensation_final: DS.attr(),
+  compensation_final: DS.attr('formatted-number'),
   timesheeted: DS.attr('boolean'),
   new_id: DS.attr(),
-  additional_expenses_grnet: DS.attr(),
+  additional_expenses_grnet: DS.attr('formatted-number'),
 
   // set status label value
   status_label: Ember.computed('status', function() {
