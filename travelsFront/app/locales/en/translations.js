@@ -294,6 +294,7 @@ export default {
   'table.is.empty': 'you haven\'t created an application yet',
   'profile.not.complete.error': 'You should fill in your profile info in order to create a new application',
   'Cannot create application with no travel infos': 'You should add your travel details',
+  'A valid number is required.': 'A valid number is required',
   // placeholders
   'time_placeholder': 'Time',
   'search.input.placeholder': 'Search with DSE / Name',

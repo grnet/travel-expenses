@@ -11,8 +11,6 @@ const FS_SECRETARY_VALIDATORS = {
   arrival_point: [validate.presence(true)],
   depart_date: [validate.presence(true)],
   return_date: [validate.presence(true)],
-  transportation_cost: [validate.number()],
-  accommodation_total_cost: [validate.number()],
   overnights_num_manual: [validate.presence(true)],
 }
 
