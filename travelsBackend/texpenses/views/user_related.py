@@ -51,13 +51,13 @@ class CustomPasswordResetView(djoser_views.PasswordResetView):
         return super(CustomPasswordResetView, self).post(request)
 
     # Overwrite get_users to implement further filtering for rate limiting
-    # and set last reset password email
+    # and increase reset password email counter
     def get_users(self, email):
         users = super(CustomPasswordResetView, self).get_users(email)
         users_to_receive_email = [u for u in users
                                   if u.can_receive_reset_password_email()]
         for u in users_to_receive_email:
-            u.set_last_reset_password_email()
+            u.increase_reset_password_email_counter()
         return users_to_receive_email
 
 
@@ -68,7 +68,7 @@ class PasswordResetView(djoser_views.PasswordResetConfirmView):
     # Overwrite action method to reset rate limiting after
     # a successful password reset.
     def action(self, serializer):
-        serializer.user.last_reset_password_email = None
+        serializer.user.reset_password_tries = 0
         serializer.user.save()
         return super(PasswordResetView, self).action(serializer)
 
@@ -103,8 +103,8 @@ class CustomUserRegistrationView(djoser_views.RegistrationView):
             raise PermissionDenied("user.invalid.or.activated")
 
         if not user.can_receive_verification_email():
-            raise PermissionDenied("email.sent.already")
-        user.set_last_resend_verification_email()
+            raise PermissionDenied("maximum.verification.emails.exceeded")
+        user.increase_resend_verification_email_counter()
 
         if djoser_settings.get('SEND_ACTIVATION_EMAIL'):
             self.send_email(**self.get_send_email_kwargs(user))

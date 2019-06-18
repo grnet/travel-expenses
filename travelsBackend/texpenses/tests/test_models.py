@@ -822,22 +822,26 @@ class UserProfileTest(TestCase):
         self.assertEqual(self.user.user_group(), 'SECRETARY')
 
     def test_verification_email_limit(self):
-        self.assertTrue(self.user.can_receive_verification_email())
+        tries = 5
 
-        self.user.set_last_resend_verification_email()
+        for i in range(tries):
+            self.assertTrue(self.user.can_receive_verification_email())
+            self.user.increase_resend_verification_email_counter()
         self.assertFalse(self.user.can_receive_verification_email())
 
-        self.user.last_resend_verification_email -= timedelta(hours=2)
+        self.user.resend_verification_blocked_time -= timedelta(hours=2)
         self.user.save()
         self.assertTrue(self.user.can_receive_verification_email())
 
     def test_reset_password_limit(self):
-        self.assertTrue(self.user.can_receive_reset_password_email())
+        tries = 5
 
-        self.user.set_last_reset_password_email()
+        for i in range(tries):
+            self.assertTrue(self.user.can_receive_reset_password_email())
+            self.user.increase_reset_password_email_counter()
         self.assertFalse(self.user.can_receive_reset_password_email())
 
-        self.user.last_reset_password_email -= timedelta(hours=2)
+        self.user.reset_password_email_blocked_time -= timedelta(hours=2)
         self.user.save()
         self.assertTrue(self.user.can_receive_reset_password_email())
 

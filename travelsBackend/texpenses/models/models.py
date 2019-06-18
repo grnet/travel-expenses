@@ -89,8 +89,12 @@ class TravelUserProfile(md.Model):
     user_category = md.CharField(
         max_length=1, choices=common.USER_CATEGORIES,
         blank=False, default='B')
-    last_resend_verification_email = md.DateTimeField(null=True)
-    last_reset_password_email = md.DateTimeField(null=True)
+    verification_link_tries = md.PositiveSmallIntegerField(blank=False,
+                                                           default=0)
+    resend_verification_blocked_time = md.DateTimeField(null=True)
+    reset_password_tries = md.PositiveSmallIntegerField(blank=False,
+                                                        default=0)
+    reset_password_email_blocked_time = md.DateTimeField(null=True)
 
     class Meta:
         abstract = True
@@ -133,28 +137,42 @@ class UserProfile(AbstractUser, TravelUserProfile):
 
     def can_receive_verification_email(self):
         now = datetime.utcnow()
-        if self.last_resend_verification_email:
-            last_mail = self.last_resend_verification_email.replace(tzinfo=None)
-            if now - last_mail < timedelta(hours=1):
-                return False
-        return True
+        if self.resend_verification_blocked_time is not None:
+            blocked_at = self.resend_verification_blocked_time.replace(
+                                                                tzinfo=None)
+        return(self.verification_link_tries < 5 or
+               self.resend_verification_blocked_time is None or
+               now - blocked_at >= timedelta(hours=1))
 
-    def set_last_resend_verification_email(self):
-        now = datetime.utcnow()
-        self.last_resend_verification_email = pytz.utc.localize(now)
+    def increase_resend_verification_email_counter(self):
+        if not self.can_receive_verification_email():
+            raise PermissionDenied("Cannot send more verification link emails")
+        if self.verification_link_tries >= 5:
+            self.verification_link_tries = 0
+        elif self.verification_link_tries == 4:
+            now = datetime.utcnow()
+            self.resend_verification_blocked_time = pytz.utc.localize(now)
+        self.verification_link_tries += 1
         self.save()
 
     def can_receive_reset_password_email(self):
         now = datetime.utcnow()
-        if self.last_reset_password_email:
-            last_mail = self.last_reset_password_email.replace(tzinfo=None)
-            if now - last_mail < timedelta(hours=1):
-                return False
-        return True
+        if self.reset_password_email_blocked_time is not None:
+            blocked_at = self.reset_password_email_blocked_time.replace(
+                                                                 tzinfo=None)
+        return(self.reset_password_tries < 5 or
+               self.reset_password_email_blocked_time is None or
+               now - blocked_at >= timedelta(hours=1))
 
-    def set_last_reset_password_email(self):
-        now = datetime.utcnow()
-        self.last_reset_password_email = pytz.utc.localize(now)
+    def increase_reset_password_email_counter(self):
+        if not self.can_receive_reset_password_email():
+            raise PermissionDenied("Cannot send more reset password emails")
+        if self.reset_password_tries >= 5:
+            self.reset_password_tries = 0
+        elif self.reset_password_tries == 4:
+            now = datetime.utcnow()
+            self.reset_password_email_blocked_time = pytz.utc.localize(now)
+        self.reset_password_tries += 1
         self.save()
 
 
