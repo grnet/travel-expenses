@@ -506,6 +506,8 @@ PERMISSION_RULES = [
     ('travel-files', 'download_get', '*', '*', '*', ''),
     ('travel-files', 'destroy', 'USER', '*', 'owned', ''),
     ('travel-files', 'destroy', 'MANAGER', '*', 'owned', ''),
+    ('travel-files', 'destroy', 'HELPDESK', '*', 'owned', ''),
     ('applications', 'upload', 'USER', '*', '*', '*'),
     ('applications', 'upload', 'MANAGER', '*', '*', '*'),
+    ('applications', 'upload', 'HELPDESK', '*', '*', '*'),
 ]
