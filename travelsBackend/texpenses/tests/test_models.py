@@ -821,6 +821,7 @@ class UserProfileTest(TestCase):
 
         self.assertEqual(self.user.user_group(), 'SECRETARY')
 
+    @override_settings(VERIFICATION_MAX_TRIES=5, VERIFICATION_HOURS_TIMEOUT=1)
     def test_verification_email_limit(self):
         tries = 5
 
@@ -833,6 +834,8 @@ class UserProfileTest(TestCase):
         self.user.save()
         self.assertTrue(self.user.can_receive_verification_email())
 
+    @override_settings(RESET_PASSWORD_MAX_TRIES=5,
+                       RESET_PASSWORD_HOURS_TIMEOUT=1)
     def test_reset_password_limit(self):
         tries = 5
 

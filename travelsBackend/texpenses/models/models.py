@@ -136,7 +136,10 @@ class UserProfile(AbstractUser, TravelUserProfile):
             + self.username + ")"
 
     def can_receive_verification_email(self):
+        max_tries = settings.VERIFICATION_MAX_TRIES
+        hours_timeout = settings.VERIFICATION_HOURS_TIMEOUT
         now = datetime.utcnow()
+
         if self.resend_verification_blocked_time is not None:
             blocked_at = self.resend_verification_blocked_time.replace(
                                                                 tzinfo=None)
@@ -145,31 +148,38 @@ class UserProfile(AbstractUser, TravelUserProfile):
                now - blocked_at >= timedelta(hours=1))
 
     def increase_resend_verification_email_counter(self):
+        max_tries = settings.VERIFICATION_MAX_TRIES
+
         if not self.can_receive_verification_email():
             raise PermissionDenied("Cannot send more verification link emails")
-        if self.verification_link_tries >= 5:
+        if self.verification_link_tries >= max_tries:
             self.verification_link_tries = 0
-        elif self.verification_link_tries == 4:
+        elif self.verification_link_tries == max_tries - 1:
             now = datetime.utcnow()
             self.resend_verification_blocked_time = pytz.utc.localize(now)
         self.verification_link_tries += 1
         self.save()
 
     def can_receive_reset_password_email(self):
+        max_tries = settings.RESET_PASSWORD_MAX_TRIES
+        hours_timeout = settings.RESET_PASSWORD_HOURS_TIMEOUT
         now = datetime.utcnow()
+
         if self.reset_password_email_blocked_time is not None:
             blocked_at = self.reset_password_email_blocked_time.replace(
                                                                  tzinfo=None)
-        return(self.reset_password_tries < 5 or
+        return(self.reset_password_tries < max_tries or
                self.reset_password_email_blocked_time is None or
-               now - blocked_at >= timedelta(hours=1))
+               now - blocked_at >= timedelta(hours=hours_timeout))
 
     def increase_reset_password_email_counter(self):
+        max_tries = settings.RESET_PASSWORD_MAX_TRIES
+
         if not self.can_receive_reset_password_email():
             raise PermissionDenied("Cannot send more reset password emails")
-        if self.reset_password_tries >= 5:
+        if self.reset_password_tries >= max_tries:
             self.reset_password_tries = 0
-        elif self.reset_password_tries == 4:
+        elif self.reset_password_tries == max_tries - 1:
             now = datetime.utcnow()
             self.reset_password_email_blocked_time = pytz.utc.localize(now)
         self.reset_password_tries += 1
