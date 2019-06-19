@@ -404,7 +404,6 @@ class TestApi(APITestCase):
         self.assertEqual(Applications.objects.count(), 1)
 
         # User updates application. Insert mandatory fields to self.data
-
         url_retrieve = reverse('api_applications-detail',
                                args=[application_id])
         from django.core.files.uploadedfile import SimpleUploadedFile
@@ -413,17 +412,21 @@ class TestApi(APITestCase):
 
         self.data.update({
             'travel_report': 'Random words',
-            'travel_files': report_file
         })
 
         del self.data['travel_info']
 
-        response = self.client.put(url_retrieve, self.data,
-                                   format='multipart')
+        # User uploads files
+        url_upload = reverse('api_applications-upload', args=[application_id])
+        response = self.client.post(url_upload, {'file_upload': report_file},
+                                    format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # User updates application
+        response = self.client.put(url_retrieve, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # User Submits application
-
         url_submit = reverse('api_applications-submit',
                              args=[application_id])
         response = self.client.post(url_submit, self.data, format='json')
@@ -431,7 +434,6 @@ class TestApi(APITestCase):
         self.assertEqual(Applications.objects.count(), 1)
 
         # User Cancels application
-
         application_id = Applications.objects.get(
             status=Petition.USER_COMPENSATION_SUBMISSION).id
 
