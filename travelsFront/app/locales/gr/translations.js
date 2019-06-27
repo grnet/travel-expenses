@@ -323,6 +323,8 @@ export default {
   'profile.not.complete.error': 'Θα πρέπει να συμπληρώσετε τα στοιχεία του προφίλ σας για να δημιουργήσετε νέα αίτηση',
   'Cannot create application with no travel infos': 'Δεν έχετε προσθέσει στοιχεία μετακίνησης',
   'A valid number is required.': 'To πεδίο πρέπει να είναι αριθμός',
+  'maximum.verification.emails.exceeded': 'Έχετε υπερβεί τον επιτρεπόμενο αριθμό προσπαθειών αποστολής του email ενεργοποίησης. Παρακαλούμε όπως επικοινωνήσετε στο travel.helpdesk@lists.grnet.gr',
+  'user.invalid.or.activated': 'Ο χρήστης είναι ήδη ενεργοποιημένος ή δεν είναι έγκυρος',
   // placeholders
   'time_placeholder': 'Ώρα',
   'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',

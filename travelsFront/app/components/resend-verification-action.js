@@ -32,7 +32,7 @@ const VerificationModel = Ember.Object.extend({
       return resp.json().then((json) => {
         let err = new Error(resp.statusText)
         err.detail = json.detail;
-        throw err;
+        throw err.detail;
       })
     })
   }
