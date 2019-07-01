@@ -37,7 +37,7 @@ class LoadProjectsTest(TestCase):
 
     def test_correct_command(self):
         projects_before = Project.objects.count()
-        call_command('loadprojects', 'texpenses/data/ListProjects.csv')
+        call_command('loadprojects', 'texpenses/data/ListProjectsTest.csv')
         projects_after = Project.objects.count()
         self.assertGreater(projects_after, projects_before)
 
