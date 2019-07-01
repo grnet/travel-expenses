@@ -1,0 +1,1808 @@
+[
+{
+  "fields": {
+    "codename": "add_logentry",
+    "name": "Can add log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_logentry",
+    "name": "Can change log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_logentry",
+    "name": "Can delete log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_permission",
+    "name": "Can add permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_permission",
+    "name": "Can change permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_permission",
+    "name": "Can delete permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_group",
+    "name": "Can add group",
+    "content_type": [
+      "auth",
+      "group"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_group",
+    "name": "Can change group",
+    "content_type": [
+      "auth",
+      "group"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_group",
+    "name": "Can delete group",
+    "content_type": [
+      "auth",
+      "group"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_contenttype",
+    "name": "Can add content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_contenttype",
+    "name": "Can change content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_contenttype",
+    "name": "Can delete content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_session",
+    "name": "Can add session",
+    "content_type": [
+      "sessions",
+      "session"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_session",
+    "name": "Can change session",
+    "content_type": [
+      "sessions",
+      "session"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_session",
+    "name": "Can delete session",
+    "content_type": [
+      "sessions",
+      "session"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_taxoffice",
+    "name": "Can add tax office",
+    "content_type": [
+      "texpenses",
+      "taxoffice"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_taxoffice",
+    "name": "Can change tax office",
+    "content_type": [
+      "texpenses",
+      "taxoffice"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_taxoffice",
+    "name": "Can delete tax office",
+    "content_type": [
+      "texpenses",
+      "taxoffice"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_userprofile",
+    "name": "Can add user",
+    "content_type": [
+      "texpenses",
+      "userprofile"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_userprofile",
+    "name": "Can change user",
+    "content_type": [
+      "texpenses",
+      "userprofile"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_userprofile",
+    "name": "Can delete user",
+    "content_type": [
+      "texpenses",
+      "userprofile"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_project",
+    "name": "Can add project",
+    "content_type": [
+      "texpenses",
+      "project"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_project",
+    "name": "Can change project",
+    "content_type": [
+      "texpenses",
+      "project"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_project",
+    "name": "Can delete project",
+    "content_type": [
+      "texpenses",
+      "project"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_country",
+    "name": "Can add country",
+    "content_type": [
+      "texpenses",
+      "country"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_country",
+    "name": "Can change country",
+    "content_type": [
+      "texpenses",
+      "country"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_country",
+    "name": "Can delete country",
+    "content_type": [
+      "texpenses",
+      "country"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_city",
+    "name": "Can add city",
+    "content_type": [
+      "texpenses",
+      "city"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_city",
+    "name": "Can change city",
+    "content_type": [
+      "texpenses",
+      "city"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_city",
+    "name": "Can delete city",
+    "content_type": [
+      "texpenses",
+      "city"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_citydistances",
+    "name": "Can add city distances",
+    "content_type": [
+      "texpenses",
+      "citydistances"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_citydistances",
+    "name": "Can change city distances",
+    "content_type": [
+      "texpenses",
+      "citydistances"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_citydistances",
+    "name": "Can delete city distances",
+    "content_type": [
+      "texpenses",
+      "citydistances"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_travelinfo",
+    "name": "Can add travel info",
+    "content_type": [
+      "texpenses",
+      "travelinfo"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_travelinfo",
+    "name": "Can change travel info",
+    "content_type": [
+      "texpenses",
+      "travelinfo"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_travelinfo",
+    "name": "Can delete travel info",
+    "content_type": [
+      "texpenses",
+      "travelinfo"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_petition",
+    "name": "Can add petition",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_petition",
+    "name": "Can change petition",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_petition",
+    "name": "Can delete petition",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_userpetition",
+    "name": "Can add user petition",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_userpetition",
+    "name": "Can change user petition",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_userpetition",
+    "name": "Can delete user petition",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_userpetitionsubmission",
+    "name": "Can add user petition submission",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_userpetitionsubmission",
+    "name": "Can change user petition submission",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_userpetitionsubmission",
+    "name": "Can delete user petition submission",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_secretarypetition",
+    "name": "Can add secretary petition",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_secretarypetition",
+    "name": "Can change secretary petition",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_secretarypetition",
+    "name": "Can delete secretary petition",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_secretarypetitionsubmission",
+    "name": "Can add secretary petition submission",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_secretarypetitionsubmission",
+    "name": "Can change secretary petition submission",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_secretarypetitionsubmission",
+    "name": "Can delete secretary petition submission",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_usercompensation",
+    "name": "Can add user compensation",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_usercompensation",
+    "name": "Can change user compensation",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_usercompensation",
+    "name": "Can delete user compensation",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_secretarycompensation",
+    "name": "Can add secretary compensation",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_secretarycompensation",
+    "name": "Can change secretary compensation",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_secretarycompensation",
+    "name": "Can delete secretary compensation",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_token",
+    "name": "Can add Token",
+    "content_type": [
+      "authtoken",
+      "token"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_token",
+    "name": "Can change Token",
+    "content_type": [
+      "authtoken",
+      "token"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_token",
+    "name": "Can delete Token",
+    "content_type": [
+      "authtoken",
+      "token"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_travelinfousersubmission",
+    "name": "Can add travel info user submission",
+    "content_type": [
+      "texpenses",
+      "travelinfo"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_travelinfousersubmission",
+    "name": "Can change travel info user submission",
+    "content_type": [
+      "texpenses",
+      "travelinfo"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_travelinfousersubmission",
+    "name": "Can delete travel info user submission",
+    "content_type": [
+      "texpenses",
+      "travelinfo"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_travelinfocompensation",
+    "name": "Can add travel info compensation",
+    "content_type": [
+      "texpenses",
+      "travelinfo"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_travelinfocompensation",
+    "name": "Can change travel info compensation",
+    "content_type": [
+      "texpenses",
+      "travelinfo"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_travelinfocompensation",
+    "name": "Can delete travel info compensation",
+    "content_type": [
+      "texpenses",
+      "travelinfo"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_travelinfosecretarysubmission",
+    "name": "Can add travel info secretary submission",
+    "content_type": [
+      "texpenses",
+      "travelinfo"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_travelinfosecretarysubmission",
+    "name": "Can change travel info secretary submission",
+    "content_type": [
+      "texpenses",
+      "travelinfo"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_travelinfosecretarysubmission",
+    "name": "Can delete travel info secretary submission",
+    "content_type": [
+      "texpenses",
+      "travelinfo"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "add_applications",
+    "name": "Can add applications",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "change_applications",
+    "name": "Can change applications",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "codename": "delete_applications",
+    "name": "Can delete applications",
+    "content_type": [
+      "texpenses",
+      "petition"
+    ]
+  },
+  "model": "auth.permission"
+},
+{
+  "fields": {
+    "name": "USER",
+    "permissions": [
+      [
+        "add_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_userprofile",
+        "texpenses",
+        "userprofile"
+      ]
+    ]
+  },
+  "model": "auth.group"
+},
+{
+  "fields": {
+    "name": "SECRETARY",
+    "permissions": [
+      [
+        "add_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_secretarycompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_secretarypetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_secretarypetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_petition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_secretarycompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_secretarypetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_secretarypetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_petition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_secretarycompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_secretarypetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_secretarypetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "add_travelinfocompensation",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "add_travelinfosecretarysubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfocompensation",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfosecretarysubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfocompensation",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfosecretarysubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_userprofile",
+        "texpenses",
+        "userprofile"
+      ]
+    ]
+  },
+  "model": "auth.group"
+},
+{
+  "fields": {
+    "name": "HELPDESK",
+    "permissions": [
+      [
+        "add_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_secretarycompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_secretarypetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_secretarypetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_petition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_secretarycompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_secretarypetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_secretarypetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_petition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_secretarycompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_secretarypetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_secretarypetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "add_travelinfocompensation",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "add_travelinfosecretarysubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfocompensation",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfosecretarysubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfocompensation",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfosecretarysubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_userprofile",
+        "texpenses",
+        "userprofile"
+      ]
+    ]
+  },
+  "model": "auth.group"
+},
+{
+  "fields": {
+    "name": "CONTROLLER",
+    "permissions": [
+      [
+        "add_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_petition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_secretarycompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_secretarypetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_secretarypetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_petition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_secretarycompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_secretarypetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_secretarypetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_petition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_secretarycompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_secretarypetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_secretarypetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "add_travelinfocompensation",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "add_travelinfosecretarysubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfocompensation",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfosecretarysubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfocompensation",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfosecretarysubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_userprofile",
+        "texpenses",
+        "userprofile"
+      ]
+    ]
+  },
+  "model": "auth.group"
+},
+{
+  "fields": {
+    "name": "MANAGER",
+    "permissions": [
+      [
+        "add_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_usercompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_userpetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_userpetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_secretarypetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_usercompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_userpetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_userpetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_usercompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_userpetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_userpetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "add_travelinfocompensation",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "add_travelinfousersubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfocompensation",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfousersubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfocompensation",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfousersubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_userprofile",
+        "texpenses",
+        "userprofile"
+      ]
+    ]
+  },
+  "model": "auth.group"
+},
+{
+  "fields": {
+    "name": "VIEWER",
+    "permissions": [
+      [
+        "change_userprofile",
+        "texpenses",
+        "userprofile"
+      ]
+    ]
+  },
+  "model": "auth.group"
+},
+{
+  "fields": {
+    "name": "ADMIN",
+    "permissions": [
+      [
+        "add_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "change_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "delete_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "add_group",
+        "auth",
+        "group"
+      ],
+      [
+        "change_group",
+        "auth",
+        "group"
+      ],
+      [
+        "delete_group",
+        "auth",
+        "group"
+      ],
+      [
+        "add_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "change_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "delete_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "add_token",
+        "authtoken",
+        "token"
+      ],
+      [
+        "change_token",
+        "authtoken",
+        "token"
+      ],
+      [
+        "delete_token",
+        "authtoken",
+        "token"
+      ],
+      [
+        "add_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "change_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "delete_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "add_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "change_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "delete_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "add_city",
+        "texpenses",
+        "city"
+      ],
+      [
+        "change_city",
+        "texpenses",
+        "city"
+      ],
+      [
+        "delete_city",
+        "texpenses",
+        "city"
+      ],
+      [
+        "add_citydistances",
+        "texpenses",
+        "citydistances"
+      ],
+      [
+        "change_citydistances",
+        "texpenses",
+        "citydistances"
+      ],
+      [
+        "delete_citydistances",
+        "texpenses",
+        "citydistances"
+      ],
+      [
+        "add_country",
+        "texpenses",
+        "country"
+      ],
+      [
+        "change_country",
+        "texpenses",
+        "country"
+      ],
+      [
+        "delete_country",
+        "texpenses",
+        "country"
+      ],
+      [
+        "add_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_petition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_secretarycompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_secretarypetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_secretarypetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_usercompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_userpetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_userpetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_petition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_secretarycompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_secretarypetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_secretarypetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_usercompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_userpetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_userpetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_petition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_secretarycompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_secretarypetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_secretarypetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_usercompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_userpetition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_userpetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_project",
+        "texpenses",
+        "project"
+      ],
+      [
+        "change_project",
+        "texpenses",
+        "project"
+      ],
+      [
+        "delete_project",
+        "texpenses",
+        "project"
+      ],
+      [
+        "add_taxoffice",
+        "texpenses",
+        "taxoffice"
+      ],
+      [
+        "change_taxoffice",
+        "texpenses",
+        "taxoffice"
+      ],
+      [
+        "delete_taxoffice",
+        "texpenses",
+        "taxoffice"
+      ],
+      [
+        "add_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "add_travelinfocompensation",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "add_travelinfosecretarysubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "add_travelinfousersubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfocompensation",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfosecretarysubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfousersubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfocompensation",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfosecretarysubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "delete_travelinfousersubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "add_userprofile",
+        "texpenses",
+        "userprofile"
+      ],
+      [
+        "change_userprofile",
+        "texpenses",
+        "userprofile"
+      ],
+      [
+        "delete_userprofile",
+        "texpenses",
+        "userprofile"
+      ]
+    ]
+  },
+  "model": "auth.group"
+},
+{
+  "fields": {
+    "name": "PRESIDENT_SECRETARY",
+    "permissions": [
+      [
+        "add_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_petition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_secretarycompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_secretarypetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_petition",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_secretarycompensation",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "change_secretarypetitionsubmission",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "delete_applications",
+        "texpenses",
+        "petition"
+      ],
+      [
+        "add_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "add_travelinfosecretarysubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfo",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_travelinfosecretarysubmission",
+        "texpenses",
+        "travelinfo"
+      ],
+      [
+        "change_userprofile",
+        "texpenses",
+        "userprofile"
+      ]
+    ]
+  },
+  "model": "auth.group"
+}
+]
