@@ -61,14 +61,20 @@ $ python manage.py runserver
 ```
 You can now view your api at [http://127.0.0.1:8000/api/](http://127.0.0.1:8000/api/)
 
-#### Adding dummy data (Optional)
+#### Adding required data (Optional)
 
-* To add dummy data to the database run the following commands:
+* It is recommended to add data about permissions, countries and tax offices by using the commands below:
 ```
 $ python manage.py loaddata texpenses/fixtures/data.json
 $ python manage.py loadlocations texpenses/data/countriesTZ.csv
-$ python manage.py loadprojects texpenses/data/ListProjects.csv
 $ python manage.py loadtaxoffices texpenses/data/ListEfories.csv
+```
+
+There's also a loadprojects management command to add projects from a csv, similar to loadlocations and loadtaxoffices.
+
+
+* If the deployment is intended for development, you could also add dummy data about users and projects:
+```
 $ python manage.py loaddata texpenses/fixtures/dummy_user_project_data.json
 ```
 
