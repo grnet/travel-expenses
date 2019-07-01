@@ -295,7 +295,7 @@ export default {
   'profile.not.complete.error': 'You should fill in your profile info in order to create a new application',
   'Cannot create application with no travel infos': 'You should add your travel details',
   'A valid number is required.': 'A valid number is required',
-  'maximum.verification.emails.exceeded': 'You have exceeded the allowed number of attempts to send the activation email. Please contact us at: travel.helpdesk@lists.grnet.gr',
+  'maximum.verification.emails.exceeded': 'You have exceeded the allowed number of attempts to send the activation email. Please contact us at: travel.helpdesk@lists.grnet.gr',
   'user.invalid.or.activated': 'The user is activated or invalid',
   // placeholders
   'time_placeholder': 'Time',
