@@ -323,6 +323,7 @@ export default {
   'profile.not.complete.error': 'Θα πρέπει να συμπληρώσετε τα στοιχεία του προφίλ σας για να δημιουργήσετε νέα αίτηση',
   'Cannot create application with no travel infos': 'Δεν έχετε προσθέσει στοιχεία μετακίνησης',
   'A valid number is required.': 'To πεδίο πρέπει να είναι αριθμός',
+  'field.must.be.above.zero': 'Το πεδίο πρέπει να έχει μη μηδενική τιμή',
   // placeholders
   'time_placeholder': 'Ώρα',
   'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',

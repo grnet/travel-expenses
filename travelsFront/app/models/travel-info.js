@@ -3,12 +3,25 @@ import DS from 'ember-data';
 import ENV from 'travel/config/environment';
 import { computeDateFormat } from '../lib/common';
 import { computeDateTimeFormat } from '../lib/common';
+import validate from 'ember-gen/validate';
+
 
 const {
   get,
 } = Ember;
 
 const CHOICES = ENV.APP.resources;
+
+function dependentField({field}) {
+  return (key, value, old, changes, content) => {
+    if (changes.accommodation_total_cost) {
+      if (parseInt(changes.accommodation_total_cost) > 0 && parseInt(value) <=0) {
+        return 'field.must.be.above.zero';
+      }
+    }
+    return true;
+  }
+};
 
 export default DS.Model.extend({
   session: Ember.inject.service('session'),
@@ -40,7 +53,7 @@ export default DS.Model.extend({
   return_date_format: computeDateFormat('return_date'),
   meals: DS.attr({ 'choices': CHOICES.MEALS, defaultValue: 'NON' }),
   overnights_num_proposed: DS.attr({ disabled: true }),
-  overnights_num_manual: DS.attr(),
+  overnights_num_manual: DS.attr({ validators: [dependentField({field: 'accommodation_total_cost'})] }),
   accommodation_total_cost: DS.attr('formatted-number', { type: 'string' }),
   accommodation_total_local_cost: DS.attr('formatted-number', { type: 'string' }),
   accommodation_local_currency: DS.attr({ 'choices': CHOICES.CURRENCIES, autocomplete: true }),

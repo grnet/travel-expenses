@@ -295,6 +295,7 @@ export default {
   'profile.not.complete.error': 'You should fill in your profile info in order to create a new application',
   'Cannot create application with no travel infos': 'You should add your travel details',
   'A valid number is required.': 'A valid number is required',
+  'field.must.be.above.zero': 'The field must be greater than zero',
   // placeholders
   'time_placeholder': 'Time',
   'search.input.placeholder': 'Search with DSE / Name',
