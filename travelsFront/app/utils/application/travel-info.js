@@ -12,6 +12,7 @@ const FS_SECRETARY_VALIDATORS = {
   depart_date: [validate.presence(true)],
   return_date: [validate.presence(true)],
   overnights_num_manual: [validate.presence(true)],
+  overnights_num_manual: [validate.number({ integer: true })],
 }
 
 const FS_CONTROLLER_VALIDATORS = FS_SECRETARY_VALIDATORS;
