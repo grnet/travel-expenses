@@ -4,6 +4,7 @@ from django.conf import settings
 from django.views.generic.base import RedirectView
 from . import auth_urls
 from django.conf.urls.static import static
+from django.views.static import serve
 from texpenses.actions import load_apimas_urls, tables_exist
 from texpenses import views
 # Wire up our API using automatic URL routing.
@@ -47,5 +48,8 @@ if getattr(settings, 'SERVE_UI', True):
 
     # serve index.html for all paths
     urlpatterns += [
-        url('^%s.*' % ui_prefix, views.index),
+        url('^%s.*' % ui_prefix, serve, {
+            'path': 'index.html',
+            'document_root': ui_root
+        }),
     ]
