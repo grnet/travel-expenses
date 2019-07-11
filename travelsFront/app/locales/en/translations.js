@@ -38,7 +38,7 @@ export default {
   //forgot password
   'password.forgot': 'Forgot password',
   'password.forgot.submit': 'Submit',
-  'password.forgot.success': 'successful password reset',
+  'password.forgot.success': 'If you have an active account, you will receive instructions for password reset at your email address',
   'password.forgot.title': 'Forgot password',
   // password reset
   'password.reset': 'Password reset',
