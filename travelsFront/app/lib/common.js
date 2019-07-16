@@ -43,7 +43,8 @@ function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
     var cookie = document.cookie;
-    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+    var csrftokenPosition = cookie.indexOf('csrftoken');
+    cookieValue = decodeURIComponent(cookie.substring(csrftokenPosition + name.length + 1));
   }
   return cookieValue;
 }
