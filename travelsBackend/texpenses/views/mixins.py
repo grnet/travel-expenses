@@ -288,6 +288,10 @@ class ApplicationMixin(object):
     def submit(self, request, pk=None):
         application = self.get_object()
 
+        if application.inconsistent_overnights():
+            return Response({'detail': 'Overnights are invalid'},
+                             status=status.HTTP_403_FORBIDDEN)
+
         try:
             if application.status in [Petition.SAVED_BY_SECRETARY,
                     Petition.SECRETARY_COMPENSATION]:

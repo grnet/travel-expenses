@@ -1071,6 +1071,12 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             self.transport_days_total = self.transport_days()
             self.save()
 
+    def inconsistent_overnights(self):
+        for t in self.travel_info.all():
+            if t.accommodation_total_cost and not t.overnights_num_manual:
+                return True
+        return False
+
     def status_transition(self, new_status, delete=True, **kwargs):
         """
         This method transits a petition to a new status.
