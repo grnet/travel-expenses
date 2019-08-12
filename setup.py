@@ -117,7 +117,6 @@ setup(
              'travelsBackend/texpenses/data/countries-full.csv',
              'travelsBackend/texpenses/data/countriesTZ.csv',
              'travelsBackend/texpenses/data/ListEfories.csv',
-             'travelsBackend/texpenses/data/ListProjects.csv',
              'travelsBackend/texpenses/fixtures/data.json',
          ]),
         ('lib/travel/scripts', ['scripts/travel_init.sh']),

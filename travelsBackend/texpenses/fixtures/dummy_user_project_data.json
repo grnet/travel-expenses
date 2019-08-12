@@ -1,0 +1,206 @@
+[
+{
+  "model": "texpenses.userprofile",
+  "pk": 1,
+  "fields": {
+    "username": "user",
+    "password": "pbkdf2_sha256$30000$ldrtIoH7AThF$JD/S3RQkEIQgKd5lwAnP0jAYGgP6I9V047w3UfMO/Ek=",
+    "date_joined" : "2018-05-31T08:58:08Z",
+    "first_name": "Tom",
+    "last_name": "Peters",
+    "email": "tom@email.com",
+    "iban": "GR1793889057456500340289769",
+    "tax_office": 4,
+    "tax_reg_num": "295345196",
+    "specialty": "INF",
+    "kind": "EXE",
+    "user_category": "B",
+    "trip_days_left": 60,
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "groups": [1]
+  }
+},
+{
+  "model": "texpenses.userprofile",
+  "pk": 2,
+  "fields": {
+    "username": "secretary",
+    "password": "pbkdf2_sha256$30000$ldrtIoH7AThF$JD/S3RQkEIQgKd5lwAnP0jAYGgP6I9V047w3UfMO/Ek=",
+    "date_joined" : "2018-05-31T08:58:08Z",
+    "first_name": "Bill",
+    "last_name": "Moore",
+    "email": "bill@email.com",
+    "iban": "GR1793889057456500340289769",
+    "tax_office": 4,
+    "tax_reg_num": "854821504",
+    "specialty": "ECON",
+    "kind": "PER",
+    "user_category": "B",
+    "trip_days_left": 60,
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "groups": [2]
+  }
+},
+{
+  "model": "texpenses.userprofile",
+  "pk": 3,
+  "fields": {
+    "username": "manager",
+    "password": "pbkdf2_sha256$30000$ldrtIoH7AThF$JD/S3RQkEIQgKd5lwAnP0jAYGgP6I9V047w3UfMO/Ek=",
+    "date_joined" : "2018-05-31T08:58:08Z",
+    "first_name": "Peter",
+    "last_name": "Sellers",
+    "email": "peter@email.com",
+    "iban": "GR1793889057456500340289769",
+    "tax_office": 4,
+    "tax_reg_num": "854841503",
+    "specialty": "INF",
+    "kind": "EXE",
+    "user_category": "B",
+    "trip_days_left": 60,
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "groups": [5]
+  }
+},
+{
+  "model": "texpenses.userprofile",
+  "pk": 4,
+  "fields": {
+    "username": "controller",
+    "password": "pbkdf2_sha256$30000$ldrtIoH7AThF$JD/S3RQkEIQgKd5lwAnP0jAYGgP6I9V047w3UfMO/Ek=",
+    "date_joined" : "2018-05-31T08:58:08Z",
+    "first_name": "Lady",
+    "last_name": "Gaga",
+    "email": "gaga@email.com",
+    "iban": "GR1793889057456500340289769",
+    "tax_office": 4,
+    "tax_reg_num": "824841504",
+    "specialty": "ECON",
+    "kind": "PER",
+    "user_category": "B",
+    "trip_days_left": 60,
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "groups": [4]
+  }
+},
+{
+  "model": "texpenses.userprofile",
+  "pk": 5,
+  "fields": {
+    "username": "helpdesk",
+    "password": "pbkdf2_sha256$30000$ldrtIoH7AThF$JD/S3RQkEIQgKd5lwAnP0jAYGgP6I9V047w3UfMO/Ek=",
+    "date_joined" : "2018-05-31T08:58:08Z",
+    "first_name": "Leonidas",
+    "last_name": "Enaalogo",
+    "email": "leo@email.com",
+    "iban": "GR1793889057456500340289769",
+    "tax_office": 4,
+    "tax_reg_num": "824841541",
+    "specialty": "ECON",
+    "kind": "PER",
+    "user_category": "B",
+    "trip_days_left": 60,
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "groups": [3]
+  }
+},
+{
+  "model": "texpenses.userprofile",
+  "pk": 6,
+  "fields": {
+    "username": "presidentsecretary",
+    "password": "pbkdf2_sha256$30000$ldrtIoH7AThF$JD/S3RQkEIQgKd5lwAnP0jAYGgP6I9V047w3UfMO/Ek=",
+    "date_joined" : "2018-05-31T08:58:08Z",
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "doe@email.com",
+    "iban": "GR1793889057456500340289769",
+    "tax_office": 4,
+    "tax_reg_num": "824841946",
+    "specialty": "ECON",
+    "kind": "PER",
+    "user_category": "B",
+    "trip_days_left": 60,
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "groups": [8]
+  }
+},
+{
+  "model": "texpenses.userprofile",
+  "pk": 7,
+  "fields": {
+    "username": "viewer",
+    "password": "pbkdf2_sha256$30000$ldrtIoH7AThF$JD/S3RQkEIQgKd5lwAnP0jAYGgP6I9V047w3UfMO/Ek=",
+    "date_joined" : "2018-05-31T08:58:08Z",
+    "first_name": "John",
+    "last_name": "Cleese",
+    "email": "monty@email.com",
+    "iban": "GR1793889057456500340289769",
+    "tax_office": 4,
+    "tax_reg_num": "224841940",
+    "specialty": "ECON",
+    "kind": "PER",
+    "user_category": "B",
+    "trip_days_left": 60,
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "groups": [6]
+  }
+},
+{
+  "model": "texpenses.userprofile",
+  "pk": 8,
+  "fields": {
+    "username": "admin",
+    "password": "pbkdf2_sha256$30000$ldrtIoH7AThF$JD/S3RQkEIQgKd5lwAnP0jAYGgP6I9V047w3UfMO/Ek=",
+    "date_joined" : "2018-05-31T08:58:08Z",
+    "first_name": "admin",
+    "last_name": "admin",
+    "email": "admin@email.com",
+    "iban": null,
+    "tax_office": null,
+    "tax_reg_num": null,
+    "specialty": null,
+    "kind": null,
+    "user_category": "B",
+    "trip_days_left": 60,
+    "is_active": true,
+    "is_staff": true,
+    "is_superuser": true,
+    "groups": [7]
+  }
+},
+{
+    "model" : "texpenses.project",
+    "pk" : 1,
+    "fields" : {
+       "name" : "Dummy Project I",
+       "manager" : 3,
+       "accounting_code" : "041-00",
+       "active" : true
+    }
+},
+{
+   "model" : "texpenses.project",
+   "pk" : 2,
+   "fields" : {
+      "name" : "Dummy Project II",
+      "manager" : 3,
+      "accounting_code" : "022-00",
+      "active" : true
+   }
+}
+]
