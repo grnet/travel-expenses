@@ -325,6 +325,7 @@ export default {
   'A valid number is required.': 'To πεδίο πρέπει να είναι αριθμός',
   'maximum.verification.emails.exceeded': 'Έχετε υπερβεί τον επιτρεπόμενο αριθμό προσπαθειών αποστολής του email ενεργοποίησης. Παρακαλούμε όπως επικοινωνήσετε στο travel.helpdesk@lists.grnet.gr',
   'user.invalid.or.activated': 'Ο χρήστης είναι ήδη ενεργοποιημένος ή δεν είναι έγκυρος',
+  'field.must.be.above.zero': 'Το πεδίο πρέπει να έχει μη μηδενική τιμή',
   // placeholders
   'time_placeholder': 'Ώρα',
   'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',

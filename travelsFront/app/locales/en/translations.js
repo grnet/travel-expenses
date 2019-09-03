@@ -297,6 +297,7 @@ export default {
   'A valid number is required.': 'A valid number is required',
   'maximum.verification.emails.exceeded': 'You have exceeded the allowed number of attempts to send the activation email. Please contact us at: travel.helpdesk@lists.grnet.gr',
   'user.invalid.or.activated': 'The user is activated or invalid',
+  'field.must.be.above.zero': 'The field must be greater than zero',
   // placeholders
   'time_placeholder': 'Time',
   'search.input.placeholder': 'Search with DSE / Name',

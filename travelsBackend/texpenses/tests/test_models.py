@@ -584,10 +584,10 @@ class PetitionTest(TestCase):
             trip_days_left=5, username='jadiaforos')
         self.manager.groups.add(manager_group)
 
-        departure_city = City.objects.create(
+        self.departure_city = City.objects.create(
             name='Athens', country=Country.objects.create(name='Greece'),
             timezone='Europe/Athens')
-        arrival_city = City.objects.create(
+        self.arrival_city = City.objects.create(
             name='Paris', country=Country.objects.create(name='France'),
             timezone='Europe/Paris')
         self.project = Project.objects.create(name='Test Project',
@@ -602,8 +602,8 @@ class PetitionTest(TestCase):
             accommodation_cost=10,
             transport_days_manual=4,
             overnights_num_manual=4,
-            arrival_point=arrival_city,
-            departure_point=departure_city,
+            arrival_point=self.arrival_city,
+            departure_point=self.departure_city,
             travel_petition=self.petition)
 
         self.petition.travel_info.add(self.travel_info)
@@ -685,6 +685,28 @@ class PetitionTest(TestCase):
 
         self.petition.task_end_date = None
         self.assertFalse(self.petition.base_tz_task_end_date)
+
+    def test_inconsistent_overnights(self):
+        self.assertFalse(self.petition.inconsistent_overnights())
+
+        # Add a second destination with no overnights but accommodation cost
+        second_destination = TravelInfo.objects.create(
+            return_date=self.end_date, depart_date=self.start_date,
+            accommodation_total_cost=10,
+            transport_days_manual=4,
+            overnights_num_manual=0,
+            arrival_point=self.arrival_city,
+            departure_point=self.departure_city,
+            travel_petition=self.petition)
+
+        self.petition.travel_info.add(second_destination)
+        self.assertTrue(self.petition.inconsistent_overnights())
+
+        # Fix the inconsistency
+        second_destination.overnights_num_manual = 3
+        second_destination.save()
+        self.assertFalse(self.petition.inconsistent_overnights())
+
 
     def test_status_transition(self):
         data = {
