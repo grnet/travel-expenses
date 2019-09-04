@@ -25,9 +25,9 @@ fi
 
 cmd rm -rf ./node_modules || true
 cmd ln -s "${HOME}/node_modules" .
-cmd npm install bower
-cmd npm install
-cmd ./node_modules/.bin/bower install --allow-root
+
+cmd yarn install --non-interactive
+cmd ./node_modules/.bin/bower install --allow-root -q
 cmd ./node_modules/.bin/ember build --environment "${target_env}" --output-path dist
 
 echo Done.
