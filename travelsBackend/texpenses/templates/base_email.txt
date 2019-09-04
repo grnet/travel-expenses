@@ -16,4 +16,4 @@
 {% block footer_message %}{% endblock %}
 Travel Expenses
 Powered by GRNET www.grnet.gr
-Twitter: @grnet_gr || Facebook: @grnet.gr || LinkedIn: grnet || YouTube: GRNET EDET
+Twitter: @grnet_gr || Facebook: @grnet.gr || LinkedIn: grnet || YouTube: GRNET EDYTE

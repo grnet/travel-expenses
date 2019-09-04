@@ -152,7 +152,7 @@ export default {
   'compensation.label': 'Απολογισμός Μετακίνησης',
   'additional_expenses_description_user.label': 'Λοιπά Έξοδα Μετακίνησης - Περιγραφή - Καταχώριση Χρήστη',
   'additional_expenses_user.label': 'Λοιπά Έξοδα Μετακίνησης - Καταχώριση Χρήστη',
-  'additional_expenses_grnet.label': 'Λοιπά έξοδα μετακίνησης ΕΔΕΤ',
+  'additional_expenses_grnet.label': 'Λοιπά έξοδα μετακίνησης ΕΔΥΤΕ',
   // helpdesk labels
   'name.label': 'Όνομα Έργου',
   'accounting_code.label': 'Κωδικός Λογιστικής',

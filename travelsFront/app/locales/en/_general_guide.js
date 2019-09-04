@@ -33,7 +33,7 @@ const guide = {
               '<li>' + 'Πρόεδρος ΔΣ' + '</li>' + 
               '<li>' + 'Μέλος ΔΣ' + '</li>' + 
               '<li>' + 'Προσωπικό (for staff)' + '</li>' + 
-              '<li>' + 'Στέλεχος ΕΔΕΤ (for internal collaborators)' + '</li>' + 
+              '<li>' + 'Στέλεχος ΕΔΥΤΕ (for internal collaborators)' + '</li>' +
               '<li>' + 'Συνεργάτης (for external collaborators)' + '</li>' + 
             '</ul>' + 
           '</li>' + 
