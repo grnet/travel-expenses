@@ -101,10 +101,6 @@ admin               : 12345
 $ cd travelsFront
 $ yarn
 ```
-* When yarn finishes, run `bower install` in order to install all bower components required (use the `--allow-root` option if required).
-```
-$ ./node_modules/.bin/bower install
-```
 
 * Build static files (use the --watch flag to keep the builder running and updating the build realtime)
 ```
