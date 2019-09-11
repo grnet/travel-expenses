@@ -481,25 +481,17 @@ class ApplicationMixin(object):
                          utils.get_means_of_transport(travel_info),
                          'transportation_cost':
                          utils.get_transportation_cost(travel_info),
-                         'transportation_default_currency':
-                         travel_info_first.transportation_default_currency,
                          'overnights_sum_cost_string':
                          utils.get_overnights_sum_cost_string(travel_info),
                          'overnights_sum_cost':
                          petition_object.overnights_sum_cost,
-                         'accommodation_default_currency':
-                         travel_info_first.accommodation_default_currency,
                          'participation_cost': petition_object.
                          participation_cost,
-                         'participation_default_currency': petition_object.
-                         participation_default_currency,
                          'additional_expenses_initial': (
                              petition_object.additional_expenses if (
                                  petition_object.status == (
                                      Applications.USER_COMPENSATION)) else (
                                  petition_object.additional_expenses_initial)),
-                         'additional_expenses_default_currency':
-                         petition_object.additional_expenses_default_currency,
                          'additional_expenses_grnet':
                          petition_object.additional_expenses_grnet,
                          'total_cost': petition_object.total_cost_calculated(),

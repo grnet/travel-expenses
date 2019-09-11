@@ -286,8 +286,6 @@ class Accommodation(md.Model):
                                          decimal_places=settings.DECIMAL_PLACES,
                                          blank=False, default=0.0,
                                          validators=[MinValueValidator(0.0)])
-    accommodation_default_currency = md.CharField(
-        max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
     accommodation_local_cost = md.DecimalField(
         max_digits=settings.DECIMAL_MAX_DIGITS,
         decimal_places=settings.DECIMAL_PLACES, blank=False, default=0.0,
@@ -323,8 +321,6 @@ class Transportation(md.Model):
         max_digits=settings.DECIMAL_MAX_DIGITS,
         decimal_places=settings.DECIMAL_PLACES,
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-    transportation_default_currency = md.CharField(
-        max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
     transportation_payment_way = md.CharField(
         max_length=5, choices=common.WAYS_OF_PAYMENT,
         blank=False, default='NON')
@@ -781,8 +777,6 @@ class ParticipationInfo(md.Model):
         decimal_places=settings.DECIMAL_PLACES,
         blank=False, default=0.0, validators=[MinValueValidator(0.0)])
 
-    participation_default_currency = md.CharField(
-        max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
     participation_local_cost = md.DecimalField(
         max_digits=settings.DECIMAL_MAX_DIGITS,
         decimal_places=settings.DECIMAL_PLACES,
@@ -808,8 +802,6 @@ class AdditionalCosts(md.Model):
         max_digits=settings.DECIMAL_MAX_DIGITS,
         decimal_places=settings.DECIMAL_PLACES, blank=False, default=0.0,
         validators=[MinValueValidator(0.0)])
-    additional_expenses_default_currency = md.CharField(
-        max_length=3, blank=False, default=settings.DEFAULT_CURRENCY)
     additional_expenses_initial_description = md.CharField(
         max_length=400, blank=True, null=True)
 
