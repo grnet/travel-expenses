@@ -1,5 +1,4 @@
 FROM python:2
-MAINTAINER Antonis Angelakis "angelakis@grnet.gr"
 
 RUN mkdir /etc/travel
 RUN mkdir /var/log/travel/
