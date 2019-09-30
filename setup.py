@@ -96,7 +96,7 @@ class InstallCommand(_install):
         self.no_build_ui = None
 
     def run(self):
-        if self.no_build_ui:
+        if self.no_build_ui or self.compile == 0:
             self.reinitialize_command('build_py', no_ui=True)
 
         _install.run(self)

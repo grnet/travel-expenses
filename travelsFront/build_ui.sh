@@ -27,7 +27,6 @@ cmd rm -rf ./node_modules || true
 cmd ln -s "${HOME}/node_modules" .
 
 cmd yarn install --non-interactive --frozen-lockfile
-cmd npm install
 cmd ./node_modules/.bin/ember build --environment "${target_env}" --output-path dist
 
 echo Done.
