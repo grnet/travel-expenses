@@ -188,11 +188,6 @@ spec = {'*': {
                                  '.drf_field': {},
                                  '.field': {},
                                  '.string': {'max_length': 500}},
-
-    'additional_expenses_default_currency': {'.cli_option': {},
-                                             '.drf_field': {},
-                                             '.field': {},
-                                             '.string': {'max_length': 3}},
     'compensation_final': {'.cli_option': {},
                            '.drf_field': {},
                            '.field': {},
@@ -269,10 +264,6 @@ spec = {'*': {
                            '.decimal': {
                                'max_digits': settings.DECIMAL_MAX_DIGITS,
                                'decimal_places':settings.DECIMAL_PLACES}},
-    'participation_default_currency': {'.cli_option': {},
-                                       '.drf_field': {},
-                                       '.field': {},
-                                       '.string': {'max_length': 3}},
     'participation_local_cost': {'.cli_option': {},
                                  '.drf_field': {},
                                  '.field': {},
