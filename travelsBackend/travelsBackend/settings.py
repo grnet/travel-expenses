@@ -191,6 +191,11 @@ RESOURCES_DIR = os.environ.get('TRAVEL_RESOURCES_DIR',
         '/usr/lib/travel/resources')
 RESOURCES_FILE = os.path.join(RESOURCES_DIR, 'common.json')
 
+LINKS = {
+    'travel_report_template': '',
+    'travel_instructions': '',
+}
+
 SETTINGS_DIR = os.environ.get('TRAVEL_SETTINGS_DIR', '/etc/travel')
 SETTINGS_FILE = 'settings.conf'
 SETTINGS_PATH = os.path.join(SETTINGS_DIR, SETTINGS_FILE)
