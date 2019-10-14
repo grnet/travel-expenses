@@ -50,6 +50,7 @@ def config(request):
 
     permissions = load_permissions()
     resources = load_resources()
+    links = getattr(settings, 'LINKS', {})
 
     config_data = {
         'backend_host': api_endpoint,
@@ -59,6 +60,7 @@ def config(request):
         'resources': resources,
         'prefix': prefix,
         'host_url': host_url,
+        'links': links,
     }
     return HttpResponse(json.dumps(config_data),
                         content_type='application/json')

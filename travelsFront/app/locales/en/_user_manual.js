@@ -1,3 +1,6 @@
+import ENV from 'travel/config/environment';
+
+const travel_report_template = ENV.APP.links.travel_report_template;
 const manual = {
   'user.application.new': 
     '<h4>' + 'Create new Travel Application' + '</h4>' + 
@@ -32,7 +35,7 @@ const manual = {
     '<h4>' + 'Create Application for Compensation' + '</h4>' + 
     '<p>' + 'After the traveler\'s return, he/she should log into the system and complete the following details:' + 
     '<ul>' + 
-      '<li>' + '<b>' + 'File upload' + '</b>' + ': The traveler should upload a .zip file with at least: (1) the agenda and (2) the travel report according to ( ' + '<a href="***REMOVED***">' + 'template' + '</a>' + ' ). The .zip file should not exceed 8 MB.' + '</li>' + 
+      '<li>' + '<b>' + 'File upload' + '</b>' + ': The traveler should upload a .zip file with at least: (1) the agenda and (2) the travel report according to ( ' + '<a href='+travel_report_template+'>' + 'template' + '</a>' + ' ). The .zip file should not exceed 8 MB.' + '</li>' +
       '<li>' + '<b>' + 'Additional Expenses' + '</b>' + ': The traveler should enter the total travel costs, by adding all public transport tickets (actual price).' + '</li>' + 
       '<li>' + '<b>' + 'Additional Expenses - Description' + '</b>' + ': description of costs e.g. bus tickets.' + '</li>' + 
     '</ul>' + 

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from 'travel/config/environment';
 
 const {
   get,
@@ -13,4 +14,6 @@ export default Ember.Component.extend({
     let role = get(this, 'session.session.authenticated.user_group');
     return role;
   }),
+  travel_report_template: ENV.APP.links.travel_report_template,
+  travel_instructions: ENV.APP.links.travel_instructions,
 });
