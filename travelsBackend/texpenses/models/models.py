@@ -733,8 +733,8 @@ class SecretarialInfo(md.Model):
     Abstract model which includes information that secretary fills.
     """
     non_grnet_quota = md.FloatField(
-        blank=False, default=0.0, validators=[MinValueValidator(0.0)])
-
+        blank=False, default=0.0, validators=[MinValueValidator(0.0),
+                                              MaxValueValidator(100.0)])
     movement_id = md.CharField(max_length=200, null=True, blank=True)
     expenditure_protocol = md.CharField(
         max_length=256, null=True, blank=True)
