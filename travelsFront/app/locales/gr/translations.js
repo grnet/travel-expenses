@@ -125,7 +125,7 @@ export default {
   'travel_info.transportation.label': 'Στοιχεία Ταξιδιού',
   'travel_info.compensation.label': 'Στοιχεία Αποζημίωσης',
   // secretary application labels
-  'non_grnet_quota.label': 'Κάλυψη ημερήσιας αποζημίωσης από άλλο φορέα',
+  'non_grnet_quota.label': 'Κάλυψη ημερήσιας αποζημίωσης από άλλο φορέα (Ποσοστό %)',
   'manager_approval.label': 'Έγκριση της Μετακίνησης από τον Υπεύθυνο Έργου',
   'manager_travel_approval.label': 'Έγκριση Αίτησης Μετακίνησης από τον Υπεύθυνο Έργου',
   'manager_final_approval.label': ' Έγκριση τελικών δαπανών της Μετακίνησης από τον Υπεύθυνο Έργου',
