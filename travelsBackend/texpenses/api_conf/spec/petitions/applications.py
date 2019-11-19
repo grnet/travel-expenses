@@ -170,9 +170,7 @@ spec = {'*': {
     'non_grnet_quota': {'.cli_option': {},
                         '.drf_field': {},
                         '.field': {},
-                        '.float': {},
-                        '.readonly': {}},
-
+                        '.float': {}},
     'additional_expenses_initial': {'.cli_option': {},
                                     '.drf_field': {},
                                     '.field': {},
