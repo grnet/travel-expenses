@@ -91,10 +91,12 @@ class TravelUserProfile(md.Model):
         blank=False, default='B')
     verification_link_tries = md.PositiveSmallIntegerField(blank=False,
                                                            default=0)
-    resend_verification_blocked_time = md.DateTimeField(null=True)
+    resend_verification_blocked_time = md.DateTimeField(null=True,
+                                                        default=None)
     reset_password_tries = md.PositiveSmallIntegerField(blank=False,
                                                         default=0)
-    reset_password_email_blocked_time = md.DateTimeField(null=True)
+    reset_password_email_blocked_time = md.DateTimeField(null=True,
+                                                         default=None)
 
     class Meta:
         abstract = True

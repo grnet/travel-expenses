@@ -24,7 +24,12 @@ class CityAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_filter = ('country',)
 
-admin.site.register(UserProfile)
+
+class UserAdmin(admin.ModelAdmin):
+    exclude = ('verification_link_tries', 'resend_verification_blocked_time', 'reset_password_tries', 'reset_password_email_blocked_time')
+
+
+admin.site.register(UserProfile, UserAdmin)
 admin.site.register(TaxOffice)
 admin.site.register(Petition, PetitionAdmin)
 admin.site.register(Project)
