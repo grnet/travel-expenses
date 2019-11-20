@@ -125,7 +125,7 @@ export default {
   'travel_info.transportation.label': 'Στοιχεία Ταξιδιού',
   'travel_info.compensation.label': 'Στοιχεία Αποζημίωσης',
   // secretary application labels
-  'non_grnet_quota.label': 'Κάλυψη ημερήσιας αποζημίωσης από άλλο φορέα',
+  'non_grnet_quota.label': 'Κάλυψη ημερήσιας αποζημίωσης από άλλο φορέα (Ποσοστό %)',
   'manager_approval.label': 'Έγκριση της Μετακίνησης από τον Υπεύθυνο Έργου',
   'manager_travel_approval.label': 'Έγκριση Αίτησης Μετακίνησης από τον Υπεύθυνο Έργου',
   'manager_final_approval.label': ' Έγκριση τελικών δαπανών της Μετακίνησης από τον Υπεύθυνο Έργου',
@@ -326,6 +326,7 @@ export default {
   'maximum.verification.emails.exceeded': 'Έχετε υπερβεί τον επιτρεπόμενο αριθμό προσπαθειών αποστολής του email ενεργοποίησης. Παρακαλούμε όπως επικοινωνήσετε στο travel.helpdesk@lists.grnet.gr',
   'user.invalid.or.activated': 'Ο χρήστης είναι ήδη ενεργοποιημένος ή δεν είναι έγκυρος',
   'field.must.be.above.zero': 'Το πεδίο πρέπει να έχει μη μηδενική τιμή',
+  'Ensure this value is less than or equal to 100.0.': 'Η τιμή του πεδίου αφορά ποσοστό και δεν θα πρέπει να υπερβαίνει το 100',
   // placeholders
   'time_placeholder': 'Ώρα',
   'search.input.placeholder': 'Αναζήτηση με ΔΣΕ/ Ονοματεπώνυμο',

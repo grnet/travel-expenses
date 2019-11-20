@@ -121,7 +121,7 @@ export default {
   'travel_info.transportation.label': 'Travel Details',
   'travel_info.compensation.label': 'Compensation Details',
   // secretary application labels
-  'non_grnet_quota.label': 'Daily compensation covered by another institution',
+  'non_grnet_quota.label': 'Daily compensation covered by another institution (Percentage %)',
   'manager_approval.label': 'Project manager approval',
   'manager_travel_approval.label': 'Project manager travel application approval',
   'manager_final_approval.label': ' Project manager final compensation approval',
@@ -298,6 +298,7 @@ export default {
   'maximum.verification.emails.exceeded': 'You have exceeded the allowed number of attempts to send the activation email. Please contact us at: travel.helpdesk@lists.grnet.gr',
   'user.invalid.or.activated': 'The user is activated or invalid',
   'field.must.be.above.zero': 'The field must be greater than zero',
+  'Ensure this value is less than or equal to 100.0.': 'The field must be less than 100 because its value is in percentage',
   // placeholders
   'time_placeholder': 'Time',
   'search.input.placeholder': 'Search with DSE / Name',
