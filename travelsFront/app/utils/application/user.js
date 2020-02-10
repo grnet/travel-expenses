@@ -29,9 +29,10 @@ const FS_CREATE_1 = [
       'participation_local_cost',
       'participation_local_currency',
       'user_recommendation',
+      'transportation_type',
     ],
     layout: {
-      flex: [50, 50, 100, 50, 50, 100, 50, 50, 100],
+      flex: [50, 50, 100, 50, 50, 100, 50, 50, 100, 100],
     },
   },
 ];
@@ -88,9 +89,10 @@ const FS_VIEW_1 = [
       'participation_local_currency',
       'user_recommendation',
       'status_label',
+      'transportation_type',
     ],
     layout: {
-      flex: [50, 50, 100, 50, 50, 100, 50, 50, 100, 100],
+      flex: [50, 50, 100, 50, 50, 100, 50, 50, 100, 50, 50],
     },
   },
 ];

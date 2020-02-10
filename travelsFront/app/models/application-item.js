@@ -153,6 +153,7 @@ export default DS.Model.extend({
   user_recommendation: DS.attr({ type: 'text' }),
   status: DS.attr({ type: 'select', 'choices': CHOICES.STATUS }),
   travel_info: DS.hasMany('travel-info', { displayComponent: 'display-travel-info' }),
+  transportation_type: DS.attr({ type: 'select', 'choices': CHOICES.TRANSPORTATION_TYPE }),
   // application - secretary fields
   additional_expenses_initial: DS.attr('formatted-number', { type: 'string' }),
   additional_expenses_initial_description: DS.attr(),
