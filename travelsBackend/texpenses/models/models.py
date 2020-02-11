@@ -3,7 +3,6 @@
 
 import os
 import pytz
-import functools
 from decimal import Decimal
 from datetime import timedelta, datetime
 from django.conf import settings
@@ -145,9 +144,9 @@ class UserProfile(AbstractUser, TravelUserProfile):
         if self.resend_verification_blocked_time is not None:
             blocked_at = self.resend_verification_blocked_time.replace(
                                                                 tzinfo=None)
-        return(self.verification_link_tries < 5 or
+        return(self.verification_link_tries < max_tries or
                self.resend_verification_blocked_time is None or
-               now - blocked_at >= timedelta(hours=1))
+               now - blocked_at >= timedelta(hours=hours_timeout))
 
     def increase_resend_verification_email_counter(self):
         max_tries = settings.VERIFICATION_MAX_TRIES
@@ -378,7 +377,7 @@ class TravelInfo(Accommodation, Transportation):
     travel_petition_buffer = None
 
     class Meta:
-        ordering = ['depart_date',]
+        ordering = ['depart_date']
 
     def clean(self, petition):
         extended_validation_statuses = [Petition.SUBMITTED_BY_USER,
@@ -400,7 +399,7 @@ class TravelInfo(Accommodation, Transportation):
             start_end_date_validator(dates, labels)
 
         # T2860: Remove validation
-        #self.validate_overnight_cost(petition)
+        # self.validate_overnight_cost(petition)
 
         super(TravelInfo, self).clean()
 
@@ -410,9 +409,6 @@ class TravelInfo(Accommodation, Transportation):
     def _validate_depart_arrival_points(self):
 
         if self._endpoints_are_set():
-            base_country_name = settings.BASE_COUNTRY
-            departure_country_name = self.departure_point.country.name
-
             arrival_point_name = self.arrival_point.name
             departure_point_name = self.departure_point.name
             if departure_point_name == arrival_point_name:
@@ -423,7 +419,7 @@ class TravelInfo(Accommodation, Transportation):
         if self.is_abroad() or not self.means_of_transport_is_car_or_bike():
             return
         if not CityDistances.objects.filter(from_city=self.departure_point,
-                                        to_city=self.arrival_point).exists():
+                                            to_city=self.arrival_point).exists():
             raise ValidationError(u'No distance found for these cities.')
 
     def _set_travel_manual_field_defaults(self):
@@ -514,7 +510,7 @@ class TravelInfo(Accommodation, Transportation):
         self.transportation_cost = 2 * distance_factor * self.distance
 
     def save(self, *args, **kwargs):
-        new_object = kwargs.pop('new_object', False)
+        kwargs.pop('new_object', False)
         if self.transportation_cost_should_be_calculated():
             self.calculate_transportation_cost()
         super(TravelInfo, self).save(*args, **kwargs)
@@ -543,7 +539,6 @@ class TravelInfo(Accommodation, Transportation):
             raise ValidationError('This is a same day return travel,'
                                   ' overnight cost is not acceptable.')
 
-
     def transport_days_proposed(self):
         """
         Method which calculates the number of transport days.
@@ -553,7 +548,6 @@ class TravelInfo(Accommodation, Transportation):
         :returns: Proposed transport_days.
         """
         return self.compensation_days_proposed()
-
 
     def overnights_num_proposed(self, task_start_date=None, task_end_date=None):
         """
@@ -588,7 +582,7 @@ class TravelInfo(Accommodation, Transportation):
 
     def overnight_cost(self):
         """ Returns total overnight cost. """
-        #return self.accommodation_cost * self.overnights_num_manual
+        # return self.accommodation_cost * self.overnights_num_manual
         return self.accommodation_total_cost
 
     def is_city_ny(self):
@@ -957,7 +951,6 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
     tracked_fields = ['task_start_date', 'task_end_date']
     tracker = FieldTracker()
 
-
     @classmethod
     def check_resource_state_usersaved(cls, obj, row, request, view):
         return obj.status == cls.SAVED_BY_USER
@@ -998,7 +991,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     @classmethod
     def check_resource_state_ownedusercompensationsaved(cls, obj, row, request,
-                                                   view):
+                                                        view):
         return request.user == obj.user and obj.status == cls.USER_COMPENSATION
 
     @classmethod
@@ -1008,7 +1001,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
     @classmethod
     def check_resource_state_ownedusercompensationsubmitted(cls, obj, row, request,
-                                                       view):
+                                                            view):
         return request.user == obj.user and obj.status == cls.USER_COMPENSATION_SUBMISSION
 
     @classmethod
@@ -1044,8 +1037,6 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         if user:
             for field in self.USER_FIELDS:
                 setattr(self, field, getattr(user, field))
-
-
 
     def clean(self):
         """
@@ -1163,7 +1154,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
         # withdrawn = kwargs.pop('withdrawn', False)
         # if withdrawn:
-            # self.withdrawn = False
+        #     self.withdrawn = False
 
         self.save()
         for i, travel_obj in enumerate(travel_info):
@@ -1207,7 +1198,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
 
         """
 
-        roll_back = kwargs.pop('roll_back',False)
+        roll_back = kwargs.pop('roll_back', False)
         if roll_back:
             self.status_transition(self.SAVED_BY_SECRETARY)
 
@@ -1228,7 +1219,7 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         if next_status == 0:
             next_status = self.status + 1
 
-        #submit = next_status in Petition.SUBMISSION_STATUSES or\
+        # submit = next_status in Petition.SUBMISSION_STATUSES or\
         #    kwargs.pop('delete', False)
         # Always mark previous instances as deleted
         submit = True
@@ -1256,9 +1247,9 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
             for travel_obj in travel_info:
                 travel_info_missing_fields = []
                 travel_info_excluded = \
-                    self.excluded_ti_per_status.get(self.status,[])
+                    self.excluded_ti_per_status.get(self.status, [])
                 travel_info_missing_fields.extend(get_model_missing_fields(
-                    travel_obj,travel_info_excluded))
+                    travel_obj, travel_info_excluded))
                 missing_fields.extend(travel_info_missing_fields)
 
         return missing_fields
@@ -1410,8 +1401,6 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         return sum([Decimal(compensation_cost_sum), Decimal(additional_expenses),
                     Decimal(self.transportation_cost_to_be_compensated())])
 
-
-
     def total_cost_calculated(self):
         """
         Gets the total expenses of trip.
@@ -1449,6 +1438,7 @@ class PetitionManager(md.Manager):
                    dse=status_dse['dse'], deleted=False)
         return base_queryset.filter(q) if status_dse_map else \
             base_queryset.filter(status__in=self.status_list, deleted=False)
+
 
 class Applications(Petition):
     objects = PetitionManager([Petition.SAVED_BY_USER,
