@@ -921,6 +921,9 @@ class Petition(SecretarialInfo, ParticipationInfo, AdditionalCosts):
         max_length=500, blank=True, null=True)
     secretary_recommendation = md.CharField(
         max_length=500, blank=True, null=True)
+    transportation_type = md.CharField(max_length=100,
+                                       choices=common.TRANSPORTATION_TYPE,
+                                       blank=True)
 
     status = md.IntegerField(blank=False, db_index=True)
 
