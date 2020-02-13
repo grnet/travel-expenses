@@ -77,6 +77,7 @@ class TestApi(APITestCase):
                         }]
 
         self.data.update({'reason': 'reason',
+                          'transportation_type': 'EDU',
                           'task_start_date': task_start_date,
                           'task_end_date': task_end_date,
                           'travel_info': travel_info})
