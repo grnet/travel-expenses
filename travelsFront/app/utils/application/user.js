@@ -13,6 +13,7 @@ const FS_VALIDATORS = {
   task_end_date: [validate.presence(true)],
   user_recommendation: [validate.length({ max: 255, allowBlank: true })],
   travel_files: [validate.presence(true)],
+  transportation_type: [validate.presence(true)],
 }
 
 const FS_CREATE_1 = [
