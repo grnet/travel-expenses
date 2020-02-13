@@ -120,6 +120,7 @@ export default {
   'travel_info.accommodation.label': 'Accommodation Details',
   'travel_info.transportation.label': 'Travel Details',
   'travel_info.compensation.label': 'Compensation Details',
+  'transportation_type.label': 'Transportation Type',
   // secretary application labels
   'non_grnet_quota.label': 'Daily compensation covered by another institution (Percentage %)',
   'manager_approval.label': 'Project manager approval',
