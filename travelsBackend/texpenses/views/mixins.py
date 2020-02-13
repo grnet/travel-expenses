@@ -85,7 +85,8 @@ class ProjectMixin(object):
                               utils.get_accommodation_cost(travel_info),
                               'compensation_cost':
                               utils.get_compensation_cost(travel_info),
-                              'status': petition.status
+                              'status': petition.status,
+                              'transportation_type': petition.transportation_type,
                               })
         return petition_info
 
@@ -101,7 +102,7 @@ class ProjectMixin(object):
             query = Applications.objects.filter(
                 Q(status__gte=Petition.SUBMITTED_BY_SECRETARY))
 
-        petitions =  query.filter(
+        petitions = query.filter(
             project__name=project_name) if project_name else (query)
 
         data = []
@@ -125,7 +126,7 @@ class ProjectMixin(object):
         data = self._get_related_petitions()
 
         fields = ['ΔΣΕ', 'Μετακινούμενος', 'ΑΦΜ', 'Ιδιότητα', 'Ειδικότητα',
-                  'Status', 'Έργο', 'Αφετηρία', 'Προορισμοί', 'Έναρξη Εργασιών',
+                  'Status', 'Έργο', 'Είδος Μετακίνησης', 'Αφετηρία', 'Προορισμοί', 'Έναρξη Εργασιών',
                   'Λήξη Εργασιών', 'Αναχώρηση', 'Επιστροφή', 'Μέσα Μετακίνησης',
                   'Κόστος Μετακίνησης', 'Ημέρες Μετακίνησης', 'Ημέρες Αποζημίωσης',
                   'Προτεινόμενες Ημέρες Αποζημίωσης', 'Σύνολο Ημερήσιας Αποζημίωσης',
@@ -147,6 +148,7 @@ class ProjectMixin(object):
                 petition['specialty'],
                 petition['status'],
                 petition['project'],
+                petition['transportation_type'],
                 petition['departure_point'],
                 petition['arrival_points'],
                 petition['task_start_date'],

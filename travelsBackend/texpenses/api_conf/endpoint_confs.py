@@ -25,6 +25,7 @@ class Configuration(object):
         self.payment_ways = map((lambda x: tuple(x)), common.WAYS_OF_PAYMENT)
         self.transportation = map((lambda x: tuple(x)), common.TRANSPORTATION)
         self.meals = map((lambda x: tuple(x)), common.MEALS)
+        self.transportation_type = map((lambda x: tuple(x)), common.TRANSPORTATION_TYPE)
 
     def apply_permissions(self):
         self.spec['api']['.endpoint']['permissions'] = PERMISSION_RULES
@@ -42,6 +43,10 @@ class Configuration(object):
         values, names = zip(*self.user_categories)
         endpoint['*']['user_category']['.choices']['allowed'] = values
         endpoint['*']['user_category']['.choices']['display'] = names
+
+        values, names = zip(*self.transportation_type)
+        endpoint['*']['transportation_type']['.choices']['allowed'] = values
+        endpoint['*']['transportation_type']['.choices']['display'] = names
 
         currency_values, currency_names = zip(*self.currencies)
         endpoint['*']['participation_local_currency']\
