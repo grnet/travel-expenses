@@ -4,7 +4,7 @@ Django==1.10.7
 django-crontab>=0.6.0
 django-filter==0.15
 django-model-utils==2.5.2
-djangorestframework==3.4
+djangorestframework==3.11.2
 djoser==0.4.3
 drf-extensions==0.3.1
 python-stdnum>=1.0
