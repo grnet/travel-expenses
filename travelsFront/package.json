@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "ember-cli-gen-apimas": "0.0.18",
-    "moment": "^2.19.1",
+    "moment": "^2.29.4",
     "moment-timezone": "^0.5.23",
     "@bower_components/ember": "components/ember#~2.9.0",
     "@bower_components/ember-cli-shims": "ember-cli/ember-cli-shims#0.1.3",
